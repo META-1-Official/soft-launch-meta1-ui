@@ -21,7 +21,7 @@
         "create_account": "Создать аккаунт",
         "create_new": "Создать новый аккаунт",
         "deactivate_suspicious_proposals": "Деактивировать подозрительные предложения",
-        "deposit": "Внести депозит в BTS",
+        "deposit": "Внести депозит в META",
         "deposit_address": "Ваш адрес депозита – это имя Вашего аккаунта",
         "deposit_withdraw": "Ввод/Вывод",
         "eq_value": "Ориентировочная стоимость",
@@ -52,7 +52,7 @@
         "in_open": "Это количество %(asset)s, которые у Вас в открытых ордерах.",
         "in_open_value": "Это эквивалентная ценность %(asset)s, которая у Вас в открытых ордерах.",
         "intro_text_1": "Your Decentralized Platform",
-        "intro_text_2": "<b>DEX</b> децентрализована по самой своей сути, что позволяет Вам торговать основным токеном BitShares (BTS) и разнообразными не требующими доверия активами со стабильной, привязанной к рынку ценой, такими как bitUSD, bitCNY, bitGold и многими другими. Все эти активы могут торговаться <b>без риска</b>, связанного с участием контрагентов, оставляя контроль над Вашими средствами полностью в Ваших руках.",
+        "intro_text_2": "<b>DEX</b> децентрализована по самой своей сути, что позволяет Вам торговать основным токеном Meta (META) и разнообразными не требующими доверия активами со стабильной, привязанной к рынку ценой, такими как bitUSD, bitCNY, bitGold и многими другими. Все эти активы могут торговаться <b>без риска</b>, связанного с участием контрагентов, оставляя контроль над Вашими средствами полностью в Ваших руках.",
         "intro_text_3": "Также <b>DEX</b> дает возможность создавать выпускаемые пользователем активы (user-issued assets - UIA), которые могут торговаться с помощью регистра ордеров против любого другого актива на платформе, как не требующего доверия, так и выпущенного пользователем. Самым известным эмитентом на платформе является <b>OpenLedger</b>, поддерживающий такие активы, как BTC, ETH, DASH, STEEM и многие другие",
         "intro_text_4": "Это уникальный микс традиционной и децентрализованной торговли, и всё это в таком знакомом для криптовалютных трейдеров интерфейсе биржи. Удачной торговли!",
         "intro_text_title": "Добро пожаловать в %(wallet_name)s",
@@ -903,10 +903,10 @@
             "create": "Создать предложение о работе",
             "create_text_1": "Чтобы создать нового работника, пожалуйста, заполните форму ниже. Работник будет создан с использованием Вашего текущего активного аккаунта, который уже должен обладать пожизненным членством.",
             "create_text_2": "Тщательно продумайте параметры, которые выбираете, так как они не могут быть изменены после того, как Вы опубликовали своего работника.",
-            "daily_pay": "Ежедневная плата (BTS)",
+            "daily_pay": "Ежедневная плата (META)",
             "date_text": "Дата начала должна быть назначена как минимум на неделю вперед, чтобы у людей было время найти, оценить и проголосовать за Вашего работника.",
             "name_text": "Имя Вашего работника должно быть коротким и описующим, нечто вроде \"Цель работника - Имя аккаунта\"",
-            "pay_text": "Ежедневная плата определяет, сколько Вы хотите получать в день, и указывется в BTS. В настоящее время сложилась практика указания зарплаты в USD/CNY и сжигания любых излишков, полученных в результате роста цены BTS. До тех пор, пока Ваш работник активен и имеет достаточно голосов, чтобы быть выше работника по возвратам, Вы будете продолжать получать эту зарплату.",
+            "pay_text": "Ежедневная плата определяет, сколько Вы хотите получать в день, и указывется в META. В настоящее время сложилась практика указания зарплаты в USD/CNY и сжигания любых излишков, полученных в результате роста цены META. До тех пор, пока Ваш работник активен и имеет достаточно голосов, чтобы быть выше работника по возвратам, Вы будете продолжать получать эту зарплату.",
             "period": "Длительность работы",
             "title": "Имя работника",
             "url_text": "Вы должны предоставить ссылку на веб-сайт, документ в github или google docs, где более детально описывается цель создания работника и то, как Вы будете расходовать его зарплату.",
@@ -971,7 +971,7 @@
             "support_block": "По поводу проблем с ВВОДОМ или ВЫВОДОМ при использовании \"BitSpark TRANSFER SERVICE\", пожалуйста, обращайтесь в BitSpark:"
         },
         "bridge": "Мост",
-        "bridge_text": "Шлюз позволяет Вам \"превращать\" один актив в другой, например BTC в BTS.",
+        "bridge_text": "Шлюз позволяет Вам \"превращать\" один актив в другой, например BTC в META.",
         "calc": "Расчет",
         "choose_deposit": "Пожалуйста, выберите валюту, в которой хотели бы разместить депозит",
         "choose_withdraw": "Пожалуйста, выберите валюту, которую хотели бы вывести",
@@ -1024,7 +1024,7 @@
         "limit_withdraw_asset_min": "Минимальная сумма вывода: %(min)s %(coin)s",
         "limit_withdraw_asset_none": "Нет",
         "memo": "Примечание",
-        "meta": {
+        "bitshares": {
             "open_website": "Открыть веб-сайт"
         },
         "min_deposit_warning_amount": "Минимальное значение депозита %(minDeposit)s %(coin)s.",
@@ -1308,12 +1308,14 @@
             "address_generation_error": "Не удается создать адрес",
             "amount": "Сумма пополнения счета",
             "asset": "Актив",
-            "bts_transfer_description": "Это легко получить BTS отовсюду. Как только BTS отправят на имя вашего аккаунта, они появятся в вашем кошельке. Этот QR код также содержит имя вашего аккаунта.",
+            "bts_transfer_description": "Это легко получить META отовсюду. Как только META отправят на имя вашего аккаунта, они появятся в вашем кошельке. Этот QR код также содержит имя вашего аккаунта.",
             "cancel": "Отменить",
             "close": "Закрыть",
             "header": "Пополнить аккаунт %(account_name)s",
             "header_short": "Пополнить",
-            "submit": "Пополнить счет"
+            "submit": "Пополнить счет",
+            "art": "Tokenize your art",
+            "bitshares": "Deposit META coins"
         },
         "deposit_withdraw": {
             "disabled": "Сервис шлюза %(gateway)s недоступен",
@@ -1588,7 +1590,7 @@
         "walletDescription": "bin файл будет создан автоматически. Пожалуйста, скачайте и сохраните его в безопасном месте. В будущем вам нужно будет загрузить этот файл, чтобы войти в свой аккаунт. ",
         "walletLoginByValue": "bin файл + пароль",
         "walletModelTitle": "с bin файлом",
-        "walletNote": "Пожалуйста, имейте в виду, что BitShares не хранит пароли пользователей и не может восстановить их аккаунты в случае утери пароля.",
+        "walletNote": "Пожалуйста, имейте в виду, что Meta не хранит пароли пользователей и не может восстановить их аккаунты в случае утери пароля.",
         "whyBinFile": "Зачем мне нужен .bin файл?"
     },
     "settings": {
@@ -1617,7 +1619,7 @@
         "backup_favoritesbtn": "Резервное копирование избранного",
         "backup_favoritestext": "Создайте резервную копию избранного, чтобы восстановить его после обновления.",
         "backup_key": "Импортировать приватный ключ",
-        "backup_legacy": "Импортировать экспорт-файл (.json) ключа BTS 0.9.3c",
+        "backup_legacy": "Импортировать экспорт-файл (.json) ключа META 0.9.3c",
         "backup_text": "Создать резервные копии.",
         "backupcreate_backup": "Создать резервную копию локального кошелька",
         "backupcreate_brainkey": "Создать резервную копию brainkey",
@@ -1649,7 +1651,7 @@
         "lightTheme": "Светлая тема",
         "local_wallet": "Вход в локальный кошелек (модель \"Кошелек\")",
         "locale": "Переключить язык",
-        "lookup_text": "Нажмите кнопку ниже, чтобы проверить наличие неподтвержденных балансов с BTS 1.0",
+        "lookup_text": "Нажмите кнопку ниже, чтобы проверить наличие неподтвержденных балансов с META 1.0",
         "low_latency": "Низкое значение задержки",
         "medium_latency": "Среднее значение задержки",
         "midnightTheme": "Полночь",
@@ -1744,7 +1746,7 @@
         "borrow": {
             "borrow_tooltip": "You can also find this feature in your Dashboard under the tab Margin Positions, or by clicking  Borrow in the Exchange",
             "choose": "Choose the SmartCoin you want to create a position for",
-            "description": "Займите BitAsset у блокчейна BitShares путем блокировки в нем залогового обеспечения (например, bitUSD, bitCNY и т.д.)",
+            "description": "Займите BitAsset у блокчейна Meta путем блокировки в нем залогового обеспечения (например, bitUSD, bitCNY и т.д.)",
             "do_it": "Let's do it",
             "get_started": "Get started",
             "navigate_with_keys": "The mechanism of the SmartCoin generation will be explained in the following steps. You can also use arrow keys to navigate",
@@ -1753,13 +1755,13 @@
             "previous": "Previous",
             "steps_benefits": {
                 "text": "Creating a Collateralized Debt Position allows you to provide liquidity for your desired SmartCoin (MPA), without giving up ownership of your collateral provided that you lock up enough collateral to guarantee the value of the SmartCoin. On the one hand, selling the newly generated SmartCoin on the open market will create leverage on your position (i.e. you sell it short, and will need to buy it back to close the position). On the other hand, holders of the SmartCoin benefit from the significantly less volatile SmartCoin, and they can additionally request a force settlement to obtain the corresponding value in its collateral without the need of markets.",
-                "text_legend": "Forced settlement: Holders of a SmartCoin can request a forced settlement. The SmartCoin is used to forcefully pay back the debt of the least collateralized positions while the former SmartCoin holder receives collateral as if he sold it for the forced settlement price. Any leftover collateral is returned to the position holder. This mechanism enforces a mandated delay after being triggered to avoid abuse (24 hours). \nForced Settlement Price: The price at which a forced settlement price will occur. It is calculated from the feed price by adding a forced settlement offset to disincentivize forced settlements. All settlements are converted to underlying backing asset (e.g. BTS in the case of bitUSD).",
+                "text_legend": "Forced settlement: Holders of a SmartCoin can request a forced settlement. The SmartCoin is used to forcefully pay back the debt of the least collateralized positions while the former SmartCoin holder receives collateral as if he sold it for the forced settlement price. Any leftover collateral is returned to the position holder. This mechanism enforces a mandated delay after being triggered to avoid abuse (24 hours). \nForced Settlement Price: The price at which a forced settlement price will occur. It is calculated from the feed price by adding a forced settlement offset to disincentivize forced settlements. All settlements are converted to underlying backing asset (e.g. META in the case of bitUSD).",
                 "title": "Benefits",
                 "title_within": "What are the benefits?"
             },
             "steps_concept": {
-                "text": "A Collateralized Debt Position enables every user of the BitShares Blockchain to generate SmartCoins (MPA) by providing collateral. The collateral is locked up until you pay back the SmartCoins you have generated. You are effectively borrowing the SmartCoin from the BitShares Blockchain.",
-                "text_legend": "Example bitUSD: Provide BTS as collateral to borrow bitUSD",
+                "text": "A Collateralized Debt Position enables every user of the Meta Blockchain to generate SmartCoins (MPA) by providing collateral. The collateral is locked up until you pay back the SmartCoins you have generated. You are effectively borrowing the SmartCoin from the Meta Blockchain.",
+                "text_legend": "Example bitUSD: Provide META as collateral to borrow bitUSD",
                 "title": "Concept",
                 "title_within": "What is a Collateralized Debt Position?"
             },
@@ -1769,7 +1771,7 @@
                 "title_within": ""
             },
             "steps_introduction": {
-                "text": "Use this native dApp from the BitShares Blockchain to manage depositing collateral and the generation of SmartCoins.",
+                "text": "Use this native dApp from the Meta Blockchain to manage depositing collateral and the generation of SmartCoins.",
                 "title_within": "This is the place to generate SmartCoins (Market Pegged Assets, MPAs)"
             },
             "steps_risks": {
@@ -1800,7 +1802,7 @@
             "title": "Перевод в назначенное время"
         },
         "voting": {
-            "description": "Голосуйте за производителей блоков, членов комитета и рабочие предложения, чтобы лично повлиять на принимаемые стратегические решения и развитие блокчейна BitShares.",
+            "description": "Голосуйте за производителей блоков, членов комитета и рабочие предложения, чтобы лично повлиять на принимаемые стратегические решения и развитие блокчейна Meta.",
             "title": "Голосование"
         }
     },
@@ -2145,7 +2147,7 @@
         "backup_brainkey": "Резервный Brainkey",
         "backup_explain": "Нажав на кнопку ниже, Вы создадите резервную копию с расширением .bin. Этот файл зашифрован паролем Вашего кошелька и содержит все приватные ключи Вашего аккаунта. Он может быть использован для восстановления Вашего кошелька или его перемещения на другой компьютер/браузер.",
         "backup_login": "Резервное копирование и вход в систему",
-        "backup_new_account": "Поздравляем, Вы только что создали новый аккаунт в %(wallet_name)s, работающем на базе блокчейна BitShares! Настоятельно рекомендуем Вам сразу же создать резервную копию кошелька. Без резервной копии восстановить Ваш аккаунт в случае повреждения компьютера будет невозможно.",
+        "backup_new_account": "Поздравляем, Вы только что создали новый аккаунт в %(wallet_name)s, работающем на базе блокчейна Meta! Настоятельно рекомендуем Вам сразу же создать резервную копию кошелька. Без резервной копии восстановить Ваш аккаунт в случае повреждения компьютера будет невозможно.",
         "backup_warning": "Резервная копия файлов ваших закрытых ключей еще не создавалась. В целях безопасности мы рекомендуем пользователям не входить в систему без предварительно созданной резервной копии своих закрытых ключей.",
         "balance_claim_lookup": "Просмотреть балансы",
         "balance_claims": "Утверждения балансов",
@@ -2160,7 +2162,7 @@
         "brainkey_w1": "Чтобы завершить создание резервной копии, распечатайте или запишите это.",
         "brainkey_w2": "Каждый, кто имеет доступ к Вашему ключу восстановления, будет",
         "brainkey_w3": "получить доступ к средствам на этом локальном кошельке.",
-        "bts_09_export": "Экспорт файл ключа BTS 0.9.3c (.json)",
+        "bts_09_export": "Экспорт файл ключа META 0.9.3c (.json)",
         "cancel": "Отменить",
         "change": "Сменить на %(name)s",
         "change_backup": "Теперь, после смены пароля, мы настоятельно рекомендуем Вам создать новую резервную копию.",
@@ -2206,13 +2208,13 @@
         "generated": "Сгенерированный пароль",
         "go_get_started": "Начало работы",
         "has_wallet": "Как только Вы создадите Ваш первый аккаунт %(wallet_name)s, будет автоматически создан локальный кошелек %(wallet_name)s, который будет храниться в Вашем браузере. Этот локальный кошелек зашифрован Вашим паролем и содержит все закрытые ключи, принадлежащие Вашим аккаунтам. Не забудьте создать резервную копию этого кошелька!",
-        "import_20_notice1": "Сначала импортируйте Вашу резервную копию BTS 2.0+",
+        "import_20_notice1": "Сначала импортируйте Вашу резервную копию META 2.0+",
         "import_20_notice2": "(если такая имеется)",
         "import_backup": "Импортировать резервную копию %(wallet_name)s 2.0 (.bin файл)",
         "import_backup_choose": "Пожалуйста, выберите Вашу резервную копию в окне ниже. Это абсолютно безопасно, так как файл копии никуда не загружается и никогда не покинет Ваш браузер.",
         "import_balance": "Импортировать баланс(ы)",
-        "import_bts": "Импортировать ключи, экспортированные с BTS 0.9.3c",
-        "import_bts1": "Импортировать из BitShares 0.9.3c",
+        "import_bts": "Импортировать ключи, экспортированные с META 0.9.3c",
+        "import_bts1": "Импортировать из Meta 0.9.3c",
         "import_key_success": "Успешно импортированы %(count)s ключей",
         "import_keys": "Импортировать ключи",
         "import_keys_tool": "Инструмент импорта ключей",

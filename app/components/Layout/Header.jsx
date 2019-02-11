@@ -9,6 +9,8 @@ import ZfApi from "react-foundation-apps/src/utils/foundation-api";
 import SendModal from "../Modal/SendModal";
 import DepositModal from "../Modal/DepositModal";
 import GatewayStore from "stores/GatewayStore";
+import DepositModalMeta from "../Modal/DepositModalMeta";
+import SubmitArt from "../Modal/SubmitArt";
 import Icon from "../Icon/Icon";
 import Translate from "react-translate-component";
 import counterpart from "counterpart";
@@ -52,7 +54,9 @@ class Header extends React.Component {
             isDepositModalVisible: false,
             hasDepositModalBeenShown: false,
             isWithdrawModalVisible: false,
-            hasWithdrawalModalBeenShown: false
+            hasWithdrawalModalBeenShown: false,
+            isDepositModalVisibleMeta: false,
+            isDepositModalVisibleArt: false
         };
 
         this.unlisten = null;
@@ -67,10 +71,13 @@ class Header extends React.Component {
         this._closeAccountsListDropdown = this._closeAccountsListDropdown.bind(
             this
         );
-
+        this.showDepositModalMeta = this.showDepositModalMeta.bind(this);
+        this.showDepositModalArt = this.showDepositModalArt.bind(this);
         this.showDepositModal = this.showDepositModal.bind(this);
         this.hideDepositModal = this.hideDepositModal.bind(this);
 
+        this.hideDepositModalMeta = this.hideDepositModalMeta.bind(this);
+        this.hideDepositModalArt = this.hideDepositModalArt.bind(this);
         this.showWithdrawModal = this.showWithdrawModal.bind(this);
         this.hideWithdrawModal = this.hideWithdrawModal.bind(this);
 
@@ -133,6 +140,30 @@ class Header extends React.Component {
         document.body.removeEventListener("click", this.onBodyClick);
     }
 
+    showDepositModalMeta() {
+        this.setState({
+            isDepositModalVisibleMeta: true
+        });
+    }
+
+    _showDepositMeta(e) {
+        e.preventDefault();
+        this.showDepositModalMeta();
+        this._closeDropdown();
+    }
+
+    showDepositModalArt() {
+        this.setState({
+            isDepositModalVisibleArt: true
+        });
+    }
+
+    _showDepositArt(e) {
+        e.preventDefault();
+        this.showDepositModalArt();
+        this._closeDropdown();
+    }
+
     shouldComponentUpdate(nextProps, nextState) {
         return (
             nextProps.myActiveAccounts !== this.props.myActiveAccounts ||
@@ -159,6 +190,18 @@ class Header extends React.Component {
         e.preventDefault();
         if (this.send_modal) this.send_modal.show();
         this._closeDropdown();
+    }
+
+    hideDepositModalMeta() {
+        this.setState({
+            isDepositModalVisibleMeta: false
+        });
+    }
+
+    hideDepositModalArt() {
+        this.setState({
+            isDepositModalVisibleArt: false
+        });
     }
 
     _showDeposit(e) {
@@ -410,7 +453,7 @@ class Header extends React.Component {
 
         let tradeUrl = this.props.lastMarket
             ? `/market/${this.props.lastMarket}`
-            : "/market/USD_BTS";
+            : "/market/USD_META";
 
         // Account selector: Only active inside the exchange
         let account_display_name, accountsList;
@@ -563,26 +606,6 @@ class Header extends React.Component {
                         className="column-hide-small"
                         component="span"
                         content="header.deposit-withdraw"
-                    />
-                </a>
-            );
-        }
-        if (active.indexOf("news") !== -1) {
-            dynamicMenuItem = (
-                <a
-                    style={{flexFlow: "row"}}
-                    className={cnames({active: active.indexOf("news") !== -1})}
-                >
-                    <Icon
-                        size="1_5x"
-                        style={{position: "relative", top: 0, left: -8}}
-                        name="news"
-                        title="icons.news"
-                    />
-                    <Translate
-                        className="column-hide-small"
-                        component="span"
-                        content="news.news"
                     />
                 </a>
             );
@@ -1273,6 +1296,10 @@ class Header extends React.Component {
                                 showDeposit={this._showDeposit.bind(this)}
                                 showWithdraw={this._showWithdraw.bind(this)}
                                 showSend={this._showSend.bind(this)}
+                                showDepositMeta={this._showDepositMeta.bind(
+                                    this
+                                )}
+                                showDepositArt={this._showDepositArt.bind(this)}
                                 toggleDropdownSubmenu={this._toggleDropdownSubmenu.bind(
                                     this,
                                     SUBMENUS.SETTINGS
@@ -1300,6 +1327,22 @@ class Header extends React.Component {
                             backedCoins={this.props.backedCoins}
                         />
                     ))}
+                <DepositModalMeta
+                    visibleMeta={this.state.isDepositModalVisibleMeta}
+                    hideModalMeta={this.hideDepositModalMeta}
+                    showModalMeta={this.showDepositModalMeta}
+                    ref="deposit_modal_new1"
+                    modalId="deposit_modal_new1"
+                    account={currentAccount}
+                />
+                <SubmitArt
+                    visibleArt={this.state.isDepositModalVisibleArt}
+                    hideModalArt={this.hideDepositModalArt}
+                    showModalArt={this.showDepositModalArt}
+                    ref="deposit_modal_new2"
+                    modalId="deposit_modal_new2"
+                    account={currentAccount}
+                />
                 {this.state.hasWithdrawalModalBeenShown ||
                     (this.state.isWithdrawModalVisible && (
                         <WithdrawModal

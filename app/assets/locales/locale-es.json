@@ -21,7 +21,7 @@
         "create_account": "Crear cuenta",
         "create_new": "Crear una nueva cuenta",
         "deactivate_suspicious_proposals": "Deactivate suspicious proposals",
-        "deposit": "Depositar BTS",
+        "deposit": "Depositar META",
         "deposit_address": "Su dirección de depósito es su nombre de cuenta",
         "deposit_withdraw": "Depositar/Retirar",
         "eq_value": "Estimada",
@@ -52,10 +52,10 @@
         "in_open": "Esta es la cantidad de %(asset)s que usted tiene en pedidos abiertos.",
         "in_open_value": "Este es el valor estimado de lo %(asset)s que usted tiene en pedidos abiertos.",
         "intro_text_1": "Su Decentralized Platform",
-        "intro_text_2": "<b>El DEX</b> está inherentemente descentralizado, permitiéndote comerciar BitShares core token (BTS) y un rango de activos sin confianza con precio estable, vinculado al mercado como bitUSD, bitCNY, bitBTC, bitGold y mucho mas. estos activos pueden ser comerciados sin <b>zero</b> rischio de contraparte, poniéndote en control total de tus fondos.",
+        "intro_text_2": "<b>El DEX</b> está inherentemente descentralizado, permitiéndote comerciar Meta core token (META) y un rango de activos sin confianza con precio estable, vinculado al mercado como bitUSD, bitCNY, bitBTC, bitGold y mucho mas. estos activos pueden ser comerciados sin <b>zero</b> rischio de contraparte, poniéndote en control total de tus fondos.",
         "intro_text_3": "<b>El DEX</b> también permite la creación de activos emitidos por el usuario (UIAs), que pueden ser comerciados en contra de cualquier otro UIAs o activos sin confianza en la plataforma.  Un emisor muy conocido en The DEX es <b> OpenLedger</b>, que ofrece una serie de activos que incluyen BTC, ETH, STEEM, DASH, LTC, DOGE, y mucho mas",
         "intro_text_4": "Esto le da a los comerciantes de criptomonedas una combinación única de comercio tradicional y descentralizado, todo en una interfaz de intercambio familiar. Feliz comercio!",
-        "intro_text_title": "Bienvenido en BitShares",
+        "intro_text_title": "Bienvenido en Meta",
         "login_with": "Login with",
         "market_actions": "Acciones del mercado",
         "market_value": "Valor de Mercado",
@@ -78,7 +78,7 @@
             "membership_expiration": "Vencimiento de la Membresía",
             "network_percentage": "Red",
             "referral_link": "Tu enlace de referencia",
-            "referral_text": "Dale esto a personas que usted quiera referir a BitShares",
+            "referral_text": "Dale esto a personas que usted quiera referir a Meta",
             "referrals": "Referidos",
             "referrer": "Afiliado Referente",
             "registrar": "Registrante",
@@ -368,7 +368,7 @@
             "workers_short": "Trabajadores"
         },
         "voting": "Votación",
-        "welcome": "Bienvenido a BitShares",
+        "welcome": "Bienvenido a Meta",
         "whitelist": {
             "add": "Añadir a la lista blanca",
             "add_black": "Añadir a la lista negra",
@@ -397,7 +397,7 @@
     },
     "app_init": {
         "browser": "Navegador no soportado",
-        "browser_text": "El navegador que está utilizando no se ha probado completamente para admitir la billetera BitShares. Le recomendamos encarecidamente que haga una copia de seguridad de su monedero local e importarlo utilizando el navegador Chrome hasta que hayamos tenido más tiempo para probar completamente el navegador de su elección. Úselo bajo su propio riesgo.",
+        "browser_text": "El navegador que está utilizando no se ha probado completamente para admitir la billetera Meta. Le recomendamos encarecidamente que haga una copia de seguridad de su monedero local e importarlo utilizando el navegador Chrome hasta que hayamos tenido más tiempo para probar completamente el navegador de su elección. Úselo bajo su propio riesgo.",
         "check_latency": "Comprobando la latencia ...",
         "check_latency_feedback": "Comprobando la latencia (%(pinged)s/%(totalToPing)s nodos) ...",
         "check_latency_feedback_country": "Verificación de latencia en el mejor país (%(pinged)s/%(totalToPing)s nodos)",
@@ -903,10 +903,10 @@
             "create": "Crear una nueva propuesta de trabajador",
             "create_text_1": "Para crear su nuevo trabajador, complete el siguiente formulario. El trabajador se creará utilizando su cuenta actualmente activa, que ya debe ser un miembro vitalicio.",
             "create_text_2": "Considere cuidadosamente los parámetros que elige, ya que no se pueden cambiar una vez que haya publicado su trabajador.",
-            "daily_pay": "Pago diario (BTS)",
+            "daily_pay": "Pago diario (META)",
             "date_text": "La fecha de inicio debe ser de al menos una semana en el futuro para que las personas tengan tiempo de descubrir, evaluar y votar a su trabajador.",
             "name_text": "El nombre de su trabajador debe ser breve y descriptivo, algo como esto: 'Objetivo del trabajador - Nombre de la cuenta'",
-            "pay_text": "El pago diario define cuánto quiere que le paguen por día y se define en BTS. La mejor práctica actual es definir un salario en USD / CNY, y comprometerse a quemar cualquier superávit que reciba como resultado del aumento del precio de BTS. Mientras su trabajador esté activo y tenga suficientes votos para estar por encima del trabajador de reembolso, recibirá este salario diario.",
+            "pay_text": "El pago diario define cuánto quiere que le paguen por día y se define en META. La mejor práctica actual es definir un salario en USD / CNY, y comprometerse a quemar cualquier superávit que reciba como resultado del aumento del precio de META. Mientras su trabajador esté activo y tenga suficientes votos para estar por encima del trabajador de reembolso, recibirá este salario diario.",
             "period": "Duración del trabajador",
             "title": "Presupuestos por Trabajos",
             "url_text": "Debe proporcionar un sitio web, un documento de github o un documento de Google Docs que describan con más detalle el propósito del trabajador y cómo piensa utilizar el salario del trabajador..",
@@ -930,12 +930,12 @@
         "loading": "Cargando...",
         "nosync": "Su nodo activo no está sincronizado",
         "synced": "Sincronizado",
-        "title": "BitShares",
+        "title": "Meta",
         "unsynced": "Fuera de sincronización",
         "update_available": "ACTUALIZACIÓN DISPONIBLE"
     },
     "gateway": {
-        "add_funds": "Agregue fondos de manera rápida y fácil a su cuenta de BitShares <strong>%(account)s</strong>. Este servicio es provisto por Openledger.",
+        "add_funds": "Agregue fondos de manera rápida y fácil a su cuenta de Meta <strong>%(account)s</strong>. Este servicio es provisto por Openledger.",
         "address": "Dirección",
         "address_with_memo": "%(address)s <span class=\"blocktrades-with-memo\">con memo</span> %(memo)s",
         "agreement": {
@@ -971,7 +971,7 @@
             "support_block": "Para problemas de DEPÓSITO Y RETIRADA utilizando \"SERVICIO DE TRANSFERENCIA BitSpark \", comuníquese con BitSpark a:"
         },
         "bridge": "Puente",
-        "bridge_text": "Un puente le permite intercambiar un activo por otro, por ejemplo BTC a BTS.",
+        "bridge_text": "Un puente le permite intercambiar un activo por otro, por ejemplo BTC a META.",
         "calc": "Calculando",
         "choose_deposit": "Seleccione la moneda que desea depositar",
         "choose_withdraw": "Seleccione la moneda que desea retirar",
@@ -1024,7 +1024,7 @@
         "limit_withdraw_asset_min": "Retiro minimo: %(min)s %(coin)s",
         "limit_withdraw_asset_none": "Ninguna",
         "memo": "Memo",
-        "meta": {
+        "bitshares": {
             "open_website": "Abrir Pagina"
         },
         "min_deposit_warning_amount": "Deposito minimo: %(minDeposit)s %(coin)s",
@@ -1067,7 +1067,7 @@
         "website": "Visitar el website",
         "withdraw": "Retiro",
         "withdraw_coin": "Retiro %(coin)s (%(symbol)s)",
-        "withdraw_funds": "usted està retirando fondos de su cuenta de BitShares a su cuenta externa %(asset)s cuenta.",
+        "withdraw_funds": "usted està retirando fondos de su cuenta de Meta a su cuenta externa %(asset)s cuenta.",
         "withdraw_history_status": {
             "audited": "auditoria completada",
             "auditing": "retirar auditoria",
@@ -1123,7 +1123,7 @@
         "payments_legacy": "Send (legacy)",
         "settings": "Configuraciónes",
         "showcases": "Spotlight",
-        "title": "BitShares - Interfaz de Usiario",
+        "title": "Meta - Interfaz de Usiario",
         "unlock": "Desbloquear",
         "unlock_password": "Inicio de sesión en el Cloud Wallet",
         "unlock_short": "Inicio de sesión",
@@ -1172,7 +1172,7 @@
             "borrow": "Pedir prestado",
             "buy": "Comprar"
         },
-        "download": "Descarga la nueva versión de BitShares UI",
+        "download": "Descarga la nueva versión de Meta UI",
         "excel": "Descarga archivo .csv",
         "eye": "Ocultar Nodo",
         "eye-striked": "Mostrar Nodo",
@@ -1283,8 +1283,8 @@
     "migration": {
         "announcement_1": "En un esfuerzo por proporcionar una mayor seguridad para el monedero basado en la web, lo estamos migrando, con efecto inmediato a la dirección a continuación. Por favor, asegúrese de actualizar los marcadores que pueda tener.",
         "text_1": "Cartera local detecta",
-        "text_2": "Haga una copia de seguridad de su billetera ahora y restaure el archivo de respaldo a <a href='https://wallet.bitshares.org' target='blank' rel='noopener noreferrer'>https://wallet.bitshares.org</a>, cuál será su nueva dirección para la billetera web. Gracias por su apoyo continuo.",
-        "text_3": "Por favor utiliza <a href='https://wallet.bitshares.org' target='blank' rel='noopener noreferrer'>https://wallet.bitshares.org</a> a partir de ahora, sus credenciales existentes le permitirán iniciar sesión allí también.",
+        "text_2": "Haga una copia de seguridad de su billetera ahora y restaure el archivo de respaldo a <a href='https://wallet.meta.org' target='blank' rel='noopener noreferrer'>https://wallet.meta.org</a>, cuál será su nueva dirección para la billetera web. Gracias por su apoyo continuo.",
+        "text_3": "Por favor utiliza <a href='https://wallet.meta.org' target='blank' rel='noopener noreferrer'>https://wallet.meta.org</a> a partir de ahora, sus credenciales existentes le permitirán iniciar sesión allí también.",
         "title": "Aviso"
     },
     "modal": {
@@ -1308,12 +1308,14 @@
             "address_generation_error": "No se puede generar la dirección",
             "amount": "Cantidad a depositar",
             "asset": "Activo",
-            "bts_transfer_description": "Es fácil recibir BTS desde cualquier lugar. Siempre que se envíe BTS a su nombre de cuenta, aparecerá en su billetera. Este código QR también contiene su nombre de cuenta.",
+            "bts_transfer_description": "Es fácil recibir META desde cualquier lugar. Siempre que se envíe META a su nombre de cuenta, aparecerá en su billetera. Este código QR también contiene su nombre de cuenta.",
             "cancel": "Cancelar",
             "close": "Cerrar",
             "header": "Depositar a %(account_name)s",
             "header_short": "Depositar",
-            "submit": "Depositar"
+            "submit": "Depositar",
+            "art": "Tokenize your art",
+            "bitshares": "Deposit META coins"
         },
         "deposit_withdraw": {
             "disabled": "%(gateway)s servicio de porton es discapacitado",
@@ -1383,7 +1385,7 @@
             "address_not_valid": "Invalid address",
             "amount": "Cantidad a retirar",
             "available": "Disponible: ",
-            "bitshares_account": "Enviar a cuenta de Bitshares",
+            "bitshares_account": "Enviar a cuenta de Meta",
             "cancel": "Cancelar",
             "cannot_cover": "Fondos Insufficientes!",
             "estimated_value": "Valor Estimado",
@@ -1588,7 +1590,7 @@
         "walletDescription": "Se creará automáticamente un archivo bin. Por favor descárguelo y manténgalo en un lugar seguro. Deberá cargar este archivo para iniciar sesión en su cuenta en el futuro..",
         "walletLoginByValue": "Archivo bin + contraseña",
         "walletModelTitle": "Por bin-archivo",
-        "walletNote": "Tenga en cuenta que BitShares no almacena las contraseñas de los usuarios y no pudo recuperar las cuentas de los usuarios después de la pérdida de la contraseña.",
+        "walletNote": "Tenga en cuenta que Meta no almacena las contraseñas de los usuarios y no pudo recuperar las cuentas de los usuarios después de la pérdida de la contraseña.",
         "whyBinFile": "¿Por qué necesito un archivo .bin?"
     },
     "settings": {
@@ -1617,7 +1619,7 @@
         "backup_favoritesbtn": "Favoritos de respaldo",
         "backup_favoritestext": "Haga una copia de seguridad de sus favoritos para restaurarlos más tarde después de las actualizaciones.",
         "backup_key": "Importar una clave privada",
-        "backup_legacy": "Importar un BTS 0.9.3c archivo clave de exportación(.json)",
+        "backup_legacy": "Importar un META 0.9.3c archivo clave de exportación(.json)",
         "backup_text": "Crea copias de seguridad aquí.",
         "backupcreate_backup": "Crear una copia de seguridad local de la billetera",
         "backupcreate_brainkey": "Crear una copia de seguridad de brainkey",
@@ -1649,7 +1651,7 @@
         "lightTheme": "Thema Light",
         "local_wallet": "Acceso local a la billetera",
         "locale": "Cambiar Idioma",
-        "lookup_text": "Haga clic en el botón a continuación para verificar los saldos no reclamados desde BTS 1.0",
+        "lookup_text": "Haga clic en el botón a continuación para verificar los saldos no reclamados desde META 1.0",
         "low_latency": "Baja latencia",
         "medium_latency": "Latencia media",
         "midnightTheme": "Midnight",
@@ -1744,7 +1746,7 @@
         "borrow": {
             "borrow_tooltip": "You can also find this feature in your Dashboard under the tab Margin Positions, or by clicking  Borrow in the Exchange",
             "choose": "Choose the SmartCoin you want to create a position for",
-            "description": "Pedir prestado un BitAsset de la cadena de bloques de BitShares block por el bloqueo de la garantía (e.g. bitUSD, bitCNY, etc.)",
+            "description": "Pedir prestado un BitAsset de la cadena de bloques de Meta block por el bloqueo de la garantía (e.g. bitUSD, bitCNY, etc.)",
             "do_it": "Let's do it",
             "get_started": "Get started",
             "navigate_with_keys": "The mechanism of the SmartCoin generation will be explained in the following steps. You can also use arrow keys to navigate",
@@ -1753,13 +1755,13 @@
             "previous": "Previous",
             "steps_benefits": {
                 "text": "Creating a Collateralized Debt Position allows you to provide liquidity for your desired SmartCoin (MPA), without giving up ownership of your collateral provided that you lock up enough collateral to guarantee the value of the SmartCoin. On the one hand, selling the newly generated SmartCoin on the open market will create leverage on your position (i.e. you sell it short, and will need to buy it back to close the position). On the other hand, holders of the SmartCoin benefit from the significantly less volatile SmartCoin, and they can additionally request a force settlement to obtain the corresponding value in its collateral without the need of markets.",
-                "text_legend": "Forced settlement: Holders of a SmartCoin can request a forced settlement. The SmartCoin is used to forcefully pay back the debt of the least collateralized positions while the former SmartCoin holder receives collateral as if he sold it for the forced settlement price. Any leftover collateral is returned to the position holder. This mechanism enforces a mandated delay after being triggered to avoid abuse (24 hours). \nForced Settlement Price: The price at which a forced settlement price will occur. It is calculated from the feed price by adding a forced settlement offset to disincentivize forced settlements. All settlements are converted to underlying backing asset (e.g. BTS in the case of bitUSD).",
+                "text_legend": "Forced settlement: Holders of a SmartCoin can request a forced settlement. The SmartCoin is used to forcefully pay back the debt of the least collateralized positions while the former SmartCoin holder receives collateral as if he sold it for the forced settlement price. Any leftover collateral is returned to the position holder. This mechanism enforces a mandated delay after being triggered to avoid abuse (24 hours). \nForced Settlement Price: The price at which a forced settlement price will occur. It is calculated from the feed price by adding a forced settlement offset to disincentivize forced settlements. All settlements are converted to underlying backing asset (e.g. META in the case of bitUSD).",
                 "title": "Benefits",
                 "title_within": "What are the benefits?"
             },
             "steps_concept": {
-                "text": "A Collateralized Debt Position enables every user of the BitShares Blockchain to generate SmartCoins (MPA) by providing collateral. The collateral is locked up until you pay back the SmartCoins you have generated. You are effectively borrowing the SmartCoin from the BitShares Blockchain.",
-                "text_legend": "Example bitUSD: Provide BTS as collateral to borrow bitUSD",
+                "text": "A Collateralized Debt Position enables every user of the Meta Blockchain to generate SmartCoins (MPA) by providing collateral. The collateral is locked up until you pay back the SmartCoins you have generated. You are effectively borrowing the SmartCoin from the Meta Blockchain.",
+                "text_legend": "Example bitUSD: Provide META as collateral to borrow bitUSD",
                 "title": "Concept",
                 "title_within": "What is a Collateralized Debt Position?"
             },
@@ -1769,7 +1771,7 @@
                 "title_within": ""
             },
             "steps_introduction": {
-                "text": "Use this native dApp from the BitShares Blockchain to manage depositing collateral and the generation of SmartCoins.",
+                "text": "Use this native dApp from the Meta Blockchain to manage depositing collateral and the generation of SmartCoins.",
                 "title_within": "This is the place to generate SmartCoins (Market Pegged Assets, MPAs)"
             },
             "steps_risks": {
@@ -1800,7 +1802,7 @@
             "title": "Transferencia temporizada"
         },
         "voting": {
-            "description": "Vote por productores de bloques, miembros de comités y propuestas de trabajadores para influir en las decisiones estratégicas y el avance de la Blockchain de BitShares.",
+            "description": "Vote por productores de bloques, miembros de comités y propuestas de trabajadores para influir en las decisiones estratégicas y el avance de la Blockchain de Meta.",
             "title": "Votación"
         }
     },
@@ -1839,7 +1841,7 @@
         "lack_funds": "There is not enough funds to perform the operation",
         "latest_price": "Este es el utlimo precio en el mercado.",
         "legacy_explanation": "Hides proposals that are duplicates, spam or have been started but not active for longer than 2 months.",
-        "login": "Esta billetera de BitShares no ofrece un inicio de sesión tradicional sino que simplemente bloquea o desbloquea una billetera que es <b>solo</b> almacenada localmente en su navegador.<br/><br/> Cada vez que cierre la billetera, esta se bloqueará y se cerrerá efectivamente la sesión.",
+        "login": "Esta billetera de Meta no ofrece un inicio de sesión tradicional sino que simplemente bloquea o desbloquea una billetera que es <b>solo</b> almacenada localmente en su navegador.<br/><br/> Cada vez que cierre la billetera, esta se bloqueará y se cerrerá efectivamente la sesión.",
         "login-tooltip": {
             "incorrectPassword": {
                 "begin": "Ingrese otra contraseña o intente ",
@@ -2084,7 +2086,7 @@
         "final": "Balance final",
         "from": "Desde",
         "header": "Detalles de transferencia",
-        "header_subheader": "Las transferencias se utilizan para enviar fondos a otros titulares de cuentas BitShares",
+        "header_subheader": "Las transferencias se utilizan para enviar fondos a otros titulares de cuentas Meta",
         "header_subheader_propose": "Proponer enviar fondos desde uno %(wallet_name)s cuenta a una otra. El cuenta COMPRAR es la cuenta proponiendo la transacción.",
         "memo": "Memo",
         "memo_unlock": "Desbloquee su billetera/cuenta para ver esta nota",
@@ -2145,7 +2147,7 @@
         "backup_brainkey": "Backup Brainkey",
         "backup_explain": "Al hacer clic en el siguiente botón, se generará un archivo de respaldo con una estenciòn .bin . Este archivo está encriptado con su contraseña de billetera y contiene todas las claves privadas para sus cuentas. Se puede usar para restaurar tu billetera o moverla a una computadora / navegador diferente.",
         "backup_login": "Backup & iniciar sesion",
-        "backup_new_account": "Felicidades, acaba de crear una nueva cuenta en los BitShares blockchain! Se recomienda encarecidamente que haga una copia de seguridad de su cartera ahora. Sin un respaldo que no hay manera de restaurar su cuenta si algo le sucede a su computadora.",
+        "backup_new_account": "Felicidades, acaba de crear una nueva cuenta en los Meta blockchain! Se recomienda encarecidamente que haga una copia de seguridad de su cartera ahora. Sin un respaldo que no hay manera de restaurar su cuenta si algo le sucede a su computadora.",
         "backup_warning": "Parece que sus archivos de clave privada no están respaldados. Por razones de seguridad, recomendamos a los usuarios que no inicien sesión sin hacer una copia de seguridad de sus claves privadas.",
         "balance_claim_lookup": "Búsquedas de saldos",
         "balance_claims": "Balances Solicitados",
@@ -2160,7 +2162,7 @@
         "brainkey_w1": "ADVERTENCIA: Imprima esta clave, o anótela.",
         "brainkey_w2": "Cualquiera con acceso a su llave de recuperación",
         "brainkey_w3": "tendrá acceso a los fondos de esta billetera.",
-        "bts_09_export": "BTS 0.9.3c Exportar el file de la llave (.json)",
+        "bts_09_export": "META 0.9.3c Exportar el file de la llave (.json)",
         "cancel": "Cancelar",
         "change": "Cambiar (%(name)s Billetera)",
         "change_backup": "Ahora que ha cambiado su contraseña, le recomendamos hacer una nueva copia de seguridad.",
@@ -2184,7 +2186,7 @@
         "create_importkeys_text": "Para importar claves, primero necesita crear una billetera local para contener las llaves. Complete el cuadro de diálogo siguiente para crear una nueva billetera local. ",
         "create_password": "Crea una nueva cuenta usando una contraseña",
         "create_success": "Su billetera local ha sido creada",
-        "create_text": "El monedero local BitShares se almacena en su navegador, no se almacena en la nube. Una billetera puede contener varias cuentas y se puede transferir fácilmente entre navegadores y computadoras utilizando un archivo de copia de seguridad.",
+        "create_text": "El monedero local Meta se almacena en su navegador, no se almacena en la nube. Una billetera puede contener varias cuentas y se puede transferir fácilmente entre navegadores y computadoras utilizando un archivo de copia de seguridad.",
         "create_w_a": "Crea una billetera local que contenga una cuenta",
         "create_wallet": "Crear Billetera",
         "create_wallet_backup": "Crear una nueva billetera desde la copia de seguridad",
@@ -2205,14 +2207,14 @@
         "first_account_paid": "Como esta es su primera cuenta, un faucet pagará la tarifa de registro por usted.",
         "generated": "Contraseña generada",
         "go_get_started": "Empezando",
-        "has_wallet": "Cuando cree su primera cuenta de BitShares, también se creará automáticamente una billetera local BitShares y se almacenará en su navegador. Esta billetera local está encriptada con su contraseña, y contendrá cualquier clave privada que pertenezca a sus cuentas. ¡Es importante que se tome el tiempo para hacer una copia de seguridad de esta billetera una vez creada!",
-        "import_20_notice1": "Importar su BACKUP BTS 2.0+ primero",
+        "has_wallet": "Cuando cree su primera cuenta de Meta, también se creará automáticamente una billetera local Meta y se almacenará en su navegador. Esta billetera local está encriptada con su contraseña, y contendrá cualquier clave privada que pertenezca a sus cuentas. ¡Es importante que se tome el tiempo para hacer una copia de seguridad de esta billetera una vez creada!",
+        "import_20_notice1": "Importar su BACKUP META 2.0+ primero",
         "import_20_notice2": "(si lo tiene)",
         "import_backup": "Importar Backup",
         "import_backup_choose": "Seleccione su archivo de copia de seguridad en el cuadro de diálogo a continuación. Esto es completamente seguro ya que el archivo no se carga en ninguna parte y nunca abandona su navegador.",
         "import_balance": "Importar balance(s)",
-        "import_bts": "Importar a BTS 0.9.3c exportar llave",
-        "import_bts1": "Importar desde BitShares 0.9.3c",
+        "import_bts": "Importar a META 0.9.3c exportar llave",
+        "import_bts1": "Importar desde Meta 0.9.3c",
         "import_key_success": "Exitosamente importados %(count)s keys.",
         "import_keys": "Importar Llaves",
         "import_keys_tool": "Herramienta clave de importación",

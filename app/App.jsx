@@ -59,11 +59,6 @@ const AccountDepositWithdraw = Loadable({
     loading: LoadingIndicator
 });
 
-const News = Loadable({
-    loader: () => import(/* webpackChunkName: "news" */ "./components/News"),
-    loading: LoadingIndicator
-});
-
 const Settings = Loadable({
     loader: () =>
         import(/* webpackChunkName: "settings" */ "./components/Settings/SettingsContainer"),
@@ -419,7 +414,6 @@ class App extends React.Component {
                                     exact
                                     component={AccountRegistration}
                                 />
-                                <Route path="/news" exact component={News} />
                                 <Redirect
                                     path={"/voting"}
                                     to={{

@@ -188,6 +188,24 @@ export default class DropDownMenu extends React.Component {
                 </li>
 
                 {[
+                    // {
+                    //     icon: {
+                    //         name: "transfer",
+                    //         title: "icons.deposit.deposit"
+                    //     },
+                    //     disabled: !showAccountLinks,
+                    //     mainText: "modal.deposit.art",
+                    //     mainCallback: this.props.showDepositArt
+                    // },
+                    {
+                        icon: {
+                            name: "deposit",
+                            title: "icons.deposit.deposit"
+                        },
+                        disabled: !showAccountLinks,
+                        mainText: "modal.deposit.bitshares",
+                        mainCallback: this.props.showDepositMeta
+                    },
                     {
                         icon: {
                             name: "transfer",
@@ -206,9 +224,7 @@ export default class DropDownMenu extends React.Component {
                         },
                         disabled: !enableDepositWithdraw,
                         mainText: "modal.deposit.submit",
-                        mainCallback: this.props.showDeposit,
-                        subText: "header.deposit_legacy",
-                        subURL: "/deposit-withdraw"
+                        mainCallback: this.props.showDeposit
                     },
                     {
                         icon: {
@@ -217,9 +233,7 @@ export default class DropDownMenu extends React.Component {
                         },
                         disabled: !enableDepositWithdraw,
                         mainText: "modal.withdraw.submit",
-                        mainCallback: this.props.showWithdraw,
-                        subText: "header.withdraw_legacy",
-                        subURL: "/deposit-withdraw"
+                        mainCallback: this.props.showWithdraw
                     }
                 ].map(
                     (
@@ -331,20 +345,6 @@ export default class DropDownMenu extends React.Component {
                     </div>
                     <div className="table-cell">
                         <Translate content="header.settings" />{" "}
-                    </div>
-                </li>
-
-                <li
-                    className={cnames({
-                        active: active.indexOf("/news") !== -1
-                    })}
-                    onClick={this.props.onNavigate.bind(this, "/news")}
-                >
-                    <div className="table-cell">
-                        <Icon size="2x" name="news" title="icons.news" />
-                    </div>
-                    <div className="table-cell">
-                        <Translate content="news.news" />
                     </div>
                 </li>
 

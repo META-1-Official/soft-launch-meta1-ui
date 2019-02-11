@@ -45,6 +45,7 @@ import {withRouter} from "react-router-dom";
 import {setLocalStorageType, isPersistantType} from "lib/common/localStorage";
 import Translate from "react-translate-component";
 import Icon from "../Icon/Icon";
+import ReCAPTCHA from "react-google-recaptcha";
 
 class WalletUnlockModal extends React.Component {
     constructor(props) {
@@ -68,7 +69,8 @@ class WalletUnlockModal extends React.Component {
             stopAskingForBackup: false,
             rememberMe: WalletUnlockStore.getState().rememberMe,
             focusedOnce: false,
-            isAutoLockVisible: false
+            isAutoLockVisible: false,
+            captcha: false
         };
     };
 
@@ -274,32 +276,37 @@ class WalletUnlockModal extends React.Component {
 
         const {passwordLogin, backup} = this.props;
         const {walletSelected, accountName} = this.state;
-
-        if (!passwordLogin && !walletSelected) {
-            this.setState({
-                customError: counterpart.translate(
-                    "wallet.ask_to_select_wallet"
-                )
-            });
-        } else {
-            this.setState({passwordError: null}, () => {
-                const password = this.state.password;
-                if (!passwordLogin && backup.name) {
-                    this.restoreBackup(password, () => this.validate(password));
-                } else {
-                    if (!this.state.rememberMe) {
-                        if (isPersistantType()) {
-                            setLocalStorageType("inram");
-                        }
+        if (this.state.captcha) {
+            if (!passwordLogin && !walletSelected) {
+                this.setState({
+                    customError: counterpart.translate(
+                        "wallet.ask_to_select_wallet"
+                    )
+                });
+            } else {
+                this.setState({passwordError: null}, () => {
+                    const password = this.state.password;
+                    if (!passwordLogin && backup.name) {
+                        this.restoreBackup(password, () =>
+                            this.validate(password)
+                        );
                     } else {
-                        if (!isPersistantType()) {
-                            setLocalStorageType("persistant");
+                        if (!this.state.rememberMe) {
+                            if (isPersistantType()) {
+                                setLocalStorageType("inram");
+                            }
+                        } else {
+                            if (!isPersistantType()) {
+                                setLocalStorageType("persistant");
+                            }
                         }
+                        const account = passwordLogin ? accountName : null;
+                        this.validate(password, account);
                     }
-                    const account = passwordLogin ? accountName : null;
-                    this.validate(password, account);
-                }
-            });
+                });
+            }
+        } else {
+            alert("Pass the reCaptcha check!");
         }
     };
 
@@ -403,6 +410,11 @@ class WalletUnlockModal extends React.Component {
         });
     };
 
+    caChange = () => {
+        this.setState({
+            captcha: true
+        });
+    };
     handleWalletAutoLock = val => {
         let newValue = parseInt(val, 10);
         if (isNaN(newValue)) newValue = 0;
@@ -667,7 +679,10 @@ class WalletUnlockModal extends React.Component {
                             </Form.Item>
                         </div>
                     )}
-
+                    <ReCAPTCHA
+                        sitekey="6LdY-48UAAAAAAX8Y8-UdRtFks70LCRmyvyye0VU"
+                        onChange={this.caChange.bind(this)}
+                    />
                     {this.shouldShowBackupWarning() && (
                         <BackupWarning
                             onChange={this.handleAskForBackupChange}

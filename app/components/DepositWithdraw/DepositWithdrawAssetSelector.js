@@ -38,7 +38,7 @@ class DepositWithdrawAssetSelector extends React.Component {
         let coinArr = [];
 
         if (!(this.props.includeBTS === false)) {
-            coinArr.push({id: "BTS", label: "BTS", gateway: ""});
+            coinArr.push({id: "META", label: "META", gateway: ""});
         }
 
         props.backedCoins.forEach(coin => {
@@ -48,7 +48,7 @@ class DepositWithdrawAssetSelector extends React.Component {
                     return item;
                 })
                 .filter(item => {
-                    if (item.id == "BTS") return true;
+                    if (item.id == "META") return true;
                     if (include) {
                         return include.includes(item.id);
                     }
@@ -77,13 +77,16 @@ class DepositWithdrawAssetSelector extends React.Component {
 }
 DepositWithdrawAssetSelector = BindToChainState(DepositWithdrawAssetSelector);
 
-export default connect(DepositWithdrawAssetSelector, {
-    listenTo() {
-        return [GatewayStore];
-    },
-    getProps() {
-        return {
-            backedCoins: GatewayStore.getState().backedCoins
-        };
+export default connect(
+    DepositWithdrawAssetSelector,
+    {
+        listenTo() {
+            return [GatewayStore];
+        },
+        getProps() {
+            return {
+                backedCoins: GatewayStore.getState().backedCoins
+            };
+        }
     }
-});
+);

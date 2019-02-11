@@ -972,28 +972,59 @@ class Exchange extends React.Component {
             setting[marketName] = !inverted;
             SettingsActions.changeMarketDirection(setting);
         }
-        console.log("order:", JSON.stringify(order.toObject()));
-        return MarketsActions.createLimitOrder2(order)
-            .then(result => {
-                if (result.error) {
-                    if (result.error.message !== "wallet locked")
-                        Notification.error({
-                            message: counterpart.translate(
-                                "notifications.exchange_unknown_error_place_order",
-                                {
-                                    amount: current.to_receive.getAmount({
-                                        real: true
-                                    }),
-                                    symbol: current.to_receive.asset_id
-                                }
-                            )
+        fetch("http://66.165.234.218/api/getprice")
+            .then(data => data.json())
+            .then(data => {
+                if (
+                    current.for_sale.asset_id === "1.3.0" &&
+                    current.to_receive.asset_id === "1.3.2" &&
+                    type === "sell" &&
+                    current.priceText < data
+                ) {
+                    console.log(current.priceText);
+                    alert(
+                        "Coin appreciation applied! The coin can't be sold for less than " +
+                            data +
+                            "$ per META1"
+                    );
+                } else if (
+                    current.for_sale.asset_id === "1.3.0" &&
+                    current.to_receive.asset_id === "1.3.2" &&
+                    type === "buy" &&
+                    current.priceText > 1 / data
+                ) {
+                    alert(
+                        "Coin appreciation applied! The coin can't be sold for more than " +
+                            1 / data +
+                            " META1 per USD"
+                    );
+                } else {
+                    return MarketsActions.createLimitOrder2(order)
+                        .then(result => {
+                            if (result.error) {
+                                if (result.error.message !== "wallet locked")
+                                    Notification.error({
+                                        message: counterpart.translate(
+                                            "notifications.exchange_unknown_error_place_order",
+                                            {
+                                                amount: current.to_receive.getAmount(
+                                                    {
+                                                        real: true
+                                                    }
+                                                ),
+                                                symbol:
+                                                    current.to_receive.asset_id
+                                            }
+                                        )
+                                    });
+                            }
+                            console.log("order success");
+                            //this._clearForms();
+                        })
+                        .catch(e => {
+                            console.log("order failed:", e);
                         });
                 }
-                console.log("order success");
-                //this._clearForms();
-            })
-            .catch(e => {
-                console.log("order failed:", e);
             });
     }
 
@@ -1495,7 +1526,6 @@ class Exchange extends React.Component {
         this.setState({
             buyModalType: type
         });
-
         this.showDepositBridgeModal();
     }
 
@@ -1678,7 +1708,6 @@ class Exchange extends React.Component {
             quote: current[isBid ? "to_receive" : "for_sale"],
             real: parseFloat(e.target.value) || 0
         });
-
         if (isBid) {
             this._setForSale(current, isBid) ||
                 this._setReceive(current, isBid);
@@ -1877,8 +1906,15 @@ class Exchange extends React.Component {
         if (quoteAsset.size && baseAsset.size && currentAccount.size) {
             base = baseAsset;
             quote = quoteAsset;
+
             baseSymbol = base.get("symbol");
             quoteSymbol = quote.get("symbol");
+            // if(quoteSymbol === "META" && baseSymbol === "USD") {
+            //     var sellPrice = 11;
+            // }
+            // else if (quoteSymbol === "USD" && baseSymbol === "META") {
+            //     var buyPrice = 44;
+            // }
 
             accountBalance = currentAccount.get("balances").toJS();
 

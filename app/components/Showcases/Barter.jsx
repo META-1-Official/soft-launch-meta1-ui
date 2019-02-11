@@ -1188,7 +1188,7 @@ export default class Barter extends Component {
                             className="left-label"
                             component="label"
                             fee={fee(true) + this.state.proposal_fee}
-                            asset={"BTS"}
+                            asset={"META"}
                         />
                     </span>
                 </Tooltip>

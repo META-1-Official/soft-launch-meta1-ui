@@ -73,7 +73,7 @@ class MarketsStore {
         this.bucketSize = this._getBucketSize();
         this.priceHistory = [];
         this.lowestCallPrice = null;
-        this.marketBase = "BTS";
+        this.marketBase = "META";
         this.marketStats = Immutable.Map({
             change: 0,
             volumeBase: 0,
@@ -95,7 +95,7 @@ class MarketsStore {
 
         this.baseAsset = {
             id: "1.3.0",
-            symbol: "BTS",
+            symbol: "META",
             precision: 5
         };
 

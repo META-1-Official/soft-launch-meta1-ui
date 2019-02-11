@@ -9,7 +9,7 @@
  * @returns {string}
  */
 export function getWalletName() {
-    return "BitShares";
+    return "META Exchange";
 }
 
 /**
@@ -17,7 +17,7 @@ export function getWalletName() {
  * @returns {string}
  */
 export function getWalletURL() {
-    return "https://wallet.bitshares.org";
+    return "";
 }
 
 /**
@@ -27,9 +27,9 @@ export function getWalletURL() {
  */
 export function getFaucet() {
     return {
-        url: "https://faucet.bitshares.eu/onboarding", // 2017-12-infrastructure worker proposal
+        url: "http://66.165.226.210/faucet", // 2017-12-infrastructure worker proposal
         show: true,
-        editable: false
+        editable: true
     };
 }
 
@@ -66,10 +66,10 @@ export function getDefaultLogin() {
  */
 export function getUnits(chainId = "4018d784") {
     if (chainId === "4018d784")
-        return ["BTS", "USD", "CNY", "BTC", "EUR", "GBP"];
+        return ["META", "USD", "CNY", "BTC", "EUR", "GBP"];
     else if (chainId === "39f5e2ed") return ["TEST"];
     // unknown chain id: (need to return at least one unit)
-    else return ["BTS"];
+    else return ["META"];
 }
 
 /**
@@ -79,7 +79,7 @@ export function getUnits(chainId = "4018d784") {
  */
 
 export function getMyMarketsBases() {
-    return ["BTC", "ETH", "BTS", "USD", "CNY"];
+    return ["BTC", "ETH", "META", "USD", "CNY"];
 }
 
 /**
@@ -91,7 +91,7 @@ export function getMyMarketsQuotes() {
     let tokens = {
         nativeTokens: [
             "BTC",
-            "BTS",
+            "META",
             "CNY",
             "EUR",
             "GOLD",
@@ -201,7 +201,7 @@ export function getMyMarketsQuotes() {
  */
 export function getFeaturedMarkets(quotes = []) {
     return [
-        ["USD", "BTS"],
+        ["USD", "META"],
         ["USD", "OPEN.BTC"],
         ["USD", "OPEN.USDT"],
         ["USD", "OPEN.ETH"],
@@ -213,7 +213,7 @@ export function getFeaturedMarkets(quotes = []) {
         ["USD", "GDEX.EOS"],
         ["USD", "GDEX.BTO"],
         ["USD", "OPEN.EOSDAC"],
-        ["CNY", "BTS"],
+        ["CNY", "META"],
         ["CNY", "OPEN.BTC"],
         ["CNY", "USD"],
         ["CNY", "OPEN.ETH"],
@@ -224,60 +224,60 @@ export function getFeaturedMarkets(quotes = []) {
         ["CNY", "GDEX.EOS"],
         ["CNY", "GDEX.BTO"],
         ["CNY", "GDEX.BTM"],
-        ["OPEN.BTC", "BTS"],
+        ["OPEN.BTC", "META"],
         ["OPEN.BTC", "OPEN.ETH"],
         ["OPEN.BTC", "OPEN.DASH"],
         ["OPEN.BTC", "BLOCKPAY"],
         ["OPEN.BTC", "OPEN.DGD"],
         ["OPEN.BTC", "OPEN.STEEM"],
-        ["BTS", "OPEN.ETH"],
-        ["BTS", "OPEN.EOS"],
-        ["BTS", "PPY"],
-        ["BTS", "OPEN.STEEM"],
-        ["BTS", "OBITS"],
-        ["BTS", "RUBLE"],
-        ["BTS", "HERO"],
-        ["BTS", "OCT"],
-        ["BTS", "SILVER"],
-        ["BTS", "GOLD"],
-        ["BTS", "BLOCKPAY"],
-        ["BTS", "BTWTY"],
-        ["BTS", "SMOKE"],
-        ["BTS", "GDEX.BTC"],
-        ["BTS", "GDEX.ETH"],
-        ["BTS", "GDEX.EOS"],
-        ["BTS", "GDEX.BTO"],
-        ["BTS", "OPEN.EOSDAC"],
+        ["META", "OPEN.ETH"],
+        ["META", "OPEN.EOS"],
+        ["META", "PPY"],
+        ["META", "OPEN.STEEM"],
+        ["META", "OBITS"],
+        ["META", "RUBLE"],
+        ["META", "HERO"],
+        ["META", "OCT"],
+        ["META", "SILVER"],
+        ["META", "GOLD"],
+        ["META", "BLOCKPAY"],
+        ["META", "BTWTY"],
+        ["META", "SMOKE"],
+        ["META", "GDEX.BTC"],
+        ["META", "GDEX.ETH"],
+        ["META", "GDEX.EOS"],
+        ["META", "GDEX.BTO"],
+        ["META", "OPEN.EOSDAC"],
         ["KAPITAL", "OPEN.BTC"],
         ["USD", "OPEN.STEEM"],
         ["USD", "OPEN.MAID"],
         ["OPEN.USDT", "OPEN.BTC"],
         ["OPEN.BTC", "OPEN.MAID"],
-        ["BTS", "OPEN.MAID"],
-        ["BTS", "OPEN.HEAT"],
-        ["BTS", "OPEN.INCENT"],
+        ["META", "OPEN.MAID"],
+        ["META", "OPEN.HEAT"],
+        ["META", "OPEN.INCENT"],
         ["HEMPSWEET", "OPEN.BTC"],
-        ["KAPITAL", "BTS"],
-        ["BTS", "RUDEX.STEEM"],
+        ["KAPITAL", "META"],
+        ["META", "RUDEX.STEEM"],
         ["USD", "RUDEX.STEEM"],
-        ["BTS", "RUDEX.SBD"],
-        ["BTS", "RUDEX.KRM"],
+        ["META", "RUDEX.SBD"],
+        ["META", "RUDEX.KRM"],
         ["USD", "RUDEX.KRM"],
         ["RUBLE", "RUDEX.GOLOS"],
         ["CNY", "RUDEX.GOLOS"],
         ["RUBLE", "RUDEX.GBG"],
         ["CNY", "RUDEX.GBG"],
-        ["BTS", "RUDEX.MUSE"],
-        ["BTS", "RUDEX.TT"],
-        ["BTS", "RUDEX.SCR"],
-        ["BTS", "RUDEX.ETH"],
-        ["BTS", "RUDEX.DGB"],
-        ["BTS", "XBTSX.STH"],
-        ["BTS", "XBTSX.WAVES"],
-        ["BTS", "ZEPH"],
-        ["BTS", "HERTZ"],
-        ["BTS", "SPARKDEX.BTC"],
-        ["BTS", "SPARKDEX.ETH"]
+        ["META", "RUDEX.MUSE"],
+        ["META", "RUDEX.TT"],
+        ["META", "RUDEX.SCR"],
+        ["META", "RUDEX.ETH"],
+        ["META", "RUDEX.DGB"],
+        ["META", "XBTSX.STH"],
+        ["META", "XBTSX.WAVES"],
+        ["META", "ZEPH"],
+        ["META", "HERTZ"],
+        ["META", "SPARKDEX.BTC"],
+        ["META", "SPARKDEX.ETH"]
     ].filter(a => {
         if (!quotes.length) return true;
         return quotes.indexOf(a[0]) !== -1;
