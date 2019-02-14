@@ -37,6 +37,7 @@ import {Notification} from "bitshares-ui-style-guide";
 import PriceAlert from "./PriceAlert";
 import counterpart from "counterpart";
 import {updateGatewayBackers} from "common/gatewayUtils";
+import swal from "sweetalert";
 
 class Exchange extends React.Component {
     static propTypes = {
@@ -982,7 +983,7 @@ class Exchange extends React.Component {
                     current.priceText < data
                 ) {
                     console.log(current.priceText);
-                    alert(
+                    swal(
                         "Coin appreciation applied! The coin can't be sold for less than " +
                             data +
                             "$ per META1"
@@ -993,7 +994,7 @@ class Exchange extends React.Component {
                     type === "buy" &&
                     current.priceText > 1 / data
                 ) {
-                    alert(
+                    swal(
                         "Coin appreciation applied! The coin can't be sold for more than " +
                             1 / data +
                             " META1 per USD"

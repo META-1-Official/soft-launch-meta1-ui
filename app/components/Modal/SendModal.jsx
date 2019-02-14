@@ -799,8 +799,8 @@ class SendModal extends React.Component {
                                             allowNaN={true}
                                         />
                                     </div>
-                                    {/*  M E M O  */}
-                                    <div className="content-block transfer-input">
+                                    {/*  M E M O  left for later rost*/}
+                                    {/* <div className="content-block transfer-input">
                                         {memo && memo.length ? (
                                             <label className="right-label">
                                                 {memo.length}
@@ -827,7 +827,7 @@ class SendModal extends React.Component {
                                                 this
                                             )}
                                         />
-                                        {/* warning */}
+                                 
                                         {this.state.propose ? (
                                             <div
                                                 className="error-area"
@@ -839,7 +839,7 @@ class SendModal extends React.Component {
                                                 />
                                             </div>
                                         ) : null}
-                                    </div>
+                                    </div> */}
 
                                     <div className="content-block transfer-input">
                                         <div className="no-margin no-padding">
