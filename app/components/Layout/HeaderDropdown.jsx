@@ -3,6 +3,7 @@ import Icon from "../Icon/Icon";
 import Translate from "react-translate-component";
 import cnames from "classnames";
 import AccountActions from "actions/AccountActions";
+import AccountStore from "stores/AccountStore";
 
 export default class DropDownMenu extends React.Component {
     shouldComponentUpdate(np) {
@@ -186,26 +187,49 @@ export default class DropDownMenu extends React.Component {
                         <Translate content="header.explorer" />
                     </div>
                 </li>
-
-                {[
-                    // {
-                    //     icon: {
-                    //         name: "transfer",
-                    //         title: "icons.deposit.deposit"
-                    //     },
-                    //     disabled: !showAccountLinks,
-                    //     mainText: "modal.deposit.art",
-                    //     mainCallback: this.props.showDepositArt
-                    // },
-                    {
-                        icon: {
-                            name: "deposit",
-                            title: "icons.deposit.deposit"
+                <li
+                    className={cnames(
+                        {
+                            active: active.indexOf("/settings") !== -1
                         },
-                        disabled: !showAccountLinks,
-                        mainText: "modal.deposit.bitshares",
-                        mainCallback: this.props.showDepositMeta
-                    },
+                        "mobile-desktop-only",
+                        "has-submenu"
+                    )}
+                    onClick={this.props.toggleDropdownSubmenuDeposit}
+                >
+                    <div className="table-cell">
+                        <Icon
+                            size="2x"
+                            name="deposit"
+                            title="icons.deposit.deposit"
+                        />
+                    </div>
+                    <div className="table-cell">
+                        <Translate content="modal.deposit.header_short" />{" "}
+                    </div>
+                </li>
+                <li
+                    className={cnames(
+                        {
+                            active: active.indexOf("/settings") !== -1
+                        },
+                        "mobile-desktop-only",
+                        "has-submenu"
+                    )}
+                    onClick={this.props.toggleDropdownSubmenuWithdraw}
+                >
+                    <div className="table-cell">
+                        <Icon
+                            size="2x"
+                            name="withdraw"
+                            title="icons.withdraw.withdraw"
+                        />
+                    </div>
+                    <div className="table-cell">
+                        <Translate content="modal.deposit.header_short_w" />{" "}
+                    </div>
+                </li>
+                {[
                     {
                         icon: {
                             name: "transfer",
@@ -216,24 +240,6 @@ export default class DropDownMenu extends React.Component {
                         mainCallback: this.props.showSend,
                         subText: "header.payments_legacy",
                         subURL: "/transfer"
-                    },
-                    {
-                        icon: {
-                            name: "deposit",
-                            title: "icons.deposit.deposit"
-                        },
-                        disabled: !enableDepositWithdraw,
-                        mainText: "modal.deposit.submit",
-                        mainCallback: this.props.showDeposit
-                    },
-                    {
-                        icon: {
-                            name: "withdraw",
-                            title: "icons.withdraw"
-                        },
-                        disabled: !enableDepositWithdraw,
-                        mainText: "modal.withdraw.submit",
-                        mainCallback: this.props.showWithdraw
                     }
                 ].map(
                     (

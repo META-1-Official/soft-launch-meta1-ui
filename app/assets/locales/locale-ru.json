@@ -1313,9 +1313,13 @@
             "close": "Закрыть",
             "header": "Пополнить аккаунт %(account_name)s",
             "header_short": "Пополнить",
+            "header_short_w": "Withdraw",
             "submit": "Пополнить счет",
             "art": "Tokenize your art",
-            "bitshares": "Deposit META coins"
+            "bitshares": "Deposit BTC",
+            "eth": "Deposit ETH",
+            "btc_withdraw": "Withdraw BTC",
+            "eth_withdraw": "Withdraw ETH"
         },
         "deposit_withdraw": {
             "disabled": "Сервис шлюза %(gateway)s недоступен",

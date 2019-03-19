@@ -10,7 +10,9 @@ import SendModal from "../Modal/SendModal";
 import DepositModal from "../Modal/DepositModal";
 import GatewayStore from "stores/GatewayStore";
 import DepositModalMeta from "../Modal/DepositModalMeta";
-import SubmitArt from "../Modal/SubmitArt";
+import DepositModalEth from "../Modal/DepositModalEth";
+import WithdrawModalMeta from "../Modal/WithdrawModalMeta";
+import WithdrawModalEth from "../Modal/WithdrawModalEth";
 import Icon from "../Icon/Icon";
 import Translate from "react-translate-component";
 import counterpart from "counterpart";
@@ -40,7 +42,9 @@ var logo = getLogo();
 // };
 
 const SUBMENUS = {
-    SETTINGS: "SETTINGS"
+    SETTINGS: "SETTINGS",
+    WITHDRAW: "WITHDRAW",
+    DEPOSIT: "DEPOSIT"
 };
 
 class Header extends React.Component {
@@ -51,12 +55,15 @@ class Header extends React.Component {
             accountsListDropdownActive: false,
             dropdownActive: false,
             dropdownSubmenuActive: false,
+            dropdownSubmenuActiveWithdraw: false,
+            dropdownSubmenuActiveDeposit: false,
             isDepositModalVisible: false,
             hasDepositModalBeenShown: false,
             isWithdrawModalVisible: false,
             hasWithdrawalModalBeenShown: false,
             isDepositModalVisibleMeta: false,
-            isDepositModalVisibleArt: false
+            isWithdrawModalVisibleMeta: false,
+            isWithdrawModalVisibleEth: false
         };
 
         this.unlisten = null;
@@ -66,18 +73,34 @@ class Header extends React.Component {
         this._toggleDropdownMenu = this._toggleDropdownMenu.bind(this);
         this._closeDropdown = this._closeDropdown.bind(this);
         this._closeDropdownSubmenu = this._closeDropdownSubmenu.bind(this);
+        this._closeDropdownSubmenuWithdraw = this._closeDropdownSubmenuWithdraw.bind(
+            this
+        );
+        this._closeDropdownSubmenuDeposit = this._closeDropdownSubmenuDeposit.bind(
+            this
+        );
         this._toggleDropdownSubmenu = this._toggleDropdownSubmenu.bind(this);
+        this._toggleDropdownSubmenuWithdraw = this._toggleDropdownSubmenuWithdraw.bind(
+            this
+        );
+        this._toggleDropdownSubmenuDeposit = this._toggleDropdownSubmenuDeposit.bind(
+            this
+        );
         this._closeMenuDropdown = this._closeMenuDropdown.bind(this);
         this._closeAccountsListDropdown = this._closeAccountsListDropdown.bind(
             this
         );
         this.showDepositModalMeta = this.showDepositModalMeta.bind(this);
-        this.showDepositModalArt = this.showDepositModalArt.bind(this);
+        this.showWithdrawModalMeta = this.showWithdrawModalMeta.bind(this);
+        this.showDepositModalEth = this.showDepositModalEth.bind(this);
+        this.showWithdrawModalEth = this.showWithdrawModalEth.bind(this);
         this.showDepositModal = this.showDepositModal.bind(this);
         this.hideDepositModal = this.hideDepositModal.bind(this);
 
         this.hideDepositModalMeta = this.hideDepositModalMeta.bind(this);
-        this.hideDepositModalArt = this.hideDepositModalArt.bind(this);
+        this.hideWithdrawModalMeta = this.hideWithdrawModalMeta.bind(this);
+        this.hideDepositModalEth = this.hideDepositModalEth.bind(this);
+        this.hideWithdrawModalEth = this.hideWithdrawModalEth.bind(this);
         this.showWithdrawModal = this.showWithdrawModal.bind(this);
         this.hideWithdrawModal = this.hideWithdrawModal.bind(this);
 
@@ -146,21 +169,45 @@ class Header extends React.Component {
         });
     }
 
+    showDepositModalEth() {
+        this.setState({
+            isDepositModalVisibleEth: true
+        });
+    }
+
     _showDepositMeta(e) {
         e.preventDefault();
         this.showDepositModalMeta();
         this._closeDropdown();
     }
 
-    showDepositModalArt() {
+    _showDepositEth(e) {
+        e.preventDefault();
+        this.showDepositModalEth();
+        this._closeDropdown();
+    }
+
+    showWithdrawModalMeta() {
         this.setState({
-            isDepositModalVisibleArt: true
+            isWithdrawModalVisibleMeta: true
         });
     }
 
-    _showDepositArt(e) {
+    showWithdrawModalEth() {
+        this.setState({
+            isWithdrawModalVisibleEth: true
+        });
+    }
+
+    _showWithdrawMeta(e) {
         e.preventDefault();
-        this.showDepositModalArt();
+        this.showWithdrawModalMeta();
+        this._closeDropdown();
+    }
+
+    _showWithdrawEth(e) {
+        e.preventDefault();
+        this.showWithdrawModalEth();
         this._closeDropdown();
     }
 
@@ -179,6 +226,10 @@ class Header extends React.Component {
             nextState.dropdownActive !== this.state.dropdownActive ||
             nextState.dropdownSubmenuActive !==
                 this.state.dropdownSubmenuActive ||
+            nextState.dropdownSubmenuActiveWithdraw !==
+                this.state.dropdownSubmenuActiveWithdraw ||
+            nextState.dropdownSubmenuActiveDeposit !==
+                this.state.dropdownSubmenuActiveDeposit ||
             nextState.accountsListDropdownActive !==
                 this.state.accountsListDropdownActive ||
             nextProps.height !== this.props.height ||
@@ -198,9 +249,21 @@ class Header extends React.Component {
         });
     }
 
-    hideDepositModalArt() {
+    hideWithdrawModalMeta() {
         this.setState({
-            isDepositModalVisibleArt: false
+            isWithdrawModalVisibleMeta: false
+        });
+    }
+
+    hideDepositModalEth() {
+        this.setState({
+            isDepositModalVisibleEth: false
+        });
+    }
+
+    hideWithdrawModalEth() {
+        this.setState({
+            isWithdrawModalVisibleEth: false
         });
     }
 
@@ -279,10 +342,28 @@ class Header extends React.Component {
         }
     }
 
+    _closeDropdownSubmenuWithdraw() {
+        if (this.state.dropdownSubmenuActiveWithdraw) {
+            this.setState({
+                dropdownSubmenuActiveWithdraw: false
+            });
+        }
+    }
+
+    _closeDropdownSubmenuDeposit() {
+        if (this.state.dropdownSubmenuActiveDeposit) {
+            this.setState({
+                dropdownSubmenuActiveDeposit: false
+            });
+        }
+    }
+
     _closeDropdown() {
         this._closeMenuDropdown();
         this._closeAccountsListDropdown();
         this._closeDropdownSubmenu();
+        this._closeDropdownSubmenuWithdraw();
+        this._closeDropdownSubmenuDeposit();
     }
 
     _onGoBack(e) {
@@ -335,6 +416,32 @@ class Header extends React.Component {
         });
     }
 
+    _toggleDropdownSubmenuDeposit(
+        item = this.state.dropdownSubmenuActiveItemDeposit,
+        e
+    ) {
+        if (e) e.stopPropagation();
+
+        this.setState({
+            dropdownSubmenuActiveDeposit: !this.state
+                .dropdownSubmenuActiveDeposit,
+            dropdownSubmenuActiveItemDeposit: item
+        });
+    }
+
+    _toggleDropdownSubmenuWithdraw(
+        item = this.state.dropdownSubmenuActiveItemWithdraw,
+        e
+    ) {
+        if (e) e.stopPropagation();
+
+        this.setState({
+            dropdownSubmenuActiveWithdraw: !this.state
+                .dropdownSubmenuActiveWithdraw,
+            dropdownSubmenuActiveItemWithdraw: item
+        });
+    }
+
     _toggleDropdownMenu() {
         this.setState({
             dropdownActive: !this.state.dropdownActive
@@ -368,6 +475,8 @@ class Header extends React.Component {
         if (!insideMenuDropdown) {
             this._closeMenuDropdown();
             this._closeDropdownSubmenu();
+            this._closeDropdownSubmenuWithdraw();
+            this._closeDropdownSubmenuDeposit();
         }
     }
 
@@ -394,7 +503,7 @@ class Header extends React.Component {
             !!a &&
             Apis.instance() &&
             Apis.instance().chain_id &&
-            Apis.instance().chain_id.substr(0, 8) === "4018d784";
+            Apis.instance().chain_id.substr(0, 8) === "b168681c";
 
         if (starredAccounts.size) {
             for (let i = tradingAccounts.length - 1; i >= 0; i--) {
@@ -453,7 +562,7 @@ class Header extends React.Component {
 
         let tradeUrl = this.props.lastMarket
             ? `/market/${this.props.lastMarket}`
-            : "/market/USD_META";
+            : "/market/USD_META1";
 
         // Account selector: Only active inside the exchange
         let account_display_name, accountsList;
@@ -977,6 +1086,96 @@ class Header extends React.Component {
             )
         };
 
+        const withdraw = {
+            [SUBMENUS.WITHDRAW]: (
+                <ul
+                    className="dropdown header-menu header-submenu"
+                    style={{
+                        left: -200,
+                        top: 64,
+                        maxHeight: !this.state.dropdownActive ? 0 : maxHeight,
+                        overflowY: "auto"
+                    }}
+                >
+                    <li
+                        className="divider parent-item"
+                        onClick={this._toggleDropdownSubmenuWithdraw.bind(
+                            this,
+                            undefined
+                        )}
+                    >
+                        <div className="table-cell">
+                            <span className="parent-item-icon">&lt;</span>
+                            <Translate
+                                content="modal.deposit.header_short_w"
+                                component="span"
+                                className="parent-item-name"
+                            />
+                        </div>
+                    </li>
+                    <li onClick={this._showWithdrawEth.bind(this)}>
+                        <Translate
+                            content="modal.deposit.eth_withdraw"
+                            component="div"
+                            className="table-cell"
+                        />
+                    </li>
+                    <li onClick={this._showWithdrawMeta.bind(this)}>
+                        <Translate
+                            content="modal.deposit.btc_withdraw"
+                            component="div"
+                            className="table-cell"
+                        />
+                    </li>
+                </ul>
+            )
+        };
+
+        const deposit = {
+            [SUBMENUS.DEPOSIT]: (
+                <ul
+                    className="dropdown header-menu header-submenu"
+                    style={{
+                        left: -200,
+                        top: 64,
+                        maxHeight: !this.state.dropdownActive ? 0 : maxHeight,
+                        overflowY: "auto"
+                    }}
+                >
+                    <li
+                        className="divider parent-item"
+                        onClick={this._toggleDropdownSubmenuDeposit.bind(
+                            this,
+                            undefined
+                        )}
+                    >
+                        <div className="table-cell">
+                            <span className="parent-item-icon">&lt;</span>
+                            <Translate
+                                content="modal.deposit.header_short"
+                                component="span"
+                                className="parent-item-name"
+                            />
+                        </div>
+                    </li>
+                    <li onClick={this._showDepositEth.bind(this)}>
+                        <Translate
+                            content="modal.deposit.eth"
+                            component="div"
+                            className="table-cell"
+                        />
+                    </li>
+                    <li onClick={this._showDepositMeta.bind(this)}>
+                        <Translate
+                            content="modal.deposit.bitshares"
+                            component="div"
+                            className="table-cell"
+                        />
+                    </li>
+                </ul>
+            )
+        };
+
         return (
             <div className="header-container" style={{minHeight: "64px"}}>
                 <div>
@@ -1278,34 +1477,54 @@ class Header extends React.Component {
 
                         {(this.state.dropdownSubmenuActive &&
                             submenus[this.state.dropdownSubmenuActiveItem] &&
-                            submenus[this.state.dropdownSubmenuActiveItem]) || (
-                            <DropDownMenu
-                                dropdownActive={this.state.dropdownActive}
-                                toggleLock={this._toggleLock.bind(this)}
-                                maxHeight={maxHeight}
-                                locked={this.props.locked}
-                                active={active}
-                                passwordLogin={passwordLogin}
-                                onNavigate={this._onNavigate.bind(this)}
-                                isMyAccount={isMyAccount}
-                                contacts={this.props.contacts}
-                                showAccountLinks={showAccountLinks}
-                                tradeUrl={tradeUrl}
-                                currentAccount={currentAccount}
-                                enableDepositWithdraw={enableDepositWithdraw}
-                                showDeposit={this._showDeposit.bind(this)}
-                                showWithdraw={this._showWithdraw.bind(this)}
-                                showSend={this._showSend.bind(this)}
-                                showDepositMeta={this._showDepositMeta.bind(
-                                    this
-                                )}
-                                showDepositArt={this._showDepositArt.bind(this)}
-                                toggleDropdownSubmenu={this._toggleDropdownSubmenu.bind(
-                                    this,
-                                    SUBMENUS.SETTINGS
-                                )}
-                            />
-                        )}
+                            submenus[this.state.dropdownSubmenuActiveItem]) ||
+                            (this.state.dropdownSubmenuActiveWithdraw &&
+                                withdraw[
+                                    this.state.dropdownSubmenuActiveItemWithdraw
+                                ] &&
+                                withdraw[
+                                    this.state.dropdownSubmenuActiveItemWithdraw
+                                ]) ||
+                            (this.state.dropdownSubmenuActiveDeposit &&
+                                deposit[
+                                    this.state.dropdownSubmenuActiveItemDeposit
+                                ] &&
+                                deposit[
+                                    this.state.dropdownSubmenuActiveItemDeposit
+                                ]) || (
+                                <DropDownMenu
+                                    dropdownActive={this.state.dropdownActive}
+                                    toggleLock={this._toggleLock.bind(this)}
+                                    maxHeight={maxHeight}
+                                    locked={this.props.locked}
+                                    active={active}
+                                    passwordLogin={passwordLogin}
+                                    onNavigate={this._onNavigate.bind(this)}
+                                    isMyAccount={isMyAccount}
+                                    contacts={this.props.contacts}
+                                    showAccountLinks={showAccountLinks}
+                                    tradeUrl={tradeUrl}
+                                    currentAccount={currentAccount}
+                                    enableDepositWithdraw={
+                                        enableDepositWithdraw
+                                    }
+                                    showDeposit={this._showDeposit.bind(this)}
+                                    showWithdraw={this._showWithdraw.bind(this)}
+                                    showSend={this._showSend.bind(this)}
+                                    toggleDropdownSubmenu={this._toggleDropdownSubmenu.bind(
+                                        this,
+                                        SUBMENUS.SETTINGS
+                                    )}
+                                    toggleDropdownSubmenuWithdraw={this._toggleDropdownSubmenuWithdraw.bind(
+                                        this,
+                                        SUBMENUS.WITHDRAW
+                                    )}
+                                    toggleDropdownSubmenuDeposit={this._toggleDropdownSubmenuDeposit.bind(
+                                        this,
+                                        SUBMENUS.DEPOSIT
+                                    )}
+                                />
+                            )}
                     </div>
                 </div>
                 <SendModal
@@ -1315,18 +1534,6 @@ class Header extends React.Component {
                     }}
                     from_name={currentAccount}
                 />
-                {this.state.hasDepositModalBeenShown ||
-                    (this.state.isDepositModalVisible && (
-                        <DepositModal
-                            visible={this.state.isDepositModalVisible}
-                            hideModal={this.hideDepositModal}
-                            showModal={this.showDepositModal}
-                            ref="deposit_modal_new"
-                            modalId="deposit_modal_new"
-                            account={currentAccount}
-                            backedCoins={this.props.backedCoins}
-                        />
-                    ))}
                 <DepositModalMeta
                     visibleMeta={this.state.isDepositModalVisibleMeta}
                     hideModalMeta={this.hideDepositModalMeta}
@@ -1335,25 +1542,30 @@ class Header extends React.Component {
                     modalId="deposit_modal_new1"
                     account={currentAccount}
                 />
-                <SubmitArt
-                    visibleArt={this.state.isDepositModalVisibleArt}
-                    hideModalArt={this.hideDepositModalArt}
-                    showModalArt={this.showDepositModalArt}
-                    ref="deposit_modal_new2"
-                    modalId="deposit_modal_new2"
+                <WithdrawModalMeta
+                    visibleMeta={this.state.isWithdrawModalVisibleMeta}
+                    hideModalMeta={this.hideWithdrawModalMeta}
+                    showModalMeta={this.showWithdrawModalMeta}
+                    ref="deposit_modal_new12"
+                    modalId="deposit_modal_new12"
                     account={currentAccount}
                 />
-                {this.state.hasWithdrawalModalBeenShown ||
-                    (this.state.isWithdrawModalVisible && (
-                        <WithdrawModal
-                            visible={this.state.isWithdrawModalVisible}
-                            hideModal={this.hideWithdrawModal}
-                            showModal={this.showWithdrawModal}
-                            ref="withdraw_modal_new"
-                            modalId="withdraw_modal_new"
-                            backedCoins={this.props.backedCoins}
-                        />
-                    ))}
+                <DepositModalEth
+                    visibleMeta={this.state.isDepositModalVisibleEth}
+                    hideModalMeta={this.hideDepositModalEth}
+                    showModalMeta={this.showDepositModalEth}
+                    ref="deposit_modal_new11"
+                    modalId="deposit_modal_new11"
+                    account={currentAccount}
+                />
+                <WithdrawModalEth
+                    visibleMeta={this.state.isWithdrawModalVisibleEth}
+                    hideModalMeta={this.hideWithdrawModalEth}
+                    showModalMeta={this.showWithdrawModalEth}
+                    ref="withdraw_modal_new122"
+                    modalId="withdraw_modal_new122"
+                    account={currentAccount}
+                />
             </div>
         );
     }

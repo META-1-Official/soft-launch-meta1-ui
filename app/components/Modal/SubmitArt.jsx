@@ -82,22 +82,25 @@ class DepositModalContent extends DecimalChecker {
 
     sendData(data) {
         (async () => {
-            const rawResponse = await fetch("http://66.165.234.218/api/books", {
-                method: "POST",
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(data)
-            });
+            const rawResponse = await fetch(
+                "https://luna.meta-exchange.info/api/books",
+                {
+                    method: "POST",
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(data)
+                }
+            );
             const content = await rawResponse.json();
 
             console.log(content);
         })();
         alert(
-            "You can check status of your submission here:\n\n http://66.165.234.218"
+            "You can check status of your submission here:\n\n https://luna.meta-exchange.info"
         );
-        window.open("http://66.165.234.218", "_blank");
+        window.open("https://luna.meta-exchange.info", "_blank");
         this.props.hideModal();
     }
 

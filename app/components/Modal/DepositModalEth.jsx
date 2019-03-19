@@ -60,7 +60,7 @@ class DepositModalContent extends DecimalChecker {
 
     componentDidMount() {
         (() => {
-            fetch("https://aphrodite.meta-exchange.info/api/btc-init", {
+            fetch("https://aphrodite.meta-exchange.info/api/eth-init", {
                 method: "POST",
                 headers: {
                     Accept: "application/json, text/plain, */*",
@@ -87,7 +87,7 @@ class DepositModalContent extends DecimalChecker {
     render() {
         return (
             <div>
-                <h5>Your deposit address for BTC:</h5>
+                <h5>Your deposit address for ETH:</h5>
                 <div
                     style={{
                         display: "flex",
@@ -102,9 +102,9 @@ class DepositModalContent extends DecimalChecker {
                     <CopyButton text={this.state.depositAddress} />
                 </div>
                 <h6>
-                    IMPORTANT: Send only BTC to this deposit address. Sending
-                    less than 0.001 BTC or any other currency to this address
-                    may result in the loss of your deposit.
+                    IMPORTANT: Send only ETH to this deposit address. Sending
+                    less than 0.01 ETH or any other currency to this address may
+                    result in the loss of your deposit.
                 </h6>
             </div>
         );

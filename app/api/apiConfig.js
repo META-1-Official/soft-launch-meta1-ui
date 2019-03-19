@@ -124,14 +124,94 @@ export const nodeRegions = [
 export const settingsAPIs = {
     // If you want a location to be translated, add the translation to settings in locale-xx.js
     // and use an object {translate: key} in WS_NODE_LIST
-    DEFAULT_WS_NODE: "ws://66.165.226.210/socket",
+    DEFAULT_WS_NODE: "wss://seraphim.meta-exchange.info/socket",
     WS_NODE_LIST: [
         {
-            url: "ws://66.165.226.210/socket",
+            url: "wss://aphrodite.meta-exchange.info/socket",
             region: "METANET - New York",
-            country: "USA",
-            location: "New York City",
-            operator: "Witness: Rostislav G.",
+            country: "META",
+            location: "Default Node",
+            operator: "Witness: META Official 1",
+            contact: "telegram:@Avowedly"
+        },
+        {
+            url: "wss://seraphim.meta-exchange.info/socket",
+            region: "METANET",
+            country: "META",
+            location: "Default Node",
+            operator: "Witness: META Official 2",
+            contact: "telegram:@Avowedly"
+        },
+        {
+            url: "wss://celaeno.meta-exchange.info//socket",
+            region: "METANET",
+            country: "META",
+            location: "New Node",
+            operator: "Witness: META Official 3",
+            contact: "telegram:@Avowedly"
+        },
+        {
+            url: "wss://merope.meta-exchange.info/socket",
+            region: "METANET",
+            country: "META",
+            location: "New Node",
+            operator: "Witness: META Official 4",
+            contact: "telegram:@Avowedly"
+        },
+        {
+            url: "wss://asterope.meta-exchange.info/socket",
+            region: "METANET",
+            country: "META",
+            location: "New Node",
+            operator: "Witness: META Official 5",
+            contact: "telegram:@Avowedly"
+        },
+        {
+            url: "wss://taygete.meta-exchange.info/socket",
+            region: "METANET",
+            country: "META",
+            location: "New Node",
+            operator: "Witness: META Official 6",
+            contact: "telegram:@Avowedly"
+        },
+        {
+            url: "wss://alcyone.meta-exchange.info/socket",
+            region: "METANET",
+            country: "META",
+            location: "New Node",
+            operator: "Witness: META Official 7",
+            contact: "telegram:@Avowedly"
+        },
+        {
+            url: "wss://pleione.meta-exchange.info/socket",
+            region: "METANET",
+            country: "META",
+            location: "New Node",
+            operator: "Witness: META Official 8",
+            contact: "telegram:@Avowedly"
+        },
+        {
+            url: "wss://atlas.meta-exchange.info/socket",
+            region: "METANET",
+            country: "META",
+            location: "New Node",
+            operator: "Witness: META Official 9",
+            contact: "telegram:@Avowedly"
+        },
+        {
+            url: "wss://zeus.meta-exchange.info/socket",
+            region: "METANET",
+            country: "META",
+            location: "New Node",
+            operator: "Witness: META Official 10",
+            contact: "telegram:@Avowedly"
+        },
+        {
+            url: "wss://hathor.meta-exchange.info/socket",
+            region: "METANET",
+            country: "META",
+            location: "New Node",
+            operator: "Witness: META Official 11",
             contact: "telegram:@Avowedly"
         }
     ],

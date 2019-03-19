@@ -275,7 +275,7 @@ class ImportKeys extends Component {
                 pubkey
             ).toAddressString();
             let addresses = account_addresses[account_name] || [];
-            address = "META" + address.substring(3);
+            address = "META1" + address.substring(3);
             //DEBUG console.log("... address",address,account_name)
             addresses.push(address);
             account_addresses[account_name] = addresses;

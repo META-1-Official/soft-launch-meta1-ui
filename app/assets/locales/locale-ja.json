@@ -1307,9 +1307,13 @@
             "close": "閉じる",
             "header": "%(account_name)sに入金",
             "header_short": "入金",
+            "header_short_w": "Withdraw",
             "submit": "入金",
             "art": "Tokenize your art",
-            "bitshares": "Deposit META coins"
+            "bitshares": "Deposit BTC",
+            "eth": "Deposit ETH",
+            "btc_withdraw": "Withdraw BTC",
+            "eth_withdraw": "Withdraw ETH"
         },
         "deposit_withdraw": {
             "disabled": "ゲートウェイサービスが無効",

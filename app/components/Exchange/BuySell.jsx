@@ -1216,42 +1216,6 @@ class BuySell extends React.Component {
                                             Clear
                                         </Button> */}
 
-                                        {this.props.currentBridges &&
-                                        !this.props.backedCoin ? (
-                                            <Tooltip
-                                                title={counterpart.translate(
-                                                    "exchange.quick_deposit_bridge",
-                                                    {
-                                                        target: isBid
-                                                            ? baseName
-                                                            : quoteName
-                                                    }
-                                                )}
-                                            >
-                                                <Button
-                                                    style={{margin: 5}}
-                                                    onClick={this.props.onBuy.bind(
-                                                        this
-                                                    )}
-                                                    disabled={
-                                                        !this.props
-                                                            .currentAccount ||
-                                                        this.props.currentAccount.get(
-                                                            "id"
-                                                        ) === "1.2.3"
-                                                    }
-                                                >
-                                                    <Translate
-                                                        content="exchange.quick_deposit"
-                                                        asset={
-                                                            isBid
-                                                                ? baseName
-                                                                : quoteName
-                                                        }
-                                                    />
-                                                </Button>
-                                            </Tooltip>
-                                        ) : null}
                                         {this.props.backedCoin &&
                                         !this.props.currentBridges ? (
                                             <Tooltip
@@ -1304,50 +1268,6 @@ class BuySell extends React.Component {
                                                 onVisibleChange={
                                                     this
                                                         .handleQuickDepositVisibleChange
-                                                }
-                                                content={
-                                                    <div>
-                                                        <Tooltip
-                                                            title={counterpart.translate(
-                                                                "exchange.quick_deposit_gateway",
-                                                                {
-                                                                    asset: isBid
-                                                                        ? baseName
-                                                                        : quoteName
-                                                                }
-                                                            )}
-                                                        >
-                                                            <Button
-                                                                style={{
-                                                                    marginRight: 5
-                                                                }}
-                                                                onClick={this.onDeposit.bind(
-                                                                    this
-                                                                )}
-                                                            >
-                                                                <Translate content="exchange.quick_deposit_gateway_button" />
-                                                            </Button>
-                                                        </Tooltip>
-
-                                                        <Tooltip
-                                                            title={counterpart.translate(
-                                                                "exchange.quick_deposit_bridge",
-                                                                {
-                                                                    target: isBid
-                                                                        ? baseName
-                                                                        : quoteName
-                                                                }
-                                                            )}
-                                                        >
-                                                            <Button
-                                                                onClick={this.onBuy.bind(
-                                                                    this
-                                                                )}
-                                                            >
-                                                                <Translate content="exchange.quick_deposit_bridge_button" />
-                                                            </Button>
-                                                        </Tooltip>
-                                                    </div>
                                                 }
                                             >
                                                 <Tooltip

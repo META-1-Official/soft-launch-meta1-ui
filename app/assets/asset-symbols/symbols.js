@@ -78,4 +78,4 @@ require("file-loader?name=asset-symbols/[name].png!./ltc.png");
 require("file-loader?name=asset-symbols/[name].png!./post.png");
 require("file-loader?name=asset-symbols/[name].png!./bch.png");
 require("file-loader?name=asset-symbols/[name].png!./btg.png");
-require("file-loader?name=asset-symbols/[name].png!./meta.png");
+require("file-loader?name=asset-symbols/[name].png!./meta1.png");
