@@ -2,8 +2,8 @@
     "name": "META-light",
     "version": "2.0.190123-rc1",
     "description": "Advanced wallet interface for the BitShares financial blockchain.",
-    "homepage": "https://github.com/bitshares/bitshares-ui",
-    "author": "Sigve Kvalsvik <kvalsvik.crypto@gmail.com>",
+    "homepage": "https://github.com/meta-source/meta-ui-original",
+    "author": "Rostislav Gogolauri <go.go.gg.rostislav@gmail@gmail.com>",
     "contributors": [
         "BitShares UI Worker",
         "James Calfee",

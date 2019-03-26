@@ -1313,8 +1313,10 @@
             "art": "Tokenize your art",
             "bitshares": "Deposit BTC",
             "eth": "Deposit ETH",
+            "ltc": "Deposit LTC",
             "btc_withdraw": "Withdraw BTC",
-            "eth_withdraw": "Withdraw ETH"
+            "eth_withdraw": "Withdraw ETH",
+            "ltc_withdraw:": "Withdraw LTC"
         },
         "deposit_withdraw": {
             "disabled": "%(gateway)s gateway service disabled",

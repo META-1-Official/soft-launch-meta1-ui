@@ -45,16 +45,6 @@ export const cryptoBridgeAPIs = {
     TRADING_PAIRS: "/trading-pairs"
 };
 
-export const widechainAPIs = {
-    BASE: "https://gateway.winex.pro/api/v0/ol/support",
-    COINS_LIST: "/coins",
-    ACTIVE_WALLETS: "/active-wallets",
-    NEW_DEPOSIT_ADDRESS: "/new-deposit-address",
-    WITHDRAW_HISTORY: "/latelyWithdraw",
-    TRADING_PAIRS: "/trading-pairs",
-    DEPOSIT_HISTORY: "/latelyRecharge"
-};
-
 export const citadelAPIs = {
     BASE: "https://citadel.li/trade",
     COINS_LIST: "/coins",
@@ -128,90 +118,90 @@ export const settingsAPIs = {
     WS_NODE_LIST: [
         {
             url: "wss://aphrodite.meta-exchange.info/socket",
-            region: "METANET - New York",
-            country: "META",
-            location: "Default Node",
-            operator: "Witness: META Official 1",
+            region: "Aphrodite - Los Angeles",
+            country: "META1",
+            location: "USA",
+            operator: "Witness: Love",
             contact: "telegram:@Avowedly"
         },
         {
             url: "wss://seraphim.meta-exchange.info/socket",
-            region: "METANET",
-            country: "META",
-            location: "Default Node",
-            operator: "Witness: META Official 2",
+            region: "Seraphim - Los Angeles",
+            country: "META1",
+            location: "USA",
+            operator: "Witness: Unity",
             contact: "telegram:@Avowedly"
         },
         {
             url: "wss://celaeno.meta-exchange.info//socket",
-            region: "METANET",
-            country: "META",
-            location: "New Node",
-            operator: "Witness: META Official 3",
+            region: "Celaeno - Virginia",
+            country: "META1",
+            location: "USA",
+            operator: "Witness: Abundance",
             contact: "telegram:@Avowedly"
         },
         {
             url: "wss://merope.meta-exchange.info/socket",
-            region: "METANET",
-            country: "META",
-            location: "New Node",
-            operator: "Witness: META Official 4",
+            region: "Merope - Ireland",
+            country: "META1",
+            location: "Ireland",
+            operator: "Witness: Victory",
             contact: "telegram:@Avowedly"
         },
         {
             url: "wss://asterope.meta-exchange.info/socket",
-            region: "METANET",
-            country: "META",
-            location: "New Node",
-            operator: "Witness: META Official 5",
+            region: "Asterope - London",
+            country: "META1",
+            location: "UK",
+            operator: "Witness: Trust",
             contact: "telegram:@Avowedly"
         },
         {
             url: "wss://taygete.meta-exchange.info/socket",
-            region: "METANET",
-            country: "META",
-            location: "New Node",
-            operator: "Witness: META Official 6",
+            region: "Taygete - Frankfurt",
+            country: "META1",
+            location: "Germany",
+            operator: "Witness: Honor",
             contact: "telegram:@Avowedly"
         },
         {
             url: "wss://alcyone.meta-exchange.info/socket",
-            region: "METANET",
-            country: "META",
-            location: "New Node",
-            operator: "Witness: META Official 7",
+            region: "Alcyone - Paris",
+            country: "META1",
+            location: "France",
+            operator: "Witness: Harmony",
             contact: "telegram:@Avowedly"
         },
         {
             url: "wss://pleione.meta-exchange.info/socket",
-            region: "METANET",
-            country: "META",
-            location: "New Node",
-            operator: "Witness: META Official 8",
+            region: "Pleione - Canada (Central)",
+            country: "META1",
+            location: "Canada",
+            operator: "Witness: Balance",
             contact: "telegram:@Avowedly"
         },
         {
             url: "wss://atlas.meta-exchange.info/socket",
-            region: "METANET",
-            country: "META",
-            location: "New Node",
-            operator: "Witness: META Official 9",
+            region: "Atlas - Singapore",
+            country: "META1",
+            location: "Singapore",
+            operator: "Witness: Freedom",
             contact: "telegram:@Avowedly"
         },
         {
             url: "wss://zeus.meta-exchange.info/socket",
-            region: "METANET",
-            country: "META",
-            location: "New Node",
-            operator: "Witness: META Official 10",
+            region: "Zeus - Seoul",
+            country: "META1",
+            location: "South Korea",
+            operator: "Witness: Wisdom",
             contact: "telegram:@Avowedly"
         },
         {
             url: "wss://hathor.meta-exchange.info/socket",
-            region: "METANET",
-            country: "META",
-            location: "New Node",
-            operator: "Witness: META Official 11",
+            region: "Hathor - Sydney",
+            country: "META1",
+            location: "Australia",
+            operator: "Witness: Awareness",
             contact: "telegram:@Avowedly"
         }
     ],

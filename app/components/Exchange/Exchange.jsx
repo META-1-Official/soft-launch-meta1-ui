@@ -1002,10 +1002,13 @@ class Exchange extends React.Component {
                                     ) {
                                         swal(
                                             "META1 Coins cannot be sold for less than asset value",
-                                            "META1 Coins cannot be sold for less than asset value.  Asset value is currently $" +
+                                            "Current asset value is $" +
                                                 data +
-                                                " per META1",
-                                            "warning"
+                                                " per META1 coin",
+                                            "warning",
+                                            {
+                                                buttons: false
+                                            }
                                         );
                                     } else if (
                                         current.for_sale.asset_id === "1.3.0" &&
@@ -1014,10 +1017,13 @@ class Exchange extends React.Component {
                                     ) {
                                         swal(
                                             "META1 Coins cannot be sold for less than asset value",
-                                            "META1 Coins cannot be sold for less than asset value. The coin can't be sold for more than " +
+                                            "Current asset value is " +
                                                 1 / data +
-                                                " META1 per USD",
-                                            "warning"
+                                                " per USD",
+                                            "warning",
+                                            {
+                                                buttons: false
+                                            }
                                         );
                                     } else {
                                         return MarketsActions.createLimitOrder2(
