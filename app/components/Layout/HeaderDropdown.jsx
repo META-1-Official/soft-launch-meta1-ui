@@ -187,6 +187,23 @@ export default class DropDownMenu extends React.Component {
                         <Translate content="header.explorer" />
                     </div>
                 </li>
+
+                <li
+                    className={cnames(
+                        {
+                            active: active.indexOf("/arts") !== -1
+                        },
+                        "column-show-small"
+                    )}
+                    onClick={this.props.onNavigate.bind(this, "/arts")}
+                >
+                    <div className="table-cell">
+                        <Icon size="2x" name="showcases" title="icons.arts" />
+                    </div>
+                    <div className="table-cell">
+                        <Translate content="header.arts" />
+                    </div>
+                </li>
                 <li
                     className={cnames(
                         {
@@ -238,7 +255,6 @@ export default class DropDownMenu extends React.Component {
                         disabled: !showAccountLinks,
                         mainText: "header.payments",
                         mainCallback: this.props.showSend,
-                        subText: "header.payments_legacy",
                         subURL: "/transfer"
                     }
                 ].map(
@@ -402,27 +418,73 @@ export default class DropDownMenu extends React.Component {
                         <Translate content="account.voting" />
                     </div>
                 </li>
-
                 <li
                     className={cnames({
                         active:
-                            active.indexOf("/assets") !== -1 &&
+                            active.indexOf("/trezor") !== -1 &&
                             active.indexOf("/account/") !== -1,
                         disabled: !showAccountLinks
                     })}
-                    onClick={this.props.onNavigate.bind(
-                        this,
-                        `/account/${currentAccount}/assets`
-                    )}
+                    onClick={() =>
+                        window.open(
+                            "https://beta-wallet.trezor.io/next/#/",
+                            "_blank"
+                        )
+                    }
                 >
                     <div className="table-cell">
-                        <Icon size="2x" name="assets" title="icons.assets" />
+                        <Icon size="2x" name="shuffle" title="icons.voting" />
                     </div>
                     <div className="table-cell">
-                        <Translate content="explorer.assets.title" />
+                        <Translate content="explorer.assets.trezor" />
                     </div>
                 </li>
-
+                <li
+                    className={cnames({
+                        active:
+                            active.indexOf("/ledger") !== -1 &&
+                            active.indexOf("/account/") !== -1,
+                        disabled: !showAccountLinks
+                    })}
+                    onClick={() =>
+                        window.open(
+                            "https://shop.ledger.com/pages/ledger-live",
+                            "_blank"
+                        )
+                    }
+                >
+                    <div className="table-cell">
+                        <Icon size="2x" name="voting" title="icons.voting" />
+                    </div>
+                    <div className="table-cell">
+                        <Translate content="explorer.assets.ledger" />
+                    </div>
+                </li>
+                {AccountStore.getState().currentAccount === "meta1" && (
+                    <li
+                        className={cnames({
+                            active:
+                                active.indexOf("/assets") !== -1 &&
+                                active.indexOf("/account/") !== -1,
+                            disabled: !showAccountLinks
+                        })}
+                        onClick={this.props.onNavigate.bind(
+                            this,
+                            `/account/${currentAccount}/assets`
+                        )}
+                    >
+                        <div className="table-cell">
+                            <Icon
+                                size="2x"
+                                name="assets"
+                                title="icons.assets"
+                            />
+                        </div>
+                        <div className="table-cell">
+                            <Translate content="explorer.assets.title" />
+                        </div>
+                    </li>
+                )}
                 <li
                     className={cnames({
                         active: active.indexOf("/signedmessages") !== -1,

@@ -804,8 +804,10 @@
             "issuer": "Issuer",
             "market": "SmartCoins",
             "precision": "Precision",
+            "ledger": "Connect with Ledger Nano",
             "prediction": "Prediction market assets",
             "symbol": "Symbol",
+            "trezor": "Connect with Trezor",
             "title": "Assets",
             "units": "Units",
             "user": "User Issued Assets"
@@ -1102,6 +1104,7 @@
     },
     "header": {
         "account": "Account",
+        "arts": "Arts",
         "account_notify": "The active account is now %(account)s",
         "account_value": "Account value",
         "accounts_manage": "Manage Accounts",

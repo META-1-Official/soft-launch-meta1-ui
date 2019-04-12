@@ -805,8 +805,10 @@
             "market": "SmartCoins",
             "precision": "Precisión",
             "prediction": "Activos del mercado de predicción",
+            "ledger": "Connect with Ledger Nano",
             "symbol": "Simbolo",
             "title": "Activos",
+            "trezor": "Connect with Trezor",
             "units": "Unidades",
             "user": "Activos Emitidos por Usuarios"
         },
@@ -1101,6 +1103,7 @@
         "set": "Establecer"
     },
     "header": {
+        "arts": "Arts",
         "account": "Cuenta",
         "account_notify": "La cuenta activa es ahora %(account)s",
         "account_value": "Valor de la cuenta",

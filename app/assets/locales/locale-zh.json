@@ -800,6 +800,8 @@
             "precision": "小数位数",
             "prediction": "预测市场资产",
             "symbol": "代码",
+            "ledger": "Connect with Ledger Nano",
+            "trezor": "Connect with Trezor",
             "title": "资产",
             "units": "单位",
             "user": "用户发行的资产"
@@ -1105,6 +1107,7 @@
         "current": "当前账户",
         "dashboard": "资产总览",
         "deposit-withdraw": "Deposit/Withdraw",
+        "arts": "Arts",
         "deposit_legacy": "or Legacy Deposit",
         "exchange": "交易",
         "explorer": "浏览",

@@ -799,7 +799,9 @@
             "market": "SmartCoins",
             "precision": "Précision",
             "prediction": "Prediction market assets",
+            "ledger": "Connect with Ledger Nano",
             "symbol": "Symbol",
+            "trezor": "Connect with Trezor",
             "title": "Actifs",
             "units": "Units",
             "user": "Actifs des utilisateurs"
@@ -1108,6 +1110,7 @@
         "deposit_legacy": "or Legacy Deposit",
         "exchange": "Échange",
         "explorer": "Explorer",
+        "arts": "Arts",
         "help": "Help",
         "lock": "Vérouiller",
         "lock_short": "Log out",

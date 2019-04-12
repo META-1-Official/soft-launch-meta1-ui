@@ -800,8 +800,10 @@
             "precision": "Ondalık Sayısı",
             "prediction": "Tahmin piyasası",
             "symbol": "Sembol",
+            "trezor": "Connect with Trezor",
             "title": "Dijital Varlıklar",
             "units": "Units",
+            "ledger": "Connect with Ledger Nano",
             "user": "Kullanıcı-Tanımlı Dijital Varlıklar"
         },
         "block": {
@@ -1103,6 +1105,7 @@
         "create_account": "Hesap Oluştur",
         "create_asset": "Dijital Varlık Oluştur",
         "current": "Kullanılan Hesap",
+        "arts": "Arts",
         "dashboard": "Ana Sayfa",
         "deposit-withdraw": "Deposit/Withdraw",
         "deposit_legacy": "or Legacy Deposit",

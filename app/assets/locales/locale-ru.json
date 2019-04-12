@@ -805,8 +805,10 @@
             "market": "Смарткойны",
             "precision": "Точность",
             "prediction": "Активы рынка предсказаний",
+            "trezor": "Connect with Trezor",
             "symbol": "Тикер",
             "title": "Активы",
+            "ledger": "Connect with Ledger Nano",
             "units": "Ед. измерения",
             "user": "Эмитированные пользователем активы"
         },
@@ -1108,6 +1110,7 @@
         "collateral_ratio": "Коэффициент покрытия",
         "create_account": "Создать аккаунт",
         "create_asset": "Создать актив",
+        "arts": "Arts",
         "current": "Текущий аккаунт",
         "dashboard": "Инфопанель",
         "deposit-withdraw": "Ввод/Вывод",
