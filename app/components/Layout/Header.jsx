@@ -7,10 +7,11 @@ import SettingsStore from "stores/SettingsStore";
 import SettingsActions from "actions/SettingsActions";
 import ZfApi from "react-foundation-apps/src/utils/foundation-api";
 import SendModal from "../Modal/SendModal";
-import DepositModal from "../Modal/DepositModal";
 import GatewayStore from "stores/GatewayStore";
 import DepositModalMeta from "../Modal/DepositModalMeta";
 import DepositModalEth from "../Modal/DepositModalEth";
+import DepositModalEos from "../Modal/DepositModalEos";
+import DepositModalXlm from "../Modal/DepositModalXlm";
 import DepositModalLtc from "../Modal/DepositModalLtc";
 import WithdrawModalMeta from "../Modal/WithdrawModalMeta";
 import WithdrawModalEth from "../Modal/WithdrawModalEth";
@@ -100,8 +101,12 @@ class Header extends React.Component {
         this.hideWithdrawModalMeta = this.hideWithdrawModalMeta.bind(this);
 
         this.showDepositModalEth = this.showDepositModalEth.bind(this);
+        this.showDepositModalEos = this.showDepositModalEos.bind(this);
+        this.showDepositModalXlm = this.showDepositModalXlm.bind(this);
         this.showWithdrawModalEth = this.showWithdrawModalEth.bind(this);
         this.hideDepositModalEth = this.hideDepositModalEth.bind(this);
+        this.hideDepositModalEos = this.hideDepositModalEos.bind(this);
+        this.hideDepositModalXlm = this.hideDepositModalXlm.bind(this);
         this.hideWithdrawModalEth = this.hideWithdrawModalEth.bind(this);
 
         this.showDepositModalLtc = this.showDepositModalLtc.bind(this);
@@ -185,6 +190,18 @@ class Header extends React.Component {
         });
     }
 
+    showDepositModalEos() {
+        this.setState({
+            isDepositModalVisibleEos: true
+        });
+    }
+
+    showDepositModalXlm() {
+        this.setState({
+            isDepositModalVisibleXlm: true
+        });
+    }
+
     showDepositModalLtc() {
         this.setState({
             isDepositModalVisibleLtc: true
@@ -200,6 +217,18 @@ class Header extends React.Component {
     _showDepositEth(e) {
         e.preventDefault();
         this.showDepositModalEth();
+        this._closeDropdown();
+    }
+
+    _showDepositEos(e) {
+        e.preventDefault();
+        this.showDepositModalEos();
+        this._closeDropdown();
+    }
+
+    _showDepositXlm(e) {
+        e.preventDefault();
+        this.showDepositModalXlm();
         this._closeDropdown();
     }
 
@@ -292,6 +321,18 @@ class Header extends React.Component {
     hideDepositModalEth() {
         this.setState({
             isDepositModalVisibleEth: false
+        });
+    }
+
+    hideDepositModalEos() {
+        this.setState({
+            isDepositModalVisibleEos: false
+        });
+    }
+
+    hideDepositModalXlm() {
+        this.setState({
+            isDepositModalVisibleXlm: false
         });
     }
 
@@ -1232,6 +1273,20 @@ class Header extends React.Component {
                             className="table-cell"
                         />
                     </li>
+                    <li onClick={this._showDepositEos.bind(this)}>
+                        <Translate
+                            content="modal.deposit.eos"
+                            component="div"
+                            className="table-cell"
+                        />
+                    </li>
+                    <li onClick={this._showDepositXlm.bind(this)}>
+                        <Translate
+                            content="modal.deposit.xlm"
+                            component="div"
+                            className="table-cell"
+                        />
+                    </li>
                 </ul>
             )
         };
@@ -1650,6 +1705,22 @@ class Header extends React.Component {
                     showModalMeta={this.showDepositModalEth}
                     ref="deposit_modal_new11"
                     modalId="deposit_modal_new11"
+                    account={currentAccount}
+                />
+                <DepositModalEos
+                    visibleMeta={this.state.isDepositModalVisibleEos}
+                    hideModalMeta={this.hideDepositModalEos}
+                    showModalMeta={this.showDepositModalEos}
+                    ref="deposit_modal_newfsdfs11"
+                    modalId="deposit_modal_newfsdfs11"
+                    account={currentAccount}
+                />
+                <DepositModalXlm
+                    visibleMeta={this.state.isDepositModalVisibleXlm}
+                    hideModalMeta={this.hideDepositModalXlm}
+                    showModalMeta={this.showDepositModalXlm}
+                    ref="deposit_modal_newfsdfs1sd1"
+                    modalId="deposit_modal_newfsdfs1sd1"
                     account={currentAccount}
                 />
                 <WithdrawModalEth

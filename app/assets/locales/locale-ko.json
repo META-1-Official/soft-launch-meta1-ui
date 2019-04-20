@@ -1317,9 +1317,15 @@
             "bitshares": "Deposit BTC",
             "eth": "Deposit ETH",
             "ltc": "Deposit LTC",
+            "eos": "Deposit EOS",
+            "xlm": "Deposit XLM",
+            "xrp": "Deposit XRP",
             "btc_withdraw": "Withdraw BTC",
             "eth_withdraw": "Withdraw ETH",
-            "ltc_withdraw:": "Withdraw LTC"
+            "ltc_withdraw:": "Withdraw LTC",
+            "eos_withdraw": "Withdraw EOS",
+            "xlm_withdraw": "Withdraw XLM",
+            "xrp_withdraw": "Withdraw XRP"
         },
         "deposit_withdraw": {
             "disabled": "%(gateway)s gateway service disabled",
