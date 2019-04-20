@@ -16,6 +16,8 @@ import DepositModalLtc from "../Modal/DepositModalLtc";
 import WithdrawModalMeta from "../Modal/WithdrawModalMeta";
 import WithdrawModalEth from "../Modal/WithdrawModalEth";
 import WithdrawModalLtc from "../Modal/WithdrawModalLtc";
+import WithdrawModalEos from "../Modal/WithdrawModalEos";
+import WithdrawModalXlm from "../Modal/WithdrawModalXlm";
 import Icon from "../Icon/Icon";
 import Translate from "react-translate-component";
 import counterpart from "counterpart";
@@ -67,7 +69,9 @@ class Header extends React.Component {
             isDepositModalVisibleMeta: false,
             isWithdrawModalVisibleMeta: false,
             isWithdrawModalVisibleEth: false,
-            isWithdrawModalVisibleLtc: false
+            isWithdrawModalVisibleLtc: false,
+            isWithdrawModalVisibleEos: false,
+            isWithdrawModalVisibleXlm: false
         };
 
         this.unlisten = null;
@@ -111,8 +115,12 @@ class Header extends React.Component {
 
         this.showDepositModalLtc = this.showDepositModalLtc.bind(this);
         this.showWithdrawModalLtc = this.showWithdrawModalLtc.bind(this);
+        this.showWithdrawModalEos = this.showWithdrawModalEos.bind(this);
+        this.showWithdrawModalXlm = this.showWithdrawModalXlm.bind(this);
         this.hideDepositModalLtc = this.hideDepositModalLtc.bind(this);
         this.hideWithdrawModalLtc = this.hideWithdrawModalLtc.bind(this);
+        this.hideWithdrawModalEos = this.hideWithdrawModalEos.bind(this);
+        this.hideWithdrawModalXlm = this.hideWithdrawModalXlm.bind(this);
 
         this.showDepositModal = this.showDepositModal.bind(this);
         this.hideDepositModal = this.hideDepositModal.bind(this);
@@ -256,6 +264,18 @@ class Header extends React.Component {
         });
     }
 
+    showWithdrawModalEos() {
+        this.setState({
+            isWithdrawModalVisibleEos: true
+        });
+    }
+
+    showWithdrawModalXlm() {
+        this.setState({
+            isWithdrawModalVisibleXlm: true
+        });
+    }
+
     _showWithdrawMeta(e) {
         e.preventDefault();
         this.showWithdrawModalMeta();
@@ -271,6 +291,18 @@ class Header extends React.Component {
     _showWithdrawLtc(e) {
         e.preventDefault();
         this.showWithdrawModalLtc();
+        this._closeDropdown();
+    }
+
+    _showWithdrawEos(e) {
+        e.preventDefault();
+        this.showWithdrawModalEos();
+        this._closeDropdown();
+    }
+
+    _showWithdrawXlm(e) {
+        e.preventDefault();
+        this.showWithdrawModalXlm();
         this._closeDropdown();
     }
 
@@ -351,6 +383,18 @@ class Header extends React.Component {
     hideWithdrawModalLtc() {
         this.setState({
             isWithdrawModalVisibleLtc: false
+        });
+    }
+
+    hideWithdrawModalEos() {
+        this.setState({
+            isWithdrawModalVisibleEos: false
+        });
+    }
+
+    hideWithdrawModalXlm() {
+        this.setState({
+            isWithdrawModalVisibleXlm: false
         });
     }
 
@@ -1221,6 +1265,20 @@ class Header extends React.Component {
                             className="table-cell"
                         />
                     </li>
+                    <li onClick={this._showWithdrawEos.bind(this)}>
+                        <Translate
+                            content="modal.deposit.eos_withdraw"
+                            component="div"
+                            className="table-cell"
+                        />
+                    </li>
+                    <li onClick={this._showWithdrawXlm.bind(this)}>
+                        <Translate
+                            content="modal.deposit.xlm_withdraw"
+                            component="div"
+                            className="table-cell"
+                        />
+                    </li>
                 </ul>
             )
         };
@@ -1745,6 +1803,22 @@ class Header extends React.Component {
                     showModalMeta={this.showWithdrawModalLtc}
                     ref="withdraw_modal_new11q2"
                     modalId="withdraw_modal_new11q2"
+                    account={currentAccount}
+                />
+                <WithdrawModalEos
+                    visibleMeta={this.state.isWithdrawModalVisibleEos}
+                    hideModalMeta={this.hideWithdrawModalEos}
+                    showModalMeta={this.showWithdrawModalEos}
+                    ref="withdraw_modal_newqwer11q2"
+                    modalId="withdraw_modal_newqwer11q2"
+                    account={currentAccount}
+                />
+                <WithdrawModalXlm
+                    visibleMeta={this.state.isWithdrawModalVisibleXlm}
+                    hideModalMeta={this.hideWithdrawModalXlm}
+                    showModalMeta={this.showWithdrawModalXlm}
+                    ref="withdraw_modal_newqwert11q2"
+                    modalId="withdraw_modal_newqwert11q2"
                     account={currentAccount}
                 />
             </div>

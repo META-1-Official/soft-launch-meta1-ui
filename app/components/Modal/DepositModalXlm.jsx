@@ -95,7 +95,9 @@ class DepositModalContent extends DecimalChecker {
                 <div
                     style={{
                         display: "flex",
-                        color: "black"
+                        color: "black",
+                        marginTop: "-15px",
+                        marginBottom: "-15px"
                     }}
                 >
                     <input
@@ -105,10 +107,12 @@ class DepositModalContent extends DecimalChecker {
                     />
                     <CopyButton text={this.state.depositAddress} />
                 </div>
+                <h5>MEMO:</h5>
                 <div
                     style={{
                         display: "flex",
-                        color: "black"
+                        color: "black",
+                        marginTop: "-15px"
                     }}
                 >
                     <input
