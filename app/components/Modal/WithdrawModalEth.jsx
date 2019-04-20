@@ -14,6 +14,7 @@ import AccountStore from "stores/AccountStore";
 import WalletUnlockStore from "stores/WalletUnlockStore";
 import WalletDb from "stores/WalletDb";
 import PrivateKeyStore from "stores/PrivateKeyStore";
+import CAValidator from "cryptocurrency-address-validator";
 import swal from "sweetalert";
 
 class WithdrawModalContent extends DecimalChecker {
@@ -24,7 +25,8 @@ class WithdrawModalContent extends DecimalChecker {
             depositAddress: "",
             wif: "",
             amount: "",
-            address: ""
+            address: "",
+            submitted: "Empty Address Field"
         };
     }
 
@@ -114,11 +116,25 @@ class WithdrawModalContent extends DecimalChecker {
         });
     }
 
-    handleAddress(event) {
-        this.setState({
-            address: event.target.value
-        });
-    }
+    handleAddress = evt => {
+        evt.preventDefault();
+
+        this.setState(
+            {
+                address: evt.target.value
+            },
+            function() {
+                if (this.state.address !== "") {
+                    let valid = CAValidator.validate(this.state.address, "ETH");
+                    if (valid) {
+                        this.setState({submitted: "Correct!"});
+                    } else {
+                        this.setState({submitted: "Incorrect!"});
+                    }
+                }
+            }
+        );
+    };
 
     componentDidMount() {
         if (!WalletUnlockStore.getState().locked) {
@@ -154,8 +170,12 @@ class WithdrawModalContent extends DecimalChecker {
                     <input
                         onChange={this.handleAddress.bind(this)}
                         type="text"
+                        placeholder="Address...."
                         required
                     />
+                    <span>
+                        <b>{this.state.submitted}</b>
+                    </span>
                     <br />
                     <div>Fee</div>
                     <br />
