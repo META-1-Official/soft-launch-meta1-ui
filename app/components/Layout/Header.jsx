@@ -10,11 +10,13 @@ import SendModal from "../Modal/SendModal";
 import GatewayStore from "stores/GatewayStore";
 import DepositModalMeta from "../Modal/DepositModalMeta";
 import DepositModalEth from "../Modal/DepositModalEth";
+import DepositModalEthToken from "../Modal/DepositModalEthToken";
 import DepositModalEos from "../Modal/DepositModalEos";
 import DepositModalXlm from "../Modal/DepositModalXlm";
 import DepositModalLtc from "../Modal/DepositModalLtc";
 import WithdrawModalMeta from "../Modal/WithdrawModalMeta";
 import WithdrawModalEth from "../Modal/WithdrawModalEth";
+import WithdrawModalEthToken from "../Modal/WithdrawModalEthToken";
 import WithdrawModalLtc from "../Modal/WithdrawModalLtc";
 import WithdrawModalEos from "../Modal/WithdrawModalEos";
 import WithdrawModalXlm from "../Modal/WithdrawModalXlm";
@@ -105,13 +107,25 @@ class Header extends React.Component {
         this.hideWithdrawModalMeta = this.hideWithdrawModalMeta.bind(this);
 
         this.showDepositModalEth = this.showDepositModalEth.bind(this);
+        this.showDepositModalEthToken = this.showDepositModalEthToken.bind(
+            this
+        );
         this.showDepositModalEos = this.showDepositModalEos.bind(this);
         this.showDepositModalXlm = this.showDepositModalXlm.bind(this);
         this.showWithdrawModalEth = this.showWithdrawModalEth.bind(this);
+        this.showWithdrawModalEthToken = this.showWithdrawModalEthToken.bind(
+            this
+        );
         this.hideDepositModalEth = this.hideDepositModalEth.bind(this);
+        this.hideDepositModalEthToken = this.hideDepositModalEthToken.bind(
+            this
+        );
         this.hideDepositModalEos = this.hideDepositModalEos.bind(this);
         this.hideDepositModalXlm = this.hideDepositModalXlm.bind(this);
         this.hideWithdrawModalEth = this.hideWithdrawModalEth.bind(this);
+        this.hideWithdrawModalEthToken = this.hideWithdrawModalEthToken.bind(
+            this
+        );
 
         this.showDepositModalLtc = this.showDepositModalLtc.bind(this);
         this.showWithdrawModalLtc = this.showWithdrawModalLtc.bind(this);
@@ -198,6 +212,12 @@ class Header extends React.Component {
         });
     }
 
+    showDepositModalEthToken() {
+        this.setState({
+            isDepositModalVisibleEthToken: true
+        });
+    }
+
     showDepositModalEos() {
         this.setState({
             isDepositModalVisibleEos: true
@@ -225,6 +245,12 @@ class Header extends React.Component {
     _showDepositEth(e) {
         e.preventDefault();
         this.showDepositModalEth();
+        this._closeDropdown();
+    }
+
+    _showDepositEthToken(e) {
+        e.preventDefault();
+        this.showDepositModalEthToken();
         this._closeDropdown();
     }
 
@@ -258,6 +284,12 @@ class Header extends React.Component {
         });
     }
 
+    showWithdrawModalEthToken() {
+        this.setState({
+            isWithdrawModalVisibleEthToken: true
+        });
+    }
+
     showWithdrawModalLtc() {
         this.setState({
             isWithdrawModalVisibleLtc: true
@@ -285,6 +317,12 @@ class Header extends React.Component {
     _showWithdrawEth(e) {
         e.preventDefault();
         this.showWithdrawModalEth();
+        this._closeDropdown();
+    }
+
+    _showWithdrawEthToken(e) {
+        e.preventDefault();
+        this.showWithdrawModalEthToken();
         this._closeDropdown();
     }
 
@@ -356,6 +394,12 @@ class Header extends React.Component {
         });
     }
 
+    hideDepositModalEthToken() {
+        this.setState({
+            isDepositModalVisibleEthToken: false
+        });
+    }
+
     hideDepositModalEos() {
         this.setState({
             isDepositModalVisibleEos: false
@@ -371,6 +415,12 @@ class Header extends React.Component {
     hideWithdrawModalEth() {
         this.setState({
             isWithdrawModalVisibleEth: false
+        });
+    }
+
+    hideWithdrawModalEthToken() {
+        this.setState({
+            isWithdrawModalVisibleEthToken: false
         });
     }
 
@@ -1279,6 +1329,13 @@ class Header extends React.Component {
                             className="table-cell"
                         />
                     </li>
+                    <li onClick={this._showWithdrawEthToken.bind(this)}>
+                        <Translate
+                            content="modal.deposit.token_withjdraw"
+                            component="div"
+                            className="table-cell"
+                        />
+                    </li>
                 </ul>
             )
         };
@@ -1341,6 +1398,13 @@ class Header extends React.Component {
                     <li onClick={this._showDepositXlm.bind(this)}>
                         <Translate
                             content="modal.deposit.xlm"
+                            component="div"
+                            className="table-cell"
+                        />
+                    </li>
+                    <li onClick={this._showDepositEthToken.bind(this)}>
+                        <Translate
+                            content="modal.deposit.tokens"
                             component="div"
                             className="table-cell"
                         />
@@ -1781,12 +1845,28 @@ class Header extends React.Component {
                     modalId="deposit_modal_newfsdfs1sd1"
                     account={currentAccount}
                 />
+                <DepositModalEthToken
+                    visibleMeta={this.state.isDepositModalVisibleEthToken}
+                    hideModalMeta={this.hideDepositModalEthToken}
+                    showModalMeta={this.showDepositModalEthToken}
+                    ref="deposit_modal_new19901"
+                    modalId="deposit_modal_new19901"
+                    account={currentAccount}
+                />
                 <WithdrawModalEth
                     visibleMeta={this.state.isWithdrawModalVisibleEth}
                     hideModalMeta={this.hideWithdrawModalEth}
                     showModalMeta={this.showWithdrawModalEth}
                     ref="withdraw_modal_new122"
                     modalId="withdraw_modal_new122"
+                    account={currentAccount}
+                />
+                <WithdrawModalEthToken
+                    visibleMeta={this.state.isWithdrawModalVisibleEthToken}
+                    hideModalMeta={this.hideWithdrawModalEthToken}
+                    showModalMeta={this.showWithdrawModalEthToken}
+                    ref="withdraw_modal_new14422"
+                    modalId="withdraw_modal_new14422"
                     account={currentAccount}
                 />
                 <DepositModalLtc
