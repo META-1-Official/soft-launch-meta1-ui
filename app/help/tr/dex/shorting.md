@@ -1,6 +1,6 @@
 # BitAktif Kısa Satışı
 
-META'le temasınızı arttırmak ve USD,EUR,GOLD gibi BitAktiflere likidite sağlamak için 
+META1'le temasınızı arttırmak ve USD,EUR,GOLD gibi BitAktiflere likidite sağlamak için 
 bu BitAktifleri ağdan *ödünç* alabilir ve *kısa satabilirsiniz*. Prosedürü burada kısaca 
 anlatacağız.
 
@@ -9,7 +9,7 @@ anlatacağız.
 Meta ağının herhangi bir miktarda BitVarlığı piyasaya sürmesi ve yeterli teminat 
 karşılığında katılımcılara borç vermesi mümkündür. 
 
- * *uzlaşma fiyatı* : 1 META in dış borsalarda alıp-satılırkenki fiyatı.
+ * *uzlaşma fiyatı* : 1 META1 in dış borsalarda alıp-satılırkenki fiyatı.
  * *idame teminat oranı* (MCR) :  zorunlu minimum teminat oranı 
  * *maksimum kısa sıkıştırma oranı* (MSQR) : Tanıklar tarafından kısaların kısa sıkıştırmalara karşı nereye kadar korunacaklarını belirleyen oran.
  * *kısa sıkıştırmadan korunma* (SQP) : Marjin pozisyonuna ödettirilebilecek en yüksek  
@@ -22,13 +22,13 @@ pozisyonları teminatı tamamlamaları için çağırabilir. Marjin çağrısı 
 teklifinin *çağrı fiyatından* az , ve *SQP* dan büyük olduğu herhangi bir anda 
 meydana gelebilir.
 Marjin pozisyonu, teminatı satın almaya verilen en yüksek teklifin çağrı 
-fiyatından(x/META) daha düşük olduğu anda teminatı zorla sattırılır.
+fiyatından(x/META1) daha düşük olduğu anda teminatı zorla sattırılır.
 
     SQP =  uzlaşma fiyatı / MSQR
     çağrı fiyatı = BORÇ / TEMİNAT * MCR
 
 Marjin çağrısı teminatı alır , ödünç alınmış bitaktif hisselerinin SQP ya kadarki kısmını
-piyasa fiyatından satın alır ve pozisyonu kapar. Teminattan geri kalan META müşteriye 
+piyasa fiyatından satın alır ve pozisyonu kapar. Teminattan geri kalan META1 müşteriye 
 iade edilir.
 
 ### Hesap görme
@@ -47,7 +47,7 @@ olursunuz.
 
 Ödünç/kısa pozisyonu tutan kişi , herhangi bir zamanda , piyasa 
 davranışını esnek bir biçimde ayarlamak için teminat oranını değiştirebilir. Eğer 
-teminat oranı arttırılırsa , ilave miktarda META teminat olarak kilit altına alınır, teminat 
+teminat oranı arttırılırsa , ilave miktarda META1 teminat olarak kilit altına alınır, teminat 
 oranının düşürülmesi ise tekabül eden miktarda BitVarlığın ağa geri ödenmesini 
 gerektirir.
 

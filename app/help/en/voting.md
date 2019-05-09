@@ -1,10 +1,10 @@
 # Voting
 
-> Voting is important in Meta in the same way it is important to the community in which you live. The weight of your vote is directly correlated to the number of META you own. If you aren't heavily involved in the community, you are encouraged to choose a proxy who represents your interests. If you would like to be more involved in the community, check out these [channels](/help/introduction/meta).
+> Voting is important in Meta in the same way it is important to the community in which you live. The weight of your vote is directly correlated to the number of META1 you own. If you aren't heavily involved in the community, you are encouraged to choose a proxy who represents your interests. If you would like to be more involved in the community, check out these [channels](https://t.me/meta1exchange).
 
 ## Proxy
 
-You may choose to **not** be active in the governance of Meta. If this is the case, it's important that you choose someone in the Meta community who you identify with and set that entity as your proxy. This gives them to the power to vote on your behalf with your META shares backing their vote. This is similar to electing a representative.
+You may choose to **not** be active in the governance of Meta. If this is the case, it's important that you choose someone in the Meta community who you identify with and set that entity as your proxy. This gives them to the power to vote on your behalf with your META1 shares backing their vote. This is similar to electing a representative.
 
 ## Witnesses
 
@@ -46,8 +46,8 @@ These worker proposals are displayed for historical purposes. You will find prop
 ### Worker budget mechanics
 Workers receive pay from a fixed daily budget on a first-come, first-serve basis until there are no more funds left.
 
-* A daily total budget of 400k META for all workers
-* 5 worker proposals with a positive votes total, with daily pay requests of 100k META each
+* A daily total budget of 400k META1 for all workers
+* 5 worker proposals with a positive votes total, with daily pay requests of 100k META1 each
 
-Now the four workers with the most votes will all receive 100k META each per day, but once they've been paid the worker budget is empty. Therefore the fifth worker will receive nothing.
+Now the four workers with the most votes will all receive 100k META1 each per day, but once they've been paid the worker budget is empty. Therefore the fifth worker will receive nothing.
 

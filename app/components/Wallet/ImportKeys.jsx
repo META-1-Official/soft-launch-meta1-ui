@@ -144,7 +144,7 @@ class ImportKeys extends Component {
         reader.readAsText(file);
     }
 
-    /** META 1.0 client wallet_export_keys format. */
+    /** META1 1.0 client wallet_export_keys format. */
     _parseImportKeyUpload(json_contents, file_name, update_state) {
         let password_checksum, unfiltered_account_keys;
         try {
@@ -160,7 +160,7 @@ class ImportKeys extends Component {
             throw e.message || e;
         }
 
-        // META 1.0 wallets may have a lot of generated but unused keys or spent TITAN addresses making
+        // META1 1.0 wallets may have a lot of generated but unused keys or spent TITAN addresses making
         // wallets so large it is was not possible to use the JavaScript wallets with them.
 
         let genesis_filter = new GenesisFilter();
@@ -252,9 +252,9 @@ class ImportKeys extends Component {
     }
 
     /**
-    META 1.0 hosted wallet backup (wallet.bitshares.org) is supported.
+    META1 1.0 hosted wallet backup (wallet.bitshares.org) is supported.
 
-    META 1.0 native wallets should use wallet_export_keys instead of a wallet backup.
+    META1 1.0 native wallets should use wallet_export_keys instead of a wallet backup.
 
     Note,  Native wallet backups will be rejected.  The logic below does not
     capture assigned account names (for unregisted accounts) and does not capture
@@ -269,7 +269,7 @@ class ImportKeys extends Component {
         let account_addresses = {};
 
         let savePubkeyAccount = function(pubkey, account_name) {
-            //replace META with GPH
+            //replace META1 with GPH
             pubkey = ChainConfig.address_prefix + pubkey.substring(3);
             let address = PublicKey.fromPublicKeyString(
                 pubkey
@@ -329,7 +329,7 @@ class ImportKeys extends Component {
                 }
             }
             if (!encrypted_brainkey)
-                throw "Please use a META 1.0 wallet_export_keys file instead";
+                throw "Please use a META1 1.0 wallet_export_keys file instead";
 
             if (!password_checksum)
                 throw file.name + " is missing password_checksum";

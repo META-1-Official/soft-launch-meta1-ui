@@ -257,15 +257,15 @@ const MarketUtils = {
 
         if (order.debt) {
             if (invert) {
-                // Price in USD/META, amount should be in META, value should be in USD, debt is in USD
-                // buy is in USD, sell is in META
-                // quote is USD, base is META
+                // Price in USD/META1, amount should be in META1, value should be in USD, debt is in USD
+                // buy is in USD, sell is in META1
+                // quote is USD, base is META1
                 value = order.debt / quotePrecision;
                 amount = this.limitByPrecision(value / price.full, base);
             } else {
-                // Price in META/USD, amount should be in USD, value should be in META, debt is in USD
-                // buy is in USD, sell is in META
-                // quote is USD, base is META
+                // Price in META1/USD, amount should be in USD, value should be in META1, debt is in USD
+                // buy is in USD, sell is in META1
+                // quote is USD, base is META1
 
                 amount = this.limitByPrecision(
                     order.debt / quotePrecision,

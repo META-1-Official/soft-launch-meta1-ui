@@ -208,7 +208,7 @@ describe("Asset", function() {
 
         let result1 = asset.times(price1);
         assert.equal(result1.asset_id, "1.3.121", "Asset id should be 1.3.121");
-        // 100 META * 200 META/USD = 100 META * (1/200) USD/META = 0.5 USD
+        // 100 META1 * 200 META1/USD = 100 META1 * (1/200) USD/META1 = 0.5 USD
         assert.equal(
             result1.getAmount({real: true}),
             0.5,
@@ -217,14 +217,14 @@ describe("Asset", function() {
 
         let result2 = asset.times(price2);
         assert.equal(result2.asset_id, "1.3.121", "Asset id should be 1.3.121");
-        // 100 META * 0.001 USD / META = 0.1 USD
+        // 100 META1 * 0.001 USD / META1 = 0.1 USD
         assert.equal(
             result2.getAmount({real: true}),
             0.1,
             "Asset amount should be 0.1"
         );
 
-        // 55 USD * 250 META / USD = 13750 META
+        // 55 USD * 250 META1 / USD = 13750 META1
         assert.equal(
             asset2.times(price3).getAmount({real: true}),
             13750,
@@ -670,14 +670,14 @@ describe("LimitOrderCreate", function() {
         real: 5.232
     });
 
-    let META = new Asset({
+    let META1 = new Asset({
         real: 1045.5
     });
 
     it("Instantiates", function() {
         let order = new LimitOrderCreate({
             to_receive: USD,
-            for_sale: META
+            for_sale: META1
         });
 
         assert(order !== null);
@@ -686,7 +686,7 @@ describe("LimitOrderCreate", function() {
     it("Can be converted to object", function() {
         let order = new LimitOrderCreate({
             to_receive: USD,
-            for_sale: META
+            for_sale: META1
         });
         let obj = order.toObject();
         assert.equal(Object.keys(obj).length, 6, "Object should have 6 keys");
@@ -717,7 +717,7 @@ describe("LimitOrderCreate", function() {
         assert.throws(function() {
             new LimitOrderCreate({
                 to_receive: null,
-                for_sale: META
+                for_sale: META1
             });
         });
 
@@ -739,8 +739,8 @@ describe("LimitOrderCreate", function() {
     it("Throws if assets are the same", function() {
         assert.throws(function() {
             new LimitOrderCreate({
-                to_receive: META,
-                for_sale: META
+                to_receive: META1,
+                for_sale: META1
             });
         });
     });

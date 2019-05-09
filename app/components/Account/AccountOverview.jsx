@@ -202,22 +202,7 @@ class AccountOverview extends React.Component {
                     <Translate content="header.payments" />
                 </th>
                 <th>
-                    <Translate content="exchange.buy" />
-                </th>
-                <th>
-                    <Translate content="modal.deposit.submit" />
-                </th>
-                <th>
-                    <Translate content="modal.withdraw.submit" />
-                </th>
-                <th>
                     <Translate content="account.trade" />
-                </th>
-                <th>
-                    <Translate content="exchange.borrow_short" />
-                </th>
-                <th>
-                    <Translate content="account.settle" />
                 </th>
                 <th className="column-hide-small">
                     <Translate content="modal.reserve.submit" />

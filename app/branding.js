@@ -9,7 +9,7 @@
  * @returns {string}
  */
 export function getWalletName() {
-    return "META Exchange";
+    return "META1 Exchange";
 }
 
 /**

@@ -1,6 +1,6 @@
 [# receive]
 ### Kullanıcı adınız
-Meta hesabınıza bir başkasından ya da bir borsadan META gönderimi için, göndericiye kullanıcı adınızı vermeniz yeterlidir. META'ler doğrudan kullanıcı adı belirtilerek gönderilir:
+Meta hesabınıza bir başkasından ya da bir borsadan META1 gönderimi için, göndericiye kullanıcı adınızı vermeniz yeterlidir. META1'ler doğrudan kullanıcı adı belirtilerek gönderilir:
 
 [# deposit-short]
 ### Kripto para yatır/çek

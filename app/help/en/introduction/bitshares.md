@@ -7,14 +7,13 @@
 ### Meta Chat
 You can chat with other member of the Meta community in real time at:
 
-- [Telegram](https://t.me/MetaDEX)
-- [Discord](https://discord.gg/GsjQfAJ)
+- [Telegram](https://t.me/meta1exchange)
 
 ### Developers
 If you are a software developer, you may contribute via a bounty system at:
 
-- [Github UI](https://github.com/meta/meta-ui)
-- [Github Core](https://github.com/meta/meta-core) 
+- [Github UI](https://github.com/meta-source/meta-ui) - private repository
+- [Github Core](https://github.com/meta-source/meta-core) - private repository
 
 ## Introduction
 Welcome to the worlds fastest decentralized exchange (The DEX).

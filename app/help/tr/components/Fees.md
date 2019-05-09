@@ -2,7 +2,7 @@
 
 Meta ekosistemi içerisinde her işleme tahsis edilmiş *bireysel* bir ücret vardır. 
 Bu ücretler değişime tabidirler. Bununla birlikte, bunlar sadece hissedarların oylarıyla 
-belirlenirler, böylece Meta'in esas varlığı olan META hissedarlarının her biri 
+belirlenirler, böylece Meta'in esas varlığı olan META1 hissedarlarının her biri 
 ücretlerin ne olacağı konusunda söz sahibi olur. Eğer hissedarlar belli bir ücretin 
 düşürülmesi konusunda fikir birliği sağlarlarsa o ücret blok zinciri tarafından otomatik 
 olarak düşürülür. Blok zinciri parametrelerinin düzenlemesiyle ilgili teklifler kurul 

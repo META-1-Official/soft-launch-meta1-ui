@@ -2,7 +2,7 @@ Please work off the develop branch and make pull requests to that branch. The ma
 
 The Meta UI team is supported by this [worker proposal](https://www.meta.foundation/workers/2018-08-meta-ui). It provides the funds needed to pay the coordinator and the bounties and the Meta Foundation.
 
-If you would like to get involved, we have a [Telegram chatroom](https://t.me/MetaDEX) where you can ask questions and get help. You may also join [Meta on Discord](https://discord.gg/GsjQfAJ)
+If you would like to get involved, we have a [Telegram chatroom](https://t.me/meta1exchange) where you can ask questions and get help. You may also join [Meta on Discord](https://discord.gg/GsjQfAJ)
 
 - Project Manager: Magnus Anderson, @startail
 - Issue and Funds Coordinator: Bill Butler, @billbutler
@@ -13,7 +13,7 @@ If you would like to get involved, we have a [Telegram chatroom](https://t.me/Me
 
 Meta UI团队被这一[工作提案](https://steemit.com/meta/@billbutler/translated-by-zhaomu-l)支持。它提供用来支付协调者，悬赏金和比特股基金的资金。
 
-如果你想参与贡献，我们有一个[Telegram 聊天室](https://t.me/MetaDEX)，在这里你可以问问题并得到帮助。
+如果你想参与贡献，我们有一个[Telegram 聊天室](https://t.me/meta1exchange)，在这里你可以问问题并得到帮助。
 
 
 ## Development process

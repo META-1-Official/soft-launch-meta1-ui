@@ -13,7 +13,7 @@ import {
     getUnits
 } from "branding";
 
-const CORE_ASSET = "META1"; // Setting this to META to prevent loading issues when used with META chain which is the most usual case currently
+const CORE_ASSET = "META1"; // Setting this to META1 to prevent loading issues when used with META1 chain which is the most usual case currently
 
 const STORAGE_KEY = "__graphene__";
 let ss = new ls(STORAGE_KEY);

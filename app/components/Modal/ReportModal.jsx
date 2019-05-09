@@ -102,11 +102,11 @@ class ReportModal extends React.Component {
                         <br />
                         &nbsp;&nbsp;
                         <a
-                            href="https://t.me/AvowedIy"
+                            href="https://t.me/meta1exchange"
                             target="_blank"
                             style={{textAlign: "center", width: "100%"}}
                         >
-                            https://t.me/AvowedIy
+                            https://t.me/meta1exchange
                         </a>
                         <br />
                         <Translate content="modal.report.explanatory_text_3" />
@@ -116,11 +116,11 @@ class ReportModal extends React.Component {
                         <br />
                         &nbsp;&nbsp;
                         <a
-                            href="https://t.me/AvowedIy"
+                            href="https://t.me/meta1exchange"
                             target="_blank"
                             style={{textAlign: "center", width: "100%"}}
                         >
-                            https://t.me/AvowedIy
+                            https://t.me/meta1exchange
                         </a>
                     </p>
                 );

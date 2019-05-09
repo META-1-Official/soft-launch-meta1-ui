@@ -5,7 +5,7 @@ import WalletUnlockActions from "actions/WalletUnlockActions";
 import WalletDb from "stores/WalletDb";
 
 const MSG_HEAD = "-----BEGIN BITSHARES SIGNED MESSAGE-----";
-const MSG_META = "-----BEGIN META-----";
+const MSG_META = "-----BEGIN META1-----";
 const MSG_SIGNATURE = "-----BEGIN SIGNATURE-----";
 const MSG_FOOT = "-----END BITSHARES SIGNED MESSAGE-----";
 const MSG_SENDER = "account";
@@ -20,7 +20,7 @@ const MSG_DATE = "timestamp";
  *  The message format that is underlying is as follows:
  *  -----BEGIN BITSHARES SIGNED MESSAGE-----
  *  <message from the account>
- *  -----BEGIN META-----
+ *  -----BEGIN META1-----
  *  account=<account name>
  *  memokey=<account memo public key>
  *  block=<last irreversible block>
