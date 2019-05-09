@@ -15,7 +15,7 @@ import {
     Input,
     Icon as IconStyleGuide
 } from "bitshares-ui-style-guide";
-import {ChainStore} from "bitsharesjs";
+import {ChainStore} from "meta1js";
 
 class Accounts extends React.Component {
     constructor(props) {

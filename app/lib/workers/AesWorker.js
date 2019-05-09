@@ -1,5 +1,5 @@
 require("babel-polyfill");
-import {Aes} from "bitsharesjs";
+import {Aes} from "meta1js";
 
 onmessage = function(event) {
     try {

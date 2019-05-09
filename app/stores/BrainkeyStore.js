@@ -1,6 +1,6 @@
 import alt from "alt-instance";
 import Immutable from "immutable";
-import {ChainStore, key} from "bitsharesjs";
+import {ChainStore, key} from "meta1js";
 import BaseStore from "stores/BaseStore";
 import BrainkeyActions from "actions/BrainkeyActions";
 

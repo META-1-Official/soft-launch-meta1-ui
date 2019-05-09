@@ -10,11 +10,11 @@ import assetUtils from "common/asset_utils";
 import counterpart from "counterpart";
 import FormattedAsset from "../Utility/FormattedAsset";
 import AssetName from "../Utility/AssetName";
-import {ChainStore} from "bitsharesjs";
+import {ChainStore} from "meta1js";
 import utils from "common/utils";
 import ls from "common/localStorage";
 import PaginatedList from "../Utility/PaginatedList";
-import {Apis} from "bitsharesjs-ws";
+import {Apis} from "meta1js-ws";
 import {Radio, Table, Select, Input, Icon} from "bitshares-ui-style-guide";
 
 let accountStorage = new ls("__graphene__");
