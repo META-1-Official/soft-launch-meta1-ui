@@ -5,7 +5,7 @@ import {
     TransactionHelper,
     ChainTypes,
     ops
-} from "meta1js";
+} from "bitsharesjs";
 import {Price, Asset} from "common/MarketClasses";
 const {operations} = ChainTypes;
 

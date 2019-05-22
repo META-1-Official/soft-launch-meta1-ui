@@ -11,7 +11,7 @@ import LinkToAssetById from "../Utility/LinkToAssetById";
 import BorrowModal from "../Modal/BorrowModal";
 import ReactTooltip from "react-tooltip";
 import {getBackedCoin} from "common/gatewayUtils";
-import {ChainStore} from "meta1js";
+import {ChainStore} from "bitsharesjs";
 import {connect} from "alt-react";
 import SettingsStore from "stores/SettingsStore";
 import GatewayStore from "stores/GatewayStore";

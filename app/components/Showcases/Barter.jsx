@@ -13,7 +13,7 @@ import {
 import AccountSelector from "../Account/AccountSelector";
 import counterpart from "counterpart";
 import AccountStore from "stores/AccountStore";
-import {ChainStore} from "meta1js";
+import {ChainStore} from "bitsharesjs";
 import AmountSelector from "../Utility/AmountSelector";
 import {Asset} from "common/MarketClasses";
 import utils from "common/utils";

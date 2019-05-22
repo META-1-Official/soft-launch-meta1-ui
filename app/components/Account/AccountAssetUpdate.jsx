@@ -4,7 +4,7 @@ import classnames from "classnames";
 import AssetActions from "actions/AssetActions";
 import HelpContent from "../Utility/HelpContent";
 import utils from "common/utils";
-import {ChainStore} from "meta1js";
+import {ChainStore} from "bitsharesjs";
 import FormattedFee from "../Utility/FormattedFee";
 import counterpart from "counterpart";
 import ChainTypes from "../Utility/ChainTypes";

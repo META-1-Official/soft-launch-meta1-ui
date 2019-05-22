@@ -1,4 +1,4 @@
-import {Apis} from "meta1js-ws";
+import {Apis} from "bitsharesjs-ws";
 
 class Api {
     lookupAccounts(startChar, limit) {

@@ -14,7 +14,7 @@ import WalletActions from "actions/WalletActions";
 import BackupActions, {restore, backup} from "actions/BackupActions";
 import AccountActions from "actions/AccountActions";
 import SettingsActions from "actions/SettingsActions";
-import {Apis} from "meta1js-ws";
+import {Apis} from "bitsharesjs-ws";
 import {
     Modal,
     Button,
@@ -27,7 +27,7 @@ import {
 } from "bitshares-ui-style-guide";
 import utils from "common/utils";
 import AccountSelector from "../Account/AccountSelectorAnt";
-import {PrivateKey} from "meta1js";
+import {PrivateKey} from "bitsharesjs";
 import {saveAs} from "file-saver";
 import LoginTypeSelector from "./LoginTypeSelector";
 import counterpart from "counterpart";

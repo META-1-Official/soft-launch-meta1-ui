@@ -8,7 +8,7 @@ import counterpart from "counterpart";
 import AmountSelector from "components/Utility/AmountSelector";
 import AccountActions from "actions/AccountActions";
 import {validateAddress, WithdrawAddresses} from "common/RuDexMethods";
-import {ChainStore} from "meta1js";
+import {ChainStore} from "bitsharesjs";
 import {checkFeeStatusAsync, checkBalance} from "common/trxHelper";
 import {Price, Asset} from "common/MarketClasses";
 import {debounce} from "lodash-es";

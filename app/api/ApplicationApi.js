@@ -7,7 +7,7 @@ import {
     TransactionHelper,
     FetchChain,
     ChainStore
-} from "meta1js";
+} from "bitsharesjs";
 import counterpart from "counterpart";
 import {Notification} from "bitshares-ui-style-guide";
 

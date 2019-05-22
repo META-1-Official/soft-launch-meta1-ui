@@ -19,7 +19,7 @@ import FormattedPrice from "../Utility/FormattedPrice";
 import counterpart from "counterpart";
 import HelpContent from "../Utility/HelpContent";
 import Immutable from "immutable";
-import {ChainStore} from "meta1js";
+import {ChainStore} from "bitsharesjs";
 import {List} from "immutable";
 import Icon from "../Icon/Icon";
 import {Checkbox, Modal, Button, Tooltip} from "bitshares-ui-style-guide";

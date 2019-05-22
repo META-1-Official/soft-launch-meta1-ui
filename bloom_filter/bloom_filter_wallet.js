@@ -21,7 +21,7 @@ var fs = require("fs");
 
 require("coffee-script/register"); // npm install coffee-script
 
-var graphenejs = require("meta1js");
+var graphenejs = require("bitsharesjs");
 var h = graphenejs.hash;
 var key_utils = graphenejs.key;
 const chainPrefix = "BTS";

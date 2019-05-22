@@ -1,5 +1,5 @@
-import {Apis, Manager} from "meta1js-ws";
-import {ChainStore} from "meta1js";
+import {Apis, Manager} from "bitsharesjs-ws";
+import {ChainStore} from "bitsharesjs";
 
 // Stores
 import iDB from "idb-instance";

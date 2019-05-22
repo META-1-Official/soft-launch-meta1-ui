@@ -4,7 +4,7 @@ import BlockchainStore from "stores/BlockchainStore";
 import SettingsStore from "stores/SettingsStore";
 import Translate from "react-translate-component";
 import SettingsActions from "actions/SettingsActions";
-import {Apis} from "meta1js-ws";
+import {Apis} from "bitsharesjs-ws";
 import Icon from "./Icon/Icon";
 import WebsocketAddModal from "./Settings/WebsocketAddModal";
 import counterpart from "counterpart";
