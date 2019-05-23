@@ -4,7 +4,7 @@ import {connect} from "alt-react";
 import AccountStore from "stores/AccountStore";
 import Translate from "react-translate-component";
 import counterpart from "counterpart";
-import {ChainStore, key} from "meta1js/es";
+import {ChainStore, key} from "bitsharesjs/es";
 import ReactTooltip from "react-tooltip";
 import utils from "common/utils";
 import SettingsActions from "actions/SettingsActions";
