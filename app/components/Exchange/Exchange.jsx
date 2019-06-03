@@ -974,119 +974,28 @@ class Exchange extends React.Component {
             SettingsActions.changeMarketDirection(setting);
         }
 
-        if (current.for_sale.asset_id === "1.3.0") {
-            fetch("https://luna.meta-exchange.info/api/getprice")
-                .then(data => data.json())
-                .then(data => {
-                    fetch(
-                        "https://stormy-escarpment-21788.herokuapp.com/https://api.nomics.com/v1/prices?key=b9cd8dd6ebb2dfc258f5672e373a512f"
-                    )
-                        .then(coins => coins.json())
-                        .then(coins => {
-                            coins.map(coin => {
-                                if (
-                                    coin.currency ===
-                                        ChainStore.getAsset(
-                                            current.to_receive.asset_id
-                                        )._root.entries[1][1] ||
-                                    current.to_receive.asset_id === "1.3.1"
-                                ) {
-                                    let coinPrice = current.priceText;
-                                    if (current.to_receive.asset_id !== "1.3.1")
-                                        coinPrice =
-                                            current.priceText * coin.price;
-                                    if (
-                                        current.for_sale.asset_id === "1.3.0" &&
-                                        type === "sell" &&
-                                        coinPrice < data
-                                    ) {
-                                        swal(
-                                            "META1 Coins cannot be sold for less than asset value",
-                                            "Current asset value is $" +
-                                                data +
-                                                " per META1 coin",
-                                            "warning",
-                                            {
-                                                buttons: false
-                                            }
-                                        );
-                                    } else if (
-                                        current.for_sale.asset_id === "1.3.0" &&
-                                        type === "buy" &&
-                                        coinPrice > 1 / data
-                                    ) {
-                                        swal(
-                                            "META1 Coins cannot be sold for less than asset value",
-                                            "Current asset value is " +
-                                                1 / data +
-                                                " per USD",
-                                            "warning",
-                                            {
-                                                buttons: false
-                                            }
-                                        );
-                                    } else {
-                                        return MarketsActions.createLimitOrder2(
-                                            order
-                                        )
-                                            .then(result => {
-                                                if (result.error) {
-                                                    if (
-                                                        result.error.message !==
-                                                        "wallet locked"
-                                                    )
-                                                        Notification.error({
-                                                            message: counterpart.translate(
-                                                                "notifications.exchange_unknown_error_place_order",
-                                                                {
-                                                                    amount: current.to_receive.getAmount(
-                                                                        {
-                                                                            real: true
-                                                                        }
-                                                                    ),
-                                                                    symbol:
-                                                                        current
-                                                                            .to_receive
-                                                                            .asset_id
-                                                                }
-                                                            )
-                                                        });
-                                                }
-                                                console.log("order success");
-                                                //this._clearForms();
-                                            })
-                                            .catch(e => {
-                                                console.log("order failed:", e);
-                                            });
-                                    }
+        return MarketsActions.createLimitOrder2(order)
+            .then(result => {
+                if (result.error) {
+                    if (result.error.message !== "wallet locked")
+                        Notification.error({
+                            message: counterpart.translate(
+                                "notifications.exchange_unknown_error_place_order",
+                                {
+                                    amount: current.to_receive.getAmount({
+                                        real: true
+                                    }),
+                                    symbol: current.to_receive.asset_id
                                 }
-                            });
+                            )
                         });
-                });
-        } else {
-            return MarketsActions.createLimitOrder2(order)
-                .then(result => {
-                    if (result.error) {
-                        if (result.error.message !== "wallet locked")
-                            Notification.error({
-                                message: counterpart.translate(
-                                    "notifications.exchange_unknown_error_place_order",
-                                    {
-                                        amount: current.to_receive.getAmount({
-                                            real: true
-                                        }),
-                                        symbol: current.to_receive.asset_id
-                                    }
-                                )
-                            });
-                    }
-                    console.log("order success");
-                    //this._clearForms();
-                })
-                .catch(e => {
-                    console.log("order failed:", e);
-                });
-        }
+                }
+                console.log("order success");
+                //this._clearForms();
+            })
+            .catch(e => {
+                console.log("order failed:", e);
+            });
     }
 
     /***
