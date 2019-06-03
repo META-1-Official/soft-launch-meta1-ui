@@ -70,7 +70,7 @@ class WalletUnlockModal extends React.Component {
             rememberMe: WalletUnlockStore.getState().rememberMe,
             focusedOnce: false,
             isAutoLockVisible: false,
-            captcha: false
+            captcha: true
         };
     };
 
@@ -679,10 +679,10 @@ class WalletUnlockModal extends React.Component {
                             </Form.Item>
                         </div>
                     )}
-                    <ReCAPTCHA
+                    {/* <ReCAPTCHA
                         sitekey="6LdY-48UAAAAAAX8Y8-UdRtFks70LCRmyvyye0VU"
                         onChange={this.caChange.bind(this)}
-                    />
+                    /> */}
                     {this.shouldShowBackupWarning() && (
                         <BackupWarning
                             onChange={this.handleAskForBackupChange}

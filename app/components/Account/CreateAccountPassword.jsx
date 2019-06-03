@@ -28,7 +28,7 @@ class CreateAccountPassword extends React.Component {
         super();
         this.state = {
             validAccountName: false,
-            captcha: false,
+            captcha: true,
             accountName: "",
             validPassword: false,
             registrar_account: null,
@@ -437,10 +437,10 @@ class CreateAccountPassword extends React.Component {
                             ) : null}
                         </div>
                     )}
-                    <ReCAPTCHA
+                    {/* <ReCAPTCHA
                         sitekey="6LdY-48UAAAAAAX8Y8-UdRtFks70LCRmyvyye0VU"
                         onChange={this.caChange.bind(this)}
-                    />
+                    /> */}
                     <br />
                     {/* Submit button */}
                     {this.state.loading ? (

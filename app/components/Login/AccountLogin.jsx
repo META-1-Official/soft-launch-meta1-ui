@@ -170,7 +170,7 @@ class AccountLogin extends React.Component {
                         className="active-upload-text without-bin cursor-pointer"
                         content="tooltip.login-tooltip.incorrectPassword.model"
                     />
-                    <ReCAPTCHA sitekey="6LdY-48UAAAAAAX8Y8-UdRtFks70LCRmyvyye0VU" />
+                    {/* <ReCAPTCHA sitekey="6LdY-48UAAAAAAX8Y8-UdRtFks70LCRmyvyye0VU" /> */}
                     <Translate content="tooltip.login-tooltip.incorrectPassword.end" />
                     <span
                         onClick={() => this.hideTooltip()}
@@ -226,7 +226,7 @@ class AccountLogin extends React.Component {
                 help={getHelp()}
                 validateStatus={getValidateStatus()}
             >
-                <ReCAPTCHA sitekey="6LdY-48UAAAAAAX8Y8-UdRtFks70LCRmyvyye0VU" />
+                {/* <ReCAPTCHA sitekey="6LdY-48UAAAAAAX8Y8-UdRtFks70LCRmyvyye0VU" /> */}
                 <Input
                     ref={"password"}
                     placeholder={counterpart.translate("wallet.enter_password")}
@@ -257,7 +257,7 @@ class AccountLogin extends React.Component {
                     {this.renderNameInput()}
 
                     {this.renderPasswordInput()}
-                    <ReCAPTCHA sitekey="6LdY-48UAAAAAAX8Y8-UdRtFks70LCRmyvyye0VU" />
+                    {/* <ReCAPTCHA sitekey="6LdY-48UAAAAAAX8Y8-UdRtFks70LCRmyvyye0VU" /> */}
                     {this.renderButtons()}
                 </Form>
                 {this.renderTooltip()}
