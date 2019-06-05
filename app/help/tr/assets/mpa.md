@@ -16,10 +16,3 @@ onların  karşı taraf riskinden muaf olmalarıdır. Bunun mümkün olması iç
 güvence  altına alma ve hesap görme işlemleri ağın  kendi sorumluluğuna bırakılmıştır  
 (yazılım protokolüyle uygulanarak) . Bu konunun detayları aşağıda
 anlatılacaktır.
-
-Bu, piyasaya-sabitli-varlıkların mevcut bir alt kümesidir:
-* BitUSD
-* BitCNY
-* BitEUR
-* BitGOLD
-* ...

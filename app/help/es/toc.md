@@ -2,7 +2,6 @@
 
  * [Introducción](index.md)
  * [Glosario](glossary.md)
- * [META1](introduction/meta.md)
  * [Billetera](introduction/wallets.md)
  * [Backups](introduction/backups.md)
  * [Blockchain](introduction/blockchain.md)
@@ -11,7 +10,6 @@
  * [Cuentas](accounts/general.md)
  * [Permisos](accounts/permissions.md)
  * [Membresías](accounts/membership.md)
- * [Market Pegged Assets](assets/mpa.md) (BitUSD, BitEUR, BitGOLD, Bit\*,...)
  * [Activos Emitidos por Usuarios](assets/uia.md)
  * [BitAssets Privados](assets/privbitassets.md)
  * [Exchange Descentralizado](dex/introduction.md)

@@ -22,7 +22,6 @@ META1 2.0 - это платформа Финансовых Смарт-Контр
 
 ## Активы
 
-- [Привязанные к рынку активы](assets/mpa.md) (BitUSD, BitEUR, BitGOLD, Bit\*,...)
 - [Эмитированные пользователем активы](assets/uia.md)
 - [Приватизированные BitAssets](assets/privbitassets.md)
 

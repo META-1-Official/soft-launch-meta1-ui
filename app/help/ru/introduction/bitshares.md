@@ -9,15 +9,13 @@
 Вы можете общаться с другими членами сообщества META1 в реальном времени здесь:
 
 - [Telegram](https://t.me/meta1exchange)
-- [Telegram (ru)](https://t.me/MetaDEX_RU)
-- [Discord](https://discord.gg/GsjQfAJ)
 
 ### Разработчики
 
 Если вы являетесь разработчиком программного обеспечения, то можете поучаствовать в баунти-программе здесь:
 
 - [Github UI](https://github.com/meta/meta-ui)
-- [Github Core](https://github.com/meta/meta-core) 
+- [Github Core](https://github.com/meta-source/meta-core) 
 
 ## Введение
 

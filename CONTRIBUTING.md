@@ -2,7 +2,7 @@ Please work off the develop branch and make pull requests to that branch. The ma
 
 The META1 UI team is supported by this [worker proposal](https://www.meta.foundation/workers/2018-08-meta-ui). It provides the funds needed to pay the coordinator and the bounties and the META1 Foundation.
 
-If you would like to get involved, we have a [Telegram chatroom](https://t.me/meta1exchange) where you can ask questions and get help. You may also join [META1 on Discord](https://discord.gg/GsjQfAJ)
+If you would like to get involved, we have a [Telegram chatroom](https://t.me/meta1exchange) where you can ask questions and get help.
 
 - Project Manager: Magnus Anderson, @startail
 - Issue and Funds Coordinator: Bill Butler, @billbutler

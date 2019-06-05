@@ -16,10 +16,3 @@ they resemble a CFD backed by collateral. This is achievable by letting the
 network itself (implemented as a software protocol) be responsible for securing
 the collateral and performing settlements as will be described in more detail
 below.
-
-This is a subset of the available market pegged assets:
-* BitUSD
-* BitCNY
-* BitEUR
-* BitGOLD
-* ...
