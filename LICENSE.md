@@ -1,4 +1,4 @@
-Copyright (c) 2019 The Meta UI worker and and contributors.
+Copyright (c) 2019 The META1 UI worker and and contributors.
 
 The MIT License
 

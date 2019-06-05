@@ -1,10 +1,10 @@
 # Voting
 
-> Voting is important in Meta in the same way it is important to the community in which you live. The weight of your vote is directly correlated to the number of META1 you own. If you aren't heavily involved in the community, you are encouraged to choose a proxy who represents your interests. If you would like to be more involved in the community, check out these [channels](https://t.me/meta1exchange).
+> Voting is important in META1 in the same way it is important to the community in which you live. The weight of your vote is directly correlated to the number of META1 you own. If you aren't heavily involved in the community, you are encouraged to choose a proxy who represents your interests. If you would like to be more involved in the community, check out these [channels](https://t.me/meta1exchange).
 
 ## Proxy
 
-You may choose to **not** be active in the governance of Meta. If this is the case, it's important that you choose someone in the Meta community who you identify with and set that entity as your proxy. This gives them to the power to vote on your behalf with your META1 shares backing their vote. This is similar to electing a representative.
+You may choose to **not** be active in the governance of META1. If this is the case, it's important that you choose someone in the META1 community who you identify with and set that entity as your proxy. This gives them to the power to vote on your behalf with your META1 shares backing their vote. This is similar to electing a representative.
 
 ## Witnesses
 
@@ -14,12 +14,12 @@ Witnesses are entities that work for the blockchain by constructing new blocks. 
 
 Who exactly is allowed to *produce* a block at which time instant is defined by a
 consensus mechanism called *Delegated Proof of Stake*. In essence, you, the
-shareholders of Meta can cast a vote for your preferred block producers on the blockchain. Those *witnesses* with the most votes are allowed to produce blocks.
+shareholders of META1 can cast a vote for your preferred block producers on the blockchain. Those *witnesses* with the most votes are allowed to produce blocks.
 
 
 ## Committee
 
-The committee is a set of entities that are approved by the shareholders and set policy for the Meta blockchain including:
+The committee is a set of entities that are approved by the shareholders and set policy for the META1 blockchain including:
 
 * Transaction and trading fees
 * Blockchain parameters, such as block size, block interval

@@ -8,8 +8,8 @@ lease make sure the following is done:
 
 - Pull request is onto develop
 - If you haven't already, have a look at 
-  - https://github.com/meta/meta-ui/blob/develop/CODE_OF_CONDUCT.md
-  - https://github.com/meta/meta-ui/blob/develop/CONTRIBUTING.md
+  - https://github.com/meta-source/meta-ui/blob/develop/CODE_OF_CONDUCT.md
+  - https://github.com/meta-source/meta-ui/blob/develop/CONTRIBUTING.md
 
 <h2>Code Preparation</h2>
 

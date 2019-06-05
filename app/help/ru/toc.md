@@ -1,6 +1,6 @@
 #### Содержание
 
-- [Meta](introduction/meta.md)
+- [META1](introduction/meta.md)
 - [Кошелек](introduction/wallets.md)
 - [Резервные копии](introduction/backups.md)
 - [Блокчейн](introduction/blockchain.md)

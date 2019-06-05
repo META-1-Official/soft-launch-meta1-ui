@@ -1,6 +1,6 @@
 # Memberships
 
-Accounts in Meta are separated into three groups. We decided to give users
+Accounts in META1 are separated into three groups. We decided to give users
 the option to upgrade their accounts into a VIP-like status if they desire and
 profit from reduced fees and additional features.
 

@@ -1,12 +1,12 @@
 # Помощь Graphene
 
-Meta 2.0 - это платформа Финансовых Смарт-Контрактов, постороенная на технологии [Graphene](https://github.com/cryptonomex/graphene), созданной [Cryptonomex](http://cryptonomex.com). Graphene можно рассматривать как набор инструментов или технологию для создания блокчейнов работающих в режиме реального времени.
+META1 2.0 - это платформа Финансовых Смарт-Контрактов, постороенная на технологии [Graphene](https://github.com/cryptonomex/graphene), созданной [Cryptonomex](http://cryptonomex.com). Graphene можно рассматривать как набор инструментов или технологию для создания блокчейнов работающих в режиме реального времени.
 
 Этот раздел помощи дает краткий обзор и описывает основные понятия этого приложения.
 
 ## Введение
 
-- [Meta](introduction/meta.md)
+- [META1](introduction/meta.md)
 - [Кошелек](introduction/wallets.md)
 - [Резервные копии](introduction/backups.md)
 - [Блокчейн](introduction/blockchain.md)

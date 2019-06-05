@@ -2,7 +2,7 @@
 
  * [ Giriş ](index.md)
  * [Terimler Listesi](glossary.md)
- * [Meta](introduction/meta.md)
+ * [META1](introduction/meta.md)
  * [Cüzdan](introduction/wallets.md)
  * [Yedeklemeler](introduction/backups.md)
  * [Blokzinciri](introduction/blockchain.md)

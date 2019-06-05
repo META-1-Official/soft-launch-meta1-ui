@@ -1,6 +1,6 @@
 #### Help
 
- * [Meta](introduction/meta.md)
+ * [META1](introduction/meta.md)
  * [Wallet](introduction/wallets.md)
  * [Backups](introduction/backups.md)
  * [Blockchain](introduction/blockchain.md)
