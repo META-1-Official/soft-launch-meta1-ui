@@ -114,14 +114,14 @@ export const nodeRegions = [
 export const settingsAPIs = {
     // If you want a location to be translated, add the translation to settings in locale-xx.js
     // and use an object {translate: key} in WS_NODE_LIST
-    DEFAULT_WS_NODE: "wss://maia.meta-exchange.info/socket",
+    DEFAULT_WS_NODE: "wss://merope.meta-exchange.info/socket",
     WS_NODE_LIST: [
         {
-            url: "wss://maia.meta-exchange.info/socket",
-            region: "Aphrodite - Los Angeles",
+            url: "wss://merope.meta-exchange.info/socket",
+            region: "Merope - Ireland",
             country: "META1",
             location: "USA",
-            operator: "Witness: Love",
+            operator: "Witness: Init0-9",
             contact: "telegram:@Avowedly"
         }
     ],
