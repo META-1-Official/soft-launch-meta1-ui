@@ -973,7 +973,7 @@ class Exchange extends React.Component {
             setting[marketName] = !inverted;
             SettingsActions.changeMarketDirection(setting);
         }
-
+        // here is the initiated the check for price
         return MarketsActions.createLimitOrder2(order)
             .then(result => {
                 if (result.error) {
