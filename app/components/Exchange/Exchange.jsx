@@ -978,17 +978,18 @@ class Exchange extends React.Component {
             .then(result => {
                 if (result.error) {
                     if (result.error.message !== "wallet locked")
-                        Notification.error({
-                            message: counterpart.translate(
-                                "notifications.exchange_unknown_error_place_order",
-                                {
-                                    amount: current.to_receive.getAmount({
-                                        real: true
-                                    }),
-                                    symbol: current.to_receive.asset_id
-                                }
-                            )
-                        });
+                        console.log(result.error);
+                    Notification.error({
+                        message: counterpart.translate(
+                            "notifications.exchange_unknown_error_place_order",
+                            {
+                                amount: current.to_receive.getAmount({
+                                    real: true
+                                }),
+                                symbol: current.to_receive.asset_id
+                            }
+                        )
+                    });
                 }
                 console.log("order success");
                 //this._clearForms();
