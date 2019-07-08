@@ -61,7 +61,7 @@ class DepositModalContent extends DecimalChecker {
 
     componentDidMount() {
         (() => {
-            fetch("https://aphrodite.meta-exchange.info/api1/xlm-init", {
+            fetch("https://aphrodite.meta-exchange.info/api/xlm-init", {
                 method: "POST",
                 headers: {
                     Accept: "application/json, text/plain, */*",
