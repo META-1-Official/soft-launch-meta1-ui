@@ -26,7 +26,9 @@ import ScaledOrderTab from "./ScaledOrderTab";
 import ExchangeHeader from "./ExchangeHeader";
 import {MyOpenOrders} from "./MyOpenOrders";
 import {OrderBook} from "./OrderBook";
+import MyMarkets from "./MyMarkets";
 import MarketHistory from "./MarketHistory";
+import Personalize from "./Personalize";
 import MarketPicker from "./MarketPicker";
 import ConfirmOrderModal from "./ConfirmOrderModal";
 import TradingViewPriceChart from "./TradingViewPriceChart";
@@ -2094,7 +2096,9 @@ class Exchange extends React.Component {
                     borderRight: "2px solid black",
                     borderLeft: "4px solid black",
                     borderTop: "2px solid black",
-                    borderBottom: "4px solid black"
+                    borderBottom: "4px solid black",
+                    flexGrow: 1,
+                    minWidth: "290px"
                 }}
                 onChange={this.handleOrderTypeTabChange.bind(this, "bid")}
                 tabBarExtraContent={<div>{buySellTitle(true)}</div>}
@@ -2263,7 +2267,9 @@ class Exchange extends React.Component {
                 style={{
                     borderLeft: "2px solid black",
                     borderTop: "2px solid black",
-                    borderBottom: "4px solid black"
+                    borderBottom: "4px solid black",
+                    flexGrow: 1,
+                    minWidth: "290px"
                 }}
                 className={cnames(
                     "exchange--buy-sell-form",
@@ -2422,9 +2428,42 @@ class Exchange extends React.Component {
         );
 
         let myMarkets =
-            tinyScreen && !this.state.mobileKey.includes("myMarkets")
-                ? null
-                : null;
+            tinyScreen && !this.state.mobileKey.includes("myMarkets") ? null : (
+                <MyMarkets
+                    key={`actionCard_${actionCardIndex++}`}
+                    className="left-order-book no-overflow order-9"
+                    style={{
+                        minWidth: 350,
+                        height: smallScreen ? 680 : "calc(100vh - 215px)",
+                        padding: smallScreen ? 10 : 0
+                    }}
+                    headerStyle={{
+                        width: "100%",
+                        display: !smallScreen ? "display: none" : ""
+                    }}
+                    noHeader={true}
+                    listHeight={this.state.height - 450}
+                    columns={[
+                        {name: "star", index: 1},
+                        {name: "market", index: 2},
+                        {name: "vol", index: 3},
+                        {name: "price", index: 4},
+                        {name: "change", index: 5}
+                    ]}
+                    findColumns={[
+                        {name: "market", index: 1},
+                        {name: "issuer", index: 2},
+                        {name: "vol", index: 3},
+                        {name: "add", index: 4}
+                    ]}
+                    current={`${quoteSymbol}_${baseSymbol}`}
+                    location={this.props.location}
+                    history={this.props.history}
+                    activeTab={
+                        tabVerticalPanel ? tabVerticalPanel : "my-market"
+                    }
+                />
+            );
 
         let orderBook =
             tinyScreen && !this.state.mobileKey.includes("orderBook") ? null : (
@@ -2565,18 +2604,20 @@ class Exchange extends React.Component {
             !this.state.mobileKey.includes("myOpenOrders") ? null : (
                 <MyOpenOrders
                     key={`actionCard_${actionCardIndex++}`}
-                    style={{marginBottom: !tinyScreen ? 0 : 0}}
+                    style={{marginBottom: 0}}
                     className={cnames(
                         panelTabs["my_orders"] == 0
                             ? centerContainerWidth > 1200
                                 ? "medium-6 large-6 xlarge-4"
                                 : centerContainerWidth > 800
-                                    ? "medium-6"
+                                    ? "medium-12"
                                     : ""
                             : "medium-12",
                         "no-padding no-overflow small-12 order-7"
                     )}
-                    innerStyle={{paddingBottom: !tinyScreen ? "0" : "0"}}
+                    innerStyle={{
+                        paddingBottom: "0"
+                    }}
                     noHeader={panelTabs["my_orders"] == 0 ? false : true}
                     orders={marketLimitOrders}
                     settleOrders={marketSettleOrders}
@@ -2720,7 +2761,60 @@ class Exchange extends React.Component {
                         />
                     </Tooltip>
                 )}
-
+                {this.state.isPersonalizeModalVisible ||
+                this.state.isPersonalizeModalLoaded ? (
+                    <Personalize
+                        visible={this.state.isPersonalizeModalVisible}
+                        showModal={this.showPersonalizeModal}
+                        hideModal={this.hidePersonalizeModal}
+                        viewSettings={this.props.viewSettings}
+                        chartType={chartType}
+                        chartHeight={chartHeight}
+                        onTogglePersonalize={this._togglePersonalize.bind(this)}
+                        onChangeChartHeight={this.onChangeChartHeight.bind(
+                            this
+                        )}
+                        handleGroupOrderLimitChange={this._onGroupOrderLimitChange.bind(
+                            this
+                        )}
+                        trackedGroupsConfig={trackedGroupsConfig}
+                        currentGroupOrderLimit={currentGroupOrderLimit}
+                        verticalOrderBook={verticalOrderBook}
+                        hideScrollbars={hideScrollbars}
+                        mirrorPanels={mirrorPanels}
+                        panelTabs={panelTabs}
+                        singleColumnOrderForm={singleColumnOrderForm}
+                        buySellTop={buySellTop}
+                        flipBuySell={flipBuySell}
+                        flipOrderBook={flipOrderBook}
+                        tinyScreen={tinyScreen}
+                        smallScreen={smallScreen}
+                        orderBookReversed={orderBookReversed}
+                        chartZoom={chartZoom}
+                        chartTools={chartTools}
+                        hideFunctionButtons={hideFunctionButtons}
+                        onMoveOrderBook={this._moveOrderBook.bind(this)}
+                        onMirrorPanels={this._mirrorPanels.bind(this)}
+                        onToggleScrollbars={this._toggleScrollbars.bind(this)}
+                        onSetAutoscroll={this._setAutoscroll.bind(this)}
+                        onToggleChart={this._toggleChart.bind(this)}
+                        onSetPanelTabs={this._setPanelTabs.bind(this)}
+                        onToggleSingleColumnOrderForm={this._toggleSingleColumnOrderForm.bind(
+                            this
+                        )}
+                        onToggleBuySellPosition={this._toggleBuySellPosition.bind(
+                            this
+                        )}
+                        onFlipBuySell={this._flipBuySell.bind(this)}
+                        onFlipOrderBook={this._flipOrderBook.bind(this)}
+                        onOrderBookReversed={this._orderBookReversed.bind(this)}
+                        onChartZoom={this._chartZoom.bind(this)}
+                        onChartTools={this._chartTools.bind(this)}
+                        onHideFunctionButtons={this._hideFunctionButtons.bind(
+                            this
+                        )}
+                    />
+                ) : null}
                 <Tooltip
                     title={
                         chartType == "market_depth"
@@ -2765,7 +2859,7 @@ class Exchange extends React.Component {
                 className={"left-order-book small-12"}
                 style={{
                     paddingLeft: 5,
-                    width: !smallScreen ? 300 : "auto"
+                    width: !smallScreen ? 600 : 300
                 }}
             >
                 <Tabs
@@ -2935,7 +3029,7 @@ class Exchange extends React.Component {
                                     ? "medium-12"
                                     : "medium-6"
                                 : "",
-                        "small-12 order-1"
+                        "small-12 order-1 my-open-orders-res"
                     )}
                 >
                     <Tabs
@@ -3142,7 +3236,7 @@ class Exchange extends React.Component {
                     style={{display: "block"}}
                     key={`actionCard_${actionCardIndex++}`}
                 >
-                    {/* <div
+                    <div
                         className="v-align no-padding align-center grid-block footer shrink column"
                         data-intro={translator.translate(
                             "walkthrough.my_markets"
@@ -3165,7 +3259,7 @@ class Exchange extends React.Component {
                             />
                         </Tabs>
                     </div>
-                    {myMarkets} */}
+                    {myMarkets}
                 </div>
             );
 
@@ -3207,33 +3301,33 @@ class Exchange extends React.Component {
             );
 
             rightPanelContainer = null;
-            // <div className="grid-block left-column shrink no-overflow">
-            //     {enableToggleRight ? (
-            //         <div
-            //             style={{
-            //                 width: "auto",
-            //                 paddingTop: "calc(50vh - 80px)"
-            //             }}
-            //             onClick={this._togglePanel.bind(this, "right")}
-            //         >
-            //             <AntIcon
-            //                 data-intro={translator.translate(
-            //                     "walkthrough.panel_hide"
-            //                 )}
-            //                 type={
-            //                     activePanels.includes("right")
-            //                         ? "caret-right"
-            //                         : "caret-left"
-            //                 }
-            //             />
-            //         </div>
-            //     ) : null}
-            //     {activePanels.includes("right")
-            //         ? !mirrorPanels
-            //             ? rightPanel
-            //             : leftPanel
-            //         : null}
-            // </div>
+            <div className="grid-block left-column shrink no-overflow">
+                {enableToggleRight ? (
+                    <div
+                        style={{
+                            width: "auto",
+                            paddingTop: "calc(50vh - 80px)"
+                        }}
+                        onClick={this._togglePanel.bind(this, "right")}
+                    >
+                        <AntIcon
+                            data-intro={translator.translate(
+                                "walkthrough.panel_hide"
+                            )}
+                            type={
+                                activePanels.includes("right")
+                                    ? "caret-right"
+                                    : "caret-left"
+                            }
+                        />
+                    </div>
+                ) : null}
+                {activePanels.includes("right")
+                    ? !mirrorPanels
+                        ? rightPanel
+                        : leftPanel
+                    : null}
+            </div>;
         }
 
         return (
@@ -3302,14 +3396,16 @@ class Exchange extends React.Component {
                             }
                         >
                             {!tinyScreen ? (
-                                <div style={{display: "flex"}}>
+                                <div
+                                    style={{display: "flex", flexWrap: "wrap"}}
+                                >
                                     {/* Price history chart */}
                                     {chartType && chartType == "price_chart" ? (
                                         <div
                                             className="grid-block shrink no-overflow"
                                             id="market-charts"
                                             style={{
-                                                minWidth: "60%",
+                                                flexGrow: "2",
                                                 display: "inline-block",
                                                 borderBottom: "2px solid black"
                                             }}
@@ -3323,8 +3419,10 @@ class Exchange extends React.Component {
                                     chartType == "market_depth" ? (
                                         <div
                                             className="grid-block vertical no-padding shrink"
+                                            id="market-charts"
                                             style={{
-                                                width: "60%",
+                                                flexGrow: "2",
+                                                width: "280px",
                                                 display: "inline-block"
                                             }}
                                         >
@@ -3334,9 +3432,10 @@ class Exchange extends React.Component {
 
                                     {/* Order book */}
                                     <div
-                                        className="grid-block shrink no-overflow small-2"
+                                        className="orders-trade-form grid-block shrink no-overflow small-2"
                                         style={{
-                                            minWidth: "20%",
+                                            flexGrow: "1",
+                                            minWidth: "280px",
                                             display: "inline-block",
                                             borderBottom: "2px solid black"
                                             //position: "absolute"
@@ -3346,9 +3445,10 @@ class Exchange extends React.Component {
                                     </div>
                                     {/* Trade history */}
                                     <div
-                                        className="small-2 "
+                                        className="small-2 orders-trade-form"
                                         style={{
-                                            minWidth: "20%",
+                                            flexGrow: "1",
+                                            minWidth: "280px",
                                             display: "inline-block",
                                             position: "relative",
                                             borderBottom: "2px solid black"
