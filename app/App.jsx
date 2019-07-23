@@ -40,6 +40,12 @@ const Explorer = Loadable({
     loading: LoadingIndicator
 });
 
+const Arts = Loadable({
+    loader: () =>
+        import(/* webpackChunkName: "arts" */ "./components/Arts/Arts.js"),
+    loading: LoadingIndicator
+});
+
 const AccountPage = Loadable({
     loader: () =>
         import(/* webpackChunkName: "account" */ "./components/Account/AccountPage"),
@@ -55,11 +61,6 @@ const Transfer = Loadable({
 const AccountDepositWithdraw = Loadable({
     loader: () =>
         import(/* webpackChunkName: "deposit-withdraw" */ "./components/Account/AccountDepositWithdraw"),
-    loading: LoadingIndicator
-});
-
-const News = Loadable({
-    loader: () => import(/* webpackChunkName: "news" */ "./components/News"),
     loading: LoadingIndicator
 });
 
@@ -411,10 +412,7 @@ class App extends React.Component {
                                     path="/settings/:tab"
                                     component={Settings}
                                 />
-                                <Route
-                                    path="/settings"
-                                    component={Settings}
-                                />
+                                <Route path="/settings" component={Settings} />
 
                                 <Route
                                     path="/transfer"
@@ -430,10 +428,7 @@ class App extends React.Component {
                                     path="/create-account"
                                     component={LoginSelector}
                                 />
-                                <Route
-                                    path="/login"
-                                    component={Login}
-                                />
+                                <Route path="/login" component={Login} />
                                 <Route
                                     path="/registration"
                                     exact
@@ -449,26 +444,19 @@ class App extends React.Component {
                                     exact
                                     component={AccountRegistration}
                                 />
-                                <Route
-                                    path="/news"
-                                    exact
-                                    component={News}
-                                />
                                 <Redirect
                                     path={"/voting"}
                                     to={{
                                         pathname: `/account/${accountName}/voting`
                                     }}
                                 />
+                                <Route path="/arts" component={Arts} />
                                 {/* Explorer routes */}
                                 <Route
                                     path="/explorer/:tab"
                                     component={Explorer}
                                 />
-                                <Route
-                                    path="/explorer"
-                                    component={Explorer}
-                                />
+                                <Route path="/explorer" component={Explorer} />
                                 <Route
                                     path="/asset/:symbol"
                                     component={Asset}
@@ -483,15 +471,9 @@ class App extends React.Component {
                                     path="/block/:height/:txIndex"
                                     component={Block}
                                 />
-                                <Route
-                                    path="/borrow"
-                                    component={Borrow}
-                                />
+                                <Route path="/borrow" component={Borrow} />
 
-                                <Route
-                                    path="/barter"
-                                    component={Barter}
-                                />
+                                <Route path="/barter" component={Barter} />
                                 <Route
                                     path="/direct-debit"
                                     component={DirectDebit}
@@ -522,11 +504,7 @@ class App extends React.Component {
                                 />
 
                                 {/* Help routes */}
-                                <Route
-                                    exact
-                                    path="/help"
-                                    component={Help}
-                                />
+                                <Route exact path="/help" component={Help} />
                                 <Route
                                     exact
                                     path="/help/:path1"

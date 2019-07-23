@@ -2,7 +2,6 @@
 
  * [ Giriş ](index.md)
  * [Terimler Listesi](glossary.md)
- * [BitShares](introduction/bitshares.md)
  * [Cüzdan](introduction/wallets.md)
  * [Yedeklemeler](introduction/backups.md)
  * [Blokzinciri](introduction/blockchain.md)
@@ -12,7 +11,6 @@
  * [Hesaplar](accounts/general.md)
  * [İzinler](accounts/permissions.md)
  * [Üyelikler](accounts/membership.md)
- * [Piyasaya Sabitli Aktifler](assets/mpa.md) (BitUSD, BitEUR, BitGOLD, Bit\*,...)
  * [Kullanıcı Aktifler](assets/uia.md)
  * [Özelleştirilmiş BitAktifler](assets/privbitassets.md)
  * [Merkezsiz/dağıtık Borsa](dex/introduction.md)

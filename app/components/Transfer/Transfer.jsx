@@ -603,8 +603,9 @@ class Transfer extends React.Component {
                                 </p>
                             ) : null}
                         </div>
-                        {/*  M E M O  */}
-                        <div className="content-block transfer-input">
+                        {/*  M E M O  left for later rost*/}
+
+                        {/* <div className="content-block transfer-input">
                             {memo && memo.length ? (
                                 <label className="right-label">
                                     {memo.length}
@@ -630,7 +631,7 @@ class Transfer extends React.Component {
                                 tabIndex={tabIndex++}
                                 onChange={this.onMemoChanged.bind(this)}
                             />
-                            {/* warning */}
+
                             {this.state.propose ? (
                                 <div
                                     className="error-area"
@@ -642,7 +643,7 @@ class Transfer extends React.Component {
                                     />
                                 </div>
                             ) : null}
-                        </div>
+                        </div> */}
 
                         {/*  F E E   */}
                         <div

@@ -1,8 +1,20 @@
 Please work off the develop branch and make pull requests to that branch. The master branch will only be updated for new releases.
 
-The Bitshares UI team is supported by this [worker proposal](https://www.bitshares.foundation/workers/2019-02-bitshares-ui). It provides the funds needed to pay for the development team and the community bounties.
+The META1 UI team is supported by this [worker proposal](https://www.meta.foundation/workers/2018-08-meta-ui). It provides the funds needed to pay the coordinator and the bounties and the META1 Foundation.
 
-If you would like to get involved, we have a [Telegram chatroom](https://t.me/BitSharesDEX) where you can ask questions and get help. You may also join [BitShares on Discord](https://discord.gg/GsjQfAJ)
+If you would like to get involved, we have a [Telegram chatroom](https://t.me/meta1exchange) where you can ask questions and get help.
+
+- Project Manager: Magnus Anderson, @startail
+- Issue and Funds Coordinator: Bill Butler, @billbutler
+- Lead Developer: Sigve Kvalsvik, @sigvek
+
+
+## 贡献
+
+META1 UI团队被这一[工作提案](https://steemit.com/meta/@billbutler/translated-by-zhaomu-l)支持。它提供用来支付协调者，悬赏金和比特股基金的资金。
+
+如果你想参与贡献，我们有一个[Telegram 聊天室](https://t.me/meta1exchange)，在这里你可以问问题并得到帮助。
+
 
 ## Development process
 
@@ -14,10 +26,7 @@ If you would like to get involved, we have a [Telegram chatroom](https://t.me/Bi
 - Milestones are numbered YYMMDD and indicates the expected delivery.
 - Bugs are always worked before enhancements
 - Developers should work each issue according to a numbered branch corresponding to the issue `git checkout -b 123`
-- We pay **bounties** for issues that have been estimated. An estimated issue is prefixed with a number in brackets like this: `[2] An nasty bug`. In this example, the bug is valued at two **Quality Hours** ($125 per hour). If you fix this issue according to these guidelines and your PR is accepted, this will earn you $250 worth of bitCNY. You must have a Bitshares wallet and a Bitshares account to receive payment.
-- Non-code contributions such as translations, documentation work and others may be compensated at a lower hourly rate. This will be clearly stated in the relevant issue.
-
-**IMPORTANT NOTES FOR NEW DEVELOPERS**
+- We pay **bounties** for issues that have been estimated. An estimated issue is prefixed with a number in brackets like this: `[2] An nasty bug`. In this example, the bug is valued at two hours ($125 per hour). If you fix this issue according to these guidelines and your PR is accepted, this will earn you $250 bitUSD. You must have a META1 wallet and a META1 account to receive payment.
 - To claim an issue, simply leave a comment with your request to work on it.
 - Bounty payment is **Quality Hours**, meaning an experienced developer could complete the task within the assigned hours. Inexperienced users may need more time, to learn the coding standards or practices used on the project, but still receive the same pay.
 - To make sure no underpayment for development is made, it is important that if an issue would require more **Quality Hours** time, it should be stated clearly in the issue together with a reason and a new estimate, which also requires an approval.

@@ -23,6 +23,7 @@ import {withRouter} from "react-router-dom";
 import {scroller} from "react-scroll";
 import {getWalletName} from "branding";
 import {Notification} from "bitshares-ui-style-guide";
+import ReCAPTCHA from "react-google-recaptcha";
 
 class CreateAccount extends React.Component {
     constructor() {
@@ -49,6 +50,10 @@ class CreateAccount extends React.Component {
             setting: "passwordLogin",
             value: false
         });
+    }
+
+    onChange(value) {
+        console.log("Captcha value:", value);
     }
 
     componentDidMount() {
@@ -312,7 +317,7 @@ class CreateAccount extends React.Component {
                 )}
 
                 <div className="divider" />
-
+                {/* <ReCAPTCHA sitekey="6LdY-48UAAAAAAX8Y8-UdRtFks70LCRmyvyye0VU" /> */}
                 {/* Submit button */}
                 {this.state.loading ? (
                     <LoadingIndicator type="three-bounce" />

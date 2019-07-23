@@ -243,7 +243,7 @@ class Settings extends React.Component {
 
             case "inverseMarket":
             case "confirmMarketOrder":
-                value = findEntry(e.target.value, defaults[setting]) === 0; // USD/BTS is true, BTS/USD is false
+                value = findEntry(e.target.value, defaults[setting]) === 0; // USD/META1 is true, META1/USD is false
                 break;
 
             case "apiServer":

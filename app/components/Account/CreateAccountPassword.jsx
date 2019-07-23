@@ -21,12 +21,14 @@ import CopyButton from "../Utility/CopyButton";
 import {withRouter} from "react-router-dom";
 import {scroller} from "react-scroll";
 import {Notification, Tooltip} from "bitshares-ui-style-guide";
+import ReCAPTCHA from "react-google-recaptcha";
 
 class CreateAccountPassword extends React.Component {
     constructor() {
         super();
         this.state = {
             validAccountName: false,
+            captcha: true,
             accountName: "",
             validPassword: false,
             registrar_account: null,
@@ -126,6 +128,10 @@ class CreateAccountPassword extends React.Component {
         WalletUnlockActions.checkLock.defer();
     }
 
+    onChange(value) {
+        console.log("Captcha value:", value);
+    }
+
     createAccount(name, password) {
         let refcode = this.refs.refcode ? this.refs.refcode.value() : null;
         let referralAccount = AccountStore.getState().referralAccount;
@@ -195,7 +201,8 @@ class CreateAccountPassword extends React.Component {
         //     this.createAccount(account_name);
         // } else {
         let password = this.state.generatedPassword;
-        this.createAccount(account_name, password);
+        if (this.state.captcha) this.createAccount(account_name, password);
+        else alert("Pass the reCaptcha check!");
     }
 
     onRegistrarAccountChange(registrar_account) {
@@ -206,7 +213,11 @@ class CreateAccountPassword extends React.Component {
     //     e.preventDefault();
     //     this.setState({hide_refcode: false});
     // }
-
+    caChange = () => {
+        this.setState({
+            captcha: true
+        });
+    };
     _onInput(value, e) {
         this.setState({
             [value]:
@@ -239,7 +250,6 @@ class CreateAccountPassword extends React.Component {
         let buttonClass = classNames("submit-button button no-margin", {
             disabled: !valid || (registrar_account && !isLTM)
         });
-
         return (
             <div style={{textAlign: "left"}}>
                 <form
@@ -427,7 +437,11 @@ class CreateAccountPassword extends React.Component {
                             ) : null}
                         </div>
                     )}
-
+                    {/* <ReCAPTCHA
+                        sitekey="6LdY-48UAAAAAAX8Y8-UdRtFks70LCRmyvyye0VU"
+                        onChange={this.caChange.bind(this)}
+                    /> */}
+                    <br />
                     {/* Submit button */}
                     {this.state.loading ? (
                         <LoadingIndicator type="three-bounce" />

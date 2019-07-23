@@ -3,9 +3,7 @@ Help
 
 If you have any questions, please contact one of the following people:
 
-- fabian@bitshares.org
-- cass@bitshares.org
-- bitsharesblocks@gmail.com
+- invest@meta.io
+- go.go.gg.rostislav@gmail.com
+- metablocks@gmail.com
 - valentine@cryptonomex.com
-
-There's also a very active `Telegram chatroom <https://web.telegram.org/#/im?p=g33416306>`_

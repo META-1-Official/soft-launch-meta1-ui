@@ -114,7 +114,7 @@ export const nodeRegions = [
 export const settingsAPIs = {
     // If you want a location to be translated, add the translation to settings in locale-xx.js
     // and use an object {translate: key} in WS_NODE_LIST
-    DEFAULT_WS_NODE: "wss://fake.automatic-selection.com",
+    DEFAULT_WS_NODE: "wss://aphrodite.meta-exchange.info/socket",
     WS_NODE_LIST: [
         {
             url: "wss://fake.automatic-selection.com",
@@ -230,49 +230,52 @@ export const settingsAPIs = {
                 "email:admin@blckchnd.com;telegram:ruslansalikhov;github:blckchnd"
         },
         {
-            url: "wss://api.bitsharesdex.com",
-            region: "Northern America",
-            country: "U.S.A.",
-            location: "Kansas City",
-            operator: "Witness: delegate.ihashfury",
-            contact: "telegram:ihashfury"
+            url: "wss://seraphim.meta-exchange.info/socket",
+            region: "Seraphim - Los Angeles",
+            country: "META1",
+            location: "USA",
+            operator: "Witness: Unity",
+            contact: "telegram:@Avowedly"
         },
         {
-            url: "wss://api.fr.bitsharesdex.com",
-            region: "Western Europe",
-            country: "France",
-            location: "Paris",
-            operator: "Witness: delegate.ihashfury",
-            contact: "telegram:ihashfury"
+            url: "wss://celaeno.meta-exchange.info//socket",
+            region: "Celaeno - Virginia",
+            country: "META1",
+            location: "USA",
+            operator: "Witness: Abundance",
+            contact: "telegram:@Avowedly"
         },
         {
-            url: "wss://blockzms.xyz/ws ",
-            region: "North America",
-            country: "U.S.A.",
-            location: "New Jersey",
-            operator: "Witness: delegate-zhaomu",
-            contact: "telegram:lzmlam;wechat:lzmlam"
+            url: "wss://merope.meta-exchange.info/socket",
+            region: "Merope - Ireland",
+            country: "META1",
+            location: "Ireland",
+            operator: "Witness: Victory",
+            contact: "telegram:@Avowedly"
         },
         {
-            url: "wss://eu.nodes.bitshares.ws",
-            region: "Western Europe",
-            country: "Germany",
-            operator: "Infrastructure Worker",
-            contact: "email:info@blockchainprojectsbv.com"
+            url: "wss://asterope.meta-exchange.info/socket",
+            region: "Asterope - London",
+            country: "META1",
+            location: "UK",
+            operator: "Witness: Trust",
+            contact: "telegram:@Avowedly"
         },
         {
-            url: "wss://us.nodes.bitshares.ws",
-            region: "North America",
-            country: "U.S.A.",
-            operator: "Infrastructure Worker",
-            contact: "email:info@blockchainprojectsbv.com"
+            url: "wss://taygete.meta-exchange.info/socket",
+            region: "Taygete - Frankfurt",
+            country: "META1",
+            location: "Germany",
+            operator: "Witness: Honor",
+            contact: "telegram:@Avowedly"
         },
         {
-            url: "wss://sg.nodes.bitshares.ws",
-            region: "Southeastern Asia",
-            country: "Singapore",
-            operator: "Infrastructure Worker",
-            contact: "email:info@blockchainprojectsbv.com"
+            url: "wss://alcyone.meta-exchange.info/socket",
+            region: "Alcyone - Paris",
+            country: "META1",
+            location: "France",
+            operator: "Witness: Harmony",
+            contact: "telegram:@Avowedly"
         },
         {
             url: "wss://api.bts.mobi/ws",
@@ -685,5 +688,5 @@ export const settingsAPIs = {
         }
     ],
     DEFAULT_FAUCET: getFaucet().url,
-    TESTNET_FAUCET: "https://faucet.testnet.bitshares.eu"
+    TESTNET_FAUCET: getFaucet().url
 };

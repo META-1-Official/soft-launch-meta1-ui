@@ -1059,17 +1059,18 @@ class Exchange extends React.Component {
             .then(result => {
                 if (result.error) {
                     if (result.error.message !== "wallet locked")
-                        Notification.error({
-                            message: counterpart.translate(
-                                "notifications.exchange_unknown_error_place_order",
-                                {
-                                    amount: current.to_receive.getAmount({
-                                        real: true
-                                    }),
-                                    symbol: current.to_receive.asset_id
-                                }
-                            )
-                        });
+                        console.log(result.error);
+                    Notification.error({
+                        message: counterpart.translate(
+                            "notifications.exchange_unknown_error_place_order",
+                            {
+                                amount: current.to_receive.getAmount({
+                                    real: true
+                                }),
+                                symbol: current.to_receive.asset_id
+                            }
+                        )
+                    });
                 }
             })
             .catch(e => {
@@ -1575,7 +1576,6 @@ class Exchange extends React.Component {
         this.setState({
             buyModalType: type
         });
-
         this.showDepositBridgeModal();
     }
 
@@ -1769,7 +1769,6 @@ class Exchange extends React.Component {
             quote: current[isBid ? "to_receive" : "for_sale"],
             real: parseFloat(e.target.value) || 0
         });
-
         if (isBid) {
             this._setForSale(current, isBid) ||
                 this._setReceive(current, isBid);
@@ -1968,8 +1967,15 @@ class Exchange extends React.Component {
         if (quoteAsset.size && baseAsset.size && currentAccount.size) {
             base = baseAsset;
             quote = quoteAsset;
+
             baseSymbol = base.get("symbol");
             quoteSymbol = quote.get("symbol");
+            // if(quoteSymbol === "META1" && baseSymbol === "USD") {
+            //     var sellPrice = 11;
+            // }
+            // else if (quoteSymbol === "USD" && baseSymbol === "META1") {
+            //     var buyPrice = 44;
+            // }
 
             accountBalance = currentAccount.get("balances").toJS();
 

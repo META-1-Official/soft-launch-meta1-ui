@@ -803,11 +803,7 @@ class AccountPortfolioList extends React.Component {
 
             /* Table content */
             directMarketLink = notCore ? (
-                <Link
-                    to={`/market/${asset.get(
-                        "symbol"
-                    )}_${preferredMarket}`}
-                >
+                <Link to={`/market/${asset.get("symbol")}_${preferredMarket}`}>
                     <Icon
                         name="trade"
                         title="icons.trade.trade"
@@ -815,11 +811,7 @@ class AccountPortfolioList extends React.Component {
                     />
                 </Link>
             ) : notCorePrefUnit ? (
-                <Link
-                    to={`/market/${asset.get(
-                        "symbol"
-                    )}_${preferredUnit}`}
-                >
+                <Link to={`/market/${asset.get("symbol")}_${preferredUnit}`}>
                     <Icon
                         name="trade"
                         title="icons.trade.trade"
@@ -865,7 +857,7 @@ class AccountPortfolioList extends React.Component {
             );
             const canDeposit =
                 (backedCoin && backedCoin.depositAllowed) ||
-                asset.get("symbol") == "BTS";
+                asset.get("symbol") == "META1";
 
             const canWithdraw =
                 backedCoin &&
@@ -1117,7 +1109,7 @@ class AccountPortfolioList extends React.Component {
                                 .find(
                                     a => a.backingCoin === thisAssetName[1]
                                 ) ||
-                            asset.get("symbol") == "BTS";
+                            asset.get("symbol") == "META1";
 
                         const canBuy = !!this.props.bridgeCoins.get(
                             asset.get("symbol")

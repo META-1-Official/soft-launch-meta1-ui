@@ -241,7 +241,7 @@ class DepositModalContent extends DecimalChecker {
         let {account} = this.props;
         let usingGateway = true;
 
-        if (selectedGateway == null && selectedAsset == "BTS") {
+        if (selectedGateway == null && selectedAsset == "META1") {
             usingGateway = false;
             depositAddress = {address: account};
         }

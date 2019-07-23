@@ -27,7 +27,7 @@ class AccountOverview extends React.Component {
         this.state = {
             shownAssets: props.viewSettings.get("shownAssets", "active"),
             alwaysShowAssets: [
-                "BTS"
+                "META1"
                 // "USD",
                 // "CNY",
                 // "OPEN.BTC",
