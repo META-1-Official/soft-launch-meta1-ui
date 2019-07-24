@@ -10,8 +10,8 @@ import {Apis} from "meta1js-ws";
  * @private
  */
 function _isTestnet() {
-    const chainId = (Apis.instance().chain_id || "4018d784").substr(0, 8);
-    if (chainId === "4018d784") {
+    const chainId = (Apis.instance().chain_id || "b168681c").substr(0, 8);
+    if (chainId === "b168681c") {
         return false;
     } else {
         // treat every other chain as testnet, exact would be chainId === "39f5e2ed"
