@@ -127,6 +127,86 @@ export const settingsAPIs = {
             location: "USA",
             operator: "Witness: aphrodite",
             contact: "telegram:@Avowedly"
+        },
+        {
+            url: "wss://seraphim.meta-exchange.info/socket",
+            region: "Seraphim - Los Angeles",
+            country: "META1",
+            location: "USA",
+            operator: "Witness: Unity",
+            contact: "telegram:@Avowedly"
+        },
+        {
+            url: "wss://celaeno.meta-exchange.info//socket",
+            region: "Celaeno - Virginia",
+            country: "META1",
+            location: "USA",
+            operator: "Witness: Abundance",
+            contact: "telegram:@Avowedly"
+        },
+        {
+            url: "wss://merope.meta-exchange.info/socket",
+            region: "Merope - Ireland",
+            country: "META1",
+            location: "Ireland",
+            operator: "Witness: Victory",
+            contact: "telegram:@Avowedly"
+        },
+        {
+            url: "wss://asterope.meta-exchange.info/socket",
+            region: "Asterope - London",
+            country: "META1",
+            location: "UK",
+            operator: "Witness: Trust",
+            contact: "telegram:@Avowedly"
+        },
+        {
+            url: "wss://taygete.meta-exchange.info/socket",
+            region: "Taygete - Frankfurt",
+            country: "META1",
+            location: "Germany",
+            operator: "Witness: Honor",
+            contact: "telegram:@Avowedly"
+        },
+        {
+            url: "wss://alcyone.meta-exchange.info/socket",
+            region: "Alcyone - Paris",
+            country: "META1",
+            location: "France",
+            operator: "Witness: Harmony",
+            contact: "telegram:@Avowedly"
+        },
+        {
+            url: "wss://pleione.meta-exchange.info/socket",
+            region: "Pleione - Canada (Central)",
+            country: "META1",
+            location: "Canada",
+            operator: "Witness: Balance",
+            contact: "telegram:@Avowedly"
+        },
+        {
+            url: "wss://atlas.meta-exchange.info/socket",
+            region: "Atlas - Singapore",
+            country: "META1",
+            location: "Singapore",
+            operator: "Witness: Freedom",
+            contact: "telegram:@Avowedly"
+        },
+        {
+            url: "wss://zeus.meta-exchange.info/socket",
+            region: "Zeus - Seoul",
+            country: "META1",
+            location: "South Korea",
+            operator: "Witness: Wisdom",
+            contact: "telegram:@Avowedly"
+        },
+        {
+            url: "wss://hathor.meta-exchange.info/socket",
+            region: "Hathor - Sydney",
+            country: "META1",
+            location: "Australia",
+            operator: "Witness: Awareness",
+            contact: "telegram:@Avowedly"
         }
     ],
     ES_WRAPPER_LIST: [
