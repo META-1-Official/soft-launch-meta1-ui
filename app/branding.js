@@ -94,7 +94,7 @@ export function getUnits() {
  */
 
 export function getMyMarketsBases() {
-    return ["BTC", "ETH", "META1", "USD", "CNY"];
+    return ["META1", "BTC", "ETH", "USD", "CNY"];
 }
 
 /**
