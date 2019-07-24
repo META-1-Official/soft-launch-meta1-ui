@@ -1,5 +1,5 @@
-import {Apis} from "bitsharesjs-ws";
-import {ChainStore, FetchChain} from "bitsharesjs";
+import {Apis} from "meta1js-ws";
+import {ChainStore, FetchChain} from "meta1js";
 import {
     Tabs,
     Collapse,

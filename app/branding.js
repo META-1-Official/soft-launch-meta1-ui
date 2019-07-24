@@ -1,4 +1,4 @@
-import {Apis} from "bitsharesjs-ws";
+import {Apis} from "meta1js-ws";
 /** This file centralized customization and branding efforts throughout the whole wallet and is meant to facilitate
  *  the process.
  *
@@ -32,7 +32,7 @@ export function getWalletName() {
  * @returns {string}
  */
 export function getWalletURL() {
-    return "https://aphrodite.meta-exchange.info";
+    return "https://zeus.meta-exchange.info";
 }
 
 /**
@@ -62,7 +62,7 @@ export function getLogo() {
  */
 export function getDefaultTheme() {
     // possible ["midnightTheme", "lightTheme"]
-    return "midnightTheme";
+    return "darkTheme";
 }
 
 /**
@@ -81,9 +81,9 @@ export function getDefaultLogin() {
  */
 export function getUnits() {
     if (_isTestnet()) {
-        return ["TEST"];
+        return ["META1"];
     } else {
-        return ["BTS", "USD", "CNY", "BTC", "EUR", "GBP"];
+        return ["META1", "USD", "CNY", "BTC", "EUR", "GBP"];
     }
 }
 
@@ -257,7 +257,7 @@ export function getFeaturedMarkets(quotes = []) {
         ["USD", "RUDEX.BTC"],
         ["USD", "RUDEX.STEEM"],
         ["USD", "RUDEX.EOS"],
-        ["CNY", "BTS"],
+        ["CNY", "META1"],
         ["CNY", "OPEN.BTC"],
         ["CNY", "USD"],
         ["CNY", "OPEN.ETH"],
@@ -276,61 +276,61 @@ export function getFeaturedMarkets(quotes = []) {
         ["CNY", "RUDEX.GBG"],
         ["CNY", "RUDEX.BTC"],
         ["CNY", "RUDEX.EOS"],
-        ["OPEN.BTC", "BTS"],
+        ["OPEN.BTC", "META1"],
         ["OPEN.BTC", "OPEN.ETH"],
         ["OPEN.BTC", "OPEN.DASH"],
         ["OPEN.BTC", "OPEN.DGD"],
         ["OPEN.BTC", "OPEN.STEEM"],
-        ["BTS", "OPEN.ETH"],
-        ["BTS", "OPEN.EOS"],
-        ["BTS", "PPY"],
-        ["BTS", "OPEN.STEEM"],
-        ["BTS", "OBITS"],
-        ["BTS", "RUBLE"],
-        ["BTS", "HERO"],
-        ["BTS", "OCT"],
-        ["BTS", "SILVER"],
-        ["BTS", "GOLD"],
-        ["BTS", "BTWTY"],
-        ["BTS", "SMOKE"],
-        ["BTS", "GDEX.BTC"],
-        ["BTS", "GDEX.ETH"],
-        ["BTS", "GDEX.EOS"],
-        ["BTS", "GDEX.BTO"],
-        ["BTS", "GDEX.USDT"],
-        ["BTS", "OPEN.EOSDAC"],
+        ["META1", "OPEN.ETH"],
+        ["META1", "OPEN.EOS"],
+        ["META1", "PPY"],
+        ["META1", "OPEN.STEEM"],
+        ["META1", "OBITS"],
+        ["META1", "RUBLE"],
+        ["META1", "HERO"],
+        ["META1", "OCT"],
+        ["META1", "SILVER"],
+        ["META1", "GOLD"],
+        ["META1", "BTWTY"],
+        ["META1", "SMOKE"],
+        ["META1", "GDEX.BTC"],
+        ["META1", "GDEX.ETH"],
+        ["META1", "GDEX.EOS"],
+        ["META1", "GDEX.BTO"],
+        ["META1", "GDEX.USDT"],
+        ["META1", "OPEN.EOSDAC"],
         ["USD", "OPEN.STEEM"],
         ["USD", "OPEN.MAID"],
         ["OPEN.USDT", "OPEN.BTC"],
         ["OPEN.BTC", "OPEN.MAID"],
-        ["BTS", "OPEN.MAID"],
-        ["BTS", "OPEN.HEAT"],
-        ["BTS", "OPEN.INCENT"],
+        ["META1", "OPEN.MAID"],
+        ["META1", "OPEN.HEAT"],
+        ["META1", "OPEN.INCENT"],
         ["RUB", "RUDEX.GOLOS"],
         ["RUB", "RUDEX.GBG"],
-        ["BTS", "RUDEX.STEEM"],
-        ["BTS", "RUDEX.SBD"],
-        ["BTS", "RUDEX.KRM"],
-        ["BTS", "RUDEX.EOS"],
-        ["BTS", "RUDEX.BTC"],
-        ["BTS", "RUDEX.ETH"],
-        ["BTS", "RUDEX.WLS"],
-        ["BTS", "RUDEX.SMOKE"],
-        ["BTS", "RUDEX.GRC"],
-        ["BTS", "XBTSX.STH"],
-        ["BTS", "XBTSX.WAVES"],
-        ["BTS", "ZEPH"],
-        ["BTS", "HERTZ"],
-        ["BTS", "SPARKDEX.BTC"],
-        ["BTS", "SPARKDEX.ETH"],
-        ["BTS", "SPARKDEX.HKD"],
+        ["META1", "RUDEX.STEEM"],
+        ["META1", "RUDEX.SBD"],
+        ["META1", "RUDEX.KRM"],
+        ["META1", "RUDEX.EOS"],
+        ["META1", "RUDEX.BTC"],
+        ["META1", "RUDEX.ETH"],
+        ["META1", "RUDEX.WLS"],
+        ["META1", "RUDEX.SMOKE"],
+        ["META1", "RUDEX.GRC"],
+        ["META1", "XBTSX.STH"],
+        ["META1", "XBTSX.WAVES"],
+        ["META1", "ZEPH"],
+        ["META1", "HERTZ"],
+        ["META1", "SPARKDEX.BTC"],
+        ["META1", "SPARKDEX.ETH"],
+        ["META1", "SPARKDEX.HKD"],
         ["SPARKDEX.HKD", "SPARKDEX.BTC"],
         ["SPARKDEX.HKD", "SPARKDEX.ETH"],
-        ["BTS", "SPARKDEX.SGD"],
-        ["BTS", "SPARKDEX.AUD"],
-        ["BTS", "SPARKDEX.EUR"],
-        ["BTS", "SPARKDEX.GBP"],
-        ["BTS", "PEG.PHP"]
+        ["META1", "SPARKDEX.SGD"],
+        ["META1", "SPARKDEX.AUD"],
+        ["META1", "SPARKDEX.EUR"],
+        ["META1", "SPARKDEX.GBP"],
+        ["META1", "PEG.PHP"]
     ].filter(a => {
         if (!quotes.length) return true;
         return quotes.indexOf(a[0]) !== -1;
@@ -396,7 +396,7 @@ export function getConfigurationAsset() {
     if (_isTestnet()) {
         assetSymbol = "NOTIFICATIONS";
     } else {
-        assetSymbol = "TEST";
+        assetSymbol = "META1";
     }
     // explanation will be parsed out of the asset description (via split)
     return {

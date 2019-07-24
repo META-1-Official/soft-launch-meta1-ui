@@ -2,7 +2,7 @@ import React from "react";
 import Immutable from "immutable";
 import Translate from "react-translate-component";
 import accountUtils from "common/account_utils";
-import {ChainStore, FetchChainObjects} from "bitsharesjs";
+import {ChainStore, FetchChainObjects} from "meta1js";
 import WorkersList from "./WorkersList";
 import VotingAccountsList from "./VotingAccountsList";
 import cnames from "classnames";

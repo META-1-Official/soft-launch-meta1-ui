@@ -8,7 +8,7 @@ import {
     ChainTypes as grapheneChainTypes,
     FetchChain,
     ChainStore
-} from "bitsharesjs";
+} from "meta1js";
 //import ps from "perfect-scrollbar";
 import counterpart from "counterpart";
 import Icon from "../Icon/Icon";

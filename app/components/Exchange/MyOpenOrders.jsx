@@ -10,7 +10,7 @@ import PriceText from "../Utility/PriceText";
 import TransitionWrapper from "../Utility/TransitionWrapper";
 import SettingsActions from "actions/SettingsActions";
 import AssetName from "../Utility/AssetName";
-import {ChainStore} from "bitsharesjs";
+import {ChainStore} from "meta1js";
 import {LimitOrder, CallOrder} from "common/MarketClasses";
 const leftAlign = {textAlign: "left !important"};
 const rightAlign = {textAlign: "right"};

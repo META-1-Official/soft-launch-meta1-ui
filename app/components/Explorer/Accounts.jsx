@@ -11,7 +11,7 @@ import AccountStore from "stores/AccountStore";
 import LoadingIndicator from "../LoadingIndicator";
 import {Table, Select, Icon as IconStyleGuide} from "bitshares-ui-style-guide";
 import SearchInput from "../Utility/SearchInput";
-import {ChainStore} from "bitsharesjs";
+import {ChainStore} from "meta1js";
 
 class Accounts extends React.Component {
     constructor(props) {
@@ -156,9 +156,7 @@ class Accounts extends React.Component {
                 render: name => {
                     return (
                         <div>
-                            <Link to={`/account/${name}/overview`}>
-                                {name}
-                            </Link>
+                            <Link to={`/account/${name}/overview`}>{name}</Link>
                         </div>
                     );
                 }

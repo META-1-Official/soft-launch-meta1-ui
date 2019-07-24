@@ -3,7 +3,7 @@ import React from "react";
 import Immutable from "immutable";
 import ChainTypes from "../Utility/ChainTypes";
 import BindToChainState from "../Utility/BindToChainState";
-import {ChainStore} from "bitsharesjs";
+import {ChainStore} from "meta1js";
 import FormattedAsset from "../Utility/FormattedAsset";
 import Translate from "react-translate-component";
 import TimeAgo from "../Utility/TimeAgo";
@@ -25,9 +25,7 @@ class WitnessRow extends React.Component {
 
     _onRowClick(e) {
         e.preventDefault();
-        this.props.history.push(
-            `/account/${this.props.witness.get("name")}`
-        );
+        this.props.history.push(`/account/${this.props.witness.get("name")}`);
     }
 
     // componentWillUnmount() {

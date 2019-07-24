@@ -1,6 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
-
+import {HashLoader} from "react-spinners";
+import {css} from "@emotion/core";
+const override = css`
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+`;
 class LoadingIndicator extends React.Component {
     static propTypes = {
         type: PropTypes.string,
@@ -74,23 +82,12 @@ class LoadingIndicator extends React.Component {
                 }
                 return (
                     <div className={classes}>
-                        <div className="loading-panel">
-                            {this.props.loadingText && (
-                                <div
-                                    className="text-center"
-                                    style={{paddingTop: "10px", color: "black"}}
-                                >
-                                    {this.props.loadingText}
-                                </div>
-                            )}
-                            <div className="spinner">
-                                <div className="bounce1" />
-                                <div className="bounce2" />
-                                <div className="bounce3" />
-                            </div>
-                            <div className="progress-indicator">
-                                <span>{this.state.progress}</span>
-                            </div>
+                        <div>
+                            <HashLoader
+                                color={"#fff"}
+                                size={100}
+                                css={override}
+                            />
                         </div>
                     </div>
                 );
