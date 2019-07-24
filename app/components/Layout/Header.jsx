@@ -1817,7 +1817,103 @@ class Header extends React.Component {
                     }}
                     from_name={currentAccount}
                 />
-                {this.state.hasDepositModalBeenShown && (
+                <DepositModalMeta
+                    visibleMeta={this.state.isDepositModalVisibleMeta}
+                    hideModalMeta={this.hideDepositModalMeta}
+                    showModalMeta={this.showDepositModalMeta}
+                    ref="deposit_modal_new1"
+                    modalId="deposit_modal_new1"
+                    account={currentAccount}
+                />
+                <WithdrawModalMeta
+                    visibleMeta={this.state.isWithdrawModalVisibleMeta}
+                    hideModalMeta={this.hideWithdrawModalMeta}
+                    showModalMeta={this.showWithdrawModalMeta}
+                    ref="deposit_modal_new12"
+                    modalId="deposit_modal_new12"
+                    account={currentAccount}
+                />
+                <DepositModalEth
+                    visibleMeta={this.state.isDepositModalVisibleEth}
+                    hideModalMeta={this.hideDepositModalEth}
+                    showModalMeta={this.showDepositModalEth}
+                    ref="deposit_modal_new11"
+                    modalId="deposit_modal_new11"
+                    account={currentAccount}
+                />
+                <DepositModalEos
+                    visibleMeta={this.state.isDepositModalVisibleEos}
+                    hideModalMeta={this.hideDepositModalEos}
+                    showModalMeta={this.showDepositModalEos}
+                    ref="deposit_modal_newfsdfs11"
+                    modalId="deposit_modal_newfsdfs11"
+                    account={currentAccount}
+                />
+                <DepositModalXlm
+                    visibleMeta={this.state.isDepositModalVisibleXlm}
+                    hideModalMeta={this.hideDepositModalXlm}
+                    showModalMeta={this.showDepositModalXlm}
+                    ref="deposit_modal_newfsdfs1sd1"
+                    modalId="deposit_modal_newfsdfs1sd1"
+                    account={currentAccount}
+                />
+                <DepositModalEthToken
+                    visibleMeta={this.state.isDepositModalVisibleEthToken}
+                    hideModalMeta={this.hideDepositModalEthToken}
+                    showModalMeta={this.showDepositModalEthToken}
+                    ref="deposit_modal_new19901"
+                    modalId="deposit_modal_new19901"
+                    account={currentAccount}
+                />
+                <WithdrawModalEth
+                    visibleMeta={this.state.isWithdrawModalVisibleEth}
+                    hideModalMeta={this.hideWithdrawModalEth}
+                    showModalMeta={this.showWithdrawModalEth}
+                    ref="withdraw_modal_new122"
+                    modalId="withdraw_modal_new122"
+                    account={currentAccount}
+                />
+                <WithdrawModalEthToken
+                    visibleMeta={this.state.isWithdrawModalVisibleEthToken}
+                    hideModalMeta={this.hideWithdrawModalEthToken}
+                    showModalMeta={this.showWithdrawModalEthToken}
+                    ref="withdraw_modal_new14422"
+                    modalId="withdraw_modal_new14422"
+                    account={currentAccount}
+                />
+                <DepositModalLtc
+                    visibleMeta={this.state.isDepositModalVisibleLtc}
+                    hideModalMeta={this.hideDepositModalLtc}
+                    showModalMeta={this.showDepositModalLtc}
+                    ref="deposit_modal_new112"
+                    modalId="deposit_modal_new122"
+                    account={currentAccount}
+                />
+                <WithdrawModalLtc
+                    visibleMeta={this.state.isWithdrawModalVisibleLtc}
+                    hideModalMeta={this.hideWithdrawModalLtc}
+                    showModalMeta={this.showWithdrawModalLtc}
+                    ref="withdraw_modal_new11q2"
+                    modalId="withdraw_modal_new11q2"
+                    account={currentAccount}
+                />
+                <WithdrawModalEos
+                    visibleMeta={this.state.isWithdrawModalVisibleEos}
+                    hideModalMeta={this.hideWithdrawModalEos}
+                    showModalMeta={this.showWithdrawModalEos}
+                    ref="withdraw_modal_newqwer11q2"
+                    modalId="withdraw_modal_newqwer11q2"
+                    account={currentAccount}
+                />
+                <WithdrawModalXlm
+                    visibleMeta={this.state.isWithdrawModalVisibleXlm}
+                    hideModalMeta={this.hideWithdrawModalXlm}
+                    showModalMeta={this.showWithdrawModalXlm}
+                    ref="withdraw_modal_newqwert11q2"
+                    modalId="withdraw_modal_newqwert11q2"
+                    account={currentAccount}
+                />
+                {/* {this.state.hasDepositModalBeenShown && (
                     <DepositModal
                         visible={this.state.isDepositModalVisible}
                         hideModal={this.hideDepositModal}
@@ -1837,7 +1933,7 @@ class Header extends React.Component {
                         modalId="withdraw_modal_new"
                         backedCoins={this.props.backedCoins}
                     />
-                )}
+                )} */}
             </div>
         );
     }
