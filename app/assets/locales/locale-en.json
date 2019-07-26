@@ -2457,6 +2457,7 @@
         "backup_warning": "It appears that your private key files are not backed up. For security reasons we recommend users do not log in without backing up their private keys.",
         "balance_claim_lookup": "Lookup balances",
         "balance_claims": "Balance Claims",
+        "backup_types": "backup types",
         "brainkey": "Brainkey",
         "brainkey_backed_up": "This brainkey was last backed up",
         "brainkey_not_backed_up": "This brainkey has never been backed up",

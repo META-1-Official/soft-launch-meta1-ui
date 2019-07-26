@@ -591,7 +591,7 @@ class CreateAccount extends React.Component {
                             ? this._renderBackupText()
                             : this._renderGetStartedText()}
                 </div>
-                <Link to="/">
+                <Link style={{color: "white"}} to="/">
                     <button className="button primary">
                         <Translate content="wallet.back" />
                     </button>

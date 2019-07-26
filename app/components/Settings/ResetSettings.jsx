@@ -2,7 +2,6 @@ import React from "react";
 import counterpart from "counterpart";
 import Translate from "react-translate-component";
 import SettingsActions from "actions/SettingsActions";
-import {Button} from "bitshares-ui-style-guide";
 
 export default class ResetSettings extends React.Component {
     constructor() {
@@ -54,9 +53,9 @@ export default class ResetSettings extends React.Component {
                     />
                 </header>
 
-                <Button
-                    type="primary"
-                    style={{height: 60, width: "100%", marginTop: "30px"}}
+                <button
+                    className="button primary"
+                    style={{marginTop: "30px"}}
                     onClick={() => {
                         SettingsActions.clearSettings().then(() => {
                             this._setMessage(
@@ -66,7 +65,7 @@ export default class ResetSettings extends React.Component {
                     }}
                 >
                     {counterpart.translate("settings.reset")}
-                </Button>
+                </button>
 
                 <div
                     className="facolor-success"
