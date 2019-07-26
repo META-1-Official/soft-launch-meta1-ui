@@ -18,7 +18,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git://github.com/mindfulme/Meta1-ui"
+        "url": "git://github.com/mindfulme/meta1-ui"
     },
     "main": "build/electron/index.js",
     "scripts": {
@@ -146,8 +146,8 @@
         "bignumber.js": "^4.0.0",
         "bitshares-report": "^0.2.0",
         "bitshares-ui-style-guide": "https://github.com/bitshares/bitshares-ui-style-guide.git#83b82d056ca134b08521e8eca541438b7b4783f6",
-        "bitsharesjs": "^3.1.0",
-        "bitsharesjs-ws": "^1.5.7",
+        "bitsharesjs": "^3.1.1",
+        "bitsharesjs-ws": "^3.1.1",
         "browser-locale": "^1.0.3",
         "classnames": "^2.2.1",
         "cookies-js": "^1.2.1",
