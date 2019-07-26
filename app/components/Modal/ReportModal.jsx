@@ -102,7 +102,7 @@ class ReportModal extends React.Component {
                         <br />
                         &nbsp;&nbsp;
                         <a
-                            href="https://BitShares.com"
+                            href="https://Meta1.com"
                             target="_blank"
                             rel="noopener noreferrer"
                             style={{textAlign: "center", width: "100%"}}

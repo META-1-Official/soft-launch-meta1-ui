@@ -32,7 +32,7 @@ of this application.
  * [Short Selling BitAssets](dex/shorting.md)
 
 ## Development
- * [Bitshares UI Github](https://github.com/bitshares/bitshares-ui)
+ * [Meta1 UI Github](https://github.com/bitshares/bitshares-ui)
  * [HackTheDEX](introduction/hackthedex.md)
 
 ----------

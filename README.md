@@ -97,7 +97,7 @@ Please read [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
 
 ## BrowserStack 
 
-The BitShares UI is integrated with BrowserStack (https://www.browserstack.com) to allow manual compatibility testing across devices and browser versions. In the future we will switch to a automated Selenium testing framework.
+The Meta1 UI is integrated with BrowserStack (https://www.browserstack.com) to allow manual compatibility testing across devices and browser versions. In the future we will switch to a automated Selenium testing framework.
 ![image](https://user-images.githubusercontent.com/33128181/48697885-05f8d880-ebe6-11e8-95a2-d87516cbb3d9.png)
 
 ## Release Branches
@@ -120,7 +120,7 @@ Available for browsing on https://staging.bitshares.org/
 ### Master (stable)
 When all issues to the current RC are fixed, `staging` branch is released to the stable `master` branch.
 
-Available for browsing on https://wallet.bitshares.org/, which is the official reference wallet for Bitshares.
+Available for browsing on https://wallet.bitshares.org/, which is the official reference wallet for Meta1.
 
 
 

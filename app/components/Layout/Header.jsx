@@ -803,13 +803,13 @@ class Header extends React.Component {
 
         let hamburger = this.state.dropdownActive ? (
             <Icon
-                className="icon-14px"
+                className="icon-17px"
                 name="hamburger-x"
                 title="icons.hamburger_x"
             />
         ) : (
             <Icon
-                className="icon-14px"
+                className="icon-17px"
                 name="hamburger"
                 title="icons.hamburger"
             />
@@ -912,28 +912,6 @@ class Header extends React.Component {
                         className="column-hide-small"
                         component="span"
                         content="header.help"
-                    />
-                </a>
-            );
-        }
-        if (active.indexOf("/voting") !== -1) {
-            dynamicMenuItem = (
-                <a
-                    style={{flexFlow: "row"}}
-                    className={cnames({
-                        active: active.indexOf("/voting") !== -1
-                    })}
-                >
-                    <Icon
-                        size="1_5x"
-                        style={{position: "relative", top: 0, left: -8}}
-                        name="thumbs-up"
-                        title="icons.thumbs_up"
-                    />
-                    <Translate
-                        className="column-hide-small"
-                        component="span"
-                        content="account.voting"
                     />
                 </a>
             );
@@ -1336,16 +1314,16 @@ class Header extends React.Component {
                             />
                         </div>
                     </li>
-                    <li onClick={this._showWithdrawEth.bind(this)}>
+                    <li onClick={this._showWithdrawMeta.bind(this)}>
                         <Translate
-                            content="modal.deposit.eth_withdraw"
+                            content="modal.deposit.btc_withdraw"
                             component="div"
                             className="table-cell"
                         />
                     </li>
-                    <li onClick={this._showWithdrawMeta.bind(this)}>
+                    <li onClick={this._showWithdrawEth.bind(this)}>
                         <Translate
-                            content="modal.deposit.btc_withdraw"
+                            content="modal.deposit.eth_withdraw"
                             component="div"
                             className="table-cell"
                         />
@@ -1409,16 +1387,16 @@ class Header extends React.Component {
                             />
                         </div>
                     </li>
-                    <li onClick={this._showDepositEth.bind(this)}>
+                    <li onClick={this._showDepositMeta.bind(this)}>
                         <Translate
-                            content="modal.deposit.eth"
+                            content="modal.deposit.bitshares"
                             component="div"
                             className="table-cell"
                         />
                     </li>
-                    <li onClick={this._showDepositMeta.bind(this)}>
+                    <li onClick={this._showDepositEth.bind(this)}>
                         <Translate
-                            content="modal.deposit.bitshares"
+                            content="modal.deposit.eth"
                             component="div"
                             className="table-cell"
                         />
@@ -1518,10 +1496,6 @@ class Header extends React.Component {
                                                 active.indexOf("/account/") !==
                                                     -1 &&
                                                 active.indexOf("/account/") !==
-                                                    -1 &&
-                                                active.indexOf("/assets") ===
-                                                    -1 &&
-                                                active.indexOf("/voting") ===
                                                     -1 &&
                                                 active.indexOf(
                                                     "/signedmessages"

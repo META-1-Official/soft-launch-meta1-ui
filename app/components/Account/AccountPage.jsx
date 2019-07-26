@@ -21,7 +21,6 @@ import AccountVesting from "./AccountVesting";
 import AccountPermissions from "./AccountPermissions";
 import AccountSignedMessages from "./AccountSignedMessages";
 import AccountWhitelist from "./AccountWhitelist";
-import AccountVoting from "./AccountVoting";
 import AccountOverview from "./AccountOverview";
 
 class AccountPage extends React.Component {
@@ -146,11 +145,6 @@ class AccountPage extends React.Component {
                             render={() => (
                                 <AccountPermissions {...passOnProps} />
                             )}
-                        />
-                        <Route
-                            path={`/account/${account_name}/voting`}
-                            exact
-                            render={() => <AccountVoting {...passOnProps} />}
                         />
                         <Route
                             path={`/account/${account_name}/whitelist`}

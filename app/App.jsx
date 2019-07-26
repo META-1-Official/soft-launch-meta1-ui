@@ -444,12 +444,6 @@ class App extends React.Component {
                                     exact
                                     component={AccountRegistration}
                                 />
-                                <Redirect
-                                    path={"/voting"}
-                                    to={{
-                                        pathname: `/account/${accountName}/voting`
-                                    }}
-                                />
                                 <Route path="/arts" component={Arts} />
                                 {/* Explorer routes */}
                                 <Route

@@ -1,7 +1,7 @@
 {
     "name": "meta1-light",
     "version": "2.0.190123-rc1",
-    "description": "Advanced wallet interface for the BitShares financial blockchain.",
+    "description": "Advanced wallet interface for the Meta1 financial blockchain.",
     "homepage": "https://github.com/meta-source/meta-ui-original",
     "author": "Rostislav Gogolauri <go.go.gg.rostislav@gmail@gmail.com>",
     "contributors": [
@@ -18,7 +18,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git://github.com/mindfulme/BitShares-ui"
+        "url": "git://github.com/mindfulme/Meta1-ui"
     },
     "main": "build/electron/index.js",
     "scripts": {
@@ -131,7 +131,7 @@
                 "AppImage",
                 "snap"
             ],
-            "synopsis": "BitShares: Cryptocurrency and Decentralized Exchange"
+            "synopsis": "Meta1: Cryptocurrency and Decentralized Exchange"
         },
         "directories": {
             "buildResources": "resources",

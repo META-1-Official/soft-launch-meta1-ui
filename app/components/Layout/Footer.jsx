@@ -296,7 +296,7 @@ class Footer extends React.Component {
             }, forceReconnectAfterSeconds * 1000);
 
             // Still out of sync?
-            if (this.getBlockTimeDelta() > 3) {
+            if (this.getBlockTimeDelta() > 19) {
                 console.log(
                     "Your node is out of sync since " +
                         this.getBlockTimeDelta() +
@@ -307,7 +307,7 @@ class Footer extends React.Component {
                 setTimeout(() => {
                     // Only ask the user once, and only continue if still out of sync
                     if (
-                        this.getBlockTimeDelta() > 3 &&
+                        this.getBlockTimeDelta() > 19 &&
                         this.state.hasOutOfSyncModalBeenShownOnce === false
                     ) {
                         this.setState({
