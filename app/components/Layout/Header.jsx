@@ -1611,16 +1611,6 @@ class Header extends React.Component {
                                         "/arts"
                                     )}
                                 >
-                                    <Icon
-                                        size="2x"
-                                        style={{
-                                            position: "relative",
-                                            top: 0,
-                                            left: -8
-                                        }}
-                                        name="showcases"
-                                        title="icons.arts"
-                                    />
                                     <Translate
                                         className="column-hide-small"
                                         component="span"

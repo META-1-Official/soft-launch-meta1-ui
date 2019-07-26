@@ -1635,7 +1635,7 @@
     // Exchange
     .mymarkets-header {
         border-bottom-color: $button-bg-color;
-        @include radialGradient($button-mix2, $button-mix1);
+        // @include radialGradient($button-mix2, $button-mix1);
         border-radius: 5px;
         &.inactive {
             border-bottom-color: transparent;
@@ -1649,7 +1649,6 @@
 
     .exchange-content-header {
         color: $light-text-color;
-        border-bottom: 1px solid $button-bg-color;
         // @include radialGradient($button-mix2, $button-mix1);
         border-radius: 5px;
         &.bid {

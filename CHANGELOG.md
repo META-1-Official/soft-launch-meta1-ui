@@ -326,7 +326,7 @@ Bug fixes and improvements
 - #1475: Fix warning text and button overlap
 - Fix a text overflow issue in AccessSettings hover popup
 - #1478: Set version in package.json instead of git tag
-- #1481: Fix checkFeeStatusAsync duplicate asset resolution issues with BTS
+- #1481: Fix checkFeeStatusAsync duplicate asset resolution issues with META1
 - #1469 display market fee precision
 - Fix #1328: Portfolio price/value sorting
 - Performance fix: don't update AccountStore state when no changes are made
@@ -489,7 +489,7 @@ New features
 - #686: Browser notifications for transfers
 - #904: Implement Settings UX
 - Page walkthrough guides implemented for #1139
-- #359: Added green pulsing buy button when BTS is under 1 BTS
+- #359: Added green pulsing buy button when META1 is under 1 META1
 - Nodes hiding functionality (#1148)
 - #1091: Display Accounts ID on Accounts Page
 - #1061: Deduct Hidden Assets from Portolio Total and provide Total for Hidden
@@ -687,7 +687,7 @@ New features
 
 Bug fixes
 --------
-- #658 BTS trade button missing from portfolio view
+- #658 META1 trade button missing from portfolio view
 - #627 Display Feed Published value as an actual date/time in localized time zone
 - #52 Show a warning about core_exchange_rate at asset create/update page
 - #455 Trollbox has been removed completely
@@ -757,7 +757,7 @@ Release 2.0.170914
 New features
 --------
 - Issue #315 - Add Chart Clamp To Settings Dropdown (#373)
-- Issue #364 - Present an error message that disallows the use of Incognito with the BTS wallet (#394)
+- Issue #364 - Present an error message that disallows the use of Incognito with the META1 wallet (#394)
 - Issue #311 - Allow for hiding user issued assets (#397)
 - Iss #43 - Notification for new version availability (#382)
 - Display all committee members and witnesses, fix #53
@@ -807,7 +807,7 @@ New features
 
 Bug fixes
 --------
-- Fix #188: Total calculation (BTS) is not displayed correctly
+- Fix #188: Total calculation (META1) is not displayed correctly
 - Add localStorage fallback to BlockTradesDepositAddressCache, fix #327
 - Update BindToChainState for getAccount autosubscribe option, fix #202
 - Ensure proxy props changing updates component state
@@ -820,7 +820,7 @@ Bug fixes
 - Fix error message for expired transactions
 - Fix broken telegram chat room link
 - Disable the trollbox, remove password change entry in settings for password logins
-- Fix a rounding issue when estimating non-BTS fees in the exchange
+- Fix a rounding issue when estimating non-META1 fees in the exchange
 - Fix Header not showing unlock state properly after wallet/account creation
 - Add a worker creation form
 - Fix depth chart for markets with extreme spreads
@@ -1017,7 +1017,7 @@ Bug fixes
 - Fix Russian language selection
 - Fix proxy selection
 - Fix committee/witness pages
-- A bug when importing old BTS 1 balances has been fixed
+- A bug when importing old META1 1 balances has been fixed
 - App init flow has been improved
 - Fix asset creation precision slider
 - Fix HelpContent links
@@ -1136,7 +1136,7 @@ New features
 
 Bug fixes
 --------
-- Add META1 bloom filter for BTS 1 account imports
+- Add META1 bloom filter for META1 1 account imports
 - Fix a GenesisFilter bug and update ImportKeys flow slightly
 - Fix input of uppercase characters in AccountPermissions
 - Fix Highcharts build issues
@@ -1350,7 +1350,7 @@ Release 2.0.160420
 
 New features
 --------
-- Allow fees for order cancellation and shorting to be paid in assets other than BTS
+- Allow fees for order cancellation and shorting to be paid in assets other than META1
 - Enable OPEN.STEEM deposits and withdrawals
 
 Bug fixes
@@ -1405,7 +1405,7 @@ Bug fixes
 - Fix account selector issue
 - Add warning about precision on asset creation #756
 - Fix tooltips not appearing over modals
-- Allow account upgrade, voting, permission changes and withdrawals to be paid in assets other than BTS if necessary #786
+- Allow account upgrade, voting, permission changes and withdrawals to be paid in assets other than META1 if necessary #786
 
 
 ---------------------------------------------------------------------
@@ -1497,7 +1497,7 @@ Release 2.0.160225
 NEW FEATURES:
 - Add theming support and theme switch in Settings #576
 - Add scrolling to RecentTransactions
-- Add base groups to MyMarkets: BTS, BTC, USD or CNY + others
+- Add base groups to MyMarkets: META1, BTC, USD or CNY + others
 
 BUG FIXES:
 - Fix BlockTrades select background color
@@ -1517,7 +1517,7 @@ NEW FEATURES:
 
 BUG FIXES:
 - Exchange buy fee selection
-- Remove link to BTS:BTS market in asset popover, fix asset description #709
+- Remove link to META1:META1 market in asset popover, fix asset description #709
 - Disable annual membership upgrade #730
 - Fix My Orders not updating when flipping the market
 - Fix Orderbook totals calculation
@@ -1676,7 +1676,7 @@ Release 2.0.151202
 ---------------------------------------------------------------------
 
 NEW FEATURES:
-- Option to pay fees in BTS if possible #356
+- Option to pay fees in META1 if possible #356
 - Block explorer page that shows the current fee schedule #357
 - Improved my history panel on Exchange page #527
 - Exchange layout improvements: add borders, refactor statusbar, no-data text, panel headers #538
@@ -1702,13 +1702,13 @@ NEW FEATURES:
 - Show stake percentages at all times in wallet #522
 - Display total assets of all account in chosen currency #512
 - Request settlement of bit asset #493
-- Show BTS balance in Accounts search results table #482
+- Show META1 balance in Accounts search results table #482
 - Exchange > highlight active market state on bottom right #499
 - Deposit/Withdraw page split into tabs (addresses #521)
 
 BUG FIXES:
 - Fix market issue: clicking on account balance vs Lowest Ask #469
-- Transfer Dialog does not fall back to BTS fee when there is no core exchange rate or funded fee pool #329
+- Transfer Dialog does not fall back to META1 fee when there is no core exchange rate or funded fee pool #329
 - "Borrow Asset" window resets on new block on some accounts #505
 - Clicking on lowest or highest buy/sell price does not result in an eligible market order #515
 - Add the collateral ratio number of each asset to the overview page #397

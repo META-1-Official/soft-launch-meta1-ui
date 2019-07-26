@@ -964,7 +964,7 @@ class AccountAssetUpdate extends React.Component {
                     )}
                 </button>
                 <button
-                    className={classnames("button primary hollow", {
+                    className={classnames("button primary", {
                         disabled: !this.pageChanged()
                     })}
                     onClick={this._reset.bind(this)}

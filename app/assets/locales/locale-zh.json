@@ -62,7 +62,7 @@
         "in_open": "这是你在所有挂单中的 %(asset)s 资产的数量。",
         "in_open_value": "这是你在所有挂单中的 %(asset)s 资产的估算价值。",
         "intro_text_1": "一个属于你的去中心化平台",
-        "intro_text_2": "<b>DEX</b>完全去中心化，你可以交易比特股的核心代币（BTS）及一系列去信任，价值稳定，由市场喂价的资产如bitUSD, bitCNY, bitBTC, bitGold等等。这些资产<b>零</b>交易对手风险，而且你对资产拥有完全掌控权。",
+        "intro_text_2": "<b>DEX</b>完全去中心化，你可以交易比特股的核心代币（META1）及一系列去信任，价值稳定，由市场喂价的资产如bitUSD, bitCNY, bitBTC, bitGold等等。这些资产<b>零</b>交易对手风险，而且你对资产拥有完全掌控权。",
         "intro_text_3": "<b>DEX</b>也可以允许用户发行资产（UIAs），并能与其它的UIAs或者去信任资产在本平台上交易。DEX上一位著名的发行商就是<b>OpenLedger</b>，其提供大量交易资产如BTC, ETH, STEEM, DASH, LTC, DOGE等等。",
         "intro_text_4": "DEX提供给虚拟资产交易者一种传统与去中心化相结合的独特体验，交易界面易于上手。祝交易愉快！",
         "intro_text_title": "欢迎来到%(wallet_name)s",
@@ -433,7 +433,7 @@
         "ws_status": "全节点连接状态"
     },
     "assets": {
-        "BTS": "BTS是比特股区块链的核心代币."
+        "META1": "BTS是比特股区块链的核心代币."
     },
     "boolean": {
         "false": "假",
@@ -955,10 +955,10 @@
             "create": "创建一个新的预算项目提案",
             "create_text_1": "请填写下表创建新的预算项目。项目将由你当前活跃账户的名义创建，账户必须已取得终身会籍。",
             "create_text_2": "设置参数前请仔细估量，发布后将无法修改。",
-            "daily_pay": "日付工资 (BTS)",
+            "daily_pay": "日付工资 (META1)",
             "date_text": "开始时间应该至少设置在一周以后，以留有足够的时间让用户股东们发现、评估项目并投票。",
             "name_text": "预算项目的名字应该简短明了，比如'目标：改进账户名体系'",
-            "pay_text": "日付工资设定的是每天你希望收到的酬劳，以 BTS 计价。目前的最佳实践是设定以美元或人民币计价的工资，并承诺销毁由于 BTS 升值导致的溢价部分。只要你的工人预算项目有效，并且拥有足够的赞成票超过'refund回购项目'，你就能每日持续收到工资。",
+            "pay_text": "日付工资设定的是每天你希望收到的酬劳，以 META1 计价。目前的最佳实践是设定以美元或人民币计价的工资，并承诺销毁由于 META1 升值导致的溢价部分。只要你的工人预算项目有效，并且拥有足够的赞成票超过'refund回购项目'，你就能每日持续收到工资。",
             "period": "周期",
             "title": "项目名称",
             "url_text": "你应该提供一个网站、GitHub 文档或者 Google 文档来详细描述你的工作目标和资金使用计划。",
@@ -1023,7 +1023,7 @@
             "support_block": "BitSpark 网关服务的充值与提现问题请联系BitSpark："
         },
         "bridge": "桥接服务",
-        "bridge_text": "桥接服务能让你将一种资产转换成另一种资产，比如从 BTC 转换到 BTS。",
+        "bridge_text": "桥接服务能让你将一种资产转换成另一种资产，比如从 BTC 转换到 META1。",
         "calc": "计算中",
         "choose_deposit": "请选择充值的币种",
         "choose_withdraw": "请选择提现的币种",
@@ -1400,7 +1400,7 @@
             "tokens": "Deposit ETH tokens",
             "btc_withdraw": "Withdraw BTC",
             "eth_withdraw": "Withdraw ETH",
-            "ltc_withdraw:": "Withdraw LTC",
+            "ltc_withdraw": "Withdraw LTC",
             "eos_withdraw": "Withdraw EOS",
             "xlm_withdraw": "Withdraw XLM",
             "xrp_withdraw": "Withdraw XRP",

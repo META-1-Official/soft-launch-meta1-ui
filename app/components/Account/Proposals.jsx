@@ -410,7 +410,7 @@ class Proposals extends Component {
                                             : () => {}
                                     }
                                     className={
-                                        "button primary hollow" +
+                                        "button primary" +
                                         (canApprove ? "" : " hidden")
                                     }
                                 >
@@ -427,7 +427,7 @@ class Proposals extends Component {
                                     proposal.account.get("id"),
                                     "reject"
                                 )}
-                                className="button primary hollow"
+                                className="button primary"
                             >
                                 <Translate content="proposal.reject" />
                             </button>
@@ -439,7 +439,7 @@ class Proposals extends Component {
                                 proposal.account.get("id"),
                                 "delete"
                             )}
-                            className="button primary hollow"
+                            className="button primary"
                         >
                             <Translate content="proposal.delete" />
                         </button>

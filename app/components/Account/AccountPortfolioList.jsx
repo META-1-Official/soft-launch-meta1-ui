@@ -359,7 +359,7 @@ class AccountPortfolioList extends React.Component {
     }
 
     _renderBuy = (symbol, canBuy, assetName, emptyCell, balance) => {
-        if (symbol === "BTS" && balance <= 1000000) {
+        if (symbol === "META1" && balance <= 1000000) {
             // Precision of 5, 1 = 10^5
             return (
                 <span>

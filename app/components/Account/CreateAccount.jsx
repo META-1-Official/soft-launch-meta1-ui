@@ -592,7 +592,7 @@ class CreateAccount extends React.Component {
                             : this._renderGetStartedText()}
                 </div>
                 <Link to="/">
-                    <button className="button primary hollow">
+                    <button className="button primary">
                         <Translate content="wallet.back" />
                     </button>
                 </Link>

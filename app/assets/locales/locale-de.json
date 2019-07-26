@@ -432,7 +432,7 @@
         "ws_status": "Websocket Verbindungsstatus"
     },
     "assets": {
-        "BTS": "BTS is the core token of the BitShares Blockchain"
+        "META1": "META1 is the core token of the BitShares Blockchain"
     },
     "boolean": {
         "false": "falsch",
@@ -1402,7 +1402,7 @@
             "tokens": "Deposit ETH tokens",
             "btc_withdraw": "Withdraw BTC",
             "eth_withdraw": "Withdraw ETH",
-            "ltc_withdraw:": "Withdraw LTC",
+            "ltc_withdraw": "Withdraw LTC",
             "eos_withdraw": "Withdraw EOS",
             "xlm_withdraw": "Withdraw XLM",
             "xrp_withdraw": "Withdraw XRP",
@@ -1587,7 +1587,7 @@
         "witness_pay": "{account} hat Zeugen-Guthaben eingezogen.",
         "witness_receive": "Hat den Zeugen von {witness} erhalten.",
         "witness_update": "{account} hat seinen Zeugen aktualisiert.",
-        "worker_create": "{account} hat einen Arbeitervorschlag mit einer täglichen Bezahlung von {pay} BTS/Tag erstellt."
+        "worker_create": "{account} hat einen Arbeitervorschlag mit einer täglichen Bezahlung von {pay} META1/Tag erstellt."
     },
     "page404": {
         "asset_not_found_subtitle": "Diese Anlage existert nicht.",
@@ -2382,7 +2382,7 @@
         }
     },
     "voting": {
-        "description": "The BitShares blockchain allows the holders of its core token BTS to vote on block producers (witnesses), committee members (blockchain governance), worker proposals (reimbursement for tasks and strategic decisions through BSIPs/Polls).",
+        "description": "The BitShares blockchain allows the holders of its core token META1 to vote on block producers (witnesses), committee members (blockchain governance), worker proposals (reimbursement for tasks and strategic decisions through BSIPs/Polls).",
         "title": "Voting"
     },
     "walkthrough": {

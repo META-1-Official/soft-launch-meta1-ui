@@ -101,7 +101,7 @@ class DepositModalContent extends DecimalChecker {
             let assetGateway = backedAsset[0];
             this._getDepositAddress(assetName, assetGateway);
         } else {
-            this.setState({selectedAsset: "BTS"});
+            this.setState({selectedAsset: "META1"});
         }
     }
 
