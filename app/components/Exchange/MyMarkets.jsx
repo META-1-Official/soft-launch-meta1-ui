@@ -18,10 +18,8 @@ import {debounce} from "lodash-es";
 import AssetSelector from "../Utility/AssetSelector";
 import counterpart from "counterpart";
 import LoadingIndicator from "../LoadingIndicator";
-import {ChainValidation, ChainStore} from "meta1js";
+import {ChainValidation} from "meta1js";
 import debounceRender from "react-debounce-render";
-import ZfApi from "react-foundation-apps/src/utils/foundation-api";
-import {getPossibleGatewayPrefixes, gatewayPrefixes} from "common/gateways";
 import QuoteSelectionModal from "./QuoteSelectionModal";
 import SearchInput from "../Utility/SearchInput";
 
@@ -599,9 +597,6 @@ class MyMarkets extends React.Component {
             myMarketFilter,
             activeMarketTab
         } = this.state;
-        const possibleGatewayAssets = getPossibleGatewayPrefixes(
-            preferredBases
-        );
 
         let bases = this._getBases();
         let allMarkets = [],
@@ -704,10 +699,7 @@ class MyMarkets extends React.Component {
                         if (!baseGroups[base].find(m => m.id === marketID))
                             baseGroups[base].push(marketObject);
                         return null;
-                    } else if (
-                        !preferredBases.includes(market.base) &&
-                        possibleGatewayAssets.indexOf(market.base) === -1
-                    ) {
+                    } else if (!preferredBases.includes(market.base)) {
                         // console.log("Adding to other markets:", base, market.base, preferredBases.toJS())
                         return {
                             id: marketID,
@@ -734,37 +726,6 @@ class MyMarkets extends React.Component {
                 baseGroups,
                 otherMarkets
             ));
-
-            /* Check for possible gateway versions of the asset */
-            gatewayPrefixes.forEach(prefix => {
-                let possibleGatewayAssetName = `${prefix}.${currentBase}`;
-                let gatewayAsset = ChainStore.getAsset(
-                    possibleGatewayAssetName
-                );
-                /* If the gateway offers an asset for this base, add it to the list */
-                if (!!gatewayAsset) {
-                    let gatewayMarkets = activeMarkets
-                        .map(m => {
-                            if (m.quote === m.base) return null;
-                            let newID = `${
-                                m.quote
-                            }_${possibleGatewayAssetName}`;
-                            if (activeMarkets.has(newID)) return null;
-                            return {
-                                base: possibleGatewayAssetName,
-                                quote: m.quote
-                            };
-                        }, {})
-                        .filter(m => !!m);
-                    ({otherMarkets, baseGroups} = filterAndSeparateMarkets(
-                        currentBase,
-                        [currentBase, possibleGatewayAssetName],
-                        gatewayMarkets,
-                        baseGroups,
-                        otherMarkets
-                    ));
-                }
-            });
         }
 
         return {baseGroups, otherMarkets};

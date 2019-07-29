@@ -1,11 +1,6 @@
 import React from "react";
 import utils from "common/utils";
 import {DecimalChecker} from "../Utility/DecimalChecker";
-import {
-    _getNumberAvailableGateways,
-    _onAssetSelected,
-    _getCoinToGatewayMapping
-} from "lib/common/assetGatewayMixin";
 import counterpart from "counterpart";
 import {Modal, Button} from "bitshares-ui-style-guide";
 import AccountStore from "stores/AccountStore";

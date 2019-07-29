@@ -1,11 +1,6 @@
 import React from "react";
 import utils from "common/utils";
 import {DecimalChecker} from "../Utility/DecimalChecker";
-import {
-    _getNumberAvailableGateways,
-    _onAssetSelected,
-    _getCoinToGatewayMapping
-} from "lib/common/assetGatewayMixin";
 import WalletUnlockActions from "actions/WalletUnlockActions";
 import counterpart from "counterpart";
 import ReactTooltip from "react-tooltip";

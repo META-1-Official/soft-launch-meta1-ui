@@ -16,14 +16,13 @@ import Footer from "./components/Layout/Footer";
 import Deprecate from "./Deprecate";
 import Incognito from "./components/Layout/Incognito";
 import {isIncognito} from "feature_detect";
-import {updateGatewayBackers} from "common/gatewayUtils";
 import titleUtils from "common/titleUtils";
 import {BodyClassName, Notification} from "bitshares-ui-style-guide";
 import {DEFAULT_NOTIFICATION_DURATION} from "services/Notification";
 import Loadable from "react-loadable";
 import NewsHeadline from "components/Layout/NewsHeadline";
 
-import {Route, Switch, Redirect} from "react-router-dom";
+import {Route, Switch} from "react-router-dom";
 
 // Nested route components
 import Page404 from "./components/Page404/Page404";
@@ -55,12 +54,6 @@ const AccountPage = Loadable({
 const Transfer = Loadable({
     loader: () =>
         import(/* webpackChunkName: "transfer" */ "./components/Transfer/Transfer"),
-    loading: LoadingIndicator
-});
-
-const AccountDepositWithdraw = Loadable({
-    loader: () =>
-        import(/* webpackChunkName: "deposit-withdraw" */ "./components/Account/AccountDepositWithdraw"),
     loading: LoadingIndicator
 });
 
@@ -287,7 +280,6 @@ class App extends React.Component {
                 this.setState({incognito});
             }.bind(this)
         );
-        updateGatewayBackers();
     }
 
     componentDidUpdate(prevProps) {
@@ -418,11 +410,6 @@ class App extends React.Component {
                                     path="/transfer"
                                     exact
                                     component={Transfer}
-                                />
-                                <Route
-                                    path="/deposit-withdraw"
-                                    exact
-                                    component={AccountDepositWithdraw}
                                 />
                                 <Route
                                     path="/create-account"

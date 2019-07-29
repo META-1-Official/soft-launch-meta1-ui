@@ -7,7 +7,6 @@ import PropTypes from "prop-types";
 import Translate from "react-translate-component";
 import {Link} from "react-router-dom";
 import AssetActions from "actions/AssetActions";
-import {hasGatewayPrefix} from "common/gatewayUtils";
 import utils from "common/utils";
 import AssetStore from "stores/AssetStore";
 import {Form, Input, Modal, Icon as AntIcon} from "bitshares-ui-style-guide";
@@ -190,8 +189,8 @@ class MarketPickerWrapper extends Component {
                 if (weightB.isCommittee) return 1;
             }
 
-            const aIsKnownGateway = hasGatewayPrefix(marketA.quote);
-            const bIsKnownGateway = hasGatewayPrefix(marketB.quote);
+            const aIsKnownGateway = false;
+            const bIsKnownGateway = false;
             if (aIsKnownGateway && !bIsKnownGateway) return -1;
             if (bIsKnownGateway && !aIsKnownGateway) return 1;
 

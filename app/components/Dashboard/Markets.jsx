@@ -80,16 +80,6 @@ class FeaturedMarkets extends React.Component {
             return props.quotes[0] === market.base;
         });
 
-        /* Add the possible gateway assets */
-        for (var i = 1; i < props.quotes.length; i++) {
-            markets.forEach(m => {
-                let obj = {quote: m.quote, base: props.quotes[i]};
-                let marketKey = `${obj.quote}_${obj.base}`;
-                if (obj.quote !== obj.base && !markets.has(marketKey)) {
-                    markets = markets.set(marketKey, obj);
-                }
-            });
-        }
         this.setState({markets});
     }
 

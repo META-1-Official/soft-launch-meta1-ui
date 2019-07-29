@@ -7,7 +7,6 @@ import SettingsStore from "stores/SettingsStore";
 import SettingsActions from "actions/SettingsActions";
 import ZfApi from "react-foundation-apps/src/utils/foundation-api";
 import SendModal from "../Modal/SendModal";
-import GatewayStore from "stores/GatewayStore";
 import DepositModalMeta from "../Modal/DepositModalMeta";
 import DepositModalEth from "../Modal/DepositModalEth";
 import DepositModalEthToken from "../Modal/DepositModalEthToken";
@@ -33,7 +32,6 @@ import ReactTooltip from "react-tooltip";
 import {Apis} from "meta1js-ws";
 import AccountImage from "../Account/AccountImage";
 import {ChainStore} from "meta1js";
-import WithdrawModal from "../Modal/WithdrawModalNew";
 import {List} from "immutable";
 import DropDownMenu from "./HeaderDropdown";
 import {withRouter} from "react-router-dom";
@@ -1877,27 +1875,6 @@ class Header extends React.Component {
                     modalId="withdraw_modal_newqwert11q2"
                     account={currentAccount}
                 />
-                {/* {this.state.hasDepositModalBeenShown && (
-                    <DepositModal
-                        visible={this.state.isDepositModalVisible}
-                        hideModal={this.hideDepositModal}
-                        showModal={this.showDepositModal}
-                        ref="deposit_modal_new"
-                        modalId="deposit_modal_new"
-                        account={currentAccount}
-                        backedCoins={this.props.backedCoins}
-                    />
-                )}
-                {this.state.hasWithdrawalModalBeenShown && (
-                    <WithdrawModal
-                        visible={this.state.isWithdrawModalVisible}
-                        hideModal={this.hideWithdrawModal}
-                        showModal={this.showWithdrawModal}
-                        ref="withdraw_modal_new"
-                        modalId="withdraw_modal_new"
-                        backedCoins={this.props.backedCoins}
-                    />
-                )} */}
             </div>
         );
     }
@@ -1911,14 +1888,12 @@ Header = connect(
                 AccountStore,
                 WalletUnlockStore,
                 WalletManagerStore,
-                SettingsStore,
-                GatewayStore
+                SettingsStore
             ];
         },
         getProps() {
             const chainID = Apis.instance().chain_id;
             return {
-                backedCoins: GatewayStore.getState().backedCoins,
                 myActiveAccounts: AccountStore.getState().myActiveAccounts,
                 currentAccount:
                     AccountStore.getState().currentAccount ||
