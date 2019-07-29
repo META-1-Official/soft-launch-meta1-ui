@@ -211,11 +211,11 @@ export const settingsAPIs = {
     ],
     ES_WRAPPER_LIST: [
         {
-            url: "https://wrapper.elasticsearch.bitshares.ws",
+            url: "https://pleione.meta-exchange.info",
             region: "Western Europe",
             country: "Germany",
             operator: "Infrastructure Worker",
-            contact: "email:info@blockchainprojectsbv.com"
+            contact: "email:info@meta1.io"
         }
     ],
     DEFAULT_FAUCET: getFaucet().url,

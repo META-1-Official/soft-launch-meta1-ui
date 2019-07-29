@@ -634,63 +634,11 @@ class AccountPortfolioList extends React.Component {
             {
                 title: (
                     <Translate
-                        content="modal.deposit.submit"
-                        style={{whiteSpace: "nowrap"}}
-                    />
-                ),
-                dataIndex: "deposit",
-                align: "center",
-                render: item => {
-                    return <span style={{whiteSpace: "nowrap"}}>{item}</span>;
-                }
-            },
-            {
-                title: (
-                    <Translate
-                        content="modal.withdraw.submit"
-                        style={{whiteSpace: "nowrap"}}
-                    />
-                ),
-                dataIndex: "withdraw",
-                align: "center",
-                render: item => {
-                    return <span style={{whiteSpace: "nowrap"}}>{item}</span>;
-                }
-            },
-            {
-                title: (
-                    <Translate
                         content="account.trade"
                         style={{whiteSpace: "nowrap"}}
                     />
                 ),
                 dataIndex: "trade",
-                align: "center",
-                render: item => {
-                    return <span style={{whiteSpace: "nowrap"}}>{item}</span>;
-                }
-            },
-            {
-                title: (
-                    <Translate
-                        content="exchange.borrow_short"
-                        style={{whiteSpace: "nowrap"}}
-                    />
-                ),
-                dataIndex: "borrow",
-                align: "center",
-                render: item => {
-                    return <span style={{whiteSpace: "nowrap"}}>{item}</span>;
-                }
-            },
-            {
-                title: (
-                    <Translate
-                        content="account.settle"
-                        style={{whiteSpace: "nowrap"}}
-                    />
-                ),
-                dataIndex: "settle",
                 align: "center",
                 render: item => {
                     return <span style={{whiteSpace: "nowrap"}}>{item}</span>;
