@@ -16,8 +16,6 @@ const {operations} = grapheneChainTypes;
 import BlockDate from "../Utility/BlockDate";
 import counterpart from "counterpart";
 import ReactTooltip from "react-tooltip";
-import getLocale from "browser-locale";
-import utils from "common/utils";
 import {FillOrder} from "common/MarketClasses";
 import {Tooltip} from "bitshares-ui-style-guide";
 

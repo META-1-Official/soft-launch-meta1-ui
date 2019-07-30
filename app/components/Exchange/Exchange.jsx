@@ -2941,14 +2941,7 @@ class Exchange extends React.Component {
                 }
             } else {
                 if (a == "my_history") {
-                    groupTabs[panelTabs[a]].push(
-                        <Tabs.TabPane
-                            tab={translator.translate("exchange.my_history")}
-                            key="my_history"
-                        >
-                            {myMarketHistory}
-                        </Tabs.TabPane>
-                    );
+                    // changed this, keep it!
                 }
 
                 if (a == "history") {
@@ -2970,6 +2963,14 @@ class Exchange extends React.Component {
                         >
                             {myOpenOrders}
                         </Tabs.TabPane>
+                    );
+                    groupTabs[panelTabs[a]].push(
+                        <Tabs.TabPane
+                            tab={translator.translate("exchange.my_history")}
+                            key="my_history"
+                        >
+                            {myMarketHistory}
+                        </Tabs.TabPane> // changed this, keep it!
                     );
                 }
 
