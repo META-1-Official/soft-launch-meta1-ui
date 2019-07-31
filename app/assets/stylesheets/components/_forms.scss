@@ -68,6 +68,9 @@ div.account-image {
         position: absolute;
     }
 }
+.ant-form-item-control {
+    line-height: 0px !important;
+}
 
 .asset-input.ant-form-item {
     background-color: #240000 !important;

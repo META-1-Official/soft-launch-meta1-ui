@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import Immutable from "immutable";
 import Ps from "perfect-scrollbar";
 import Translate from "react-translate-component";
-import market_utils from "common/market_utils";
 import PriceText from "../Utility/PriceText";
 import cnames from "classnames";
 import SettingsActions from "actions/SettingsActions";
@@ -23,7 +22,7 @@ class MarketHistory extends React.Component {
     constructor(props) {
         super();
         this.state = {
-            activeTab: props.viewSettings.get("historyTab", "history"),
+            activeTab: "history",
             rowCount: 60,
             showAll: false
         };
@@ -128,117 +127,46 @@ class MarketHistory extends React.Component {
     }
 
     render() {
-        let {
-            history,
-            myHistory,
-            base,
-            quote,
-            baseSymbol,
-            quoteSymbol,
-            isNullAccount,
-            activeTab
-        } = this.props;
+        let {quoteSymbol, isNullAccount, activeTab} = this.props;
         let {rowCount, showAll} = this.state;
         let historyRows = null;
 
         if (isNullAccount) {
             activeTab = "history";
         }
-
-        const assets = {
-            [quote.get("id")]: {
-                precision: quote.get("precision")
-            },
-            [base.get("id")]: {
-                precision: base.get("precision")
-            }
-        };
-
-        if (activeTab === "my_history" && (myHistory && myHistory.size)) {
-            historyRows = myHistory
-                .filter(a => {
-                    let opType = a.getIn(["op", 0]);
-                    return opType === operations.fill_order;
-                })
-                .filter(a => {
-                    let quoteID = quote.get("id");
-                    let baseID = base.get("id");
-                    let pays = a.getIn(["op", 1, "pays", "asset_id"]);
-                    let receives = a.getIn(["op", 1, "receives", "asset_id"]);
-                    let hasQuote = quoteID === pays || quoteID === receives;
-                    let hasBase = baseID === pays || baseID === receives;
-                    return hasQuote && hasBase;
-                })
-                .sort((a, b) => {
-                    return b.get("block_num") - a.get("block_num");
-                })
-                .map(trx => {
-                    let fill = new FillOrder(
-                        trx.toJS(),
-                        assets,
-                        quote.get("id")
-                    );
-
-                    return (
-                        <tr key={fill.id}>
-                            <td className={fill.className}>
-                                <PriceText
-                                    price={fill.getPrice()}
-                                    base={this.props.base}
-                                    quote={this.props.quote}
-                                />
-                            </td>
-                            <td>{fill.amountToReceive()}</td>
-                            <td>{fill.amountToPay()}</td>
-                            <BlockDate
-                                component="td"
-                                block_number={fill.block}
-                                tooltip
+        activeTab = "history";
+        historyRows = this.props.history
+            .take(100)
+            .map(fill => {
+                return (
+                    <tr key={"history_" + fill.id}>
+                        <td className={fill.className}>
+                            <PriceText
+                                price={fill.getPrice()}
+                                base={this.props.base}
+                                quote={this.props.quote}
                             />
-                        </tr>
-                    );
-                })
-                .toArray();
-        } else if (history && history.size) {
-            historyRows = this.props.history
-                .take(100)
-                .map(fill => {
-                    return (
-                        <tr key={"history_" + fill.id}>
-                            <td className={fill.className}>
-                                <PriceText
-                                    price={fill.getPrice()}
-                                    base={this.props.base}
-                                    quote={this.props.quote}
-                                />
-                            </td>
-                            <td>{fill.amountToReceive()}</td>
-                            <td>
-                                <Tooltip title={fill.time.toString()}>
-                                    <div
-                                        className="tooltip"
-                                        style={{whiteSpace: "nowrap"}}
-                                    >
-                                        {counterpart
-                                            .localize(fill.time, {
-                                                type: "time",
-                                                format:
-                                                    "long" /*
-                                                getLocale()
-                                                    .toLowerCase()
-                                                    .indexOf("en-us") !== -1
-                                                    ? "market_history_us"
-                                                    : "market_history"*/
-                                            })
-                                            .slice(0, 8)}
-                                    </div>
-                                </Tooltip>
-                            </td>
-                        </tr>
-                    );
-                })
-                .toArray();
-        }
+                        </td>
+                        <td>{fill.amountToReceive()}</td>
+                        <td>
+                            <Tooltip title={fill.time.toString()}>
+                                <div
+                                    className="tooltip"
+                                    style={{whiteSpace: "nowrap"}}
+                                >
+                                    {counterpart
+                                        .localize(fill.time, {
+                                            type: "time",
+                                            format: "long"
+                                        })
+                                        .slice(0, 8)}
+                                </div>
+                            </Tooltip>
+                        </td>
+                    </tr>
+                );
+            })
+            .toArray();
 
         let emptyRow = (
             <tr>
@@ -265,19 +193,6 @@ class MarketHistory extends React.Component {
                     className={this.props.innerClass}
                     style={this.props.innerStyle}
                 >
-                    {this.props.noHeader ? null : (
-                        <div
-                            style={this.props.headerStyle}
-                            className="exchange-content-header"
-                        >
-                            {activeTab === "my_history" ? (
-                                <Translate content="exchange.my_history" />
-                            ) : null}
-                            {activeTab === "history" ? (
-                                <Translate content="exchange.history" />
-                            ) : null}
-                        </div>
-                    )}
                     <div className="grid-block shrink left-orderbook-header market-right-padding-only">
                         <table className="table table-no-padding order-table text-left fixed-table market-right-padding">
                             <thead>
