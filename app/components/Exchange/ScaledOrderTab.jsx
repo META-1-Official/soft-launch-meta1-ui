@@ -766,6 +766,7 @@ class ScaledOrderForm extends Component {
                     ) : null}
 
                     <Form.Item
+                        style={{marginBottom: "6px"}}
                         label={counterpart.translate("transaction.expiration")}
                         {...formItemProps}
                     >
@@ -802,7 +803,6 @@ class ScaledOrderForm extends Component {
                             </select>
                         </div>
                     </Form.Item>
-
                     <Form.Item label={lastPriceLabel} {...formItemProps}>
                         <span
                             style={{
@@ -851,6 +851,7 @@ class ScaledOrderForm extends Component {
                     </Form.Item>
 
                     <Button
+                        style={{marginTop: "10px", width: "100%"}}
                         onClick={this.props.handleSubmit}
                         type="primary"
                         disabled={!this.isFormValid()}

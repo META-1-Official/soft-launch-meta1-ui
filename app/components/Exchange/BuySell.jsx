@@ -1235,7 +1235,7 @@ class BuySell extends React.Component {
                                     </div>
                                 ) : null}
                                 <div style={{marginTop: 10}}>
-                                    <div>
+                                    <div className="short-long-button">
                                         <Tooltip
                                             placement="top"
                                             title={
@@ -1254,14 +1254,12 @@ class BuySell extends React.Component {
                                                     true
                                                 )}
                                                 type="primary"
-                                                style={{margin: 5}}
                                             >
                                                 {isBid ? "Buy" : "Sell"}
                                             </Button>
                                         </Tooltip>
                                         {isGloballySettled ? (
                                             <Button
-                                                style={{margin: 5}}
                                                 disabled={
                                                     !this.props
                                                         .currentAccount ||

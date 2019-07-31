@@ -182,6 +182,13 @@ p.order-table-title {
     min-width: 4rem;
 }
 
+.short-long-button span {
+    width: 100%;
+}
+.short-long-button span button {
+    width: 100%;
+}
+
 form.order-form {
     .ant-form-item {
         margin-bottom: 0;
@@ -192,6 +199,7 @@ form.order-form {
     }
 
     .ant-form-item-label {
+        line-height: initial !important;
         text-align: left;
         font-family: Roboto Medium, Monospaced Number, Chinese Quote,
             -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, PingFang SC,
@@ -200,6 +208,9 @@ form.order-form {
 
         label {
             font-size: 12px;
+        }
+        label:after {
+            content: "" !important;
         }
     }
 
