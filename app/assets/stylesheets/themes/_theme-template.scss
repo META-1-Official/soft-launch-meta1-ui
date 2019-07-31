@@ -172,6 +172,13 @@
 ) {
     $hamburger-submenu-display-endpoint: 990px;
 
+    .short-long-button span {
+        width: 100% !important;
+    }
+    .short-long-button button {
+        width: 100% !important;
+    }
+
     ul.header-menu {
         .divider {
             margin: 0;
