@@ -66,6 +66,7 @@ export default class Login extends React.Component {
                                     history={this.props.history}
                                 />
                             </div>
+
                             <div
                                 className={`${
                                     activeWalletModel

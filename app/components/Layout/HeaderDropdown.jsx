@@ -3,6 +3,7 @@ import Icon from "../Icon/Icon";
 import Translate from "react-translate-component";
 import cnames from "classnames";
 import AccountActions from "actions/AccountActions";
+import AccountStore from "stores/AccountStore";
 
 export default class DropDownMenu extends React.Component {
     shouldComponentUpdate(np) {
@@ -187,6 +188,64 @@ export default class DropDownMenu extends React.Component {
                     </div>
                 </li>
 
+                <li
+                    className={cnames(
+                        {
+                            active: active.indexOf("/arts") !== -1
+                        },
+                        "column-show-small"
+                    )}
+                    onClick={this.props.onNavigate.bind(this, "/arts")}
+                >
+                    <div className="table-cell">
+                        <Icon size="2x" name="showcases" title="icons.arts" />
+                    </div>
+                    <div className="table-cell">
+                        <Translate content="header.arts" />
+                    </div>
+                </li>
+                <li
+                    className={cnames(
+                        {
+                            active: active.indexOf("/settings") !== -1
+                        },
+                        "mobile-desktop-only",
+                        "has-submenu"
+                    )}
+                    onClick={this.props.toggleDropdownSubmenuDeposit}
+                >
+                    <div className="table-cell">
+                        <Icon
+                            size="2x"
+                            name="deposit"
+                            title="icons.deposit.deposit"
+                        />
+                    </div>
+                    <div className="table-cell">
+                        <Translate content="modal.deposit.header_short" />{" "}
+                    </div>
+                </li>
+                <li
+                    className={cnames(
+                        {
+                            active: active.indexOf("/settings") !== -1
+                        },
+                        "mobile-desktop-only",
+                        "has-submenu"
+                    )}
+                    onClick={this.props.toggleDropdownSubmenuWithdraw}
+                >
+                    <div className="table-cell">
+                        <Icon
+                            size="2x"
+                            name="withdraw"
+                            title="icons.withdraw.withdraw"
+                        />
+                    </div>
+                    <div className="table-cell">
+                        <Translate content="modal.deposit.header_short_w" />{" "}
+                    </div>
+                </li>
                 {[
                     {
                         icon: {
@@ -196,30 +255,7 @@ export default class DropDownMenu extends React.Component {
                         disabled: !showAccountLinks,
                         mainText: "header.payments",
                         mainCallback: this.props.showSend,
-                        subText: null,
-                        subURL: null
-                    },
-                    {
-                        icon: {
-                            name: "deposit",
-                            title: "icons.deposit.deposit"
-                        },
-                        disabled: !enableDepositWithdraw,
-                        mainText: "modal.deposit.submit",
-                        mainCallback: this.props.showDeposit,
-                        subText: "header.deposit_legacy",
-                        subURL: "/deposit-withdraw"
-                    },
-                    {
-                        icon: {
-                            name: "withdraw",
-                            title: "icons.withdraw"
-                        },
-                        disabled: !enableDepositWithdraw,
-                        mainText: "modal.withdraw.submit",
-                        mainCallback: this.props.showWithdraw,
-                        subText: "header.withdraw_legacy",
-                        subURL: "/deposit-withdraw"
+                        subURL: "/transfer"
                     }
                 ].map(
                     (
@@ -338,60 +374,46 @@ export default class DropDownMenu extends React.Component {
 
                 <li
                     className={cnames({
-                        active: active.indexOf("/news") !== -1
-                    })}
-                    onClick={this.props.onNavigate.bind(this, "/news")}
-                >
-                    <div className="table-cell">
-                        <Icon size="2x" name="news" title="icons.news" />
-                    </div>
-                    <div className="table-cell">
-                        <Translate content="news.news" />
-                    </div>
-                </li>
-
-                <li
-                    className={cnames({
-                        active: active.indexOf("/voting") !== -1,
-                        disabled: !showAccountLinks
-                    })}
-                    onClick={this.props.onNavigate.bind(
-                        this,
-                        `/account/${currentAccount}/voting`
-                    )}
-                >
-                    <div className="table-cell">
-                        <Icon
-                            size="2x"
-                            name="thumbs-up"
-                            title="icons.thumbs_up"
-                        />
-                    </div>
-                    <div className="table-cell">
-                        <Translate content="account.voting" />
-                    </div>
-                </li>
-
-                <li
-                    className={cnames({
                         active:
-                            active.indexOf("/assets") !== -1 &&
+                            active.indexOf("/trezor") !== -1 &&
                             active.indexOf("/account/") !== -1,
                         disabled: !showAccountLinks
                     })}
-                    onClick={this.props.onNavigate.bind(
-                        this,
-                        `/account/${currentAccount}/assets`
-                    )}
+                    onClick={() =>
+                        window.open(
+                            "https://beta-wallet.trezor.io/next/#/",
+                            "_blank"
+                        )
+                    }
                 >
                     <div className="table-cell">
-                        <Icon size="2x" name="assets" title="icons.assets" />
+                        <Icon size="2x" name="shuffle" title="icons.voting" />
                     </div>
                     <div className="table-cell">
-                        <Translate content="explorer.assets.title" />
+                        <Translate content="explorer.assets.trezor" />
                     </div>
                 </li>
-
+                <li
+                    className={cnames({
+                        active:
+                            active.indexOf("/ledger") !== -1 &&
+                            active.indexOf("/account/") !== -1,
+                        disabled: !showAccountLinks
+                    })}
+                    onClick={() =>
+                        window.open(
+                            "https://shop.ledger.com/pages/ledger-live",
+                            "_blank"
+                        )
+                    }
+                >
+                    <div className="table-cell">
+                        <Icon size="2x" name="voting" title="icons.voting" />
+                    </div>
+                    <div className="table-cell">
+                        <Translate content="explorer.assets.ledger" />
+                    </div>
+                </li>
                 <li
                     className={cnames({
                         active: active.indexOf("/signedmessages") !== -1,

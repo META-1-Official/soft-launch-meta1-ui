@@ -2,13 +2,12 @@ import React from "react";
 import MarketsStore from "stores/MarketsStore";
 import AccountStore from "stores/AccountStore";
 import SettingsStore from "stores/SettingsStore";
-import GatewayStore from "stores/GatewayStore";
 import IntlStore from "stores/IntlStore";
 import WalletUnlockStore from "stores/WalletUnlockStore";
 import AltContainer from "alt-container";
 import Exchange from "./Exchange";
 import ChainTypes from "../Utility/ChainTypes";
-import {EmitterInstance} from "bitsharesjs";
+import {EmitterInstance} from "meta1js";
 import BindToChainState from "../Utility/BindToChainState";
 import MarketsActions from "actions/MarketsActions";
 import {DataFeed} from "components/Exchange/tradingViewClasses";
@@ -96,15 +95,6 @@ class ExchangeContainer extends React.Component {
                     },
                     marketReady: () => {
                         return MarketsStore.getState().marketReady;
-                    },
-                    backedCoins: () => {
-                        return GatewayStore.getState().backedCoins.get(
-                            "OPEN",
-                            []
-                        );
-                    },
-                    bridgeCoins: () => {
-                        return GatewayStore.getState().bridgeCoins;
                     },
                     miniDepthChart: () => {
                         return SettingsStore.getState().viewSettings.get(

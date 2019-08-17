@@ -14,7 +14,7 @@ Bug fixes and improvements
 - Fix #1795: Handle disabled gateways iussue in withdrawmodal new
 - Fix #1788: Market Picker issue
 - #1751: Add missing translation key and update locale files
-- #1699: Link to in-wallet help instead of docs.bitshares.org
+- #1699: Link to in-wallet help instead of docs.meta.org
 - Fix #1781: Update openledger contact info and fix deposit modal help
 - Fix #1770: Make sure node information defaults to sensible values
 - Fix #1758 - Tooltip on Margin Modal
@@ -34,7 +34,7 @@ New features
 Bug fixes and improvements
 --------
 - #1751: Add missing translation key and update locale files
-- #1699: Link to in-wallet help instead of docs.bitshares.org
+- #1699: Link to in-wallet help instead of docs.meta.org
 - Fix #1781: Update openledger contact info and fix deposit modal help
 - Fix #1770: Make sure node information defaults to sensible values
 - Fix #1758 - Tooltip on Margin Modal
@@ -155,7 +155,7 @@ Bug fixes and improvements
 - Fix #1684 and some excessive Header rerendering
 - Various performance tweaks to render cycles
 - Fix #1671: Restore the create-worker route
-- #1510: Adding API nodes for BitsharesDEX
+- #1510: Adding API nodes for MetaDEX
 - Fix #1610: Add react-scroll on account create form
 - Fix #1577 - BSIP-0030 Implementation for margin position updates
 - #1530: Fix error propagation for asset issuance
@@ -189,7 +189,7 @@ Bug fixes and improvements
 --------
 - Various performance tweaks to render cycles
 - Fix #1671: Restore the create-worker route
-- #1510: Adding API nodes for BitsharesDEX
+- #1510: Adding API nodes for MetaDEX
 - Fix #1610: Add react-scroll on account create form
 - Fix #1577 - BSIP-0030 Implementation for margin position updates
 - #1530: Fix error propagation for asset issuance
@@ -233,7 +233,7 @@ Bug fixes and improvements
 - #1560: Enable develop branch with automatic builds
 - #1569: Use unique memo keys when creating new accounts
 - Fix #1568: AssetName crash on non-existing asset
-- #1580 Integrate bitshares-ui-style-guide
+- #1580 Integrate meta-ui-style-guide
 - #1525 - Clear Voting Proxy
 - #1555 - Market Picker fixes for improvements
 
@@ -270,7 +270,7 @@ Bug fixes and improvements
 - #1560: Enable develop branch with automatic builds
 - #1569: Use unique memo keys when creating new accounts
 - Fix #1568: AssetName crash on non-existing asset
-- #1580 Integrate bitshares-ui-style-guide
+- #1580 Integrate meta-ui-style-guide
 - #1525 - Clear Voting Proxy
 - #1555 - Market Picker fixes for improvements
 
@@ -279,7 +279,7 @@ Release 2.0.180525
 ---------------------------------------------------------------------
 New features
 --------
-- Push new staging builds to https://staging.bitshares.org using Travis
+- Push new staging builds to https://staging.meta.org using Travis
 - #905: Replace react-stockcharts with TradingView charts
 - #1512: Add QR scanner on withdraw (beta)
 - #1448: Display walkthrough when user opens exchange for the first time
@@ -316,7 +316,7 @@ New features
 - #1379: Add Market Picker
 - #1276: Enable GDEX gateway
 - #1463: Handle non-existant assets in exchange and asset pages
-- Update bitsharesjs to enable new orders api
+- Update metajs to enable new orders api
 - #1288 - Extract FundFeePool from AccountAssetUpdate and use it in Asset
 - Added titles to all areas of the app to improve history navigation
 
@@ -326,7 +326,7 @@ Bug fixes and improvements
 - #1475: Fix warning text and button overlap
 - Fix a text overflow issue in AccessSettings hover popup
 - #1478: Set version in package.json instead of git tag
-- #1481: Fix checkFeeStatusAsync duplicate asset resolution issues with BTS
+- #1481: Fix checkFeeStatusAsync duplicate asset resolution issues with META1
 - #1469 display market fee precision
 - Fix #1328: Portfolio price/value sorting
 - Performance fix: don't update AccountStore state when no changes are made
@@ -438,7 +438,7 @@ Bug fixes and improvements
 - #984: Enable header menu items for all accounts
 - Fix #1272: Workaround for routerTransition being called multiple times
 - Fix #1281 and other references to bit assets
-- Update bitsharesjs for better handling of incoming proposed transactions
+- Update metajs for better handling of incoming proposed transactions
 - #1243: Translation fixes
 - Fix broken asset/gateway logic
 - #1278: Tab subtext disappears when collapsed
@@ -489,7 +489,7 @@ New features
 - #686: Browser notifications for transfers
 - #904: Implement Settings UX
 - Page walkthrough guides implemented for #1139
-- #359: Added green pulsing buy button when BTS is under 1 BTS
+- #359: Added green pulsing buy button when META1 is under 1 META1
 - Nodes hiding functionality (#1148)
 - #1091: Display Accounts ID on Accounts Page
 - #1061: Deduct Hidden Assets from Portolio Total and provide Total for Hidden
@@ -611,7 +611,7 @@ New features
 - Rename Openledger Dark theme to Midnight
 - #452 private feed producers
 - #699: Add News section with content from Steemit
-- Add RPC Node wss://us-ny.bitshares.apasia.tech/ws (#817)
+- Add RPC Node wss://us-ny.meta.apasia.tech/ws (#817)
 - Add API node: wss://dex.rnglab.org (#810)
 - Show pricechart grid
 
@@ -672,7 +672,7 @@ Release 2.0.171101
 ---------------------------------------------------------------------
 New features
 --------
-- #634 The hosted wallet is now available at wallet.bitshares.org
+- #634 The hosted wallet is now available at wallet.meta.org
 - #530 Withdraw amounts now factor in the gate fee
 - #538 The voting page has been completely revamped
 - #579 The margin position tab now includes a set of default assets
@@ -687,7 +687,7 @@ New features
 
 Bug fixes
 --------
-- #658 BTS trade button missing from portfolio view
+- #658 META1 trade button missing from portfolio view
 - #627 Display Feed Published value as an actual date/time in localized time zone
 - #52 Show a warning about core_exchange_rate at asset create/update page
 - #455 Trollbox has been removed completely
@@ -757,7 +757,7 @@ Release 2.0.170914
 New features
 --------
 - Issue #315 - Add Chart Clamp To Settings Dropdown (#373)
-- Issue #364 - Present an error message that disallows the use of Incognito with the BTS wallet (#394)
+- Issue #364 - Present an error message that disallows the use of Incognito with the META1 wallet (#394)
 - Issue #311 - Allow for hiding user issued assets (#397)
 - Iss #43 - Notification for new version availability (#382)
 - Display all committee members and witnesses, fix #53
@@ -789,7 +789,7 @@ Bug fixes
 - Fix MyMarkets console errors
 - Fix 'span cannot appear as child of tbody' error
 - Fix warning in header (td in a) (#338)
-- Update bitsharesjs, #346, fix #304
+- Update metajs, #346, fix #304
 - Update apiLatencies after connection
 - Fix API nodes sorting #346
 
@@ -807,7 +807,7 @@ New features
 
 Bug fixes
 --------
-- Fix #188: Total calculation (BTS) is not displayed correctly
+- Fix #188: Total calculation (META1) is not displayed correctly
 - Add localStorage fallback to BlockTradesDepositAddressCache, fix #327
 - Update BindToChainState for getAccount autosubscribe option, fix #202
 - Ensure proxy props changing updates component state
@@ -820,7 +820,7 @@ Bug fixes
 - Fix error message for expired transactions
 - Fix broken telegram chat room link
 - Disable the trollbox, remove password change entry in settings for password logins
-- Fix a rounding issue when estimating non-BTS fees in the exchange
+- Fix a rounding issue when estimating non-META1 fees in the exchange
 - Fix Header not showing unlock state properly after wallet/account creation
 - Add a worker creation form
 - Fix depth chart for markets with extreme spreads
@@ -841,7 +841,7 @@ Bug fixes
 - Change positioning of some tooltips
 - Fix password score checker freezing on very long passwords
 - Hide 'something for nothing order history items
-- Update bitsharesjs to fix proposals array undefined error
+- Update metajs to fix proposals array undefined error
 - Fix 'Cannot use 'in' operator to search for 'translate'' error in api dropdown
 - Fix order rounding when modifying the 'Total' after clicking an order from the orderbook
 - Improve first-time brainkey lookup to check at least 10 positions
@@ -998,7 +998,7 @@ Bug fixes
 - Scroll orderbook to top when changing markets
 - Don't set feed price in MarketStore for markets without call orders
 - Fix setting of highestBid in MarketStore
-- Update bitsharesjs, fixes vesting balances not loading properly
+- Update metajs, fixes vesting balances not loading properly
 - Fix persistence of indicator settings
 - Fix PriceChart resize on switching to/from left orderbook
 - Update Dashboard markets, add loading indication until accounts are ready
@@ -1017,7 +1017,7 @@ Bug fixes
 - Fix Russian language selection
 - Fix proxy selection
 - Fix committee/witness pages
-- A bug when importing old BTS 1 balances has been fixed
+- A bug when importing old META1 1 balances has been fixed
 - App init flow has been improved
 - Fix asset creation precision slider
 - Fix HelpContent links
@@ -1060,8 +1060,8 @@ Bug fixes
 - Fix some links in the light wallets
 - Fix market flipping for UIAs
 - Fix several bugs related to hash-history react router config
-- Change Graphene to BitShares
-- Replace graphenejs-lib with bitsharesjs
+- Change Graphene to META1
+- Replace graphenejs-lib with metajs
 - Fix npm errors
 - Fix line breaks for memos with very long words
 - Make sure asset actions render properly in AccountOverview
@@ -1136,7 +1136,7 @@ New features
 
 Bug fixes
 --------
-- Add BitShares bloom filter for BTS 1 account imports
+- Add META1 bloom filter for META1 1 account imports
 - Fix a GenesisFilter bug and update ImportKeys flow slightly
 - Fix input of uppercase characters in AccountPermissions
 - Fix Highcharts build issues
@@ -1350,7 +1350,7 @@ Release 2.0.160420
 
 New features
 --------
-- Allow fees for order cancellation and shorting to be paid in assets other than BTS
+- Allow fees for order cancellation and shorting to be paid in assets other than META1
 - Enable OPEN.STEEM deposits and withdrawals
 
 Bug fixes
@@ -1380,7 +1380,7 @@ Bug fixes
 - Some external lib updates
 - Hide empty parentheses in RecentTransactions header
 - Increase depth chart range
-- Update the Blocktrades bridge code to use the correct wallet symbols for MKR on the BitShares blockchain
+- Update the Blocktrades bridge code to use the correct wallet symbols for MKR on the META1 blockchain
 - Fix ProposedOperation text for asset_create operation
 - Chinese, Turkish and English translation updates
 - Market trade date format fix + light theme hovering fixes and cosmetics
@@ -1405,7 +1405,7 @@ Bug fixes
 - Fix account selector issue
 - Add warning about precision on asset creation #756
 - Fix tooltips not appearing over modals
-- Allow account upgrade, voting, permission changes and withdrawals to be paid in assets other than BTS if necessary #786
+- Allow account upgrade, voting, permission changes and withdrawals to be paid in assets other than META1 if necessary #786
 
 
 ---------------------------------------------------------------------
@@ -1497,7 +1497,7 @@ Release 2.0.160225
 NEW FEATURES:
 - Add theming support and theme switch in Settings #576
 - Add scrolling to RecentTransactions
-- Add base groups to MyMarkets: BTS, BTC, USD or CNY + others
+- Add base groups to MyMarkets: META1, BTC, USD or CNY + others
 
 BUG FIXES:
 - Fix BlockTrades select background color
@@ -1517,7 +1517,7 @@ NEW FEATURES:
 
 BUG FIXES:
 - Exchange buy fee selection
-- Remove link to BTS:BTS market in asset popover, fix asset description #709
+- Remove link to META1:META1 market in asset popover, fix asset description #709
 - Disable annual membership upgrade #730
 - Fix My Orders not updating when flipping the market
 - Fix Orderbook totals calculation
@@ -1676,7 +1676,7 @@ Release 2.0.151202
 ---------------------------------------------------------------------
 
 NEW FEATURES:
-- Option to pay fees in BTS if possible #356
+- Option to pay fees in META1 if possible #356
 - Block explorer page that shows the current fee schedule #357
 - Improved my history panel on Exchange page #527
 - Exchange layout improvements: add borders, refactor statusbar, no-data text, panel headers #538
@@ -1702,13 +1702,13 @@ NEW FEATURES:
 - Show stake percentages at all times in wallet #522
 - Display total assets of all account in chosen currency #512
 - Request settlement of bit asset #493
-- Show BTS balance in Accounts search results table #482
+- Show META1 balance in Accounts search results table #482
 - Exchange > highlight active market state on bottom right #499
 - Deposit/Withdraw page split into tabs (addresses #521)
 
 BUG FIXES:
 - Fix market issue: clicking on account balance vs Lowest Ask #469
-- Transfer Dialog does not fall back to BTS fee when there is no core exchange rate or funded fee pool #329
+- Transfer Dialog does not fall back to META1 fee when there is no core exchange rate or funded fee pool #329
 - "Borrow Asset" window resets on new block on some accounts #505
 - Clicking on lowest or highest buy/sell price does not result in an eligible market order #515
 - Add the collateral ratio number of each asset to the overview page #397

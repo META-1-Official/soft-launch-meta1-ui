@@ -20,7 +20,6 @@ import AccountVesting from "./AccountVesting";
 import AccountPermissions from "./AccountPermissions";
 import AccountSignedMessages from "./AccountSignedMessages";
 import AccountWhitelist from "./AccountWhitelist";
-import AccountVoting from "./AccountVoting";
 import AccountOverview from "./AccountOverview";
 
 class AccountPage extends React.Component {
@@ -100,65 +99,71 @@ class AccountPage extends React.Component {
         };
 
         return (
-            <Switch>
-                <Route
-                    path={`/account/${account_name}`}
-                    exact
-                    render={() => <AccountOverview {...passOnProps} />}
-                />
-                <Redirect
-                    from={`/account/${account_name}/overview`}
-                    to={`/account/${account_name}`}
-                />
-                <Route
-                    path={`/account/${account_name}/assets`}
-                    exact
-                    render={() => <AccountAssets {...passOnProps} />}
-                />
-                <Route
-                    path={`/account/${account_name}/create-asset`}
-                    exact
-                    render={() => <AccountAssetCreate {...passOnProps} />}
-                />
-                <Route
-                    path={`/account/${account_name}/update-asset/:asset`}
-                    exact
-                    render={() => <AccountAssetUpdate {...passOnProps} />}
-                />
-                <Route
-                    path={`/account/${account_name}/member-stats`}
-                    exact
-                    render={() => <AccountMembership {...passOnProps} />}
-                />
-                <Route
-                    path={`/account/${account_name}/vesting`}
-                    exact
-                    render={() => <AccountVesting {...passOnProps} />}
-                />
-                <Route
-                    path={`/account/${account_name}/permissions`}
-                    exact
-                    render={() => <AccountPermissions {...passOnProps} />}
-                />
-                <Route
-                    path={`/account/${account_name}/voting/:tab`}
-                    render={() => <AccountVoting {...passOnProps} />}
-                />
-                <Redirect
-                    from={`/account/${account_name}/voting`}
-                    to={`/account/${account_name}/voting/witnesses`}
-                />
-                <Route
-                    path={`/account/${account_name}/whitelist`}
-                    exact
-                    render={() => <AccountWhitelist {...passOnProps} />}
-                />
-                <Route
-                    path={`/account/${account_name}/signedmessages`}
-                    exact
-                    render={() => <AccountSignedMessages {...passOnProps} />}
-                />
-            </Switch>
+            <div className="grid-block page-layout">
+                <div className="grid-block no-padding">
+                    <Switch>
+                        <Route
+                            path={`/account/${account_name}`}
+                            exact
+                            render={() => <AccountOverview {...passOnProps} />}
+                        />
+                        <Redirect
+                            from={`/account/${account_name}/overview`}
+                            to={`/account/${account_name}`}
+                        />
+                        <Route
+                            path={`/account/${account_name}/assets`}
+                            exact
+                            render={() => <AccountAssets {...passOnProps} />}
+                        />
+                        <Route
+                            path={`/account/${account_name}/create-asset`}
+                            exact
+                            render={() => (
+                                <AccountAssetCreate {...passOnProps} />
+                            )}
+                        />
+                        <Route
+                            path={`/account/${account_name}/update-asset/:asset`}
+                            exact
+                            render={() => (
+                                <AccountAssetUpdate {...passOnProps} />
+                            )}
+                        />
+                        <Route
+                            path={`/account/${account_name}/member-stats`}
+                            exact
+                            render={() => (
+                                <AccountMembership {...passOnProps} />
+                            )}
+                        />
+                        <Route
+                            path={`/account/${account_name}/vesting`}
+                            exact
+                            render={() => <AccountVesting {...passOnProps} />}
+                        />
+                        <Route
+                            path={`/account/${account_name}/permissions`}
+                            exact
+                            render={() => (
+                                <AccountPermissions {...passOnProps} />
+                            )}
+                        />
+                        <Route
+                            path={`/account/${account_name}/whitelist`}
+                            exact
+                            render={() => <AccountWhitelist {...passOnProps} />}
+                        />
+                        <Route
+                            path={`/account/${account_name}/signedmessages`}
+                            exact
+                            render={() => (
+                                <AccountSignedMessages {...passOnProps} />
+                            )}
+                        />
+                    </Switch>
+                </div>
+            </div>
         );
     }
 }

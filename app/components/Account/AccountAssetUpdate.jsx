@@ -4,7 +4,7 @@ import classnames from "classnames";
 import AssetActions from "actions/AssetActions";
 import HelpContent from "../Utility/HelpContent";
 import utils from "common/utils";
-import {ChainStore} from "bitsharesjs";
+import {ChainStore} from "meta1js";
 import FormattedFee from "../Utility/FormattedFee";
 import counterpart from "counterpart";
 import ChainTypes from "../Utility/ChainTypes";
@@ -964,7 +964,7 @@ class AccountAssetUpdate extends React.Component {
                     )}
                 </button>
                 <button
-                    className={classnames("button primary hollow", {
+                    className={classnames("button primary", {
                         disabled: !this.pageChanged()
                     })}
                     onClick={this._reset.bind(this)}

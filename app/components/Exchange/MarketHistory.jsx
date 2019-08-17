@@ -5,7 +5,7 @@ import Ps from "perfect-scrollbar";
 import SettingsActions from "actions/SettingsActions";
 import SettingsStore from "stores/SettingsStore";
 import {connect} from "alt-react";
-import {ChainTypes as grapheneChainTypes} from "bitsharesjs";
+import {ChainTypes as grapheneChainTypes} from "meta1js";
 const {operations} = grapheneChainTypes;
 import ReactTooltip from "react-tooltip";
 import {FillOrder} from "common/MarketClasses";
@@ -139,16 +139,7 @@ class MarketHistory extends React.Component {
     }
 
     render() {
-        let {
-            history,
-            myHistory,
-            base,
-            quote,
-            baseSymbol,
-            quoteSymbol,
-            isNullAccount,
-            activeTab
-        } = this.props;
+        let {quoteSymbol, isNullAccount, activeTab} = this.props;
         let {rowCount, showAll} = this.state;
         let historyRows = null;
 

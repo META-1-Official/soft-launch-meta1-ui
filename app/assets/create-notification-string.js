@@ -24,7 +24,7 @@ function createNotifcationString() {
     };
     // has to coincide with branding.js/getConfigurationAsset().explanation
     var explanation =
-        "This asset is used for decentralized configuration of the BitShares UI placed under bitshares.org.";
+        "This asset is used for decentralized configuration of the Meta1 UI placed under bitshares.org.";
     var assetDescriptionString =
         explanation + "\n" + JSON.stringify(jsonObject, null, 2);
     console.log(assetDescriptionString);

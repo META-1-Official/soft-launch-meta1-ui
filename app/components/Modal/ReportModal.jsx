@@ -102,7 +102,7 @@ class ReportModal extends React.Component {
                         <br />
                         &nbsp;&nbsp;
                         <a
-                            href="https://BitShares.com"
+                            href="https://Meta1.com"
                             target="_blank"
                             rel="noopener noreferrer"
                             style={{textAlign: "center", width: "100%"}}
@@ -118,13 +118,13 @@ class ReportModal extends React.Component {
                         <br />
                         &nbsp;&nbsp;
                         <a
-                            href="https://hackthedex.io"
+                            href="https://t.me/meta1exchange"
                             target="_blank"
                             rel="noopener noreferrer"
                             style={{textAlign: "center", width: "100%"}}
                             className="external-link"
                         >
-                            https://hackthedex.io
+                            https://t.me/meta1exchange
                         </a>
                     </p>
                 );

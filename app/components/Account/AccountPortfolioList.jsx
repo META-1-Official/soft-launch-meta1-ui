@@ -10,11 +10,9 @@ import EquivalentPrice from "../Utility/EquivalentPrice";
 import LinkToAssetById from "../Utility/LinkToAssetById";
 import BorrowModal from "../Modal/BorrowModal";
 import ReactTooltip from "react-tooltip";
-import {getBackedCoin} from "common/gatewayUtils";
-import {ChainStore} from "bitsharesjs";
+import {ChainStore} from "meta1js";
 import {connect} from "alt-react";
 import SettingsStore from "stores/SettingsStore";
-import GatewayStore from "stores/GatewayStore";
 import MarketsStore from "stores/MarketsStore";
 import Icon from "../Icon/Icon";
 import PulseIcon from "../Icon/PulseIcon";
@@ -22,9 +20,6 @@ import utils from "common/utils";
 import SendModal from "../Modal/SendModal";
 import SettingsActions from "actions/SettingsActions";
 import SettleModal from "../Modal/SettleModal";
-import DepositModal from "../Modal/DepositModal";
-import SimpleDepositBlocktradesBridge from "../Dashboard/SimpleDepositBlocktradesBridge";
-import WithdrawModal from "../Modal/WithdrawModalNew";
 import ZfApi from "react-foundation-apps/src/utils/foundation-api";
 import ReserveAssetModal from "../Modal/ReserveAssetModal";
 import CustomTable from "../Utility/CustomTable";
@@ -123,7 +118,6 @@ class AccountPortfolioList extends React.Component {
     shouldComponentUpdate(np, ns) {
         return (
             !utils.are_equal_shallow(ns, this.state) ||
-            !utils.are_equal_shallow(np.backedCoins, this.props.backedCoins) ||
             !utils.are_equal_shallow(np.balances, this.props.balances) ||
             !utils.are_equal_shallow(np.balanceList, this.props.balanceList) ||
             !utils.are_equal_shallow(
@@ -359,7 +353,7 @@ class AccountPortfolioList extends React.Component {
     }
 
     _renderBuy = (symbol, canBuy, assetName, emptyCell, balance) => {
-        if (symbol === "BTS" && balance <= 1000000) {
+        if (symbol === "META1" && balance <= 1000000) {
             // Precision of 5, 1 = 10^5
             return (
                 <span>
@@ -416,49 +410,6 @@ class AccountPortfolioList extends React.Component {
             } else {
                 return emptyCell;
             }
-        }
-    };
-
-    _renderGatewayAction = (type, allowed, assetName, emptyCell) => {
-        let modalAction =
-            type == "deposit"
-                ? this._showDepositModal.bind(this, assetName)
-                : this._showDepositWithdraw.bind(
-                      this,
-                      "withdraw_modal_new",
-                      assetName,
-                      false
-                  );
-
-        let actionTitle =
-            type == "deposit" ? `icons.${type}.${type}` : `icons.${type}`;
-
-        let linkElement = (
-            <span>
-                <Icon
-                    style={{
-                        cursor: this.props.isMyAccount ? "pointer" : "help"
-                    }}
-                    name={type}
-                    title={actionTitle}
-                    className="icon-14x"
-                    onClick={this.props.isMyAccount ? modalAction : null}
-                />
-            </span>
-        );
-
-        if (allowed && this.props.isMyAccount) {
-            return linkElement;
-        } else if (allowed && !this.props.isMyAccount) {
-            return (
-                <Tooltip
-                    title={counterpart.translate("tooltip.login_required")}
-                >
-                    {linkElement}
-                </Tooltip>
-            );
-        } else {
-            return emptyCell;
         }
     };
 
@@ -586,40 +537,13 @@ class AccountPortfolioList extends React.Component {
                 }
             },
             {
-                title: <Translate content="modal.deposit.submit" />,
-                dataIndex: "deposit",
-                align: "center",
-                render: item => {
-                    return <span style={{whiteSpace: "nowrap"}}>{item}</span>;
-                }
-            },
-            {
-                title: <Translate content="modal.withdraw.submit" />,
-                dataIndex: "withdraw",
-                align: "center",
-                render: item => {
-                    return <span style={{whiteSpace: "nowrap"}}>{item}</span>;
-                }
-            },
-            {
-                title: <Translate content="account.trade" />,
+                title: (
+                    <Translate
+                        content="account.trade"
+                        style={{whiteSpace: "nowrap"}}
+                    />
+                ),
                 dataIndex: "trade",
-                align: "center",
-                render: item => {
-                    return <span style={{whiteSpace: "nowrap"}}>{item}</span>;
-                }
-            },
-            {
-                title: <Translate content="exchange.borrow_short" />,
-                dataIndex: "borrow",
-                align: "center",
-                render: item => {
-                    return <span style={{whiteSpace: "nowrap"}}>{item}</span>;
-                }
-            },
-            {
-                title: <Translate content="account.settle" />,
-                dataIndex: "settle",
                 align: "center",
                 render: item => {
                     return <span style={{whiteSpace: "nowrap"}}>{item}</span>;
@@ -726,11 +650,7 @@ class AccountPortfolioList extends React.Component {
 
             /* Table content */
             directMarketLink = notCore ? (
-                <Link
-                    to={`/market/${asset.get(
-                        "symbol"
-                    )}_${preferredMarket}`}
-                >
+                <Link to={`/market/${asset.get("symbol")}_${preferredMarket}`}>
                     <Icon
                         name="trade"
                         title="icons.trade.trade"
@@ -738,11 +658,7 @@ class AccountPortfolioList extends React.Component {
                     />
                 </Link>
             ) : notCorePrefUnit ? (
-                <Link
-                    to={`/market/${asset.get(
-                        "symbol"
-                    )}_${preferredUnit}`}
-                >
+                <Link to={`/market/${asset.get("symbol")}_${preferredUnit}`}>
                     <Icon
                         name="trade"
                         title="icons.trade.trade"
@@ -771,20 +687,11 @@ class AccountPortfolioList extends React.Component {
             const hasBalance = !!balanceObject.get("balance");
             const hasOnOrder = !!orders[asset_type];
 
-            const backedCoin = getBackedCoin(
-                asset.get("symbol"),
-                this.props.backedCoins
-            );
-            const canDeposit =
-                (backedCoin && backedCoin.depositAllowed) ||
-                asset.get("symbol") == "BTS";
+            const canDeposit = true;
 
-            const canWithdraw =
-                backedCoin &&
-                backedCoin.withdrawalAllowed &&
-                (hasBalance && balanceObject.get("balance") != 0);
+            const canWithdraw = true;
 
-            const canBuy = !!this.props.bridgeCoins.get(symbol);
+            const canBuy = true;
             const assetAmount = balanceObject.get("balance");
 
             /* Sorting refs */
@@ -914,18 +821,6 @@ class AccountPortfolioList extends React.Component {
                     emptyCell,
                     balanceObject.get("balance")
                 ),
-                deposit: this._renderGatewayAction(
-                    "deposit",
-                    canDeposit,
-                    assetName,
-                    emptyCell
-                ),
-                withdraw: this._renderGatewayAction(
-                    "withdraw",
-                    canWithdraw,
-                    assetName,
-                    emptyCell
-                ),
                 trade: directMarketLink,
                 borrow:
                     isBitAsset && borrowLink ? (
@@ -1021,14 +916,6 @@ class AccountPortfolioList extends React.Component {
             optionalAssets
                 .filter(asset => {
                     let isAvailable = false;
-                    this.props.backedCoins.get("OPEN", []).forEach(coin => {
-                        if (coin && coin.symbol === asset) {
-                            isAvailable = true;
-                        }
-                    });
-                    if (!!this.props.bridgeCoins.get(asset)) {
-                        isAvailable = true;
-                    }
                     let keep = true;
                     balances.forEach(a => {
                         if (a.key === asset) keep = false;
@@ -1041,20 +928,7 @@ class AccountPortfolioList extends React.Component {
                         const includeAsset = !hiddenAssets.includes(
                             asset.get("id")
                         );
-
-                        const thisAssetName = asset.get("symbol").split(".");
-                        const canDeposit =
-                            !!this.props.backedCoins
-                                .get("OPEN", [])
-                                .find(
-                                    a => a.backingCoinType === thisAssetName[1]
-                                ) ||
-                            !!this.props.backedCoins
-                                .get("RUDEX", [])
-                                .find(
-                                    a => a.backingCoin === thisAssetName[1]
-                                ) ||
-                            asset.get("symbol") == "BTS";
+                        const canDeposit = true;
 
                         const canBuy = !!this.props.bridgeCoins.get(
                             asset.get("symbol")
@@ -1261,9 +1135,6 @@ class AccountPortfolioList extends React.Component {
     }
 
     render() {
-        const currentBridges =
-            this.props.bridgeCoins.get(this.state.bridgeAsset) || null;
-
         return (
             <div>
                 <CustomTable
@@ -1289,46 +1160,6 @@ class AccountPortfolioList extends React.Component {
                         this._renderSettleModal()}
                     {this._renderBorrowModal()}
 
-                    {(this.state.isWithdrawModalVisible ||
-                        this.state.isWithdrawModalVisibleBefore) && (
-                        <WithdrawModal
-                            hideModal={this.hideWithdrawModal}
-                            visible={this.state.isWithdrawModalVisible}
-                            backedCoins={this.props.backedCoins}
-                            initialSymbol={this.state.withdrawAsset}
-                        />
-                    )}
-
-                    {/* Deposit Modal */}
-                    {(this.state.isDepositModalVisible ||
-                        this.state.isDepositModalVisibleBefore) && (
-                        <DepositModal
-                            visible={this.state.isDepositModalVisible}
-                            showModal={this.showDepositModal}
-                            hideModal={this.hideDepositModal}
-                            asset={this.state.depositAsset}
-                            account={this.props.account.get("name")}
-                            backedCoins={this.props.backedCoins}
-                        />
-                    )}
-
-                    {/* Bridge modal */}
-                    {(this.state.isBridgeModalVisible ||
-                        this.state.isBridgeModalVisibleBefore) && (
-                        <SimpleDepositBlocktradesBridge
-                            visible={this.state.isBridgeModalVisible}
-                            showModal={this.showBridgeModal}
-                            hideModal={this.hideBridgeModal}
-                            action="deposit"
-                            account={this.props.account.get("name")}
-                            sender={this.props.account.get("id")}
-                            asset={this.state.bridgeAsset}
-                            balances={this.props.balances}
-                            bridges={currentBridges}
-                            isDown={this.props.gatewayDown.get("TRADE")}
-                        />
-                    )}
-
                     {/* Burn Modal */}
                     {(this.state.isBurnModalVisible ||
                         this.state.isBurnModalVisibleBefore) && (
@@ -1352,15 +1183,12 @@ AccountPortfolioList = connect(
     AccountPortfolioList,
     {
         listenTo() {
-            return [SettingsStore, GatewayStore, MarketsStore];
+            return [SettingsStore, MarketsStore];
         },
         getProps() {
             return {
                 settings: SettingsStore.getState().settings,
                 viewSettings: SettingsStore.getState().viewSettings,
-                backedCoins: GatewayStore.getState().backedCoins,
-                bridgeCoins: GatewayStore.getState().bridgeCoins,
-                gatewayDown: GatewayStore.getState().down,
                 allMarketStats: MarketsStore.getState().allMarketStats
             };
         }

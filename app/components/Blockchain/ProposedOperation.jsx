@@ -6,32 +6,38 @@ import counterpart from "counterpart";
 import utils from "common/utils";
 import LinkToAccountById from "../Utility/LinkToAccountById";
 import LinkToAssetById from "../Utility/LinkToAssetById";
-import {ChainStore, ChainTypes as grapheneChainTypes} from "bitsharesjs";
+import {ChainStore, ChainTypes as grapheneChainTypes} from "meta1js";
 // import account_constants from "chain/account_constants";
 const {operations} = grapheneChainTypes;
 import PropTypes from "prop-types";
 import opComponents from "./operations";
 import TranslateWithLinks from "../Utility/TranslateWithLinks";
-import { Icon as AntIcon } from "bitshares-ui-style-guide";
+import {Icon as AntIcon} from "bitshares-ui-style-guide";
 
 require("./operations.scss");
 
 let ops = Object.keys(operations);
 // let listings = account_constants.account_listing;
 
-export const TransactionIDAndExpiry = ({ id, expiration, style, openJSONModal }) => {
+export const TransactionIDAndExpiry = ({
+    id,
+    expiration,
+    style,
+    openJSONModal
+}) => {
     const endDate = counterpart.localize(new Date(expiration), {
         format: "short"
     });
     return (
         <b style={style}>
-            {openJSONModal ?
+            {openJSONModal ? (
                 <span className="cursor-pointer" onClick={openJSONModal}>
                     {id} <AntIcon type="file-search" />
                     {" | "}
-                </span> :
+                </span>
+            ) : (
                 <span>{id} | </span>
-            }
+            )}
             <span>
                 <Translate content="proposal.expires" />: {endDate}
             </span>
@@ -128,9 +134,7 @@ class ProposedOperation extends React.Component {
         return utils.is_object_id(name_or_id) ? (
             <LinkToAccountById account={name_or_id} />
         ) : (
-            <Link to={`/account/${name_or_id}/overview`}>
-                {name_or_id}
-            </Link>
+            <Link to={`/account/${name_or_id}/overview`}>{name_or_id}</Link>
         );
     }
 

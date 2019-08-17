@@ -1,8 +1,7 @@
 import MarketsStore from "stores/MarketsStore";
-import {FetchChain} from "bitsharesjs";
+import {FetchChain} from "meta1js";
 import moment from "moment-timezone";
 import MarketsActions from "actions/MarketsActions";
-import {getGatewayName} from "common/gatewayUtils";
 import utils from "common/utils";
 
 class SymbolInfo {
@@ -10,8 +9,8 @@ class SymbolInfo {
         this.name = options.ticker;
         this.ticker = options.ticker;
 
-        const quoteGateway = getGatewayName(options.quoteAsset);
-        const baseGateway = getGatewayName(options.baseAsset);
+        const quoteGateway = "OPEN";
+        const baseGateway = "OPEN";
         let currentExchange =
             quoteGateway === baseGateway
                 ? quoteGateway

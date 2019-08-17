@@ -77,6 +77,7 @@ require("file-loader?name=asset-symbols/[name].png!./btg.png");
 require("file-loader?name=asset-symbols/[name].png!./mdl.png");
 require("file-loader?name=asset-symbols/[name].png!./cof.png");
 require("file-loader?name=asset-symbols/[name].png!./exr.png");
+require("file-loader?name=asset-symbols/[name].png!./meta1.png");
 require("file-loader?name=asset-symbols/[name].png!./lcrt.png");
 
 // 3rd party assets (RuDEX)

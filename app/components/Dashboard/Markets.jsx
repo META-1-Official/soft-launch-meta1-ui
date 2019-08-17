@@ -1,5 +1,5 @@
 import React from "react";
-import {Apis} from "bitsharesjs-ws";
+import {Apis} from "meta1js-ws";
 import {connect} from "alt-react";
 
 import utils from "common/utils";
@@ -52,7 +52,7 @@ class FeaturedMarkets extends React.Component {
     _getMarkets(state = this.state, props = this.props) {
         const {chainID} = state;
 
-        if (chainID === "4018d784") {
+        if (chainID === "b168681c") {
             return props.markets;
         } else {
             // assume testnet
@@ -80,16 +80,6 @@ class FeaturedMarkets extends React.Component {
             return props.quotes[0] === market.base;
         });
 
-        /* Add the possible gateway assets */
-        for (var i = 1; i < props.quotes.length; i++) {
-            markets.forEach(m => {
-                let obj = {quote: m.quote, base: props.quotes[i]};
-                let marketKey = `${obj.quote}_${obj.base}`;
-                if (obj.quote !== obj.base && !markets.has(marketKey)) {
-                    markets = markets.set(marketKey, obj);
-                }
-            });
-        }
         this.setState({markets});
     }
 

@@ -3,7 +3,7 @@ import SettingsActions from "actions/SettingsActions";
 import IntlActions from "actions/IntlActions";
 import Immutable, {fromJS} from "immutable";
 import ls from "common/localStorage";
-import {Apis} from "bitsharesjs-ws";
+import {Apis} from "meta1js-ws";
 import {settingsAPIs} from "api/apiConfig";
 import {
     getDefaultTheme,
@@ -13,7 +13,7 @@ import {
     getUnits
 } from "branding";
 
-const CORE_ASSET = "BTS"; // Setting this to BTS to prevent loading issues when used with BTS chain which is the most usual case currently
+const CORE_ASSET = "META1"; // Setting this to META1 to prevent loading issues when used with META1 chain which is the most usual case currently
 
 const STORAGE_KEY = "__graphene__";
 let ss = new ls(STORAGE_KEY);
@@ -151,7 +151,7 @@ class SettingsStore {
             fee_asset: getUnits(),
             showSettles: [{translate: "yes"}, {translate: "no"}],
             showAssetPercent: [{translate: "yes"}, {translate: "no"}],
-            themes: ["midnightTheme", "lightTheme", "darkTheme"],
+            themes: ["darkTheme"],
             passwordLogin: [
                 {translate: "cloud_login"},
                 {translate: "local_wallet"}
@@ -446,10 +446,10 @@ class SettingsStore {
             };
 
             let coreAssets = {
-                markets_4018d784: "BTS",
+                markets_4018d784: "META1",
                 markets_39f5e2ed: "TEST"
             };
-            let coreAsset = coreAssets[this.starredKey] || "BTS";
+            let coreAsset = coreAssets[this.starredKey] || "META1";
             /*
              * Update units depending on the chain, also make sure the 0 index
              * asset is always the correct CORE asset name
@@ -668,7 +668,7 @@ class SettingsStore {
     }
 
     _getChainId() {
-        return (Apis.instance().chain_id || "4018d784").substr(0, 8);
+        return (Apis.instance().chain_id || "b168681c").substr(0, 8);
     }
 
     _getChainKey(key) {

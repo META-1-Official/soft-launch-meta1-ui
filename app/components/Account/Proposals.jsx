@@ -9,7 +9,7 @@ import ChainTypes from "components/Utility/ChainTypes";
 import utils from "common/utils";
 import ProposalModal, {finalRequiredPerms} from "../Modal/ProposalModal";
 import NestedApprovalState from "../Account/NestedApprovalState";
-import {ChainStore, ChainTypes as grapheneChainTypes} from "bitsharesjs";
+import {ChainStore, ChainTypes as grapheneChainTypes} from "meta1js";
 import counterpart from "counterpart";
 import permission_utils from "common/permission_utils";
 import LinkToAccountById from "../Utility/LinkToAccountById";
@@ -20,7 +20,6 @@ import JSONModal from "components/Modal/JSONModal";
 
 const {operations} = grapheneChainTypes;
 const ops = Object.keys(operations);
-
 
 class Proposals extends Component {
     static propTypes = {
@@ -241,11 +240,11 @@ class Proposals extends Component {
     }
 
     openJSONModal(id) {
-        this.setState({ visibleId: id });
+        this.setState({visibleId: id});
     }
 
     closeJSONModal = () => {
-        this.setState({ visibleId: "" });
+        this.setState({visibleId: ""});
     };
 
     render() {
@@ -267,10 +266,12 @@ class Proposals extends Component {
             const proposer = proposal.proposal.get("proposer");
             const expiration = proposal.proposal.get("expiration_time");
             const trxTypes = counterpart.translate("transaction.trxTypes");
-            const operations = proposal.operations && proposal.operations.toJS();
-            const title = operations.length > 1 ?
-                counterpart.translate("transaction.operations") :
-                trxTypes[ops[operations[0] && operations[0][0]]];
+            const operations =
+                proposal.operations && proposal.operations.toJS();
+            const title =
+                operations.length > 1
+                    ? counterpart.translate("transaction.operations")
+                    : trxTypes[ops[operations[0] && operations[0][0]]];
 
             let text = proposal.operations
                 .map((o, index) => {
@@ -317,8 +318,11 @@ class Proposals extends Component {
                         />
                         <JSONModal
                             visible={this.state.visibleId === id}
-                            operation={operations.length > 1 ?
-                                operations : operations[0] && operations[0][1]}
+                            operation={
+                                operations.length > 1
+                                    ? operations
+                                    : operations[0] && operations[0][1]
+                            }
                             title={title || ""}
                             hideModal={this.closeJSONModal}
                         />
@@ -438,7 +442,7 @@ class Proposals extends Component {
                                             : () => {}
                                     }
                                     className={
-                                        "button primary hollow" +
+                                        "button primary" +
                                         (canApprove ? "" : " hidden")
                                     }
                                 >
@@ -455,7 +459,7 @@ class Proposals extends Component {
                                     proposal.account.get("id"),
                                     "reject"
                                 )}
-                                className="button primary hollow"
+                                className="button primary"
                             >
                                 <Translate content="proposal.reject" />
                             </button>
@@ -467,7 +471,7 @@ class Proposals extends Component {
                                 proposal.account.get("id"),
                                 "delete"
                             )}
-                            className="button primary hollow"
+                            className="button primary"
                         >
                             <Translate content="proposal.delete" />
                         </button>

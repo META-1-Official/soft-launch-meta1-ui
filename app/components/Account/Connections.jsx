@@ -11,9 +11,7 @@ class Connections extends React.Component {
                       return (
                           <li key={account}>
                               X:{" "}
-                              <Link to={`/account/${account}`}>
-                                  {account}
-                              </Link>
+                              <Link to={`/account/${account}`}>{account}</Link>
                           </li>
                       );
                   }
@@ -26,9 +24,7 @@ class Connections extends React.Component {
                       return (
                           <li key={account}>
                               X:{" "}
-                              <Link to={`/account/${account}`}>
-                                  {account}
-                              </Link>
+                              <Link to={`/account/${account}`}>{account}</Link>
                           </li>
                       );
                   }
@@ -54,7 +50,7 @@ class Connections extends React.Component {
                     />
                 </h5>{" "}
                 {isMyAccount ? (
-                    <button className="hollow button tiny">Claim</button>
+                    <button className="button tiny">Claim</button>
                 ) : null}
                 <ul style={{listStyle: "none", marginLeft: "0.25rem"}}>
                     {unwanted}

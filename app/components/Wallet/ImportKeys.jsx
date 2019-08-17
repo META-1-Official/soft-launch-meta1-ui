@@ -1,9 +1,9 @@
 import React, {Component} from "react";
 import {connect} from "alt-react";
 import cname from "classnames";
-import {PrivateKey, Aes, PublicKey, FetchChain, hash} from "bitsharesjs";
+import {PrivateKey, Aes, PublicKey, FetchChain, hash} from "meta1js";
 import AccountApi from "api/accountApi";
-import {ChainConfig} from "bitsharesjs-ws";
+import {ChainConfig} from "meta1js-ws";
 import PrivateKeyStore from "stores/PrivateKeyStore";
 import WalletUnlockActions from "actions/WalletUnlockActions";
 import {WalletCreate} from "components/Wallet/WalletCreate";
@@ -151,7 +151,7 @@ class ImportKeys extends Component {
         reader.readAsText(file);
     }
 
-    /** BTS 1.0 client wallet_export_keys format. */
+    /** META1 1.0 client wallet_export_keys format. */
     _parseImportKeyUpload(json_contents, file_name, update_state) {
         let password_checksum, unfiltered_account_keys;
         try {
@@ -167,7 +167,7 @@ class ImportKeys extends Component {
             throw e.message || e;
         }
 
-        // BTS 1.0 wallets may have a lot of generated but unused keys or spent TITAN addresses making
+        // META1 1.0 wallets may have a lot of generated but unused keys or spent TITAN addresses making
         // wallets so large it is was not possible to use the JavaScript wallets with them.
 
         let genesis_filter = new GenesisFilter();
@@ -259,9 +259,9 @@ class ImportKeys extends Component {
     }
 
     /**
-    BTS 1.0 hosted wallet backup (wallet.bitshares.org) is supported.
+    META1 1.0 hosted wallet backup (wallet.bitshares.org) is supported.
 
-    BTS 1.0 native wallets should use wallet_export_keys instead of a wallet backup.
+    META1 1.0 native wallets should use wallet_export_keys instead of a wallet backup.
 
     Note,  Native wallet backups will be rejected.  The logic below does not
     capture assigned account names (for unregisted accounts) and does not capture
@@ -276,13 +276,13 @@ class ImportKeys extends Component {
         let account_addresses = {};
 
         let savePubkeyAccount = function(pubkey, account_name) {
-            //replace BTS with GPH
+            //replace META1 with GPH
             pubkey = ChainConfig.address_prefix + pubkey.substring(3);
             let address = PublicKey.fromPublicKeyString(
                 pubkey
             ).toAddressString();
             let addresses = account_addresses[account_name] || [];
-            address = "BTS" + address.substring(3);
+            address = "META1" + address.substring(3);
             //DEBUG console.log("... address",address,account_name)
             addresses.push(address);
             account_addresses[account_name] = addresses;
@@ -336,7 +336,7 @@ class ImportKeys extends Component {
                 }
             }
             if (!encrypted_brainkey)
-                throw "Please use a BTS 1.0 wallet_export_keys file instead";
+                throw "Please use a META1 1.0 wallet_export_keys file instead";
 
             if (!password_checksum)
                 throw file.name + " is missing password_checksum";

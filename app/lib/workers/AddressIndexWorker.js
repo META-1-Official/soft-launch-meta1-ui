@@ -1,4 +1,4 @@
-import {key} from "bitsharesjs";
+import {key} from "meta1js";
 
 onmessage = function(event) {
     try {

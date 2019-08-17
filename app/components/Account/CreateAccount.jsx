@@ -13,7 +13,7 @@ import TransactionConfirmStore from "stores/TransactionConfirmStore";
 import LoadingIndicator from "../LoadingIndicator";
 import WalletActions from "actions/WalletActions";
 import Translate from "react-translate-component";
-import {ChainStore, FetchChain} from "bitsharesjs";
+import {ChainStore, FetchChain} from "meta1js";
 import {BackupCreate} from "../Wallet/Backup";
 import ReactTooltip from "react-tooltip";
 import utils from "common/utils";
@@ -23,6 +23,7 @@ import {withRouter} from "react-router-dom";
 import {scroller} from "react-scroll";
 import {getWalletName} from "branding";
 import {Notification} from "bitshares-ui-style-guide";
+import ReCAPTCHA from "react-google-recaptcha";
 
 class CreateAccount extends React.Component {
     constructor() {
@@ -49,6 +50,10 @@ class CreateAccount extends React.Component {
             setting: "passwordLogin",
             value: false
         });
+    }
+
+    onChange(value) {
+        console.log("Captcha value:", value);
     }
 
     componentDidMount() {
@@ -312,7 +317,7 @@ class CreateAccount extends React.Component {
                 )}
 
                 <div className="divider" />
-
+                {/* <ReCAPTCHA sitekey="6LdY-48UAAAAAAX8Y8-UdRtFks70LCRmyvyye0VU" /> */}
                 {/* Submit button */}
                 {this.state.loading ? (
                     <LoadingIndicator type="three-bounce" />
@@ -586,8 +591,8 @@ class CreateAccount extends React.Component {
                             ? this._renderBackupText()
                             : this._renderGetStartedText()}
                 </div>
-                <Link to="/">
-                    <button className="button primary hollow">
+                <Link style={{color: "white"}} to="/">
+                    <button className="button primary">
                         <Translate content="wallet.back" />
                     </button>
                 </Link>

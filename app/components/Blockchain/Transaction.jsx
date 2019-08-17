@@ -17,7 +17,7 @@ import Icon from "../Icon/Icon";
 import PrivateKeyStore from "stores/PrivateKeyStore";
 import WalletUnlockActions from "actions/WalletUnlockActions";
 import ProposedOperation from "./ProposedOperation";
-import {ChainTypes} from "bitsharesjs";
+import {ChainTypes} from "meta1js";
 let {operations} = ChainTypes;
 import ReactTooltip from "react-tooltip";
 import moment from "moment";
@@ -171,9 +171,7 @@ class Transaction extends React.Component {
         return utils.is_object_id(name_or_id) ? (
             <LinkToAccountById account={name_or_id} />
         ) : (
-            <Link to={`/account/${name_or_id}/overview`}>
-                {name_or_id}
-            </Link>
+            <Link to={`/account/${name_or_id}/overview`}>{name_or_id}</Link>
         );
     }
 

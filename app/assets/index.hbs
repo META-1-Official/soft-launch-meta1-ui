@@ -10,7 +10,7 @@
     <meta name="format-detection" content="telephone=no">
     <title>{{title}}</title>
     <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self' blob:; worker-src 'self' blob:; script-src https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/ 'self' 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src 'self' *; font-src 'self' data: https://at.alicdn.com; img-src 'self' data:;">
+        content="default-src 'self' blob:; worker-src 'self' blob:; frame-src 'self' *; script-src https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/ 'self' 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src 'self' *; font-src 'self' data: https://at.alicdn.com; img-src 'self' data:;">
 
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <style>
@@ -55,7 +55,7 @@
 
 <body>
     <main id="content">
-        <h1 class="centerDiv" style="">Loading...</h1>
+        <h1 class="centerDiv" style="">META1</h1>
     </main>
     <script>
         function ieVersion(uaString) {
@@ -82,7 +82,7 @@
             var btn = document.createElement("button");
 
             var headerText = document.createTextNode("Unsupported browser");
-            var bodyText = document.createTextNode("The Browser you are using has not been fully tested to support the BitShares Wallet. We highly recommend that you backup your local wallet and import it using the Chrome Browser.");
+            var bodyText = document.createTextNode("The Browser you are using has not been fully tested to support the Meta1 Wallet. We highly recommend that you backup your local wallet and import it using the Chrome Browser.");
             var linkText = document.createTextNode("Google Chrome");
             var closeLinkText = document.createTextNode("×");
             var btnText = document.createTextNode("I UNDERSTAND");

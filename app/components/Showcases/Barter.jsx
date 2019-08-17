@@ -15,7 +15,7 @@ import {
 import AccountSelector from "../Account/AccountSelector";
 import counterpart from "counterpart";
 import AccountStore from "stores/AccountStore";
-import {ChainStore} from "bitsharesjs";
+import {ChainStore} from "meta1js";
 import AmountSelector from "../Utility/AmountSelector";
 import {Asset} from "common/MarketClasses";
 import utils from "common/utils";
@@ -1420,7 +1420,7 @@ export default class Barter extends Component {
                             className="left-label"
                             component="label"
                             fee={fee(true) + this.state.proposal_fee}
-                            asset={"BTS"}
+                            asset={"META1"}
                         />
                     </span>
                 </Tooltip>

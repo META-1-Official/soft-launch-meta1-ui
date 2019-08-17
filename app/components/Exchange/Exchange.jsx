@@ -1,5 +1,5 @@
-import {Apis} from "bitsharesjs-ws";
-import {ChainStore, FetchChain} from "bitsharesjs";
+import {Apis} from "meta1js-ws";
+import {ChainStore, FetchChain} from "meta1js";
 import {
     Tabs,
     Collapse,
@@ -37,8 +37,6 @@ import LoadingIndicator from "../LoadingIndicator";
 import BorrowModal from "../Modal/BorrowModal";
 import AccountNotifications from "../Notifier/NotifierContainer";
 import TranslateWithLinks from "../Utility/TranslateWithLinks";
-import SimpleDepositWithdraw from "../Dashboard/SimpleDepositWithdraw";
-import SimpleDepositBlocktradesBridge from "../Dashboard/SimpleDepositBlocktradesBridge";
 import {Notification} from "bitshares-ui-style-guide";
 import PriceAlert from "./PriceAlert";
 import counterpart from "counterpart";
@@ -1059,17 +1057,18 @@ class Exchange extends React.Component {
             .then(result => {
                 if (result.error) {
                     if (result.error.message !== "wallet locked")
-                        Notification.error({
-                            message: counterpart.translate(
-                                "notifications.exchange_unknown_error_place_order",
-                                {
-                                    amount: current.to_receive.getAmount({
-                                        real: true
-                                    }),
-                                    symbol: current.to_receive.asset_id
-                                }
-                            )
-                        });
+                        console.log(result.error);
+                    Notification.error({
+                        message: counterpart.translate(
+                            "notifications.exchange_unknown_error_place_order",
+                            {
+                                amount: current.to_receive.getAmount({
+                                    real: true
+                                }),
+                                symbol: current.to_receive.asset_id
+                            }
+                        )
+                    });
                 }
             })
             .catch(e => {
@@ -1575,7 +1574,6 @@ class Exchange extends React.Component {
         this.setState({
             buyModalType: type
         });
-
         this.showDepositBridgeModal();
     }
 
@@ -1769,7 +1767,6 @@ class Exchange extends React.Component {
             quote: current[isBid ? "to_receive" : "for_sale"],
             real: parseFloat(e.target.value) || 0
         });
-
         if (isBid) {
             this._setForSale(current, isBid) ||
                 this._setReceive(current, isBid);
@@ -1968,8 +1965,15 @@ class Exchange extends React.Component {
         if (quoteAsset.size && baseAsset.size && currentAccount.size) {
             base = baseAsset;
             quote = quoteAsset;
+
             baseSymbol = base.get("symbol");
             quoteSymbol = quote.get("symbol");
+            // if(quoteSymbol === "META1" && baseSymbol === "USD") {
+            //     var sellPrice = 11;
+            // }
+            // else if (quoteSymbol === "USD" && baseSymbol === "META1") {
+            //     var buyPrice = 44;
+            // }
 
             accountBalance = currentAccount.get("balances").toJS();
 
@@ -2129,13 +2133,6 @@ class Exchange extends React.Component {
                         onBuy={this._onBuy.bind(this, "bid")}
                         onDeposit={this._onDeposit.bind(this, "bid")}
                         currentAccount={currentAccount}
-                        backedCoin={this.props.backedCoins.find(
-                            a => a.symbol === base.get("symbol")
-                        )}
-                        currentBridges={
-                            this.props.bridgeCoins.get(base.get("symbol")) ||
-                            null
-                        }
                         isOpen={this.state.buySellOpen}
                         onToggleOpen={this._toggleOpenBuySell.bind(this)}
                         parentWidth={centerContainerWidth}
@@ -2298,13 +2295,6 @@ class Exchange extends React.Component {
                         onBuy={this._onBuy.bind(this, "ask")}
                         onDeposit={this._onDeposit.bind(this, "ask")}
                         currentAccount={currentAccount}
-                        backedCoin={this.props.backedCoins.find(
-                            a => a.symbol === quote.get("symbol")
-                        )}
-                        currentBridges={
-                            this.props.bridgeCoins.get(quote.get("symbol")) ||
-                            null
-                        }
                         isOpen={this.state.buySellOpen}
                         onToggleOpen={this._toggleOpenBuySell.bind(this)}
                         parentWidth={centerContainerWidth}
@@ -3534,72 +3524,6 @@ class Exchange extends React.Component {
                             "short_backing_asset"
                         ])}
                         accountObj={currentAccount}
-                    />
-                ) : null}
-
-                {this.state.isDepositModalVisible ||
-                this.state.isDepositModalLoaded ? (
-                    <SimpleDepositWithdraw
-                        visible={this.state.isDepositModalVisible}
-                        hideModal={this.hideDepositModal}
-                        ref="deposit_modal"
-                        action="deposit"
-                        fiatModal={false}
-                        account={currentAccount.get("name")}
-                        sender={currentAccount.get("id")}
-                        asset={
-                            depositModalType === "bid"
-                                ? base.get("id")
-                                : quote.get("id")
-                        }
-                        modalId={
-                            "simple_deposit_modal" +
-                            (depositModalType === "bid" ? "" : "_ask")
-                        }
-                        balance={
-                            depositModalType === "bid"
-                                ? baseBalance
-                                : quoteBalance
-                        }
-                        {...this.props.backedCoins.find(
-                            a =>
-                                a.symbol ===
-                                (depositModalType === "bid"
-                                    ? base.get("symbol")
-                                    : quote.get("symbol"))
-                        )}
-                    />
-                ) : null}
-
-                {/* Bridge modal */}
-                {this.state.isDepositBridgeModalVisible ||
-                this.state.isDepositBridgeModalLoaded ? (
-                    <SimpleDepositBlocktradesBridge
-                        visible={this.state.isDepositBridgeModalVisible}
-                        hideModal={this.hideDepositBridgeModal}
-                        ref="bridge_modal"
-                        action="deposit"
-                        account={currentAccount.get("name")}
-                        sender={currentAccount.get("id")}
-                        asset={
-                            buyModalType === "bid"
-                                ? base.get("id")
-                                : quote.get("id")
-                        }
-                        modalId={
-                            "simple_bridge_modal" +
-                            (buyModalType === "bid" ? "" : "_ask")
-                        }
-                        balances={[
-                            buyModalType === "bid" ? baseBalance : quoteBalance
-                        ]}
-                        bridges={
-                            this.props.bridgeCoins.get(
-                                buyModalType === "bid"
-                                    ? base.get("symbol")
-                                    : quote.get("symbol")
-                            ) || null
-                        }
                     />
                 ) : null}
 

@@ -1,24 +1,23 @@
-# BitShares
+# META1
 
 ## Support
 
 >If you have an issue related to a Gateway provider, please be sure to contact them directly. See Gateways in the left menu.
 
-### Bitshares Chat
-You can chat with other member of the Bitshares community in real time at:
+### META1 Chat
+You can chat with other member of the META1 community in real time at:
 
-- [Telegram](https://t.me/BitSharesDEX)
-- [Discord](https://discord.gg/GsjQfAJ)
+- [Telegram](https://t.me/meta1exchange)
 
 ### Developers
 If you are a software developer, you may contribute via a bounty system at:
 
-- [Github UI](https://github.com/bitshares/bitshares-ui)
-- [Github Core](https://github.com/bitshares/bitshares-core) 
+- [Github UI](https://github.com/meta-source/meta-ui) - private repository
+- [Github Core](https://github.com/meta-source/meta-core) - private repository
 
 ## Introduction
 Welcome to the worlds fastest decentralized exchange (The DEX).
-BitShares looks to extend the innovation of the blockchain to all industries
+META1 looks to extend the innovation of the blockchain to all industries
 that rely upon the internet to provide their services. Whether its banking,
 stock exchanges, lotteries, voting, music, auctions or many others, a digital
 public ledger allows for the creation of distributed autonomous companies (or
@@ -30,12 +29,12 @@ rules. These rules are encoded in publicly auditable open source software
 distributed across the computers of the companies’ shareholders, who
 effortlessly secure the company from arbitrary control.
 
-BitShares does for business what bitcoin did for money by utilizing distributed
+META1 does for business what bitcoin did for money by utilizing distributed
 consensus technology to create companies that are inherently global,
 transparent, trustworthy, efficient and most importantly profitable.
 
 ## Wallet
-This wallet allows access most features of the BitShares network including
+This wallet allows access most features of the META1 network including
 
 - [BitAssets](/help/assets/mpa)
 - [User-Issued Assets](/help/assets/uia)

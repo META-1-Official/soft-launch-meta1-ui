@@ -10,10 +10,10 @@ import assetUtils from "common/asset_utils";
 import counterpart from "counterpart";
 import FormattedAsset from "../Utility/FormattedAsset";
 import AssetName from "../Utility/AssetName";
-import {ChainStore} from "bitsharesjs";
+import {ChainStore} from "meta1js";
 import utils from "common/utils";
 import ls from "common/localStorage";
-import {Apis} from "bitsharesjs-ws";
+import {Apis} from "meta1js-ws";
 import {Radio, Table, Select, Icon} from "bitshares-ui-style-guide";
 import {List} from "antd";
 import SearchInput from "../Utility/SearchInput";
@@ -26,7 +26,7 @@ class Assets extends React.Component {
 
         let chainID = Apis.instance().chain_id;
         if (chainID) chainID = chainID.substr(0, 8);
-        else chainID = "4018d784";
+        else chainID = "b168681c";
 
         this.state = {
             chainID,
@@ -36,7 +36,7 @@ class Assets extends React.Component {
             totalAssets:
                 typeof accountStorage.get(`totalAssets_${chainID}`) != "object"
                     ? accountStorage.get(`totalAssets_${chainID}`)
-                    : chainID && chainID === "4018d784"
+                    : chainID && chainID === "b168681c"
                         ? 3000
                         : 50, // mainnet has 3000+ assets, other chains may not have that many
             assetsFetched: 0,
@@ -244,7 +244,7 @@ class Assets extends React.Component {
                             ? description.market
                             : coreAsset
                                 ? coreAsset.get("symbol")
-                                : "BTS");
+                                : "META1");
 
                     dataSource.push({
                         symbol: asset.symbol,
@@ -353,7 +353,7 @@ class Assets extends React.Component {
                             ? description.market
                             : coreAsset
                                 ? coreAsset.get("symbol")
-                                : "BTS");
+                                : "META1");
 
                     dataSource.push({
                         symbol: asset.symbol,
@@ -406,7 +406,7 @@ class Assets extends React.Component {
                             ? description.market
                             : coreAsset
                                 ? coreAsset.get("symbol")
-                                : "BTS");
+                                : "META1");
 
                     return {
                         asset,

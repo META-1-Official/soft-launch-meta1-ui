@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import Showcase from "./Showcase";
 import {connect} from "alt-react";
-import {ChainStore} from "bitsharesjs";
+import {ChainStore} from "meta1js";
 import AccountStore from "../../stores/AccountStore";
 import {createPaperWalletAsPDF} from "common/paperWallet";
 
@@ -39,23 +39,6 @@ class ShowcaseGrid extends Component {
                 },
                 description: "showcases.paper_wallet.description",
                 icon: "wallet", // see Icons app/compoentns/Icon/Icon
-                disabled: hasAccount
-                    ? false
-                    : "Please login to use this functionality"
-            },
-            {
-                title: "showcases.voting.title",
-                target: event => {
-                    if (hasAccount) {
-                        thiz.props.history.push(
-                            "/account/" +
-                                this.state.currentAccount.get("name") +
-                                "/voting"
-                        );
-                    }
-                },
-                description: "showcases.voting.description",
-                icon: "voting",
                 disabled: hasAccount
                     ? false
                     : "Please login to use this functionality"

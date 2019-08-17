@@ -3,25 +3,28 @@
 // variables
 
 $light-text-color: #fff;
-$dark-text-color: #444;
-$primary-text-color: #e0e0e0;
-$secondary-text-color: darken($primary-text-color, 20%);
-$inactive-text-color: darken($primary-text-color, 30%);
-$link-text-color: #1ec3fa;
+$dark-text-color: rgb(255, 255, 255);
+$primary-text-color: #ffffff;
+$secondary-text-color: white;
+$inactive-text-color: black;
+$link-text-color: #fcab53;
 $error-text-color: #ff3950;
 
-$settings-select-bg: #3f3f3f;
+$settings-select-bg: #270303;
 $settings-select-color: darken($primary-text-color, 20%);
-$settings-api-node-border-color: #2a2a2a;
-$main-content-margin-block-bg-color: #1e1e1e;
-$bg-color: #2a2a2a;
-$panel-bg-color: #3f3f3f;
-$light-panel-bg-color: #6a6a6a;
+$settings-api-node-border-color: #640000;
+$main-content-margin-block-bg-color: #ff0000;
+$top: #000000;
+$bottom: #000000;
+$bg-color: rgb(0, 0, 0);
+$bg-color-mixin: #240000;
+$panel-bg-color: #000000;
+$light-panel-bg-color: #8f0c0c;
 $super-light-panel-bg-color: lighten($light-panel-bg-color, 8%);
 $settings-menu-hover-bg: darken($light-panel-bg-color, 20%);
 $settings-menu-active-bg: darken($light-panel-bg-color, 20%);
-$button-bg-color: #049cce;
-$secondary-button-bg-color: #999999;
+$button-bg-color: #000000;
+$secondary-button-bg-color: #ff0f0f;
 $input-background: lighten($bg-color, 1%);
 
 $alert-color: $error-text-color;
@@ -36,31 +39,33 @@ $ask-color: #e6416e;
 $call-color: #bbbf2b;
 $positive-color: rgb(112, 168, 0);
 $negative-color: #ff3950;
-$row-accent-color: #3c3c3c;
-$header-color: #484848;
+$row-accent-color: #a70707;
+$header-color: #000000; // do not touch
 
+$button-mix1: #874002;
+$button-mix2: #d5ba48;
 // Account table view colors
-$account-header: #656565;
-$account-cells: #4b5158;
-$account-green: rgb(112, 168, 0);
+$account-header: #1f1f1f; // do not touch
+$account-cells: black; // do not touch
+$account-green: #7ed321;
 $account-primarytext: white;
-$account-dimmed: #afafaf;
-$account-border: #323131;
-$account-background: #3f3f3f;
-$account-tabs-background: #2f2f2f;
+$account-dimmed: #707070;
+$account-border: #d5ba48;
+$account-background: black; // do not touch
+$account-tabs-background: white;
 
 $pulsate-green-start: $account-green;
-$pulsate-green-end: rgb(112, 168, 0);
+$pulsate-green-end: #d5ba48;
 $pulsate-red-start: $negative-color;
 $pulsate-red-end: #ef4040;
 
-$modal-bg-color: #4b5158;
+$modal-bg-color: white;
 
 $mobile-input-bg: #2d2d2d;
 
-$slider-thumb-color: #f00;
+$slider-thumb-color: #d5ba48;
 
-$incognito-bg: #ff3950;
+$incognito-bg: #d5ba48;
 
 $tab-content-background-color: lighten($account-header, 4%);
 $explorer-tab-content-background-color: $bg-color;
@@ -218,6 +223,8 @@ $header-menu-item--hover--background-color: lighten($primary-dark, 10%);
         $modal-bg-color,
         $mobile-input-bg,
         $incognito-bg,
+        $button-mix1,
+        $button-mix2,
         $explorer--witnesses--info-bg,
         $explorer--witnesses--info-border,
         $explorer--witnesses--info-table-title-color,

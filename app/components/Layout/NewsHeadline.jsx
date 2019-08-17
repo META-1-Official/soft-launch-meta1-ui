@@ -4,7 +4,7 @@ import {Carousel} from "antd";
 import SettingsActions from "actions/SettingsActions";
 import {connect} from "alt-react";
 import SettingsStore from "stores/SettingsStore";
-import {hash} from "bitsharesjs";
+import {hash} from "meta1js";
 import {getNotifications, getGateways} from "../../lib/chain/onChainConfig";
 
 const getNewsItemHash = news => {

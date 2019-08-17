@@ -18,7 +18,7 @@ import {routerTransitioner} from "../../routerTransition";
 import LoadingIndicator from "../LoadingIndicator";
 import counterpart from "counterpart";
 import ChoiceModal from "../Modal/ChoiceModal";
-import {ChainStore} from "bitsharesjs";
+import {ChainStore} from "meta1js";
 import ifvisible from "ifvisible";
 import {getWalletName} from "branding";
 import {Tooltip} from "bitshares-ui-style-guide";
@@ -299,7 +299,7 @@ class Footer extends React.Component {
             }, forceReconnectAfterSeconds * 1000);
 
             // Still out of sync?
-            if (this.getBlockTimeDelta() > 3) {
+            if (this.getBlockTimeDelta() > 19) {
                 console.log(
                     "Your node is out of sync since " +
                         this.getBlockTimeDelta() +
@@ -310,7 +310,7 @@ class Footer extends React.Component {
                 setTimeout(() => {
                     // Only ask the user once, and only continue if still out of sync
                     if (
-                        this.getBlockTimeDelta() > 3 &&
+                        this.getBlockTimeDelta() > 19 &&
                         this.state.hasOutOfSyncModalBeenShownOnce === false
                     ) {
                         this.setState({

@@ -4,7 +4,7 @@ import {Input, Form, Select, Button, Radio} from "bitshares-ui-style-guide";
 import AssetNameWrapper from "../Utility/AssetName";
 import {SCALED_ORDER_ACTION_TYPES} from "../../services/Exchange";
 import {Asset} from "../../lib/common/MarketClasses";
-import ChainStore from "bitsharesjs/es/chain/src/ChainStore";
+import ChainStore from "meta1js/es/chain/src/ChainStore";
 import counterpart from "counterpart";
 import {Validation} from "../../services/Validation/Validation";
 import assetUtils from "../../lib/common/asset_utils";
@@ -757,6 +757,7 @@ class ScaledOrderForm extends Component {
                     ) : null}
 
                     <Form.Item
+                        style={{marginBottom: "6px"}}
                         label={counterpart.translate("transaction.expiration")}
                         {...formItemProps}
                     >
@@ -847,6 +848,7 @@ class ScaledOrderForm extends Component {
                     </Form.Item>
 
                     <Button
+                        style={{marginTop: "10px", width: "100%"}}
                         onClick={this.props.handleSubmit}
                         style={{marginTop: 10, width: "100%"}}
                         type="primary"

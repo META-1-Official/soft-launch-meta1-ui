@@ -173,7 +173,7 @@ class LoginSelector extends React.Component {
                             </Link>
 
                             <span
-                                className="button hollow primary"
+                                className="button primary"
                                 onClick={() => {
                                     SettingsActions.changeSetting.defer({
                                         setting: "passwordLogin",
@@ -195,8 +195,7 @@ class LoginSelector extends React.Component {
                                     keys={[
                                         {
                                             type: "link",
-                                            value:
-                                                "/wallet/backup/restore",
+                                            value: "/wallet/backup/restore",
                                             translation:
                                                 "account.optional.restore_link",
                                             dataIntro: translator.translate(
@@ -206,8 +205,7 @@ class LoginSelector extends React.Component {
                                         },
                                         {
                                             type: "link",
-                                            value:
-                                                "/create-account/wallet",
+                                            value: "/create-account/wallet",
                                             translation:
                                                 "account.optional.restore_form",
                                             dataIntro: translator.translate(
