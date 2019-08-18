@@ -31,14 +31,14 @@ export const nodeRegions = [
 export const settingsAPIs = {
     // If you want a location to be translated, add the translation to settings in locale-xx.js
     // and use an object {translate: key} in WS_NODE_LIST
-    DEFAULT_WS_NODE: "wss://aphrodite.meta-exchange.info/socket",
+    DEFAULT_WS_NODE: "wss://aphrodite.meta-exchange.info/ws",
     WS_NODE_LIST: [
         {
             url: "ws://127.0.0.1:8090",
             location: "Locally hosted"
         },
         {
-            url: "wss://aphrodite.meta-exchange.info/socket",
+            url: "wss://aphrodite.meta-exchange.info/ws",
             region: "Aphrodite - Los Angeles",
             country: "META1",
             location: "USA",
@@ -46,7 +46,7 @@ export const settingsAPIs = {
             contact: "telegram:@Avowedly"
         },
         {
-            url: "wss://seraphim.meta-exchange.info/socket",
+            url: "wss://seraphim.meta-exchange.info/ws",
             region: "Seraphim - Los Angeles",
             country: "META1",
             location: "USA",
@@ -54,7 +54,7 @@ export const settingsAPIs = {
             contact: "telegram:@Avowedly"
         },
         {
-            url: "wss://celaeno.meta-exchange.info//socket",
+            url: "wss://celaeno.meta-exchange.info/ws",
             region: "Celaeno - Virginia",
             country: "META1",
             location: "USA",
@@ -62,7 +62,7 @@ export const settingsAPIs = {
             contact: "telegram:@Avowedly"
         },
         {
-            url: "wss://merope.meta-exchange.info/socket",
+            url: "wss://merope.meta-exchange.info/ws",
             region: "Merope - Ireland",
             country: "META1",
             location: "Ireland",
@@ -70,7 +70,7 @@ export const settingsAPIs = {
             contact: "telegram:@Avowedly"
         },
         {
-            url: "wss://asterope.meta-exchange.info/socket",
+            url: "wss://asterope.meta-exchange.info/ws",
             region: "Asterope - London",
             country: "META1",
             location: "UK",
@@ -78,7 +78,7 @@ export const settingsAPIs = {
             contact: "telegram:@Avowedly"
         },
         {
-            url: "wss://taygete.meta-exchange.info/socket",
+            url: "wss://taygete.meta-exchange.info/ws",
             region: "Taygete - Frankfurt",
             country: "META1",
             location: "Germany",
@@ -86,7 +86,7 @@ export const settingsAPIs = {
             contact: "telegram:@Avowedly"
         },
         {
-            url: "wss://alcyone.meta-exchange.info/socket",
+            url: "wss://alcyone.meta-exchange.info/ws",
             region: "Alcyone - Paris",
             country: "META1",
             location: "France",
@@ -94,7 +94,7 @@ export const settingsAPIs = {
             contact: "telegram:@Avowedly"
         },
         {
-            url: "wss://pleione.meta-exchange.info/socket",
+            url: "wss://pleione.meta-exchange.info/ws",
             region: "Pleione - Canada (Central)",
             country: "META1",
             location: "Canada",
@@ -102,7 +102,7 @@ export const settingsAPIs = {
             contact: "telegram:@Avowedly"
         },
         {
-            url: "wss://atlas.meta-exchange.info/socket",
+            url: "wss://atlas.meta-exchange.info/ws",
             region: "Atlas - Singapore",
             country: "META1",
             location: "Singapore",
@@ -110,7 +110,7 @@ export const settingsAPIs = {
             contact: "telegram:@Avowedly"
         },
         {
-            url: "wss://zeus.meta-exchange.info/socket",
+            url: "wss://zeus.meta-exchange.info/ws",
             region: "Zeus - Seoul",
             country: "META1",
             location: "South Korea",
@@ -118,7 +118,7 @@ export const settingsAPIs = {
             contact: "telegram:@Avowedly"
         },
         {
-            url: "wss://hathor.meta-exchange.info/socket",
+            url: "wss://hathor.meta-exchange.info/ws",
             region: "Hathor - Sydney",
             country: "META1",
             location: "Australia",

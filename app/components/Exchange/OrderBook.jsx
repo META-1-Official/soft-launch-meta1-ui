@@ -823,7 +823,7 @@ class OrderBook extends React.Component {
                 if (askRows.length < 24) {
                     for (
                         var iterator = 0;
-                        iterator < 25 - askRows.length;
+                        iterator < 26 - askRows.length;
                         iterator++
                     )
                         askRows.push(
@@ -837,7 +837,7 @@ class OrderBook extends React.Component {
                 if (bidRows.length < 24) {
                     for (
                         var iterator = 0;
-                        iterator < 25 - bidRows.length;
+                        iterator < 28 - bidRows.length;
                         iterator++
                     )
                         bidRows.push(
