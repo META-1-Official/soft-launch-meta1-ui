@@ -139,7 +139,16 @@ class MarketHistory extends React.Component {
     }
 
     render() {
-        let {quoteSymbol, isNullAccount, activeTab} = this.props;
+        let {
+            history,
+            myHistory,
+            base,
+            quote,
+            baseSymbol,
+            quoteSymbol,
+            isNullAccount,
+            activeTab
+        } = this.props;
         let {rowCount, showAll} = this.state;
         let historyRows = null;
 

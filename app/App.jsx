@@ -57,12 +57,6 @@ const AccountPage = Loadable({
     loading: LoadingIndicator
 });
 
-const Transfer = Loadable({
-    loader: () =>
-        import(/* webpackChunkName: "transfer" */ "./components/Transfer/Transfer"),
-    loading: LoadingIndicator
-});
-
 const Settings = Loadable({
     loader: () =>
         import(/* webpackChunkName: "settings" */ "./components/Settings/SettingsContainer"),
@@ -507,10 +501,6 @@ class App extends React.Component {
                                     component={Help}
                                 />
                                 <Route path="/htlc" component={Htlc} />
-                                <Route
-                                    path="/prediction"
-                                    component={PredictionMarketsPage}
-                                />
                                 <Route path="*" component={Page404} />
                             </Switch>
                         </div>

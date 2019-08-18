@@ -751,10 +751,7 @@ class Header extends React.Component {
                 })}
                 onClick={this._onNavigate.bind(this, "/")}
             >
-                <img
-                    style={{marginTop: -11, height: 35, width: 26.5}}
-                    src={logo}
-                />
+                <img style={{marginTop: -11, height: 35}} src={logo} />
             </a>
         );
 
