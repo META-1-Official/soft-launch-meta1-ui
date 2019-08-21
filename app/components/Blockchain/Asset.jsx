@@ -351,7 +351,7 @@ class Asset extends React.Component {
             : core_asset
                 ? core_asset.get("symbol")
                 : "META1";
-        if (isPrediction) {
+        if (false) {
             preferredMarket = ChainStore.getAsset(
                 asset.bitasset.options.short_backing_asset
             );

@@ -45,6 +45,12 @@ const Explorer = Loadable({
     loading: LoadingIndicator
 });
 
+const PredictionMarketsPage = Loadable({
+    loader: () =>
+        import(/* webpackChunkName: "pm" */ "./components/PredictionMarkets/PMAssetsContainer"),
+    loading: LoadingIndicator
+});
+
 const Arts = Loadable({
     loader: () =>
         import(/* webpackChunkName: "arts" */ "./components/Arts/Arts.js"),
@@ -501,6 +507,10 @@ class App extends React.Component {
                                     component={Help}
                                 />
                                 <Route path="/htlc" component={Htlc} />
+                                <Route
+                                    path="/prediction"
+                                    component={PredictionMarketsPage}
+                                />
                                 <Route path="*" component={Page404} />
                             </Switch>
                         </div>

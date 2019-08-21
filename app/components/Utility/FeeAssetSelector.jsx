@@ -255,23 +255,7 @@ class FeeAssetSelector extends React.Component {
 
         const canChangeFeeParams = !this.props.disabled && !!this.props.account;
 
-        const changeDefaultButton = (
-            <Tooltip
-                title={counterpart.translate(
-                    "settings.change_default_fee_asset_tooltip"
-                )}
-                mouseEnterDelay={0.5}
-            >
-                <Button
-                    type="secondary"
-                    style={{right: "-12px"}}
-                    onClick={this.openSetDefaultAssetModal.bind(this)}
-                    disabled={!canChangeFeeParams}
-                >
-                    {counterpart.translate("settings.change_default")}
-                </Button>
-            </Tooltip>
-        );
+        const changeDefaultButton = null;
 
         const selectableAssets = this._getSelectableAssets();
 

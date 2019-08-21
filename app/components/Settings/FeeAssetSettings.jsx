@@ -26,47 +26,48 @@ class FeeAssetSettings extends React.Component {
     render() {
         const asset = ChainStore.getAsset(this.state.current_asset);
         return (
-            <div
-                style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center"
-                }}
-            >
-                <Translate
-                    component="span"
-                    content="settings.current_fee_asset"
-                    style={{marginRight: "10px"}}
-                />
-                {asset ? <AssetName name={asset.get("symbol")} /> : null}
+            <div>Coming Soon</div>
+            // <div
+            //     style={{
+            //         display: "flex",
+            //         flexDirection: "row",
+            //         alignItems: "center"
+            //     }}
+            // >
+            //     <Translate
+            //         component="span"
+            //         content="settings.current_fee_asset"
+            //         style={{marginRight: "10px"}}
+            //     />
+            //     {asset ? <AssetName name={asset.get("symbol")} /> : null}
 
-                <Button
-                    style={{margin: "15px"}}
-                    key="open_change_fee_asset"
-                    type="secondary"
-                    onClick={() => {
-                        this.setState({showModal: true});
-                    }}
-                >
-                    {counterpart.translate("settings.change_default_fee_asset")}
-                </Button>
-                {this.state.showModal && (
-                    <SetDefaultFeeAssetModal
-                        key="change_fee_asset_modal"
-                        className="modal"
-                        show={this.state.showModal}
-                        current_asset={this.state.current_asset}
-                        displayFees={false}
-                        forceDefault={true}
-                        onChange={value => {
-                            this.setState({current_asset: value});
-                        }}
-                        close={() => {
-                            this.setState({showModal: false});
-                        }}
-                    />
-                )}
-            </div>
+            //     <Button
+            //         style={{margin: "15px"}}
+            //         key="open_change_fee_asset"
+            //         type="secondary"
+            //         onClick={() => {
+            //             this.setState({showModal: true});
+            //         }}
+            //     >
+            //         {counterpart.translate("settings.change_default_fee_asset")}
+            //     </Button>
+            //     {this.state.showModal && (
+            //         <SetDefaultFeeAssetModal
+            //             key="change_fee_asset_modal"
+            //             className="modal"
+            //             show={this.state.showModal}
+            //             current_asset={this.state.current_asset}
+            //             displayFees={false}
+            //             forceDefault={true}
+            //             onChange={value => {
+            //                 this.setState({current_asset: value});
+            //             }}
+            //             close={() => {
+            //                 this.setState({showModal: false});
+            //             }}
+            //         />
+            //     )}
+            // </div>
         );
     }
 }
