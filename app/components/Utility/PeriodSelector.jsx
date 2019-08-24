@@ -82,15 +82,16 @@ class PeriodSelector extends React.Component {
                     content={this.props.label}
                 />
                 <div className="inline-label input-wrapper">
-                    <span className="input-addon-before">Each</span>
+                    <span className="input-addon-before">TIME</span>
                     <input
                         disabled={disabled}
                         type="number"
+                        min="1"
                         value={inputValue || ""}
                         placeholder={placeholder}
                         onChange={this.onInputChange}
                         tabIndex={tabIndex}
-                        style={{paddingLeft: "70px"}}
+                        style={{paddingLeft: "70px", backgroundColor: "grey"}}
                     />
 
                     <div className="form-label select floating-dropdown">

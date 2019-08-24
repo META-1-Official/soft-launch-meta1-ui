@@ -2027,7 +2027,7 @@
             "create_new_mandate": "创建权限",
             "current_period_expires": "本期结束",
             "delete": "删除",
-            "description": "直接借记允许你创建一个提款权限，收款方可以凭此提款权限按照你限定的资产数量及指定的时间段从你的账户中扣款。",
+            "description": "设置冻结硬币授权付款。 授权允许其他帐户从您的帐户中提取资金，并限定规定的接收时间（默认为2年）。",
             "expires": "到期",
             "first_period_not_started": "第一期还没有开始！",
             "limit": "限额",
@@ -2035,7 +2035,7 @@
             "num_of_periods": "周期数",
             "period": "指定周期",
             "start_date": "第一期开始时间",
-            "title": "直接借记",
+            "title": "冻结硬币",
             "tooltip": {
                 "authorized_account": "此账户符合条件，可以从你的账户扣款。",
                 "limit_per_period": "收款方每期可以对指定资产进行扣款的最大数量。收款人方每期仅能扣款一次，即便没有足量扣除。",

@@ -973,7 +973,7 @@ class HtlcModal extends React.Component {
         let sendButtonText =
             operation && operation.type === "create"
                 ? counterpart.translate("showcases.direct_debit.create")
-                : counterpart.translate("showcases.direct_debit.update");
+                : null;
 
         const amountHeader = (
             <div className="form-input-header--label">

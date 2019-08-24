@@ -315,32 +315,7 @@ class DirectDebit extends Component {
                 key: "action",
                 render: (text, record) => {
                     if (record.type) {
-                        return record.type === "payer" ? (
-                            <span>
-                                <Button
-                                    style={{marginRight: "10px"}}
-                                    onClick={() =>
-                                        this.handleDeleteProposal(
-                                            record.rawData
-                                        )
-                                    }
-                                >
-                                    {counterpart.translate(
-                                        "showcases.direct_debit.delete"
-                                    )}
-                                </Button>
-                                <Button
-                                    onClick={this.showModal({
-                                        type: "update",
-                                        payload: record.rawData
-                                    })}
-                                >
-                                    {counterpart.translate(
-                                        "showcases.direct_debit.update"
-                                    )}
-                                </Button>
-                            </span>
-                        ) : (
+                        return record.type === "payer" ? null : (
                             <span
                                 onClick={this.showClaimModal({
                                     type: "claim",

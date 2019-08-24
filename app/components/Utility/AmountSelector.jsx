@@ -129,7 +129,10 @@ class AmountSelector extends DecimalChecker {
                         onKeyPress={this.onKeyPress.bind(this)}
                     />
 
-                    <div className="form-label select floating-dropdown">
+                    <div
+                        style={{marginTop: "-10px"}}
+                        className="form-label select floating-dropdown"
+                    >
                         {this.props.isPrice ? (
                             <div className="dropdown-wrapper inactive">
                                 <div>

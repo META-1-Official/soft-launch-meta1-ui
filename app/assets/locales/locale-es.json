@@ -2028,7 +2028,7 @@
             "create_new_mandate": "Crear autorización",
             "current_period_expires": "Finaliza el periodo actual",
             "delete": "Cancelar",
-            "description": "Configure una autorización de débito directo para pagos recurrentes. La autorización le permite a otra cuenta transferir fondos de su cuenta, con un límite en la cantidad por intervalos de tiempo definidos.",
+            "description": "Configure una autorización de congelación de monedas para un pago. La autorización permite que otra cuenta reclame fondos de su cuenta, con un límite de tiempo definido para recibir (el valor predeterminado es 2 años).",
             "expires": "Vence",
             "first_period_not_started": " ¡El primer período no ha comenzado!",
             "limit": " límite",
@@ -2036,7 +2036,7 @@
             "num_of_periods": "Numero de periodos",
             "period": " Especificar periodo",
             "start_date": " El primer período comienza el",
-            "title": "Débito directo",
+            "title": "Congelar monedas",
             "tooltip": {
                 "authorized_account": "La cuenta que es elegible para cobrar de su cuenta.",
                 "limit_per_period": "El beneficiario puede cobrar una cantidad máxima del activo especificado (hasta) por período. El beneficiario solo puede cobrar una vez por período, incluso si no se cobra por completo.",

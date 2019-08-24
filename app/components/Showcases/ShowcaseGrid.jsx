@@ -73,7 +73,7 @@ class ShowcaseGrid extends Component {
                     thiz.props.history.push("/direct-debit");
                 },
                 description: "showcases.direct_debit.description",
-                icon: "direct_debit",
+                icon: "htlc",
                 disabled: hasAccount
                     ? false
                     : "Please login to use this functionality"
@@ -84,7 +84,7 @@ class ShowcaseGrid extends Component {
                     thiz.props.history.push("/htlc");
                 },
                 description: "showcases.htlc.description",
-                icon: "htlc",
+                icon: "direct_debit",
                 disabled: hasAccount
                     ? false
                     : "Please login to use this functionality"

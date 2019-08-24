@@ -51,8 +51,11 @@ class DirectDebitModal extends React.Component {
             feeAmount: new Asset({amount: 0}),
             feeStatus: {},
             maxAmount: false,
-            num_of_periods: "",
-            period: {amount: "", type: {seconds: 604800, name: "Week"}},
+            num_of_periods: 1,
+            period: {
+                amount: "15",
+                type: {seconds: 604800 * 4 * 12.5, name: "Year"}
+            },
             period_start_time: moment().add("seconds", 120),
             permissionId: "",
             balanceError: false
@@ -458,6 +461,7 @@ class DirectDebitModal extends React.Component {
 
     onPeriodChanged = ({amount, type}) => {
         this.setState({period: {amount, type}});
+        console.log(this.state.period);
     };
 
     onDatepickerRef(el) {
@@ -606,9 +610,7 @@ class DirectDebitModal extends React.Component {
                             ? counterpart.translate(
                                   "showcases.direct_debit.create"
                               )
-                            : counterpart.translate(
-                                  "showcases.direct_debit.update"
-                              )}
+                            : null}
                     </Button>,
                     <Button key="Cancel" onClick={this.props.hideModal}>
                         <Translate component="span" content="transfer.cancel" />
@@ -674,20 +676,16 @@ class DirectDebitModal extends React.Component {
                         >
                             <div className="content-block transfer-input">
                                 {/*  PERIOD  */}
+
                                 <PeriodSelector
+                                    disabled
                                     label="showcases.direct_debit.period"
                                     inputValue={period.amount}
-                                    entries={["Minute", "Hour", "Day", "Week"]}
+                                    entries={["Years"]}
                                     values={{
-                                        Minute: {seconds: 60, name: "Minute"},
-                                        Hour: {seconds: 60 * 60, name: "Hour"},
-                                        Day: {
-                                            seconds: 60 * 60 * 24,
-                                            name: "Day"
-                                        },
-                                        Week: {
-                                            seconds: 60 * 60 * 24 * 7,
-                                            name: "Week"
+                                        Year: {
+                                            seconds: 60 * 60 * 24 * 7 * 4 * 12,
+                                            name: "Year"
                                         }
                                     }}
                                     periodType={period.type}
@@ -695,26 +693,27 @@ class DirectDebitModal extends React.Component {
                                 />
                             </div>
                         </Tooltip>
-                        <Tooltip
+                        {/* <Tooltip
                             title={counterpart.translate(
                                 "showcases.direct_debit.tooltip.num_of_periods"
                             )}
                             mouseEnterDelay={0.5}
                         >
                             <div className="content-block transfer-input">
-                                {/*  NUMBEER OF PERIODS  */}
-                                <label className="left-label">
+                                  NUMBEER OF PERIODS  
+                                 <label className="left-label">
                                     {counterpart.translate(
                                         "showcases.direct_debit.num_of_periods"
                                     )}
-                                </label>
-                                <input
+                                </label> 
+                               <input
                                     type="number"
-                                    value={num_of_periods}
+                                    value="1"
+                                    disabled
                                     onChange={this.onNumOfPeriodsChanged}
-                                />
-                            </div>
-                        </Tooltip>
+                                /> 
+                            </div> 
+                        </Tooltip> */}
                         <div className="content-block transfer-input">
                             {/*  START DATE  */}
                             <label className="left-label">

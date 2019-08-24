@@ -110,7 +110,7 @@ class Dropdown extends React.Component {
                         (this.props.upperCase ? " upper-case" : "")
                     }
                 >
-                    <div>
+                    <div style={{marginTop: "-10px"}}>
                         {this.props.singleEntry
                             ? this.props.singleEntry
                             : entries[0]}
