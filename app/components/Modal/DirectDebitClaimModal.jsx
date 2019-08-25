@@ -455,7 +455,7 @@ class DirectDebitClaimModal extends React.Component {
                         {payerBalanceWarning && (
                             <Tooltip
                                 placement="top"
-                                title="Limit > payer balance!"
+                                title="You have not enough on your balance to pay the fee!"
                             >
                                 <Icon
                                     type="exclamation-circle"
