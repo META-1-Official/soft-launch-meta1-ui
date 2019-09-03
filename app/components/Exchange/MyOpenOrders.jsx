@@ -12,6 +12,34 @@ import ReactTooltip from "react-tooltip";
 import {Button} from "bitshares-ui-style-guide";
 import {MarketsOrderView, MarketOrdersRowView} from "./View/MarketOrdersView";
 
+class MarketOrdersRow extends React.Component {
+    shouldComponentUpdate(nextProps) {
+        return (
+            nextProps.order.for_sale !== this.props.order.for_sale ||
+            nextProps.order.id !== this.props.order.id ||
+            nextProps.quote !== this.props.quote ||
+            nextProps.base !== this.props.base ||
+            nextProps.order.market_base !== this.props.order.market_base ||
+            nextProps.selected !== this.props.selected
+        );
+    }
+
+    render() {
+        let {base, quote, order, selected} = this.props;
+
+        return (
+            <MarketOrdersRowView
+                key={order.id}
+                order={order}
+                selected={selected}
+                base={base}
+                quote={quote}
+                onCheckCancel={this.props.onCheckCancel.bind(this)}
+            />
+        );
+    }
+}
+
 class ExchangeTableHeader extends React.Component {
     render() {
         let {baseSymbol, quoteSymbol, isMyAccount, selected} = this.props;
