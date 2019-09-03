@@ -3,7 +3,6 @@ import Icon from "../Icon/Icon";
 import Translate from "react-translate-component";
 import cnames from "classnames";
 import AccountActions from "actions/AccountActions";
-import AccountStore from "stores/AccountStore";
 
 export default class DropDownMenu extends React.Component {
     shouldComponentUpdate(np) {
@@ -34,7 +33,6 @@ export default class DropDownMenu extends React.Component {
             isMyAccount,
             showAccountLinks,
             tradeUrl,
-            enableDepositWithdraw,
             currentAccount,
             contacts
         } = this.props;

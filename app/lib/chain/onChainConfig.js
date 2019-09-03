@@ -39,9 +39,10 @@ const _fetchOnChainConfig = async function() {
 const getNotifications = async function() {
     const onChainConfig = await _fetchOnChainConfig();
     let notificationList = [];
-    onChainConfig.notifications.forEach(item => {
-        notificationList.push(item);
-    });
+    if (onChainConfig.notifications)
+        onChainConfig.notifications.forEach(item => {
+            notificationList.push(item);
+        });
     return notificationList;
 };
 

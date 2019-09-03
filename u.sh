@@ -1,1 +1,1 @@
-npm run build && cp README.txt build/dist && cd build/dist && git init && git remote add origin https://github.com/meta1-blockchain/meta1-ui-min && git add . && git commit -m "minimized for deployment" && git push origin master -f
+npm run build && cp minified-build-readme/README.txt build/dist && cd build/dist && git init && git remote add origin https://github.com/meta1-blockchain/meta1-ui-min && git add . && git commit -m "minimized for deployment" && git push origin master -f

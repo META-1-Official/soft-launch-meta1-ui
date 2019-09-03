@@ -368,10 +368,9 @@ class RecentTransactions extends React.Component {
             compactView,
             filter,
             customFilter,
-            style,
-            maxHeight
+            style
         } = this.props;
-        let {limit, headerHeight} = this.state;
+        let {limit} = this.state;
         let current_account_id =
             accountsList.length === 1 && accountsList[0]
                 ? accountsList[0].get("id")
