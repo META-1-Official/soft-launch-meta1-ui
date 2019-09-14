@@ -12,7 +12,6 @@ import NotificationSystem from "react-notification-system";
 import TransactionConfirm from "./components/Blockchain/TransactionConfirm";
 import WalletUnlockModal from "./components/Wallet/WalletUnlockModal";
 import BrowserSupportModal from "./components/Modal/BrowserSupportModal";
-import Footer from "./components/Layout/Footer";
 import Deprecate from "./Deprecate";
 import Incognito from "./components/Layout/Incognito";
 import {isIncognito} from "feature_detect";
@@ -515,10 +514,6 @@ class App extends React.Component {
                             </Switch>
                         </div>
                     </div>
-                    <Footer
-                        synced={this.state.synced}
-                        history={this.props.history}
-                    />
                     <ReactTooltip
                         ref="tooltip"
                         place="top"

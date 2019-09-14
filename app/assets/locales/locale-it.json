@@ -1211,7 +1211,7 @@
         "deposit_legacy": "or Legacy Deposit",
         "exchange": "Exchange",
         "explorer": "Esplora",
-        "arts": "Assets",
+        "arts": "Backed Assets",
         "help": "Aiuto",
         "lock": "Log out (blocca il portafoglio)",
         "lock_short": "Log out",

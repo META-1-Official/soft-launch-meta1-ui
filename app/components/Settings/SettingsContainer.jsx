@@ -3,7 +3,7 @@ import SettingsStore from "stores/SettingsStore";
 import IntlStore from "stores/IntlStore";
 import AltContainer from "alt-container";
 import Settings from "./Settings";
-
+import Footer from "../Layout/Footer";
 class SettingsContainer extends React.Component {
     render() {
         return (
@@ -28,6 +28,7 @@ class SettingsContainer extends React.Component {
                 }}
             >
                 <Settings {...this.props} />
+                <Footer />
             </AltContainer>
         );
     }

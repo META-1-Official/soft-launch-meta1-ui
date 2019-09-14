@@ -1212,7 +1212,7 @@
     },
     "header": {
         "account": "Account",
-        "arts": "Assets",
+        "arts": "Backed Assets",
         "account_notify": "The active account is now %(account)s",
         "account_value": "Account value",
         "accounts_manage": "Manage Accounts",

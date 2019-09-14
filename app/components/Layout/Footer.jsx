@@ -673,22 +673,6 @@ class Footer extends React.Component {
                                             <Translate content="modal.report.button" />
                                         </div>
                                     </Tooltip>
-                                    <Tooltip
-                                        title={counterpart.translate(
-                                            "tooltip.self_help"
-                                        )}
-                                        placement="topRight"
-                                        mouseEnterDelay={0.5}
-                                    >
-                                        <div
-                                            className="introjs-launcher"
-                                            onClick={() => {
-                                                this.launchIntroJS();
-                                            }}
-                                        >
-                                            <Translate content="global.help" />
-                                        </div>
-                                    </Tooltip>
                                 </div>
                             </div>
                         ) : (
@@ -784,40 +768,42 @@ class AltFooter extends Component {
     render() {
         var wallet = WalletDb.getWallet();
         return (
-            <AltContainer
-                stores={[
-                    CachedPropertyStore,
-                    BlockchainStore,
-                    WalletDb,
-                    SettingsStore
-                ]}
-                inject={{
-                    defaults: () => {
-                        return SettingsStore.getState().defaults;
-                    },
-                    apiLatencies: () => {
-                        return SettingsStore.getState().apiLatencies;
-                    },
-                    currentNode: () => {
-                        return SettingsStore.getState().settings.get(
-                            "apiServer"
-                        );
-                    },
-                    activeNode: () => {
-                        return SettingsStore.getState().settings.get(
-                            "activeNode"
-                        );
-                    },
-                    backup_recommended: () =>
-                        wallet &&
-                        (!wallet.backup_date ||
-                            CachedPropertyStore.get("backup_recommended")),
-                    rpc_connection_status: () =>
-                        BlockchainStore.getState().rpc_connection_status
-                }}
-            >
-                <Footer {...this.props} />
-            </AltContainer>
+            <div style={{position: "fixed", bottom: 0, width: "100%"}}>
+                <AltContainer
+                    stores={[
+                        CachedPropertyStore,
+                        BlockchainStore,
+                        WalletDb,
+                        SettingsStore
+                    ]}
+                    inject={{
+                        defaults: () => {
+                            return SettingsStore.getState().defaults;
+                        },
+                        apiLatencies: () => {
+                            return SettingsStore.getState().apiLatencies;
+                        },
+                        currentNode: () => {
+                            return SettingsStore.getState().settings.get(
+                                "apiServer"
+                            );
+                        },
+                        activeNode: () => {
+                            return SettingsStore.getState().settings.get(
+                                "activeNode"
+                            );
+                        },
+                        backup_recommended: () =>
+                            wallet &&
+                            (!wallet.backup_date ||
+                                CachedPropertyStore.get("backup_recommended")),
+                        rpc_connection_status: () =>
+                            BlockchainStore.getState().rpc_connection_status
+                    }}
+                >
+                    <Footer {...this.props} />
+                </AltContainer>
+            </div>
         );
     }
 }

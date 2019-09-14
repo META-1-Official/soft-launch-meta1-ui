@@ -1215,7 +1215,7 @@
         "deposit_legacy": "or Legacy Deposit",
         "exchange": "Börse",
         "explorer": "Explorer",
-        "arts": "Assets",
+        "arts": "Backed Assets",
         "help": "Hilfe",
         "lock": "Sperren",
         "lock_short": "gesperrt",

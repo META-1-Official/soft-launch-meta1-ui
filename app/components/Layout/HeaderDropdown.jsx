@@ -244,6 +244,52 @@ export default class DropDownMenu extends React.Component {
                         <Translate content="modal.deposit.header_short_w" />{" "}
                     </div>
                 </li>
+                <li
+                    style={{flexFlow: "row"}}
+                    className={cnames(
+                        active.indexOf("arts") !== -1 ? null : "column-hide-xs",
+                        {
+                            active: active.indexOf("arts") !== -1
+                        }
+                    )}
+                    onClick={this.props.onNavigate.bind(this, "/arts")}
+                >
+                    <div className="table-cell">
+                        <Icon size="2x" name="assets" title="icons.assets" />
+                    </div>
+                    <div className="table-cell">
+                        <Translate
+                            className="column-hide-small"
+                            component="span"
+                            content="header.arts"
+                        />
+                    </div>
+                </li>
+                <li
+                    style={{flexFlow: "row"}}
+                    className={cnames(
+                        active.indexOf("help") !== -1 ? null : "column-hide-xs",
+                        {
+                            active: active.indexOf("help") !== -1
+                        }
+                    )}
+                    onClick={this.props.onNavigate.bind(this, "/help")}
+                >
+                    <div className="table-cell">
+                        <Icon
+                            size="2x"
+                            name="dashboard"
+                            title="icons.dashboard"
+                        />
+                    </div>
+                    <div className="table-cell">
+                        <Translate
+                            className="column-hide-small"
+                            component="span"
+                            content="header.help"
+                        />
+                    </div>
+                </li>
                 {[
                     {
                         icon: {

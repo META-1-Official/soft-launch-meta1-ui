@@ -1624,30 +1624,6 @@ class Header extends React.Component {
                                     />
                                 </a>
                             </li>
-                            <li>
-                                <a
-                                    style={{flexFlow: "row"}}
-                                    className={cnames(
-                                        active.indexOf("arts") !== -1
-                                            ? null
-                                            : "column-hide-xs",
-                                        {
-                                            active:
-                                                active.indexOf("arts") !== -1
-                                        }
-                                    )}
-                                    onClick={this._onNavigate.bind(
-                                        this,
-                                        "/arts"
-                                    )}
-                                >
-                                    <Translate
-                                        className="column-hide-small"
-                                        component="span"
-                                        content="header.arts"
-                                    />
-                                </a>
-                            </li>
                             {/*                            <li>
                                 <a
                                     style={{flexFlow: "row"}}
