@@ -218,7 +218,11 @@ class MarketPickerWrapper extends Component {
             });
         }, 300);
     }
-
+    componentWillMount() {
+        if (this.props.quoteAsset === null || this.props.baseAsset === null) {
+            return;
+        }
+    }
     assetFilter() {
         let {searchAssets, marketPickerAsset} = this.props;
         let {inputValue, lookupQuote} = this.state;

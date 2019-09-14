@@ -339,7 +339,7 @@ class Exchange extends React.Component {
             verticalOrderBook: ws.get("verticalOrderBook", false),
             verticalOrderForm: ws.get("verticalOrderForm", false),
             hidePanel: ws.get("hidePanel", false),
-            hideScrollbars: ws.get("hideScrollbars", true),
+            hideScrollbars: ws.get("hideScrollbars", false),
             singleColumnOrderForm: ws.get("singleColumnOrderForm", true),
             flipOrderBook: ws.get("flipOrderBook", false),
             flipBuySell: ws.get("flipBuySell", false),
@@ -2733,7 +2733,7 @@ class Exchange extends React.Component {
                     height: 0,
                     position: "absolute",
                     top: "10px",
-                    right: "38px"
+                    right: "20px"
                 }}
             >
                 {chartType == "price_chart" && (
@@ -3491,7 +3491,7 @@ class Exchange extends React.Component {
                     {/* End of Main Content Column */}
 
                     {/* Right Column */}
-                    {rightPanelContainer}
+                    {/* {rightPanelContainer} there is a check */}
 
                     {/* End of Second Vertical Block */}
                 </div>

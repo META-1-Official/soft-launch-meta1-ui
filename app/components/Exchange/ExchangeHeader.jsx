@@ -22,7 +22,11 @@ export default class ExchangeHeader extends React.Component {
             selectedMarketPickerAsset: props.selectedMarketPickerAsset
         };
     }
-
+    componentWillMount() {
+        if (this.props.quoteAsset === null || this.props.baseAsset === null) {
+            return;
+        }
+    }
     componentWillReceiveProps(nextProps) {
         this.setState({
             selectedMarketPickerAsset: nextProps.selectedMarketPickerAsset
@@ -454,31 +458,6 @@ export default class ExchangeHeader extends React.Component {
                                         content="exchange.squeeze"
                                     />
                                 ) : null}
-                            </ul>
-                            <ul
-                                className="market-stats stats top-stats exchange-gear"
-                                style={{marginBottom: "0"}}
-                                data-position={"left"}
-                                data-step="1"
-                                data-intro={translator.translate(
-                                    "walkthrough.personalize"
-                                )}
-                            >
-                                <li
-                                    style={{paddingTop: "11.5px"}}
-                                    className="stressed-stat input clickable"
-                                    onClick={this.props.onTogglePersonalize.bind(
-                                        this
-                                    )}
-                                >
-                                    <AntIcon
-                                        type="setting"
-                                        style={{
-                                            paddingRight: 10,
-                                            fontSize: "1.6em"
-                                        }}
-                                    />
-                                </li>
                             </ul>
                         </div>
                     </div>

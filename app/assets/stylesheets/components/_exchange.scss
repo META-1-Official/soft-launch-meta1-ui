@@ -269,15 +269,41 @@ form.order-form {
     }
 }
 
-@media screen and (max-width: 1439px) {
+#market-orders-view-container {
+    max-height: 10px;
+    min-height: 215px !important;
+}
+@media screen and (max-width: 1178px) {
+    .my-open-orders-res {
+        display: none;
+    }
+
+    .exchange--buy-sell-form {
+        max-width: 50% !important;
+    }
+}
+@media screen and (max-width: 880px) {
     #market-charts {
         flex-basis: 100%;
     }
+    #market-orders-view-container {
+        min-height: 260px !important;
+    }
+    .market-history-rows {
+        max-height: 10px !important;
+    }
+    #top-order-table {
+        max-height: 129px !important;
+    }
+
+    #bottom-order-table {
+        max-height: 129px !important;
+    }
+    .exchange-bordered {
+        max-height: 250px !important;
+    }
     .my-open-orders-res {
         min-width: 100% !important;
-    }
-    .exchange--buy-sell-form {
-        max-width: 50% !important;
     }
     .orders-trade-form {
         max-width: 50% !important;

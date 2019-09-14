@@ -177,7 +177,7 @@ class OrderBookRowHorizontal extends React.Component {
                     order.isMine(this.props.currentAccount) ? "my-order" : ""
                 }
             >
-                <td style={{width: "25%"}} className={integerClass}>
+                <td style={{width: "33.5%"}} className={integerClass}>
                     {price}
                 </td>
                 <td> {amount}</td>
@@ -827,7 +827,7 @@ class OrderBook extends React.Component {
                         iterator++
                     )
                         askRows.push(
-                            <tr>
+                            <tr key={iterator}>
                                 <td className="orderHistoryAsk">-</td>
                                 <td>-</td>
                                 <td className="column-hide-xs">-</td>
@@ -841,7 +841,7 @@ class OrderBook extends React.Component {
                         iterator++
                     )
                         bidRows.push(
-                            <tr>
+                            <tr key={iterator}>
                                 <td className="orderHistoryBid">-</td>
                                 <td>-</td>
                                 <td className="column-hide-xs">-</td>
@@ -962,6 +962,7 @@ class OrderBook extends React.Component {
                                 </table>
                             </div>
                             <div
+                                id="top-order-table"
                                 className="grid-block"
                                 ref="hor_asks"
                                 style={{
@@ -997,6 +998,7 @@ class OrderBook extends React.Component {
                             <div
                                 className="grid-block"
                                 ref="hor_bids"
+                                id="bottom-order-table"
                                 style={{
                                     paddingRight: "0.6rem",
                                     overflow: "hidden",

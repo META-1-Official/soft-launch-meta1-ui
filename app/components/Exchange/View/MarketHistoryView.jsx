@@ -82,9 +82,6 @@ class MarketHistoryView extends React.Component {
                             style={headerStyle}
                             className="exchange-content-header"
                         >
-                            {activeTab === "my_history" ? (
-                                <Translate content="exchange.my_history" />
-                            ) : null}
                             {activeTab === "history" ? (
                                 <Translate content="exchange.history" />
                             ) : null}
@@ -119,8 +116,9 @@ class MarketHistoryView extends React.Component {
                         </table>
                     </div>
                     <div
-                        className="table-container grid-block market-right-padding-only no-overflow"
+                        className="table-container grid-block market-right-padding-only no-overflow market-history-rows"
                         ref="history"
+                        id="market-orders-view-container"
                         style={{
                             minHeight: !tinyScreen ? 260 : 0,
                             maxHeight: this.props.chartHeight - 2,
