@@ -61,6 +61,7 @@ class Header extends React.Component {
             dropdownActive: false,
             dropdownSubmenuActive: false,
             dropdownSubmenuActiveWithdraw: false,
+            dropdownSubmenuActiveAdvanced: false,
             dropdownSubmenuActiveDeposit: false,
             isDepositModalVisible: false,
             hasDepositModalBeenShown: false,
@@ -85,11 +86,17 @@ class Header extends React.Component {
         this._closeDropdownSubmenuWithdraw = this._closeDropdownSubmenuWithdraw.bind(
             this
         );
+        this._closeDropdownSubmenuAdvanced = this._closeDropdownSubmenuAdvanced.bind(
+            this
+        );
         this._closeDropdownSubmenuDeposit = this._closeDropdownSubmenuDeposit.bind(
             this
         );
         this._toggleDropdownSubmenu = this._toggleDropdownSubmenu.bind(this);
         this._toggleDropdownSubmenuWithdraw = this._toggleDropdownSubmenuWithdraw.bind(
+            this
+        );
+        this._toggleDropdownSubmenuAdvanced = this._toggleDropdownSubmenuAdvanced.bind(
             this
         );
         this._toggleDropdownSubmenuDeposit = this._toggleDropdownSubmenuDeposit.bind(
@@ -371,6 +378,8 @@ class Header extends React.Component {
                 this.state.dropdownSubmenuActive ||
             nextState.dropdownSubmenuActiveWithdraw !==
                 this.state.dropdownSubmenuActiveWithdraw ||
+            nextState.dropdownSubmenuActiveAdvanced !==
+                this.state.dropdownSubmenuActiveAdvanced ||
             nextState.dropdownSubmenuActiveDeposit !==
                 this.state.dropdownSubmenuActiveDeposit ||
             nextState.accountsListDropdownActive !==
@@ -543,6 +552,14 @@ class Header extends React.Component {
         }
     }
 
+    _closeDropdownSubmenuAdvanced() {
+        if (this.state.dropdownSubmenuActiveAdvanced) {
+            this.setState({
+                dropdownSubmenuActiveAdvanced: false
+            });
+        }
+    }
+
     _closeDropdownSubmenuDeposit() {
         if (this.state.dropdownSubmenuActiveDeposit) {
             this.setState({
@@ -556,6 +573,7 @@ class Header extends React.Component {
         this._closeAccountsListDropdown();
         this._closeDropdownSubmenu();
         this._closeDropdownSubmenuWithdraw();
+        this._closeDropdownSubmenuAdvanced();
         this._closeDropdownSubmenuDeposit();
     }
 
@@ -641,6 +659,19 @@ class Header extends React.Component {
         });
     }
 
+    _toggleDropdownSubmenuAdvanced(
+        item = this.state.dropdownSubmenuActiveItemAdvanced,
+        e
+    ) {
+        if (e) e.stopPropagation();
+
+        this.setState({
+            dropdownSubmenuActiveAdvanced: !this.state
+                .dropdownSubmenuActiveAdvanced,
+            dropdownSubmenuActiveItemAdvanced: item
+        });
+    }
+
     _toggleDropdownMenu() {
         this.setState({
             dropdownActive: !this.state.dropdownActive
@@ -681,6 +712,7 @@ class Header extends React.Component {
             this._closeMenuDropdown();
             this._closeDropdownSubmenu();
             this._closeDropdownSubmenuWithdraw();
+            this._closeDropdownSubmenuAdvanced();
             this._closeDropdownSubmenuDeposit();
         }
     }
@@ -751,7 +783,10 @@ class Header extends React.Component {
                 })}
                 onClick={this._onNavigate.bind(this, "/")}
             >
-                <img style={{marginTop: -11, height: 35}} src={logo} />
+                <img
+                    style={{marginTop: -11, height: 35, width: 89}}
+                    src={logo}
+                />
             </a>
         );
 
@@ -1339,13 +1374,256 @@ class Header extends React.Component {
             )
         };
 
+        const advanced = {
+            [SUBMENUS.ADVANCED]: (
+                <ul
+                    className="dropdown header-menu header-submenu"
+                    style={{
+                        left: -200,
+                        top: 40,
+                        maxHeight: !this.state.dropdownActive ? 0 : maxHeight,
+                        overflowY: "auto"
+                    }}
+                >
+                    <li
+                        className="divider parent-item"
+                        onClick={this._toggleDropdownSubmenuAdvanced.bind(
+                            this,
+                            undefined
+                        )}
+                    >
+                        <div className="table-cell">
+                            <span className="parent-item-icon">&lt;</span>
+                            <Translate
+                                content="account.advanced"
+                                component="span"
+                                className="parent-item-name"
+                            />
+                        </div>
+                    </li>
+                    <li
+                        style={{flexFlow: "row"}}
+                        className={cnames(
+                            active.indexOf("arts") !== -1
+                                ? null
+                                : "column-hide-xs",
+                            {
+                                active: active.indexOf("arts") !== -1
+                            }
+                        )}
+                        onClick={this._onNavigate.bind(this, "/arts")}
+                    >
+                        <div className="table-cell">
+                            <Translate
+                                className="column-hide-small"
+                                component="span"
+                                content="header.arts"
+                            />
+                        </div>
+                    </li>
+                    <li
+                        style={{flexFlow: "row"}}
+                        className={cnames(
+                            active.indexOf("help") !== -1
+                                ? null
+                                : "column-hide-xs",
+                            {
+                                active: active.indexOf("help") !== -1
+                            }
+                        )}
+                        onClick={this._onNavigate.bind(this, "/help")}
+                    >
+                        <div className="table-cell">
+                            <Translate
+                                className="column-hide-small"
+                                component="span"
+                                content="header.help"
+                            />
+                        </div>
+                    </li>
+                    <li
+                        className={cnames(
+                            {
+                                active: active.indexOf("/settings") !== -1
+                            },
+                            "divider",
+                            "desktop-only"
+                        )}
+                        onClick={this._onNavigate.bind(this, "/settings")}
+                    >
+                        <div className="table-cell">
+                            <Translate content="header.settings" />
+                        </div>
+                    </li>
+
+                    <li
+                        className={cnames(
+                            {
+                                active: active.indexOf("/spotlight") !== -1
+                            },
+                            "divider"
+                        )}
+                        onClick={this._onNavigate.bind(this, "/spotlight")}
+                    >
+                        <div className="table-cell">
+                            <Translate content="header.showcases" />
+                        </div>
+                    </li>
+
+                    <li
+                        className={cnames(
+                            {
+                                active: active.indexOf("/settings") !== -1
+                            },
+                            "divider",
+                            "mobile-only",
+                            "has-submenu"
+                        )}
+                        onClick={this.props.toggleDropdownSubmenu}
+                    >
+                        <div className="table-cell">
+                            <Translate content="header.settings" />{" "}
+                        </div>
+                    </li>
+
+                    <li
+                        className={cnames({
+                            active:
+                                active.indexOf("/trezor") !== -1 &&
+                                active.indexOf("/account/") !== -1,
+                            disabled: !showAccountLinks
+                        })}
+                        onClick={() =>
+                            window.open(
+                                "https://beta-wallet.trezor.io/next/#/",
+                                "_blank"
+                            )
+                        }
+                    >
+                        <div className="table-cell">
+                            <Translate content="explorer.assets.trezor" />
+                        </div>
+                    </li>
+                    <li
+                        className={cnames({
+                            active:
+                                active.indexOf("/ledger") !== -1 &&
+                                active.indexOf("/account/") !== -1,
+                            disabled: !showAccountLinks
+                        })}
+                        onClick={() =>
+                            window.open(
+                                "https://shop.ledger.com/pages/ledger-live",
+                                "_blank"
+                            )
+                        }
+                    >
+                        <div className="table-cell">
+                            <Translate content="explorer.assets.ledger" />
+                        </div>
+                    </li>
+                    <li
+                        className={cnames({
+                            active: active.indexOf("/signedmessages") !== -1,
+                            disabled: !showAccountLinks
+                        })}
+                        onClick={this._onNavigate.bind(
+                            this,
+                            `/account/${currentAccount}/signedmessages`
+                        )}
+                    >
+                        <div className="table-cell">
+                            <Translate content="account.signedmessages.menuitem" />
+                        </div>
+                    </li>
+
+                    <li
+                        className={cnames({
+                            active: active.indexOf("/member-stats") !== -1,
+                            disabled: !showAccountLinks
+                        })}
+                        onClick={this._onNavigate.bind(
+                            this,
+                            `/account/${currentAccount}/member-stats`
+                        )}
+                    >
+                        <div className="table-cell">
+                            <Translate content="account.member.stats" />
+                        </div>
+                    </li>
+
+                    {isMyAccount ? (
+                        <li
+                            className={cnames({
+                                active: active.indexOf("/vesting") !== -1
+                            })}
+                            onClick={this._onNavigate.bind(
+                                this,
+                                `/account/${currentAccount}/vesting`
+                            )}
+                        >
+                            <div className="table-cell">
+                                <Translate content="account.vesting.title" />
+                            </div>
+                        </li>
+                    ) : null}
+
+                    <li
+                        className={cnames({
+                            active: active.indexOf("/whitelist") !== -1,
+                            disabled: !showAccountLinks
+                        })}
+                        onClick={this._onNavigate.bind(
+                            this,
+                            `/account/${currentAccount}/whitelist`
+                        )}
+                    >
+                        <div className="table-cell">
+                            <Translate content="account.whitelist.title" />
+                        </div>
+                    </li>
+
+                    <li
+                        className={cnames("divider", {
+                            active: active.indexOf("/permissions") !== -1,
+                            disabled: !showAccountLinks
+                        })}
+                        onClick={this._onNavigate.bind(
+                            this,
+                            `/account/${currentAccount}/permissions`
+                        )}
+                    >
+                        <div className="table-cell">
+                            <Translate content="account.permissions" />
+                        </div>
+                    </li>
+
+                    {showAccountLinks ? (
+                        <li
+                            className={cnames(
+                                {
+                                    active: active.indexOf("/accounts") !== -1
+                                },
+                                "divider"
+                            )}
+                            onClick={this._onNavigate.bind(this, "/accounts")}
+                        >
+                            <div className="table-cell">
+                                <Translate content="explorer.accounts.title" />
+                            </div>
+                        </li>
+                    ) : null}
+                </ul>
+            )
+        };
+
         const withdraw = {
             [SUBMENUS.WITHDRAW]: (
                 <ul
                     className="dropdown header-menu header-submenu"
                     style={{
                         left: -200,
-                        top: 64,
+                        top: 40,
                         maxHeight: !this.state.dropdownActive ? 0 : maxHeight,
                         overflowY: "auto"
                     }}
@@ -1418,7 +1696,7 @@ class Header extends React.Component {
                     className="dropdown header-menu header-submenu"
                     style={{
                         left: -200,
-                        top: 64,
+                        top: 40,
                         maxHeight: !this.state.dropdownActive ? 0 : maxHeight,
                         overflowY: "auto"
                     }}
@@ -1770,6 +2048,13 @@ class Header extends React.Component {
                                 ] &&
                                 deposit[
                                     this.state.dropdownSubmenuActiveItemDeposit
+                                ]) ||
+                            (this.state.dropdownSubmenuActiveAdvanced &&
+                                advanced[
+                                    this.state.dropdownSubmenuActiveItemAdvanced
+                                ] &&
+                                advanced[
+                                    this.state.dropdownSubmenuActiveItemAdvanced
                                 ]) || (
                                 <DropDownMenu
                                     dropdownActive={this.state.dropdownActive}
@@ -1797,6 +2082,10 @@ class Header extends React.Component {
                                     toggleDropdownSubmenuWithdraw={this._toggleDropdownSubmenuWithdraw.bind(
                                         this,
                                         SUBMENUS.WITHDRAW
+                                    )}
+                                    toggleDropdownSubmenuAdvanced={this._toggleDropdownSubmenuAdvanced.bind(
+                                        this,
+                                        SUBMENUS.ADVANCED
                                     )}
                                     toggleDropdownSubmenuDeposit={this._toggleDropdownSubmenuDeposit.bind(
                                         this,

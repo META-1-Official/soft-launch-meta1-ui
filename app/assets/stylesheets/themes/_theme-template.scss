@@ -2589,11 +2589,7 @@
         }
     }
     .expiration-datetime-picker {
-        &.scaled-orders {
-            > div {
-                margin-top: -5px;
-            }
-        }
+        overflow-y: hidden;
         > div {
             float: left;
         }
@@ -2608,9 +2604,6 @@
             font-size: 90%;
             line-height: 1.75rem;
             height: 1.75rem;
-            &:hover {
-                background: transparent;
-            }
         }
         select {
             width: auto;
@@ -2624,10 +2617,6 @@
             font-size: 90%;
             line-height: 1.75rem;
             height: 1.25rem;
-
-            > option {
-                background-color: $light-panel-bg-color;
-            }
         }
         .expiration-datetime-picker--select--specific {
             float: right;

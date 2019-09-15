@@ -44,15 +44,12 @@ export default class DropDownMenu extends React.Component {
                 className="dropdown header-menu"
                 style={{
                     left: -200,
-                    top: 42,
+                    top: 40,
                     maxHeight: !dropdownActive ? 0 : maxHeight,
                     overflowY: "auto"
                 }}
             >
                 <li className="divider" onClick={toggleLock}>
-                    <div className="table-cell">
-                        <Icon size="2x" name="power" title="icons.power" />
-                    </div>
                     <div className="table-cell">
                         <Translate
                             content={`header.${
@@ -82,13 +79,6 @@ export default class DropDownMenu extends React.Component {
                         )}
                     >
                         <div className="table-cell">
-                            <Icon
-                                size="2x"
-                                name="user"
-                                title="icons.user.create_account"
-                            />
-                        </div>
-                        <div className="table-cell">
                             <Translate content="header.create_account" />
                         </div>
                     </li>
@@ -105,13 +95,6 @@ export default class DropDownMenu extends React.Component {
                         )}
                     >
                         <div className="table-cell">
-                            <Icon
-                                size="2x"
-                                name="dashboard"
-                                title="icons.dasboard"
-                            />
-                        </div>
-                        <div className="table-cell">
                             <Translate content="header.dashboard" />
                         </div>
                     </li>
@@ -124,17 +107,6 @@ export default class DropDownMenu extends React.Component {
                             isContact ? "_onRemoveContact" : "_onAddContact"
                         ].bind(this)}
                     >
-                        <div className="table-cell">
-                            <Icon
-                                size="2x"
-                                name={`${isContact ? "minus" : "plus"}-circle`}
-                                title={
-                                    isContact
-                                        ? "icons.minus_circle.remove_contact"
-                                        : "icons.plus_circle.add_contact"
-                                }
-                            />
-                        </div>
                         <div className="table-cell">
                             <Translate
                                 content={`account.${
@@ -155,13 +127,6 @@ export default class DropDownMenu extends React.Component {
                     onClick={this.props.onNavigate.bind(this, tradeUrl)}
                 >
                     <div className="table-cell">
-                        <Icon
-                            size="2x"
-                            name="trade"
-                            title="icons.trade.exchange"
-                        />
-                    </div>
-                    <div className="table-cell">
                         <Translate content="header.exchange" />
                     </div>
                 </li>
@@ -179,9 +144,6 @@ export default class DropDownMenu extends React.Component {
                     )}
                 >
                     <div className="table-cell">
-                        <Icon size="2x" name="server" title="icons.server" />
-                    </div>
-                    <div className="table-cell">
                         <Translate content="header.explorer" />
                     </div>
                 </li>
@@ -196,106 +158,12 @@ export default class DropDownMenu extends React.Component {
                     onClick={this.props.onNavigate.bind(this, "/arts")}
                 >
                     <div className="table-cell">
-                        <Icon size="2x" name="showcases" title="icons.arts" />
-                    </div>
-                    <div className="table-cell">
                         <Translate content="header.arts" />
                     </div>
                 </li>
-                <li
-                    className={cnames(
-                        {
-                            active: active.indexOf("/settings") !== -1
-                        },
-                        "mobile-desktop-only",
-                        "has-submenu"
-                    )}
-                    onClick={this.props.toggleDropdownSubmenuDeposit}
-                >
-                    <div className="table-cell">
-                        <Icon
-                            size="2x"
-                            name="deposit"
-                            title="icons.deposit.deposit"
-                        />
-                    </div>
-                    <div className="table-cell">
-                        <Translate content="modal.deposit.header_short" />{" "}
-                    </div>
-                </li>
-                <li
-                    className={cnames(
-                        {
-                            active: active.indexOf("/settings") !== -1
-                        },
-                        "mobile-desktop-only",
-                        "has-submenu"
-                    )}
-                    onClick={this.props.toggleDropdownSubmenuWithdraw}
-                >
-                    <div className="table-cell">
-                        <Icon
-                            size="2x"
-                            name="withdraw"
-                            title="icons.withdraw.withdraw"
-                        />
-                    </div>
-                    <div className="table-cell">
-                        <Translate content="modal.deposit.header_short_w" />{" "}
-                    </div>
-                </li>
-                <li
-                    style={{flexFlow: "row"}}
-                    className={cnames(
-                        active.indexOf("arts") !== -1 ? null : "column-hide-xs",
-                        {
-                            active: active.indexOf("arts") !== -1
-                        }
-                    )}
-                    onClick={this.props.onNavigate.bind(this, "/arts")}
-                >
-                    <div className="table-cell">
-                        <Icon size="2x" name="assets" title="icons.assets" />
-                    </div>
-                    <div className="table-cell">
-                        <Translate
-                            className="column-hide-small"
-                            component="span"
-                            content="header.arts"
-                        />
-                    </div>
-                </li>
-                <li
-                    style={{flexFlow: "row"}}
-                    className={cnames(
-                        active.indexOf("help") !== -1 ? null : "column-hide-xs",
-                        {
-                            active: active.indexOf("help") !== -1
-                        }
-                    )}
-                    onClick={this.props.onNavigate.bind(this, "/help")}
-                >
-                    <div className="table-cell">
-                        <Icon
-                            size="2x"
-                            name="dashboard"
-                            title="icons.dashboard"
-                        />
-                    </div>
-                    <div className="table-cell">
-                        <Translate
-                            className="column-hide-small"
-                            component="span"
-                            content="header.help"
-                        />
-                    </div>
-                </li>
+
                 {[
                     {
-                        icon: {
-                            name: "transfer",
-                            title: "icons.transfer"
-                        },
                         disabled: !showAccountLinks,
                         mainText: "header.payments",
                         mainCallback: this.props.showSend,
@@ -328,9 +196,6 @@ export default class DropDownMenu extends React.Component {
                             }
                         >
                             <div className="table-cell">
-                                <Icon size="2x" {...icon} />
-                            </div>
-                            <div className="table-cell">
                                 <Translate content={mainText} />{" "}
                                 {subText && (
                                     <span
@@ -357,7 +222,84 @@ export default class DropDownMenu extends React.Component {
                         </li>
                     )
                 )}
-
+                <li
+                    className={cnames(
+                        {
+                            active: active.indexOf("/settings") !== -1
+                        },
+                        "mobile-desktop-only",
+                        "has-submenu"
+                    )}
+                    onClick={this.props.toggleDropdownSubmenuDeposit}
+                >
+                    <div className="table-cell">
+                        <Translate content="modal.deposit.header_short" />{" "}
+                    </div>
+                </li>
+                <li
+                    className={cnames(
+                        {
+                            active: active.indexOf("/settings") !== -1
+                        },
+                        "mobile-desktop-only",
+                        "has-submenu"
+                    )}
+                    onClick={this.props.toggleDropdownSubmenuWithdraw}
+                >
+                    <div className="table-cell">
+                        <Translate content="modal.deposit.header_short_w" />{" "}
+                    </div>
+                </li>
+                <li
+                    className={cnames(
+                        {
+                            active: active.indexOf("/settings") !== -1
+                        },
+                        "mobile-desktop-only",
+                        "has-submenu"
+                    )}
+                    onClick={this.props.toggleDropdownSubmenuAdvanced}
+                >
+                    <div className="table-cell">
+                        <Translate content="account.advanced" />{" "}
+                    </div>
+                </li>
+                {/* <li
+                    style={{flexFlow: "row"}}
+                    className={cnames(
+                        active.indexOf("arts") !== -1 ? null : "column-hide-xs",
+                        {
+                            active: active.indexOf("arts") !== -1
+                        }
+                    )}
+                    onClick={this.props.onNavigate.bind(this, "/arts")}
+                >
+                    <div className="table-cell">
+                        <Translate
+                            className="column-hide-small"
+                            component="span"
+                            content="header.arts"
+                        />
+                    </div>
+                </li>
+                <li
+                    style={{flexFlow: "row"}}
+                    className={cnames(
+                        active.indexOf("help") !== -1 ? null : "column-hide-xs",
+                        {
+                            active: active.indexOf("help") !== -1
+                        }
+                    )}
+                    onClick={this.props.onNavigate.bind(this, "/help")}
+                >
+                    <div className="table-cell">
+                        <Translate
+                            className="column-hide-small"
+                            component="span"
+                            content="header.help"
+                        />
+                    </div>
+                </li> 
                 <li
                     className={cnames(
                         {
@@ -368,9 +310,6 @@ export default class DropDownMenu extends React.Component {
                     )}
                     onClick={this.props.onNavigate.bind(this, "/settings")}
                 >
-                    <div className="table-cell">
-                        <Icon size="2x" name="cogs" title="icons.cogs" />
-                    </div>
                     <div className="table-cell">
                         <Translate content="header.settings" />
                     </div>
@@ -385,13 +324,6 @@ export default class DropDownMenu extends React.Component {
                     )}
                     onClick={this.props.onNavigate.bind(this, "/spotlight")}
                 >
-                    <div className="table-cell">
-                        <Icon
-                            size="2x"
-                            name="showcases"
-                            title="icons.showcases"
-                        />
-                    </div>
                     <div className="table-cell">
                         <Translate content="header.showcases" />
                     </div>
@@ -408,9 +340,6 @@ export default class DropDownMenu extends React.Component {
                     )}
                     onClick={this.props.toggleDropdownSubmenu}
                 >
-                    <div className="table-cell">
-                        <Icon size="2x" name="cogs" title="icons.cogs" />
-                    </div>
                     <div className="table-cell">
                         <Translate content="header.settings" />{" "}
                     </div>
@@ -431,9 +360,6 @@ export default class DropDownMenu extends React.Component {
                     }
                 >
                     <div className="table-cell">
-                        <Icon size="2x" name="shuffle" title="icons.voting" />
-                    </div>
-                    <div className="table-cell">
                         <Translate content="explorer.assets.trezor" />
                     </div>
                 </li>
@@ -452,9 +378,6 @@ export default class DropDownMenu extends React.Component {
                     }
                 >
                     <div className="table-cell">
-                        <Icon size="2x" name="voting" title="icons.voting" />
-                    </div>
-                    <div className="table-cell">
                         <Translate content="explorer.assets.ledger" />
                     </div>
                 </li>
@@ -468,13 +391,6 @@ export default class DropDownMenu extends React.Component {
                         `/account/${currentAccount}/signedmessages`
                     )}
                 >
-                    <div className="table-cell">
-                        <Icon
-                            size="2x"
-                            name="text"
-                            title="icons.text.signed_messages"
-                        />
-                    </div>
                     <div className="table-cell">
                         <Translate content="account.signedmessages.menuitem" />
                     </div>
@@ -491,13 +407,6 @@ export default class DropDownMenu extends React.Component {
                     )}
                 >
                     <div className="table-cell">
-                        <Icon
-                            size="2x"
-                            name="text"
-                            title="icons.text.membership_stats"
-                        />
-                    </div>
-                    <div className="table-cell">
                         <Translate content="account.member.stats" />
                     </div>
                 </li>
@@ -512,13 +421,6 @@ export default class DropDownMenu extends React.Component {
                             `/account/${currentAccount}/vesting`
                         )}
                     >
-                        <div className="table-cell">
-                            <Icon
-                                size="2x"
-                                name="hourglass"
-                                title="icons.hourglass"
-                            />
-                        </div>
                         <div className="table-cell">
                             <Translate content="account.vesting.title" />
                         </div>
@@ -536,9 +438,6 @@ export default class DropDownMenu extends React.Component {
                     )}
                 >
                     <div className="table-cell">
-                        <Icon size="2x" name="list" title="icons.list" />
-                    </div>
-                    <div className="table-cell">
                         <Translate content="account.whitelist.title" />
                     </div>
                 </li>
@@ -553,9 +452,6 @@ export default class DropDownMenu extends React.Component {
                         `/account/${currentAccount}/permissions`
                     )}
                 >
-                    <div className="table-cell">
-                        <Icon size="2x" name="warning" title="icons.warning" />
-                    </div>
                     <div className="table-cell">
                         <Translate content="account.permissions" />
                     </div>
@@ -572,17 +468,10 @@ export default class DropDownMenu extends React.Component {
                         onClick={this.props.onNavigate.bind(this, "/accounts")}
                     >
                         <div className="table-cell">
-                            <Icon
-                                size="2x"
-                                name="folder"
-                                title="icons.folder"
-                            />
-                        </div>
-                        <div className="table-cell">
                             <Translate content="explorer.accounts.title" />
                         </div>
-                    </li>
-                ) : null}
+                    </li> 
+                ) : null} */}
             </ul>
         );
     }
