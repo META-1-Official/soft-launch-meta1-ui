@@ -468,7 +468,7 @@ class CreateAccount extends React.Component {
                                 <Translate content="wallet.tips_dashboard" />:
                             </td>
                             <td>
-                                <Link to="/">
+                                <Link to="/home">
                                     <Translate content="header.dashboard" />
                                 </Link>
                             </td>
@@ -591,7 +591,7 @@ class CreateAccount extends React.Component {
                             ? this._renderBackupText()
                             : this._renderGetStartedText()}
                 </div>
-                <Link style={{color: "white"}} to="/">
+                <Link style={{color: "white"}} to="/home">
                     <button className="button primary">
                         <Translate content="wallet.back" />
                     </button>

@@ -777,11 +777,11 @@ class Header extends React.Component {
             <a
                 className={cnames("logo", {
                     active:
-                        active === "/" ||
+                        active === "/home" ||
                         (active.indexOf("dashboard") !== -1 &&
                             active.indexOf("account") === -1)
                 })}
-                onClick={this._onNavigate.bind(this, "/")}
+                onClick={this._onNavigate.bind(this, "/home")}
             >
                 <img
                     style={{marginTop: -11, height: 35, width: 89}}

@@ -15,7 +15,7 @@ class WalletRegistrationConfirm extends React.Component {
     };
 
     onBackupDownload = () => {
-        this.props.history.push("/");
+        this.props.history.push("/home");
     };
 
     static renderWarning() {

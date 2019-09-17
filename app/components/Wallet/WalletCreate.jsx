@@ -127,7 +127,7 @@ class CreateNewWallet extends Component {
                     <h4>
                         <Translate content="wallet.wallet_created" />
                     </h4>
-                    <Link to="/">
+                    <Link to="/home">
                         <div className="button success">
                             <Translate content="wallet.done" />
                         </div>

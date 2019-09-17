@@ -566,7 +566,7 @@ class CreateAccountPassword extends React.Component {
                 <div
                     style={{width: "100%"}}
                     onClick={() => {
-                        this.props.history.push("/");
+                        this.props.history.push("/home");
                     }}
                     className="button"
                 >
@@ -586,7 +586,7 @@ class CreateAccountPassword extends React.Component {
                                 <Translate content="wallet.tips_dashboard" />:
                             </td>
                             <td>
-                                <Link to="/">
+                                <Link to="/home">
                                     <Translate content="header.dashboard" />
                                 </Link>
                             </td>
