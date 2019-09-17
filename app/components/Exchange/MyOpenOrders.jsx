@@ -40,92 +40,6 @@ class MarketOrdersRow extends React.Component {
     }
 }
 
-class ExchangeTableHeader extends React.Component {
-    render() {
-        let {baseSymbol, quoteSymbol, isMyAccount, selected} = this.props;
-
-        return (
-            <thead>
-                <tr>
-                    <th style={{width: "6%", textAlign: "right"}}>
-                        <Tooltip
-                            title={counterpart.translate(
-                                "exchange.cancel_order_select_all"
-                            )}
-                            placement="left"
-                        >
-                            <Checkbox
-                                className="order-cancel-toggle"
-                                checked={selected}
-                                onChange={this.props.onCancelToggle}
-                            />
-                        </Tooltip>
-                    </th>
-                    <th style={rightAlign}>
-                        <Translate
-                            className="header-sub-title"
-                            content="exchange.price"
-                        />
-                    </th>
-                    <th style={rightAlign}>
-                        {baseSymbol ? (
-                            <span className="header-sub-title">
-                                <AssetName dataPlace="top" name={quoteSymbol} />
-                            </span>
-                        ) : null}
-                    </th>
-                    <th style={rightAlign}>
-                        {baseSymbol ? (
-                            <span className="header-sub-title">
-                                <AssetName dataPlace="top" name={baseSymbol} />
-                            </span>
-                        ) : null}
-                    </th>
-                    <th style={rightAlign}>
-                        <Translate
-                            className="header-sub-title"
-                            content="transaction.expiration"
-                        />
-                    </th>
-                </tr>
-            </thead>
-        );
-    }
-}
-
-ExchangeTableHeader.defaultProps = {
-    quoteSymbol: null,
-    baseSymbol: null
-};
-
-class ExchangeOrderRow extends React.Component {
-    shouldComponentUpdate(nextProps) {
-        return (
-            nextProps.order.for_sale !== this.props.order.for_sale ||
-            nextProps.order.id !== this.props.order.id ||
-            nextProps.quote !== this.props.quote ||
-            nextProps.base !== this.props.base ||
-            nextProps.order.market_base !== this.props.order.market_base ||
-            nextProps.selected !== this.props.selected
-        );
-    }
-
-    render() {
-        let {base, quote, order, selected} = this.props;
-
-        return (
-            <MarketOrdersRowView
-                key={order.id}
-                order={order}
-                selected={selected}
-                base={base}
-                quote={quote}
-                onCheckCancel={this.props.onCheckCancel.bind(this)}
-            />
-        );
-    }
-}
-
 class MarketOrders extends React.Component {
     constructor(props) {
         super();
@@ -580,96 +494,23 @@ class MarketOrders extends React.Component {
                 // Styles and Classes
                 style={this.props.style}
                 className={this.props.className}
-            >
-                <div
-                    className={this.props.innerClass}
-                    style={this.props.innerStyle}
-                >
-                    {this.props.noHeader ? null : (
-                        <div
-                            style={this.props.headerStyle}
-                            className="exchange-content-header"
-                        >
-                            {activeTab == "my_orders" ? (
-                                <Translate content="exchange.my_orders" />
-                            ) : null}
-                            {activeTab == "open_settlement" ? (
-                                <Translate content="exchange.settle_orders" />
-                            ) : null}
-                        </div>
-                    )}
-                    <div className="grid-block shrink left-orderbook-header market-right-padding-only">
-                        <table className="table order-table text-right fixed-table market-right-padding">
-                            {activeTab == "my_orders" ? (
-                                <ExchangeTableHeader
-                                    baseSymbol={baseSymbol}
-                                    quoteSymbol={quoteSymbol}
-                                    selected={
-                                        this.state.selectedOrders.length > 0 &&
-                                        this.state.selectedOrders.length ==
-                                            totalMyOrders
-                                    }
-                                    onCancelToggle={this.onCancelToggle.bind(
-                                        this
-                                    )}
-                                />
-                            ) : (
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            <Translate
-                                                className="header-sub-title"
-                                                content="exchange.price"
-                                            />
-                                        </th>
-                                        <th>
-                                            <span className="header-sub-title">
-                                                <AssetName
-                                                    dataPlace="top"
-                                                    name={quoteSymbol}
-                                                />
-                                            </span>
-                                        </th>
-                                        <th>
-                                            <span className="header-sub-title">
-                                                <AssetName
-                                                    dataPlace="top"
-                                                    name={baseSymbol}
-                                                />
-                                            </span>
-                                        </th>
-                                        <th>
-                                            <Translate
-                                                className="header-sub-title"
-                                                content="explorer.block.date"
-                                            />
-                                        </th>
-                                    </tr>
-                                </thead>
-                            )}
-                        </table>
-                    </div>
-
-                    <div
-                        className="table-container grid-block market-right-padding-only no-overflow"
-                        ref="container"
-                        style={{
-                            overflow: "hidden",
-                            minHeight: !this.props.tinyScreen ? 242 : 0,
-                            maxHeight: 242,
-                            lineHeight: "13px"
-                        }}
-                    >
-                        <table
-                            style={{marginTop: "10px"}}
-                            className="table order-table table-highlight-hover table-hover no-stripes text-right fixed-table market-right-padding"
-                        >
-                            {contentContainer}
-                        </table>
-                    </div>
-                    {footerContainer}
-                </div>
-            </MarketsOrderView>
+                innerClass={this.props.innerClass}
+                innerStyle={this.props.innerStyle}
+                headerStyle={this.props.headerStyle}
+                // Bools
+                noHeader={this.props.noHeader}
+                isSelected={isSelected}
+                tinyScreen={this.props.tinyScreen}
+                // Strings
+                activeTab={activeTab}
+                baseSymbol={baseSymbol}
+                quoteSymbol={quoteSymbol}
+                // Containers
+                contentContainer={contentContainer}
+                footerContainer={footerContainer}
+                // Functions
+                onCancelToggle={this.onCancelToggle.bind(this)}
+            />
         );
     }
 }
