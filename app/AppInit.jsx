@@ -21,8 +21,8 @@ import LogsActions from "actions/LogsActions";
 * Electron does not support browserHistory, so we need to use hashHistory.
 * The same is true for servers without configuration options, such as Github Pages
 */
-import {BrowserRouter} from "react-router-dom";
-const Router = BrowserRouter;
+import {HashRouter} from "react-router-dom";
+const Router = HashRouter;
 
 class RootIntl extends React.Component {
     componentWillMount() {
