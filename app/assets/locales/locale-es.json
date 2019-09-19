@@ -689,6 +689,7 @@
                 "single_colum_order_form": "Formulario de pedido de una sola columna"
             },
             "tooltip": {
+                "show_markets": "Show/Hide markets",
                 "chart_height": "Definir la altura de las tablas.",
                 "chart_reload": "Cambiar esta configuración volverá a cargar el gráfico",
                 "chart_tools": "Muestra / oculta la barra de herramientas superior e izquierda, así como el menú contextual. Las herramientas siempre están ocultas en minúscula pantalla.",

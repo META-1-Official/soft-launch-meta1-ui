@@ -3251,15 +3251,9 @@ class Exchange extends React.Component {
                 }}
             >
                 <Tooltip
-                    title={
-                        chartType == "market_depth"
-                            ? counterpart.translate(
-                                  "exchange.settings.tooltip.show_price_chart"
-                              )
-                            : counterpart.translate(
-                                  "exchange.settings.tooltip.show_market_depth"
-                              )
-                    }
+                    title={counterpart.translate(
+                        "exchange.settings.tooltip.show_markets"
+                    )}
                 >
                     <AntIcon
                         style={{
