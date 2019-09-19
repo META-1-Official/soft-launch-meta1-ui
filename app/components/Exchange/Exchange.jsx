@@ -2726,67 +2726,6 @@ class Exchange extends React.Component {
                 />
             );
 
-        let tradingChartHeader = (
-            <div
-                className={"exchange--chart-control"}
-                style={{
-                    height: 0,
-                    position: "absolute",
-                    top: "10px",
-                    right: "20px"
-                }}
-            >
-                {chartType == "price_chart" && (
-                    <Tooltip
-                        title={counterpart.translate(
-                            "exchange.settings.tooltip.chart_tools"
-                        )}
-                    >
-                        <AntIcon
-                            style={{
-                                cursor: "pointer",
-                                fontSize: "1.4rem",
-                                marginRight: "0.6rem"
-                            }}
-                            onClick={this._chartTools.bind(this)}
-                            type="tool"
-                        />
-                    </Tooltip>
-                )}
-
-                <Tooltip
-                    title={
-                        chartType == "market_depth"
-                            ? counterpart.translate(
-                                  "exchange.settings.tooltip.show_price_chart"
-                              )
-                            : counterpart.translate(
-                                  "exchange.settings.tooltip.show_market_depth"
-                              )
-                    }
-                >
-                    <AntIcon
-                        style={{
-                            cursor: "pointer",
-                            fontSize: "1.4rem"
-                        }}
-                        onClick={() => {
-                            if (chartType == "market_depth") {
-                                this._toggleChart("price_chart");
-                            } else {
-                                this._toggleChart("market_depth");
-                            }
-                        }}
-                        type={
-                            chartType == "market_depth"
-                                ? "bar-chart"
-                                : "area-chart"
-                        }
-                    />
-                </Tooltip>
-            </div>
-        );
-
         /***
          * Generate tabs based on Layout
          *
@@ -3236,13 +3175,16 @@ class Exchange extends React.Component {
             );
 
             rightPanelContainer = (
-                <div className="grid-block left-column shrink no-overflow">
+                <div
+                    className="grid-block left-column shrink no-overflow"
+                    style={{position: "absolute"}}
+                >
                     {enableToggleRight ? (
                         <div
-                            style={{
-                                width: "auto",
-                                paddingTop: "calc(50vh - 80px)"
-                            }}
+                            // style={{
+                            //     width: "auto",
+                            //     paddingTop: "calc(50vh - 80px)"
+                            // }}
                             onClick={this._togglePanel.bind(this, "right")}
                         >
                             <AntIcon
@@ -3292,6 +3234,122 @@ class Exchange extends React.Component {
                     : null}
             </div>;
         }
+
+        let tradingChartHeader = (
+            <div
+                className={"exchange--chart-control"}
+                style={{
+                    height: 0,
+                    position: "absolute",
+                    top: "10px",
+                    right: "20px"
+                }}
+            >
+                {/*{rightPanelContainer}*/}
+                {/*{enableToggleRight ? (
+                    <div
+                        style={{
+                            cursor: "pointer",
+                            fontSize: "1.4rem",
+                            marginRight: "0.6rem",
+                            height: 0,
+                    position: "absolute",
+                    top: "10px",
+                    marginRight: "200px"
+                        }}
+                        onClick={this._togglePanel.bind(this, "right")}
+                    >
+                        <AntIcon
+                            data-intro={translator.translate(
+                                "walkthrough.panel_hide"
+                            )}
+                            type={
+                                activePanels.includes("right")
+                                    ? "caret-right"
+                                    : "caret-left"
+                            }
+                        />
+                    </div>
+                ) : null}
+                {activePanels.includes("right")
+                    ? !mirrorPanels
+                        ? rightPanel
+                        : leftPanel
+                    : null}*/}
+                <Tooltip
+                    title={
+                        chartType == "market_depth"
+                            ? counterpart.translate(
+                                  "exchange.settings.tooltip.show_price_chart"
+                              )
+                            : counterpart.translate(
+                                  "exchange.settings.tooltip.show_market_depth"
+                              )
+                    }
+                >
+                    <AntIcon
+                        style={{
+                            cursor: "pointer",
+                            fontSize: "1.4rem"
+                        }}
+                        onClick={this._togglePanel.bind(this, "right")}
+                        type={
+                            chartType == "market_depth"
+                                ? "bar-chart"
+                                : "area-chart"
+                        }
+                    />
+                </Tooltip>
+                {chartType == "price_chart" && (
+                    <Tooltip
+                        title={counterpart.translate(
+                            "exchange.settings.tooltip.chart_tools"
+                        )}
+                    >
+                        <AntIcon
+                            style={{
+                                cursor: "pointer",
+                                fontSize: "1.4rem",
+                                marginRight: "0.6rem"
+                            }}
+                            onClick={this._chartTools.bind(this)}
+                            type="tool"
+                        />
+                    </Tooltip>
+                )}
+
+                <Tooltip
+                    title={
+                        chartType == "market_depth"
+                            ? counterpart.translate(
+                                  "exchange.settings.tooltip.show_price_chart"
+                              )
+                            : counterpart.translate(
+                                  "exchange.settings.tooltip.show_market_depth"
+                              )
+                    }
+                >
+                    <AntIcon
+                        style={{
+                            cursor: "pointer",
+                            fontSize: "1.4rem"
+                        }}
+                        onClick={() => {
+                            if (chartType == "market_depth") {
+                                this._toggleChart("price_chart");
+                            } else {
+                                this._toggleChart("market_depth");
+                            }
+                        }}
+                        type={
+                            chartType == "market_depth"
+                                ? "bar-chart"
+                                : "area-chart"
+                        }
+                    />
+                </Tooltip>
+            </div>
+        );
 
         return (
             <div className="grid-block vertical">
@@ -3492,7 +3550,7 @@ class Exchange extends React.Component {
 
                     {/* Right Column */}
                     {/* {rightPanelContainer} there is a check */}
-
+                    {rightPanelContainer}
                     {/* End of Second Vertical Block */}
                 </div>
 
