@@ -3175,7 +3175,15 @@ class Exchange extends React.Component {
             );
 
             rightPanelContainer = (
-                <div className="grid-block left-column shrink no-overflow">
+                <div
+                    style={{
+                        position: "absolute",
+                        right: "0",
+                        height: "100%",
+                        zIndex: "100"
+                    }}
+                    className="grid-block left-column shrink no-overflow"
+                >
                     {enableToggleRight ? (
                         <div
                             style={{
@@ -3203,7 +3211,7 @@ class Exchange extends React.Component {
                         : null}
                 </div>
             );
-            <div className="grid-block left-column shrink no-overflow">
+            /*<div className="grid-block left-column shrink no-overflow">
                 {enableToggleRight ? (
                     <div
                         style={{
@@ -3229,7 +3237,7 @@ class Exchange extends React.Component {
                         ? rightPanel
                         : leftPanel
                     : null}
-            </div>;
+            </div>;*/
         }
 
         let tradingChartHeader = (
