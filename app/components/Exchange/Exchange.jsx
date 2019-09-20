@@ -3451,7 +3451,10 @@ class Exchange extends React.Component {
                             }
                         >
                             {!tinyScreen ? (
-                                <div className="tiny-screen-flex">
+                                <div
+                                    className="tiny-screen-flex"
+                                    style={{height: "100%"}}
+                                >
                                     {/* Price history chart */}
                                     {chartType && chartType == "price_chart" ? (
                                         <div
@@ -3460,7 +3463,8 @@ class Exchange extends React.Component {
                                             style={{
                                                 flexGrow: "2",
                                                 display: "inline-block",
-                                                borderBottom: "2px solid black"
+                                                borderBottom: "2px solid black",
+                                                height: "100%"
                                             }}
                                         >
                                             {tradingViewChart}
@@ -3477,7 +3481,8 @@ class Exchange extends React.Component {
                                                 flexGrow: "2",
                                                 width: "280px",
                                                 display: "inline-block",
-                                                borderBottom: "2px solid black"
+                                                borderBottom: "2px solid black",
+                                                height: "100%"
                                             }}
                                         >
                                             {deptHighChart}
