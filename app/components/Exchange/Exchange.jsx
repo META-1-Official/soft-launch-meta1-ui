@@ -3180,7 +3180,7 @@ class Exchange extends React.Component {
                         position: "absolute",
                         right: "0",
                         height: "100%",
-                        zIndex: "100"
+                        zIndex: "1"
                     }}
                     className="grid-block left-column shrink no-overflow"
                 >
