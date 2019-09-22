@@ -122,7 +122,6 @@ class Exchange extends React.Component {
     }
 
     handleOrderTypeTabChange(type, value) {
-        console.log(value);
         SettingsActions.changeViewSetting({
             [`order-form-${type}`]: value
         });
@@ -351,7 +350,7 @@ class Exchange extends React.Component {
             hideFunctionButtons: ws.get("hideFunctionButtons", true),
             currentPeriod: ws.get("currentPeriod", 3600 * 24 * 30 * 3), // 3 months
             showMarketPicker: false,
-            activePanels: ws.get("activePanels", ["left", "right"]),
+            activePanels: ws.get("activePanels", ["left"]),
             mobileKey: [""],
             forceReRender: 0,
             panelWidth: 0,
@@ -371,7 +370,7 @@ class Exchange extends React.Component {
 
     showMarketPickerModal() {
         this.setState({
-            isMarketPickerModalVisible: true,
+            isMarketPickerModalVisible: false,
             isMarketPickerModalLoaded: true
         });
     }
@@ -447,7 +446,7 @@ class Exchange extends React.Component {
 
     showDepositBridgeModal() {
         this.setState({
-            isDepositBridgeModalVisible: true,
+            isDepositBridgeModalVisible: false,
             isDepositBridgeModalLoaded: true
         });
     }
@@ -3141,7 +3140,7 @@ class Exchange extends React.Component {
                 enableToggleLeft = true;
             }
             if ((!mirrorPanels && rightPanel) || (mirrorPanels && leftPanel)) {
-                enableToggleRight = true;
+                enableToggleRight = false;
             }
 
             leftPanelContainer = (
@@ -3185,24 +3184,7 @@ class Exchange extends React.Component {
                     className="grid-block left-column shrink no-overflow"
                 >
                     {enableToggleRight ? (
-                        <div
-                            // style={{
-                            //     width: "auto",
-                            //     paddingTop: "calc(50vh - 80px)"
-                            // }}
-                            onClick={this._togglePanel.bind(this, "right")}
-                        >
-                            {/*<AntIcon
-                                data-intro={translator.translate(
-                                    "walkthrough.panel_hide"
-                                )}
-                                type={
-                                    activePanels.includes("right")
-                                        ? "caret-right"
-                                        : "caret-left"
-                                }
-                            />*/}
-                        </div>
+                        <div onClick={this._togglePanel.bind(this, "right")} />
                     ) : null}
                     {activePanels.includes("right")
                         ? !mirrorPanels
@@ -3211,33 +3193,6 @@ class Exchange extends React.Component {
                         : null}
                 </div>
             );
-            /*<div className="grid-block left-column shrink no-overflow">
-                {enableToggleRight ? (
-                    <div
-                        style={{
-                            width: "auto",
-                            paddingTop: "calc(50vh - 80px)"
-                        }}
-                        onClick={this._togglePanel.bind(this, "right")}
-                    >
-                        <AntIcon
-                            data-intro={translator.translate(
-                                "walkthrough.panel_hide"
-                            )}
-                            type={
-                                activePanels.includes("right")
-                                    ? "caret-right"
-                                    : "caret-left"
-                            }
-                        />
-                    </div>
-                ) : null}
-                {activePanels.includes("right")
-                    ? !mirrorPanels
-                        ? rightPanel
-                        : leftPanel
-                    : null}
-            </div>;*/
         }
 
         let tradingChartHeader = (
@@ -3450,10 +3405,7 @@ class Exchange extends React.Component {
                             }
                         >
                             {!tinyScreen ? (
-                                <div
-                                    className="tiny-screen-flex"
-                                    style={{height: "100%"}}
-                                >
+                                <div className="tiny-screen-flex">
                                     {/* Price history chart */}
                                     {chartType && chartType == "price_chart" ? (
                                         <div
@@ -3462,8 +3414,7 @@ class Exchange extends React.Component {
                                             style={{
                                                 flexGrow: "2",
                                                 display: "inline-block",
-                                                borderBottom: "2px solid black",
-                                                height: "100%"
+                                                borderBottom: "2px solid black"
                                             }}
                                         >
                                             {tradingViewChart}
@@ -3480,8 +3431,7 @@ class Exchange extends React.Component {
                                                 flexGrow: "2",
                                                 width: "280px",
                                                 display: "inline-block",
-                                                borderBottom: "2px solid black",
-                                                height: "100%"
+                                                borderBottom: "2px solid black"
                                             }}
                                         >
                                             {deptHighChart}
