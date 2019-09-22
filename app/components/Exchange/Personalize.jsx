@@ -233,6 +233,48 @@ class Personalize extends React.Component {
                                 </div>
                             </div>
                         )}
+                    {/*edit it*/}
+                    {!this.props.tinyScreen &&
+                        chartType == "price_chart" && (
+                            <div className="grid-block no-overflow wrap shrink">
+                                <div className="small-6">
+                                    <h6 style={{margin: 9}}>
+                                        <Translate content="exchange.settings.title.show_markets" />
+                                        &nbsp;
+                                        <Tooltip
+                                            title={counterpart.translate(
+                                                "exchange.settings.tooltip.show_markets"
+                                            )}
+                                        >
+                                            <Icon
+                                                type="question-circle"
+                                                theme="filled"
+                                            />
+                                        </Tooltip>
+                                        &nbsp;
+                                        <Tooltip
+                                            title={counterpart.translate(
+                                                "exchange.settings.tooltip.chart_reload"
+                                            )}
+                                        >
+                                            <Icon
+                                                type="info-circle"
+                                                theme="filled"
+                                            />
+                                        </Tooltip>
+                                    </h6>
+                                </div>
+                                <div className="small-6">
+                                    <Switch
+                                        style={{margin: 6}}
+                                        checked={this.props.chartTools}
+                                        onChange={this.props.onChartTools.bind(
+                                            this
+                                        )}
+                                    />
+                                </div>
+                            </div>
+                        )}
 
                     {!this.props.tinyScreen &&
                         chartType == "price_chart" && (

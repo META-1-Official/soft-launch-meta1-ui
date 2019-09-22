@@ -668,6 +668,7 @@
                 "vertical": "垂直布局"
             },
             "title": {
+                "show_markets": "Show/Hide markets",
                 "chart_height": "高度",
                 "chart_tools": "浏览工具",
                 "chart_type": "类型",

@@ -586,7 +586,7 @@ div.bucket-option {
     padding: 1px;
     height: 1rem;
     white-space: wrap;
-    z-index: 100; // Make sure unwrapped content isn't hidden under companion input
+    z-index: 0; // Make sure unwrapped content isn't hidden under companion input
 }
 
 .buy-sell-input {

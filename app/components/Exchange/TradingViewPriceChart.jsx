@@ -321,11 +321,12 @@ class TradingViewPriceChart extends React.Component {
         };
 
         return (
-            <div className="small-12">
+            <div className="small-12" style={{height: "100%"}}>
                 <div
                     className="exchange-bordered"
                     style={{
-                        height: this.props.chartHeight + "px" /*,width:"70%"*/
+                        /*height: this.props.chartHeight + "px" /*,width:"70%"*/
+                        height: "100%"
                     }}
                     id="tv_chart"
                 />

@@ -3176,8 +3176,13 @@ class Exchange extends React.Component {
 
             rightPanelContainer = (
                 <div
+                    style={{
+                        position: "absolute",
+                        right: "0",
+                        height: "100%",
+                        zIndex: "1"
+                    }}
                     className="grid-block left-column shrink no-overflow"
-                    style={{position: "absolute"}}
                 >
                     {enableToggleRight ? (
                         <div
@@ -3187,7 +3192,7 @@ class Exchange extends React.Component {
                             // }}
                             onClick={this._togglePanel.bind(this, "right")}
                         >
-                            <AntIcon
+                            {/*<AntIcon
                                 data-intro={translator.translate(
                                     "walkthrough.panel_hide"
                                 )}
@@ -3196,7 +3201,7 @@ class Exchange extends React.Component {
                                         ? "caret-right"
                                         : "caret-left"
                                 }
-                            />
+                            />*/}
                         </div>
                     ) : null}
                     {activePanels.includes("right")
@@ -3206,7 +3211,7 @@ class Exchange extends React.Component {
                         : null}
                 </div>
             );
-            <div className="grid-block left-column shrink no-overflow">
+            /*<div className="grid-block left-column shrink no-overflow">
                 {enableToggleRight ? (
                     <div
                         style={{
@@ -3232,7 +3237,7 @@ class Exchange extends React.Component {
                         ? rightPanel
                         : leftPanel
                     : null}
-            </div>;
+            </div>;*/
         }
 
         let tradingChartHeader = (
@@ -3245,58 +3250,25 @@ class Exchange extends React.Component {
                     right: "20px"
                 }}
             >
-                {/*{rightPanelContainer}*/}
-                {/*{enableToggleRight ? (
-                    <div
-                        style={{
-                            cursor: "pointer",
-                            fontSize: "1.4rem",
-                            marginRight: "0.6rem",
-                            height: 0,
-                    position: "absolute",
-                    top: "10px",
-                    marginRight: "200px"
-                        }}
-                        onClick={this._togglePanel.bind(this, "right")}
-                    >
-                        <AntIcon
-                            data-intro={translator.translate(
-                                "walkthrough.panel_hide"
-                            )}
-                            type={
-                                activePanels.includes("right")
-                                    ? "caret-right"
-                                    : "caret-left"
-                            }
-                        />
-                    </div>
-                ) : null}
-                {activePanels.includes("right")
-                    ? !mirrorPanels
-                        ? rightPanel
-                        : leftPanel
-                    : null}*/}
                 <Tooltip
-                    title={
-                        chartType == "market_depth"
-                            ? counterpart.translate(
-                                  "exchange.settings.tooltip.show_price_chart"
-                              )
-                            : counterpart.translate(
-                                  "exchange.settings.tooltip.show_market_depth"
-                              )
-                    }
+                    title={counterpart.translate(
+                        "exchange.settings.tooltip.show_markets"
+                    )}
                 >
                     <AntIcon
                         style={{
                             cursor: "pointer",
-                            fontSize: "1.4rem"
+                            fontSize: "1.4rem",
+                            marginRight: "0.6rem"
                         }}
                         onClick={this._togglePanel.bind(this, "right")}
+                        data-intro={translator.translate(
+                            "walkthrough.panel_hide"
+                        )}
                         type={
-                            chartType == "market_depth"
-                                ? "bar-chart"
-                                : "area-chart"
+                            activePanels.includes("right")
+                                ? "caret-right"
+                                : "caret-left"
                         }
                     />
                 </Tooltip>
@@ -3478,7 +3450,10 @@ class Exchange extends React.Component {
                             }
                         >
                             {!tinyScreen ? (
-                                <div className="tiny-screen-flex">
+                                <div
+                                    className="tiny-screen-flex"
+                                    style={{height: "100%"}}
+                                >
                                     {/* Price history chart */}
                                     {chartType && chartType == "price_chart" ? (
                                         <div
@@ -3487,7 +3462,8 @@ class Exchange extends React.Component {
                                             style={{
                                                 flexGrow: "2",
                                                 display: "inline-block",
-                                                borderBottom: "2px solid black"
+                                                borderBottom: "2px solid black",
+                                                height: "100%"
                                             }}
                                         >
                                             {tradingViewChart}
@@ -3504,7 +3480,8 @@ class Exchange extends React.Component {
                                                 flexGrow: "2",
                                                 width: "280px",
                                                 display: "inline-block",
-                                                borderBottom: "2px solid black"
+                                                borderBottom: "2px solid black",
+                                                height: "100%"
                                             }}
                                         >
                                             {deptHighChart}
@@ -3549,7 +3526,6 @@ class Exchange extends React.Component {
                     {/* End of Main Content Column */}
 
                     {/* Right Column */}
-                    {/* {rightPanelContainer} there is a check */}
                     {rightPanelContainer}
                     {/* End of Second Vertical Block */}
                 </div>
