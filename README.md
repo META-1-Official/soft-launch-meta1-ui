@@ -23,8 +23,8 @@ nvm use v9
 Once you have Node installed, you can clone the repo:
 
 ```
-git clone https://github.com/bitshares/bitshares-ui.git
-cd bitshares-ui
+https://github.com/meta1-blockchain/meta1-ui.git
+cd meta1-ui
 ```
 
 Before launching the GUI you will need to install the npm packages:
@@ -47,7 +47,7 @@ Once the compilation is done the GUI will be available in your browser at: `loca
 
 
 ## Testnet
-By default meta1-ui connects to the live Meta1 network, but it's very easy to switch it to the testnet run by Xeroc. To do so, open the UI in a browser, go to Settings, then under Access, select the *Public Testnet Server* in the dropdown menu. You should also change the faucet if you need to create an account, the testnet faucet address is https://testnet.bitshares.eu.
+By default meta1-ui connects to the live Meta1 network, but it's very easy to switch it to the testnet run by Xeroc. To do so, open the UI in a browser, go to Settings, then under Access, select the *Public Testnet Server* in the dropdown menu. You should also change the faucet if you need to create an account, the testnet faucet address is ...
 
 The UI will reload and connect to the testnet, where you can use the faucet to create an account and receive an initial sum of test META1.
 

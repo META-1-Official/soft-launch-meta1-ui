@@ -775,13 +775,9 @@ class Header extends React.Component {
 
         let dashboard = (
             <a
-                className={cnames("logo", {
-                    active:
-                        active === "/home" ||
-                        (active.indexOf("dashboard") !== -1 &&
-                            active.indexOf("account") === -1)
-                })}
-                onClick={this._onNavigate.bind(this, "/home")}
+                href="/home"
+                className={cnames("logo")}
+                onClick={this._onNavigate.bind(this, "/home/")}
             >
                 <img
                     style={{marginTop: -11, height: 35, width: 89}}

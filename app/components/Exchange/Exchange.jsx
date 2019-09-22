@@ -3186,10 +3186,10 @@ class Exchange extends React.Component {
                 >
                     {enableToggleRight ? (
                         <div
-                            style={{
-                                width: "auto",
-                                paddingTop: "calc(50vh - 80px)"
-                            }}
+                            // style={{
+                            //     width: "auto",
+                            //     paddingTop: "calc(50vh - 80px)"
+                            // }}
                             onClick={this._togglePanel.bind(this, "right")}
                         >
                             {/*<AntIcon
@@ -3272,7 +3272,6 @@ class Exchange extends React.Component {
                         }
                     />
                 </Tooltip>
-
                 {chartType == "price_chart" && (
                     <Tooltip
                         title={counterpart.translate(
@@ -3528,7 +3527,6 @@ class Exchange extends React.Component {
 
                     {/* Right Column */}
                     {rightPanelContainer}
-
                     {/* End of Second Vertical Block */}
                 </div>
 
