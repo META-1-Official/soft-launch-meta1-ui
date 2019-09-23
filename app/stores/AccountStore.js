@@ -221,6 +221,7 @@ class AccountStore extends BaseStore {
     }
 
     onRemoveStarAccount(account) {
+        console.log("onRemoveStarAccount");
         let starredAccounts = this.state.starredAccounts.delete(account);
         this.setState({starredAccounts});
         ss.set(this._getStorageKey("starredAccounts"), starredAccounts.toJS());
