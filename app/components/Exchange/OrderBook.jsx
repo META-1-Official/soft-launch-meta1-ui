@@ -945,17 +945,21 @@ class OrderBook extends React.Component {
             return (
                 <div
                     ref="order_book"
-                    style={{marginRight: this.props.smallScreen ? 10 : 0}}
+                    style={{
+                        marginRight: this.props.smallScreen ? 0 : 0,
+                        height: "100%"
+                    }} //this.props.smallScreen ? 10 : 0
                     className={cnames(wrapperClass)}
                 >
                     <div
+                        style={{height: "51%", paddingBottom: "4px"}}
                         className={cnames(
                             innerClass,
                             flipOrderBook ? "order-1" : "order-2"
                         )}
                     >
                         {/*ask div */}
-                        <div>
+                        <div style={{height: "100%"}}>
                             <div className="market-right-padding-only">
                                 <table className="table order-table table-hover fixed-table text-right">
                                     {!flipOrderBook ? rightHeader : leftHeader}
@@ -968,11 +972,16 @@ class OrderBook extends React.Component {
                                 style={{
                                     paddingRight: "0.6rem",
                                     overflow: "hidden",
-                                    maxHeight: this.props.chartHeight / 2 - 2,
-                                    lineHeight: "15px"
+                                    //maxHeight: this.props.chartHeight / 2 - 2,
+
+                                    lineHeight: "15px",
+                                    height: "100%"
                                 }}
                             >
-                                <table className="table order-table no-stripes table-hover fixed-table text-right no-overflow">
+                                <table
+                                    className="table order-table no-stripes table-hover fixed-table text-right no-overflow"
+                                    style={{height: "96%"}}
+                                >
                                     <TransitionWrapper
                                         ref="askTransition"
                                         className="orderbook clickable"
@@ -988,13 +997,17 @@ class OrderBook extends React.Component {
                     </div>
 
                     <div
-                        style={{borderTop: "2px solid black"}}
+                        style={{
+                            borderTop: "2px solid black",
+                            height: "49%",
+                            paddingTop: "4px"
+                        }}
                         className={cnames(
                             innerClass,
                             flipOrderBook ? "order-2" : "order-1"
                         )}
                     >
-                        <div>
+                        <div style={{height: "100%"}}>
                             <div
                                 className="grid-block"
                                 ref="hor_bids"
@@ -1002,12 +1015,13 @@ class OrderBook extends React.Component {
                                 style={{
                                     paddingRight: "0.6rem",
                                     overflow: "hidden",
-                                    maxHeight: this.props.chartHeight / 2 - 2,
-                                    lineHeight: "13px"
+                                    //maxHeight: this.props.chartHeight / 2 - 2,
+                                    lineHeight: "13px",
+                                    height: "100%"
                                 }}
                             >
                                 <table
-                                    style={{paddingBottom: 5}}
+                                    style={{paddingBottom: 5, height: "100%"}}
                                     className="table order-table no-stripes table-hover fixed-table text-right no-overflow"
                                 >
                                     <TransitionWrapper

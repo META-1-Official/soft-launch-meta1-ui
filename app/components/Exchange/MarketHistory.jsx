@@ -225,6 +225,7 @@ class MarketHistory extends React.Component {
 
         return (
             <MarketHistoryView
+                style={{height: "100%"}}
                 ref="view"
                 className={this.props.className}
                 innerClass={this.props.innerClass}

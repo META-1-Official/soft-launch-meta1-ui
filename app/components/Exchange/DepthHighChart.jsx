@@ -464,7 +464,7 @@ class DepthHighChart extends React.Component {
                     <div
                         className="exchange-bordered"
                         id="depth_chart"
-                        style={{height: "100%"}}
+                        style={{height: "522px"}}
                     >
                         <div className="exchange-content-header">
                             {this.props.noText ? null : (

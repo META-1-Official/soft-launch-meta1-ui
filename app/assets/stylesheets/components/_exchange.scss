@@ -570,6 +570,8 @@ div.bucket-option {
 .tiny-screen-flex {
     display: flex;
     flex-wrap: wrap;
+    height: -webkit-fill-available;
+    height: -moz-available;
 }
 
 @media not all and (min-resolution: 0.001dpcm) {
