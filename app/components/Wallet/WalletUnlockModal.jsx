@@ -276,6 +276,7 @@ class WalletUnlockModal extends React.Component {
 
         const {passwordLogin, backup} = this.props;
         const {walletSelected, accountName} = this.state;
+        console.log(accountName);
         if (this.state.captcha) {
             if (!passwordLogin && !walletSelected) {
                 this.setState({
