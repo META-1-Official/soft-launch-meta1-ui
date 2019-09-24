@@ -294,28 +294,6 @@ class CreateAccount extends React.Component {
                         checkStrength
                     />
                 )}
-
-                {/* If this is not the first account, show dropdown for fee payment account */}
-                {firstAccount ? null : (
-                    <div className="full-width-content form-group no-overflow">
-                        <label>
-                            <Translate content="account.pay_from" />
-                        </label>
-                        <AccountSelect
-                            account_names={my_accounts}
-                            onChange={this.onRegistrarAccountChange.bind(this)}
-                        />
-                        {registrar_account && !isLTM ? (
-                            <div
-                                style={{textAlign: "left"}}
-                                className="facolor-error"
-                            >
-                                <Translate content="wallet.must_be_ltm" />
-                            </div>
-                        ) : null}
-                    </div>
-                )}
-
                 <div className="divider" />
                 {/* <ReCAPTCHA sitekey="6LdY-48UAAAAAAX8Y8-UdRtFks70LCRmyvyye0VU" /> */}
                 {/* Submit button */}
