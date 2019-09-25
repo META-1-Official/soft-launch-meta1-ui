@@ -2539,7 +2539,10 @@ class Exchange extends React.Component {
                             : "medium-12",
                         "no-padding no-overflow small-12 order-6"
                     )}
-                    innerStyle={{paddingBottom: !tinyScreen ? "0" : "0"}}
+                    innerStyle={{
+                        paddingBottom: !tinyScreen ? "0" : "0",
+                        height: "100%"
+                    }}
                     noHeader={panelTabs["history"] == 0 ? false : true}
                     history={activeMarketHistory}
                     currentAccount={currentAccount}
@@ -2574,7 +2577,10 @@ class Exchange extends React.Component {
                             ? "order-4"
                             : "order-3"
                     )}
-                    innerStyle={{paddingBottom: !tinyScreen ? "0" : "0"}}
+                    innerStyle={{
+                        paddingBottom: !tinyScreen ? "0" : "0",
+                        height: "215px"
+                    }}
                     noHeader={panelTabs["my_history"] == 0 ? false : true}
                     history={activeMarketHistory}
                     currentAccount={currentAccount}
@@ -2830,7 +2836,9 @@ class Exchange extends React.Component {
                 } else {
                     if (a == "history") {
                         groupTabs[panelTabs[a]].push(
-                            <div key="history">{marketHistory}</div>
+                            <div key="history" style={{height: "100%"}}>
+                                {marketHistory}
+                            </div>
                         );
                     }
 
@@ -2928,6 +2936,7 @@ class Exchange extends React.Component {
                         "small-12 grid-block orderbook no-padding align-spaced no-overflow wrap"
                     )}
                     key={`actionCard_${actionCardIndex++}`}
+                    style={{height: "100%"}}
                 >
                     &nbsp;
                 </div>
@@ -3190,18 +3199,7 @@ class Exchange extends React.Component {
                             //     paddingTop: "calc(50vh - 80px)"
                             // }}
                             onClick={this._togglePanel.bind(this, "right")}
-                        >
-                            {/*<AntIcon
-                                data-intro={translator.translate(
-                                    "walkthrough.panel_hide"
-                                )}
-                                type={
-                                    activePanels.includes("right")
-                                        ? "caret-right"
-                                        : "caret-left"
-                                }
-                            />*/}
-                        </div>
+                        />
                     ) : null}
                     {activePanels.includes("right")
                         ? !mirrorPanels
@@ -3210,33 +3208,6 @@ class Exchange extends React.Component {
                         : null}
                 </div>
             );
-            /*<div className="grid-block left-column shrink no-overflow">
-                {enableToggleRight ? (
-                    <div
-                        style={{
-                            width: "auto",
-                            paddingTop: "calc(50vh - 80px)"
-                        }}
-                        onClick={this._togglePanel.bind(this, "right")}
-                    >
-                        <AntIcon
-                            data-intro={translator.translate(
-                                "walkthrough.panel_hide"
-                            )}
-                            type={
-                                activePanels.includes("right")
-                                    ? "caret-right"
-                                    : "caret-left"
-                            }
-                        />
-                    </div>
-                ) : null}
-                {activePanels.includes("right")
-                    ? !mirrorPanels
-                        ? rightPanel
-                        : leftPanel
-                    : null}
-            </div>;*/
         }
 
         let tradingChartHeader = (
@@ -3249,28 +3220,31 @@ class Exchange extends React.Component {
                     right: "20px"
                 }}
             >
-                <Tooltip
-                    title={counterpart.translate(
-                        "exchange.settings.tooltip.show_markets"
-                    )}
-                >
-                    <AntIcon
-                        style={{
-                            cursor: "pointer",
-                            fontSize: "1.4rem",
-                            marginRight: "0.6rem"
-                        }}
-                        onClick={this._togglePanel.bind(this, "right")}
-                        data-intro={translator.translate(
-                            "walkthrough.panel_hide"
+                {!smallScreen && (
+                    <Tooltip
+                        title={counterpart.translate(
+                            "exchange.settings.tooltip.show_markets"
                         )}
-                        type={
-                            activePanels.includes("right")
-                                ? "caret-right"
-                                : "caret-left"
-                        }
-                    />
-                </Tooltip>
+                    >
+                        <AntIcon
+                            style={{
+                                cursor: "pointer",
+                                fontSize: "1.4rem",
+                                marginRight: "0.6rem"
+                            }}
+                            onClick={this._togglePanel.bind(this, "right")}
+                            data-intro={translator.translate(
+                                "walkthrough.panel_hide"
+                            )}
+                            type={
+                                activePanels.includes("right")
+                                    ? "caret-right"
+                                    : "caret-left"
+                            }
+                        />
+                    </Tooltip>
+                )}
+
                 {chartType == "price_chart" && (
                     <Tooltip
                         title={counterpart.translate(
@@ -3490,7 +3464,7 @@ class Exchange extends React.Component {
                                             minWidth: "280px",
                                             display: "inline-block",
                                             borderBottom: "2px solid black",
-                                            borderRight: "1px solid black"
+                                            borderRight: "2px solid black"
                                             //position: "absolute"
                                         }}
                                     >
@@ -3504,7 +3478,8 @@ class Exchange extends React.Component {
                                             minWidth: "280px",
                                             display: "inline-block",
                                             position: "relative",
-                                            borderBottom: "2px solid black"
+                                            borderBottom: "2px solid black",
+                                            borderLeft: "2px solid black"
                                         }}
                                     >
                                         {groupTabs[1]}
