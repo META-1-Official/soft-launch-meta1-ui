@@ -75,7 +75,7 @@ class MarketHistoryView extends React.Component {
         );
 
         return (
-            <div className={cnames(className)}>
+            <div className={cnames(className)} style={{height: "100%"}}>
                 <div className={innerClass} style={innerStyle}>
                     {noHeader ? null : (
                         <div
@@ -120,8 +120,7 @@ class MarketHistoryView extends React.Component {
                         ref="history"
                         id="market-orders-view-container"
                         style={{
-                            minHeight: !tinyScreen ? 260 : 0,
-                            maxHeight: this.props.chartHeight - 2,
+                            minHeight: "96%",
                             overflow: "hidden",
                             lineHeight: "10px"
                         }}

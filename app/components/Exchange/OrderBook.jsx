@@ -975,7 +975,7 @@ class OrderBook extends React.Component {
                                     //maxHeight: this.props.chartHeight / 2 - 2,
 
                                     lineHeight: "15px",
-                                    height: "100%"
+                                    height: "93%"
                                 }}
                             >
                                 <table

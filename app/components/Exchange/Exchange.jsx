@@ -2540,7 +2540,10 @@ class Exchange extends React.Component {
                             : "medium-12",
                         "no-padding no-overflow small-12 order-6"
                     )}
-                    innerStyle={{paddingBottom: !tinyScreen ? "0" : "0"}}
+                    innerStyle={{
+                        paddingBottom: !tinyScreen ? "0" : "0",
+                        height: "100%"
+                    }}
                     noHeader={panelTabs["history"] == 0 ? false : true}
                     history={activeMarketHistory}
                     currentAccount={currentAccount}
@@ -2575,7 +2578,10 @@ class Exchange extends React.Component {
                             ? "order-4"
                             : "order-3"
                     )}
-                    innerStyle={{paddingBottom: !tinyScreen ? "0" : "0"}}
+                    innerStyle={{
+                        paddingBottom: !tinyScreen ? "0" : "0",
+                        height: "215px"
+                    }}
                     noHeader={panelTabs["my_history"] == 0 ? false : true}
                     history={activeMarketHistory}
                     currentAccount={currentAccount}
@@ -3189,10 +3195,10 @@ class Exchange extends React.Component {
                 >
                     {enableToggleRight ? (
                         <div
-                            style={{
-                                width: "auto",
-                                paddingTop: "calc(50vh - 80px)"
-                            }}
+                            // style={{
+                            //     width: "auto",
+                            //     paddingTop: "calc(50vh - 80px)"
+                            // }}
                             onClick={this._togglePanel.bind(this, "right")}
                         />
                     ) : null}
@@ -3496,7 +3502,6 @@ class Exchange extends React.Component {
 
                     {/* Right Column */}
                     {rightPanelContainer}
-
                     {/* End of Second Vertical Block */}
                 </div>
 
