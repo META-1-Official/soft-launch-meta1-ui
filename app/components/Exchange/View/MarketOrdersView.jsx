@@ -193,7 +193,7 @@ class MarketsOrderView extends React.Component {
                         style={{
                             overflow: "hidden",
                             minHeight: tinyScreen ? 260 : 0,
-                            maxHeight: 260,
+                            maxHeight: 190,
                             lineHeight: "13px"
                         }}
                     >

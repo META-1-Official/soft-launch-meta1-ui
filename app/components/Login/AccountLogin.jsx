@@ -105,7 +105,7 @@ class AccountLogin extends React.Component {
                 setting: "passwordLogin",
                 value: true
             });
-            this.props.history.push("/home/");
+            this.props.history.push("/market/USD_META1");
             WalletUnlockActions.change();
         }, 550);
 

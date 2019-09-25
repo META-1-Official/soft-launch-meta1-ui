@@ -294,28 +294,6 @@ class CreateAccount extends React.Component {
                         checkStrength
                     />
                 )}
-
-                {/* If this is not the first account, show dropdown for fee payment account */}
-                {firstAccount ? null : (
-                    <div className="full-width-content form-group no-overflow">
-                        <label>
-                            <Translate content="account.pay_from" />
-                        </label>
-                        <AccountSelect
-                            account_names={my_accounts}
-                            onChange={this.onRegistrarAccountChange.bind(this)}
-                        />
-                        {registrar_account && !isLTM ? (
-                            <div
-                                style={{textAlign: "left"}}
-                                className="facolor-error"
-                            >
-                                <Translate content="wallet.must_be_ltm" />
-                            </div>
-                        ) : null}
-                    </div>
-                )}
-
                 <div className="divider" />
                 {/* <ReCAPTCHA sitekey="6LdY-48UAAAAAAX8Y8-UdRtFks70LCRmyvyye0VU" /> */}
                 {/* Submit button */}
@@ -468,7 +446,7 @@ class CreateAccount extends React.Component {
                                 <Translate content="wallet.tips_dashboard" />:
                             </td>
                             <td>
-                                <Link to="/home">
+                                <Link to="/market/USD_META1">
                                     <Translate content="header.dashboard" />
                                 </Link>
                             </td>
@@ -591,7 +569,7 @@ class CreateAccount extends React.Component {
                             ? this._renderBackupText()
                             : this._renderGetStartedText()}
                 </div>
-                <Link style={{color: "white"}} to="/home">
+                <Link style={{color: "white"}} to="/market/USD_META1">
                     <button className="button primary">
                         <Translate content="wallet.back" />
                     </button>

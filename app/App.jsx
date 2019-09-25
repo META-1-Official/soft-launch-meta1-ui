@@ -389,7 +389,7 @@ class App extends React.Component {
                         <div className="grid-block vertical">
                             <Switch>
                                 <Route
-                                    path="/"
+                                    path="/home/"
                                     exact
                                     component={DashboardPage}
                                 />

@@ -122,7 +122,6 @@ class Exchange extends React.Component {
     }
 
     handleOrderTypeTabChange(type, value) {
-        console.log(value);
         SettingsActions.changeViewSetting({
             [`order-form-${type}`]: value
         });
@@ -351,7 +350,7 @@ class Exchange extends React.Component {
             hideFunctionButtons: ws.get("hideFunctionButtons", true),
             currentPeriod: ws.get("currentPeriod", 3600 * 24 * 30 * 3), // 3 months
             showMarketPicker: false,
-            activePanels: ws.get("activePanels", ["left", "right"]),
+            activePanels: ws.get("activePanels", ["left"]),
             mobileKey: [""],
             forceReRender: 0,
             panelWidth: 0,
@@ -3424,10 +3423,7 @@ class Exchange extends React.Component {
                             }
                         >
                             {!tinyScreen ? (
-                                <div
-                                    className="tiny-screen-flex"
-                                    //style={{height: -webkit-fill-available}}
-                                >
+                                <div className="tiny-screen-flex">
                                     {/* Price history chart */}
                                     {chartType && chartType == "price_chart" ? (
                                         <div
@@ -3437,7 +3433,6 @@ class Exchange extends React.Component {
                                                 flexGrow: "2",
                                                 display: "inline-block",
                                                 borderBottom: "2px solid black"
-                                                //height: "100%"
                                             }}
                                         >
                                             {tradingViewChart}
@@ -3455,7 +3450,6 @@ class Exchange extends React.Component {
                                                 width: "280px",
                                                 display: "inline-block",
                                                 borderBottom: "2px solid black"
-                                                //height: "100%"
                                             }}
                                         >
                                             {deptHighChart}

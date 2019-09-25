@@ -487,6 +487,7 @@ class Header extends React.Component {
     _toggleLock(e) {
         e.preventDefault();
         if (WalletDb.isLocked()) {
+            // WalletUnlockActions.unlock();
             WalletUnlockActions.unlock()
                 .then(() => {
                     AccountActions.tryToSetCurrentAccount();
@@ -494,13 +495,9 @@ class Header extends React.Component {
                 .catch(() => {});
         } else {
             WalletUnlockActions.lock();
-            if (!WalletUnlockStore.getState().rememberMe) {
-                if (!isPersistantType()) {
-                    setLocalStorageType("persistant");
-                }
-                AccountActions.setPasswordAccount(null);
-                AccountStore.tryToSetCurrentAccount();
-            }
+            setLocalStorageType("persistant");
+            AccountActions.setPasswordAccount(null);
+            AccountStore.tryToSetCurrentAccount();
         }
         this._closeDropdown();
         this._closeAccountNotifications();
@@ -1944,19 +1941,20 @@ class Header extends React.Component {
                     style={{cursor: "pointer"}}
                 >
                     <AccountBrowsingMode location={this.props.location} />
-                    <div>
-                        <div className="text account-name">
-                            <span onClick={this._toggleAccountDropdownMenu}>
-                                {currentAccount}
-                            </span>
-                            <AccountBrowsingMode
-                                location={this.props.location}
-                                usernameViewIcon
-                            />
+                    {this.props.locked == true ? null : (
+                        <div>
+                            <div className="text account-name">
+                                <span onClick={this._toggleAccountDropdownMenu}>
+                                    {currentAccount}
+                                </span>
+                                <AccountBrowsingMode
+                                    location={this.props.location}
+                                    usernameViewIcon
+                                />
+                            </div>
+                            {walletBalance}
                         </div>
-                        {walletBalance}
-                    </div>
-
+                    )}
                     {hasLocalWallet && (
                         <ul
                             className="dropdown header-menu local-wallet-menu"
@@ -1999,25 +1997,7 @@ class Header extends React.Component {
                         </ul>
                     )}
                 </div>
-                <div>
-                    {this.props.currentAccount == null ? null : (
-                        <span
-                            onClick={this._toggleLock.bind(this)}
-                            style={{cursor: "pointer"}}
-                        >
-                            <Icon
-                                className="lock-unlock"
-                                size="2x"
-                                name={this.props.locked ? "locked" : "unlocked"}
-                                title={
-                                    this.props.locked
-                                        ? "icons.locked.common"
-                                        : "icons.unlocked.common"
-                                }
-                            />
-                        </span>
-                    )}
-                </div>
+
                 <div className="app-menu">
                     <div
                         onClick={this._toggleDropdownMenu}
