@@ -71,7 +71,7 @@ class LoginSelector extends React.Component {
     }
 
     onSelect(route) {
-        this.props.history.push("/create-account/" + route);
+        this.props.history.push("/registration/" + route);
     }
 
     handleLanguageSelect(locale) {
@@ -163,7 +163,7 @@ class LoginSelector extends React.Component {
                         <div className="grid-block account-login-options">
                             <Link
                                 id="account_login_button"
-                                to="/create-account/password"
+                                to="/registration"
                                 className="button primary"
                                 data-intro={translator.translate(
                                     "walkthrough.create_cloud_wallet"
@@ -205,7 +205,7 @@ class LoginSelector extends React.Component {
                                         },
                                         {
                                             type: "link",
-                                            value: "/create-account/wallet",
+                                            value: "/registration",
                                             translation:
                                                 "account.optional.restore_form",
                                             dataIntro: translator.translate(
@@ -219,12 +219,12 @@ class LoginSelector extends React.Component {
                         </div>
 
                         <Route
-                            path="/create-account/wallet"
+                            path="/registration"
                             exact
                             component={CreateAccount}
                         />
                         <Route
-                            path="/create-account/password"
+                            path="/registration"
                             exact
                             component={CreateAccountPassword}
                         />

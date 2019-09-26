@@ -2776,16 +2776,16 @@
 
             div.inactive-left-block,
             div.inactive-right-block {
-                background-color: darken($modal-bg-color, 10);
+                background-color: slategray;
             }
         }
 
         .plate.inactive-model-block {
-            background-color: transparentize($modal-bg-color, 0.6);
+            background-color: black;
         }
 
         .plate {
-            background-color: $modal-bg-color;
+            background-color: darkred;
         }
 
         span.checkbox {
@@ -2839,18 +2839,18 @@
 
         @include breakpoint(small only) {
             .plate {
-                background-color: darken($modal-bg-color, 10);
+                background-color: grey;
 
                 .header-block,
                 .wallet-block,
                 .account-block,
                 .wallet-block-registration,
                 .account-block-registration {
-                    background-color: $modal-bg-color;
+                    background-color: black;
 
                     .overflow-bg-block {
                         .content {
-                            background-color: $modal-bg-color;
+                            background-color: black;
                         }
                     }
                 }
