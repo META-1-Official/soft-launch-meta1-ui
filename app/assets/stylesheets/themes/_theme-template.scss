@@ -11,6 +11,17 @@
     }
 }
 
+.portfolio-btn {
+    background: black !important;
+    color: white !important;
+}
+
+.portfolio-btn:hover {
+    background: rgb(82, 2, 2) !important;
+    color: black !important;
+    transform: scale(1.4);
+}
+
 body.darkTheme .ant-tabs .ant-tabs-bottom-content.ant-tabs-content-animated,
 body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
     height: 100% !important;
@@ -755,21 +766,20 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
     }
     // buttons
     .button {
-        @include radialGradient($button-mix2, $button-mix1);
         border-radius: 5px;
         &:hover,
         &:focus,
         &:active {
-            background-color: lighten($button-bg-color, 4%) !important;
+            background-color: black !important;
         }
         &.outline {
             span {
-                color: $primary-text-color !important;
+                color: white !important;
             }
-            color: $secondary-text-color;
+            color: white;
             border-color: $secondary-text-color;
             &:hover {
-                color: $light-text-color;
+                color: black;
                 border-color: $light-text-color;
             }
         }

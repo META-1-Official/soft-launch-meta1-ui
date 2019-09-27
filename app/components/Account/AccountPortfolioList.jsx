@@ -352,67 +352,6 @@ class AccountPortfolioList extends React.Component {
         return render ? <span>&nbsp;|&nbsp;</span> : null;
     }
 
-    _renderBuy = (symbol, canBuy, assetName, emptyCell, balance) => {
-        if (symbol === "META1" && balance <= 1000000) {
-            // Precision of 5, 1 = 10^5
-            return (
-                <span>
-                    <a
-                        onClick={this._showDepositWithdraw.bind(
-                            this,
-                            "bridge_modal",
-                            assetName,
-                            false
-                        )}
-                    >
-                        <PulseIcon
-                            onIcon="dollar"
-                            offIcon="dollar-green"
-                            title="icons.dollar.buy"
-                            duration={1000}
-                            className="icon-14px"
-                        />
-                    </a>
-                </span>
-            );
-        } else {
-            let modalAction = this._showDepositWithdraw.bind(
-                this,
-                "bridge_modal",
-                assetName,
-                false
-            );
-
-            let linkElement = (
-                <span>
-                    <Icon
-                        style={{
-                            cursor: this.props.isMyAccount ? "pointer" : "help"
-                        }}
-                        name="dollar"
-                        title="icons.dollar.buy"
-                        className="icon-14px"
-                        onClick={this.props.isMyAccount ? modalAction : null}
-                    />
-                </span>
-            );
-
-            if (canBuy && this.props.isMyAccount) {
-                return linkElement;
-            } else if (canBuy && !this.props.isMyAccount) {
-                return (
-                    <Tooltip
-                        title={counterpart.translate("tooltip.login_required")}
-                    >
-                        {linkElement}
-                    </Tooltip>
-                );
-            } else {
-                return emptyCell;
-            }
-        }
-    };
-
     toggleSortOrder(pagination, filters, sorter) {
         SettingsActions.changeViewSetting({
             portfolioSortDirection: sorter.order,
@@ -529,14 +468,6 @@ class AccountPortfolioList extends React.Component {
                 }
             },
             {
-                title: <Translate content="exchange.buy" />,
-                dataIndex: "buy",
-                align: "center",
-                render: item => {
-                    return <span style={{whiteSpace: "nowrap"}}>{item}</span>;
-                }
-            },
-            {
                 title: (
                     <Translate
                         content="account.trade"
@@ -553,23 +484,6 @@ class AccountPortfolioList extends React.Component {
                 className: "column-hide-small",
                 title: <Translate content="modal.reserve.submit" />,
                 dataIndex: "burn",
-                align: "center",
-                render: item => {
-                    return <span style={{whiteSpace: "nowrap"}}>{item}</span>;
-                }
-            },
-            {
-                className: "column-hide-small",
-                title: (
-                    <Translate
-                        content={
-                            shownAssets == "active"
-                                ? "exchange.hide"
-                                : "account.perm.show"
-                        }
-                    />
-                ),
-                dataIndex: "hide",
                 align: "center",
                 render: item => {
                     return <span style={{whiteSpace: "nowrap"}}>{item}</span>;
@@ -651,30 +565,36 @@ class AccountPortfolioList extends React.Component {
             /* Table content */
             directMarketLink = notCore ? (
                 <Link to={`/market/${asset.get("symbol")}_${preferredMarket}`}>
-                    <Icon
-                        name="trade"
-                        title="icons.trade.trade"
-                        className="icon-14px"
-                    />
+                    <div className="portfolio-btn">
+                        <Icon
+                            name="trade"
+                            title="icons.trade.trade"
+                            className="icon-14px"
+                        />
+                    </div>
                 </Link>
             ) : notCorePrefUnit ? (
                 <Link to={`/market/${asset.get("symbol")}_${preferredUnit}`}>
-                    <Icon
-                        name="trade"
-                        title="icons.trade.trade"
-                        className="icon-14px"
-                    />
+                    <div className="portfolio-btn">
+                        <Icon
+                            name="trade"
+                            title="icons.trade.trade"
+                            className="icon-14px"
+                        />
+                    </div>
                 </Link>
             ) : (
                 emptyCell
             );
             transferLink = (
                 <a onClick={this.triggerSend.bind(this, asset.get("id"))}>
-                    <Icon
-                        name="transfer"
-                        title="icons.transfer"
-                        className="icon-14px"
-                    />
+                    <div className="portfolio-btn">
+                        <Icon
+                            name="transfer"
+                            title="icons.transfer"
+                            className="icon-14px"
+                        />
+                    </div>
                 </a>
             );
 
@@ -687,11 +607,6 @@ class AccountPortfolioList extends React.Component {
             const hasBalance = !!balanceObject.get("balance");
             const hasOnOrder = !!orders[asset_type];
 
-            const canDeposit = true;
-
-            const canWithdraw = true;
-
-            const canBuy = true;
             const assetAmount = balanceObject.get("balance");
 
             /* Sorting refs */
@@ -814,13 +729,6 @@ class AccountPortfolioList extends React.Component {
                     <BalanceComponent balance={balance} asPercentage={true} />
                 ) : null,
                 payments: transferLink,
-                buy: this._renderBuy(
-                    asset.get("symbol"),
-                    canBuy,
-                    assetName,
-                    emptyCell,
-                    balanceObject.get("balance")
-                ),
                 trade: directMarketLink,
                 borrow:
                     isBitAsset && borrowLink ? (
@@ -872,44 +780,11 @@ class AccountPortfolioList extends React.Component {
                         style={{marginRight: 0}}
                         onClick={this._burnAsset.bind(this, asset.get("id"))}
                     >
-                        <Icon name="fire" className="icon-14px" />
+                        <div className="portfolio-btn">
+                            <Icon name="fire" className="icon-14px" />
+                        </div>
                     </a>
-                ) : null,
-                hide: (
-                    <Tooltip
-                        placement="bottom"
-                        title={counterpart.translate(
-                            "tooltip." +
-                                (includeAsset ? "hide_asset" : "show_asset")
-                        )}
-                    >
-                        <a
-                            style={{marginRight: 0}}
-                            className={
-                                includeAsset ? "order-cancel" : "action-plus"
-                            }
-                            onClick={this._hideAsset.bind(
-                                this,
-                                asset_type,
-                                includeAsset
-                            )}
-                        >
-                            <Icon
-                                name={
-                                    includeAsset
-                                        ? "cross-circle"
-                                        : "plus-circle"
-                                }
-                                title={
-                                    includeAsset
-                                        ? "icons.cross_circle.hide_asset"
-                                        : "icons.plus_circle.show_asset"
-                                }
-                                className="icon-14px"
-                            />
-                        </a>
-                    </Tooltip>
-                )
+                ) : null
             });
         });
         if (optionalAssets) {
@@ -930,10 +805,6 @@ class AccountPortfolioList extends React.Component {
                         );
                         const canDeposit = true;
 
-                        const canBuy = !!this.props.bridgeCoins.get(
-                            asset.get("symbol")
-                        );
-
                         const notCore = asset.get("id") !== "1.3.0";
                         let {market} = assetUtils.parseDescription(
                             asset.getIn(["options", "description"])
@@ -951,11 +822,13 @@ class AccountPortfolioList extends React.Component {
                                     "symbol"
                                 )}_${preferredMarket}`}
                             >
-                                <Icon
-                                    name="trade"
-                                    title="icons.trade.trade"
-                                    className="icon-14px"
-                                />
+                                <div className="portfolio-btn">
+                                    <Icon
+                                        name="trade"
+                                        title="icons.trade.trade"
+                                        className="icon-14px"
+                                    />
+                                </div>
                             </Link>
                         ) : (
                             emptyCell
@@ -979,27 +852,6 @@ class AccountPortfolioList extends React.Component {
                                 value: emptyCell,
                                 percent: emptyCell,
                                 payments: emptyCell,
-                                buy:
-                                    canBuy && this.props.isMyAccount ? (
-                                        <span>
-                                            <a
-                                                onClick={this._showDepositWithdraw.bind(
-                                                    this,
-                                                    "bridge_modal",
-                                                    a,
-                                                    false
-                                                )}
-                                            >
-                                                <Icon
-                                                    name="dollar"
-                                                    title="icons.dollar.buy"
-                                                    className="icon-14px"
-                                                />
-                                            </a>
-                                        </span>
-                                    ) : (
-                                        emptyCell
-                                    ),
                                 deposit:
                                     canDeposit && this.props.isMyAccount ? (
                                         <span>
@@ -1035,46 +887,7 @@ class AccountPortfolioList extends React.Component {
                                     emptyCell
                                 ),
                                 settle: emptyCell,
-                                burn: emptyCell,
-                                hide: (
-                                    <Tooltip
-                                        placement="bottom"
-                                        title={counterpart.translate(
-                                            "tooltip." +
-                                                (includeAsset
-                                                    ? "hide_asset"
-                                                    : "show_asset")
-                                        )}
-                                    >
-                                        <a
-                                            style={{marginRight: 0}}
-                                            className={
-                                                includeAsset
-                                                    ? "order-cancel"
-                                                    : "action-plus"
-                                            }
-                                            onClick={this._hideAsset.bind(
-                                                this,
-                                                asset.get("id"),
-                                                includeAsset
-                                            )}
-                                        >
-                                            <Icon
-                                                name={
-                                                    includeAsset
-                                                        ? "cross-circle"
-                                                        : "plus-circle"
-                                                }
-                                                title={
-                                                    includeAsset
-                                                        ? "icons.cross_circle.hide_asset"
-                                                        : "icons.plus_circle.show_asset"
-                                                }
-                                                className="icon-14px"
-                                            />
-                                        </a>
-                                    </Tooltip>
-                                )
+                                burn: emptyCell
                             });
                     }
                 });

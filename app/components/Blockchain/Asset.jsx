@@ -1723,29 +1723,6 @@ class Asset extends React.Component {
                         if (a.collateral.amount < b.collateral.amount)
                             return -1;
                         return 0;
-                    },
-                    render: item => {
-                        return (
-                            <Tooltip
-                                title={counterpart.translate(
-                                    "explorer.asset.margin_positions.click_to_switch_to_cumulative"
-                                )}
-                                mouseEnterDelay={0.5}
-                            >
-                                <span
-                                    onClick={this._toggleCumulativeGrouping.bind(
-                                        this
-                                    )}
-                                    style={{cursor: "pointer"}}
-                                >
-                                    <FormattedAsset
-                                        amount={item.amount}
-                                        asset={item.asset}
-                                        hide_asset={true}
-                                    />
-                                </span>
-                            </Tooltip>
-                        );
                     }
                 },
                 {
@@ -1762,29 +1739,6 @@ class Asset extends React.Component {
                         if (a.debt.amount > b.debt.amount) return 1;
                         if (a.debt.amount < b.debt.amount) return -1;
                         return 0;
-                    },
-                    render: item => {
-                        return (
-                            <div
-                                onClick={this._toggleCumulativeGrouping.bind(
-                                    this
-                                )}
-                                style={{cursor: "pointer"}}
-                            >
-                                <Tooltip
-                                    title={counterpart.translate(
-                                        "explorer.asset.margin_positions.click_to_switch_to_cumulative"
-                                    )}
-                                    mouseEnterDelay={0.5}
-                                >
-                                    <FormattedAsset
-                                        amount={item.amount}
-                                        asset={item.asset}
-                                        hide_asset={true}
-                                    />
-                                </Tooltip>
-                            </div>
-                        );
                     }
                 },
 
@@ -1842,24 +1796,6 @@ class Asset extends React.Component {
                 }
             ];
         }
-
-        return (
-            <Table
-                style={{width: "100%"}}
-                rowKey="feedMargins"
-                columns={columns}
-                dataSource={dataSource}
-                rowClassName="margin-row"
-                pagination={{
-                    pageSize: Number(25)
-                }}
-                locale={{
-                    emptyText: (
-                        <Translate content="explorer.asset.margin_positions.empty" />
-                    )
-                }}
-            />
-        );
     }
 
     _renderCollBidTable() {
@@ -2040,20 +1976,6 @@ class Asset extends React.Component {
                 onChange={this._setFeedTab.bind(this)}
                 activeKey={this.state.activeFeedTab}
             >
-                <Tabs.TabPane
-                    tab={counterpart.translate(
-                        isGlobalSettlement
-                            ? "explorer.asset.collateral_bid.title"
-                            : "explorer.asset.margin_positions.title"
-                    )}
-                    key="margin"
-                >
-                    {this.state.activeFeedTab == "margin"
-                        ? isGlobalSettlement
-                            ? this._renderCollBidTable()
-                            : this._renderMarginTable()
-                        : null}
-                </Tabs.TabPane>
                 <Tabs.TabPane
                     tab={counterpart.translate(
                         "explorer.asset.price_feed_data.title"
