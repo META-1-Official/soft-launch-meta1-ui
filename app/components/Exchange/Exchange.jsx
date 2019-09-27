@@ -2579,7 +2579,7 @@ class Exchange extends React.Component {
                     )}
                     innerStyle={{
                         paddingBottom: !tinyScreen ? "0" : "0",
-                        height: "215px"
+                        height: "225px"
                     }}
                     noHeader={panelTabs["my_history"] == 0 ? false : true}
                     history={activeMarketHistory}
@@ -2900,6 +2900,7 @@ class Exchange extends React.Component {
             groupTabs[2].length > 0 ? (
                 <div
                     key={`actionCard_${actionCardIndex++}`}
+                    style={{height: "100%"}}
                     className={cnames(
                         centerContainerWidth > 1200
                             ? groupTabsCount == 1
@@ -2915,7 +2916,8 @@ class Exchange extends React.Component {
                 >
                     <Tabs
                         style={{
-                            borderTop: "2px solid black"
+                            borderTop: "2px solid black",
+                            height: "100%"
                         }}
                         activeKey={panelTabsActive[2]}
                         onChange={this._setPanelTabInGroup.bind(this, 2)}

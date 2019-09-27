@@ -356,7 +356,8 @@ Version      : 1.7
             rgba(25, 61, 192, 1) 0%,
             rgba(10, 29, 149, 1) 50%,
             rgba(25, 61, 192, 1) 100%
-        ); /* ff3.6+ */
+        );
+        /* ff3.6+ */
         background: -webkit-gradient(
             linear,
             left top,
@@ -364,31 +365,36 @@ Version      : 1.7
             color-stop(0%, rgba(25, 61, 192, 1)),
             color-stop(50%, rgba(10, 29, 149, 1)),
             color-stop(100%, rgba(25, 61, 192, 1))
-        ); /* safari4+,chrome */
+        );
+        /* safari4+,chrome */
         background: -webkit-linear-gradient(
             180deg,
             rgba(25, 61, 192, 1) 0%,
             rgba(10, 29, 149, 1) 50%,
             rgba(25, 61, 192, 1) 100%
-        ); /* safari5.1+,chrome10+ */
+        );
+        /* safari5.1+,chrome10+ */
         background: -o-linear-gradient(
             180deg,
             rgba(25, 61, 192, 1) 0%,
             rgba(10, 29, 149, 1) 50%,
             rgba(25, 61, 192, 1) 100%
-        ); /* opera 11.10+ */
+        );
+        /* opera 11.10+ */
         background: -ms-linear-gradient(
             180deg,
             rgba(25, 61, 192, 1) 0%,
             rgba(10, 29, 149, 1) 50%,
             rgba(25, 61, 192, 1) 100%
-        ); /* ie10+ */
+        );
+        /* ie10+ */
         background: linear-gradient(
             270deg,
             rgba(25, 61, 192, 1) 0%,
             rgba(10, 29, 149, 1) 50%,
             rgba(25, 61, 192, 1) 100%
-        ); /* w3c */
+        );
+        /* w3c */
     }
     .section_gradiant {
         background: -webkit-linear-gradient(
@@ -431,8 +437,7 @@ Version      : 1.7
     .v_blue .title_default_dark h4 {
         color: #0a257c;
     }
-
-    /*START LOADER DESIGN*/
+    /* START LOADER DESIGN */
     #loader-wrapper {
         position: fixed;
         top: 0;
@@ -497,7 +502,6 @@ Version      : 1.7
         -webkit-animation-delay: 0.6s;
         animation-delay: 0.6s;
     }
-
     @-webkit-keyframes animate {
         50% {
             -ms-transform: rotate(360deg) scale(0.8);
@@ -506,7 +510,6 @@ Version      : 1.7
             transform: rotate(360deg) scale(0.8);
         }
     }
-
     @keyframes animate {
         50% {
             -ms-transform: rotate(360deg) scale(0.8);
@@ -515,17 +518,14 @@ Version      : 1.7
             transform: rotate(360deg) scale(0.8);
         }
     }
-
     .mac-img {
         max-width: 130%;
     }
-
     @media only screen and (max-width: 767px) {
         .mac-img {
             max-width: 100%;
         }
     }
-
     #loader-wrapper .loader-section {
         position: fixed;
         top: 0;
@@ -550,7 +550,6 @@ Version      : 1.7
         -webkit-transition: all 0.3s ease-out;
         transition: all 0.3s ease-out;
     }
-
     /* Loaded */
     .loaded #loader-wrapper .loader-section.section-left {
         -webkit-transform: translateX(
@@ -583,7 +582,6 @@ Version      : 1.7
         -webkit-transition: all 0.5s 1s ease-out;
         transition: all 0.3s 1s ease-out;
     }
-
     .v_blue #loader-wrapper .loader-section,
     .v_navy_blue #loader-wrapper .loader-section {
         background-color: #121a6d;
@@ -603,10 +601,8 @@ Version      : 1.7
     .v_cyan_blue .spop {
         background-color: #0e082c;
     }
-
-    /*END PRELOADER DESIGN*/
-
-    /* THEME DEMO CSS*/
+    /* END PRELOADER DESIGN */
+    /* THEME DEMO CSS */
     .color-switch {
         background: #212121;
         right: -200px;
@@ -622,6 +618,7 @@ Version      : 1.7
         margin: 0;
         padding: 10px 15px 5px;
     }
+
     .color_box {
         padding: 0px 15px;
     }
@@ -747,7 +744,6 @@ Version      : 1.7
         );
         background-image: linear-gradient(to right, #25cc9c 0%, #9e50e4 99%);
     }
-
     /* BTN START */
     .btn {
         border: 0 none;
@@ -824,7 +820,6 @@ Version      : 1.7
     }
     .btn em {
         display: inline-block;
-
         font-size: 24px;
         line-height: 24px;
         margin-right: 10px;
@@ -963,7 +958,6 @@ Version      : 1.7
         background-image: -webkit-linear-gradient(left, black 0%, #ff4646 99%);
         background-image: linear-gradient(to right, black 0%, #ff4646 99%);
     }
-
     .btn i {
         font-size: 30px;
         line-height: 24px;
@@ -1108,7 +1102,6 @@ Version      : 1.7
         width: 0;
         z-index: 9;
     }
-
     .bounceimg {
         -webkit-animation: bounceimg 1s ease-in-out 0s infinite alternate;
         animation: bounceimg 1s ease-in-out 0s infinite alternate;
@@ -1123,7 +1116,6 @@ Version      : 1.7
             transform: translateY(-20px);
         }
     }
-
     @keyframes bounceimg {
         from {
             -webkit-transform: translateY(0px);
@@ -1134,7 +1126,6 @@ Version      : 1.7
             transform: translateY(-20px);
         }
     }
-
     .v_blue .btn-info,
     .v_navy_blue .btn-info {
         background-color: #0d469f;
@@ -1210,13 +1201,12 @@ Version      : 1.7
         color: #00fdfa;
     }
     /* BTN END */
-    /*===================================*
+    /* ===================================*
   01.END GENERAL STYLE
-*===================================*/
-
-    /*===================================*
+*=================================== */
+    /* ===================================*
 02. HEADER DESIGN
-*===================================*/
+*=================================== */
     header {
         height: 110px;
         padding: 25px 50px;
@@ -1402,7 +1392,6 @@ Version      : 1.7
     .logo_dark {
         display: none;
     }
-
     .v_blue .nav-fixed,
     .v_blue header.active,
     .v_blue .navbar-nav .dropdown-menu,
@@ -1456,13 +1445,12 @@ Version      : 1.7
         padding: 10px 0;
         height: auto;
     }
-    /*===================================*
+    /* ===================================*
 02. END HEADER DESIGN
-*===================================*/
-
-    /*===================================*
+*=================================== */
+    /* ===================================*
 03. BANNER SECTION
-*===================================*/
+*=================================== */
     .banner_effect {
         bottom: 0;
         height: 100%;
@@ -1894,7 +1882,6 @@ Version      : 1.7
         box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
         margin-top: -50px;
     }
-
     .v_light_purple .tk_counter_inner .progress-bar {
         background-color: #461e74;
         color: #fff;
@@ -1904,14 +1891,12 @@ Version      : 1.7
         color: #0c0e27;
         font-weight: 500;
     }
-
-    /*===================================*
+    /* ===================================*
 03. END BANNER SECTION
-*===================================*/
-
-    /*===================================*
+*=================================== */
+    /* ===================================*
 04. WHY CHOOSE SECTION
-*===================================*/
+*=================================== */
     .box_wrap {
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         margin-top: 30px;
@@ -2031,7 +2016,6 @@ Version      : 1.7
         -o-animation-delay: 1s;
         animation-delay: 1s;
     }
-
     @-webkit-keyframes ripple {
         0% {
             -webkit-transform: scale(0.1);
@@ -2100,7 +2084,6 @@ Version      : 1.7
             opacity: 0;
         }
     }
-
     .circle_bg1 span::before {
         background-color: rgba(255, 255, 255, 0.2);
         border-radius: 100%;
@@ -2168,6 +2151,7 @@ Version      : 1.7
     .box_desc p {
         margin: 0;
     }
+
     .box_wrapper:hover {
         background-color: #fff;
     }
@@ -2209,7 +2193,6 @@ Version      : 1.7
         color: #fff;
         padding: 0 8px;
     }
-
     .v_blue_pro .box_wrap {
         background-color: #4a49bf;
     }
@@ -2233,14 +2216,12 @@ Version      : 1.7
     .v_light_purple .box_wrapper:hover:after {
         border-color: #6000b5;
     }
-
-    /*===================================*
+    /* ===================================*
 04. END WHY CHOOSE SECTION
-*===================================*/
-
-    /*===================================*
+*=================================== */
+    /* ===================================*
 05. ABOUT SECTION
-*===================================*/
+*=================================== */
     .about_section {
         padding: 100px 50px 100px 80px;
     }
@@ -2323,8 +2304,7 @@ Version      : 1.7
     .btn.text-purple span {
         background-color: #6000b5;
     }
-
-    /*About Us 2*/
+    /* About Us 2 */
     .about_shape_bg {
         background-image: url("../images/about_bg.png");
         background-position: center top;
@@ -2412,7 +2392,6 @@ Version      : 1.7
         padding-left: 6px;
         width: 85px;
     }
-
     .v_blue .work_icon i,
     .v_blue .work_inner h4,
     .v_blue .work_inner p,
@@ -2440,13 +2419,12 @@ Version      : 1.7
         transform: translateY(-50%);
         width: 65px;
     }
-    /*===================================*
+    /* ===================================*
 05. END ABOUT SECTION
-*===================================*/
-
-    /*===================================*
+*=================================== */
+    /* ===================================*
 06. TOKEN SECTION
-*===================================*/
+*=================================== */
     .section_token {
         position: relative;
     }
@@ -2652,7 +2630,6 @@ Version      : 1.7
     .color13 {
         background-color: #d3b62f;
     }
-
     .chart_list_info li {
         background-color: #121a6d;
         border-radius: 5px;
@@ -2720,6 +2697,7 @@ Version      : 1.7
     .token_list_info .col-md-6:nth-child(-n + 2) .sale_info {
         margin-top: 0;
     }
+
     .chart_info_list {
         margin-left: 40px;
     }
@@ -2919,7 +2897,6 @@ Version      : 1.7
         line-height: 40px;
         margin: 0;
     }
-
     .chart_legend {
         border: 4px solid #280e3b;
         border-radius: 100%;
@@ -3018,7 +2995,6 @@ Version      : 1.7
         -webkit-transform: translateX(-50%) translateY(-50%);
         transform: translateX(-50%) translateY(-50%);
     }
-
     .token_gradiant::after {
         border-radius: 100%;
         height: 600px;
@@ -3039,7 +3015,7 @@ Version      : 1.7
         content: "";
         background: -moz-radial-gradient(
             center,
-            ellipse cover,
+            ellipse farthest-corner,
             rgba(68, 109, 188, 1) 0%,
             rgba(0, 0, 255, 0) 70%
         ); /* ff3.6+ */
@@ -3051,22 +3027,23 @@ Version      : 1.7
             70%,
             color-stop(0%, rgba(68, 109, 188, 1)),
             color-stop(70%, rgba(0, 0, 255, 0))
-        ); /* safari4+,chrome */
+        );
+        /* safari4+,chrome */
         background: -webkit-radial-gradient(
             center,
-            ellipse cover,
+            ellipse farthest-corner,
             rgba(68, 109, 188, 1) 0%,
             rgba(0, 0, 255, 0) 70%
         ); /* safari5.1+,chrome10+ */
         background: -o-radial-gradient(
             center,
-            ellipse cover,
+            ellipse farthest-corner,
             rgba(68, 109, 188, 1) 0%,
             rgba(0, 0, 255, 0) 70%
         ); /* opera 11.10+ */
         background: -ms-radial-gradient(
             center,
-            ellipse cover,
+            ellipse farthest-corner,
             rgba(68, 109, 188, 1) 0%,
             rgba(0, 0, 255, 0) 70%
         ); /* ie10+ */
@@ -3075,7 +3052,8 @@ Version      : 1.7
             rgba(68, 109, 188, 1) 0%,
             rgba(0, 0, 255, 0) 70%
         ); /* w3c */
-        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#446dbc', endColorstr='#0000ff',GradientType=1 ); /* ie6-9 */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#446dbc', endColorstr='#0000ff',GradientType=1 );
+        /* ie6-9 */
         border-radius: 100%;
         height: 600px;
         width: 600px;
@@ -3091,7 +3069,7 @@ Version      : 1.7
     .banner_light_gradiant {
         background: -moz-radial-gradient(
             center,
-            ellipse cover,
+            ellipse farthest-corner,
             rgba(68, 109, 188, 1) 0%,
             rgba(0, 0, 255, 0) 70%
         ); /* ff3.6+ */
@@ -3106,22 +3084,25 @@ Version      : 1.7
         ); /* safari4+,chrome */
         background: -webkit-radial-gradient(
             center,
-            ellipse cover,
+            ellipse farthest-corner,
             rgba(68, 109, 188, 1) 0%,
             rgba(0, 0, 255, 0) 70%
-        ); /* safari5.1+,chrome10+ */
+        );
+        /* safari5.1+,chrome10+ */
         background: -o-radial-gradient(
             center,
-            ellipse cover,
+            ellipse farthest-corner,
             rgba(68, 109, 188, 1) 0%,
             rgba(0, 0, 255, 0) 70%
-        ); /* opera 11.10+ */
+        );
+        /* opera 11.10+ */
         background: -ms-radial-gradient(
             center,
-            ellipse cover,
+            ellipse farthest-corner,
             rgba(68, 109, 188, 1) 0%,
             rgba(0, 0, 255, 0) 70%
-        ); /* ie10+ */
+        );
+        /* ie10+ */
         background: radial-gradient(
             ellipse at center,
             rgba(68, 109, 188, 1) 0%,
@@ -3155,7 +3136,6 @@ Version      : 1.7
     .banner_vr_social li:last-child {
         margin-bottom: 0px;
     }
-
     .v_blue_pro .tk_countdown {
         background-color: #5857ce;
         background-position: center center;
@@ -3173,7 +3153,6 @@ Version      : 1.7
         border: 1px solid #ffffff;
         box-shadow: none;
     }
-
     .v_blue .tk_counter_inner .progress,
     .v_blue .tk_counter_inner .progress-bar,
     .v_royal_blue .tk_counter_inner .progress,
@@ -3227,6 +3206,7 @@ Version      : 1.7
         );
         background-image: linear-gradient(to right, #6000b5 0%, #3e2a9c 99%);
     }
+
     .v_light_purple .bonus_box h5 {
         background-color: #6000b5;
     }
@@ -3249,14 +3229,12 @@ Version      : 1.7
     .v_light_purple .bonus_box.current h5 {
         background-color: #3e1084;
     }
-
-    /*===================================*
+    /* ===================================*
 06. END TOKEN SECTION
-*===================================*/
-
-    /*===================================*
+*=================================== */
+    /* ===================================*
 07. TIMELINE SECTION
-*===================================*/
+*=================================== */
     .roadmap {
         position: relative;
         display: block;
@@ -3778,7 +3756,6 @@ Version      : 1.7
         width: 110%;
         margin-left: -30px;
     }
-
     .v_light_dark .roadmap .owl-nav i,
     .v_light_dark .roadmap .owl-nav .disabled i:hover {
         color: #121833;
@@ -3820,13 +3797,12 @@ Version      : 1.7
     .v_cyan_blue .timeline .owl-nav i {
         color: #0e082c;
     }
-    /*===================================*
+    /* ===================================*
 07. END TIMELINE SECTION
-*===================================*/
-
-    /*===================================*
+*=================================== */
+    /* ===================================*
 08. MOBILE APP SECTION
-*===================================*/
+*=================================== */
     .mobile_app {
         text-align: right;
     }
@@ -3926,13 +3902,12 @@ Version      : 1.7
     .v_light_purple .app_desc p {
         color: #7a7a7a;
     }
-    /*===================================*
+    /* ===================================*
 08. END MOBILE APP SECTION
-*===================================*/
-
-    /*===================================*
+*=================================== */
+    /* ===================================*
 09. TEAM SECTION
-*===================================*/
+*=================================== */
     .team_info {
         padding-top: 15px;
     }
@@ -4002,7 +3977,6 @@ Version      : 1.7
         top: 50%;
         -moz-transform: translateY(-50%);
         -webkit-transform: translateY(-50%);
-
         transform: translateY(-50%);
     }
     .social_team li {
@@ -4165,7 +4139,6 @@ Version      : 1.7
     .team_social_s2 a:hover {
         color: #444;
     }
-
     .v_blue_pro .team_info h4 a,
     .v_blue_pro .team_info p,
     .v_blue .team_info h4 a,
@@ -4214,7 +4187,6 @@ Version      : 1.7
     .v_royal_blue .team_pop h6 {
         color: #0043bb;
     }
-
     .v_blue .social_single_team li a {
         border-color: #0a257c;
     }
@@ -4301,12 +4273,12 @@ Version      : 1.7
     .v_cyan_blue .mfp-bg {
         background-color: #193d85;
     }
-    /*===================================*
+    /* ===================================*
 09. END TEAM SECTION
-*===================================*/
-    /*===================================*
+*=================================== */
+    /* ===================================*
 10. FAQ SECTION
-*===================================*/
+*=================================== */
     .faq_question .card {
         border: 0;
         background-color: transparent;
@@ -4776,7 +4748,6 @@ Version      : 1.7
         background-color: #fff;
         color: #5957cd;
     }
-
     .v_blue_pro .faq_content .card-header a.collapsed,
     .v_blue_pro .faq_content .card-header a.collapsed::after,
     .v_blue .faq_content .card-header a.collapsed,
@@ -4905,14 +4876,12 @@ Version      : 1.7
         border-left-color: transparent;
         border-right-color: transparent;
     }
-
-    /*===================================*
+    /* ===================================*
 10. END FAQ SECTION
-*===================================*/
-
-    /*===================================*
+*=================================== */
+    /* ===================================*
 11. CONTACT SECTION
-*===================================*/
+*=================================== */
     .contact_section {
         overflow: hidden;
     }
@@ -5288,13 +5257,12 @@ Version      : 1.7
     .v_cyan_blue .info_contact3 i {
         color: #193f88;
     }
-    /*===================================*
+    /* ===================================*
 11. END CONTACT SECTION
-*===================================*/
-
-    /*===================================*
+*=================================== */
+    /* ===================================*
 12. CLIENT SECTION
-*===================================*/
+*=================================== */
     .client_logo_border {
         border: 1px solid #5957cd;
         padding: 10px;
@@ -5339,13 +5307,12 @@ Version      : 1.7
     .v_royal_blue .logo_border::before {
         background-color: rgba(255, 255, 255, 0.2);
     }
-    /*===================================*
+    /* ===================================*
 12. END CLIENT SECTION
-*===================================*/
-
-    /*===================================*
+*=================================== */
+    /* ===================================*
 13. FOOTER SECTION
-*===================================*/
+*=================================== */
     .top_footer {
         position: relative;
     }
@@ -5612,14 +5579,12 @@ Version      : 1.7
     .v_cyan_blue .social_icon li a {
         color: #fff;
     }
-
-    /*===================================*
+    /* ===================================*
 13. END FOOTER SECTION
-*===================================*/
-
-    /*===================================*
+*=================================== */
+    /* ===================================*
 14. ABOUT US PAGE
-*===================================*/
+*=================================== */
     .section_breadcrumb {
         padding: 200px 0 100px;
     }
@@ -5685,6 +5650,7 @@ Version      : 1.7
         color: #333333;
         margin: 0;
     }
+
     .testimonial_wrap span {
         color: #333333;
         font-size: 14px;
@@ -5702,13 +5668,12 @@ Version      : 1.7
     .action-content p {
         color: #ffffff;
     }
-    /*===================================*
+    /* ===================================*
 14. END ABOUT US PAGE
-*===================================*/
-
-    /*===================================*
+*=================================== */
+    /* ===================================*
 15. SERVICES PAGE
-*===================================*/
+*=================================== */
     .rounded_border_icon::before {
         background-color: rgba(89, 87, 205, 0.5);
         border-radius: 100%;
@@ -5797,7 +5762,6 @@ Version      : 1.7
             transform: scale(1.2);
         }
     }
-
     .play_icon {
         border-color: rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) #ffffff;
         border-style: solid;
@@ -5807,13 +5771,12 @@ Version      : 1.7
         margin: 0 auto;
         width: 0;
     }
-    /*===================================*
+    /* ===================================*
 15. END SERVICES PAGE
-*===================================*/
-
-    /*===================================*
+*=================================== */
+    /* ===================================*
 16. PRICING PAGE
-*===================================*/
+*=================================== */
     .pricing_box {
         box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
     }
@@ -5841,13 +5804,12 @@ Version      : 1.7
     .pr_footer {
         padding: 10px 10px 30px;
     }
-    /*===================================*
+    /* ===================================*
 16. END PRICING PAGE
-*===================================*/
-
-    /*===================================*
+*=================================== */
+    /* ===================================*
 17. START 404 PAGE
-*===================================*/
+*=================================== */
     .not_found {
         margin: 0 auto;
         max-width: 450px;
@@ -5858,13 +5820,12 @@ Version      : 1.7
         margin-bottom: 20px;
         text-transform: uppercase;
     }
-    /*===================================*
+    /* ===================================*
 17. END 404 PAGE
-*===================================*/
-
-    /*===================================*
+*=================================== */
+    /* ===================================*
 18. BLOG SECTION
-*====================================*/
+*==================================== */
     .blog_content {
         background-color: #ffffff;
         border-radius: 0 0 10px 10px;
@@ -5965,7 +5926,6 @@ Version      : 1.7
     .owl-theme .owl-nav.disabled + .owl-dots {
         margin-top: 30px;
     }
-
     .v_blue_pro .blog_content {
         background-color: #5957cd;
     }
@@ -6022,13 +5982,12 @@ Version      : 1.7
         background-color: transparent;
         border-color: #fff;
     }
-    /*===================================*
+    /* ===================================*
 18. END BLOG SECTION
-*====================================*/
-
-    /*===================================*
+*==================================== */
+    /* ===================================*
 19. LOGIN PAGE
-*====================================*/
+*==================================== */
     .authorize_box {
         background-color: #fff;
         border-radius: 10px;
@@ -6037,6 +5996,7 @@ Version      : 1.7
         max-width: 495px;
         padding: 45px 50px;
     }
+
     .authorize_box .form-group {
         margin-bottom: 30px;
     }
@@ -6068,13 +6028,12 @@ Version      : 1.7
     .checkbox_field input:checked + label::before {
         content: "\f373";
     }
-    /*===================================*
+    /* ===================================*
 19. END LOGIN PAGE
-*====================================*/
-
-    /*===================================*
+*==================================== */
+    /* ===================================*
 20. SIDEBAR SECTION 
-*====================================*/
+*==================================== */
     .form_search {
         position: relative;
     }
@@ -6194,13 +6153,12 @@ Version      : 1.7
     .widget_category li a span {
         float: right;
     }
-    /*===================================*
+    /* ===================================*
 20. END SIDEBAR SECTION 
-*====================================*/
-
-    /*===================================*
+*==================================== */
+    /* ===================================*
 21. POST DETAIL SECTION 
-*====================================*/
+*==================================== */
     .post-details article {
         border-bottom: 1px solid #7a7a7a;
         margin-bottom: 50px;
@@ -6342,24 +6300,22 @@ Version      : 1.7
     .comment_form .form-group {
         margin-bottom: 30px;
     }
-    /*===================================*
+    /* ===================================*
 21. END POST DETAIL SECTION 
-*====================================*/
-
-    /*===================================*
+*==================================== */
+    /* ===================================*
 22. CONTACT PAGE
-*====================================*/
+*==================================== */
     .map iframe {
         border: 0;
         display: block;
     }
-    /*===================================*
+    /* ===================================*
 22. END CONTACT PAGE
-*====================================*/
-
-    /*===================================*
+*==================================== */
+    /* ===================================*
 23. DIGITAL NETWORK SECTION
-*====================================*/
+*==================================== */
     .list_icon {
         background-color: #5957cd;
         border-radius: 100%;
@@ -6424,7 +6380,6 @@ Version      : 1.7
     .border_line li:last-child::before {
         content: none;
     }
-
     .v_blue_light .list_icon {
         background-color: #081990;
     }
@@ -6437,13 +6392,12 @@ Version      : 1.7
     .v_light_dark .list_content p {
         color: #7a7a7a;
     }
-    /*===================================*
+    /* ===================================*
 23. END DIGITAL NETWORK SECTION
-*====================================*/
-
-    /*===================================*
+*==================================== */
+    /* ===================================*
 24. WHITEPAPER SECTION
-*====================================*/
+*==================================== */
     .dl_lan {
         margin: 0 -5px;
     }
@@ -6603,7 +6557,6 @@ Version      : 1.7
         width: 100%;
         left: 0;
         right: 0;
-
         margin-top: 10px;
     }
     #doc_select_child ul li {
@@ -6617,13 +6570,12 @@ Version      : 1.7
     #doc_select_child ul li span:hover {
         padding-left: 15px;
     }
-    /*===================================*
+    /* ===================================*
 24. END WHITEPAPER SECTION
-*====================================*/
-
-    /*===================================*
+*==================================== */
+    /* ===================================*
 25. TOKEN RATING SECTION
-*====================================*/
+*==================================== */
     .token_rtinfo {
         border-radius: 10px;
         box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
@@ -6684,13 +6636,12 @@ Version      : 1.7
         font-size: 16px;
         font-weight: normal;
     }
-    /*===================================*
+    /* ===================================*
 25. END TOKEN RATING SECTION
-*====================================*/
-
-    /*===================================*
+*==================================== */
+    /* ===================================*
 26. TOKEN NOTIFICATION POPUP
-*====================================*/
+*==================================== */
     .spop {
         width: 100%;
     }
@@ -6717,6 +6668,6 @@ Version      : 1.7
         width: 20px;
     }
 }
-/*===================================*
+/* ===================================*
 26. END TOKEN NOTIFICATION POPUP
-*====================================*/
+*==================================== */

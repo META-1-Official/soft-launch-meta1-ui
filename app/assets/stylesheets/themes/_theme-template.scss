@@ -11,6 +11,11 @@
     }
 }
 
+body.darkTheme .ant-tabs .ant-tabs-bottom-content.ant-tabs-content-animated,
+body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
+    height: 100% !important;
+}
+
 @mixin linearGradient($top, $bottom) {
     background: $top; /* Old browsers */
     background: -moz-linear-gradient(top, $top 0%, $bottom 100%); /* FF3.6+ */
@@ -47,7 +52,7 @@
 @mixin radialGradient($from, $to) {
     background-color: -moz-radial-gradient(
         center,
-        circle cover,
+        circle farthest-corner,
         $from 0%,
         $to 100%
     );
@@ -62,23 +67,28 @@
     );
     background: -webkit-radial-gradient(
         center,
-        circle cover,
+        circle farthest-corner,
         $from 0%,
         $to 100%
     );
     background-color: -o-radial-gradient(
         center,
-        circle cover,
+        circle farthest-corner,
         $from 0%,
         $to 100%
     );
     background-color: -ms-radial-gradient(
         center,
-        circle cover,
+        circle farthest-corner,
         $from 0%,
         $to 100%
     );
-    background-color: radial-gradient(center, circle cover, $from 0%, $to 100%);
+    background-color: radial-gradient(
+        center,
+        circle farthest-corner,
+        $from 0%,
+        $to 100%
+    );
     background-color: $from;
 }
 
