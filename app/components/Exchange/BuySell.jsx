@@ -529,6 +529,35 @@ class BuySell extends React.Component {
                     ? counterpart.translate("exchange.no_balance")
                     : null;
 
+        let buyButton = {
+            backgroundColor: "#70a800",
+            marginTop: "10px",
+            width: "100%",
+            height: "32px",
+            color: "white"
+        };
+        let buyButtonDisabled = {
+            backgroundColor: "#446600",
+            marginTop: "10px",
+            width: "100%",
+            height: "32px",
+            color: "grey"
+        };
+        let sellButton = {
+            backgroundColor: "#e6416e",
+            marginTop: "10px",
+            width: "100%",
+            height: "32px",
+            color: "white"
+        };
+        let sellButtonDisabled = {
+            backgroundColor: "#5a0c21",
+            marginTop: "10px",
+            width: "100%",
+            height: "32px",
+            color: "grey"
+        };
+
         // Fee asset selection
         if (
             feeAssets[1] &&
@@ -1242,12 +1271,27 @@ class BuySell extends React.Component {
                                                 disabledText ? disabledText : ""
                                             }
                                         >
-                                            <Button
-                                                className={
+                                            <button
+                                                /*className={
                                                     disabled
                                                         ? null
                                                         : buttonClass
+                                                }*/
+                                                style={
+                                                    isBid
+                                                        ? disabled
+                                                            ? buyButtonDisabled
+                                                            : buyButton
+                                                        : disabled
+                                                            ? sellButtonDisabled
+                                                            : sellButton
                                                 }
+                                                //style={isBid ? {backgroundColor: "#446600", height: "32px"} : {backgroundColor: "#5a0c21", height: "32px"}}
+                                                /*style={isBid ? 
+                                                    disabled ? {backgroundColor: "#446600", marginTop: "10px", width: "100%", height: "32px", color: "grey"} : 
+                                                        {backgroundColor: "#70a800", marginTop: "10px", width: "100%", height: "32px", color: "white"} : 
+                                                    disabled ? {backgroundColor: "#5a0c21", marginTop: "10px", width: "100%", height: "32px", color: "grey"} : 
+                                                        {backgroundColor: "#e6416e", marginTop: "10px", width: "100%", height: "32px", color: "white"}}*/
                                                 disabled={disabled}
                                                 onClick={onSubmit.bind(
                                                     this,
@@ -1255,8 +1299,8 @@ class BuySell extends React.Component {
                                                 )}
                                                 type="primary"
                                             >
-                                                {isBid ? "Buy" : "Sell"}
-                                            </Button>
+                                                {isBid ? "BUY" : "SELL"}
+                                            </button>
                                         </Tooltip>
                                         {isGloballySettled ? (
                                             <Button

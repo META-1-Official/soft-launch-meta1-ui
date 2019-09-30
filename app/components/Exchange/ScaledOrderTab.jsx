@@ -687,6 +687,35 @@ class ScaledOrderForm extends Component {
             )
         );
 
+        let buyButton = {
+            backgroundColor: "#70a800",
+            marginTop: "10px",
+            width: "100%",
+            height: "32px",
+            color: "white"
+        };
+        let buyButtonDisabled = {
+            backgroundColor: "#446600",
+            marginTop: "10px",
+            width: "100%",
+            height: "32px",
+            color: "grey"
+        };
+        let sellButton = {
+            backgroundColor: "#e6416e",
+            marginTop: "10px",
+            width: "100%",
+            height: "32px",
+            color: "white"
+        };
+        let sellButtonDisabled = {
+            backgroundColor: "#5a0c21",
+            marginTop: "10px",
+            width: "100%",
+            height: "32px",
+            color: "grey"
+        };
+
         return (
             <div className="buy-sell-container" style={{padding: "5px"}}>
                 <Form
@@ -847,19 +876,28 @@ class ScaledOrderForm extends Component {
                         </span>
                     </Form.Item>
 
-                    <Button
-                        style={{marginTop: "10px", width: "100%"}}
+                    <button
+                        //style={{marginTop: "10px", width: "100%"}}
                         onClick={this.props.handleSubmit}
-                        style={{marginTop: 10, width: "100%"}}
+                        style={
+                            isBid
+                                ? !this.isFormValid()
+                                    ? buyButtonDisabled
+                                    : buyButton
+                                : !this.isFormValid()
+                                    ? sellButtonDisabled
+                                    : sellButton
+                        }
+                        /*style={isBid ? 
+                            !this.isFormValid() ? {backgroundColor: "#446600", marginTop: "10px", width: "100%", height: "32px", color: "grey"} : 
+                                {backgroundColor: "#70a800", marginTop: "10px", width: "100%", height: "32px", color: "white"} : 
+                            !this.isFormValid() ? {backgroundColor: "#5a0c21", marginTop: "10px", width: "100%", height: "32px", color: "grey"} : 
+                                {backgroundColor: "#e6416e", marginTop: "10px", width: "100%", height: "32px", color: "white"}}*/
                         type="primary"
                         disabled={!this.isFormValid()}
                     >
-                        {counterpart.translate(
-                            isBid
-                                ? "scaled_orders.action.buy"
-                                : "scaled_orders.action.sell"
-                        )}
-                    </Button>
+                        {isBid ? "BUY" : "SELL"}
+                    </button>
                 </Form>
             </div>
         );
