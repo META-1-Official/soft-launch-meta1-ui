@@ -55,7 +55,7 @@ class DepositModalContent extends DecimalChecker {
 
     componentDidMount() {
         (() => {
-            fetch("https://aphrodite.meta-exchange.info/api/ltc-init", {
+            fetch("https://asterope.meta-exchange.info/api/ltc-init", {
                 method: "POST",
                 headers: {
                     Accept: "application/json, text/plain, */*",
