@@ -1286,12 +1286,6 @@ class BuySell extends React.Component {
                                                             ? sellButtonDisabled
                                                             : sellButton
                                                 }
-                                                //style={isBid ? {backgroundColor: "#446600", height: "32px"} : {backgroundColor: "#5a0c21", height: "32px"}}
-                                                /*style={isBid ? 
-                                                    disabled ? {backgroundColor: "#446600", marginTop: "10px", width: "100%", height: "32px", color: "grey"} : 
-                                                        {backgroundColor: "#70a800", marginTop: "10px", width: "100%", height: "32px", color: "white"} : 
-                                                    disabled ? {backgroundColor: "#5a0c21", marginTop: "10px", width: "100%", height: "32px", color: "grey"} : 
-                                                        {backgroundColor: "#e6416e", marginTop: "10px", width: "100%", height: "32px", color: "white"}}*/
                                                 disabled={disabled}
                                                 onClick={onSubmit.bind(
                                                     this,

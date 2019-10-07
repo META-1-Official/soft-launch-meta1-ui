@@ -888,11 +888,6 @@ class ScaledOrderForm extends Component {
                                     ? sellButtonDisabled
                                     : sellButton
                         }
-                        /*style={isBid ? 
-                            !this.isFormValid() ? {backgroundColor: "#446600", marginTop: "10px", width: "100%", height: "32px", color: "grey"} : 
-                                {backgroundColor: "#70a800", marginTop: "10px", width: "100%", height: "32px", color: "white"} : 
-                            !this.isFormValid() ? {backgroundColor: "#5a0c21", marginTop: "10px", width: "100%", height: "32px", color: "grey"} : 
-                                {backgroundColor: "#e6416e", marginTop: "10px", width: "100%", height: "32px", color: "white"}}*/
                         type="primary"
                         disabled={!this.isFormValid()}
                     >

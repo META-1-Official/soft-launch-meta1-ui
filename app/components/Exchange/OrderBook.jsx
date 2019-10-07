@@ -819,34 +819,27 @@ class OrderBook extends React.Component {
                         />
                     );
                 });
-
                 if (askRows.length < 24) {
-                    for (
-                        var iterator = 0;
-                        iterator < 26 - askRows.length;
-                        iterator++
-                    )
+                    for (var i = 0; i < 24 - askRows.length; i++) {
                         askRows.push(
-                            <tr key={iterator}>
+                            <tr>
                                 <td className="orderHistoryAsk">-</td>
                                 <td>-</td>
                                 <td className="column-hide-xs">-</td>
                             </tr>
                         );
+                    }
                 }
                 if (bidRows.length < 24) {
-                    for (
-                        var iterator = 0;
-                        iterator < 28 - bidRows.length;
-                        iterator++
-                    )
+                    for (var i = 0; i < 24 - bidRows.length; i++) {
                         bidRows.push(
-                            <tr key={iterator}>
+                            <tr>
                                 <td className="orderHistoryBid">-</td>
                                 <td>-</td>
                                 <td className="column-hide-xs">-</td>
                             </tr>
                         );
+                    }
                 }
             }
         }
@@ -980,7 +973,7 @@ class OrderBook extends React.Component {
                             >
                                 <table
                                     className="table order-table no-stripes table-hover fixed-table text-right no-overflow"
-                                    style={{height: "96%"}}
+                                    style={{height: "100%"}}
                                 >
                                     <TransitionWrapper
                                         ref="askTransition"

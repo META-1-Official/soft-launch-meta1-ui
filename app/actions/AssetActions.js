@@ -549,6 +549,26 @@ class AssetActions {
                         delete inProgress[id];
                     });
 
+                const availableGateways = {
+                    META1: {
+                        id: "META1",
+                        name: "META1",
+                        selected: false,
+                        options: {
+                            enabled: false,
+                            selected: false
+                        }
+                    }
+                };
+                const gatewayPrefixes = Object.keys(availableGateways);
+
+                // Fetch next 10 assets for each gateAsset on request
+                if (includeGateways) {
+                    gatewayPrefixes.forEach(a => {
+                        this.getAssetList(a + "." + start, 10);
+                    });
+                }
+
                 return assets;
             }
         };
