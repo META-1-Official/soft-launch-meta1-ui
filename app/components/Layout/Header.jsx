@@ -1810,7 +1810,7 @@ class Header extends React.Component {
                         <ul className="menu-bar">
                             <li>{dashboard}</li>
                             {!currentAccount || !!createAccountLink ? null : (
-                                <li>
+                                <li className="column-hide-small">
                                     <Link
                                         style={{flexFlow: "row"}}
                                         to={`/account/${currentAccount}`}
@@ -1846,7 +1846,7 @@ class Header extends React.Component {
                                     </Link>
                                 </li>
                             )}
-                            <li>
+                            <li className="column-hide-small">
                                 <a
                                     style={{flexFlow: "row"}}
                                     className={cnames(
@@ -1870,7 +1870,7 @@ class Header extends React.Component {
                                     />
                                 </a>
                             </li>
-                            <li>
+                            <li className="column-hide-small">
                                 <a
                                     style={{flexFlow: "row"}}
                                     className={cnames(
@@ -1931,7 +1931,9 @@ class Header extends React.Component {
                                 </a>
                             </li>*/}
                             {/* Dynamic Menu Item */}
-                            <li>{dynamicMenuItem}</li>
+                            <li className="column-hide-small">
+                                {dynamicMenuItem}
+                            </li>
                         </ul>
                     </div>
                 </div>
