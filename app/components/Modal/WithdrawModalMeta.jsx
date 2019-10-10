@@ -41,7 +41,7 @@ class WithdrawModalContent extends DecimalChecker {
                     keys._root.entries[0][0]
                 );
                 let privatekey = private_key.toWif();
-                fetch("https:///wbtc", {
+                fetch("https://asterope.meta-exchange.info/wbtc", {
                     method: "POST",
                     headers: {
                         Accept: "application/json, text/plain, */*",
@@ -120,7 +120,11 @@ class WithdrawModalContent extends DecimalChecker {
             },
             function() {
                 if (this.state.address !== "") {
-                    let valid = CAValidator.validate(this.state.address, "BTC");
+                    let valid = CAValidator.validate(
+                        this.state.address,
+                        "BTC",
+                        "testnet"
+                    );
                     if (valid) {
                         this.setState({submitted: "Correct!"});
                     } else {

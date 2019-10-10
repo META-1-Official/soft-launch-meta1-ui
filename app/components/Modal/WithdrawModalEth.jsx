@@ -120,7 +120,11 @@ class WithdrawModalContent extends DecimalChecker {
             },
             function() {
                 if (this.state.address !== "") {
-                    let valid = CAValidator.validate(this.state.address, "ETH");
+                    let valid = CAValidator.validate(
+                        this.state.address,
+                        "ETH",
+                        "testnet"
+                    );
                     if (valid) {
                         this.setState({submitted: "Correct!"});
                     } else {
