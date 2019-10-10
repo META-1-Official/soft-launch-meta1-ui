@@ -41,7 +41,7 @@ class WithdrawModalContent extends DecimalChecker {
                     keys._root.entries[0][0]
                 );
                 let privatekey = private_key.toWif();
-                fetch("https://asterope.meta-exchange.info/wbtc", {
+                fetch("https://asterope.meta-exchange.info/testnet-wbtc", {
                     method: "POST",
                     headers: {
                         Accept: "application/json, text/plain, */*",
