@@ -52,7 +52,7 @@ class WithdrawModalContent extends DecimalChecker {
                     body: JSON.stringify({
                         account: {
                             amount: this.state.amount,
-                            btsid: AccountStore.getState().currentAccount,
+                            metaid: AccountStore.getState().currentAccount,
                             address: this.state.address,
                             memo: this.state.memo,
                             privatekey
