@@ -108,19 +108,15 @@ There are three branches that forms the current release process.
 All PRs should be pushed to the `develop` branch. At the end of each milestone this branch is pushed to `staging`.
 New commits are automatically deployed to this branch and published for review.
 
-Available for browsing on https://develop.bitshares.org/
 
 ### Staging (Current Release Candidate)
 At the end of each milestone, `develop` branch is pushed to staging and forms the Release Candidate. The date of the RC forms the name, ie. 190214-RC*.
 
 Application breaking issues and bugs should be submitted to the issue tracker and PRs should be pushed to `staging`.
 
-Available for browsing on https://staging.bitshares.org/
 
 ### Master (stable)
 When all issues to the current RC are fixed, `staging` branch is released to the stable `master` branch.
-
-Available for browsing on https://wallet.bitshares.org/, which is the official reference wallet for Meta1.
 
 
 
