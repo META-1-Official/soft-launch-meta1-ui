@@ -63,14 +63,18 @@ class WithdrawModalContent extends DecimalChecker {
                         console.log(response);
                     })
                     .catch(error => {
-                        swal("Oops!", error, "error");
+                        swal("Oops!", error, "error", {
+                            customClass: "swal-modal"
+                        });
                     });
             })
             .then(() => {
-                swal("Success!", "Submitted to the server!", "success");
+                swal("Success!", "Submitted to the server!", "success", {
+                    customClass: "swal-modal"
+                });
             })
             .catch(error => {
-                swal("Oops!", error, "error");
+                swal("Oops!", error, "error", {customClass: "swal-modal"});
             });
     }
     _copy(e) {

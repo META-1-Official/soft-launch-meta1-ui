@@ -27,6 +27,10 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
     height: 100% !important;
 }
 
+.swal-modal {
+    font-size: 15px;
+}
+
 @mixin linearGradient($top, $bottom) {
     background: $top; /* Old browsers */
     background: -moz-linear-gradient(top, $top 0%, $bottom 100%); /* FF3.6+ */

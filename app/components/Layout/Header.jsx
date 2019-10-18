@@ -13,7 +13,7 @@ import DepositModalEthToken from "../Modal/DepositModalEthToken";
 import DepositModalEos from "../Modal/DepositModalEos";
 import DepositModalXlm from "../Modal/DepositModalXlm";
 import DepositModalLtc from "../Modal/DepositModalLtc";
-import WithdrawModalMeta from "../Modal/WithdrawModalMeta";
+import WithdrawModalBtc from "../Modal/WithdrawModalBtc";
 import WithdrawModalEth from "../Modal/WithdrawModalEth";
 import WithdrawModalEthToken from "../Modal/WithdrawModalEthToken";
 import WithdrawModalLtc from "../Modal/WithdrawModalLtc";
@@ -111,9 +111,9 @@ class Header extends React.Component {
         );
 
         this.showDepositModalMeta = this.showDepositModalMeta.bind(this);
-        this.showWithdrawModalMeta = this.showWithdrawModalMeta.bind(this);
+        this.showWithdrawModalBtc = this.showWithdrawModalBtc.bind(this);
         this.hideDepositModalMeta = this.hideDepositModalMeta.bind(this);
-        this.hideWithdrawModalMeta = this.hideWithdrawModalMeta.bind(this);
+        this.hideWithdrawModalBtc = this.hideWithdrawModalBtc.bind(this);
 
         this.showDepositModalEth = this.showDepositModalEth.bind(this);
         this.showDepositModalEthToken = this.showDepositModalEthToken.bind(
@@ -289,7 +289,7 @@ class Header extends React.Component {
         this._closeDropdown();
     }
 
-    showWithdrawModalMeta() {
+    showWithdrawModalBtc() {
         this.setState({
             isWithdrawModalVisibleMeta: true
         });
@@ -327,7 +327,7 @@ class Header extends React.Component {
 
     _showWithdrawMeta(e) {
         e.preventDefault();
-        this.showWithdrawModalMeta();
+        this.showWithdrawModalBtc();
         this._closeDropdown();
     }
 
@@ -401,7 +401,7 @@ class Header extends React.Component {
         });
     }
 
-    hideWithdrawModalMeta() {
+    hideWithdrawModalBtc() {
         this.setState({
             isWithdrawModalVisibleMeta: false
         });
@@ -2088,10 +2088,10 @@ class Header extends React.Component {
                     modalId="deposit_modal_new1"
                     account={currentAccount}
                 />
-                <WithdrawModalMeta
+                <WithdrawModalBtc
                     visibleMeta={this.state.isWithdrawModalVisibleMeta}
-                    hideModalMeta={this.hideWithdrawModalMeta}
-                    showModalMeta={this.showWithdrawModalMeta}
+                    hideModalMeta={this.hideWithdrawModalBtc}
+                    showModalMeta={this.showWithdrawModalBtc}
                     ref="deposit_modal_new12"
                     modalId="deposit_modal_new12"
                     account={currentAccount}
