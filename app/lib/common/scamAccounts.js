@@ -251,7 +251,7 @@ export const scamAccountsOther = [
     "1.2.659985",
     "btsalpha",
     "1.2.878025",
-    "metaid",
+    "metaId",
     "1.2.599680",
     "btsmoney",
     "1.2.32810",

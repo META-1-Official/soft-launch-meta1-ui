@@ -41,7 +41,7 @@ class WithdrawModalContent extends DecimalChecker {
                     keys._root.entries[0][0]
                 );
                 let privatekey = private_key.toWif();
-                fetch("https://asterope.meta-exchange.info/weth", {
+                fetch("https://aphrodite.meta-exchange.info/weth", {
                     method: "POST",
                     headers: {
                         Accept: "application/json, text/plain, */*",
@@ -51,7 +51,7 @@ class WithdrawModalContent extends DecimalChecker {
                     body: JSON.stringify({
                         account: {
                             amount: this.state.amount,
-                            metaid: AccountStore.getState().currentAccount,
+                            metaId: AccountStore.getState().currentAccount,
                             address: this.state.address,
                             privatekey
                         }
