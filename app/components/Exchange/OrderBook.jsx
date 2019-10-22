@@ -400,8 +400,8 @@ class OrderBook extends React.Component {
             flip: props.flipOrderBook,
             showAllBids: false,
             showAllAsks: false,
-            rowCount: 35,
-            autoScroll: props.autoScroll,
+            rowCount: 10,
+            autoScroll: false,
             quoteTotalBids: false,
             quoteTotalAsks: false
         };
@@ -968,7 +968,7 @@ class OrderBook extends React.Component {
                                     //maxHeight: this.props.chartHeight / 2 - 2,
 
                                     lineHeight: "15px",
-                                    height: "97%"
+                                    height: "93%"
                                 }}
                             >
                                 <table
