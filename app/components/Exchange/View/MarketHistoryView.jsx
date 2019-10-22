@@ -120,7 +120,7 @@ class MarketHistoryView extends React.Component {
                         ref="history"
                         id="market-orders-view-container"
                         style={{
-                            minHeight: "96%",
+                            minHeight: "100%",
                             overflow: "hidden",
                             lineHeight: "10px"
                         }}
