@@ -125,6 +125,23 @@ class AccountBrowsingMode extends React.Component {
                             "account_browsing_mode.modal_description"
                         )}
                     </Modal>
+                    {!this.isMyAccount() ? (
+                        <Tooltip
+                            placement="bottom"
+                            title={counterpart.translate(
+                                "account_browsing_mode.you_are_in_browsing_mode"
+                            )}
+                        >
+                            <Button
+                                onClick={this.handleSwitchBack}
+                                className="hide-for-small-only account-browsing-mode--button"
+                            >
+                                {counterpart.translate(
+                                    "account_browsing_mode.view_mode"
+                                )}
+                            </Button>
+                        </Tooltip>
+                    ) : null}
                 </div>
             );
         }

@@ -13,8 +13,6 @@ class WalletUnlockActions {
             })
                 .then(was_unlocked => {
                     //DEBUG  console.log('... WalletUnlockStore\tmodal unlock')
-                    console.log(was_unlocked);
-                    console.log("unlock");
                     if (was_unlocked) WrappedWalletUnlockActions.change();
                 })
                 .catch(params => {
@@ -28,8 +26,6 @@ class WalletUnlockActions {
             return new Promise(resolve => {
                 dispatch({resolve});
             }).then(was_unlocked => {
-                console.log(was_unlocked);
-                console.log("lock");
                 localStorage.clear();
                 if (was_unlocked) WrappedWalletUnlockActions.change();
             });

@@ -371,6 +371,10 @@ form.order-form {
             justify-content: space-between;
             align-items: center;
             width: 100%;
+            .lock-unlock {
+                margin-left: auto;
+                margin-right: auto;
+            }
             .left {
                 padding-left: $scrollBarSpacePadding;
             }

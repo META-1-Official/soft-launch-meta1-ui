@@ -931,7 +931,9 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
             }
         }
     }
-
+    .header-container span.icon.lock-unlock > svg > path {
+        fill: #d5ba48;
+    }
     .header-dropdown-sub-link.enabled {
         color: $secondary-text-color;
         &:hover {
