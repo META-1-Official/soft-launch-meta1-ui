@@ -1497,7 +1497,7 @@ Release 2.0.160225
 NEW FEATURES:
 - Add theming support and theme switch in Settings #576
 - Add scrolling to RecentTransactions
-- Add base groups to MyMarkets: META1, BTC, USD or CNY + others
+- Add base groups to MyMarkets: META1, BTC, XUSD or CNY + others
 
 BUG FIXES:
 - Fix BlockTrades select background color
@@ -1590,7 +1590,7 @@ Release 2.0.160121
 ---------------------------------------------------------------------
 
 NEW FEATURES:
-- USD, EUR, CNY fiat deposit/withdrawals via OpenLedger
+- XUSD, EUR, CNY fiat deposit/withdrawals via OpenLedger
 - Added OPEN.EMC and OPEN.EGD to OpenLedger bridge
 - Blocktrades support for TRADE.DASH/PPC/DOGE
 - Table View for Workers #632

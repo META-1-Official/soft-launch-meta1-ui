@@ -84,7 +84,7 @@ class AccountRegistrationConfirm extends React.Component {
                 } else {
                     FetchChain("getAccount", name).then(() => {});
                     this.unlockAccount(name, password);
-                    this.props.history.push("/market/USD_META1");
+                    this.props.history.push("/market/BTC_XUSD");
                 }
             })
             .catch(error => {

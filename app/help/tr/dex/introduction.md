@@ -20,7 +20,7 @@ müşteriye kalmıştır.
 * **Neredeyse Herşeyi Alıp-Satabilirsiniz** :
   META1 DEX varlığın muhteviyatını bilmez , dolayısı ile **her türlü**  eşleşme ticareti 
   yapılabilir. GÜMÜŞ:ALTIN gibi bazı eşleşmeler  az likidite sağlarken FOREX ticareti 
-  için USD:EUR gibi eşleşmeler çok büyük hacimli işlem görür.
+  için XUSD:EUR gibi eşleşmeler çok büyük hacimli işlem görür.
 * **Limit Yok** :
   META1 protokolünün sizin ticaret deneyiminizi sınırlaması mümkün değildir.
 * **Merkezsiz** :
@@ -42,9 +42,9 @@ müşteriye kalmıştır.
   kanıtlanabilir şekilde eşleştirilmiş olduğunu teyit edebilirsiniz.
 * **Teminata Bağlanmış** :
   META1'in en büyük özelliklerinden biri de bitUSD, bitEUR, bitCNY gibi 
-  *akıllıparalar*dır. Kolaylık olsun diye bu varlıklar cüzdan içerisinde USD,EUR,CNY 
+  *akıllıparalar*dır. Kolaylık olsun diye bu varlıklar cüzdan içerisinde XUSD,EUR,CNY 
   diye kısaltılmışlardır. Bu dijital kuponlar dayandıkları fiziksel varlıkla aynı değeri 
-  temsil ederler. Yani bu cüzdandaki 1 USD nin değeri 1 dolardır ve o şekilde 
+  temsil ederler. Yani bu cüzdandaki 1 XUSD nin değeri 1 dolardır ve o şekilde 
   ödenebilir. Bu kuponların hepsinin karşılığı olarak teminat olarak kitli tutulan ve anlık 
   fiyatında hesap görümü için mevcut olabilen, **META1'in şirket hisseleri (META1)** 
    vardır.

@@ -5,4 +5,4 @@
  
 Issued by: {issuer}
 
-The United States dollar (sign: $; symbol: USD) is the official currency of the United States of America.
+The United States dollar (sign: $; symbol: XUSD) is the official currency of the United States of America.

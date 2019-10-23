@@ -556,7 +556,7 @@ class AccountPortfolioList extends React.Component {
                 asset.getIn(["options", "description"])
             );
             symbol = asset.get("symbol");
-            if (symbol.indexOf("OPEN.") !== -1 && !market) market = "USD";
+            if (symbol.indexOf("OPEN.") !== -1 && !market) market = "XUSD";
             let preferredMarket = market ? market : preferredUnit;
 
             if (notCore && preferredMarket === symbol)
@@ -813,7 +813,7 @@ class AccountPortfolioList extends React.Component {
                             asset.get("symbol").indexOf("OPEN.") !== -1 &&
                             !market
                         )
-                            market = "USD";
+                            market = "XUSD";
                         let preferredMarket = market ? market : coreSymbol;
 
                         let directMarketLink = notCore ? (

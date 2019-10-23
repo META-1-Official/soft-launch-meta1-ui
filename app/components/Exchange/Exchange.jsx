@@ -1930,10 +1930,10 @@ class Exchange extends React.Component {
 
             baseSymbol = base.get("symbol");
             quoteSymbol = quote.get("symbol");
-            // if(quoteSymbol === "META1" && baseSymbol === "USD") {
+            // if(quoteSymbol === "META1" && baseSymbol === "XUSD") {
             //     var sellPrice = 11;
             // }
-            // else if (quoteSymbol === "USD" && baseSymbol === "META1") {
+            // else if (quoteSymbol === "XUSD" && baseSymbol === "META1") {
             //     var buyPrice = 44;
             // }
 

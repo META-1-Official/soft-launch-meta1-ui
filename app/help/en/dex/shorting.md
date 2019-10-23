@@ -1,7 +1,7 @@
 # Short Selling BitAssets
 
 In order to increase your exposure to META1 and offer liquidity to BitAssets, such
-as USD, EUR, GOLD, etc., you can go *borrow* this bitAsset from the network and
+as XUSD, EUR, GOLD, etc., you can go *borrow* this bitAsset from the network and
 *sell it short*. We will here briefly describe the procedure.
 
 ## Borrowing

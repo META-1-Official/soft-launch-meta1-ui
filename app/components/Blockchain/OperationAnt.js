@@ -96,13 +96,13 @@ class Operation {
                 /*
                 marketName = OPEN.ETH_USD
                 if (!inverted) (default)
-                    price = USD / OPEN.ETH
+                    price = XUSD / OPEN.ETH
                     buy / sell OPEN.ETH
-                    isBid = amount_to_sell.asset_symbol = USD
+                    isBid = amount_to_sell.asset_symbol = XUSD
                     amount = to_receive
                 if (inverted)
-                    price =  OPEN.ETH / USD
-                    buy / sell USD
+                    price =  OPEN.ETH / XUSD
+                    buy / sell XUSD
                     isBid = amount_to_sell.asset_symbol = OPEN.ETH
                     amount =
                 */
@@ -893,13 +893,13 @@ class Operation {
                 /*
                 marketName = OPEN.ETH_USD
                 if (!inverted) (default)
-                    price = USD / OPEN.ETH
+                    price = XUSD / OPEN.ETH
                     buy / sell OPEN.ETH
-                    isBid = amount_to_sell.asset_symbol = USD
+                    isBid = amount_to_sell.asset_symbol = XUSD
                     amount = to_receive
                 if (inverted)
-                    price =  OPEN.ETH / USD
-                    buy / sell USD
+                    price =  OPEN.ETH / XUSD
+                    buy / sell XUSD
                     isBid = amount_to_sell.asset_symbol = OPEN.ETH
                     amount =
 

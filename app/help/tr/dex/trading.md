@@ -7,14 +7,14 @@ ve al-sat eşlerinin nasıl temsil edildiğine dair hızlı bir giriştir.
 
 META1'de , neredeyse her aktif tüm diğer aktiflerle alınıp-satılabilirler. İki varlık 
 seçmiş olduğumuz vakit , biz genelde *piyasa çifti* diye hitab ediyoruz. Mesela , 
-USD'yi EUR'a karşı  USD:EUR çiftinde takas edebiliriz.
+XUSD'yi EUR'a karşı  XUSD:EUR çiftinde takas edebiliriz.
 
 Tutarlı olmak adına , biz *temel* ve *kota* genel terimlerini kullanacağız ,
 öyleki çiftler şöyle temsil edileceklerdir 
 
     *kota* : *temel*
 
-ve mesela *temel* USD olursa ve *kota* da EUR olursa biz  bunu EUR:USD çifti olarak 
+ve mesela *temel* XUSD olursa ve *kota* da EUR olursa biz  bunu EUR:XUSD çifti olarak 
 belirteceğiz
 
 ## Sipariş Defterleri
@@ -29,7 +29,7 @@ tabloda ask/bid ve her iki tarafın ilgili al/sat operasyonlarına genel bakış
 | Bid        | *temel*  | *kota* |
 | ---------- | ------- | ------- |
 
-USD:EUR çiftinin bid tarafında olan EUR:USD çiftinin ask tarafında 
+XUSD:EUR çiftinin bid tarafında olan EUR:XUSD çiftinin ask tarafında 
 olacaktır. Tabiiki  fiyatlar kesir olarak temsil edileceğinden sonuçta her iki çift aynı 
 olacaktır.
 

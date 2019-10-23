@@ -127,7 +127,7 @@ class CreateNewWallet extends Component {
                     <h4>
                         <Translate content="wallet.wallet_created" />
                     </h4>
-                    <Link to="/market/USD_META1">
+                    <Link to="/market/BTC_XUSD">
                         <div className="button success">
                             <Translate content="wallet.done" />
                         </div>

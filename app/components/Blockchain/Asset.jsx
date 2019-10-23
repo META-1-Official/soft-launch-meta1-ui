@@ -361,7 +361,7 @@ class Asset extends React.Component {
                 preferredMarket = core_asset.get("symbol");
             }
         }
-        if (asset.symbol === core_asset.get("symbol")) preferredMarket = "USD";
+        if (asset.symbol === core_asset.get("symbol")) preferredMarket = "XUSD";
         if (urls && urls.length) {
             urls.forEach(url => {
                 let markdownUrl = `<a target="_blank" class="external-link" rel="noopener noreferrer" href="${url}">${url}</a>`;
@@ -395,7 +395,7 @@ class Asset extends React.Component {
     }
 
     renderSummary(asset) {
-        // TODO: confidential_supply: 0 USD   [IF NOT ZERO OR NOT DISABLE CONFIDENTIAL]
+        // TODO: confidential_supply: 0 XUSD   [IF NOT ZERO OR NOT DISABLE CONFIDENTIAL]
         let dynamic = this.props.getDynamicObject(asset.dynamic_asset_data_id);
         if (dynamic) dynamic = dynamic.toJS();
         var options = asset.options;
@@ -1250,7 +1250,7 @@ class Asset extends React.Component {
         // options.blacklist_authorities = ["1.2.3", "1.2.4"];
         // options.whitelist_authorities = ["1.2.1", "1.2.2"];
         // options.blacklist_markets = ["JPY", "RUB"];
-        // options.whitelist_markets = ["USD", "EUR", "GOLD"];
+        // options.whitelist_markets = ["XUSD", "EUR", "GOLD"];
 
         // options.max_market_fee initially a string
         var maxMarketFee = permissionBooleans["charge_market_fee"] ? (
