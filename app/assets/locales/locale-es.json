@@ -1225,6 +1225,7 @@
         "locked_tip": "Billetera bloqueada. Click para desbloquear.",
         "logout": "Salir",
         "payments": "Enviar",
+        "withdraw": "Withdraw",
         "payments_legacy": "O Enviar Legado ",
         "settings": "Configuraciónes",
         "showcases": "Spotlight",
@@ -2412,6 +2413,7 @@
         "phase_out_warning": "Recomendamos usar el nuevo {modal_link} modal ya que esta página será eliminada",
         "see": "VER MIS TRANSFERENCIAS",
         "send": "Enviar",
+        "withdraw": "Withdraw",
         "total": "Total: ",
         "warn_name_unable_read_memo": "El remitente propuesto no podrá leer esta nota!"
     },

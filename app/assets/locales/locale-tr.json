@@ -1219,6 +1219,7 @@
         "locked_tip": "Cüzdan kilitli.<br/>Açmak için tıkla.",
         "logout": "Çıkış",
         "payments": "Gönder",
+        "withdraw": "Withdraw",
         "payments_legacy": "Send (legacy)",
         "settings": "Ayarlar",
         "showcases": "Spotlight",
@@ -2407,6 +2408,7 @@
         "phase_out_warning": "We recommend using the new {modal_link} modal as this page will be phased out",
         "see": "TRANSFER İŞLEMLERİMİ GÖR",
         "send": "Gönder",
+        "withdraw": "Withdraw",
         "total": "Total: ",
         "warn_name_unable_read_memo": "Uyarı: %(name)s bu memoyu okuyamayacaktır"
     },

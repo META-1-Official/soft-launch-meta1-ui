@@ -1224,6 +1224,7 @@
         "locked_tip": "<br/>点击登录，<br/><br/>关闭浏览器将登出。",
         "logout": "登出",
         "payments": "转账",
+        "withdraw": "Withdraw",
         "payments_legacy": "或传统转账",
         "settings": "设置",
         "showcases": "特色功能",
@@ -2411,6 +2412,7 @@
         "phase_out_warning": "强烈建议使用新版{modal_link} ,此页面正逐渐淘汰.",
         "see": "查看我的转账记录",
         "send": "转账",
+        "withdraw": "Withdraw",
         "total": "Total: ",
         "warn_name_unable_read_memo": "警告：%(name)s 将无法阅读此备注消息！"
     },

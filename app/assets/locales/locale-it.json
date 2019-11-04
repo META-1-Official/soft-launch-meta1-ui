@@ -1219,6 +1219,7 @@
         "locked_tip": "<br/>Clicca per fare il login e sbloccare il tuo portafoglio.<br/><br/>Chiudere la finestra del browser effettuerà automaticamente il log out.",
         "logout": "Logout",
         "payments": "Invia",
+        "withdraw": "Withdraw",
         "payments_legacy": "Send (legacy)",
         "settings": "Impostazioni",
         "showcases": "Spotlight",
@@ -2407,6 +2408,7 @@
         "phase_out_warning": "We recommend using the new {modal_link} modal as this page will be phased out",
         "see": "VEDI I MIEI TRASFERIMENTI",
         "send": "Invia",
+        "withdraw": "Withdraw",
         "total": "Total: ",
         "warn_name_unable_read_memo": "Attenzione: %(name)s non sarà in grado di leggere questo memo"
     },

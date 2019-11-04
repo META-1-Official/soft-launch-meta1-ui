@@ -1219,6 +1219,7 @@
         "locked_tip": "<br/>クリックすると、ウォレットをアンロックしログインします。<br/><br/>ブラウザを閉じることでもログアウトできます。",
         "logout": "ログアウト",
         "payments": "送金",
+        "withdraw": "Withdraw",
         "payments_legacy": "送金 (レガシー)",
         "settings": "設定",
         "showcases": "Spotlight",
@@ -2406,6 +2407,7 @@
         "phase_out_warning": "We recommend using the new {modal_link} modal as this page will be phased out",
         "see": "自身の転送を見る",
         "send": "送信",
+        "withdraw": "Withdraw",
         "total": "Total: ",
         "warn_name_unable_read_memo": "警告: %(name)sはこのメモを読むことができません。"
     },

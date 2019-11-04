@@ -1219,6 +1219,7 @@
         "locked_tip": "지갑이 잠겨있습니다. 잠금해제를 눌러주세요.",
         "logout": "로그아웃",
         "payments": "전송",
+        "withdraw": "Withdraw",
         "payments_legacy": "Send (legacy)",
         "settings": "설정",
         "showcases": "Spotlight",
@@ -2407,6 +2408,7 @@
         "phase_out_warning": "We recommend using the new {modal_link} modal as this page will be phased out",
         "see": "내 전송내역 보기",
         "send": "전송",
+        "withdraw": "Withdraw",
         "total": "Total: ",
         "warn_name_unable_read_memo": "Proposed sender will be unable to read this memo!"
     },
