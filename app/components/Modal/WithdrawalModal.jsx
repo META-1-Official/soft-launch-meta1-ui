@@ -716,7 +716,14 @@ class WithdrawalModal extends React.Component {
                                 />
 
                                 <span>
-                                    <b>{this.state.submitted}</b>
+                                    {this.state.submitted !== "Correct!" ? (
+                                        <b
+                                            className="has-error"
+                                            style={{fontWeight: "normal"}}
+                                        >
+                                            {this.state.submitted}
+                                        </b>
+                                    ) : null}
                                 </span>
 
                                 {/*{memo && memo.length ? (
