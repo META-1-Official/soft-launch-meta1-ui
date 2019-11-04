@@ -1,5 +1,4 @@
 import React from "react";
-import Icon from "../Icon/Icon";
 import Translate from "react-translate-component";
 import cnames from "classnames";
 import AccountActions from "actions/AccountActions";
@@ -164,14 +163,7 @@ export default class DropDownMenu extends React.Component {
                     }
                 ].map(
                     (
-                        {
-                            icon,
-                            subURL,
-                            disabled,
-                            mainText,
-                            subText,
-                            mainCallback
-                        },
+                        {subURL, disabled, mainText, subText, mainCallback},
                         index
                     ) => (
                         <li
@@ -225,14 +217,7 @@ export default class DropDownMenu extends React.Component {
                     }
                 ].map(
                     (
-                        {
-                            icon,
-                            subURL,
-                            disabled,
-                            mainText,
-                            subText,
-                            mainCallback
-                        },
+                        {subURL, disabled, mainText, subText, mainCallback},
                         index
                     ) => (
                         <li

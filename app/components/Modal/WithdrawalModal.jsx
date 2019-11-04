@@ -12,7 +12,6 @@ import BalanceComponent from "../Utility/BalanceComponent";
 import utils from "common/utils";
 import counterpart from "counterpart";
 import {connect} from "alt-react";
-import {getWalletName} from "branding";
 import {Form, Modal, Button, Tooltip, Input} from "bitshares-ui-style-guide";
 import WalletUnlockActions from "actions/WalletUnlockActions";
 import ReactTooltip from "react-tooltip";
@@ -652,6 +651,15 @@ class WithdrawalModal extends React.Component {
             >
                 <Modal
                     visible={this.state.isModalVisible}
+                    title={
+                        from_account && from_account.get("name")
+                            ? counterpart.translate("modal.deposit.header_w", {
+                                  account_name: from_account.get("name")
+                              })
+                            : counterpart.translate(
+                                  "modal.deposit.header_short_w"
+                              )
+                    }
                     id={this.props.id}
                     overlay={true}
                     onCancel={this.hideModal}
@@ -683,11 +691,7 @@ class WithdrawalModal extends React.Component {
                 >
                     <div className="grid-block vertical no-overflow">
                         {this.state.open ? (
-                            <Form
-                                className="full-width"
-                                layout="vertical"
-                                style={{marginTop: "30px"}}
-                            >
+                            <Form className="full-width" layout="vertical">
                                 <AmountSelector
                                     label="transfer.amount"
                                     amount={amount}
