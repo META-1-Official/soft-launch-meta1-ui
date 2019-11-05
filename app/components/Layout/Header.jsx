@@ -7,18 +7,13 @@ import SettingsStore from "stores/SettingsStore";
 import SettingsActions from "actions/SettingsActions";
 import ZfApi from "react-foundation-apps/src/utils/foundation-api";
 import SendModal from "../Modal/SendModal";
+import WithdrawalModal from "../Modal/WithdrawalModal";
 import DepositModalMeta from "../Modal/DepositModalMeta";
 import DepositModalEth from "../Modal/DepositModalEth";
 import DepositModalEthToken from "../Modal/DepositModalEthToken";
 import DepositModalEos from "../Modal/DepositModalEos";
 import DepositModalXlm from "../Modal/DepositModalXlm";
 import DepositModalLtc from "../Modal/DepositModalLtc";
-import WithdrawModalBtc from "../Modal/WithdrawModalBtc";
-import WithdrawModalEth from "../Modal/WithdrawModalEth";
-import WithdrawModalEthToken from "../Modal/WithdrawModalEthToken";
-import WithdrawModalLtc from "../Modal/WithdrawModalLtc";
-import WithdrawModalEos from "../Modal/WithdrawModalEos";
-import WithdrawModalXlm from "../Modal/WithdrawModalXlm";
 import Icon from "../Icon/Icon";
 import Translate from "react-translate-component";
 import counterpart from "counterpart";
@@ -42,13 +37,8 @@ import {setLocalStorageType, isPersistantType} from "lib/common/localStorage";
 import {getLogo} from "branding";
 var logo = getLogo();
 
-// const FlagImage = ({flag, width = 20, height = 20}) => {
-//     return <img height={height} width={width} src={`${__BASE_URL__}language-dropdown/${flag.toUpperCase()}.png`} />;
-// };
-
 const SUBMENUS = {
     SETTINGS: "SETTINGS",
-    WITHDRAW: "WITHDRAW",
     DEPOSIT: "DEPOSIT"
 };
 
@@ -60,7 +50,6 @@ class Header extends React.Component {
             accountsListDropdownActive: false,
             dropdownActive: false,
             dropdownSubmenuActive: false,
-            dropdownSubmenuActiveWithdraw: false,
             dropdownSubmenuActiveAdvanced: false,
             dropdownSubmenuActiveDeposit: false,
             isDepositModalVisible: false,
@@ -68,11 +57,7 @@ class Header extends React.Component {
             isWithdrawModalVisible: false,
             hasWithdrawalModalBeenShown: false,
             isDepositModalVisibleMeta: false,
-            isWithdrawModalVisibleMeta: false,
-            isWithdrawModalVisibleEth: false,
-            isWithdrawModalVisibleLtc: false,
-            isWithdrawModalVisibleEos: false,
-            isWithdrawModalVisibleXlm: false
+            isWithdrawModalVisibleMeta: false
         };
 
         this._accountNotificationActiveKeys = [];
@@ -83,9 +68,6 @@ class Header extends React.Component {
         this._toggleDropdownMenu = this._toggleDropdownMenu.bind(this);
         this._closeDropdown = this._closeDropdown.bind(this);
         this._closeDropdownSubmenu = this._closeDropdownSubmenu.bind(this);
-        this._closeDropdownSubmenuWithdraw = this._closeDropdownSubmenuWithdraw.bind(
-            this
-        );
         this._closeDropdownSubmenuAdvanced = this._closeDropdownSubmenuAdvanced.bind(
             this
         );
@@ -93,9 +75,6 @@ class Header extends React.Component {
             this
         );
         this._toggleDropdownSubmenu = this._toggleDropdownSubmenu.bind(this);
-        this._toggleDropdownSubmenuWithdraw = this._toggleDropdownSubmenuWithdraw.bind(
-            this
-        );
         this._toggleDropdownSubmenuAdvanced = this._toggleDropdownSubmenuAdvanced.bind(
             this
         );
@@ -111,9 +90,7 @@ class Header extends React.Component {
         );
 
         this.showDepositModalMeta = this.showDepositModalMeta.bind(this);
-        this.showWithdrawModalBtc = this.showWithdrawModalBtc.bind(this);
         this.hideDepositModalMeta = this.hideDepositModalMeta.bind(this);
-        this.hideWithdrawModalBtc = this.hideWithdrawModalBtc.bind(this);
 
         this.showDepositModalEth = this.showDepositModalEth.bind(this);
         this.showDepositModalEthToken = this.showDepositModalEthToken.bind(
@@ -121,34 +98,18 @@ class Header extends React.Component {
         );
         this.showDepositModalEos = this.showDepositModalEos.bind(this);
         this.showDepositModalXlm = this.showDepositModalXlm.bind(this);
-        this.showWithdrawModalEth = this.showWithdrawModalEth.bind(this);
-        this.showWithdrawModalEthToken = this.showWithdrawModalEthToken.bind(
-            this
-        );
         this.hideDepositModalEth = this.hideDepositModalEth.bind(this);
         this.hideDepositModalEthToken = this.hideDepositModalEthToken.bind(
             this
         );
         this.hideDepositModalEos = this.hideDepositModalEos.bind(this);
         this.hideDepositModalXlm = this.hideDepositModalXlm.bind(this);
-        this.hideWithdrawModalEth = this.hideWithdrawModalEth.bind(this);
-        this.hideWithdrawModalEthToken = this.hideWithdrawModalEthToken.bind(
-            this
-        );
 
         this.showDepositModalLtc = this.showDepositModalLtc.bind(this);
-        this.showWithdrawModalLtc = this.showWithdrawModalLtc.bind(this);
-        this.showWithdrawModalEos = this.showWithdrawModalEos.bind(this);
-        this.showWithdrawModalXlm = this.showWithdrawModalXlm.bind(this);
         this.hideDepositModalLtc = this.hideDepositModalLtc.bind(this);
-        this.hideWithdrawModalLtc = this.hideWithdrawModalLtc.bind(this);
-        this.hideWithdrawModalEos = this.hideWithdrawModalEos.bind(this);
-        this.hideWithdrawModalXlm = this.hideWithdrawModalXlm.bind(this);
-
         this.showDepositModal = this.showDepositModal.bind(this);
         this.hideDepositModal = this.hideDepositModal.bind(this);
         this.showWithdrawModal = this.showWithdrawModal.bind(this);
-        this.hideWithdrawModal = this.hideWithdrawModal.bind(this);
 
         this.onBodyClick = this.onBodyClick.bind(this);
     }
@@ -170,12 +131,6 @@ class Header extends React.Component {
         this.setState({
             isWithdrawModalVisible: true,
             hasWithdrawalModalBeenShown: true
-        });
-    }
-
-    hideWithdrawModal() {
-        this.setState({
-            isWithdrawModalVisible: false
         });
     }
 
@@ -289,78 +244,6 @@ class Header extends React.Component {
         this._closeDropdown();
     }
 
-    showWithdrawModalBtc() {
-        this.setState({
-            isWithdrawModalVisibleMeta: true
-        });
-    }
-
-    showWithdrawModalEth() {
-        this.setState({
-            isWithdrawModalVisibleEth: true
-        });
-    }
-
-    showWithdrawModalEthToken() {
-        this.setState({
-            isWithdrawModalVisibleEthToken: true
-        });
-    }
-
-    showWithdrawModalLtc() {
-        this.setState({
-            isWithdrawModalVisibleLtc: true
-        });
-    }
-
-    showWithdrawModalEos() {
-        this.setState({
-            isWithdrawModalVisibleEos: true
-        });
-    }
-
-    showWithdrawModalXlm() {
-        this.setState({
-            isWithdrawModalVisibleXlm: true
-        });
-    }
-
-    _showWithdrawMeta(e) {
-        e.preventDefault();
-        this.showWithdrawModalBtc();
-        this._closeDropdown();
-    }
-
-    _showWithdrawEth(e) {
-        e.preventDefault();
-        this.showWithdrawModalEth();
-        this._closeDropdown();
-    }
-
-    _showWithdrawEthToken(e) {
-        e.preventDefault();
-        this.showWithdrawModalEthToken();
-        this._closeDropdown();
-    }
-
-    _showWithdrawLtc(e) {
-        e.preventDefault();
-        this.showWithdrawModalLtc();
-        this._closeDropdown();
-    }
-
-    _showWithdrawEos(e) {
-        e.preventDefault();
-        this.showWithdrawModalEos();
-        this._closeDropdown();
-    }
-
-    _showWithdrawXlm(e) {
-        e.preventDefault();
-        this.showWithdrawModalXlm();
-        this._closeDropdown();
-    }
-
     shouldComponentUpdate(nextProps, nextState) {
         return (
             nextProps.myActiveAccounts !== this.props.myActiveAccounts ||
@@ -376,8 +259,6 @@ class Header extends React.Component {
             nextState.dropdownActive !== this.state.dropdownActive ||
             nextState.dropdownSubmenuActive !==
                 this.state.dropdownSubmenuActive ||
-            nextState.dropdownSubmenuActiveWithdraw !==
-                this.state.dropdownSubmenuActiveWithdraw ||
             nextState.dropdownSubmenuActiveAdvanced !==
                 this.state.dropdownSubmenuActiveAdvanced ||
             nextState.dropdownSubmenuActiveDeposit !==
@@ -395,15 +276,15 @@ class Header extends React.Component {
         this._closeDropdown();
     }
 
+    _showWithdrawal(e) {
+        e.preventDefault();
+        if (this.withdrawal_modal) this.withdrawal_modal.show();
+        this._closeDropdown();
+    }
+
     hideDepositModalMeta() {
         this.setState({
             isDepositModalVisibleMeta: false
-        });
-    }
-
-    hideWithdrawModalBtc() {
-        this.setState({
-            isWithdrawModalVisibleMeta: false
         });
     }
 
@@ -431,39 +312,9 @@ class Header extends React.Component {
         });
     }
 
-    hideWithdrawModalEth() {
-        this.setState({
-            isWithdrawModalVisibleEth: false
-        });
-    }
-
-    hideWithdrawModalEthToken() {
-        this.setState({
-            isWithdrawModalVisibleEthToken: false
-        });
-    }
-
     hideDepositModalLtc() {
         this.setState({
             isDepositModalVisibleLtc: false
-        });
-    }
-
-    hideWithdrawModalLtc() {
-        this.setState({
-            isWithdrawModalVisibleLtc: false
-        });
-    }
-
-    hideWithdrawModalEos() {
-        this.setState({
-            isWithdrawModalVisibleEos: false
-        });
-    }
-
-    hideWithdrawModalXlm() {
-        this.setState({
-            isWithdrawModalVisibleXlm: false
         });
     }
 
@@ -544,14 +395,6 @@ class Header extends React.Component {
         }
     }
 
-    _closeDropdownSubmenuWithdraw() {
-        if (this.state.dropdownSubmenuActiveWithdraw) {
-            this.setState({
-                dropdownSubmenuActiveWithdraw: false
-            });
-        }
-    }
-
     _closeDropdownSubmenuAdvanced() {
         if (this.state.dropdownSubmenuActiveAdvanced) {
             this.setState({
@@ -572,7 +415,6 @@ class Header extends React.Component {
         this._closeMenuDropdown();
         this._closeAccountsListDropdown();
         this._closeDropdownSubmenu();
-        this._closeDropdownSubmenuWithdraw();
         this._closeDropdownSubmenuAdvanced();
         this._closeDropdownSubmenuDeposit();
     }
@@ -646,19 +488,6 @@ class Header extends React.Component {
         });
     }
 
-    _toggleDropdownSubmenuWithdraw(
-        item = this.state.dropdownSubmenuActiveItemWithdraw,
-        e
-    ) {
-        if (e) e.stopPropagation();
-
-        this.setState({
-            dropdownSubmenuActiveWithdraw: !this.state
-                .dropdownSubmenuActiveWithdraw,
-            dropdownSubmenuActiveItemWithdraw: item
-        });
-    }
-
     _toggleDropdownSubmenuAdvanced(
         item = this.state.dropdownSubmenuActiveItemAdvanced,
         e
@@ -711,7 +540,6 @@ class Header extends React.Component {
         if (!insideMenuDropdown) {
             this._closeMenuDropdown();
             this._closeDropdownSubmenu();
-            this._closeDropdownSubmenuWithdraw();
             this._closeDropdownSubmenuAdvanced();
             this._closeDropdownSubmenuDeposit();
         }
@@ -1613,79 +1441,6 @@ class Header extends React.Component {
             )
         };
 
-        const withdraw = {
-            [SUBMENUS.WITHDRAW]: (
-                <ul
-                    className="dropdown header-menu header-submenu"
-                    style={{
-                        left: -200,
-                        top: 40,
-                        maxHeight: !this.state.dropdownActive ? 0 : maxHeight,
-                        overflowY: "auto"
-                    }}
-                >
-                    <li
-                        className="divider parent-item"
-                        onClick={this._toggleDropdownSubmenuWithdraw.bind(
-                            this,
-                            undefined
-                        )}
-                    >
-                        <div className="table-cell">
-                            <span className="parent-item-icon">&lt;</span>
-                            <Translate
-                                content="modal.deposit.header_short_w"
-                                component="span"
-                                className="parent-item-name"
-                            />
-                        </div>
-                    </li>
-                    <li onClick={this._showWithdrawMeta.bind(this)}>
-                        <Translate
-                            content="modal.deposit.btc_withdraw"
-                            component="div"
-                            className="table-cell"
-                        />
-                    </li>
-                    <li onClick={this._showWithdrawEth.bind(this)}>
-                        <Translate
-                            content="modal.deposit.eth_withdraw"
-                            component="div"
-                            className="table-cell"
-                        />
-                    </li>
-                    <li onClick={this._showWithdrawLtc.bind(this)}>
-                        <Translate
-                            content="modal.deposit.ltc_withdraw"
-                            component="div"
-                            className="table-cell"
-                        />
-                    </li>
-                    <li onClick={this._showWithdrawEos.bind(this)}>
-                        <Translate
-                            content="modal.deposit.eos_withdraw"
-                            component="div"
-                            className="table-cell"
-                        />
-                    </li>
-                    <li onClick={this._showWithdrawXlm.bind(this)}>
-                        <Translate
-                            content="modal.deposit.xlm_withdraw"
-                            component="div"
-                            className="table-cell"
-                        />
-                    </li>
-                    <li onClick={this._showWithdrawEthToken.bind(this)}>
-                        <Translate
-                            content="modal.deposit.token_withjdraw"
-                            component="div"
-                            className="table-cell"
-                        />
-                    </li>
-                </ul>
-            )
-        };
-
         const deposit = {
             [SUBMENUS.DEPOSIT]: (
                 <ul
@@ -1898,41 +1653,6 @@ class Header extends React.Component {
                                     />
                                 </a>
                             </li>
-                            {/*                            <li>
-                                <a
-                                    style={{flexFlow: "row"}}
-                                    className={cnames(
-                                        active.indexOf("showcases") !== -1
-                                            ? null
-                                            : "column-hide-xs",
-                                        {
-                                            active:
-                                                active.indexOf("showcases") !==
-                                                -1
-                                        }
-                                    )}
-                                    onClick={this._onNavigate.bind(
-                                        this,
-                                        "/showcases"
-                                    )}
-                                >
-                                    <Icon
-                                        size="2x"
-                                        style={{
-                                            position: "relative",
-                                            top: 0,
-                                            left: -8
-                                        }}
-                                        name="showcases"
-                                        title="icons.showcases"
-                                    />
-                                    <Translate
-                                        className="column-hide-small"
-                                        component="span"
-                                        content="header.showcases"
-                                    />
-                                </a>
-                            </li>*/}
                             {/* Dynamic Menu Item */}
                             <li className="column-hide-small">
                                 {dynamicMenuItem}
@@ -2034,13 +1754,6 @@ class Header extends React.Component {
                         {(this.state.dropdownSubmenuActive &&
                             submenus[this.state.dropdownSubmenuActiveItem] &&
                             submenus[this.state.dropdownSubmenuActiveItem]) ||
-                            (this.state.dropdownSubmenuActiveWithdraw &&
-                                withdraw[
-                                    this.state.dropdownSubmenuActiveItemWithdraw
-                                ] &&
-                                withdraw[
-                                    this.state.dropdownSubmenuActiveItemWithdraw
-                                ]) ||
                             (this.state.dropdownSubmenuActiveDeposit &&
                                 deposit[
                                     this.state.dropdownSubmenuActiveItemDeposit
@@ -2074,13 +1787,12 @@ class Header extends React.Component {
                                     showDeposit={this._showDeposit.bind(this)}
                                     showWithdraw={this._showWithdraw.bind(this)}
                                     showSend={this._showSend.bind(this)}
+                                    showWithdrawal={this._showWithdrawal.bind(
+                                        this
+                                    )}
                                     toggleDropdownSubmenu={this._toggleDropdownSubmenu.bind(
                                         this,
                                         SUBMENUS.SETTINGS
-                                    )}
-                                    toggleDropdownSubmenuWithdraw={this._toggleDropdownSubmenuWithdraw.bind(
-                                        this,
-                                        SUBMENUS.WITHDRAW
                                     )}
                                     toggleDropdownSubmenuAdvanced={this._toggleDropdownSubmenuAdvanced.bind(
                                         this,
@@ -2101,20 +1813,19 @@ class Header extends React.Component {
                     }}
                     from_name={currentAccount}
                 />
+                <WithdrawalModal
+                    id="withdrawal_modal_header"
+                    refCallback={e => {
+                        if (e) this.withdrawal_modal = e;
+                    }}
+                    from_name={currentAccount}
+                />
                 <DepositModalMeta
                     visibleMeta={this.state.isDepositModalVisibleMeta}
                     hideModalMeta={this.hideDepositModalMeta}
                     showModalMeta={this.showDepositModalMeta}
                     ref="deposit_modal_new1"
                     modalId="deposit_modal_new1"
-                    account={currentAccount}
-                />
-                <WithdrawModalBtc
-                    visibleMeta={this.state.isWithdrawModalVisibleMeta}
-                    hideModalMeta={this.hideWithdrawModalBtc}
-                    showModalMeta={this.showWithdrawModalBtc}
-                    ref="deposit_modal_new12"
-                    modalId="deposit_modal_new12"
                     account={currentAccount}
                 />
                 <DepositModalEth
@@ -2149,52 +1860,12 @@ class Header extends React.Component {
                     modalId="deposit_modal_new19901"
                     account={currentAccount}
                 />
-                <WithdrawModalEth
-                    visibleMeta={this.state.isWithdrawModalVisibleEth}
-                    hideModalMeta={this.hideWithdrawModalEth}
-                    showModalMeta={this.showWithdrawModalEth}
-                    ref="withdraw_modal_new122"
-                    modalId="withdraw_modal_new122"
-                    account={currentAccount}
-                />
-                <WithdrawModalEthToken
-                    visibleMeta={this.state.isWithdrawModalVisibleEthToken}
-                    hideModalMeta={this.hideWithdrawModalEthToken}
-                    showModalMeta={this.showWithdrawModalEthToken}
-                    ref="withdraw_modal_new14422"
-                    modalId="withdraw_modal_new14422"
-                    account={currentAccount}
-                />
                 <DepositModalLtc
                     visibleMeta={this.state.isDepositModalVisibleLtc}
                     hideModalMeta={this.hideDepositModalLtc}
                     showModalMeta={this.showDepositModalLtc}
                     ref="deposit_modal_new112"
                     modalId="deposit_modal_new122"
-                    account={currentAccount}
-                />
-                <WithdrawModalLtc
-                    visibleMeta={this.state.isWithdrawModalVisibleLtc}
-                    hideModalMeta={this.hideWithdrawModalLtc}
-                    showModalMeta={this.showWithdrawModalLtc}
-                    ref="withdraw_modal_new11q2"
-                    modalId="withdraw_modal_new11q2"
-                    account={currentAccount}
-                />
-                <WithdrawModalEos
-                    visibleMeta={this.state.isWithdrawModalVisibleEos}
-                    hideModalMeta={this.hideWithdrawModalEos}
-                    showModalMeta={this.showWithdrawModalEos}
-                    ref="withdraw_modal_newqwer11q2"
-                    modalId="withdraw_modal_newqwer11q2"
-                    account={currentAccount}
-                />
-                <WithdrawModalXlm
-                    visibleMeta={this.state.isWithdrawModalVisibleXlm}
-                    hideModalMeta={this.hideWithdrawModalXlm}
-                    showModalMeta={this.showWithdrawModalXlm}
-                    ref="withdraw_modal_newqwert11q2"
-                    modalId="withdraw_modal_newqwert11q2"
                     account={currentAccount}
                 />
             </div>

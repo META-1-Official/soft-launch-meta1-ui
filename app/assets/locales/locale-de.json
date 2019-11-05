@@ -1223,6 +1223,7 @@
         "locked_tip": "Wallet (digitale Brieftasche) ist gesperrt. Zum Entsperren klicken.",
         "logout": "Abmelden",
         "payments": "Transaktionen",
+        "withdraw": "Withdraw",
         "payments_legacy": "Senden (überholt)",
         "settings": "Einstellungen",
         "showcases": "Spotlight",
@@ -2398,6 +2399,7 @@
         "phase_out_warning": "We recommend using the new {modal_link} modal as this page will be phased out",
         "see": "ÜBERWEISUNGSÜBERSICHT",
         "send": "Überweisen",
+        "withdraw": "Withdraw",
         "total": "Total: ",
         "warn_name_unable_read_memo": "Der vorgeschlagener Absender kann diese Notiz nicht lesen!"
     },

@@ -1232,6 +1232,7 @@
         "locked_tip": "<br/>Click to login.<br/><br/>Closing the browser window will also log you out.",
         "logout": "Logout",
         "payments": "Send",
+        "withdraw": "Withdraw",
         "payments_legacy": "or Legacy Send",
         "settings": "Settings",
         "showcases": "Spotlight",
@@ -2512,6 +2513,7 @@
         "phase_out_warning": "We recommend using the new {modal_link} modal as this page will be phased out",
         "see": "SEE MY TRANSFERS",
         "send": "Send",
+        "withdraw": "Withdraw",
         "total": "Total: ",
         "to": "To",
         "warn_name_unable_read_memo": "Proposed sender will be unable to read this memo!"
