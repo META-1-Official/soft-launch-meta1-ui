@@ -45,6 +45,15 @@ export const settingsAPIs = {
             operator: "Witness: aphrodite",
             contact: "telegram:@Avowedly"
         }
+        ,
+        {
+            url: "wss://aphrodite.meta-exchange.info/core-new",
+            region: "Aphrodite NEw - Los Angeles",
+            country: "META1",
+            location: "USA New",
+            operator: "Witness: aphrodite",
+            contact: "telegram:@Avowedly"
+        }
         // {
         //     url: "wss://seraphim.meta-exchange.info/ws",
         //     region: "Seraphim - Los Angeles",
