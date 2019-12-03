@@ -3413,6 +3413,7 @@ class Exchange extends React.Component {
                                             style={{
                                                 flexGrow: "2",
                                                 width: "280px",
+                                                minHeight: "280px",
                                                 display: "inline-block",
                                                 borderBottom: "2px solid black"
                                             }}

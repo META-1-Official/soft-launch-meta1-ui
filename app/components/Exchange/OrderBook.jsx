@@ -400,7 +400,7 @@ class OrderBook extends React.Component {
             flip: props.flipOrderBook,
             showAllBids: false,
             showAllAsks: false,
-            rowCount: 10,
+            rowCount: 12,
             autoScroll: false,
             quoteTotalBids: false,
             quoteTotalAsks: false
@@ -892,7 +892,7 @@ class OrderBook extends React.Component {
             let rightHeader = (
                 <thead>
                     <tr key="top-header" className="top-header">
-                        <th>
+                        <th style={{paddingLeft: "13%"}}>
                             <Translate
                                 className={
                                     (!flipOrderBook
@@ -902,12 +902,16 @@ class OrderBook extends React.Component {
                                 content="exchange.price"
                             />
                         </th>
-                        <th>
+                        <th style={{paddingLeft: "20%"}}>
                             <span className="header-sub-title">
                                 <AssetName dataPlace="top" name={quoteSymbol} />
                             </span>
                         </th>
-                        <th className="column-hide-xs">
+                        <th
+                            /*className="column-hide-xs"*/ style={{
+                                paddingLeft: "7%"
+                            }}
+                        >
                             <Translate
                                 className="header-sub-title"
                                 content="exchange.total"

@@ -92,6 +92,9 @@ class DepthHighChart extends React.Component {
             axisLineColor
         } = this._getThemeColors();
 
+        let width = window.innerWidth;
+        let wideScreen = width > 640 ? true : false;
+
         let {name: baseSymbol, prefix: basePrefix} = utils.replaceName(base);
         let {name: quoteSymbol, prefix: quotePrefix} = utils.replaceName(quote);
         baseSymbol = (basePrefix || "") + baseSymbol;
@@ -456,6 +459,14 @@ class DepthHighChart extends React.Component {
                 </div>
             );
         } else {
+            let depthChart;
+            let depthChartContent;
+            depthChart = wideScreen
+                ? {height: "100%", position: "relative"}
+                : {height: "100%"};
+            depthChartContent = wideScreen
+                ? {position: "absolute", bottom: 0, width: "100%"}
+                : {};
             return (
                 <div
                     className="grid-content no-overflow no-padding middle-content"
@@ -464,7 +475,7 @@ class DepthHighChart extends React.Component {
                     <div
                         className="exchange-bordered"
                         id="depth_chart"
-                        style={{height: "522px"}}
+                        style={depthChart}
                     >
                         <div className="exchange-content-header">
                             {this.props.noText ? null : (
@@ -486,16 +497,21 @@ class DepthHighChart extends React.Component {
                                 </span>
                             )}
                         </div>
-                        {!flatBids.length &&
-                        !flatAsks.length &&
-                        !flatCalls.length ? (
-                            <span className="no-data">
-                                <Translate content="exchange.no_data" />
-                            </span>
-                        ) : null}
-                        {flatBids || flatAsks || flatCalls ? (
-                            <ReactHighchart ref="depthChart" config={config} />
-                        ) : null}
+                        <div style={depthChartContent}>
+                            {!flatBids.length &&
+                            !flatAsks.length &&
+                            !flatCalls.length ? (
+                                <span className="no-data">
+                                    <Translate content="exchange.no_data" />
+                                </span>
+                            ) : null}
+                            {flatBids || flatAsks || flatCalls ? (
+                                <ReactHighchart
+                                    ref="depthChart"
+                                    config={config}
+                                />
+                            ) : null}
+                        </div>
                     </div>
                 </div>
             );
