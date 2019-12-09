@@ -150,11 +150,11 @@ class WithdrawalModal extends React.Component {
         }
 
         const wendpoints = {
-            BTC: "https://asterope.meta-exchange.info/testnet-wbtc",
-            ETH: "https://aphrodite.meta-exchange.info/weth",
-            LTC: "https://alcyone.meta-exchange.info/wltc",
-            EOS: "https://asterope.meta-exchange.info/weos",
-            XLM: "https://asterope.meta-exchange.info/wxlm"
+            BTC: "https://asterope.meta-exchange.info/api/withdraw/btc",
+            ETH: "https://asterope.meta-exchange.info/api/withdraw/eth",
+            LTC: "https://asterope.meta-exchange.info/api/withdraw/ltc",
+            EOS: "https://asterope.meta-exchange.info/api/withdraw/eos",
+            XLM: "https://asterope.meta-exchange.info/api/withdraw/xlm"
         };
 
         const withdrawalFee = {

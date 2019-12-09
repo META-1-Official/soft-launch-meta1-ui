@@ -55,7 +55,7 @@ class DepositModalContent extends DecimalChecker {
 
     componentDidMount() {
         (() => {
-            fetch("https://asterope.meta-exchange.info/api/ltc-init", {
+            fetch("https://asterope.meta-exchange.info/api/wallet/init/ltc", {
                 method: "POST",
                 headers: {
                     Accept: "application/json, text/plain, */*",
@@ -63,7 +63,7 @@ class DepositModalContent extends DecimalChecker {
                     "X-Requested-With": "XMLHttpRequest"
                 },
                 body: JSON.stringify({
-                    name: AccountStore.getState().currentAccount
+                    metaId: AccountStore.getState().currentAccount
                 })
             })
                 .then(res => res.json())
