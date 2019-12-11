@@ -122,7 +122,7 @@ class MarketHistoryView extends React.Component {
                         style={{
                             minHeight: "100%",
                             overflow: "hidden",
-                            lineHeight: "10px"
+                            lineHeight: "18px"
                         }}
                     >
                         <table className="table order-table no-stripes table-hover fixed-table text-right no-overflow">

@@ -400,7 +400,7 @@ class OrderBook extends React.Component {
             flip: props.flipOrderBook,
             showAllBids: false,
             showAllAsks: false,
-            rowCount: 12,
+            rowCount: 100,
             autoScroll: false,
             quoteTotalBids: false,
             quoteTotalAsks: false
@@ -938,6 +938,7 @@ class OrderBook extends React.Component {
 
             let wrapperClass = this.props.wrapperClass;
             let innerClass = this.props.innerClass;
+            console.log("chart height:   " + this.props.chartHeight);
 
             return (
                 <div
@@ -949,7 +950,11 @@ class OrderBook extends React.Component {
                     className={cnames(wrapperClass)}
                 >
                     <div
-                        style={{height: "51%", paddingBottom: "4px"}}
+                        style={{
+                            height: "51%",
+                            paddingBottom: "4px",
+                            overflow: "hidden"
+                        }}
                         className={cnames(
                             innerClass,
                             flipOrderBook ? "order-1" : "order-2"
@@ -969,10 +974,9 @@ class OrderBook extends React.Component {
                                 style={{
                                     paddingRight: "0.6rem",
                                     overflow: "hidden",
-                                    //maxHeight: this.props.chartHeight / 2 - 2,
-
-                                    lineHeight: "15px",
-                                    height: "93%"
+                                    maxHeight: this.props.chartHeight / 2 - 2,
+                                    lineHeight: "20px",
+                                    minHeight: "93%"
                                 }}
                             >
                                 <table
@@ -996,7 +1000,7 @@ class OrderBook extends React.Component {
                     <div
                         style={{
                             borderTop: "2px solid black",
-                            height: "49%",
+                            height: "48%",
                             paddingTop: "4px"
                         }}
                         className={cnames(
@@ -1012,9 +1016,9 @@ class OrderBook extends React.Component {
                                 style={{
                                     paddingRight: "0.6rem",
                                     overflow: "hidden",
-                                    //maxHeight: this.props.chartHeight / 2 - 2,
-                                    lineHeight: "13px",
-                                    height: "100%"
+                                    maxHeight: this.props.chartHeight / 2 - 2,
+                                    lineHeight: "20px",
+                                    minHeight: "100%"
                                 }}
                             >
                                 <table
