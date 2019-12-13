@@ -938,7 +938,6 @@ class OrderBook extends React.Component {
 
             let wrapperClass = this.props.wrapperClass;
             let innerClass = this.props.innerClass;
-            console.log("chart height:   " + this.props.chartHeight);
 
             return (
                 <div

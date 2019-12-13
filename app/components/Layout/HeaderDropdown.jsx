@@ -265,12 +265,19 @@ export default class DropDownMenu extends React.Component {
                 <li
                     className={cnames(
                         {
-                            active: active.indexOf("/settings") !== -1
+                            active: active.indexOf("/settings") !== -1,
+                            disabled: !showAccountLinks
                         },
                         "mobile-desktop-only",
                         "has-submenu"
                     )}
-                    onClick={this.props.toggleDropdownSubmenuDeposit}
+                    onClick={
+                        !showAccountLinks
+                            ? event => {
+                                  event.stopPropagation();
+                              }
+                            : this.props.toggleDropdownSubmenuDeposit
+                    }
                 >
                     <div className="table-cell">
                         <Translate content="modal.deposit.header_short" />{" "}

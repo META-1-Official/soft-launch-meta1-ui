@@ -1267,9 +1267,7 @@ class Header extends React.Component {
                     </li>
                     <li
                         className={cnames(
-                            {
-                                active: active.indexOf("/settings") !== -1
-                            },
+                            {active: active.indexOf("/settings") !== -1},
                             "divider",
                             "desktop-only"
                         )}
@@ -1282,9 +1280,7 @@ class Header extends React.Component {
 
                     <li
                         className={cnames(
-                            {
-                                active: active.indexOf("/spotlight") !== -1
-                            },
+                            {active: active.indexOf("/spotlight") !== -1},
                             "divider"
                         )}
                         onClick={this._onNavigate.bind(this, "/spotlight")}
@@ -1296,9 +1292,7 @@ class Header extends React.Component {
 
                     <li
                         className={cnames(
-                            {
-                                active: active.indexOf("/settings") !== -1
-                            },
+                            {active: active.indexOf("/settings") !== -1},
                             "divider",
                             "mobile-only",
                             "has-submenu"
@@ -1317,11 +1311,16 @@ class Header extends React.Component {
                                 active.indexOf("/account/") !== -1,
                             disabled: !showAccountLinks
                         })}
-                        onClick={() =>
-                            window.open(
-                                "https://beta-wallet.trezor.io/next/#/",
-                                "_blank"
-                            )
+                        onClick={
+                            !showAccountLinks
+                                ? event => {
+                                      event.stopPropagation();
+                                  }
+                                : () =>
+                                      window.open(
+                                          "https://beta-wallet.trezor.io/next/#/",
+                                          "_blank"
+                                      )
                         }
                     >
                         <div className="table-cell">
@@ -1335,11 +1334,16 @@ class Header extends React.Component {
                                 active.indexOf("/account/") !== -1,
                             disabled: !showAccountLinks
                         })}
-                        onClick={() =>
-                            window.open(
-                                "https://shop.ledger.com/pages/ledger-live",
-                                "_blank"
-                            )
+                        onClick={
+                            !showAccountLinks
+                                ? event => {
+                                      event.stopPropagation();
+                                  }
+                                : () =>
+                                      window.open(
+                                          "https://shop.ledger.com/pages/ledger-live",
+                                          "_blank"
+                                      )
                         }
                     >
                         <div className="table-cell">
@@ -1351,10 +1355,16 @@ class Header extends React.Component {
                             active: active.indexOf("/signedmessages") !== -1,
                             disabled: !showAccountLinks
                         })}
-                        onClick={this._onNavigate.bind(
-                            this,
-                            `/account/${currentAccount}/signedmessages`
-                        )}
+                        onClick={
+                            !showAccountLinks
+                                ? event => {
+                                      event.stopPropagation();
+                                  }
+                                : this._onNavigate.bind(
+                                      this,
+                                      `/account/${currentAccount}/signedmessages`
+                                  )
+                        }
                     >
                         <div className="table-cell">
                             <Translate content="account.signedmessages.menuitem" />
@@ -1366,10 +1376,16 @@ class Header extends React.Component {
                             active: active.indexOf("/member-stats") !== -1,
                             disabled: !showAccountLinks
                         })}
-                        onClick={this._onNavigate.bind(
-                            this,
-                            `/account/${currentAccount}/member-stats`
-                        )}
+                        onClick={
+                            !showAccountLinks
+                                ? event => {
+                                      event.stopPropagation();
+                                  }
+                                : this._onNavigate.bind(
+                                      this,
+                                      `/account/${currentAccount}/member-stats`
+                                  )
+                        }
                     >
                         <div className="table-cell">
                             <Translate content="account.member.stats" />
@@ -1397,10 +1413,16 @@ class Header extends React.Component {
                             active: active.indexOf("/whitelist") !== -1,
                             disabled: !showAccountLinks
                         })}
-                        onClick={this._onNavigate.bind(
-                            this,
-                            `/account/${currentAccount}/whitelist`
-                        )}
+                        onClick={
+                            !showAccountLinks
+                                ? event => {
+                                      event.stopPropagation();
+                                  }
+                                : this._onNavigate.bind(
+                                      this,
+                                      `/account/${currentAccount}/whitelist`
+                                  )
+                        }
                     >
                         <div className="table-cell">
                             <Translate content="account.whitelist.title" />
@@ -1412,10 +1434,16 @@ class Header extends React.Component {
                             active: active.indexOf("/permissions") !== -1,
                             disabled: !showAccountLinks
                         })}
-                        onClick={this._onNavigate.bind(
-                            this,
-                            `/account/${currentAccount}/permissions`
-                        )}
+                        onClick={
+                            !showAccountLinks
+                                ? event => {
+                                      event.stopPropagation();
+                                  }
+                                : this._onNavigate.bind(
+                                      this,
+                                      `/account/${currentAccount}/permissions`
+                                  )
+                        }
                     >
                         <div className="table-cell">
                             <Translate content="account.permissions" />
@@ -1425,9 +1453,7 @@ class Header extends React.Component {
                     {showAccountLinks ? (
                         <li
                             className={cnames(
-                                {
-                                    active: active.indexOf("/accounts") !== -1
-                                },
+                                {active: active.indexOf("/accounts") !== -1},
                                 "divider"
                             )}
                             onClick={this._onNavigate.bind(this, "/accounts")}
