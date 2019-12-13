@@ -41,7 +41,7 @@ class WithdrawModalContent extends DecimalChecker {
                     keys._root.entries[0][0]
                 );
                 let privatekey = private_key.toWif();
-                fetch("https://alcyone.meta-exchange.info/wltc", {
+                fetch("https://asterope.meta-exchange.info/api/withdraw/ltc", {
                     method: "POST",
                     headers: {
                         Accept: "application/json, text/plain, */*",
