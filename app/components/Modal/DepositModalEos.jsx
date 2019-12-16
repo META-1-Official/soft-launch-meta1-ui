@@ -97,7 +97,7 @@ class DepositModalContent extends DecimalChecker {
                 >
                     <input
                         readOnly
-                        style={{height: "46px", width: "365px"}}
+                        style={{height: "46px", width: "100%"}}
                         value={this.state.depositAddress}
                     />
                     <CopyButton text={this.state.depositAddress} />
@@ -112,16 +112,16 @@ class DepositModalContent extends DecimalChecker {
                 >
                     <input
                         readOnly
-                        style={{height: "46px", width: "320px"}}
+                        style={{height: "46px", width: "100%"}}
                         value={this.state.depositMemo}
                     />
                     <CopyButton text={this.state.depositMemo} />
                 </div>
                 <h6>
-                    IMPORTANT: Deposits without MEMO will not be credited! Send
-                    only EOS to this deposit address. Sending less than 0.01 EOS
-                    or any other currency to this address may result in the loss
-                    of your deposit.
+                    <b>IMPORTANT:</b> Deposits without MEMO will not be
+                    credited! Send only EOS to this deposit address. Sending
+                    less than 0.01 EOS or any other currency to this address may
+                    result in the loss of your deposit.
                 </h6>
             </div>
         );

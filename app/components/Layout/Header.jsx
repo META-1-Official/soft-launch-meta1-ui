@@ -8,7 +8,7 @@ import SettingsActions from "actions/SettingsActions";
 import ZfApi from "react-foundation-apps/src/utils/foundation-api";
 import SendModal from "../Modal/SendModal";
 import WithdrawalModal from "../Modal/WithdrawalModal";
-import DepositModalMeta from "../Modal/DepositModalMeta";
+import DepositModalBtc from "../Modal/DepositModalBtc";
 import DepositModalEth from "../Modal/DepositModalEth";
 import DepositModalEthToken from "../Modal/DepositModalEthToken";
 import DepositModalEos from "../Modal/DepositModalEos";
@@ -1846,7 +1846,7 @@ class Header extends React.Component {
                     }}
                     from_name={currentAccount}
                 />
-                <DepositModalMeta
+                <DepositModalBtc
                     visibleMeta={this.state.isDepositModalVisibleMeta}
                     hideModalMeta={this.hideDepositModalMeta}
                     showModalMeta={this.showDepositModalMeta}

@@ -91,15 +91,15 @@ class DepositModalContent extends DecimalChecker {
                 >
                     <input
                         readOnly
-                        style={{height: "46px", width: "365px"}}
+                        style={{height: "46px", width: "100%"}}
                         value={this.state.depositAddress}
                     />
                     <CopyButton text={this.state.depositAddress} />
                 </div>
                 <h6>
-                    IMPORTANT: Send only LTC to this deposit address. Sending
-                    less than 0.01 LTC or any other currency to this address may
-                    result in the loss of your deposit.
+                    <b>IMPORTANT:</b> Send only LTC to this deposit address.
+                    Sending less than 0.01 LTC or any other currency to this
+                    address may result in the loss of your deposit.
                 </h6>
             </div>
         );

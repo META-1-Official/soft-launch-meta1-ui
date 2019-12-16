@@ -63,11 +63,11 @@ export default class DropDownMenu extends React.Component {
                 {locked ? (
                     <li
                         className={cnames({
-                            active: active.indexOf(`/registration/`) !== -1
+                            active: active.indexOf("/registration/") !== -1
                         })}
                         onClick={this.props.onNavigate.bind(
                             this,
-                            `/registration/`
+                            "/registration/"
                         )}
                     >
                         <div className="table-cell">
