@@ -91,7 +91,7 @@ class MarketHistoryView extends React.Component {
                         <table className="table table-no-padding order-table text-left fixed-table market-right-padding">
                             <thead>
                                 <tr>
-                                    <th style={{paddingLeft: "14%"}}>
+                                    <th style={{textAlign: "right"}}>
                                         <Translate
                                             className="header-sub-title"
                                             content="exchange.price"
@@ -105,7 +105,7 @@ class MarketHistoryView extends React.Component {
                                             />
                                         </span>
                                     </th>
-                                    <th style={{paddingLeft: "16%"}}>
+                                    <th style={{textAlign: "right"}}>
                                         <Translate
                                             className="header-sub-title"
                                             content="explorer.block.date"

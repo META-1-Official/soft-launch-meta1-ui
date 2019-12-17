@@ -4,7 +4,6 @@ import utils from "common/utils";
 import Translate from "react-translate-component";
 import PriceText from "../../Utility/PriceText";
 import AssetName from "../../Utility/AssetName";
-const rightAlign = {textAlign: "right"};
 import {Tooltip, Checkbox} from "bitshares-ui-style-guide";
 
 function MarketOrdersViewTableHeader({
@@ -32,27 +31,27 @@ function MarketOrdersViewTableHeader({
                         </Tooltip>
                     ) : null}
                 </th>
-                <th style={rightAlign}>
+                <th style={{textAlign: "right"}}>
                     <Translate
                         className="header-sub-title"
                         content="exchange.price"
                     />
                 </th>
-                <th style={rightAlign}>
+                <th style={{textAlign: "right"}}>
                     {baseSymbol ? (
                         <span className="header-sub-title">
                             <AssetName dataPlace="top" name={quoteSymbol} />
                         </span>
                     ) : null}
                 </th>
-                <th style={rightAlign}>
+                <th style={{textAlign: "right"}}>
                     {baseSymbol ? (
                         <span className="header-sub-title">
                             <AssetName dataPlace="top" name={baseSymbol} />
                         </span>
                     ) : null}
                 </th>
-                <th style={rightAlign}>
+                <th style={{textAlign: "right"}}>
                     <Translate
                         className="header-sub-title"
                         content="transaction.expiration"

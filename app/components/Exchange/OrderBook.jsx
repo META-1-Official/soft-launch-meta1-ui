@@ -892,7 +892,7 @@ class OrderBook extends React.Component {
             let rightHeader = (
                 <thead>
                     <tr key="top-header" className="top-header">
-                        <th style={{paddingLeft: "13%"}}>
+                        <th style={{textAlign: "right"}}>
                             <Translate
                                 className={
                                     (!flipOrderBook
@@ -902,14 +902,14 @@ class OrderBook extends React.Component {
                                 content="exchange.price"
                             />
                         </th>
-                        <th style={{paddingLeft: "20%"}}>
+                        <th style={{textAlign: "right"}}>
                             <span className="header-sub-title">
                                 <AssetName dataPlace="top" name={quoteSymbol} />
                             </span>
                         </th>
                         <th
                             /*className="column-hide-xs"*/ style={{
-                                paddingLeft: "7%"
+                                textAlign: "right"
                             }}
                         >
                             <Translate
