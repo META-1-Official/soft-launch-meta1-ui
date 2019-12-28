@@ -1259,10 +1259,17 @@ class Asset extends React.Component {
                     <Translate content="explorer.asset.permissions.max_market_fee" />
                 </td>
                 <td>
-                    <FormattedAsset
-                        amount={+options.max_market_fee}
-                        asset={asset.id}
-                    />
+                    {asset.symbol === "USD" ? (
+                        <FormattedAsset
+                            amount={+options.max_market_fee * 100}
+                            asset={asset.id}
+                        />
+                    ) : (
+                        <FormattedAsset
+                            amount={+options.max_market_fee}
+                            asset={asset.id}
+                        />
+                    )}
                 </td>
             </tr>
         ) : null;
@@ -1274,10 +1281,17 @@ class Asset extends React.Component {
                     <Translate content="explorer.asset.permissions.max_supply" />
                 </td>
                 <td>
-                    <FormattedAsset
-                        amount={+options.max_supply}
-                        asset={asset.id}
-                    />
+                    {asset.symbol === "USD" ? (
+                        <FormattedAsset
+                            amount={+options.max_supply * 100}
+                            asset={asset.id}
+                        />
+                    ) : (
+                        <FormattedAsset
+                            amount={+options.max_supply}
+                            asset={asset.id}
+                        />
+                    )}
                 </td>
             </tr>
         );
