@@ -30,6 +30,7 @@ class AccountRegistrationConfirm extends React.Component {
 
     constructor() {
         super();
+
         this.state = {
             confirmed: false
         };
@@ -37,6 +38,7 @@ class AccountRegistrationConfirm extends React.Component {
         this.toggleConfirmed = this.toggleConfirmed.bind(this);
         this.createAccount = this.createAccount.bind(this);
         this.onCreateAccount = this.onCreateAccount.bind(this);
+
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -44,6 +46,7 @@ class AccountRegistrationConfirm extends React.Component {
     }
 
     onFinishConfirm(confirmStoreState) {
+
         if (
             confirmStoreState.included &&
             confirmStoreState.broadcasted_transaction
@@ -134,8 +137,19 @@ class AccountRegistrationConfirm extends React.Component {
                         dataPlace="top"
                         className="button registration-layout--copy-password-btn"
                     />
-                </Form.Item>
 
+
+
+                </Form.Item>
+{/*                <Form.Item
+                    label={"2FA"}
+                >
+                <Input.TextArea
+                    disabled={true}
+                    rows={2}
+                    value={this.props.generated2FAnoSpaces}
+                />
+                </Form.Item>*/}
                 <Form.Item>
                     <Alert
                         showIcon
@@ -180,6 +194,7 @@ export default connect(
             return [AccountStore];
         },
         getProps() {
+
             return {};
         }
     }

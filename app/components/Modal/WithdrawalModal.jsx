@@ -12,7 +12,7 @@ import BalanceComponent from "../Utility/BalanceComponent";
 import utils from "common/utils";
 import counterpart from "counterpart";
 import {connect} from "alt-react";
-import {Form, Modal, Button, Tooltip, Input} from "bitshares-ui-style-guide";
+import {Form, Modal, Button, Tooltip, Input, Notification} from "bitshares-ui-style-guide";
 import WalletUnlockActions from "actions/WalletUnlockActions";
 import ReactTooltip from "react-tooltip";
 import WalletDb from "stores/WalletDb";
@@ -76,7 +76,8 @@ class WithdrawalModal extends React.Component {
             depositAddress: "",
             wif: "",
             address: "",
-            submitted: "Empty Address Field"
+            submitted: "Empty Address Field",
+            code: ""
         };
     }
 
@@ -119,138 +120,171 @@ class WithdrawalModal extends React.Component {
 
     withdraw(e) {
         e.preventDefault();
-
-        let {from_account, asset, amount} = this.state;
-
-        const sendAmount = new Asset({
-            real: amount,
-            asset_id: asset.get("id"),
-            precision: asset.get("precision")
-        });
-
-        let amountToSend = (sendAmount.getAmount() * 1) / 10000;
-
-        const minWithdrawal = {
-            BTC: 0.001,
-            ETH: 0.02,
-            LTC: 0.002,
-            EOS: 0.2,
-            XLM: 0.02
-        };
-
-        if (amountToSend < minWithdrawal[asset.get("symbol")]) {
-            swal(
-                "Amount is too small",
-                asset.get("symbol") +
-                    " Minimum Withdrawal: " +
-                    minWithdrawal[asset.get("symbol")],
-                "error"
-            );
-            return;
-        }
-
-        const wendpoints = {
-            BTC: "https://asterope.meta-exchange.info/api/withdraw/btc",
-            ETH: "https://asterope.meta-exchange.info/api/withdraw/eth",
-            LTC: "https://asterope.meta-exchange.info/api/withdraw/ltc",
-            EOS: "https://asterope.meta-exchange.info/api/withdraw/eos",
-            XLM: "https://asterope.meta-exchange.info/api/withdraw/xlm"
-        };
-
-        const withdrawalFee = {
-            BTC: 0.0005,
-            ETH: 0.01,
-            LTC: 0.001,
-            EOS: 0.1,
-            XLM: 0.01
-        };
-        let fee = withdrawalFee[asset.get("symbol")];
-
-        let account_balances = from_account.get("balances").toJS();
-        let balance_id = account_balances[asset.get("id")];
-        let balanceObject = ChainStore.getObject(balance_id);
-        let transferAsset = ChainStore.getObject(asset.get("id"));
-        let balance = new Asset({
-            amount: balanceObject.get("balance"),
-            asset_id: transferAsset.get("id"),
-            precision: transferAsset.get("precision")
-        });
-        let totalBalance = balance.getAmount({real: true});
-
-        if (amountToSend > totalBalance - fee) {
-            amountToSend -= fee;
-        }
-
-        WalletUnlockActions.unlock()
-            .then(() => {
-                ReactTooltip.rebuild();
+       fetch("http://localhost:5010/user/code", {
+            method: "POST",
+            headers: {
+                Accept: "application/json, text/plain, */*",
+                "Content-Type": "application/json",
+                "X-Requested-With": "XMLHttpRequest"
+            },
+            body: JSON.stringify({
+                metaId: this.state.from_name,
+                code: this.state.code
             })
-            .then(() => {
-                const keys = PrivateKeyStore.getState().keys;
-                let private_key = WalletDb.getPrivateKey(
-                    keys._root.entries[0][0]
-                );
-                let privatekey = private_key.toWif();
-                let url_endpoit = wendpoints[asset.get("symbol")];
+        })
+            .then(async response => {
+                if (response.status === 200) {
+                    let json = await response.json();
 
-                let queryBody;
 
-                if (
-                    asset.get("symbol") == "EOS" ||
-                    asset.get("symbol") == "XLM"
-                ) {
-                    queryBody = {
-                        amount: amountToSend,
-                        metaId: AccountStore.getState().currentAccount,
-                        address: this.state.address,
-                        memo: this.state.memo,
-                        privatekey
+                    let {from_account, asset, amount} = this.state;
+
+                    const sendAmount = new Asset({
+                        real: amount,
+                        asset_id: asset.get("id"),
+                        precision: asset.get("precision")
+                    });
+
+                    let amountToSend = (sendAmount.getAmount() * 1) / 10000;
+
+                    const minWithdrawal = {
+                        BTC: 0.001,
+                        ETH: 0.02,
+                        LTC: 0.002,
+                        EOS: 0.2,
+                        XLM: 0.02
                     };
+
+                    if (amountToSend < minWithdrawal[asset.get("symbol")]) {
+                        swal(
+                            "Amount is too small",
+                            asset.get("symbol") +
+                            " Minimum Withdrawal: " +
+                            minWithdrawal[asset.get("symbol")],
+                            "error"
+                        );
+                        return;
+                    }
+
+                    const wendpoints = {
+                        BTC: "https://asterope.meta-exchange.info/api/withdraw/btc",
+                        ETH: "https://asterope.meta-exchange.info/api/withdraw/eth",
+                        LTC: "https://asterope.meta-exchange.info/api/withdraw/ltc",
+                        EOS: "https://asterope.meta-exchange.info/api/withdraw/eos",
+                        XLM: "https://asterope.meta-exchange.info/api/withdraw/xlm"
+                    };
+
+                    const withdrawalFee = {
+                        BTC: 0.0005,
+                        ETH: 0.01,
+                        LTC: 0.001,
+                        EOS: 0.1,
+                        XLM: 0.01
+                    };
+                    let fee = withdrawalFee[asset.get("symbol")];
+
+                    let account_balances = from_account.get("balances").toJS();
+                    let balance_id = account_balances[asset.get("id")];
+                    let balanceObject = ChainStore.getObject(balance_id);
+                    let transferAsset = ChainStore.getObject(asset.get("id"));
+                    let balance = new Asset({
+                        amount: balanceObject.get("balance"),
+                        asset_id: transferAsset.get("id"),
+                        precision: transferAsset.get("precision")
+                    });
+                    let totalBalance = balance.getAmount({real: true});
+
+                    if (amountToSend > totalBalance - fee) {
+                        amountToSend -= fee;
+                    }
+
+
+
+                    WalletUnlockActions.unlock()
+                        .then(() => {
+                            ReactTooltip.rebuild();
+                        })
+                        .then(() => {
+                            const keys = PrivateKeyStore.getState().keys;
+                            let private_key = WalletDb.getPrivateKey(
+                                keys._root.entries[0][0]
+                            );
+                            let privatekey = private_key.toWif();
+                            let url_endpoit = wendpoints[asset.get("symbol")];
+
+                            let queryBody;
+
+                            if (
+                                asset.get("symbol") == "EOS" ||
+                                asset.get("symbol") == "XLM"
+                            ) {
+                                queryBody = {
+                                    amount: amountToSend,
+                                    metaId: AccountStore.getState().currentAccount,
+                                    address: this.state.address,
+                                    memo: this.state.memo,
+                                    privatekey
+                                };
+                            } else {
+                                queryBody = {
+                                    amount: amountToSend,
+                                    metaId: AccountStore.getState().currentAccount,
+                                    address: this.state.address,
+                                    privatekey
+                                };
+                            }
+
+                            fetch(url_endpoit, {
+                                method: "POST",
+                                headers: {
+                                    Accept: "application/json, text/plain, */*",
+                                    "Content-Type": "application/json",
+                                    "X-Requested-With": "XMLHttpRequest"
+                                },
+                                body: JSON.stringify({
+                                    account: queryBody
+                                })
+                            })
+                                .then(response => {
+                                    console.log(response);
+                                    //console.log(this.state.asset + "balance: " +totalBalance + " " + amountToSend + " " + AccountStore.getState().currentAccount + " " + this.state.address + " " + this.state.memo  + " " + privatekey);
+                                })
+                                .catch(error => {
+                                    swal("Oops!", error, "error", {
+                                        customClass: "swal-modal"
+                                    });
+                                });
+                        })
+                        .then(() => {
+                            swal(
+                                "Success!",
+                                "Submitted to the server! Sent " +
+                                (amountToSend + fee).toFixed(4) +
+                                " " +
+                                asset.get("symbol"),
+                                "success",
+                                {
+                                    customClass: "swal-modal"
+                                }
+                            );
+                        })
+                        .catch(error => {
+                            swal("Oops!", error, "error", {customClass: "swal-modal"});
+                        });
+
+
                 } else {
-                    queryBody = {
-                        amount: amountToSend,
-                        metaId: AccountStore.getState().currentAccount,
-                        address: this.state.address,
-                        privatekey
-                    };
+                    let json = await response.json();
+                    console.log(json);
+                    Notification.error({
+                        message: json.error
+                    });
                 }
 
-                fetch(url_endpoit, {
-                    method: "POST",
-                    headers: {
-                        Accept: "application/json, text/plain, */*",
-                        "Content-Type": "application/json",
-                        "X-Requested-With": "XMLHttpRequest"
-                    },
-                    body: JSON.stringify({
-                        account: queryBody
-                    })
-                })
-                    .then(response => {
-                        console.log(response);
-                        //console.log(this.state.asset + "balance: " +totalBalance + " " + amountToSend + " " + AccountStore.getState().currentAccount + " " + this.state.address + " " + this.state.memo  + " " + privatekey);
-                    })
-                    .catch(error => {
-                        swal("Oops!", error, "error", {
-                            customClass: "swal-modal"
-                        });
-                    });
-            })
-            .then(() => {
-                swal(
-                    "Success!",
-                    "Submitted to the server! Sent " +
-                        (amountToSend + fee).toFixed(4) +
-                        " " +
-                        asset.get("symbol"),
-                    "success",
-                    {
-                        customClass: "swal-modal"
-                    }
-                );
+
             })
             .catch(error => {
-                swal("Oops!", error, "error", {customClass: "swal-modal"});
+                console.log(error);
             });
     }
 
@@ -495,6 +529,12 @@ class WithdrawalModal extends React.Component {
         );
     }
 
+    onCodeChange(e) {
+        const value = e.currentTarget.value;
+        this.setState({ code: value  });
+        console.log(this.state.code);
+    }
+
     onMemoChanged(e) {
         let {asset_types} = this._getAvailableAssets();
         let {from_account, from_error, maxAmount} = this.state;
@@ -707,6 +747,14 @@ class WithdrawalModal extends React.Component {
                                     display_balance={balance}
                                     tabIndex={tabIndex++}
                                     allowNaN={true}
+                                />
+
+                                <Input
+                                    label="2fa.to"
+                                    //onChange={this.handleAddress.bind(this)}
+                                    onChange={this.onCodeChange.bind(this)}
+                                    style={{margin:"0 0 25px 0", width:"30%"}}
+                                    placeholder="Enter code 2FA"
                                 />
 
                                 <Input

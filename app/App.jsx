@@ -72,6 +72,10 @@ const Help = Loadable({
     loader: () => import(/* webpackChunkName: "help" */ "./components/Help"),
     loading: LoadingIndicator
 });
+const Confirm = Loadable({
+    loader: () => import(/* webpackChunkName: "confirm" */ "./components/Confirm"),
+    loading: LoadingIndicator
+});
 
 const Asset = Loadable({
     loader: () =>
@@ -488,6 +492,12 @@ class App extends React.Component {
                                     component={CreateWorker}
                                 />
 
+                                <Route exact path="/confirm" component={Confirm} />
+                                <Route
+                                    exact
+                                    path="/confirm/:confirmCode"
+                                    component={Confirm}
+                                />
                                 {/* Help routes */}
                                 <Route exact path="/help" component={Help} />
                                 <Route

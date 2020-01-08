@@ -14,7 +14,11 @@ import AccountSelect from "../Forms/AccountSelect";
 import LoadingIndicator from "../LoadingIndicator";
 import Icon from "../Icon/Icon";
 import CopyButton from "../Utility/CopyButton";
-import {Form, Input, Button, Tooltip} from "bitshares-ui-style-guide";
+import {Form, Input, Button, Tooltip, Notification} from "bitshares-ui-style-guide";
+
+import authenticator from "authenticator";
+import QRCode from "qrcode.react";
+import swal from "sweetalert";
 
 class AccountRegistrationForm extends React.Component {
     static propTypes = {
@@ -23,13 +27,18 @@ class AccountRegistrationForm extends React.Component {
 
     constructor() {
         super();
+        this.generated2FA = authenticator.generateKey();
         this.state = {
             validAccountName: false,
             accountName: "",
             registrarAccount: null,
             loading: false,
             generatedPassword: `P${key.get_random_key().toWif()}`,
-            confirmPassword: ""
+            generated2FA: this.generated2FA,
+            generated2FAnoSpaces: this.generated2FA.replace(/ /g, "").toUpperCase(),
+            confirmPassword: "",
+            email:""
+
         };
         this.onSubmit = this.onSubmit.bind(this);
         this.onRegistrarAccountChange = this.onRegistrarAccountChange.bind(
@@ -37,6 +46,7 @@ class AccountRegistrationForm extends React.Component {
         );
         this.onAccountNameChange = this.onAccountNameChange.bind(this);
         this.onConfirmation = this.onConfirmation.bind(this);
+        this.onEmailChange = this.onEmailChange.bind(this);
         this.accountNameInput = null;
     }
 
@@ -70,13 +80,56 @@ class AccountRegistrationForm extends React.Component {
         this.setState({registrarAccount});
     }
 
+    onEmailChange(e) {
+        const value = e.currentTarget.value;
+        this.setState({ email: value, generated2FAnoSpaces:this.state.generated2FAnoSpaces  });
+
+    }
+
     onSubmit(e) {
         e.preventDefault();
+
+        const url_endpoit = "https://asterope.meta-exchange.info/api/user/add";
+
+
         if (this.isValid()) {
-            this.props.continue({
-                accountName: this.state.accountName,
-                password: this.state.generatedPassword
-            });
+            fetch(url_endpoit, {
+                method: "POST",
+                headers: {
+                    Accept: "application/json, text/plain, */*",
+                    "Content-Type": "application/json",
+                    "X-Requested-With": "XMLHttpRequest"
+                },
+                body: JSON.stringify({
+                    email: this.state.email,
+                    code: this.state.generated2FAnoSpaces,
+                    metaId: this.state.accountName
+
+                })
+            })
+                .then(async response => {
+                    if (response.status === 200) {
+                        let json = await response.json();
+                        this.props.continue({
+                            accountName: this.state.accountName,
+                            password: this.state.generatedPassword
+                        });
+
+                    } else {
+                        let json = await response.json();
+                        console.log(json);
+                        Notification.error({
+                            message: json.error
+                        });
+
+                    }
+
+
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+
         }
     }
 
@@ -102,7 +155,6 @@ class AccountRegistrationForm extends React.Component {
 
     renderAccountCreateForm() {
         const {registrarAccount} = this.state;
-
         const myAccounts = AccountStore.getMyAccounts();
         const firstAccount = myAccounts.length === 0;
         const valid = this.isValid();
@@ -159,6 +211,16 @@ class AccountRegistrationForm extends React.Component {
                         noLabel
                     />
                     <Form.Item
+                        label={"Email"}
+                    >
+                        <Input
+                            id="email"
+                            placeholder="email@example.com"
+                            onChange={this.onEmailChange}
+                        />
+
+                    </Form.Item>
+                    <Form.Item
                         label={counterpart.translate("wallet.generated")}
                     >
                         <Input.TextArea
@@ -174,6 +236,7 @@ class AccountRegistrationForm extends React.Component {
                             dataPlace="top"
                             className="button registration-layout--copy-password-btn"
                         />
+
                     </Form.Item>
                     {/*<span className="inline-label generated-password-field">*/}
                     {/*<textarea*/}
@@ -207,6 +270,36 @@ class AccountRegistrationForm extends React.Component {
                             value={this.state.confirmPassword}
                             onChange={this.onConfirmation}
                         />
+                    </Form.Item>
+
+                    <Form.Item
+                        label={"2FA Two Factor Auth"}
+                    >
+                        <Input
+                            id="2FA"
+                            disabled={true}
+                            value={this.state.generated2FA}
+                        />
+                        <CopyButton
+                            text={this.state.generated2FA}
+                            dataPlace="top"
+                            className="button registration-layout--copy-password-btn"
+                        />
+                        <div style={{margin: "5px 0 0 0"}} >
+                            <span
+                                style={{
+                                    background: "#fff",
+                                    padding: ".75rem",
+                                    display: "inline-block"
+                                }}
+                            >
+
+                                <QRCode
+                                    size={128}
+                                    value={"otpauth://totp/META1?secret=" + this.state.generated2FAnoSpaces + "=&issuer=&algorithm=SHA1&digits=6&period=30"}
+                                />
+                            </span>
+                        </div>
                     </Form.Item>
                     {/*<span className="inline-label">*/}
                     {/*<input*/}
@@ -260,7 +353,9 @@ class AccountRegistrationForm extends React.Component {
                         </Button>
                     )}
                 </Form>
+
             </div>
+
         );
     }
 

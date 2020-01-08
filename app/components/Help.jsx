@@ -4,6 +4,7 @@ import {toPairs} from "lodash-es";
 
 class Help extends React.Component {
     render() {
+        console.log(this.props.match.params)
         let path = toPairs(this.props.match.params)
             .map(p => p[1])
             .join("/");
