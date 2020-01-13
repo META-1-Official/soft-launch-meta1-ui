@@ -314,6 +314,12 @@ form.order-form {
     }
 }
 
+@media screen and (max-width: 640px) {
+    .exchange--buy-sell-form {
+        max-width: 100% !important;
+    }
+}
+
 .left-order-book {
     width: 100%;
     display: flex;

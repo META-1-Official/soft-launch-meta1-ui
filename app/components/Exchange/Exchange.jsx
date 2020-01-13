@@ -2705,7 +2705,7 @@ class Exchange extends React.Component {
                 className={"left-order-book small-12"}
                 style={{
                     paddingLeft: 5,
-                    width: !smallScreen ? 600 : 300
+                    width: !smallScreen && 600
                 }}
             >
                 <Tabs
@@ -2956,7 +2956,6 @@ class Exchange extends React.Component {
                 <Collapse
                     activeKey={this.state.mobileKey}
                     onChange={this._onChangeMobilePanel.bind(this)}
-                    style={{paddingRight: 8}}
                 >
                     <Collapse.Panel
                         header={translator.translate("exchange.price_history")}
