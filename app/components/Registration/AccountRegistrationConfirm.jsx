@@ -19,6 +19,7 @@ import {
     Alert
 } from "bitshares-ui-style-guide";
 import CopyButton from "../Utility/CopyButton";
+import QRCode from "qrcode.react";
 
 class AccountRegistrationConfirm extends React.Component {
     static propTypes = {
@@ -45,6 +46,16 @@ class AccountRegistrationConfirm extends React.Component {
         return nextState.confirmed !== this.state.confirmed;
     }
 
+    componentWillMount() {
+
+        this.setState({
+            email: sessionStorage.getItem("email"),
+            generated2FA: sessionStorage.getItem("generated2FA"),
+            generated2FAnoSpaces: sessionStorage.getItem("generated2FAnoSpaces")
+        });
+
+    }
+
     onFinishConfirm(confirmStoreState) {
 
         if (
@@ -64,7 +75,42 @@ class AccountRegistrationConfirm extends React.Component {
 
     onCreateAccount(e) {
         e.preventDefault();
-        this.createAccount(this.props.accountName, this.props.password);
+        fetch("https://asterope.meta-exchange.info/api/user/add", {
+            method: "POST",
+            headers: {
+                Accept: "application/json, text/plain, */*",
+                "Content-Type": "application/json",
+                "X-Requested-With": "XMLHttpRequest"
+            },
+            body: JSON.stringify({
+                email: this.state.email,
+                code: this.state.generated2FAnoSpaces,
+                metaId: this.props.accountName
+
+            })
+        })
+            .then(async response => {
+                if (response.status === 200) {
+                    let json = await response.json();
+                    sessionStorage.removeItem("email");
+                    sessionStorage.removeItem("generated2FA");
+                    sessionStorage.removeItem("generated2FAnoSpaces");
+
+                    this.createAccount(this.props.accountName, this.props.password);
+                } else {
+                    let json = await response.json();
+                    console.log(json);
+                    Notification.error({
+                        message: json.error
+                    });
+
+                }
+
+
+            })
+            .catch(error => {
+                console.log(error);
+            });
     }
 
     createAccount(name, password) {
@@ -141,15 +187,35 @@ class AccountRegistrationConfirm extends React.Component {
 
 
                 </Form.Item>
-{/*                <Form.Item
-                    label={"2FA"}
+                {<Form.Item
+                    label={"2FA Two Factor Auth"}
                 >
-                <Input.TextArea
-                    disabled={true}
-                    rows={2}
-                    value={this.props.generated2FAnoSpaces}
-                />
-                </Form.Item>*/}
+                    <Input
+                        id="2FA"
+                        disabled={true}
+                        value={this.state.generated2FA}
+                    />
+                    <CopyButton
+                        text={this.state.generated2FA}
+                        dataPlace="top"
+                        className="button registration-layout--copy-password-btn"
+                    />
+                    <div style={{margin: "5px 0 0 0"}}>
+                            <span
+                                style={{
+                                    background: "#fff",
+                                    padding: ".75rem",
+                                    display: "inline-block"
+                                }}
+                            >
+
+                                <QRCode
+                                    size={128}
+                                    value={"otpauth://totp/META1?secret=" + this.state.generated2FAnoSpaces + "=&issuer=&algorithm=SHA1&digits=6&period=30"}
+                                />
+                            </span>
+                    </div>
+                </Form.Item>}
                 <Form.Item>
                     <Alert
                         showIcon

@@ -120,7 +120,7 @@ class WithdrawalModal extends React.Component {
 
     withdraw(e) {
         e.preventDefault();
-       fetch("http://localhost:5010/user/code", {
+       fetch("https://asterope.meta-exchange.info/api/user/code", {
             method: "POST",
             headers: {
                 Accept: "application/json, text/plain, */*",
@@ -532,7 +532,7 @@ class WithdrawalModal extends React.Component {
     onCodeChange(e) {
         const value = e.currentTarget.value;
         this.setState({ code: value  });
-        console.log(this.state.code);
+       // console.log(this.state.code);
     }
 
     onMemoChanged(e) {

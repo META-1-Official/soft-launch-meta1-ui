@@ -103,13 +103,17 @@ class AccountRegistrationForm extends React.Component {
                 body: JSON.stringify({
                     email: this.state.email,
                     code: this.state.generated2FAnoSpaces,
-                    metaId: this.state.accountName
+                    metaId: this.state.accountName,
+                    check:"check"
 
                 })
             })
                 .then(async response => {
                     if (response.status === 200) {
                         let json = await response.json();
+                        sessionStorage.generated2FA = this.state.generated2FA;
+                        sessionStorage.generated2FAnoSpaces = this.state.generated2FAnoSpaces;
+                        sessionStorage.email = this.state.email;
                         this.props.continue({
                             accountName: this.state.accountName,
                             password: this.state.generatedPassword

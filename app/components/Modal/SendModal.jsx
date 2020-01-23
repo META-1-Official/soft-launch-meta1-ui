@@ -16,7 +16,12 @@ import utils from "common/utils";
 import counterpart from "counterpart";
 import {connect} from "alt-react";
 import {getWalletName} from "branding";
-import {Form, Modal, Button, Tooltip, Input} from "bitshares-ui-style-guide";
+import {Form, Modal, Button, Tooltip, Input, Notification} from "bitshares-ui-style-guide";
+import swal from "sweetalert";
+import WalletUnlockActions from "../../actions/WalletUnlockActions";
+import ReactTooltip from "react-tooltip";
+import PrivateKeyStore from "../../stores/PrivateKeyStore";
+import WalletDb from "../../stores/WalletDb";
 
 const EqualWidthContainer = ({children}) => (
     <div
@@ -57,6 +62,7 @@ class SendModal extends React.Component {
 
         this.showModal = this.showModal.bind(this);
         this.hideModal = this.hideModal.bind(this);
+        this.onClose = this.onClose.bind(this);
         this.onClose = this.onClose.bind(this);
     }
 
@@ -121,7 +127,8 @@ class SendModal extends React.Component {
                 propose_account: "",
                 feeAmount: getUninitializedFeeAmount(),
                 maxAmount: false,
-                hidden: false
+                hidden: false,
+                code:""
             },
             () => {
                 if (publishClose) this.hideModal();
@@ -129,43 +136,81 @@ class SendModal extends React.Component {
         );
     }
 
+    onCodeChange(e) {
+        const value = e.currentTarget.value;
+        this.setState({ code: value  });
+    }
+
     onSubmit(e) {
         e.preventDefault();
-        this.setState({error: null});
-
-        const {asset} = this.state;
-        let {amount} = this.state;
-        const sendAmount = new Asset({
-            real: amount,
-            asset_id: asset.get("id"),
-            precision: asset.get("precision")
-        });
-
-        this.setState({hidden: true});
-
-        AccountActions.transfer(
-            this.state.from_account.get("id"),
-            this.state.to_account.get("id"),
-            sendAmount.getAmount(),
-            asset.get("id"),
-            this.state.memo
-                ? new Buffer(this.state.memo, "utf-8")
-                : this.state.memo,
-            this.state.propose ? this.state.propose_account : null,
-            this.state.feeAmount.asset_id
-        )
-            .then(() => {
-                this.onClose();
-                TransactionConfirmStore.unlisten(this.onTrxIncluded);
-                TransactionConfirmStore.listen(this.onTrxIncluded);
+        fetch("https://asterope.meta-exchange.info/api/user/code", {
+            method: "POST",
+            headers: {
+                Accept: "application/json, text/plain, */*",
+                "Content-Type": "application/json",
+                "X-Requested-With": "XMLHttpRequest"
+            },
+            body: JSON.stringify({
+                metaId: this.state.from_name,
+                code: this.state.code
             })
-            .catch(e => {
-                let msg = e.message
-                    ? e.message.split("\n")[1] || e.message
-                    : null;
-                console.log("error: ", e, msg);
-                this.setState({error: msg});
+        })
+            .then(async response => {
+                if (response.status === 200) {
+                    let json = await response.json();
+
+                    this.setState({error: null});
+
+                    const {asset} = this.state;
+                    let {amount} = this.state;
+                    const sendAmount = new Asset({
+                        real: amount,
+                        asset_id: asset.get("id"),
+                        precision: asset.get("precision")
+                    });
+
+                    this.setState({hidden: true});
+
+                    AccountActions.transfer(
+                        this.state.from_account.get("id"),
+                        this.state.to_account.get("id"),
+                        sendAmount.getAmount(),
+                        asset.get("id"),
+                        this.state.memo
+                            ? new Buffer(this.state.memo, "utf-8")
+                            : this.state.memo,
+                        this.state.propose ? this.state.propose_account : null,
+                        this.state.feeAmount.asset_id
+                    )
+                        .then(() => {
+                            this.onClose();
+                            TransactionConfirmStore.unlisten(this.onTrxIncluded);
+                            TransactionConfirmStore.listen(this.onTrxIncluded);
+                        })
+                        .catch(e => {
+                            let msg = e.message
+                                ? e.message.split("\n")[1] || e.message
+                                : null;
+                            console.log("error: ", e, msg);
+                            this.setState({error: msg});
+                        });
+
+
+                } else {
+                    let json = await response.json();
+                    console.log(json);
+                    Notification.error({
+                        message: json.error
+                    });
+                }
+
+
+            })
+            .catch(error => {
+                console.log(error);
             });
+
+
     }
 
     _initForm() {
@@ -672,7 +717,12 @@ class SendModal extends React.Component {
                                         />
                                     </Tooltip>
                                 </Form.Item>
-
+                                <Input
+                                    label="2fa.to"
+                                    onChange={this.onCodeChange.bind(this)}
+                                    style={{margin:"0 0 25px 0", width:"30%"}}
+                                    placeholder="Enter code 2FA"
+                                />
                                 <FeeAssetSelector
                                     label="transfer.fee"
                                     account={from_account}
