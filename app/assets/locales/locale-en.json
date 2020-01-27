@@ -2469,6 +2469,7 @@
         "operations": "Operations"
     },
     "transfer": {
+        "2fa": "2FA",
         "again": "MAKE ANOTHER TRANSFER",
         "amount": "Amount",
         "available": "Available",
@@ -2514,6 +2515,7 @@
         "see": "SEE MY TRANSFERS",
         "send": "Send",
         "withdraw": "Withdraw",
+        "withdrawal_address": "To Address",
         "total": "Total: ",
         "to": "To",
         "warn_name_unable_read_memo": "Proposed sender will be unable to read this memo!"

@@ -12,13 +12,21 @@ import BalanceComponent from "../Utility/BalanceComponent";
 import utils from "common/utils";
 import counterpart from "counterpart";
 import {connect} from "alt-react";
-import {Form, Modal, Button, Tooltip, Input, Notification} from "bitshares-ui-style-guide";
+import {
+    Form,
+    Modal,
+    Button,
+    Tooltip,
+    Input,
+    Notification
+} from "bitshares-ui-style-guide";
 import WalletUnlockActions from "actions/WalletUnlockActions";
 import ReactTooltip from "react-tooltip";
 import WalletDb from "stores/WalletDb";
 import PrivateKeyStore from "stores/PrivateKeyStore";
-import CAValidator from "cryptocurrency-address-validator";
+import WAValidator from "@swyftx/api-crypto-address-validator";
 import swal from "sweetalert";
+import LoadingIndicator from "../LoadingIndicator";
 
 const getUninitializedFeeAmount = () =>
     new Asset({amount: 0, asset_id: "1.3.1"});
@@ -58,6 +66,7 @@ class WithdrawalModal extends React.Component {
 
     getInitialState() {
         return {
+            loading: false,
             isModalVisible: false,
             from_name: "",
             from_account: null,
@@ -92,6 +101,7 @@ class WithdrawalModal extends React.Component {
         ZfApi.unsubscribe("transaction_confirm_actions");
         this.setState(
             {
+                loading: false,
                 open: false,
                 from_name: "",
                 from_account: null,
@@ -110,7 +120,8 @@ class WithdrawalModal extends React.Component {
                 depositAddress: "",
                 wif: "",
                 address: "",
-                submitted: "Empty Address Field"
+                submitted: "Empty Address Field",
+                code: ""
             },
             () => {
                 if (publishClose) this.hideModal();
@@ -120,7 +131,7 @@ class WithdrawalModal extends React.Component {
 
     withdraw(e) {
         e.preventDefault();
-       fetch("https://asterope.meta-exchange.info/api/user/code", {
+        fetch("https://asterope.meta-exchange.info/api/user/code", {
             method: "POST",
             headers: {
                 Accept: "application/json, text/plain, */*",
@@ -135,7 +146,6 @@ class WithdrawalModal extends React.Component {
             .then(async response => {
                 if (response.status === 200) {
                     let json = await response.json();
-
 
                     let {from_account, asset, amount} = this.state;
 
@@ -152,34 +162,28 @@ class WithdrawalModal extends React.Component {
                         ETH: 0.02,
                         LTC: 0.002,
                         EOS: 0.2,
-                        XLM: 0.02
+                        XLM: 0.02,
+                        BNB: 0.002
                     };
 
                     if (amountToSend < minWithdrawal[asset.get("symbol")]) {
                         swal(
                             "Amount is too small",
                             asset.get("symbol") +
-                            " Minimum Withdrawal: " +
-                            minWithdrawal[asset.get("symbol")],
+                                " Minimum Withdrawal: " +
+                                minWithdrawal[asset.get("symbol")],
                             "error"
                         );
                         return;
                     }
-
-                    const wendpoints = {
-                        BTC: "https://asterope.meta-exchange.info/api/withdraw/btc",
-                        ETH: "https://asterope.meta-exchange.info/api/withdraw/eth",
-                        LTC: "https://asterope.meta-exchange.info/api/withdraw/ltc",
-                        EOS: "https://asterope.meta-exchange.info/api/withdraw/eos",
-                        XLM: "https://asterope.meta-exchange.info/api/withdraw/xlm"
-                    };
 
                     const withdrawalFee = {
                         BTC: 0.0005,
                         ETH: 0.01,
                         LTC: 0.001,
                         EOS: 0.1,
-                        XLM: 0.01
+                        XLM: 0.01,
+                        BNB: 0.001
                     };
                     let fee = withdrawalFee[asset.get("symbol")];
 
@@ -198,56 +202,69 @@ class WithdrawalModal extends React.Component {
                         amountToSend -= fee;
                     }
 
-
-
                     WalletUnlockActions.unlock()
                         .then(() => {
                             ReactTooltip.rebuild();
                         })
                         .then(() => {
+                            this.setState({loading: true});
                             const keys = PrivateKeyStore.getState().keys;
                             let private_key = WalletDb.getPrivateKey(
                                 keys._root.entries[0][0]
                             );
                             let privatekey = private_key.toWif();
-                            let url_endpoit = wendpoints[asset.get("symbol")];
 
-                            let queryBody;
-
-                            if (
-                                asset.get("symbol") == "EOS" ||
-                                asset.get("symbol") == "XLM"
-                            ) {
-                                queryBody = {
-                                    amount: amountToSend,
-                                    metaId: AccountStore.getState().currentAccount,
-                                    address: this.state.address,
-                                    memo: this.state.memo,
-                                    privatekey
-                                };
-                            } else {
-                                queryBody = {
-                                    amount: amountToSend,
-                                    metaId: AccountStore.getState().currentAccount,
-                                    address: this.state.address,
-                                    privatekey
-                                };
-                            }
-
-                            fetch(url_endpoit, {
-                                method: "POST",
-                                headers: {
-                                    Accept: "application/json, text/plain, */*",
-                                    "Content-Type": "application/json",
-                                    "X-Requested-With": "XMLHttpRequest"
-                                },
-                                body: JSON.stringify({
-                                    account: queryBody
-                                })
-                            })
-                                .then(response => {
-                                    console.log(response);
-                                    //console.log(this.state.asset + "balance: " +totalBalance + " " + amountToSend + " " + AccountStore.getState().currentAccount + " " + this.state.address + " " + this.state.memo  + " " + privatekey);
+                            fetch(
+                                "https://asterope.meta-exchange.info/api/withdraw/" +
+                                    asset.get("symbol"),
+                                {
+                                    method: "POST",
+                                    headers: {
+                                        Accept:
+                                            "application/json, text/plain, */*",
+                                        "Content-Type": "application/json",
+                                        "X-Requested-With": "XMLHttpRequest"
+                                    },
+                                    body: JSON.stringify({
+                                        account: {
+                                            amount: amountToSend,
+                                            metaId: AccountStore.getState()
+                                                .currentAccount,
+                                            address: this.state.address,
+                                            memo: this.state.memo,
+                                            privatekey
+                                        }
+                                    })
+                                }
+                            )
+                                .then(res => {
+                                    console.log(res);
+                                    if (res.status == 200) {
+                                        this.setState({loading: false});
+                                        swal(
+                                            "Success!",
+                                            "Submitted to the server! Sent " +
+                                                (amountToSend + fee).toFixed(
+                                                    4
+                                                ) +
+                                                " " +
+                                                asset.get("symbol"),
+                                            "success",
+                                            {
+                                                customClass: "swal-modal"
+                                            }
+                                        );
+                                    } else {
+                                        this.setState({loading: false});
+                                        swal(
+                                            "Something went wrong",
+                                            "Check Address of Recipient or META1 balance",
+                                            "error",
+                                            {
+                                                customClass: "swal-modal"
+                                            }
+                                        );
+                                    }
                                 })
                                 .catch(error => {
                                     swal("Oops!", error, "error", {
@@ -255,24 +272,11 @@ class WithdrawalModal extends React.Component {
                                     });
                                 });
                         })
-                        .then(() => {
-                            swal(
-                                "Success!",
-                                "Submitted to the server! Sent " +
-                                (amountToSend + fee).toFixed(4) +
-                                " " +
-                                asset.get("symbol"),
-                                "success",
-                                {
-                                    customClass: "swal-modal"
-                                }
-                            );
-                        })
                         .catch(error => {
-                            swal("Oops!", error, "error", {customClass: "swal-modal"});
+                            swal("Oops!", error, "error", {
+                                customClass: "swal-modal"
+                            });
                         });
-
-
                 } else {
                     let json = await response.json();
                     console.log(json);
@@ -280,8 +284,6 @@ class WithdrawalModal extends React.Component {
                         message: json.error
                     });
                 }
-
-
             })
             .catch(error => {
                 console.log(error);
@@ -299,11 +301,17 @@ class WithdrawalModal extends React.Component {
             function() {
                 if (this.state.address !== "") {
                     if (
-                        asset.get("symbol") == "EOS" &&
-                        this.state.address.length == 12
+                        asset.get("symbol") == "LTC" &&
+                        //this.state.address.match(/^[LM3Q2mnt][a-zA-HJ-NP-Z1-9]{26,44}$/)
+                        this.state.address.match(/^tltc.*$/)
                     )
                         return this.setState({submitted: "Correct!"});
-                    let valid = CAValidator.validate(
+                    if (
+                        asset.get("symbol") == "BNB" &&
+                        this.state.address.match(/^(tbnb)([a-z0-9]{39})$/)
+                    )
+                        return this.setState({submitted: "Correct!"});
+                    let valid = WAValidator.validate(
                         this.state.address,
                         asset.get("symbol"),
                         "testnet"
@@ -314,6 +322,12 @@ class WithdrawalModal extends React.Component {
                         this.setState({submitted: "Incorrect!"});
                     }
                 }
+                /*if (this.state.address !== "") {
+                    this.setState({submitted: "Correct!"});
+                }
+                else {
+                    this.setState({submitted: "Incorrect!"});
+                }*/
             }
         );
     };
@@ -509,12 +523,7 @@ class WithdrawalModal extends React.Component {
 
                 //this.handleAddress
                 if (this.state.address !== "") {
-                    if (
-                        asset.get("symbol") == "EOS" &&
-                        this.state.address.length == 12
-                    )
-                        return this.setState({submitted: "Correct!"});
-                    let valid = CAValidator.validate(
+                    let valid = WAValidator.validate(
                         this.state.address,
                         asset.get("symbol"),
                         "testnet"
@@ -525,14 +534,20 @@ class WithdrawalModal extends React.Component {
                         this.setState({submitted: "Incorrect!"});
                     }
                 }
+
+                /*if (this.state.address !== "") {
+                    this.setState({submitted: "Correct!"});
+                }
+                else {
+                    this.setState({submitted: "Incorrect!"});
+                }*/
             }
         );
     }
 
     onCodeChange(e) {
         const value = e.currentTarget.value;
-        this.setState({ code: value  });
-       // console.log(this.state.code);
+        this.setState({code: value});
     }
 
     onMemoChanged(e) {
@@ -610,8 +625,12 @@ class WithdrawalModal extends React.Component {
             balanceError,
             hidden,
             address,
-            submitted
+            submitted,
+            code
         } = this.state;
+
+        const memoAssets = ["EOS", "XLM", "BNB"];
+
         let from_my_account =
             AccountStore.isMyAccount(from_account) ||
             from_name === this.props.passwordAccount;
@@ -672,6 +691,8 @@ class WithdrawalModal extends React.Component {
             String.prototype.replace.call(amount, /,/g, "")
         );
         const isAmountValid = amountValue && !isNaN(amountValue);
+        const isCodeValid = code.length == 6;
+
         const isSubmitNotValid =
             !from_account ||
             !isAmountValid ||
@@ -680,9 +701,12 @@ class WithdrawalModal extends React.Component {
             propose_incomplete ||
             balanceError ||
             !address ||
-            submitted == "Incorrect!";
+            submitted == "Incorrect!" ||
+            !isCodeValid;
 
         let tabIndex = this.props.tabIndex; // Continue tabIndex on props count
+
+        console.log(this.state.loading);
 
         return !this.state.open ? null : (
             <div
@@ -729,6 +753,9 @@ class WithdrawalModal extends React.Component {
                         </Button>
                     ]}
                 >
+                    {this.state.loading ? (
+                        <LoadingIndicator type="three-bounce" />
+                    ) : null}
                     <div className="grid-block vertical no-overflow">
                         {this.state.open ? (
                             <Form className="full-width" layout="vertical">
@@ -749,43 +776,44 @@ class WithdrawalModal extends React.Component {
                                     allowNaN={true}
                                 />
 
-                                <Input
-                                    label="2fa.to"
-                                    //onChange={this.handleAddress.bind(this)}
-                                    onChange={this.onCodeChange.bind(this)}
-                                    style={{margin:"0 0 25px 0", width:"30%"}}
-                                    placeholder="Enter code 2FA"
-                                />
+                                <Form.Item
+                                    label={
+                                        this.state.submitted == "Incorrect!" ? (
+                                            <b
+                                                className="has-error"
+                                                style={{fontWeight: "normal"}}
+                                            >
+                                                {"Address " +
+                                                    this.state.submitted}
+                                            </b>
+                                        ) : (
+                                            counterpart.translate(
+                                                "transfer.withdrawal_address"
+                                            )
+                                        )
+                                    }
+                                >
+                                    <Input
+                                        onChange={this.handleAddress.bind(this)}
+                                        placeholder="Your address to withdraw"
+                                    />
+                                </Form.Item>
 
-                                <Input
-                                    label="transfer.to"
-                                    onChange={this.handleAddress.bind(this)}
-                                    placeholder="Your address to withdraw"
-                                />
-
-                                <span>
-                                    {this.state.submitted !== "Correct!" ? (
-                                        <b
-                                            className="has-error"
-                                            style={{fontWeight: "normal"}}
-                                        >
-                                            {this.state.submitted}
-                                        </b>
-                                    ) : null}
-                                </span>
-
-                                {/*{memo && memo.length ? (
-                                    <label className="right-label">
-                                        {memo.length}
-                                    </label>
-                                ) : null}*/}
+                                <Form.Item
+                                    label={counterpart.translate(
+                                        "transfer.2fa"
+                                    )}
+                                >
+                                    <Input
+                                        onChange={this.onCodeChange.bind(this)}
+                                        placeholder="Enter code 2FA"
+                                    />
+                                </Form.Item>
 
                                 {asset_types.length > 0 &&
                                 asset &&
-                                (asset.get("symbol") == "EOS" ||
-                                    asset.get("symbol") == "XLM") ? (
+                                memoAssets.includes(asset.get("symbol")) ? (
                                     <Form.Item
-                                        style={{marginTop: "15px"}}
                                         label={counterpart.translate(
                                             "transfer.memo"
                                         )}
