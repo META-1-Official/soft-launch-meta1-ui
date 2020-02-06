@@ -239,32 +239,18 @@ class WithdrawalModal extends React.Component {
                             )
                                 .then(res => {
                                     console.log(res);
-                                    if (res.status == 200) {
-                                        this.setState({loading: false});
-                                        swal(
-                                            "Success!",
-                                            "Submitted to the server! Sent " +
-                                                (amountToSend + fee).toFixed(
-                                                    4
-                                                ) +
-                                                " " +
-                                                asset.get("symbol"),
-                                            "success",
-                                            {
-                                                customClass: "swal-modal"
-                                            }
-                                        );
-                                    } else {
-                                        this.setState({loading: false});
-                                        swal(
-                                            "Something went wrong",
-                                            "Check Address of Recipient or META1 balance",
-                                            "error",
-                                            {
-                                                customClass: "swal-modal"
-                                            }
-                                        );
-                                    }
+                                    this.setState({loading: false});
+                                    swal(
+                                        "Success!",
+                                        "Submitted to the server! Sent " +
+                                            (amountToSend + fee).toFixed(4) +
+                                            " " +
+                                            asset.get("symbol"),
+                                        "success",
+                                        {
+                                            customClass: "swal-modal"
+                                        }
+                                    );
                                 })
                                 .catch(error => {
                                     swal("Oops!", error, "error", {
@@ -322,12 +308,6 @@ class WithdrawalModal extends React.Component {
                         this.setState({submitted: "Incorrect!"});
                     }
                 }
-                /*if (this.state.address !== "") {
-                    this.setState({submitted: "Correct!"});
-                }
-                else {
-                    this.setState({submitted: "Incorrect!"});
-                }*/
             }
         );
     };
@@ -534,13 +514,6 @@ class WithdrawalModal extends React.Component {
                         this.setState({submitted: "Incorrect!"});
                     }
                 }
-
-                /*if (this.state.address !== "") {
-                    this.setState({submitted: "Correct!"});
-                }
-                else {
-                    this.setState({submitted: "Incorrect!"});
-                }*/
             }
         );
     }

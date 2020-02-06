@@ -13,6 +13,7 @@ import DepositModalEth from "../Modal/DepositModalEth";
 import DepositModalEthToken from "../Modal/DepositModalEthToken";
 import DepositModalEos from "../Modal/DepositModalEos";
 import DepositModalXlm from "../Modal/DepositModalXlm";
+import DepositModalBnb from "../Modal/DepositModalBnb";
 import DepositModalLtc from "../Modal/DepositModalLtc";
 import Icon from "../Icon/Icon";
 import Translate from "react-translate-component";
@@ -56,7 +57,7 @@ class Header extends React.Component {
             hasDepositModalBeenShown: false,
             isWithdrawModalVisible: false,
             hasWithdrawalModalBeenShown: false,
-            isDepositModalVisibleMeta: false,
+            isDepositModalVisibleBtc: false,
             isWithdrawModalVisibleMeta: false
         };
 
@@ -89,24 +90,31 @@ class Header extends React.Component {
             this
         );
 
-        this.showDepositModalMeta = this.showDepositModalMeta.bind(this);
-        this.hideDepositModalMeta = this.hideDepositModalMeta.bind(this);
+        this.showDepositModalBtc = this.showDepositModalBtc.bind(this);
+        this.hideDepositModalBtc = this.hideDepositModalBtc.bind(this);
 
         this.showDepositModalEth = this.showDepositModalEth.bind(this);
-        this.showDepositModalEthToken = this.showDepositModalEthToken.bind(
-            this
-        );
-        this.showDepositModalEos = this.showDepositModalEos.bind(this);
-        this.showDepositModalXlm = this.showDepositModalXlm.bind(this);
         this.hideDepositModalEth = this.hideDepositModalEth.bind(this);
-        this.hideDepositModalEthToken = this.hideDepositModalEthToken.bind(
-            this
-        );
+
+        this.showDepositModalEos = this.showDepositModalEos.bind(this);
         this.hideDepositModalEos = this.hideDepositModalEos.bind(this);
+
+        this.showDepositModalXlm = this.showDepositModalXlm.bind(this);
         this.hideDepositModalXlm = this.hideDepositModalXlm.bind(this);
+
+        this.showDepositModalBnb = this.showDepositModalBnb.bind(this);
+        this.hideDepositModalBnb = this.hideDepositModalBnb.bind(this);
 
         this.showDepositModalLtc = this.showDepositModalLtc.bind(this);
         this.hideDepositModalLtc = this.hideDepositModalLtc.bind(this);
+
+        this.showDepositModalEthToken = this.showDepositModalEthToken.bind(
+            this
+        );
+        this.hideDepositModalEthToken = this.hideDepositModalEthToken.bind(
+            this
+        );
+
         this.showDepositModal = this.showDepositModal.bind(this);
         this.hideDepositModal = this.hideDepositModal.bind(this);
         this.showWithdrawModal = this.showWithdrawModal.bind(this);
@@ -172,9 +180,9 @@ class Header extends React.Component {
             this.props.history.push("/settings/general");
         }
     }
-    showDepositModalMeta() {
+    showDepositModalBtc() {
         this.setState({
-            isDepositModalVisibleMeta: true
+            isDepositModalVisibleBtc: true
         });
     }
 
@@ -196,6 +204,12 @@ class Header extends React.Component {
         });
     }
 
+    showDepositModalBnb() {
+        this.setState({
+            isDepositModalVisibleBnb: true
+        });
+    }
+
     showDepositModalXlm() {
         this.setState({
             isDepositModalVisibleXlm: true
@@ -208,9 +222,9 @@ class Header extends React.Component {
         });
     }
 
-    _showDepositMeta(e) {
+    _showDepositBtc(e) {
         e.preventDefault();
-        this.showDepositModalMeta();
+        this.showDepositModalBtc();
         this._closeDropdown();
     }
 
@@ -229,6 +243,12 @@ class Header extends React.Component {
     _showDepositEos(e) {
         e.preventDefault();
         this.showDepositModalEos();
+        this._closeDropdown();
+    }
+
+    _showDepositBnb(e) {
+        e.preventDefault();
+        this.showDepositModalBnb();
         this._closeDropdown();
     }
 
@@ -282,9 +302,9 @@ class Header extends React.Component {
         this._closeDropdown();
     }
 
-    hideDepositModalMeta() {
+    hideDepositModalBtc() {
         this.setState({
-            isDepositModalVisibleMeta: false
+            isDepositModalVisibleBtc: false
         });
     }
 
@@ -303,6 +323,12 @@ class Header extends React.Component {
     hideDepositModalEos() {
         this.setState({
             isDepositModalVisibleEos: false
+        });
+    }
+
+    hideDepositModalBnb() {
+        this.setState({
+            isDepositModalVisibleBnb: false
         });
     }
 
@@ -1494,9 +1520,9 @@ class Header extends React.Component {
                             />
                         </div>
                     </li>
-                    <li onClick={this._showDepositMeta.bind(this)}>
+                    <li onClick={this._showDepositBtc.bind(this)}>
                         <Translate
-                            content="modal.deposit.bitshares"
+                            content="modal.deposit.btc"
                             component="div"
                             className="table-cell"
                         />
@@ -1518,6 +1544,13 @@ class Header extends React.Component {
                     <li onClick={this._showDepositEos.bind(this)}>
                         <Translate
                             content="modal.deposit.eos"
+                            component="div"
+                            className="table-cell"
+                        />
+                    </li>
+                    <li onClick={this._showDepositBnb.bind(this)}>
+                        <Translate
+                            content="modal.deposit.bnb"
                             component="div"
                             className="table-cell"
                         />
@@ -1847,9 +1880,9 @@ class Header extends React.Component {
                     from_name={currentAccount}
                 />
                 <DepositModalBtc
-                    visibleMeta={this.state.isDepositModalVisibleMeta}
-                    hideModalMeta={this.hideDepositModalMeta}
-                    showModalMeta={this.showDepositModalMeta}
+                    visibleMeta={this.state.isDepositModalVisibleBtc}
+                    hideModalMeta={this.hideDepositModalBtc}
+                    showModalMeta={this.showDepositModalBtc}
                     ref="deposit_modal_new1"
                     modalId="deposit_modal_new1"
                     account={currentAccount}
@@ -1866,6 +1899,14 @@ class Header extends React.Component {
                     visibleMeta={this.state.isDepositModalVisibleEos}
                     hideModalMeta={this.hideDepositModalEos}
                     showModalMeta={this.showDepositModalEos}
+                    ref="deposit_modal_newfsdfs11"
+                    modalId="deposit_modal_newfsdfs11"
+                    account={currentAccount}
+                />
+                <DepositModalBnb
+                    visibleMeta={this.state.isDepositModalVisibleBnb}
+                    hideModalMeta={this.hideDepositModalBnb}
+                    showModalMeta={this.showDepositModalBnb}
                     ref="deposit_modal_newfsdfs11"
                     modalId="deposit_modal_newfsdfs11"
                     account={currentAccount}

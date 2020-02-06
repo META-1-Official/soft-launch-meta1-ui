@@ -86,42 +86,70 @@ class DepositModalContent extends DecimalChecker {
     render() {
         return (
             <div>
-                <h5>Your deposit address for XLM:</h5>
+                <h5>Minimum deposit: 0.1 XLM</h5>
                 <div
-                    style={{
-                        display: "flex",
-                        color: "black",
-                        marginTop: "-15px",
-                        marginBottom: "-15px"
-                    }}
+                    className="grid-block container-row"
+                    style={{paddingBottom: "1rem"}}
                 >
-                    <input
-                        readOnly
-                        style={{height: "46px", width: "100%"}}
-                        value={this.state.depositAddress}
-                    />
-                    <CopyButton text={this.state.depositAddress} />
+                    <div style={{paddingRight: "1rem"}}>
+                        <CopyButton
+                            text={this.state.depositAddress}
+                            className={"copyIcon"}
+                        />
+                    </div>
+                    <div style={{wordBreak: "break-word"}}>
+                        <div
+                            style={{
+                                fontSize: "0.8rem",
+                                fontWeight: "bold",
+                                paddingBottom: "0.3rem"
+                            }}
+                        >
+                            Your deposit address for XLM:
+                        </div>
+                        <div
+                            className="modal__highlight"
+                            style={{
+                                fontSize: "0.9rem",
+                                wordBreak: "break-all"
+                            }}
+                        >
+                            {this.state.depositAddress}
+                        </div>
+                    </div>
                 </div>
-                <h5>MEMO:</h5>
-                <div
-                    style={{
-                        display: "flex",
-                        color: "black",
-                        marginTop: "-15px"
-                    }}
-                >
-                    <input
-                        readOnly
-                        style={{height: "46px", width: "100%"}}
-                        value={this.state.depositMemo}
-                    />
-                    <CopyButton text={this.state.depositMemo} />
+                <div className="grid-block container-row">
+                    <div style={{paddingRight: "1rem"}}>
+                        <CopyButton
+                            text={this.state.depositMemo}
+                            className={"copyIcon"}
+                        />
+                    </div>
+                    <div style={{wordBreak: "break-word"}}>
+                        <div
+                            style={{
+                                fontSize: "0.8rem",
+                                fontWeight: "bold",
+                                paddingBottom: "0.3rem"
+                            }}
+                        >
+                            Memo required for proper routing to your account
+                        </div>
+                        <div
+                            className="modal__highlight"
+                            style={{
+                                fontSize: "0.9rem",
+                                wordBreak: "break-all"
+                            }}
+                        >
+                            {this.state.depositMemo}
+                        </div>
+                    </div>
                 </div>
                 <h6>
-                    <b>IMPORTANT:</b> Deposits without MEMO will not be
-                    credited! Send only XLM to this deposit address. Sending
-                    less than 0.01 XLM or any other currency to this address may
-                    result in the loss of your deposit.
+                    <b>IMPORTANT:</b> Send only XLM to this deposit address.
+                    Sending less than 0.1 XLM or any other currency to this
+                    address may result in the loss of your deposit.
                 </h6>
             </div>
         );

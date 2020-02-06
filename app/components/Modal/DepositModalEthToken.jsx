@@ -5,6 +5,7 @@ import counterpart from "counterpart";
 import {Modal, Button} from "bitshares-ui-style-guide";
 import CopyButton from "../Utility/CopyButton";
 import AccountStore from "stores/AccountStore";
+import QRCode from "qrcode.react";
 
 class DepositModalContent extends DecimalChecker {
     constructor() {
@@ -82,23 +83,41 @@ class DepositModalContent extends DecimalChecker {
     render() {
         return (
             <div>
-                <h5>Your deposit address for ETH tokens:</h5>
-                <div
-                    style={{
-                        display: "flex",
-                        color: "black"
-                    }}
-                >
-                    <input
-                        readOnly
-                        style={{height: "46px", width: "365px"}}
-                        value={this.state.depositAddress}
-                    />
-                    <CopyButton text={this.state.depositAddress} />
+                <div className="QR" style={{textAlign: "center"}}>
+                    <QRCode value={this.state.depositAddress} />
+                </div>
+                <h5>Minimum deposit: 0.01 token</h5>
+                <div className="grid-block container-row">
+                    <div style={{paddingRight: "1rem"}}>
+                        <CopyButton
+                            text={this.state.depositAddress}
+                            className={"copyIcon"}
+                        />
+                    </div>
+                    <div style={{wordBreak: "break-word"}}>
+                        <div
+                            style={{
+                                fontSize: "0.8rem",
+                                fontWeight: "bold",
+                                paddingBottom: "0.3rem"
+                            }}
+                        >
+                            Your deposit address for ETH tokens:
+                        </div>
+                        <div
+                            className="modal__highlight"
+                            style={{
+                                fontSize: "0.9rem",
+                                wordBreak: "break-all"
+                            }}
+                        >
+                            {this.state.depositAddress}
+                        </div>
+                    </div>
                 </div>
                 <h6>
-                    IMPORTANT: Send only certain ETH tokens to this deposit
-                    address. Sending less than 0.1 token or any other currency
+                    <b>IMPORTANT:</b> Send only ETH tokens to this deposit
+                    address. Sending less than 0.01 token or any other currency
                     to this address may result in the loss of your deposit.
                 </h6>
             </div>

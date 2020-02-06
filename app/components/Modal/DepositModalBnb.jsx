@@ -56,7 +56,7 @@ class DepositModalContent extends DecimalChecker {
 
     componentDidMount() {
         (() => {
-            fetch("https://asterope.meta-exchange.info/api/wallet/init/eos", {
+            fetch("https://asterope.meta-exchange.info/api/wallet/init/bnb", {
                 method: "POST",
                 headers: {
                     Accept: "application/json, text/plain, */*",
@@ -86,7 +86,7 @@ class DepositModalContent extends DecimalChecker {
     render() {
         return (
             <div>
-                <h5>Minimum deposit: 0.1 EOS</h5>
+                <h5>Minimum deposit: 0.1 BNB</h5>
                 <div
                     className="grid-block container-row"
                     style={{paddingBottom: "1rem"}}
@@ -105,7 +105,7 @@ class DepositModalContent extends DecimalChecker {
                                 paddingBottom: "0.3rem"
                             }}
                         >
-                            Your deposit address for EOS:
+                            Your deposit address for BNB:
                         </div>
                         <div
                             className="modal__highlight"
@@ -147,8 +147,8 @@ class DepositModalContent extends DecimalChecker {
                     </div>
                 </div>
                 <h6>
-                    <b>IMPORTANT:</b> Send only EOS to this deposit address.
-                    Sending less than 0.1 EOS or any other currency to this
+                    <b>IMPORTANT:</b> Send only BNB to this deposit address.
+                    Sending less than 0.1 BNB or any other currency to this
                     address may result in the loss of your deposit.
                 </h6>
             </div>
