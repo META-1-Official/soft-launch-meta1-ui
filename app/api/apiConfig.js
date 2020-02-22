@@ -44,14 +44,21 @@ export const settingsAPIs = {
             location: "USA",
             operator: "Witness: aphrodite",
             contact: "telegram:@Avowedly"
-        }
-        ,
+        },
         {
             url: "wss://aphrodite.meta-exchange.info/core-new",
             region: "Aphrodite NEw - Los Angeles",
             country: "META1",
             location: "USA New",
             operator: "Witness: aphrodite",
+            contact: "telegram:@Avowedly"
+        },
+        {
+            url: "ws://155.138.132.30:6666",
+            region: "Unknown region (TESTNET)",
+            country: "META1",
+            location: "USA Testnet",
+            operator: "Witness: testnet",
             contact: "telegram:@Avowedly"
         }
         // {
