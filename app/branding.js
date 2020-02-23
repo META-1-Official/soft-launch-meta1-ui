@@ -32,7 +32,7 @@ export function getWalletName() {
  * @returns {string}
  */
 export function getWalletURL() {
-    return "https://zeus.meta-exchange.info";
+    return "https://uitest.meta1.io";
 }
 
 /**
@@ -42,7 +42,7 @@ export function getWalletURL() {
  */
 export function getFaucet() {
     return {
-        url: "https://aphrodite.meta-exchange.info/faucet", // 2017-12-infrastructure worker proposal
+        url: "https://uitest.meta1.io/faucet", // 2017-12-infrastructure worker proposal
         show: true,
         editable: false
     };

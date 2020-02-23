@@ -38,6 +38,14 @@ export const settingsAPIs = {
             location: "Locally hosted"
         },
         {
+            url: "ws://155.138.132.30:6666",
+            region: "Unknown region",
+            country: "META1",
+            location: "USA Testnet",
+            operator: "Witness: testnet",
+            contact: "telegram:@Avowedly"
+        },
+        {
             url: "wss://aphrodite.meta-exchange.info/ws",
             region: "Aphrodite - Los Angeles",
             country: "META1",
@@ -52,15 +60,8 @@ export const settingsAPIs = {
             location: "USA New",
             operator: "Witness: aphrodite",
             contact: "telegram:@Avowedly"
-        },
-        {
-            url: "ws://155.138.132.30:6666",
-            region: "Unknown region (TESTNET)",
-            country: "META1",
-            location: "USA Testnet",
-            operator: "Witness: testnet",
-            contact: "telegram:@Avowedly"
         }
+
         // {
         //     url: "wss://seraphim.meta-exchange.info/ws",
         //     region: "Seraphim - Los Angeles",
