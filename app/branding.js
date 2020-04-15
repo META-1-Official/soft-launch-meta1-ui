@@ -10,8 +10,8 @@ import {Apis} from "meta1js-ws";
  * @private
  */
 function _isTestnet() {
-    const chainId = (Apis.instance().chain_id || "3dbdca40").substr(0, 8);
-    if (chainId === "3dbdca40") {
+    const chainId = (Apis.instance().chain_id || "63fdfc95").substr(0, 8);
+    if (chainId === "63fdfc95") {
         return false;
     } else {
         // treat every other chain as testnet, exact would be chainId === "39f5e2ed"
@@ -32,7 +32,7 @@ export function getWalletName() {
  * @returns {string}
  */
 export function getWalletURL() {
-    return "https://uitest.meta1.io";
+    return "https://testdex.meta1.io";
 }
 
 /**
@@ -42,7 +42,7 @@ export function getWalletURL() {
  */
 export function getFaucet() {
     return {
-        url: "https://uitest.meta1.io/faucet", // 2017-12-infrastructure worker proposal
+        url: "https://testdex.meta1.io/faucet", // 2017-12-infrastructure worker proposal
         show: true,
         editable: false
     };
