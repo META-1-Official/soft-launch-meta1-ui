@@ -40,7 +40,7 @@ class Page404 extends React.Component {
                         <Translate content={"page404." + this.props.subtitle} />
                     </div>
                     <div className="page-404-button-back">
-                        <Link style={{color: "white"}} to={"/market/BTC_XUSD"}>
+                        <Link style={{color: "white"}} to={"/home/"}>
                             <Translate
                                 component="button"
                                 className="button"

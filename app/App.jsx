@@ -21,7 +21,7 @@ import {DEFAULT_NOTIFICATION_DURATION} from "services/Notification";
 import Loadable from "react-loadable";
 import NewsHeadline from "components/Layout/NewsHeadline";
 
-import {Route, Switch} from "react-router-dom";
+import {Route, Switch, Redirect} from "react-router-dom";
 
 // Nested route components
 import Page404 from "./components/Page404/Page404";
@@ -73,7 +73,8 @@ const Help = Loadable({
     loading: LoadingIndicator
 });
 const Confirm = Loadable({
-    loader: () => import(/* webpackChunkName: "confirm" */ "./components/Confirm"),
+    loader: () =>
+        import(/* webpackChunkName: "confirm" */ "./components/Confirm"),
     loading: LoadingIndicator
 });
 
@@ -392,11 +393,15 @@ class App extends React.Component {
                     <div id="mainContainer" className="grid-block">
                         <div className="grid-block vertical">
                             <Switch>
+                                <Route exact path="/">
+                                    <Redirect to="/home/" />
+                                </Route>
                                 <Route
                                     path="/home/"
                                     exact
                                     component={DashboardPage}
                                 />
+
                                 <Route
                                     path="/account/:account_name"
                                     component={AccountPage}
@@ -492,7 +497,11 @@ class App extends React.Component {
                                     component={CreateWorker}
                                 />
 
-                                <Route exact path="/confirm" component={Confirm} />
+                                <Route
+                                    exact
+                                    path="/confirm"
+                                    component={Confirm}
+                                />
                                 <Route
                                     exact
                                     path="/confirm/:confirmCode"
