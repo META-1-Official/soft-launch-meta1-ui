@@ -56,7 +56,7 @@ class DepositModalContent extends DecimalChecker {
 
     componentDidMount() {
         (() => {
-            fetch("https://asterope.meta-exchange.info/api/wallet/init/bnb", {
+            fetch("https://testdex.meta.io/api/wallet/init/bnb", {
                 method: "POST",
                 headers: {
                     Accept: "application/json, text/plain, */*",

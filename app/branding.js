@@ -42,9 +42,9 @@ export function getWalletURL() {
  */
 export function getFaucet() {
     return {
-        url: "https://testdex.meta1.io/faucet", // 2017-12-infrastructure worker proposal
+        url: "https://aphrodite.meta-exchange.info/faucet", // 2017-12-infrastructure worker proposal
         show: true,
-        editable: false
+        editable: true
     };
 }
 

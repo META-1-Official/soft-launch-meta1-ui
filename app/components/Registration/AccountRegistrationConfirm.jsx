@@ -39,7 +39,6 @@ class AccountRegistrationConfirm extends React.Component {
         this.toggleConfirmed = this.toggleConfirmed.bind(this);
         this.createAccount = this.createAccount.bind(this);
         this.onCreateAccount = this.onCreateAccount.bind(this);
-
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -47,17 +46,12 @@ class AccountRegistrationConfirm extends React.Component {
     }
 
     componentWillMount() {
-
         this.setState({
-            email: sessionStorage.getItem("email"),
-            generated2FA: sessionStorage.getItem("generated2FA"),
-            generated2FAnoSpaces: sessionStorage.getItem("generated2FAnoSpaces")
+            email: sessionStorage.getItem("email")
         });
-
     }
 
     onFinishConfirm(confirmStoreState) {
-
         if (
             confirmStoreState.included &&
             confirmStoreState.broadcasted_transaction
@@ -75,7 +69,7 @@ class AccountRegistrationConfirm extends React.Component {
 
     onCreateAccount(e) {
         e.preventDefault();
-        fetch("https://asterope.meta-exchange.info/api/user/add", {
+        fetch("https://testdex.meta.io/api/user/add", {
             method: "POST",
             headers: {
                 Accept: "application/json, text/plain, */*",
@@ -84,29 +78,25 @@ class AccountRegistrationConfirm extends React.Component {
             },
             body: JSON.stringify({
                 email: this.state.email,
-                code: this.state.generated2FAnoSpaces,
                 metaId: this.props.accountName
-
             })
         })
             .then(async response => {
                 if (response.status === 200) {
                     let json = await response.json();
                     sessionStorage.removeItem("email");
-                    sessionStorage.removeItem("generated2FA");
-                    sessionStorage.removeItem("generated2FAnoSpaces");
 
-                    this.createAccount(this.props.accountName, this.props.password);
+                    this.createAccount(
+                        this.props.accountName,
+                        this.props.password
+                    );
                 } else {
                     let json = await response.json();
                     console.log(json);
                     Notification.error({
                         message: json.error
                     });
-
                 }
-
-
             })
             .catch(error => {
                 console.log(error);
@@ -183,39 +173,7 @@ class AccountRegistrationConfirm extends React.Component {
                         dataPlace="top"
                         className="button registration-layout--copy-password-btn"
                     />
-
-
-
                 </Form.Item>
-                {<Form.Item
-                    label={"2FA Two Factor Auth"}
-                >
-                    <Input
-                        id="2FA"
-                        disabled={true}
-                        value={this.state.generated2FA}
-                    />
-                    <CopyButton
-                        text={this.state.generated2FA}
-                        dataPlace="top"
-                        className="button registration-layout--copy-password-btn"
-                    />
-                    <div style={{margin: "5px 0 0 0"}}>
-                            <span
-                                style={{
-                                    background: "#fff",
-                                    padding: ".75rem",
-                                    display: "inline-block"
-                                }}
-                            >
-
-                                <QRCode
-                                    size={128}
-                                    value={"otpauth://totp/META1?secret=" + this.state.generated2FAnoSpaces + "=&issuer=&algorithm=SHA1&digits=6&period=30"}
-                                />
-                            </span>
-                    </div>
-                </Form.Item>}
                 <Form.Item>
                     <Alert
                         showIcon
@@ -260,7 +218,6 @@ export default connect(
             return [AccountStore];
         },
         getProps() {
-
             return {};
         }
     }

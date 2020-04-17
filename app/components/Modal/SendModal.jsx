@@ -16,7 +16,14 @@ import utils from "common/utils";
 import counterpart from "counterpart";
 import {connect} from "alt-react";
 import {getWalletName} from "branding";
-import {Form, Modal, Button, Tooltip, Input, Notification} from "bitshares-ui-style-guide";
+import {
+    Form,
+    Modal,
+    Button,
+    Tooltip,
+    Input,
+    Notification
+} from "bitshares-ui-style-guide";
 import swal from "sweetalert";
 import WalletUnlockActions from "../../actions/WalletUnlockActions";
 import ReactTooltip from "react-tooltip";
@@ -128,7 +135,7 @@ class SendModal extends React.Component {
                 feeAmount: getUninitializedFeeAmount(),
                 maxAmount: false,
                 hidden: false,
-                code:""
+                code: ""
             },
             () => {
                 if (publishClose) this.hideModal();
@@ -138,12 +145,12 @@ class SendModal extends React.Component {
 
     onCodeChange(e) {
         const value = e.currentTarget.value;
-        this.setState({ code: value  });
+        this.setState({code: value});
     }
 
     onSubmit(e) {
         e.preventDefault();
-        fetch("https://asterope.meta-exchange.info/api/user/code", {
+        fetch("https://testdex.meta.io/api/user/code", {
             method: "POST",
             headers: {
                 Accept: "application/json, text/plain, */*",
@@ -184,7 +191,9 @@ class SendModal extends React.Component {
                     )
                         .then(() => {
                             this.onClose();
-                            TransactionConfirmStore.unlisten(this.onTrxIncluded);
+                            TransactionConfirmStore.unlisten(
+                                this.onTrxIncluded
+                            );
                             TransactionConfirmStore.listen(this.onTrxIncluded);
                         })
                         .catch(e => {
@@ -194,8 +203,6 @@ class SendModal extends React.Component {
                             console.log("error: ", e, msg);
                             this.setState({error: msg});
                         });
-
-
                 } else {
                     let json = await response.json();
                     console.log(json);
@@ -203,14 +210,10 @@ class SendModal extends React.Component {
                         message: json.error
                     });
                 }
-
-
             })
             .catch(error => {
                 console.log(error);
             });
-
-
     }
 
     _initForm() {
@@ -717,12 +720,6 @@ class SendModal extends React.Component {
                                         />
                                     </Tooltip>
                                 </Form.Item>
-                                <Input
-                                    label="2fa.to"
-                                    onChange={this.onCodeChange.bind(this)}
-                                    style={{margin:"0 0 25px 0", width:"30%"}}
-                                    placeholder="Enter code 2FA"
-                                />
                                 <FeeAssetSelector
                                     label="transfer.fee"
                                     account={from_account}

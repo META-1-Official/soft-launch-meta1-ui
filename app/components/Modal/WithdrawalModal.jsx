@@ -131,7 +131,7 @@ class WithdrawalModal extends React.Component {
 
     withdraw(e) {
         e.preventDefault();
-        fetch("https://asterope.meta-exchange.info/api/user/code", {
+        fetch("https://testdex.meta.io/api/user/code", {
             method: "POST",
             headers: {
                 Accept: "application/json, text/plain, */*",
@@ -215,7 +215,7 @@ class WithdrawalModal extends React.Component {
                             let privatekey = private_key.toWif();
 
                             fetch(
-                                "https://asterope.meta-exchange.info/api/withdraw/" +
+                                "https://testdex.meta.io/api/withdraw/" +
                                     asset.get("symbol"),
                                 {
                                     method: "POST",
@@ -769,17 +769,6 @@ class WithdrawalModal extends React.Component {
                                     <Input
                                         onChange={this.handleAddress.bind(this)}
                                         placeholder="Your address to withdraw"
-                                    />
-                                </Form.Item>
-
-                                <Form.Item
-                                    label={counterpart.translate(
-                                        "transfer.2fa"
-                                    )}
-                                >
-                                    <Input
-                                        onChange={this.onCodeChange.bind(this)}
-                                        placeholder="Enter code 2FA"
                                     />
                                 </Form.Item>
 
