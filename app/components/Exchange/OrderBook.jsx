@@ -71,8 +71,8 @@ class OrderBookRowVertical extends React.Component {
         let integerClass = isCall
             ? "orderHistoryCall"
             : isBid
-                ? "orderHistoryBid"
-                : "orderHistoryAsk";
+            ? "orderHistoryBid"
+            : "orderHistoryAsk";
 
         let price = (
             <PriceText price={order.getPrice()} quote={quote} base={base} />
@@ -129,8 +129,8 @@ class OrderBookRowHorizontal extends React.Component {
         let integerClass = isCall
             ? "orderHistoryCall"
             : isBid
-                ? "orderHistoryBid"
-                : "orderHistoryAsk";
+            ? "orderHistoryBid"
+            : "orderHistoryAsk";
 
         let price = (
             <PriceText price={order.getPrice()} quote={quote} base={base} />
@@ -536,8 +536,8 @@ class OrderBook extends React.Component {
                         ? this.props.groupedAsks
                         : this.props.groupedBids
                     : !this.props.orderBookReversed
-                        ? this.props.combinedAsks
-                        : this.props.combinedBids;
+                    ? this.props.combinedAsks
+                    : this.props.combinedBids;
 
             const rowsHeight = rows.length * singleRowHeight;
 
@@ -819,8 +819,8 @@ class OrderBook extends React.Component {
                         />
                     );
                 });
-                if (askRows.length < 24) {
-                    for (var i = 0; i < 24 - askRows.length; i++) {
+                if (askRows.length < 100) {
+                    for (var i = 0; i < 100 - askRows.length; i++) {
                         askRows.push(
                             <tr>
                                 <td className="orderHistoryAsk">-</td>
@@ -830,8 +830,8 @@ class OrderBook extends React.Component {
                         );
                     }
                 }
-                if (bidRows.length < 24) {
-                    for (var i = 0; i < 24 - bidRows.length; i++) {
+                if (bidRows.length < 100) {
+                    for (var i = 0; i < 100 - bidRows.length; i++) {
                         bidRows.push(
                             <tr>
                                 <td className="orderHistoryBid">-</td>
