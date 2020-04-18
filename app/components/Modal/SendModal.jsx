@@ -150,69 +150,40 @@ class SendModal extends React.Component {
 
     onSubmit(e) {
         e.preventDefault();
-        fetch("https://testdex.meta.io/api/user/code", {
-            method: "POST",
-            headers: {
-                Accept: "application/json, text/plain, */*",
-                "Content-Type": "application/json",
-                "X-Requested-With": "XMLHttpRequest"
-            },
-            body: JSON.stringify({
-                metaId: this.state.from_name,
-                code: this.state.code
+        this.setState({error: null});
+
+        const {asset} = this.state;
+        let {amount} = this.state;
+        const sendAmount = new Asset({
+            real: amount,
+            asset_id: asset.get("id"),
+            precision: asset.get("precision")
+        });
+
+        this.setState({hidden: true});
+
+        AccountActions.transfer(
+            this.state.from_account.get("id"),
+            this.state.to_account.get("id"),
+            sendAmount.getAmount(),
+            asset.get("id"),
+            this.state.memo
+                ? new Buffer(this.state.memo, "utf-8")
+                : this.state.memo,
+            this.state.propose ? this.state.propose_account : null,
+            this.state.feeAmount.asset_id
+        )
+            .then(() => {
+                this.onClose();
+                TransactionConfirmStore.unlisten(this.onTrxIncluded);
+                TransactionConfirmStore.listen(this.onTrxIncluded);
             })
-        })
-            .then(async response => {
-                if (response.status === 200) {
-                    let json = await response.json();
-
-                    this.setState({error: null});
-
-                    const {asset} = this.state;
-                    let {amount} = this.state;
-                    const sendAmount = new Asset({
-                        real: amount,
-                        asset_id: asset.get("id"),
-                        precision: asset.get("precision")
-                    });
-
-                    this.setState({hidden: true});
-
-                    AccountActions.transfer(
-                        this.state.from_account.get("id"),
-                        this.state.to_account.get("id"),
-                        sendAmount.getAmount(),
-                        asset.get("id"),
-                        this.state.memo
-                            ? new Buffer(this.state.memo, "utf-8")
-                            : this.state.memo,
-                        this.state.propose ? this.state.propose_account : null,
-                        this.state.feeAmount.asset_id
-                    )
-                        .then(() => {
-                            this.onClose();
-                            TransactionConfirmStore.unlisten(
-                                this.onTrxIncluded
-                            );
-                            TransactionConfirmStore.listen(this.onTrxIncluded);
-                        })
-                        .catch(e => {
-                            let msg = e.message
-                                ? e.message.split("\n")[1] || e.message
-                                : null;
-                            console.log("error: ", e, msg);
-                            this.setState({error: msg});
-                        });
-                } else {
-                    let json = await response.json();
-                    console.log(json);
-                    Notification.error({
-                        message: json.error
-                    });
-                }
-            })
-            .catch(error => {
-                console.log(error);
+            .catch(e => {
+                let msg = e.message
+                    ? e.message.split("\n")[1] || e.message
+                    : null;
+                console.log("error: ", e, msg);
+                this.setState({error: msg});
             });
     }
 

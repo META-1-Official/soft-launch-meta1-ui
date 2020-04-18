@@ -68,39 +68,7 @@ class AccountRegistrationConfirm extends React.Component {
     }
 
     onCreateAccount(e) {
-        e.preventDefault();
-        fetch("https://testdex.meta.io/api/user/add", {
-            method: "POST",
-            headers: {
-                Accept: "application/json, text/plain, */*",
-                "Content-Type": "application/json",
-                "X-Requested-With": "XMLHttpRequest"
-            },
-            body: JSON.stringify({
-                email: this.state.email,
-                metaId: this.props.accountName
-            })
-        })
-            .then(async response => {
-                if (response.status === 200) {
-                    let json = await response.json();
-                    sessionStorage.removeItem("email");
-
-                    this.createAccount(
-                        this.props.accountName,
-                        this.props.password
-                    );
-                } else {
-                    let json = await response.json();
-                    console.log(json);
-                    Notification.error({
-                        message: json.error
-                    });
-                }
-            })
-            .catch(error => {
-                console.log(error);
-            });
+        this.createAccount(this.props.accountName, this.props.password);
     }
 
     createAccount(name, password) {

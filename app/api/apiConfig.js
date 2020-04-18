@@ -38,7 +38,7 @@ export const settingsAPIs = {
             location: "Locally hosted"
         },
         {
-            url: "wss://testdex.meta1.io/ws",
+            url: "wss://aphrodite.meta-exchange.info/ws",
             region: "Toronto",
             country: "META1",
             location: "Testnet",

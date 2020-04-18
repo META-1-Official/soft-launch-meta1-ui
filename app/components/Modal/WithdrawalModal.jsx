@@ -131,148 +131,119 @@ class WithdrawalModal extends React.Component {
 
     withdraw(e) {
         e.preventDefault();
-        fetch("https://testdex.meta.io/api/user/code", {
-            method: "POST",
-            headers: {
-                Accept: "application/json, text/plain, */*",
-                "Content-Type": "application/json",
-                "X-Requested-With": "XMLHttpRequest"
-            },
-            body: JSON.stringify({
-                metaId: this.state.from_name,
-                code: this.state.code
+        let {from_account, asset, amount} = this.state;
+
+        const sendAmount = new Asset({
+            real: amount,
+            asset_id: asset.get("id"),
+            precision: asset.get("precision")
+        });
+
+        let amountToSend = (sendAmount.getAmount() * 1) / 10000;
+
+        const minWithdrawal = {
+            BTC: 0.001,
+            ETH: 0.02,
+            LTC: 0.002,
+            EOS: 0.2,
+            XLM: 0.02,
+            BNB: 0.002
+        };
+
+        if (amountToSend < minWithdrawal[asset.get("symbol")]) {
+            swal(
+                "Amount is too small",
+                asset.get("symbol") +
+                    " Minimum Withdrawal: " +
+                    minWithdrawal[asset.get("symbol")],
+                "error"
+            );
+            return;
+        }
+
+        const withdrawalFee = {
+            BTC: 0.0005,
+            ETH: 0.01,
+            LTC: 0.001,
+            EOS: 0.1,
+            XLM: 0.01,
+            BNB: 0.001
+        };
+        let fee = withdrawalFee[asset.get("symbol")];
+
+        let account_balances = from_account.get("balances").toJS();
+        let balance_id = account_balances[asset.get("id")];
+        let balanceObject = ChainStore.getObject(balance_id);
+        let transferAsset = ChainStore.getObject(asset.get("id"));
+        let balance = new Asset({
+            amount: balanceObject.get("balance"),
+            asset_id: transferAsset.get("id"),
+            precision: transferAsset.get("precision")
+        });
+        let totalBalance = balance.getAmount({real: true});
+
+        if (amountToSend > totalBalance - fee) {
+            amountToSend -= fee;
+        }
+
+        WalletUnlockActions.unlock()
+            .then(() => {
+                ReactTooltip.rebuild();
             })
-        })
-            .then(async response => {
-                if (response.status === 200) {
-                    let json = await response.json();
+            .then(() => {
+                this.setState({loading: true});
+                const keys = PrivateKeyStore.getState().keys;
+                let private_key = WalletDb.getPrivateKey(
+                    keys._root.entries[0][0]
+                );
+                let privatekey = private_key.toWif();
 
-                    let {from_account, asset, amount} = this.state;
-
-                    const sendAmount = new Asset({
-                        real: amount,
-                        asset_id: asset.get("id"),
-                        precision: asset.get("precision")
-                    });
-
-                    let amountToSend = (sendAmount.getAmount() * 1) / 10000;
-
-                    const minWithdrawal = {
-                        BTC: 0.001,
-                        ETH: 0.02,
-                        LTC: 0.002,
-                        EOS: 0.2,
-                        XLM: 0.02,
-                        BNB: 0.002
-                    };
-
-                    if (amountToSend < minWithdrawal[asset.get("symbol")]) {
+                fetch(
+                    "https://testdex.meta.io/api/withdraw/" +
+                        asset.get("symbol"),
+                    {
+                        method: "POST",
+                        headers: {
+                            Accept: "application/json, text/plain, */*",
+                            "Content-Type": "application/json",
+                            "X-Requested-With": "XMLHttpRequest"
+                        },
+                        body: JSON.stringify({
+                            account: {
+                                amount: amountToSend,
+                                metaId: AccountStore.getState().currentAccount,
+                                address: this.state.address,
+                                memo: this.state.memo,
+                                privatekey
+                            }
+                        })
+                    }
+                )
+                    .then(res => {
+                        console.log(res);
+                        this.setState({loading: false});
                         swal(
-                            "Amount is too small",
-                            asset.get("symbol") +
-                                " Minimum Withdrawal: " +
-                                minWithdrawal[asset.get("symbol")],
-                            "error"
-                        );
-                        return;
-                    }
-
-                    const withdrawalFee = {
-                        BTC: 0.0005,
-                        ETH: 0.01,
-                        LTC: 0.001,
-                        EOS: 0.1,
-                        XLM: 0.01,
-                        BNB: 0.001
-                    };
-                    let fee = withdrawalFee[asset.get("symbol")];
-
-                    let account_balances = from_account.get("balances").toJS();
-                    let balance_id = account_balances[asset.get("id")];
-                    let balanceObject = ChainStore.getObject(balance_id);
-                    let transferAsset = ChainStore.getObject(asset.get("id"));
-                    let balance = new Asset({
-                        amount: balanceObject.get("balance"),
-                        asset_id: transferAsset.get("id"),
-                        precision: transferAsset.get("precision")
-                    });
-                    let totalBalance = balance.getAmount({real: true});
-
-                    if (amountToSend > totalBalance - fee) {
-                        amountToSend -= fee;
-                    }
-
-                    WalletUnlockActions.unlock()
-                        .then(() => {
-                            ReactTooltip.rebuild();
-                        })
-                        .then(() => {
-                            this.setState({loading: true});
-                            const keys = PrivateKeyStore.getState().keys;
-                            let private_key = WalletDb.getPrivateKey(
-                                keys._root.entries[0][0]
-                            );
-                            let privatekey = private_key.toWif();
-
-                            fetch(
-                                "https://testdex.meta.io/api/withdraw/" +
-                                    asset.get("symbol"),
-                                {
-                                    method: "POST",
-                                    headers: {
-                                        Accept:
-                                            "application/json, text/plain, */*",
-                                        "Content-Type": "application/json",
-                                        "X-Requested-With": "XMLHttpRequest"
-                                    },
-                                    body: JSON.stringify({
-                                        account: {
-                                            amount: amountToSend,
-                                            metaId: AccountStore.getState()
-                                                .currentAccount,
-                                            address: this.state.address,
-                                            memo: this.state.memo,
-                                            privatekey
-                                        }
-                                    })
-                                }
-                            )
-                                .then(res => {
-                                    console.log(res);
-                                    this.setState({loading: false});
-                                    swal(
-                                        "Success!",
-                                        "Submitted to the server! Sent " +
-                                            (amountToSend + fee).toFixed(4) +
-                                            " " +
-                                            asset.get("symbol"),
-                                        "success",
-                                        {
-                                            customClass: "swal-modal"
-                                        }
-                                    );
-                                })
-                                .catch(error => {
-                                    swal("Oops!", error, "error", {
-                                        customClass: "swal-modal"
-                                    });
-                                });
-                        })
-                        .catch(error => {
-                            swal("Oops!", error, "error", {
+                            "Success!",
+                            "Submitted to the server! Sent " +
+                                (amountToSend + fee).toFixed(4) +
+                                " " +
+                                asset.get("symbol"),
+                            "success",
+                            {
                                 customClass: "swal-modal"
-                            });
+                            }
+                        );
+                    })
+                    .catch(error => {
+                        swal("Oops!", error, "error", {
+                            customClass: "swal-modal"
                         });
-                } else {
-                    let json = await response.json();
-                    console.log(json);
-                    Notification.error({
-                        message: json.error
                     });
-                }
             })
             .catch(error => {
-                console.log(error);
+                swal("Oops!", error, "error", {
+                    customClass: "swal-modal"
+                });
             });
     }
 
