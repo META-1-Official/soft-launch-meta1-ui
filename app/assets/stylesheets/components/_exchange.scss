@@ -577,11 +577,15 @@ div.bucket-option {
     padding-top: 5px !important;
 }
 
+@media screen and (min-width: 900px) {
+    .tiny-screen-flex {
+        height: 100% !important;
+    }
+}
+
 .tiny-screen-flex {
     display: flex;
     flex-wrap: wrap;
-    height: -webkit-fill-available;
-    height: -moz-available;
 }
 
 @media not all and (min-resolution: 0.001dpcm) {
