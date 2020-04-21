@@ -9,7 +9,7 @@ class Arts extends React.Component {
     render() {
         return (
             <Iframe
-                url="https://maia.meta-exchange.info"
+                url="https://aphrodite.meta-exchange.info/explorer-backing-assets"
                 display="initial"
                 position="relative"
                 allowFullScreen

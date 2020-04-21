@@ -56,7 +56,7 @@ class DepositModalContent extends DecimalChecker {
 
     componentDidMount() {
         (() => {
-            fetch("https://testdex.meta.io/api/xov-init", {
+            fetch("https://testdex.meta1.io/api/xov-init", {
                 method: "POST",
                 headers: {
                     Accept: "application/json, text/plain, */*",

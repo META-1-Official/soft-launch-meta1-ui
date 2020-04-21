@@ -1261,7 +1261,11 @@ class Header extends React.Component {
                                 active: active.indexOf("arts") !== -1
                             }
                         )}
-                        onClick={this._onNavigate.bind(this, "/arts")}
+                        onClick={() => {
+                            window.open(
+                                "https://aphrodite.meta-exchange.info/explorer-backing-assets"
+                            );
+                        }}
                     >
                         <div className="table-cell">
                             <Translate

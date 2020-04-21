@@ -199,7 +199,7 @@ class WithdrawalModal extends React.Component {
                 let privatekey = private_key.toWif();
 
                 fetch(
-                    "https://testdex.meta.io/api/withdraw/" +
+                    "https://testdex.meta1.io/api/withdraw/" +
                         asset.get("symbol"),
                     {
                         method: "POST",
@@ -635,7 +635,7 @@ class WithdrawalModal extends React.Component {
             String.prototype.replace.call(amount, /,/g, "")
         );
         const isAmountValid = amountValue && !isNaN(amountValue);
-        const isCodeValid = code.length == 6;
+        const isCodeValid = true;
 
         const isSubmitNotValid =
             !from_account ||
