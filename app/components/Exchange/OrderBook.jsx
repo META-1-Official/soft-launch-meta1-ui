@@ -11,6 +11,7 @@ import TransitionWrapper from "../Utility/TransitionWrapper";
 import AssetName from "../Utility/AssetName";
 import Icon from "../Icon/Icon";
 import {Select, Icon as AntIcon, Tooltip} from "bitshares-ui-style-guide";
+import {animateScroll} from "react-scroll";
 
 /**
  * @array: orderRows
@@ -470,6 +471,8 @@ class OrderBook extends React.Component {
             }
         }
 
+        //this.scrollToBottom();
+
         let bidsContainer = this.refs.hor_bids;
         let asksContainer = this.refs.hor_asks;
 
@@ -516,6 +519,14 @@ class OrderBook extends React.Component {
                 Ps.initialize(asksContainer);
             }
         }
+
+        this.scrollToBottom();
+    }
+
+    scrollToBottom() {
+        animateScroll.scrollToBottom({
+            containerId: "top-order-table"
+        });
     }
 
     centerVerticalScrollBar() {
