@@ -90,41 +90,11 @@ class AccountRegistrationForm extends React.Component {
     onSubmit(e) {
         e.preventDefault();
 
-        const url_endpoit = "https://testdex.meta.io/api/user/add";
-
         if (this.isValid()) {
-            fetch(url_endpoit, {
-                method: "POST",
-                headers: {
-                    Accept: "application/json, text/plain, */*",
-                    "Content-Type": "application/json",
-                    "X-Requested-With": "XMLHttpRequest"
-                },
-                body: JSON.stringify({
-                    email: this.state.email,
-                    metaId: this.state.accountName,
-                    check: "check"
-                })
-            })
-                .then(async response => {
-                    if (response.status === 200) {
-                        let json = await response.json();
-                        sessionStorage.email = this.state.email;
-                        this.props.continue({
-                            accountName: this.state.accountName,
-                            password: this.state.generatedPassword
-                        });
-                    } else {
-                        let json = await response.json();
-                        console.log(json);
-                        Notification.error({
-                            message: json.error
-                        });
-                    }
-                })
-                .catch(error => {
-                    console.log(error);
-                });
+            this.props.continue({
+                accountName: this.state.accountName,
+                password: this.state.generatedPassword
+            });
         }
     }
 
