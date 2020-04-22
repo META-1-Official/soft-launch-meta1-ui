@@ -1,46 +1,8 @@
 import React from "react";
-import counterpart from "counterpart";
 import Translate from "react-translate-component";
 import cnames from "classnames";
 import TransitionWrapper from "../../Utility/TransitionWrapper";
 import AssetName from "../../Utility/AssetName";
-import BlockDate from "../../Utility/BlockDate";
-import PriceText from "../../Utility/PriceText";
-import {Tooltip} from "bitshares-ui-style-guide";
-import getLocale from "browser-locale";
-
-function MarketHistoryViewRow({fill, base, quote}) {
-    const isMarket = fill.id.indexOf("5.0") !== -1 ? true : false;
-    const timestamp = isMarket ? (
-        <td>
-            <Tooltip title={fill.time.toString()} placement="left">
-                <div className="tooltip" style={{whiteSpace: "nowrap"}}>
-                    {counterpart.localize(fill.time, {
-                        type: "date",
-                        format:
-                            getLocale()
-                                .toLowerCase()
-                                .indexOf("en-us") !== -1
-                                ? "market_history_us"
-                                : "market_history"
-                    })}
-                </div>
-            </Tooltip>
-        </td>
-    ) : (
-        <BlockDate component="td" block_number={fill.block} tooltip />
-    );
-
-    return (
-        <tr>
-            <td className={fill.className}>
-                <PriceText price={fill.getPrice()} base={base} quote={quote} />
-            </td>
-            <td>{fill.amountToReceive()}</td>
-            {timestamp}
-        </tr>
-    );
-}
 
 class MarketHistoryView extends React.Component {
     render() {
@@ -144,4 +106,4 @@ class MarketHistoryView extends React.Component {
     }
 }
 
-export {MarketHistoryView, MarketHistoryViewRow};
+export {MarketHistoryView};

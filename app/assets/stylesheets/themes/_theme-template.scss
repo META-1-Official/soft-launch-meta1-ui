@@ -1381,7 +1381,7 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
         color: $bid-color !important;
     }
     .ask-total {
-        color: $ask-color !important;
+        //color: $ask-color !important;
     }
     .stats .stat .negative {
         color: $negative-color !important;
@@ -1767,6 +1767,9 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
             opacity: 1;
         }
     }
+    .orderHistoryBid {
+        color: $bid-color;
+    }
     .orderHistoryAsk {
         > span.price-integer,
         > span > span.price-integer,
@@ -1779,6 +1782,9 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
             color: $ask-color;
             opacity: 1;
         }
+    }
+    .orderHistoryAsk {
+        color: $ask-color;
     }
     .orderHistoryCall {
         > span.price-integer,
@@ -1796,12 +1802,12 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
     .order-table .my-order {
         > .vertical-order-table-cell,
         > td {
-            font-weight: bold;
-            color: $info-color;
+            //font-weight: bold;
+            //color: $info-color;
         }
         span.price-integer,
         span.price-decimal {
-            color: $info-color !important;
+            //color: $info-color !important;
             opacity: 1;
         }
     }

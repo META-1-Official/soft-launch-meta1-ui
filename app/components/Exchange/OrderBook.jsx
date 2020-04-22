@@ -963,7 +963,8 @@ class OrderBook extends React.Component {
                         style={{
                             height: "51%",
                             paddingBottom: "4px",
-                            overflow: "hidden"
+                            overflow: "hidden",
+                            color: "#e6416e"
                         }}
                         className={cnames(
                             innerClass,
@@ -1011,7 +1012,8 @@ class OrderBook extends React.Component {
                         style={{
                             borderTop: "2px solid black",
                             height: "48%",
-                            paddingTop: "4px"
+                            paddingTop: "4px",
+                            color: "#70a800"
                         }}
                         className={cnames(
                             innerClass,

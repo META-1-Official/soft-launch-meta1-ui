@@ -9,10 +9,46 @@ import {ChainTypes as grapheneChainTypes} from "meta1js";
 const {operations} = grapheneChainTypes;
 import ReactTooltip from "react-tooltip";
 import {FillOrder} from "common/MarketClasses";
-import {
-    MarketHistoryView,
-    MarketHistoryViewRow
-} from "./View/MarketHistoryView";
+import {MarketHistoryView} from "./View/MarketHistoryView";
+
+import counterpart from "counterpart";
+import BlockDate from "../Utility/BlockDate";
+import PriceText from "../Utility/PriceText";
+import {Tooltip} from "bitshares-ui-style-guide";
+import getLocale from "browser-locale";
+
+function MarketHistoryViewRow({fill, base, quote}) {
+    const isMarket = fill.id.indexOf("5.0") !== -1 ? true : false;
+    const timestamp = isMarket ? (
+        <td>
+            <Tooltip title={fill.time.toString()} placement="left">
+                <div className="tooltip" style={{whiteSpace: "nowrap"}}>
+                    {counterpart.localize(fill.time, {
+                        type: "date",
+                        format:
+                            getLocale()
+                                .toLowerCase()
+                                .indexOf("en-us") !== -1
+                                ? "market_history_us"
+                                : "market_history"
+                    })}
+                </div>
+            </Tooltip>
+        </td>
+    ) : (
+        <BlockDate component="td" block_number={fill.block} tooltip />
+    );
+
+    return (
+        <tr className={fill.className}>
+            <td className={fill.className}>
+                <PriceText price={fill.getPrice()} base={base} quote={quote} />
+            </td>
+            <td>{fill.amountToReceive()}</td>
+            {timestamp}
+        </tr>
+    );
+}
 
 class MarketHistory extends React.Component {
     constructor(props) {
@@ -156,7 +192,7 @@ class MarketHistory extends React.Component {
             activeTab = "history";
         }
 
-        if (activeTab === "my_history" && (myHistory && myHistory.size)) {
+        if (activeTab === "my_history" && myHistory && myHistory.size) {
             // User History
 
             const assets = {
@@ -253,16 +289,13 @@ MarketHistory.propTypes = {
     history: PropTypes.object.isRequired
 };
 
-export default connect(
-    MarketHistory,
-    {
-        listenTo() {
-            return [SettingsStore];
-        },
-        getProps() {
-            return {
-                viewSettings: SettingsStore.getState().viewSettings
-            };
-        }
+export default connect(MarketHistory, {
+    listenTo() {
+        return [SettingsStore];
+    },
+    getProps() {
+        return {
+            viewSettings: SettingsStore.getState().viewSettings
+        };
     }
-);
+});

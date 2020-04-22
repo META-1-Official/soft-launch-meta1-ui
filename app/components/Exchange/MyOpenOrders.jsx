@@ -10,7 +10,72 @@ import {ChainStore} from "meta1js";
 import {LimitOrder, CallOrder} from "common/MarketClasses";
 import ReactTooltip from "react-tooltip";
 import {Button} from "bitshares-ui-style-guide";
-import {MarketsOrderView, MarketOrdersRowView} from "./View/MarketOrdersView";
+import {MarketsOrderView} from "./View/MarketOrdersView";
+
+import counterpart from "counterpart";
+import utils from "common/utils";
+import {Tooltip, Checkbox} from "bitshares-ui-style-guide";
+import PriceText from "../Utility/PriceText";
+
+function MarketOrdersRowView({order, selected, base, quote, onCheckCancel}) {
+    const isBid = order.isBid();
+    const isCall = order.isCall();
+    const tdClass = isCall
+        ? "orderHistoryCall"
+        : isBid
+        ? "orderHistoryBid"
+        : "orderHistoryAsk";
+
+    return (
+        <tr className={tdClass} key={order.id}>
+            <td className="text-center" style={{width: "6%"}}>
+                {isCall ? null : (
+                    <Checkbox
+                        className="orderCancel"
+                        checked={selected}
+                        onChange={onCheckCancel}
+                    />
+                )}
+            </td>
+            <td className={tdClass} style={{paddingLeft: 10}}>
+                <PriceText price={order.getPrice()} base={base} quote={quote} />
+            </td>
+            <td>
+                {utils.format_number(
+                    order[
+                        !isBid ? "amountForSale" : "amountToReceive"
+                    ]().getAmount({real: true}),
+                    quote.get("precision")
+                )}{" "}
+            </td>
+            <td>
+                {utils.format_number(
+                    order[
+                        !isBid ? "amountToReceive" : "amountForSale"
+                    ]().getAmount({real: true}),
+                    base.get("precision")
+                )}{" "}
+            </td>
+            <td>
+                <Tooltip title={order.expiration.toLocaleString()}>
+                    <div
+                        style={{
+                            textAlign: "right",
+                            whiteSpace: "nowrap"
+                        }}
+                    >
+                        {isCall
+                            ? null
+                            : counterpart.localize(new Date(order.expiration), {
+                                  type: "date",
+                                  format: "short_custom"
+                              })}
+                    </div>
+                </Tooltip>
+            </td>
+        </tr>
+    );
+}
 
 class MarketOrdersRow extends React.Component {
     shouldComponentUpdate(nextProps) {
