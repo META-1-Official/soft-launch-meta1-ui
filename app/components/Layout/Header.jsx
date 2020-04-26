@@ -1566,13 +1566,6 @@ class Header extends React.Component {
                             className="table-cell"
                         />
                     </li>
-                    <li onClick={this._showDepositEthToken.bind(this)}>
-                        <Translate
-                            content="modal.deposit.tokens"
-                            component="div"
-                            className="table-cell"
-                        />
-                    </li>
                 </ul>
             )
         };

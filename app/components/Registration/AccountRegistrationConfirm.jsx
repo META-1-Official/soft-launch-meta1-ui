@@ -46,6 +46,7 @@ class AccountRegistrationConfirm extends React.Component {
     }
 
     componentWillMount() {
+        console.log("session #:", sessionStorage.getItem("email"));
         this.setState({
             email: sessionStorage.getItem("email")
         });
@@ -69,6 +70,7 @@ class AccountRegistrationConfirm extends React.Component {
 
     onCreateAccount(e) {
         e.preventDefault();
+        console.log(this.state);
         fetch("https://testdex.meta1.io/api/user/add", {
             method: "POST",
             headers: {
@@ -156,6 +158,7 @@ class AccountRegistrationConfirm extends React.Component {
     }
 
     render() {
+        console.log(this.state);
         return (
             <Form layout={"vertical"}>
                 <Form.Item

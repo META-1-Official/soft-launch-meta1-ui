@@ -84,11 +84,13 @@ class AccountRegistrationForm extends React.Component {
 
     onEmailChange(e) {
         const value = e.currentTarget.value;
+        console.log(value);
         this.setState({email: value});
     }
 
     onSubmit(e) {
         e.preventDefault();
+        sessionStorage.email = this.state.email;
 
         if (this.isValid()) {
             this.props.continue({
@@ -178,6 +180,7 @@ class AccountRegistrationForm extends React.Component {
                     <Form.Item label={"Email"}>
                         <Input
                             id="email"
+                            required
                             placeholder="email@example.com"
                             onChange={this.onEmailChange}
                         />
