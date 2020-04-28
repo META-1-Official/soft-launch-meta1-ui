@@ -139,7 +139,8 @@ class WithdrawalModal extends React.Component {
             precision: asset.get("precision")
         });
 
-        let amountToSend = (sendAmount.getAmount() * 1) / 10000;
+        let amountToSend =
+            (sendAmount.getAmount() * 1) / Math.pow(10, sendAmount.precision);
 
         const minWithdrawal = {
             BTC: 0.001,
@@ -147,7 +148,8 @@ class WithdrawalModal extends React.Component {
             LTC: 0.002,
             EOS: 0.2,
             XLM: 0.02,
-            BNB: 0.002
+            BNB: 0.002,
+            USDT: 2
         };
 
         if (amountToSend < minWithdrawal[asset.get("symbol")]) {
@@ -167,7 +169,8 @@ class WithdrawalModal extends React.Component {
             LTC: 0.001,
             EOS: 0.1,
             XLM: 0.01,
-            BNB: 0.001
+            BNB: 0.001,
+            USDT: 1
         };
         let fee = withdrawalFee[asset.get("symbol")];
 
@@ -198,34 +201,39 @@ class WithdrawalModal extends React.Component {
                 );
                 let privatekey = private_key.toWif();
 
-                fetch(
-                    "https://testdex.meta1.io/api/withdraw/" +
-                        asset.get("symbol"),
-                    {
-                        method: "POST",
-                        headers: {
-                            Accept: "application/json, text/plain, */*",
-                            "Content-Type": "application/json",
-                            "X-Requested-With": "XMLHttpRequest"
-                        },
-                        body: JSON.stringify({
-                            account: {
-                                amount: amountToSend,
-                                metaId: AccountStore.getState().currentAccount,
-                                address: this.state.address,
-                                memo: this.state.memo,
-                                privatekey
-                            }
-                        })
-                    }
-                )
+                var url = "";
+                if (asset.get("symbol") == "USDT")
+                    url = "https://meta1.test.bitshares.org/usdt";
+                else
+                    url =
+                        "https://testdex.meta1.io/api/withdraw/" +
+                        asset.get("symbol");
+
+                fetch(url, {
+                    method: "POST",
+                    headers: {
+                        Accept: "application/json, text/plain, */*",
+                        "Content-Type": "application/json",
+                        "X-Requested-With": "XMLHttpRequest"
+                    },
+                    body: JSON.stringify({
+                        account: {
+                            amount: amountToSend,
+                            metaId: AccountStore.getState().currentAccount,
+                            address: this.state.address,
+                            memo: this.state.memo,
+                            privatekey
+                        }
+                    })
+                })
                     .then(res => {
                         console.log(res);
                         this.setState({loading: false});
                         swal(
                             "Success!",
                             "Submitted to the server! Sent " +
-                                (amountToSend + fee).toFixed(4) +
+                                amountToSend /*+ fee*/
+                                    .toFixed(4) +
                                 " " +
                                 asset.get("symbol"),
                             "success",
@@ -711,8 +719,8 @@ class WithdrawalModal extends React.Component {
                                         asset_types.length > 0 && asset
                                             ? asset.get("id")
                                             : asset_id
-                                                ? asset_id
-                                                : asset_types[0]
+                                            ? asset_id
+                                            : asset_types[0]
                                     }
                                     assets={asset_types}
                                     display_balance={balance}
@@ -794,20 +802,17 @@ class WithdrawalModalConnectWrapper extends React.Component {
     }
 }
 
-WithdrawalModalConnectWrapper = connect(
-    WithdrawalModalConnectWrapper,
-    {
-        listenTo() {
-            return [AccountStore];
-        },
-        getProps(props) {
-            return {
-                currentAccount: AccountStore.getState().currentAccount,
-                passwordAccount: AccountStore.getState().passwordAccount,
-                tabIndex: props.tabIndex || 0
-            };
-        }
+WithdrawalModalConnectWrapper = connect(WithdrawalModalConnectWrapper, {
+    listenTo() {
+        return [AccountStore];
+    },
+    getProps(props) {
+        return {
+            currentAccount: AccountStore.getState().currentAccount,
+            passwordAccount: AccountStore.getState().passwordAccount,
+            tabIndex: props.tabIndex || 0
+        };
     }
-);
+});
 
 export default WithdrawalModalConnectWrapper;
