@@ -1472,7 +1472,7 @@
             "art": "Tokenize your art",
             "btc": "Deposit BTC",
             "eth": "Deposit ETH",
-            "usdt": "Deposit Tether (ERC20) USDT",
+            "usdt": "Deposit USDT (ERC20)",
             "ltc": "Deposit LTC",
             "eos": "Deposit EOS",
             "bnb": "Deposit BNB",
