@@ -86,7 +86,7 @@ class DepositModalContent extends DecimalChecker {
                 <div className="QR" style={{textAlign: "center"}}>
                     <QRCode value={this.state.depositAddress} />
                 </div>
-                <h5>Minimum deposit: 0.01 ETH</h5>
+                <h5>Minimum deposit: 0.001 ETH</h5>
                 <div className="grid-block container-row">
                     <div style={{paddingRight: "1rem"}}>
                         <CopyButton

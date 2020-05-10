@@ -56,7 +56,7 @@ class DepositModalContent extends DecimalChecker {
 
     componentDidMount() {
         (() => {
-            fetch("https://testdex.meta1.io/api/xov-init", {
+            fetch("https://testdex.meta1.io/api/wallet/init/eth", {
                 method: "POST",
                 headers: {
                     Accept: "application/json, text/plain, */*",
@@ -64,7 +64,7 @@ class DepositModalContent extends DecimalChecker {
                     "X-Requested-With": "XMLHttpRequest"
                 },
                 body: JSON.stringify({
-                    name: AccountStore.getState().currentAccount
+                    metaId: AccountStore.getState().currentAccount
                 })
             })
                 .then(res => res.json())
@@ -86,7 +86,7 @@ class DepositModalContent extends DecimalChecker {
                 <div className="QR" style={{textAlign: "center"}}>
                     <QRCode value={this.state.depositAddress} />
                 </div>
-                <h5>Minimum deposit: 0.01 token</h5>
+                <h5>Minimum deposit: 1 USDT</h5>
                 <div className="grid-block container-row">
                     <div style={{paddingRight: "1rem"}}>
                         <CopyButton
@@ -102,7 +102,7 @@ class DepositModalContent extends DecimalChecker {
                                 paddingBottom: "0.3rem"
                             }}
                         >
-                            Your deposit address for ETH tokens:
+                            Your deposit address for USDT (ERC20):
                         </div>
                         <div
                             className="modal__highlight"
@@ -116,9 +116,9 @@ class DepositModalContent extends DecimalChecker {
                     </div>
                 </div>
                 <h6>
-                    <b>IMPORTANT:</b> Send only ETH tokens to this deposit
-                    address. Sending less than 0.01 token or any other currency
-                    to this address may result in the loss of your deposit.
+                    <b>IMPORTANT:</b> Send only USDT (ERC20) to this deposit
+                    address. Sending less than 1 USDT or any other currency to
+                    this address may result in the loss of your deposit.
                 </h6>
             </div>
         );

@@ -10,7 +10,7 @@ import SendModal from "../Modal/SendModal";
 import WithdrawalModal from "../Modal/WithdrawalModal";
 import DepositModalBtc from "../Modal/DepositModalBtc";
 import DepositModalEth from "../Modal/DepositModalEth";
-import DepositModalEthToken from "../Modal/DepositModalEthToken";
+import DepositModalUsdt from "../Modal/DepositModalUsdt";
 import DepositModalEos from "../Modal/DepositModalEos";
 import DepositModalXlm from "../Modal/DepositModalXlm";
 import DepositModalBnb from "../Modal/DepositModalBnb";
@@ -96,6 +96,9 @@ class Header extends React.Component {
         this.showDepositModalEth = this.showDepositModalEth.bind(this);
         this.hideDepositModalEth = this.hideDepositModalEth.bind(this);
 
+        this.showDepositModalUsdt = this.showDepositModalUsdt.bind(this);
+        this.hideDepositModalUsdt = this.hideDepositModalUsdt.bind(this);
+
         this.showDepositModalEos = this.showDepositModalEos.bind(this);
         this.hideDepositModalEos = this.hideDepositModalEos.bind(this);
 
@@ -107,13 +110,6 @@ class Header extends React.Component {
 
         this.showDepositModalLtc = this.showDepositModalLtc.bind(this);
         this.hideDepositModalLtc = this.hideDepositModalLtc.bind(this);
-
-        this.showDepositModalEthToken = this.showDepositModalEthToken.bind(
-            this
-        );
-        this.hideDepositModalEthToken = this.hideDepositModalEthToken.bind(
-            this
-        );
 
         this.showDepositModal = this.showDepositModal.bind(this);
         this.hideDepositModal = this.hideDepositModal.bind(this);
@@ -192,9 +188,9 @@ class Header extends React.Component {
         });
     }
 
-    showDepositModalEthToken() {
+    showDepositModalUsdt() {
         this.setState({
-            isDepositModalVisibleEthToken: true
+            isDepositModalVisibleUsdt: true
         });
     }
 
@@ -234,9 +230,9 @@ class Header extends React.Component {
         this._closeDropdown();
     }
 
-    _showDepositEthToken(e) {
+    _showDepositUsdt(e) {
         e.preventDefault();
-        this.showDepositModalEthToken();
+        this.showDepositModalUsdt();
         this._closeDropdown();
     }
 
@@ -314,9 +310,9 @@ class Header extends React.Component {
         });
     }
 
-    hideDepositModalEthToken() {
+    hideDepositModalUsdt() {
         this.setState({
-            isDepositModalVisibleEthToken: false
+            isDepositModalVisibleUsdt: false
         });
     }
 
@@ -1538,6 +1534,13 @@ class Header extends React.Component {
                             className="table-cell"
                         />
                     </li>
+                    <li onClick={this._showDepositUsdt.bind(this)}>
+                        <Translate
+                            content="modal.deposit.usdt"
+                            component="div"
+                            className="table-cell"
+                        />
+                    </li>
                     <li onClick={this._showDepositLtc.bind(this)}>
                         <Translate
                             content="modal.deposit.ltc"
@@ -1892,6 +1895,14 @@ class Header extends React.Component {
                     modalId="deposit_modal_new11"
                     account={currentAccount}
                 />
+                <DepositModalUsdt
+                    visibleMeta={this.state.isDepositModalVisibleUsdt}
+                    hideModalMeta={this.hideDepositModalUsdt}
+                    showModalMeta={this.showDepositModalUsdt}
+                    ref="deposit_modal_new1331"
+                    modalId="deposit_modal_new1331"
+                    account={currentAccount}
+                />
                 <DepositModalEos
                     visibleMeta={this.state.isDepositModalVisibleEos}
                     hideModalMeta={this.hideDepositModalEos}
@@ -1916,14 +1927,6 @@ class Header extends React.Component {
                     modalId="deposit_modal_newfsdfs1sd1"
                     account={currentAccount}
                 />
-                <DepositModalEthToken
-                    visibleMeta={this.state.isDepositModalVisibleEthToken}
-                    hideModalMeta={this.hideDepositModalEthToken}
-                    showModalMeta={this.showDepositModalEthToken}
-                    ref="deposit_modal_new19901"
-                    modalId="deposit_modal_new19901"
-                    account={currentAccount}
-                />
                 <DepositModalLtc
                     visibleMeta={this.state.isDepositModalVisibleLtc}
                     hideModalMeta={this.hideDepositModalLtc}
@@ -1937,42 +1940,39 @@ class Header extends React.Component {
     }
 }
 
-Header = connect(
-    Header,
-    {
-        listenTo() {
-            return [
-                AccountStore,
-                WalletUnlockStore,
-                WalletManagerStore,
-                SettingsStore
-            ];
-        },
-        getProps() {
-            const chainID = Apis.instance().chain_id;
-            return {
-                myActiveAccounts: AccountStore.getState().myActiveAccounts,
-                currentAccount:
-                    AccountStore.getState().currentAccount ||
-                    AccountStore.getState().passwordAccount,
-                passwordAccount: AccountStore.getState().passwordAccount,
-                locked: WalletUnlockStore.getState().locked,
-                current_wallet: WalletManagerStore.getState().current_wallet,
-                lastMarket: SettingsStore.getState().viewSettings.get(
-                    `lastMarket${chainID ? "_" + chainID.substr(0, 8) : ""}`
-                ),
-                starredAccounts: AccountStore.getState().starredAccounts,
-                passwordLogin: SettingsStore.getState().settings.get(
-                    "passwordLogin"
-                ),
-                currentLocale: SettingsStore.getState().settings.get("locale"),
-                hiddenAssets: SettingsStore.getState().hiddenAssets,
-                settings: SettingsStore.getState().settings,
-                locales: SettingsStore.getState().defaults.locale,
-                contacts: AccountStore.getState().accountContacts
-            };
-        }
+Header = connect(Header, {
+    listenTo() {
+        return [
+            AccountStore,
+            WalletUnlockStore,
+            WalletManagerStore,
+            SettingsStore
+        ];
+    },
+    getProps() {
+        const chainID = Apis.instance().chain_id;
+        return {
+            myActiveAccounts: AccountStore.getState().myActiveAccounts,
+            currentAccount:
+                AccountStore.getState().currentAccount ||
+                AccountStore.getState().passwordAccount,
+            passwordAccount: AccountStore.getState().passwordAccount,
+            locked: WalletUnlockStore.getState().locked,
+            current_wallet: WalletManagerStore.getState().current_wallet,
+            lastMarket: SettingsStore.getState().viewSettings.get(
+                `lastMarket${chainID ? "_" + chainID.substr(0, 8) : ""}`
+            ),
+            starredAccounts: AccountStore.getState().starredAccounts,
+            passwordLogin: SettingsStore.getState().settings.get(
+                "passwordLogin"
+            ),
+            currentLocale: SettingsStore.getState().settings.get("locale"),
+            hiddenAssets: SettingsStore.getState().hiddenAssets,
+            settings: SettingsStore.getState().settings,
+            locales: SettingsStore.getState().defaults.locale,
+            contacts: AccountStore.getState().accountContacts
+        };
     }
-);
+});
 
 export default withRouter(Header);
