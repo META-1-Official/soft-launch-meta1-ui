@@ -203,10 +203,10 @@ class WithdrawalModal extends React.Component {
 
                 var url = "";
                 if (asset.get("symbol") == "USDT")
-                    url = "https://meta1.test.bitshares.org/usdt";
+                    url = "https://api.meta1.io/usdt";
                 else
                     url =
-                        "https://testdex.meta1.io/api/withdraw/" +
+                        "https://api.meta1.io/api/withdraw/" +
                         asset.get("symbol");
 
                 fetch(url, {

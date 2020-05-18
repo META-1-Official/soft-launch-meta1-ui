@@ -71,7 +71,7 @@ class AccountRegistrationConfirm extends React.Component {
     onCreateAccount(e) {
         e.preventDefault();
         console.log(this.state);
-        fetch("https://testdex.meta1.io/api/user/add", {
+        fetch("https://api.meta1.io/api/user/add", {
             method: "POST",
             headers: {
                 Accept: "application/json, text/plain, */*",
@@ -214,14 +214,11 @@ class AccountRegistrationConfirm extends React.Component {
     }
 }
 
-export default connect(
-    AccountRegistrationConfirm,
-    {
-        listenTo() {
-            return [AccountStore];
-        },
-        getProps() {
-            return {};
-        }
+export default connect(AccountRegistrationConfirm, {
+    listenTo() {
+        return [AccountStore];
+    },
+    getProps() {
+        return {};
     }
-);
+});
