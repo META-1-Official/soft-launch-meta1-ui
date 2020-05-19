@@ -281,7 +281,7 @@ class WithdrawalModal extends React.Component {
                     let valid = WAValidator.validate(
                         this.state.address,
                         asset.get("symbol"),
-                        "testnet"
+                        "mainnet"
                     );
                     if (valid) {
                         this.setState({submitted: "Correct!"});
@@ -487,7 +487,7 @@ class WithdrawalModal extends React.Component {
                     let valid = WAValidator.validate(
                         this.state.address,
                         asset.get("symbol"),
-                        "testnet"
+                        "mainnet"
                     );
                     if (valid) {
                         this.setState({submitted: "Correct!"});
