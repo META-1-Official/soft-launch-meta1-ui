@@ -267,13 +267,15 @@ class WithdrawalModal extends React.Component {
                 if (this.state.address !== "") {
                     if (
                         asset.get("symbol") == "LTC" &&
-                        //this.state.address.match(/^[LM3Q2mnt][a-zA-HJ-NP-Z1-9]{26,44}$/)
-                        this.state.address.match(/^tltc.*$/)
+                        this.state.address.match(
+                            /^[LM3][a-km-zA-HJ-NP-Z1-9]{26,33}$/
+                        )
+                        //this.state.address.match(/^tltc.*$/)
                     )
                         return this.setState({submitted: "Correct!"});
                     if (
                         asset.get("symbol") == "BNB" &&
-                        this.state.address.match(/^(tbnb)([a-z0-9]{39})$/)
+                        this.state.address.match(/^(bnb)([a-z0-9]{39})$/)
                     )
                         return this.setState({submitted: "Correct!"});
                     let valid = WAValidator.validate(
