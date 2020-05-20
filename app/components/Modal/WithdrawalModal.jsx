@@ -240,7 +240,7 @@ class WithdrawalModal extends React.Component {
                             {
                                 customClass: "swal-modal"
                             }
-                        );
+                        ).then(() => this.onClose());
                     })
                     .catch(error => {
                         swal("Oops!", error, "error", {
