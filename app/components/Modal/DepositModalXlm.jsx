@@ -6,14 +6,9 @@ import {Modal, Button} from "bitshares-ui-style-guide";
 import CopyButton from "../Utility/CopyButton";
 import AccountStore from "stores/AccountStore";
 
-class DepositModalContent extends DecimalChecker {
+class DepositModalContent extends React.Component {
     constructor() {
         super();
-
-        this.state = {
-            depositAddress: "",
-            depositMemo: ""
-        };
     }
 
     onClose() {
@@ -22,10 +17,10 @@ class DepositModalContent extends DecimalChecker {
 
     _copy(e) {
         try {
-            if (this.state.depositAddress)
+            if (this.props.depositAddress)
                 e.clipboardData.setData(
                     "text/plain",
-                    this.state.depositAddress
+                    this.props.depositAddress
                 );
             else
                 e.clipboardData.setData(
@@ -54,35 +49,6 @@ class DepositModalContent extends DecimalChecker {
         }
     }
 
-    componentDidMount() {
-        (() => {
-            fetch("https://api.meta1.io/api/wallet/init/xlm", {
-                method: "POST",
-                headers: {
-                    Accept: "application/json, text/plain, */*",
-                    "Content-Type": "application/json",
-                    "X-Requested-With": "XMLHttpRequest"
-                },
-                body: JSON.stringify({
-                    metaId: AccountStore.getState().currentAccount
-                })
-            })
-                .then(res => res.json())
-                .then(response => {
-                    let address = response.address;
-                    let memo = response.memo;
-                    console.log(address);
-                    console.log(memo);
-                    this.setState({depositAddress: address});
-                    this.setState({depositMemo: memo});
-                });
-        })();
-    }
-
-    shouldComponentUpdate(np, ns) {
-        return !utils.are_equal_shallow(ns, this.state);
-    }
-
     render() {
         return (
             <div>
@@ -93,7 +59,7 @@ class DepositModalContent extends DecimalChecker {
                 >
                     <div style={{paddingRight: "1rem"}}>
                         <CopyButton
-                            text={this.state.depositAddress}
+                            text={this.props.depositAddress}
                             className={"copyIcon"}
                         />
                     </div>
@@ -114,14 +80,14 @@ class DepositModalContent extends DecimalChecker {
                                 wordBreak: "break-all"
                             }}
                         >
-                            {this.state.depositAddress}
+                            {this.props.depositAddress}
                         </div>
                     </div>
                 </div>
                 <div className="grid-block container-row">
                     <div style={{paddingRight: "1rem"}}>
                         <CopyButton
-                            text={this.state.depositMemo}
+                            text={this.props.depositMemo}
                             className={"copyIcon"}
                         />
                     </div>
@@ -142,7 +108,7 @@ class DepositModalContent extends DecimalChecker {
                                 wordBreak: "break-all"
                             }}
                         >
-                            {this.state.depositMemo}
+                            {this.props.depositMemo}
                         </div>
                     </div>
                 </div>
@@ -160,13 +126,48 @@ export default class DepositModal extends React.Component {
     constructor() {
         super();
 
-        this.state = {open: false};
+        this.state = {
+            open: false,
+            depositAddress: "",
+            depositMemo: ""
+        };
     }
 
     show() {
         this.setState({open: true}, () => {
             this.props.hideModalMeta();
         });
+    }
+
+    getDepositAddress() {
+        fetch("https://api.meta1.io/api/wallet/init/xlm", {
+            method: "POST",
+            headers: {
+                Accept: "application/json, text/plain, */*",
+                "Content-Type": "application/json",
+                "X-Requested-With": "XMLHttpRequest"
+            },
+            body: JSON.stringify({
+                metaId: AccountStore.getState().currentAccount
+            })
+        })
+            .then(res => res.json())
+            .then(response => {
+                let address = response.address;
+                let memo = response.memo;
+                console.log(address);
+                console.log(memo);
+                this.setState({depositAddress: address});
+                this.setState({depositMemo: memo});
+            });
+    }
+
+    componentDidMount() {
+        this.getDepositAddress();
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.account !== this.props.account) this.getDepositAddress();
     }
 
     onClose() {
@@ -197,6 +198,9 @@ export default class DepositModal extends React.Component {
                 noCloseBtn
             >
                 <DepositModalContent
+                    account={this.props.account}
+                    depositAddress={this.state.depositAddress}
+                    depositMemo={this.state.depositMemo}
                     hideModal={this.props.hideModalMeta}
                     {...this.props}
                     open={this.props.visibleMeta}

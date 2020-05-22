@@ -7,13 +7,9 @@ import CopyButton from "../Utility/CopyButton";
 import AccountStore from "stores/AccountStore";
 import QRCode from "qrcode.react";
 
-class DepositModalContent extends DecimalChecker {
+class DepositModalContent extends React.Component {
     constructor() {
         super();
-
-        this.state = {
-            depositAddress: ""
-        };
     }
 
     onClose() {
@@ -22,10 +18,10 @@ class DepositModalContent extends DecimalChecker {
 
     _copy(e) {
         try {
-            if (this.state.depositAddress)
+            if (this.props.depositAddress)
                 e.clipboardData.setData(
                     "text/plain",
-                    this.state.depositAddress
+                    this.props.depositAddress
                 );
             else
                 e.clipboardData.setData(
@@ -54,43 +50,17 @@ class DepositModalContent extends DecimalChecker {
         }
     }
 
-    componentDidMount() {
-        (() => {
-            fetch("https://api.meta1.io/api/wallet/init/eth", {
-                method: "POST",
-                headers: {
-                    Accept: "application/json, text/plain, */*",
-                    "Content-Type": "application/json",
-                    "X-Requested-With": "XMLHttpRequest"
-                },
-                body: JSON.stringify({
-                    metaId: AccountStore.getState().currentAccount
-                })
-            })
-                .then(res => res.json())
-                .then(response => {
-                    let address = response.address;
-                    console.log(address);
-                    this.setState({depositAddress: address});
-                });
-        })();
-    }
-
-    shouldComponentUpdate(np, ns) {
-        return !utils.are_equal_shallow(ns, this.state);
-    }
-
     render() {
         return (
             <div>
                 <div className="QR" style={{textAlign: "center"}}>
-                    <QRCode value={this.state.depositAddress} />
+                    <QRCode value={this.props.depositAddress} />
                 </div>
                 <h5>Minimum deposit: 1 USDT</h5>
                 <div className="grid-block container-row">
                     <div style={{paddingRight: "1rem"}}>
                         <CopyButton
-                            text={this.state.depositAddress}
+                            text={this.props.depositAddress}
                             className={"copyIcon"}
                         />
                     </div>
@@ -111,7 +81,7 @@ class DepositModalContent extends DecimalChecker {
                                 wordBreak: "break-all"
                             }}
                         >
-                            {this.state.depositAddress}
+                            {this.props.depositAddress}
                         </div>
                     </div>
                 </div>
@@ -129,13 +99,45 @@ export default class DepositModal extends React.Component {
     constructor() {
         super();
 
-        this.state = {open: false};
+        this.state = {
+            open: false,
+            depositAddress: ""
+        };
     }
 
     show() {
         this.setState({open: true}, () => {
             this.props.hideModalMeta();
         });
+    }
+
+    getDepositAddress() {
+        fetch("https://api.meta1.io/api/wallet/init/eth", {
+            method: "POST",
+            headers: {
+                Accept: "application/json, text/plain, */*",
+                "Content-Type": "application/json",
+                "X-Requested-With": "XMLHttpRequest"
+            },
+            body: JSON.stringify({
+                //metaId: AccountStore.getState().currentAccount
+                metaId: this.props.account
+            })
+        })
+            .then(res => res.json())
+            .then(response => {
+                let address = response.address;
+                console.log(address);
+                this.setState({depositAddress: address});
+            });
+    }
+
+    componentDidMount() {
+        this.getDepositAddress();
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.account !== this.props.account) this.getDepositAddress();
     }
 
     onClose() {
@@ -166,6 +168,8 @@ export default class DepositModal extends React.Component {
                 noCloseBtn
             >
                 <DepositModalContent
+                    account={this.props.account}
+                    depositAddress={this.state.depositAddress}
                     hideModal={this.props.hideModalMeta}
                     {...this.props}
                     open={this.props.visibleMeta}
