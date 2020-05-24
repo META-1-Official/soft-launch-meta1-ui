@@ -112,22 +112,28 @@ export default class DepositModal extends React.Component {
     }
 
     getDepositAddress() {
-        fetch("https://api.meta1.io/api/wallet/init/eth", {
-            method: "POST",
-            headers: {
-                Accept: "application/json, text/plain, */*",
-                "Content-Type": "application/json",
-                "X-Requested-With": "XMLHttpRequest"
-            },
-            body: JSON.stringify({
-                metaId: AccountStore.getState().currentAccount
-            })
-        })
-            .then(res => res.json())
+        fetch("https://api.meta1.io/api-gateways/eth")
             .then(response => {
-                let address = response.address;
-                console.log(address);
-                this.setState({depositAddress: address});
+                fetch("https://api.meta1.io/api/wallet/init/eth", {
+                    method: "POST",
+                    headers: {
+                        Accept: "application/json, text/plain, */*",
+                        "Content-Type": "application/json",
+                        "X-Requested-With": "XMLHttpRequest"
+                    },
+                    body: JSON.stringify({
+                        metaId: AccountStore.getState().currentAccount
+                    })
+                })
+                    .then(res => res.json())
+                    .then(response => {
+                        let address = response.address;
+                        console.log(address);
+                        this.setState({depositAddress: address});
+                    });
+            })
+            .catch(error => {
+                this.setState({depositAddress: "Gateway is down (error 502)"});
             });
     }
 
