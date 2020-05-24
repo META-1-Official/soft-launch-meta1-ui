@@ -138,10 +138,13 @@ class AccountRegistrationConfirm extends React.Component {
                     [errorMsg] = error.remote_ip;
                 }
                 Notification.error({
-                    message: counterpart.translate("account_create_failure", {
-                        account_name: name,
-                        error_msg: errorMsg
-                    })
+                    message: counterpart.translate(
+                        "notifications.account_create_failure",
+                        {
+                            account_name: name,
+                            error_msg: errorMsg
+                        }
+                    )
                 });
             });
     }
