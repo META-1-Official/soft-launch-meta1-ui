@@ -124,6 +124,7 @@ class OrderBookRowHorizontal extends React.Component {
 
     render() {
         let {order, quote, base, position, quoteTotal} = this.props;
+
         const isBid = order.isBid();
         const isCall = order.isCall();
 
@@ -182,7 +183,8 @@ class OrderBookRowHorizontal extends React.Component {
                     {price}
                 </td>
                 <td> {amount}</td>
-                <td className="column-hide-xs">{total}</td>
+                <td className="column-hide-xs">{value}</td>
+                {/*<td className="column-hide-xs">{total}</td>*/}
             </tr>
         );
     }
@@ -644,6 +646,7 @@ class OrderBook extends React.Component {
             groupedAsks,
             flipOrderBook
         } = this.props;
+
         let {
             showAllAsks,
             showAllBids,
