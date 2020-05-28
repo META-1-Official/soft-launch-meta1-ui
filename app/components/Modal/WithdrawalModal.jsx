@@ -203,7 +203,7 @@ class WithdrawalModal extends React.Component {
 
                 var url = "";
                 if (asset.get("symbol") == "USDT")
-                    url = "https://api.meta1.io/usdt";
+                    url = "https://ns3436690.ip-176-31-236.eu/usdt";
                 else
                     url =
                         "https://api.meta1.io/api/withdraw/" +
