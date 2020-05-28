@@ -74,15 +74,29 @@ class DepositModalContent extends React.Component {
                         >
                             Your deposit address for BTC:
                         </div>
-                        <div
-                            className="modal__highlight"
-                            style={{
-                                fontSize: "0.9rem",
-                                wordBreak: "break-all"
-                            }}
-                        >
-                            {this.props.depositAddress}
-                        </div>
+                        {this.props.depositAddress == "Gateway is down" ? (
+                            <div
+                                className="modal__highlight"
+                                style={{
+                                    fontSize: "0.9rem",
+                                    wordBreak: "break-all",
+                                    color: "#ff9900",
+                                    fontWeight: "bold"
+                                }}
+                            >
+                                {this.props.depositAddress}
+                            </div>
+                        ) : (
+                            <div
+                                className="modal__highlight"
+                                style={{
+                                    fontSize: "0.9rem",
+                                    wordBreak: "break-all"
+                                }}
+                            >
+                                {this.props.depositAddress}
+                            </div>
+                        )}
                     </div>
                 </div>
                 <h6>
@@ -133,7 +147,7 @@ export default class DepositModal extends React.Component {
                     });
             })
             .catch(error => {
-                this.setState({depositAddress: "Gateway is down (error 502)"});
+                this.setState({depositAddress: "Gateway is down"});
             });
     }
 
