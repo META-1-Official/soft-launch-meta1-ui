@@ -112,7 +112,7 @@ export default class DepositModal extends React.Component {
     }
 
     getDepositAddress() {
-        fetch("https://aphrodite.meta-exchange.info/api-gateways/btc")
+        fetch("https://gateway.api.meta1.io/api-gateways/btc")
             .then(response => {
                 fetch("https://api.meta1.io/api/wallet/init/btc", {
                     method: "POST",
