@@ -48,7 +48,7 @@ class DecryptBackup extends Component {
             }
         }
         if (!prevProps.currentAccount && this.props.currentAccount) {
-            this.props.history.push("/market/BTC_XUSD");
+            this.props.history.push("/market/BTC_META1");
         }
     }
 
@@ -151,8 +151,8 @@ class DecryptBackup extends Component {
                                     this.state.passwordError
                                         ? "input-warning"
                                         : this.state.backupPassword
-                                            ? "input-success"
-                                            : ""
+                                        ? "input-success"
+                                        : ""
                                 } input create-account-input`}
                                 type={
                                     !this.state.passwordVisible
@@ -217,7 +217,4 @@ const connectObject = {
     }
 };
 
-export default connect(
-    DecryptBackup,
-    connectObject
-);
+export default connect(DecryptBackup, connectObject);

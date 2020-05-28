@@ -127,7 +127,7 @@ class CreateNewWallet extends Component {
                     <h4>
                         <Translate content="wallet.wallet_created" />
                     </h4>
-                    <Link to="/market/BTC_XUSD">
+                    <Link to="/market/BTC_META1">
                         <div className="button success">
                             <Translate content="wallet.done" />
                         </div>
@@ -236,17 +236,14 @@ class CreateNewWallet extends Component {
     }
 }
 
-CreateNewWallet = connect(
-    CreateNewWallet,
-    {
-        listenTo() {
-            return [WalletManagerStore];
-        },
-        getProps() {
-            return WalletManagerStore.getState();
-        }
+CreateNewWallet = connect(CreateNewWallet, {
+    listenTo() {
+        return [WalletManagerStore];
+    },
+    getProps() {
+        return WalletManagerStore.getState();
     }
-);
+});
 
 class WalletCreate extends Component {
     render() {

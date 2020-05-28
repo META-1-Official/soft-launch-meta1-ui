@@ -648,7 +648,7 @@ class Header extends React.Component {
 
         let tradeUrl = this.props.lastMarket
             ? `/market/${this.props.lastMarket}`
-            : "/market/BTC_XUSD";
+            : "/market/BTC_META1";
 
         // Account selector: Only active inside the exchange
         let account_display_name, accountsList;

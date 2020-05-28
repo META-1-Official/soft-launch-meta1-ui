@@ -566,7 +566,7 @@ class CreateAccountPassword extends React.Component {
                 <div
                     style={{width: "100%"}}
                     onClick={() => {
-                        this.props.history.push("/market/BTC_XUSD");
+                        this.props.history.push("/market/BTC_META1");
                     }}
                     className="button"
                 >
@@ -586,7 +586,7 @@ class CreateAccountPassword extends React.Component {
                                 <Translate content="wallet.tips_dashboard" />:
                             </td>
                             <td>
-                                <Link to="/market/BTC_XUSD">
+                                <Link to="/market/BTC_META1">
                                     <Translate content="header.dashboard" />
                                 </Link>
                             </td>
@@ -598,9 +598,7 @@ class CreateAccountPassword extends React.Component {
                             </td>
                             <td>
                                 <Link
-                                    to={`/account/${
-                                        this.state.accountName
-                                    }/overview`}
+                                    to={`/account/${this.state.accountName}/overview`}
                                 >
                                     <Translate content="wallet.link_account" />
                                 </Link>
@@ -713,14 +711,11 @@ class CreateAccountPassword extends React.Component {
 
 CreateAccountPassword = withRouter(CreateAccountPassword);
 
-export default connect(
-    CreateAccountPassword,
-    {
-        listenTo() {
-            return [AccountStore];
-        },
-        getProps() {
-            return {};
-        }
+export default connect(CreateAccountPassword, {
+    listenTo() {
+        return [AccountStore];
+    },
+    getProps() {
+        return {};
     }
-);
+});
