@@ -154,32 +154,32 @@ export default class DepositModal extends React.Component {
     }
 
     getDepositAddress() {
-        fetch("https://api.meta1.io/api-gateways/memo")
-            .then(response => {
-                fetch("https://api.meta1.io/api/wallet/init/bnb", {
-                    method: "POST",
-                    headers: {
-                        Accept: "application/json, text/plain, */*",
-                        "Content-Type": "application/json",
-                        "X-Requested-With": "XMLHttpRequest"
-                    },
-                    body: JSON.stringify({
-                        metaId: AccountStore.getState().currentAccount
-                    })
-                })
-                    .then(res => res.json())
-                    .then(response => {
-                        let address = response.address;
-                        let memo = response.memo;
-                        console.log(address);
-                        console.log(memo);
-                        this.setState({depositAddress: address});
-                        this.setState({depositMemo: memo});
-                    });
+        // fetch("https://api.meta1.io/api-gateways/bnb")
+        //     .then(response => {
+        fetch("https://api.meta1.io/api/wallet/init/bnb", {
+            method: "POST",
+            headers: {
+                Accept: "application/json, text/plain, */*",
+                "Content-Type": "application/json",
+                "X-Requested-With": "XMLHttpRequest"
+            },
+            body: JSON.stringify({
+                metaId: AccountStore.getState().currentAccount
             })
-            .catch(error => {
-                this.setState({depositAddress: "Gateway is down"});
+        })
+            .then(res => res.json())
+            .then(response => {
+                let address = response.address;
+                let memo = response.memo;
+                console.log(address);
+                console.log(memo);
+                this.setState({depositAddress: address});
+                this.setState({depositMemo: memo});
             });
+        // })
+        // .catch(error => {
+        //     this.setState({depositAddress: "Gateway is down"});
+        // });
     }
 
     componentDidMount() {
