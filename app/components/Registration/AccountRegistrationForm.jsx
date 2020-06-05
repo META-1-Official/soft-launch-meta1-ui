@@ -42,7 +42,8 @@ class AccountRegistrationForm extends React.Component {
             confirmPassword: "",
             email: "",
             phone: "",
-            fullname: ""
+            firstname: "",
+            lastname: ""
         };
         this.onSubmit = this.onSubmit.bind(this);
         this.onRegistrarAccountChange = this.onRegistrarAccountChange.bind(
@@ -52,7 +53,8 @@ class AccountRegistrationForm extends React.Component {
         this.onConfirmation = this.onConfirmation.bind(this);
         this.onEmailChange = this.onEmailChange.bind(this);
         this.onPhoneChange = this.onPhoneChange.bind(this);
-        this.onFullnameChange = this.onFullnameChange.bind(this);
+        this.onLastnameChange = this.onLastnameChange.bind(this);
+        this.onFirstnameChange = this.onFirstnameChange.bind(this);
         this.accountNameInput = null;
     }
 
@@ -98,17 +100,24 @@ class AccountRegistrationForm extends React.Component {
         this.setState({phone: value});
     }
 
-    onFullnameChange(e) {
+    onLastnameChange(e) {
         const value = e.currentTarget.value;
         console.log(value);
-        this.setState({fullname: value});
+        this.setState({lastname: value});
+    }
+
+    onFirstnameChange(e) {
+        const value = e.currentTarget.value;
+        console.log(value);
+        this.setState({firstname: value});
     }
 
     onSubmit(e) {
         e.preventDefault();
         sessionStorage.email = this.state.email;
         sessionStorage.phone = this.state.phone;
-        sessionStorage.fullname = this.state.fullname;
+        sessionStorage.fullname =
+            this.state.firstname + " " + this.state.lastname;
 
         if (this.isValid()) {
             this.props.continue({
@@ -211,14 +220,24 @@ class AccountRegistrationForm extends React.Component {
                             onChange={this.onPhoneChange}
                         />
                     </Form.Item>
-                    <Form.Item label={"Full Name"}>
-                        <Input
-                            id="fullname"
-                            required
-                            placeholder="John Doe"
-                            onChange={this.onFullnameChange}
-                        />
-                    </Form.Item>
+                    <div style={{display: "flex"}}>
+                        <Form.Item label={"First name"}>
+                            <Input
+                                id="firstname"
+                                required
+                                placeholder="John"
+                                onChange={this.onFirstnameChange}
+                            />
+                        </Form.Item>
+                        <Form.Item label={"Last name"}>
+                            <Input
+                                id="lastname"
+                                required
+                                placeholder="Doe"
+                                onChange={this.onLastnameChange}
+                            />
+                        </Form.Item>
+                    </div>
                     <Form.Item
                         label={counterpart.translate("wallet.generated")}
                     >
