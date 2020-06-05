@@ -40,7 +40,9 @@ class AccountRegistrationForm extends React.Component {
             loading: false,
             generatedPassword: `P${key.get_random_key().toWif()}`,
             confirmPassword: "",
-            email: ""
+            email: "",
+            phone: "",
+            fullname: ""
         };
         this.onSubmit = this.onSubmit.bind(this);
         this.onRegistrarAccountChange = this.onRegistrarAccountChange.bind(
@@ -49,6 +51,8 @@ class AccountRegistrationForm extends React.Component {
         this.onAccountNameChange = this.onAccountNameChange.bind(this);
         this.onConfirmation = this.onConfirmation.bind(this);
         this.onEmailChange = this.onEmailChange.bind(this);
+        this.onPhoneChange = this.onPhoneChange.bind(this);
+        this.onFullnameChange = this.onFullnameChange.bind(this);
         this.accountNameInput = null;
     }
 
@@ -88,9 +92,23 @@ class AccountRegistrationForm extends React.Component {
         this.setState({email: value});
     }
 
+    onPhoneChange(e) {
+        const value = e.currentTarget.value;
+        console.log(value);
+        this.setState({phone: value});
+    }
+
+    onFullnameChange(e) {
+        const value = e.currentTarget.value;
+        console.log(value);
+        this.setState({fullname: value});
+    }
+
     onSubmit(e) {
         e.preventDefault();
         sessionStorage.email = this.state.email;
+        sessionStorage.phone = this.state.phone;
+        sessionStorage.fullname = this.state.fullname;
 
         if (this.isValid()) {
             this.props.continue({
@@ -183,6 +201,22 @@ class AccountRegistrationForm extends React.Component {
                             required
                             placeholder="email@example.com"
                             onChange={this.onEmailChange}
+                        />
+                    </Form.Item>
+                    <Form.Item label={"Phone number"}>
+                        <Input
+                            id="phone"
+                            required
+                            placeholder="+1XXXXXXXXX"
+                            onChange={this.onPhoneChange}
+                        />
+                    </Form.Item>
+                    <Form.Item label={"Full Name"}>
+                        <Input
+                            id="fullname"
+                            required
+                            placeholder="John Doe"
+                            onChange={this.onFullnameChange}
                         />
                     </Form.Item>
                     <Form.Item
@@ -324,14 +358,11 @@ class AccountRegistrationForm extends React.Component {
     }
 }
 
-export default connect(
-    AccountRegistrationForm,
-    {
-        listenTo() {
-            return [AccountStore];
-        },
-        getProps() {
-            return {};
-        }
+export default connect(AccountRegistrationForm, {
+    listenTo() {
+        return [AccountStore];
+    },
+    getProps() {
+        return {};
     }
-);
+});

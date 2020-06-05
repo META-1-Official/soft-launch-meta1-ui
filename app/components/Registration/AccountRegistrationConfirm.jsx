@@ -33,7 +33,8 @@ class AccountRegistrationConfirm extends React.Component {
         super();
 
         this.state = {
-            confirmed: false
+            confirmed: false,
+            isErrored: false
         };
         this.onFinishConfirm = this.onFinishConfirm.bind(this);
         this.toggleConfirmed = this.toggleConfirmed.bind(this);
@@ -48,7 +49,9 @@ class AccountRegistrationConfirm extends React.Component {
     componentWillMount() {
         console.log("session #:", sessionStorage.getItem("email"));
         this.setState({
-            email: sessionStorage.getItem("email")
+            email: sessionStorage.getItem("email"),
+            phone: sessionStorage.getItem("phone"),
+            fullname: sessionStorage.getItem("fullname")
         });
     }
 
@@ -80,13 +83,16 @@ class AccountRegistrationConfirm extends React.Component {
             },
             body: JSON.stringify({
                 email: this.state.email,
-                metaId: this.props.accountName
+                metaId: this.props.accountName,
+                phone: this.props.phone,
+                fullname: this.props.fullname
             })
         })
             .then(async response => {
-                if (response.status === 200) {
+                if (response.status === 200 && !this.state.isErrored) {
                     sessionStorage.removeItem("email");
-
+                    sessionStorage.removeItem("phone");
+                    sessionStorage.removeItem("fullname");
                     this.createAccount(
                         this.props.accountName,
                         this.props.password
@@ -94,6 +100,7 @@ class AccountRegistrationConfirm extends React.Component {
                 } else {
                     let json = await response.json();
                     console.log(json);
+                    this.setState({isErrored: true});
                     Notification.error({
                         message: json.error
                     });
@@ -102,7 +109,6 @@ class AccountRegistrationConfirm extends React.Component {
             .catch(error => {
                 console.log(error);
             });
-        this.createAccount(this.props.accountName, this.props.password);
     }
 
     createAccount(name, password) {
@@ -130,22 +136,22 @@ class AccountRegistrationConfirm extends React.Component {
             })
             .catch(error => {
                 console.log("ERROR AccountActions.createAccount", error);
-                let errorMsg =
-                    error.base && error.base.length && error.base.length > 0
-                        ? error.base[0]
-                        : "unknown error";
-                if (error.remote_ip) {
-                    [errorMsg] = error.remote_ip;
-                }
-                Notification.error({
-                    message: counterpart.translate(
-                        "notifications.account_create_failure",
-                        {
-                            account_name: name,
-                            error_msg: errorMsg
-                        }
-                    )
-                });
+                // let errorMsg =
+                //     error.base && error.base.length && error.base.length > 0
+                //         ? error.base[0]
+                //         : "unknown error";
+                // if (error.remote_ip) {
+                //     [errorMsg] = error.remote_ip;
+                // }
+                // Notification.error({
+                //     message: counterpart.translate(
+                //         "notifications.account_create_failure",
+                //         {
+                //             account_name: name,
+                //             error_msg: errorMsg
+                //         }
+                //     )
+                // });
             });
     }
 
