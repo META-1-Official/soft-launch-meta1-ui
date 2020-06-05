@@ -227,15 +227,15 @@ class WithdrawalModal extends React.Component {
                     })
                 })
                     .then(res => {
-                        console.log(res);
+                        return res.json();
+                    })
+                    .then(data => {
+                        console.log(data);
                         this.setState({loading: false});
                         swal(
                             "Success!",
-                            "Submitted to the server! Sent " +
-                                amountToSend /*+ fee*/
-                                    .toFixed(4) +
-                                " " +
-                                asset.get("symbol"),
+                            "Submitted to the server! Transaction Id: " +
+                                data.txid,
                             "success",
                             {
                                 customClass: "swal-modal"
