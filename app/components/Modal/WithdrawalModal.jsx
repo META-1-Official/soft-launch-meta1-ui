@@ -580,7 +580,8 @@ class WithdrawalModal extends React.Component {
             hidden,
             address,
             submitted,
-            code
+            code,
+            loading
         } = this.state;
 
         const memoAssets = ["EOS", "XLM", "BNB"];
@@ -656,11 +657,12 @@ class WithdrawalModal extends React.Component {
             balanceError ||
             !address ||
             submitted == "Incorrect!" ||
-            !isCodeValid;
+            !isCodeValid ||
+            loading;
 
         let tabIndex = this.props.tabIndex; // Continue tabIndex on props count
 
-        console.log(this.state.loading);
+        //console.log(this.state.loading);
 
         return !this.state.open ? null : (
             <div
@@ -708,7 +710,21 @@ class WithdrawalModal extends React.Component {
                     ]}
                 >
                     {this.state.loading ? (
-                        <LoadingIndicator type="three-bounce" />
+                        <div
+                            style={{
+                                display: "inline-flex",
+                                marginBottom: "15px"
+                            }}
+                        >
+                            <span>
+                                <LoadingIndicator type="three-bounce" />
+                            </span>
+                            <span
+                                style={{marginLeft: "10px", color: "#00a9e9"}}
+                            >
+                                (Pending Transaction)
+                            </span>
+                        </div>
                     ) : null}
                     <div className="grid-block vertical no-overflow">
                         {this.state.open ? (
