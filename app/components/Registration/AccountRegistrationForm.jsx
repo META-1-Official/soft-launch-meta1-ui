@@ -177,6 +177,40 @@ class AccountRegistrationForm extends React.Component {
         return (
             <div>
                 <Form onSubmit={this.onSubmit} layout={"vertical"}>
+                    <div style={{display: "flex", width: "100%"}}>
+                        <Form.Item label={"First name"}>
+                            <Input
+                                id="firstname"
+                                required
+                                placeholder="John"
+                                onChange={this.onFirstnameChange}
+                            />
+                        </Form.Item>
+                        <Form.Item label={"Last name"}>
+                            <Input
+                                id="lastname"
+                                required
+                                placeholder="Doe"
+                                onChange={this.onLastnameChange}
+                            />
+                        </Form.Item>
+                        <Form.Item label={"Email"}>
+                            <Input
+                                id="email"
+                                required
+                                placeholder="email@example.com"
+                                onChange={this.onEmailChange}
+                            />
+                        </Form.Item>
+                        <Form.Item label={"Phone number"}>
+                            <Input
+                                id="phone"
+                                required
+                                placeholder="+1XXXXXXXXX"
+                                onChange={this.onPhoneChange}
+                            />
+                        </Form.Item>
+                    </div>
                     <AccountNameInput
                         cheapNameOnly={firstAccount}
                         onChange={this.onAccountNameChange}
@@ -204,40 +238,6 @@ class AccountRegistrationForm extends React.Component {
                         }
                         noLabel
                     />
-                    <Form.Item label={"Email"}>
-                        <Input
-                            id="email"
-                            required
-                            placeholder="email@example.com"
-                            onChange={this.onEmailChange}
-                        />
-                    </Form.Item>
-                    <Form.Item label={"Phone number"}>
-                        <Input
-                            id="phone"
-                            required
-                            placeholder="+1XXXXXXXXX"
-                            onChange={this.onPhoneChange}
-                        />
-                    </Form.Item>
-                    <div style={{display: "flex"}}>
-                        <Form.Item label={"First name"}>
-                            <Input
-                                id="firstname"
-                                required
-                                placeholder="John"
-                                onChange={this.onFirstnameChange}
-                            />
-                        </Form.Item>
-                        <Form.Item label={"Last name"}>
-                            <Input
-                                id="lastname"
-                                required
-                                placeholder="Doe"
-                                onChange={this.onLastnameChange}
-                            />
-                        </Form.Item>
-                    </div>
                     <Form.Item
                         label={counterpart.translate("wallet.generated")}
                     >
