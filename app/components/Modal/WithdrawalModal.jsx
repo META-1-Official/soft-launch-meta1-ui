@@ -232,9 +232,14 @@ class WithdrawalModal extends React.Component {
                     .then(data => {
                         console.log(data);
                         this.setState({loading: false});
-                        swal("Success!", "TxID: " + data.txid, "success", {
-                            customClass: "swal-modal"
-                        }).then(() => this.onClose());
+                        if (data.txid !== undefined)
+                            swal("Success!", "TxID: " + data.txid, "success", {
+                                customClass: "swal-modal"
+                            }).then(() => this.onClose());
+                        else
+                            swal("Oops!", "Something went wrong!", "error", {
+                                customClass: "swal-modal"
+                            }).then(() => this.onClose());
                     })
                     .catch(error => {
                         swal("Oops!", error, "error", {
