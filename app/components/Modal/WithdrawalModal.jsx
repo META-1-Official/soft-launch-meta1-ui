@@ -196,9 +196,20 @@ class WithdrawalModal extends React.Component {
             .then(() => {
                 this.setState({loading: true});
                 const keys = PrivateKeyStore.getState().keys;
-                let private_key = WalletDb.getPrivateKey(
-                    keys._root.entries[0][0]
-                );
+                let key = "";
+
+                keys._root.entries.every(element => {
+                    key = element[0];
+                    if (
+                        element[1].import_account_names[0] ==
+                        from_account.get("name")
+                    )
+                        return false;
+                    else return true;
+                });
+
+                let private_key = WalletDb.getPrivateKey(key);
+
                 let privatekey = private_key.toWif();
 
                 var url = "";
@@ -232,12 +243,12 @@ class WithdrawalModal extends React.Component {
                     .then(data => {
                         console.log(data);
                         this.setState({loading: false});
-                        if (data.txid !== undefined)
-                            swal("Success!", "TxID: " + data.txid, "success", {
+                        if (data.txid === undefined)
+                            swal("Oops!", "Something went wrong!", "error", {
                                 customClass: "swal-modal"
                             }).then(() => this.onClose());
                         else
-                            swal("Oops!", "Something went wrong!", "error", {
+                            swal("Success!", "TxID: " + data.txid, "success", {
                                 customClass: "swal-modal"
                             }).then(() => this.onClose());
                     })
