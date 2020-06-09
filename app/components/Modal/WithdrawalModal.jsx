@@ -525,10 +525,6 @@ class WithdrawalModal extends React.Component {
         ) {
             let account_balances = from_account.get("balances").toJS();
             let current_asset_id = asset_types[0];
-            this._setTotal(
-                current_asset_id,
-                account_balances[current_asset_id]
-            );
         }
         this.setState({memo: e.target.value}, this._checkBalance);
     }
