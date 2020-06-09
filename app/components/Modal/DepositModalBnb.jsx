@@ -171,8 +171,6 @@ export default class DepositModal extends React.Component {
             .then(response => {
                 let address = response.address;
                 let memo = response.memo;
-                console.log(address);
-                console.log(memo);
                 this.setState({depositAddress: address});
                 this.setState({depositMemo: memo});
             });

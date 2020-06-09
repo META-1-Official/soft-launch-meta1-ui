@@ -473,7 +473,7 @@ class OrderBook extends React.Component {
             }
         }
 
-        //this.scrollToBottom();
+        this.scrollToBottom();
 
         let bidsContainer = this.refs.hor_bids;
         let asksContainer = this.refs.hor_asks;
@@ -930,7 +930,7 @@ class OrderBook extends React.Component {
                                 className="header-sub-title"
                                 content="exchange.total"
                             />
-                            <a
+                            {/*<a
                                 onClick={() => this.toggleTotalAsset()}
                                 className="header-sub-title underline-title"
                             >
@@ -944,7 +944,7 @@ class OrderBook extends React.Component {
                                     }
                                     noTip
                                 />
-                            </a>
+                            </a>*/}
                         </th>
                     </tr>
                 </thead>
