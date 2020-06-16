@@ -42,7 +42,7 @@ export function getWalletURL() {
  */
 export function getFaucet() {
     return {
-        url: "https://aphrodite.meta-exchange.info/faucet", // 2017-12-infrastructure worker proposal
+        url: "https://api.meta1.io/faucet", // 2017-12-infrastructure worker proposal
         show: true,
         editable: true
     };
