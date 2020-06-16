@@ -26,7 +26,7 @@ class Assets extends React.Component {
 
         let chainID = Apis.instance().chain_id;
         if (chainID) chainID = chainID.substr(0, 8);
-        else chainID = "3dbdca4";
+        else chainID = "713bae5";
 
         this.state = {
             chainID,
@@ -36,9 +36,9 @@ class Assets extends React.Component {
             totalAssets:
                 typeof accountStorage.get(`totalAssets_${chainID}`) != "object"
                     ? accountStorage.get(`totalAssets_${chainID}`)
-                    : chainID && chainID === "3dbdca4"
-                        ? 3000
-                        : 50, // mainnet has 3000+ assets, other chains may not have that many
+                    : chainID && chainID === "713bae5"
+                    ? 3000
+                    : 50, // mainnet has 3000+ assets, other chains may not have that many
             assetsFetched: 0,
             activeFilter: "market",
             filterSearch: props.filterSearch || "",
@@ -159,8 +159,8 @@ class Assets extends React.Component {
                         return a.symbol > b.symbol
                             ? 1
                             : a.symbol < b.symbol
-                                ? -1
-                                : 0;
+                            ? -1
+                            : 0;
                     },
                     render: item => {
                         return (
@@ -197,8 +197,8 @@ class Assets extends React.Component {
                         return a.currentSupply > b.currentSupply
                             ? 1
                             : a.currentSupply < b.currentSupply
-                                ? -1
-                                : 0;
+                            ? -1
+                            : 0;
                     },
                     render: (item, record) => {
                         return (
@@ -243,8 +243,8 @@ class Assets extends React.Component {
                         (description.market
                             ? description.market
                             : coreAsset
-                                ? coreAsset.get("symbol")
-                                : "META1");
+                            ? coreAsset.get("symbol")
+                            : "META1");
 
                     dataSource.push({
                         symbol: asset.symbol,
@@ -267,8 +267,8 @@ class Assets extends React.Component {
                         return a.symbol > b.symbol
                             ? 1
                             : a.symbol < b.symbol
-                                ? -1
-                                : 0;
+                            ? -1
+                            : 0;
                     },
                     render: item => {
                         return (
@@ -305,8 +305,8 @@ class Assets extends React.Component {
                         return a.currentSupply > b.currentSupply
                             ? 1
                             : a.currentSupply < b.currentSupply
-                                ? -1
-                                : 0;
+                            ? -1
+                            : 0;
                     },
                     render: (item, record) => {
                         return (
@@ -352,8 +352,8 @@ class Assets extends React.Component {
                         (description.market
                             ? description.market
                             : coreAsset
-                                ? coreAsset.get("symbol")
-                                : "META1");
+                            ? coreAsset.get("symbol")
+                            : "META1");
 
                     dataSource.push({
                         symbol: asset.symbol,
@@ -405,8 +405,8 @@ class Assets extends React.Component {
                         (description.market
                             ? description.market
                             : coreAsset
-                                ? coreAsset.get("symbol")
-                                : "META1");
+                            ? coreAsset.get("symbol")
+                            : "META1");
 
                     return {
                         asset,
@@ -500,9 +500,7 @@ class Assets extends React.Component {
                                             actions={[
                                                 <Link
                                                     className="button outline"
-                                                    to={`/market/${
-                                                        item.marketID
-                                                    }`}
+                                                    to={`/market/${item.marketID}`}
                                                 >
                                                     <Translate content="header.exchange" />
                                                 </Link>
@@ -519,10 +517,7 @@ class Assets extends React.Component {
                                                             }}
                                                         >
                                                             <Link
-                                                                to={`/asset/${
-                                                                    item.asset
-                                                                        .symbol
-                                                                }`}
+                                                                to={`/asset/${item.asset.symbol}`}
                                                             >
                                                                 <AssetName
                                                                     name={
