@@ -590,7 +590,7 @@ class Header extends React.Component {
             !!a &&
             Apis.instance() &&
             Apis.instance().chain_id &&
-            Apis.instance().chain_id.substr(0, 8) === "713bae5";
+            Apis.instance().chain_id.substr(0, 8) === "69b37fb";
 
         if (starredAccounts.size) {
             for (let i = tradingAccounts.length - 1; i >= 0; i--) {
