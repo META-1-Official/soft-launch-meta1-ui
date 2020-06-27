@@ -59,6 +59,7 @@ class AccountRegistration extends React.Component {
                             alt="account"
                         />
                     </div>
+
                     <div className="create-account-block">
                         <Translate
                             component="h3"

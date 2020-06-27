@@ -21,7 +21,7 @@ import {
     Tooltip,
     Notification
 } from "bitshares-ui-style-guide";
-
+import ReCAPTCHA from "react-google-recaptcha";
 import authenticator from "authenticator";
 import QRCode from "qrcode.react";
 import swal from "sweetalert";
@@ -43,7 +43,8 @@ class AccountRegistrationForm extends React.Component {
             email: "",
             phone: "",
             firstname: "",
-            lastname: ""
+            lastname: "",
+            captcha: false
         };
         this.onSubmit = this.onSubmit.bind(this);
         this.onRegistrarAccountChange = this.onRegistrarAccountChange.bind(
@@ -68,6 +69,12 @@ class AccountRegistrationForm extends React.Component {
     componentDidMount() {
         ReactTooltip.rebuild();
     }
+
+    caChange = () => {
+        this.setState({
+            captcha: true
+        });
+    };
 
     shouldComponentUpdate(nextProps, nextState) {
         return !utils.are_equal_shallow(nextState, this.state);
@@ -137,7 +144,7 @@ class AccountRegistrationForm extends React.Component {
 
     isValid() {
         const firstAccount = AccountStore.getMyAccounts().length === 0;
-        let valid = this.state.validAccountName;
+        let valid = this.state.validAccountName && this.state.captcha;
         if (!WalletDb.getWallet()) {
             valid = valid;
         }
@@ -146,6 +153,12 @@ class AccountRegistrationForm extends React.Component {
         }
         return valid;
     }
+
+    caChange = () => {
+        this.setState({
+            captcha: true
+        });
+    };
 
     renderAccountCreateForm() {
         const {registrarAccount} = this.state;
@@ -325,6 +338,11 @@ class AccountRegistrationForm extends React.Component {
                             ) : null}
                         </div>
                     )}
+                    <ReCAPTCHA
+                        sitekey="6LdY-48UAAAAAAX8Y8-UdRtFks70LCRmyvyye0VU"
+                        onChange={this.caChange.bind(this)}
+                    />
+                    <br></br>
                     {this.state.loading ? (
                         <LoadingIndicator type="three-bounce" />
                     ) : (
