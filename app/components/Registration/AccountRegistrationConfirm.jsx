@@ -26,6 +26,7 @@ class AccountRegistrationConfirm extends React.Component {
         accountName: PropTypes.string.isRequired,
         password: PropTypes.string.isRequired,
         toggleConfirmed: PropTypes.func.isRequired,
+        toggleConfirmedTerms: PropTypes.func.isRequired,
         history: PropTypes.object.isRequired
     };
 
@@ -34,16 +35,21 @@ class AccountRegistrationConfirm extends React.Component {
 
         this.state = {
             confirmed: false,
+            confirmedTerms: false,
             isErrored: false
         };
         this.onFinishConfirm = this.onFinishConfirm.bind(this);
         this.toggleConfirmed = this.toggleConfirmed.bind(this);
+        this.toggleConfirmedTerms = this.toggleConfirmedTerms.bind(this);
         this.createAccount = this.createAccount.bind(this);
         this.onCreateAccount = this.onCreateAccount.bind(this);
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        return nextState.confirmed !== this.state.confirmed;
+        return (
+            nextState.confirmed !== this.state.confirmed ||
+            nextState.confirmedTerms !== this.state.confirmedTerms
+        );
     }
 
     componentDidMount() {
@@ -194,6 +200,12 @@ class AccountRegistrationConfirm extends React.Component {
         });
     }
 
+    toggleConfirmedTerms(e) {
+        this.setState({
+            confirmedTerms: e.target.checked
+        });
+    }
+
     render() {
         console.log(this.state);
         return (
@@ -236,9 +248,16 @@ class AccountRegistrationConfirm extends React.Component {
                             unsafe
                         />
                     </Checkbox>
-                    <button className="reset-this terms" id="myBtn">
-                        I have also read terms of use.
-                    </button>
+                    <hr></hr>
+                    <Checkbox
+                        checked={this.state.confirmedTerms}
+                        onChange={this.toggleConfirmedTerms}
+                    >
+                        &nbsp;&nbsp;&nbsp;
+                        <button className="reset-this terms" id="myBtn">
+                            I accept terms of use.
+                        </button>
+                    </Checkbox>
                     <div id="myModal" class="custom-modal">
                         <div class="custom-modal-content">
                             <span class="close">&times;</span>
@@ -507,7 +526,7 @@ class AccountRegistrationConfirm extends React.Component {
                                 of your User Content associated with your
                                 Account from our live databases.  Company will
                                 not have any liability whatsoever to you for any
-                                termination of your rights under these Terms. 
+                                termination of your rights under these Terms.
                                 Even after your rights under these Terms are
                                 terminated, the following provisions of these
                                 Terms will remain in effect: Sections 2 through
@@ -921,7 +940,7 @@ class AccountRegistrationConfirm extends React.Component {
                                 written consent, and any attempted assignment,
                                 subcontract, delegation, or transfer in
                                 violation of the foregoing will be null and
-                                void.  Company may freely assign these Terms. 
+                                void.  Company may freely assign these Terms.
                                 The terms and conditions set forth in these
                                 Terms shall be binding upon assignees.
                             </p>
@@ -957,7 +976,9 @@ class AccountRegistrationConfirm extends React.Component {
                 <Form.Item>
                     <Button
                         type="primary"
-                        disabled={!this.state.confirmed}
+                        disabled={
+                            !this.state.confirmed || !this.state.confirmedTerms
+                        }
                         onClick={this.onCreateAccount}
                     >
                         <Translate content="account.create_account" />
