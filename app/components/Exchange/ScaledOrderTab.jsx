@@ -885,8 +885,8 @@ class ScaledOrderForm extends Component {
                                     ? buyButtonDisabled
                                     : buyButton
                                 : !this.isFormValid()
-                                    ? sellButtonDisabled
-                                    : sellButton
+                                ? sellButtonDisabled
+                                : sellButton
                         }
                         type="primary"
                         disabled={!this.isFormValid()}

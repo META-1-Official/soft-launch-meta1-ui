@@ -425,19 +425,16 @@ class MarketPicker extends Component {
     }
 }
 
-MarketPicker = connect(
-    MarketPicker,
-    {
-        listenTo() {
-            return [AssetStore];
-        },
-        getProps() {
-            return {
-                searchAssets: AssetStore.getState().assets,
-                assetsLoading: AssetStore.getState().assetsLoading
-            };
-        }
+MarketPicker = connect(MarketPicker, {
+    listenTo() {
+        return [AssetStore];
+    },
+    getProps() {
+        return {
+            searchAssets: AssetStore.getState().assets,
+            assetsLoading: AssetStore.getState().assetsLoading
+        };
     }
-);
+});
 
 export default MarketPicker;
