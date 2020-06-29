@@ -29,6 +29,23 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 
 .swal-modal {
     font-size: 15px;
+    background-color: #2a2a2a;
+}
+
+.swal-title {
+    color: white;
+}
+
+.swal-text {
+    color: white;
+}
+
+.swal-button {
+    color: #fff !important;
+    background-color: #00a9e9;
+    border-color: #00a9e9;
+    border-radius: 0px !important;
+    font-weight: 400px !important;
 }
 
 @mixin linearGradient($top, $bottom) {
