@@ -48,7 +48,7 @@ class DecryptBackup extends Component {
             }
         }
         if (!prevProps.currentAccount && this.props.currentAccount) {
-            this.props.history.push("/market/BTC_META1");
+            this.props.history.push("/market/META1_USDT");
         }
     }
 

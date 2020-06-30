@@ -15,7 +15,7 @@ class WalletRegistrationConfirm extends React.Component {
     };
 
     onBackupDownload = () => {
-        this.props.history.push("/market/BTC_META1");
+        this.props.history.push("/market/META1_USDT");
     };
 
     static renderWarning() {

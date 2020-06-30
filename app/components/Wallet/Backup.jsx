@@ -124,7 +124,7 @@ class BackupRestore extends Component {
                     </DecryptBackup>
                 </Upload>
                 <br />
-                <Link to="/market/BTC_META1">
+                <Link to="/market/META1_USDT">
                     <Button>
                         <Translate content="wallet.back" />
                     </Button>
@@ -161,7 +161,7 @@ class Restore extends Component {
                             name={new_wallet.toUpperCase()}
                         />
                     </h5>
-                    <Link to="/market/BTC_META1">
+                    <Link to="/market/META1_USDT">
                         <Button type="primary">
                             <Translate
                                 component="span"

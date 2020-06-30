@@ -566,7 +566,7 @@ class CreateAccountPassword extends React.Component {
                 <div
                     style={{width: "100%"}}
                     onClick={() => {
-                        this.props.history.push("/market/BTC_META1");
+                        this.props.history.push("/market/META1_USDT");
                     }}
                     className="button"
                 >
@@ -586,7 +586,7 @@ class CreateAccountPassword extends React.Component {
                                 <Translate content="wallet.tips_dashboard" />:
                             </td>
                             <td>
-                                <Link to="/market/BTC_META1">
+                                <Link to="/market/META1_USDT">
                                     <Translate content="header.dashboard" />
                                 </Link>
                             </td>

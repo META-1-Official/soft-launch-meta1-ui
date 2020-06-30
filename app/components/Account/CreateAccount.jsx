@@ -446,7 +446,7 @@ class CreateAccount extends React.Component {
                                 <Translate content="wallet.tips_dashboard" />:
                             </td>
                             <td>
-                                <Link to="/market/BTC_META1">
+                                <Link to="/market/META1_USDT">
                                     <Translate content="header.dashboard" />
                                 </Link>
                             </td>
@@ -567,7 +567,7 @@ class CreateAccount extends React.Component {
                         ? this._renderBackupText()
                         : this._renderGetStartedText()}
                 </div>
-                <Link style={{color: "white"}} to="/market/BTC_META1">
+                <Link style={{color: "white"}} to="/market/META1_USDT">
                     <button className="button primary">
                         <Translate content="wallet.back" />
                     </button>
