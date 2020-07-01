@@ -42,7 +42,7 @@ export function getWalletURL() {
  */
 export function getFaucet() {
     return {
-        url: "https://api.meta1.io/faucet", // 2017-12-infrastructure worker proposal
+        url: "http://localhost:5000", // 2017-12-infrastructure worker proposal
         show: true,
         editable: true
     };

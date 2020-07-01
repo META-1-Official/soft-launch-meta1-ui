@@ -111,12 +111,13 @@ class AccountRegistrationConfirm extends React.Component {
             this.props.accountName,
             this.props.password,
             this.state.email,
-            this.props.phone,
-            this.props.fullname
+            this.state.phone,
+            this.state.fullname
         );
     }
 
-    createAccount(name, password) {
+    createAccount(name, password, email, phone_number, full_name, last_name) {
+        console.log("phone_number: ", phone_number);
         const {referralAccount} = AccountStore.getState();
         sessionStorage.removeItem("email");
         sessionStorage.removeItem("phone");
@@ -130,7 +131,7 @@ class AccountRegistrationConfirm extends React.Component {
             "",
             email,
             phone_number,
-            first_name,
+            full_name,
             last_name
         )
             .then(() => {
