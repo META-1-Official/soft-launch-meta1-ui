@@ -107,53 +107,31 @@ class AccountRegistrationConfirm extends React.Component {
 
     onCreateAccount(e) {
         e.preventDefault();
-        console.log(this.state);
-        fetch("https://api.meta1.io/api/user/add", {
-            method: "POST",
-            headers: {
-                Accept: "application/json, text/plain, */*",
-                "Content-Type": "application/json",
-                "X-Requested-With": "XMLHttpRequest"
-            },
-            body: JSON.stringify({
-                email: this.state.email,
-                metaId: this.props.accountName,
-                phone: this.props.phone,
-                fullname: this.props.fullname
-            })
-        })
-            .then(async response => {
-                if (response.status === 200 && !this.state.isErrored) {
-                    sessionStorage.removeItem("email");
-                    sessionStorage.removeItem("phone");
-                    sessionStorage.removeItem("fullname");
-                    this.createAccount(
-                        this.props.accountName,
-                        this.props.password
-                    );
-                } else {
-                    let json = await response.json();
-                    console.log(json);
-                    this.setState({isErrored: true});
-                    Notification.error({
-                        message: json.error
-                    });
-                }
-            })
-            .catch(error => {
-                console.log(error);
-            });
+        this.createAccount(
+            this.props.accountName,
+            this.props.password,
+            this.state.email,
+            this.props.phone,
+            this.props.fullname
+        );
     }
 
     createAccount(name, password) {
         const {referralAccount} = AccountStore.getState();
-
+        sessionStorage.removeItem("email");
+        sessionStorage.removeItem("phone");
+        sessionStorage.removeItem("fullname");
         AccountActions.createAccountWithPassword(
             name,
             password,
             this.state.registrarAccount,
             referralAccount || this.state.registrarAccount,
-            0
+            0,
+            "",
+            email,
+            phone_number,
+            first_name,
+            last_name
         )
             .then(() => {
                 AccountActions.setPasswordAccount(name);

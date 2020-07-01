@@ -51,7 +51,11 @@ class WalletActions {
         registrar,
         referrer,
         referrer_percent,
-        refcode
+        refcode,
+        email,
+        phone_number,
+        first_name,
+        last_name
     ) {
         let {privKey: owner_private} = WalletDb.generateKeyFromPassword(
             account_name,
@@ -138,7 +142,11 @@ class WalletActions {
                                     .toPublicKey()
                                     .toPublicKeyString(),
                                 refcode: refcode,
-                                referrer: referrer
+                                referrer: referrer,
+                                email: email,
+                                phone_number: phone_number,
+                                first_name: first_name,
+                                last_name: last_name
                             }
                         })
                     }
@@ -174,7 +182,11 @@ class WalletActions {
         registrar,
         referrer,
         referrer_percent,
-        refcode
+        refcode,
+        email,
+        phone_number,
+        first_name,
+        last_name
     ) {
         if (WalletDb.isLocked()) {
             let error = "wallet locked";
@@ -245,7 +257,11 @@ class WalletActions {
                                 .toPublicKeyString(),
                             //"memo_key": memo_private.private_key.toPublicKey().toPublicKeyString(),
                             refcode: refcode,
-                            referrer: referrer
+                            referrer: referrer,
+                            email: email,
+                            phone_number: phone_number,
+                            first_name: first_name,
+                            last_name: last_name
                         }
                     })
                 }
@@ -260,10 +276,10 @@ class WalletActions {
                 })
                 .catch(error => {
                     /*
-                * Since the account creation failed, we need to decrement the
-                * sequence used to generate private keys from the brainkey. Three
-                * keys were generated, so we decrement three times.
-                */
+                     * Since the account creation failed, we need to decrement the
+                     * sequence used to generate private keys from the brainkey. Three
+                     * keys were generated, so we decrement three times.
+                     */
                     WalletDb.decrementBrainKeySequence();
                     WalletDb.decrementBrainKeySequence();
                     WalletDb.decrementBrainKeySequence();
