@@ -42,7 +42,7 @@ export function getWalletURL() {
  */
 export function getFaucet() {
     return {
-        url: "http://localhost:5000", // 2017-12-infrastructure worker proposal
+        url: "https://faucet.citvy.com", // 2017-12-infrastructure worker proposal
         show: true,
         editable: true
     };
