@@ -1259,7 +1259,7 @@ class Header extends React.Component {
                         )}
                         onClick={() => {
                             window.open(
-                                "https://aphrodite.meta-exchange.info/explorer-backing-assets"
+                                "https://api.meta1.io/explorer-backing-assets"
                             );
                         }}
                     >
