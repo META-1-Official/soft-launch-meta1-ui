@@ -123,8 +123,8 @@ class AccountRegistrationForm extends React.Component {
         e.preventDefault();
         sessionStorage.email = this.state.email;
         sessionStorage.phone = this.state.phone;
-        sessionStorage.fullname =
-            this.state.firstname + " " + this.state.lastname;
+        sessionStorage.firstname = this.state.firstname;
+        sessionStorage.lastname = this.state.lastname;
 
         if (this.isValid()) {
             this.props.continue({

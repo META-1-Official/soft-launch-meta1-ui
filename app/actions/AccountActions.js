@@ -116,7 +116,9 @@ class AccountActions {
         refcode,
         email,
         phone_number,
-        full_name
+        first_name,
+        last_name,
+        private_key
     ) {
         return dispatch => {
             return WalletActions.createAccount(
@@ -127,7 +129,9 @@ class AccountActions {
                 refcode,
                 email,
                 phone_number,
-                full_name
+                first_name,
+                last_name,
+                private_key
             ).then(() => {
                 dispatch(account_name);
                 return account_name;
@@ -144,7 +148,8 @@ class AccountActions {
         refcode,
         email,
         phone_number,
-        full_name,
+        first_name,
+        last_name,
         private_key
     ) {
         console.log("phone_number: ", phone_number);
@@ -159,7 +164,8 @@ class AccountActions {
                 refcode,
                 email,
                 phone_number,
-                full_name,
+                first_name,
+                last_name,
                 private_key
             ).then(() => {
                 dispatch(account_name);

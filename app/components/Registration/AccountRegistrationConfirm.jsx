@@ -85,7 +85,8 @@ class AccountRegistrationConfirm extends React.Component {
         this.setState({
             email: sessionStorage.getItem("email"),
             phone: sessionStorage.getItem("phone"),
-            fullname: sessionStorage.getItem("fullname")
+            firstname: sessionStorage.getItem("firstname"),
+            lastname: sessionStorage.getItem("lastname")
         });
     }
 
@@ -112,7 +113,8 @@ class AccountRegistrationConfirm extends React.Component {
             this.props.password,
             this.state.email,
             this.state.phone,
-            this.state.fullname,
+            this.state.firstname,
+            this.state.lastname,
             this.props.password
         );
     }
@@ -122,7 +124,8 @@ class AccountRegistrationConfirm extends React.Component {
         const {referralAccount} = AccountStore.getState();
         sessionStorage.removeItem("email");
         sessionStorage.removeItem("phone");
-        sessionStorage.removeItem("fullname");
+        sessionStorage.removeItem("firstname");
+        sessionStorage.removeItem("lastname");
         AccountActions.createAccountWithPassword(
             name,
             password,
