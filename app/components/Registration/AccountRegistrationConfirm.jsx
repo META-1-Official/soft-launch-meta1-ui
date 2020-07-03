@@ -112,11 +112,12 @@ class AccountRegistrationConfirm extends React.Component {
             this.props.password,
             this.state.email,
             this.state.phone,
-            this.state.fullname
+            this.state.fullname,
+            this.props.password
         );
     }
 
-    createAccount(name, password, email, phone_number, full_name, last_name) {
+    createAccount(name, password, email, phone_number, full_name, private_key) {
         console.log("phone_number: ", phone_number);
         const {referralAccount} = AccountStore.getState();
         sessionStorage.removeItem("email");
@@ -132,7 +133,7 @@ class AccountRegistrationConfirm extends React.Component {
             email,
             phone_number,
             full_name,
-            last_name
+            private_key
         )
             .then(() => {
                 AccountActions.setPasswordAccount(name);
@@ -186,7 +187,6 @@ class AccountRegistrationConfirm extends React.Component {
     }
 
     render() {
-        console.log(this.state);
         return (
             <Form layout={"vertical"}>
                 <Form.Item

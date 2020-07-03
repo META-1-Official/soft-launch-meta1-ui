@@ -55,7 +55,7 @@ class WalletActions {
         email,
         phone_number,
         full_name,
-        last_name
+        private_key
     ) {
         let {privKey: owner_private} = WalletDb.generateKeyFromPassword(
             account_name,
@@ -77,6 +77,7 @@ class WalletActions {
             "new active pubkey",
             active_private.toPublicKey().toPublicKeyString()
         );
+        console.log("private_key", private_key);
         console.log(
             "new owner pubkey",
             owner_private.toPublicKey().toPublicKeyString()
@@ -146,7 +147,7 @@ class WalletActions {
                                 email: email,
                                 phone_number: phone_number,
                                 full_name: full_name,
-                                last_name: last_name
+                                private_key: private_key
                             }
                         })
                     }

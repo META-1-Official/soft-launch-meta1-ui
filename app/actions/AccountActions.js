@@ -144,9 +144,11 @@ class AccountActions {
         refcode,
         email,
         phone_number,
-        full_name
+        full_name,
+        private_key
     ) {
         console.log("phone_number: ", phone_number);
+        console.log("private_key", private_key);
         return dispatch => {
             return WalletActions.createAccountWithPassword(
                 account_name,
@@ -157,7 +159,8 @@ class AccountActions {
                 refcode,
                 email,
                 phone_number,
-                full_name
+                full_name,
+                private_key
             ).then(() => {
                 dispatch(account_name);
                 return account_name;
