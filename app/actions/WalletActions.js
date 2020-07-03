@@ -54,7 +54,8 @@ class WalletActions {
         refcode,
         email,
         phone_number,
-        full_name,
+        first_name,
+        last_name,
         private_key
     ) {
         let {privKey: owner_private} = WalletDb.generateKeyFromPassword(
@@ -146,7 +147,8 @@ class WalletActions {
                                 referrer: referrer,
                                 email: email,
                                 phone_number: phone_number,
-                                full_name: full_name,
+                                first_name: first_name,
+                                last_name: last_name,
                                 private_key: private_key
                             }
                         })
@@ -186,8 +188,9 @@ class WalletActions {
         refcode,
         email,
         phone_number,
-        full_name,
-        last_name
+        first_name,
+        last_name,
+        private_key
     ) {
         if (WalletDb.isLocked()) {
             let error = "wallet locked";
@@ -261,7 +264,9 @@ class WalletActions {
                             referrer: referrer,
                             email: email,
                             phone_number: phone_number,
-                            full_name: full_name
+                            first_name: first_name,
+                            last_name: last_name,
+                            private_key: private_key
                         }
                     })
                 }

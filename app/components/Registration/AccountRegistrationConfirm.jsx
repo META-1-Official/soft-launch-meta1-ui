@@ -119,7 +119,15 @@ class AccountRegistrationConfirm extends React.Component {
         );
     }
 
-    createAccount(name, password, email, phone_number, full_name, private_key) {
+    createAccount(
+        name,
+        password,
+        email,
+        phone_number,
+        first_name,
+        last_name,
+        private_key
+    ) {
         console.log("phone_number: ", phone_number);
         const {referralAccount} = AccountStore.getState();
         sessionStorage.removeItem("email");
@@ -135,7 +143,8 @@ class AccountRegistrationConfirm extends React.Component {
             "",
             email,
             phone_number,
-            full_name,
+            first_name,
+            last_name,
             private_key
         )
             .then(() => {
