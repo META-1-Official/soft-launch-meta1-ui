@@ -42,7 +42,7 @@ export function getWalletURL() {
  */
 export function getFaucet() {
     return {
-        url: "https://cors-anywhere.herokuapp.com/https://faucet.meta1.io", // 2017-12-infrastructure worker proposal
+        url: "https://faucet.meta1.io/faucet", // 2017-12-infrastructure worker proposal
         show: true,
         editable: true
     };
