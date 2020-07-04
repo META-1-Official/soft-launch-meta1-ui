@@ -1,12 +1,12 @@
-# Short Selling BitAssets
+# Short Selling METAAssets
 
-In order to increase your exposure to META1 and offer liquidity to BitAssets, such
-as XUSD, EUR, GOLD, etc., you can go *borrow* this bitAsset from the network and
+In order to increase your exposure to META1 and offer liquidity to METAAssets, such
+as XUSD, EUR, GOLD, etc., you can go *borrow* this METAAsset from the network and
 *sell it short*. We will here briefly describe the procedure.
 
 ## Borrowing
 
-The META1 network is capable of issuing any amount of any BitAsset and lend
+The META1 network is capable of issuing any amount of any METAAsset and lend
 it out to participants given enough collateral.
 
  * *settlement price*: The price for 1 META1 as it is traded on external exchanges.
@@ -18,7 +18,7 @@ it out to participants given enough collateral.
 ### Margin Call
 
 The META1 network is capable of margin calling those positions that do not
-have enough collateral to back their borrowed bitAssets. A margin call will
+have enough collateral to back their borrowed METAAssets. A margin call will
 occur any time the highest bid is less than the *call price* and greater than
 *SQP*.
 The margin position will be forced to sell its collateral anytime the highest
@@ -29,33 +29,33 @@ SQP = settlement price / MSQR
 call price = DEBT / COLLATERAL * MCR
 ```
 
-The margin call will take the collateral, buy shares of borrowed bitAsset at
+The margin call will take the collateral, buy shares of borrowed METAAsset at
 market rates up to the SQP and close the position. The remaining META1 of the
 collateral are returned to the customer.
 
 ### Settlement
 
-Holders of any bitAsset can request a settlement at a *fair price* at any time.
+Holders of any METAAsset can request a settlement at a *fair price* at any time.
 The settlement closes the borrow/short positions with lowest collateral ratio
 and sells the collateral for the settlement.
 
 ## Selling
 
-After borrowing bitAssets, they can be sold free at any of the corresponding
+After borrowing METAAssets, they can be sold free at any of the corresponding
 markets at any price a buyer is willing to pay. With this step, the
-short-selling is now complete and you are short that particular bitAsset.
+short-selling is now complete and you are short that particular METAAsset.
 
 ## Updating Collateral Ratio
 
 At any time, the holder of a borrow/short position can modify the collateral
 ratio in order to flexibly adjust to market behavior. If the collateral ratio is
 increase, an additional amount of META1 is locked as collateral, while reducing
-the collateral ratio will require an amount of the corresponding BitAsset to be
+the collateral ratio will require an amount of the corresponding METAAsset to be
 payed back to the network.
 
 ## Covering
 
 To close a borrow/short position, one must hold the borrowed amount of that
-particular bitAsset to hand it over to the META1 network. After that, the
-BitAssets are reduced from the corresponding supply and the collateral is
+particular METAAsset to hand it over to the META1 network. After that, the
+METAAssets are reduced from the corresponding supply and the collateral is
 released and given back to its owner.

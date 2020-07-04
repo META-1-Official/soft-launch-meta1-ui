@@ -47,12 +47,3 @@ the reader and customer to leverage those features in full or only partially.
   What makes the META1 DEX unique is the provable order matching algorithm.
   Given a set of orders, you will always be able to provably verify that these
   orders have been matched properly.
-  
-* **Collateralized Smartcoins**:
-  One of the biggest features of META1 are its *smartcoins* such as bitUSD,
-  bitEUR, bitCNY, and others. For the sake of convenience, these assets are
-  denotes simply as XUSD, EUR, CNY, etc. in the wallet. These digital tokens
-  represent the same value as their underlaying physical asset. Hence 1 XUSD in
-  this wallet is worth $1 and can be redeemed as such. Any of these tokens is
-  backed by META1' company shares (META1) being locked up as collateral and
-  being available for settlement at its current price.
