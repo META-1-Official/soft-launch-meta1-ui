@@ -39,7 +39,7 @@ var logo = getLogo();
 
 const SUBMENUS = {
     SETTINGS: "SETTINGS",
-    DEPOSIT: "DEPOSIT",
+    DEPOSIT: "DEPOSIT"
 };
 
 class Header extends React.Component {
@@ -54,7 +54,7 @@ class Header extends React.Component {
             dropdownSubmenuActiveDeposit: false,
             isDepositModalVisible: false,
             hasDepositModalBeenShown: false,
-            isDepositModalVisibleBtc: false,
+            isDepositModalVisibleBtc: false
         };
 
         this._accountNotificationActiveKeys = [];
@@ -116,21 +116,21 @@ class Header extends React.Component {
     showDepositModal() {
         this.setState({
             isDepositModalVisible: true,
-            hasDepositModalBeenShown: true,
+            hasDepositModalBeenShown: true
         });
     }
 
     hideDepositModal() {
         this.setState({
-            isDepositModalVisible: false,
+            isDepositModalVisible: false
         });
     }
 
     componentWillMount() {
-        this.unlisten = this.props.history.listen((newState) => {
+        this.unlisten = this.props.history.listen(newState => {
             if (this.unlisten && this.state.active !== newState.pathname) {
                 this.setState({
-                    active: newState.pathname,
+                    active: newState.pathname
                 });
             }
         });
@@ -143,7 +143,7 @@ class Header extends React.Component {
 
         document.body.addEventListener("click", this.onBodyClick, {
             capture: false,
-            passive: true,
+            passive: true
         });
     }
 
@@ -166,43 +166,43 @@ class Header extends React.Component {
     }
     showDepositModalBtc() {
         this.setState({
-            isDepositModalVisibleBtc: true,
+            isDepositModalVisibleBtc: true
         });
     }
 
     showDepositModalEth() {
         this.setState({
-            isDepositModalVisibleEth: true,
+            isDepositModalVisibleEth: true
         });
     }
 
     showDepositModalUsdt() {
         this.setState({
-            isDepositModalVisibleUsdt: true,
+            isDepositModalVisibleUsdt: true
         });
     }
 
     showDepositModalEos() {
         this.setState({
-            isDepositModalVisibleEos: true,
+            isDepositModalVisibleEos: true
         });
     }
 
     showDepositModalBnb() {
         this.setState({
-            isDepositModalVisibleBnb: true,
+            isDepositModalVisibleBnb: true
         });
     }
 
     showDepositModalXlm() {
         this.setState({
-            isDepositModalVisibleXlm: true,
+            isDepositModalVisibleXlm: true
         });
     }
 
     showDepositModalLtc() {
         this.setState({
-            isDepositModalVisibleLtc: true,
+            isDepositModalVisibleLtc: true
         });
     }
 
@@ -282,43 +282,43 @@ class Header extends React.Component {
 
     hideDepositModalBtc() {
         this.setState({
-            isDepositModalVisibleBtc: false,
+            isDepositModalVisibleBtc: false
         });
     }
 
     hideDepositModalEth() {
         this.setState({
-            isDepositModalVisibleEth: false,
+            isDepositModalVisibleEth: false
         });
     }
 
     hideDepositModalUsdt() {
         this.setState({
-            isDepositModalVisibleUsdt: false,
+            isDepositModalVisibleUsdt: false
         });
     }
 
     hideDepositModalEos() {
         this.setState({
-            isDepositModalVisibleEos: false,
+            isDepositModalVisibleEos: false
         });
     }
 
     hideDepositModalBnb() {
         this.setState({
-            isDepositModalVisibleBnb: false,
+            isDepositModalVisibleBnb: false
         });
     }
 
     hideDepositModalXlm() {
         this.setState({
-            isDepositModalVisibleXlm: false,
+            isDepositModalVisibleXlm: false
         });
     }
 
     hideDepositModalLtc() {
         this.setState({
-            isDepositModalVisibleLtc: false,
+            isDepositModalVisibleLtc: false
         });
     }
 
@@ -361,7 +361,7 @@ class Header extends React.Component {
         // Set Accounts Tab as active tab
         if (route == "/accounts") {
             SettingsActions.changeViewSetting({
-                dashboardEntry: "accounts",
+                dashboardEntry: "accounts"
             });
         }
 
@@ -372,7 +372,7 @@ class Header extends React.Component {
     _closeAccountsListDropdown() {
         if (this.state.accountsListDropdownActive) {
             this.setState({
-                accountsListDropdownActive: false,
+                accountsListDropdownActive: false
             });
         }
     }
@@ -380,7 +380,7 @@ class Header extends React.Component {
     _closeMenuDropdown() {
         if (this.state.dropdownActive) {
             this.setState({
-                dropdownActive: false,
+                dropdownActive: false
             });
         }
     }
@@ -388,7 +388,7 @@ class Header extends React.Component {
     _closeDropdownSubmenu() {
         if (this.state.dropdownSubmenuActive) {
             this.setState({
-                dropdownSubmenuActive: false,
+                dropdownSubmenuActive: false
             });
         }
     }
@@ -396,7 +396,7 @@ class Header extends React.Component {
     _closeDropdownSubmenuAdvanced() {
         if (this.state.dropdownSubmenuActiveAdvanced) {
             this.setState({
-                dropdownSubmenuActiveAdvanced: false,
+                dropdownSubmenuActiveAdvanced: false
             });
         }
     }
@@ -404,7 +404,7 @@ class Header extends React.Component {
     _closeDropdownSubmenuDeposit() {
         if (this.state.dropdownSubmenuActiveDeposit) {
             this.setState({
-                dropdownSubmenuActiveDeposit: false,
+                dropdownSubmenuActiveDeposit: false
             });
         }
     }
@@ -435,15 +435,15 @@ class Header extends React.Component {
             const key = `account-notification-${Date.now()}`;
             Notification.success({
                 message: counterpart.translate("header.account_notify", {
-                    account: account_name,
+                    account: account_name
                 }),
                 key,
                 onClose: () => {
                     // Remove key of notification from notificationKeys array after close
                     this._accountNotificationActiveKeys = this._accountNotificationActiveKeys.filter(
-                        (el) => el !== key
+                        el => el !== key
                     );
-                },
+                }
             });
 
             this._accountNotificationActiveKeys.push(key);
@@ -460,7 +460,7 @@ class Header extends React.Component {
         if (!hasLocalWallet) return false;
         this._closeAccountNotifications();
         this.setState({
-            accountsListDropdownActive: !this.state.accountsListDropdownActive,
+            accountsListDropdownActive: !this.state.accountsListDropdownActive
         });
     }
 
@@ -469,7 +469,7 @@ class Header extends React.Component {
 
         this.setState({
             dropdownSubmenuActive: !this.state.dropdownSubmenuActive,
-            dropdownSubmenuActiveItem: item,
+            dropdownSubmenuActiveItem: item
         });
     }
 
@@ -482,7 +482,7 @@ class Header extends React.Component {
         this.setState({
             dropdownSubmenuActiveDeposit: !this.state
                 .dropdownSubmenuActiveDeposit,
-            dropdownSubmenuActiveItemDeposit: item,
+            dropdownSubmenuActiveItemDeposit: item
         });
     }
 
@@ -495,21 +495,19 @@ class Header extends React.Component {
         this.setState({
             dropdownSubmenuActiveAdvanced: !this.state
                 .dropdownSubmenuActiveAdvanced,
-            dropdownSubmenuActiveItemAdvanced: item,
+            dropdownSubmenuActiveItemAdvanced: item
         });
     }
 
     _toggleDropdownMenu() {
         this.setState({
-            dropdownActive: !this.state.dropdownActive,
+            dropdownActive: !this.state.dropdownActive
         });
         this._closeAccountNotifications();
     }
 
     _closeAccountNotifications() {
-        this._accountNotificationActiveKeys.map((key) =>
-            Notification.close(key)
-        );
+        this._accountNotificationActiveKeys.map(key => Notification.close(key));
         this._accountNotificationActiveKeys = [];
     }
 
@@ -552,7 +550,7 @@ class Header extends React.Component {
             starredAccounts,
             passwordLogin,
             passwordAccount,
-            height,
+            height
         } = this.props;
 
         let tradingAccounts = AccountStore.getMyAccounts();
@@ -568,7 +566,7 @@ class Header extends React.Component {
             !!a &&
             Apis.instance() &&
             Apis.instance().chain_id &&
-            Apis.instance().chain_id.substr(0, 8) === "69b37fb";
+            Apis.instance().chain_id.substr(0, 8) === "9e40bec";
 
         if (starredAccounts.size) {
             for (let i = tradingAccounts.length - 1; i >= 0; i--) {
@@ -576,7 +574,7 @@ class Header extends React.Component {
                     tradingAccounts.splice(i, 1);
                 }
             }
-            starredAccounts.forEach((account) => {
+            starredAccounts.forEach(account => {
                 if (tradingAccounts.indexOf(account.name) === -1) {
                     tradingAccounts.push(account.name);
                 }
@@ -641,8 +639,8 @@ class Header extends React.Component {
             if (tradingAccounts.length >= 1) {
                 accountsList = tradingAccounts
                     .sort()
-                    .filter((name) => name !== currentAccount)
-                    .map((name) => {
+                    .filter(name => name !== currentAccount)
+                    .map(name => {
                         return (
                             <li
                                 key={name}
@@ -650,7 +648,7 @@ class Header extends React.Component {
                                     active:
                                         active
                                             .replace("/account/", "")
-                                            .indexOf(name) === 0,
+                                            .indexOf(name) === 0
                                 })}
                                 onClick={this._accountClickHandler.bind(
                                     this,
@@ -744,7 +742,7 @@ class Header extends React.Component {
                 <a
                     style={{flexFlow: "row"}}
                     className={cnames({
-                        active: active.indexOf("settings") !== -1,
+                        active: active.indexOf("settings") !== -1
                     })}
                 >
                     <Icon
@@ -766,7 +764,7 @@ class Header extends React.Component {
                 <a
                     style={{flexFlow: "row"}}
                     className={cnames({
-                        active: active.indexOf("deposit-withdraw") !== -1,
+                        active: active.indexOf("deposit-withdraw") !== -1
                     })}
                 >
                     <Icon
@@ -811,7 +809,7 @@ class Header extends React.Component {
                 <a
                     style={{flexFlow: "row"}}
                     className={cnames({
-                        active: active.indexOf("/assets") !== -1,
+                        active: active.indexOf("/assets") !== -1
                     })}
                 >
                     <Icon
@@ -833,7 +831,7 @@ class Header extends React.Component {
                 <a
                     style={{flexFlow: "row"}}
                     className={cnames({
-                        active: active.indexOf("/signedmessages") !== -1,
+                        active: active.indexOf("/signedmessages") !== -1
                     })}
                 >
                     <Icon
@@ -855,7 +853,7 @@ class Header extends React.Component {
                 <a
                     style={{flexFlow: "row"}}
                     className={cnames({
-                        active: active.indexOf("/member-stats") !== -1,
+                        active: active.indexOf("/member-stats") !== -1
                     })}
                 >
                     <Icon
@@ -877,7 +875,7 @@ class Header extends React.Component {
                 <a
                     style={{flexFlow: "row"}}
                     className={cnames({
-                        active: active.indexOf("/vesting") !== -1,
+                        active: active.indexOf("/vesting") !== -1
                     })}
                 >
                     <Icon
@@ -899,7 +897,7 @@ class Header extends React.Component {
                 <a
                     style={{flexFlow: "row"}}
                     className={cnames({
-                        active: active.indexOf("/whitelist") !== -1,
+                        active: active.indexOf("/whitelist") !== -1
                     })}
                 >
                     <Icon
@@ -921,7 +919,7 @@ class Header extends React.Component {
                 <a
                     style={{flexFlow: "row"}}
                     className={cnames({
-                        active: active.indexOf("/permissions") !== -1,
+                        active: active.indexOf("/permissions") !== -1
                     })}
                 >
                     <Icon
@@ -944,7 +942,7 @@ class Header extends React.Component {
                 <a
                     style={{flexFlow: "row"}}
                     className={cnames({
-                        active: active.indexOf("/borrow") !== -1,
+                        active: active.indexOf("/borrow") !== -1
                     })}
                 >
                     <Icon
@@ -967,7 +965,7 @@ class Header extends React.Component {
                 <a
                     style={{flexFlow: "row"}}
                     className={cnames({
-                        active: active.indexOf("/barter") !== -1,
+                        active: active.indexOf("/barter") !== -1
                     })}
                 >
                     <Icon
@@ -990,7 +988,7 @@ class Header extends React.Component {
                 <a
                     style={{flexFlow: "row"}}
                     className={cnames({
-                        active: active.indexOf("/direct-debit") !== -1,
+                        active: active.indexOf("/direct-debit") !== -1
                     })}
                 >
                     <Icon
@@ -1013,7 +1011,7 @@ class Header extends React.Component {
                 <a
                     style={{flexFlow: "row"}}
                     className={cnames({
-                        active: active.indexOf("/prediction") !== -1,
+                        active: active.indexOf("/prediction") !== -1
                     })}
                 >
                     <Icon
@@ -1035,7 +1033,7 @@ class Header extends React.Component {
                 <a
                     style={{flexFlow: "row"}}
                     className={cnames({
-                        active: active.indexOf("/htlc") !== -1,
+                        active: active.indexOf("/htlc") !== -1
                     })}
                 >
                     <Icon
@@ -1061,7 +1059,7 @@ class Header extends React.Component {
                         left: -200,
                         top: 64,
                         maxHeight: !this.state.dropdownActive ? 0 : maxHeight,
-                        overflowY: "auto",
+                        overflowY: "auto"
                     }}
                 >
                     <li
@@ -1158,7 +1156,7 @@ class Header extends React.Component {
                                 component="div"
                                 className="table-cell"
                             />
-                        </li>,
+                        </li>
                     ]}
 
                     <li
@@ -1195,7 +1193,7 @@ class Header extends React.Component {
                         />
                     </li>
                 </ul>
-            ),
+            )
         };
 
         const advanced = {
@@ -1206,7 +1204,7 @@ class Header extends React.Component {
                         left: -200,
                         top: 40,
                         maxHeight: !this.state.dropdownActive ? 0 : maxHeight,
-                        overflowY: "auto",
+                        overflowY: "auto"
                     }}
                 >
                     <li
@@ -1232,7 +1230,7 @@ class Header extends React.Component {
                                 ? null
                                 : "column-hide-xs",
                             {
-                                active: active.indexOf("arts") !== -1,
+                                active: active.indexOf("arts") !== -1
                             }
                         )}
                         onClick={() => {
@@ -1256,7 +1254,7 @@ class Header extends React.Component {
                                 ? null
                                 : "column-hide-xs",
                             {
-                                active: active.indexOf("help") !== -1,
+                                active: active.indexOf("help") !== -1
                             }
                         )}
                         onClick={this._onNavigate.bind(this, "/help")}
@@ -1313,11 +1311,11 @@ class Header extends React.Component {
                             active:
                                 active.indexOf("/trezor") !== -1 &&
                                 active.indexOf("/account/") !== -1,
-                            disabled: !showAccountLinks,
+                            disabled: !showAccountLinks
                         })}
                         onClick={
                             !showAccountLinks
-                                ? (event) => {
+                                ? event => {
                                       event.stopPropagation();
                                   }
                                 : () =>
@@ -1336,11 +1334,11 @@ class Header extends React.Component {
                             active:
                                 active.indexOf("/ledger") !== -1 &&
                                 active.indexOf("/account/") !== -1,
-                            disabled: !showAccountLinks,
+                            disabled: !showAccountLinks
                         })}
                         onClick={
                             !showAccountLinks
-                                ? (event) => {
+                                ? event => {
                                       event.stopPropagation();
                                   }
                                 : () =>
@@ -1357,11 +1355,11 @@ class Header extends React.Component {
                     <li
                         className={cnames({
                             active: active.indexOf("/signedmessages") !== -1,
-                            disabled: !showAccountLinks,
+                            disabled: !showAccountLinks
                         })}
                         onClick={
                             !showAccountLinks
-                                ? (event) => {
+                                ? event => {
                                       event.stopPropagation();
                                   }
                                 : this._onNavigate.bind(
@@ -1378,11 +1376,11 @@ class Header extends React.Component {
                     <li
                         className={cnames({
                             active: active.indexOf("/member-stats") !== -1,
-                            disabled: !showAccountLinks,
+                            disabled: !showAccountLinks
                         })}
                         onClick={
                             !showAccountLinks
-                                ? (event) => {
+                                ? event => {
                                       event.stopPropagation();
                                   }
                                 : this._onNavigate.bind(
@@ -1399,7 +1397,7 @@ class Header extends React.Component {
                     {isMyAccount ? (
                         <li
                             className={cnames({
-                                active: active.indexOf("/vesting") !== -1,
+                                active: active.indexOf("/vesting") !== -1
                             })}
                             onClick={this._onNavigate.bind(
                                 this,
@@ -1415,11 +1413,11 @@ class Header extends React.Component {
                     <li
                         className={cnames({
                             active: active.indexOf("/whitelist") !== -1,
-                            disabled: !showAccountLinks,
+                            disabled: !showAccountLinks
                         })}
                         onClick={
                             !showAccountLinks
-                                ? (event) => {
+                                ? event => {
                                       event.stopPropagation();
                                   }
                                 : this._onNavigate.bind(
@@ -1436,11 +1434,11 @@ class Header extends React.Component {
                     <li
                         className={cnames("divider", {
                             active: active.indexOf("/permissions") !== -1,
-                            disabled: !showAccountLinks,
+                            disabled: !showAccountLinks
                         })}
                         onClick={
                             !showAccountLinks
-                                ? (event) => {
+                                ? event => {
                                       event.stopPropagation();
                                   }
                                 : this._onNavigate.bind(
@@ -1468,7 +1466,7 @@ class Header extends React.Component {
                         </li>
                     ) : null}
                 </ul>
-            ),
+            )
         };
 
         const deposit = {
@@ -1479,7 +1477,7 @@ class Header extends React.Component {
                         left: -200,
                         top: 40,
                         maxHeight: !this.state.dropdownActive ? 0 : maxHeight,
-                        overflowY: "auto",
+                        overflowY: "auto"
                     }}
                 >
                     <li
@@ -1548,7 +1546,7 @@ class Header extends React.Component {
                         />
                     </li>
                 </ul>
-            ),
+            )
         };
 
         return (
@@ -1565,7 +1563,7 @@ class Header extends React.Component {
                                         <div
                                             style={{
                                                 marginLeft: "1rem",
-                                                height: "3rem",
+                                                height: "3rem"
                                             }}
                                         >
                                             <div
@@ -1584,7 +1582,7 @@ class Header extends React.Component {
                                             style={{
                                                 height: "3rem",
                                                 marginLeft: "0.5rem",
-                                                marginRight: "0.75rem",
+                                                marginRight: "0.75rem"
                                             }}
                                         >
                                             <div
@@ -1631,7 +1629,7 @@ class Header extends React.Component {
                                                     -1 &&
                                                 active.indexOf(
                                                     "/permissions"
-                                                ) === -1,
+                                                ) === -1
                                         })}
                                     >
                                         <Translate
@@ -1650,8 +1648,7 @@ class Header extends React.Component {
                                             : "column-hide-xxs",
                                         {
                                             active:
-                                                active.indexOf("market/") !==
-                                                -1,
+                                                active.indexOf("market/") !== -1
                                         }
                                     )}
                                     onClick={this._onNavigate.bind(
@@ -1676,7 +1673,7 @@ class Header extends React.Component {
                                         {
                                             active:
                                                 active.indexOf("explorer") !==
-                                                -1,
+                                                -1
                                         }
                                     )}
                                     onClick={this._onNavigate.bind(
@@ -1729,14 +1726,14 @@ class Header extends React.Component {
                                     : maxHeight,
                                 overflowY: "auto",
                                 position: "absolute",
-                                width: "20em",
+                                width: "20em"
                             }}
                         >
                             <li
                                 className={cnames(
                                     {
                                         active:
-                                            active.indexOf("/accounts") !== -1,
+                                            active.indexOf("/accounts") !== -1
                                     },
                                     "divider"
                                 )}
@@ -1842,7 +1839,7 @@ class Header extends React.Component {
                 </div>
                 <SendModal
                     id="send_modal_header"
-                    refCallback={(e) => {
+                    refCallback={e => {
                         if (e) this.send_modal = e;
                     }}
                     from_name={currentAccount}
@@ -1914,7 +1911,7 @@ Header = connect(Header, {
             AccountStore,
             WalletUnlockStore,
             WalletManagerStore,
-            SettingsStore,
+            SettingsStore
         ];
     },
     getProps() {
@@ -1938,9 +1935,9 @@ Header = connect(Header, {
             hiddenAssets: SettingsStore.getState().hiddenAssets,
             settings: SettingsStore.getState().settings,
             locales: SettingsStore.getState().defaults.locale,
-            contacts: AccountStore.getState().accountContacts,
+            contacts: AccountStore.getState().accountContacts
         };
-    },
+    }
 });
 
 export default withRouter(Header);

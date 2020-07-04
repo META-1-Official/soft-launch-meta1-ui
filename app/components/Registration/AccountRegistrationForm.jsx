@@ -191,7 +191,7 @@ class AccountRegistrationForm extends React.Component {
             <div>
                 <Form onSubmit={this.onSubmit} layout={"vertical"}>
                     <div style={{display: "flex", width: "100%"}}>
-                        <Form.Item label={"First name"}>
+                        <Form.Item label={"First name *"}>
                             <Input
                                 id="firstname"
                                 required
@@ -199,7 +199,7 @@ class AccountRegistrationForm extends React.Component {
                                 onChange={this.onFirstnameChange}
                             />
                         </Form.Item>
-                        <Form.Item label={"Last name"}>
+                        <Form.Item label={"Last name *"}>
                             <Input
                                 id="lastname"
                                 required
@@ -207,7 +207,7 @@ class AccountRegistrationForm extends React.Component {
                                 onChange={this.onLastnameChange}
                             />
                         </Form.Item>
-                        <Form.Item label={"Email"}>
+                        <Form.Item label={"Email *"}>
                             <Input
                                 id="email"
                                 required
@@ -215,7 +215,7 @@ class AccountRegistrationForm extends React.Component {
                                 onChange={this.onEmailChange}
                             />
                         </Form.Item>
-                        <Form.Item label={"Phone number"}>
+                        <Form.Item label={"Phone number *"}>
                             <Input
                                 id="phone"
                                 required

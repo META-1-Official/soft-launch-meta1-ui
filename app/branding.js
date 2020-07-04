@@ -10,8 +10,8 @@ import {Apis} from "meta1js-ws";
  * @private
  */
 function _isTestnet() {
-    const chainId = (Apis.instance().chain_id || "69b37fb").substr(0, 8);
-    if (chainId === "69b37fb") {
+    const chainId = (Apis.instance().chain_id || "9e40bec").substr(0, 8);
+    if (chainId === "9e40bec") {
         return false;
     } else {
         // treat every other chain as testnet, exact would be chainId === "39f5e2ed"
@@ -32,7 +32,7 @@ export function getWalletName() {
  * @returns {string}
  */
 export function getWalletURL() {
-    return "https://testdex.meta1.io";
+    return "https://meta-exchange.io";
 }
 
 /**
