@@ -96,10 +96,10 @@ class SetDefaultFeeAssetModal extends React.Component {
             if (a.asset == "META1" || b.asset == "META1") {
                 return a.asset == "META1" ? 1 : -1;
             } else if (
-                ["XUSD", "CNY", "EUR"].includes(a.asset) !==
-                ["XUSD", "CNY", "EUR"].includes(b.asset)
+                ["USDT", "CNY", "EUR"].includes(a.asset) !==
+                ["USDT", "CNY", "EUR"].includes(b.asset)
             ) {
-                return ["XUSD", "CNY", "EUR"].includes(a.asset) ? 1 : -1;
+                return ["USDT", "CNY", "EUR"].includes(a.asset) ? 1 : -1;
             }
             return a.asset < b.asset;
         };
@@ -235,21 +235,18 @@ SetDefaultFeeAssetModal.defaultProps = {
     show: false
 };
 
-SetDefaultFeeAssetModal = connect(
-    SetDefaultFeeAssetModal,
-    {
-        listenTo() {
-            return [SettingsStore, AccountStore];
-        },
-        getProps(props) {
-            const currentAccount =
-                props.currentAccount ||
-                ChainStore.getAccount(AccountStore.getState().currentAccount);
-            return {
-                settings: SettingsStore.getState().settings,
-                currentAccount
-            };
-        }
+SetDefaultFeeAssetModal = connect(SetDefaultFeeAssetModal, {
+    listenTo() {
+        return [SettingsStore, AccountStore];
+    },
+    getProps(props) {
+        const currentAccount =
+            props.currentAccount ||
+            ChainStore.getAccount(AccountStore.getState().currentAccount);
+        return {
+            settings: SettingsStore.getState().settings,
+            currentAccount
+        };
     }
-);
+});
 export default SetDefaultFeeAssetModal;

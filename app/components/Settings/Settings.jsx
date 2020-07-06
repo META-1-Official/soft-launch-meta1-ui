@@ -244,7 +244,7 @@ class Settings extends React.Component {
 
             case "inverseMarket":
             case "confirmMarketOrder":
-                value = findEntry(e.target.value, defaults[setting]) === 0; // XUSD/META1 is true, META1/XUSD is false
+                value = findEntry(e.target.value, defaults[setting]) === 0; // USDT/META1 is true, META1/USDT is false
                 break;
 
             case "apiServer":
@@ -466,9 +466,7 @@ class Settings extends React.Component {
                                             paddingTop: 5,
                                             marginBottom: 30
                                         }}
-                                        content={`settings.${
-                                            menuEntries[activeSetting]
-                                        }_text`}
+                                        content={`settings.${menuEntries[activeSetting]}_text`}
                                         className="panel-bg-color"
                                     />
                                 )}

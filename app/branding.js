@@ -83,7 +83,7 @@ export function getUnits() {
     if (_isTestnet()) {
         return ["META1"];
     } else {
-        return ["META1", "XUSD", "CNY", "BTC", "EUR", "GBP"];
+        return ["META1", "USDT", "ETH", "BTC", "LTC", "EOS"];
     }
 }
 
@@ -94,7 +94,7 @@ export function getUnits() {
  */
 
 export function getMyMarketsBases() {
-    return ["META1", "BTC", "ETH", "XUSD", "CNY"];
+    return ["META1", "BTC", "ETH", "USDT", "LTC"];
 }
 
 /**
@@ -104,17 +104,7 @@ export function getMyMarketsBases() {
  */
 export function getMyMarketsQuotes() {
     let tokens = {
-        nativeTokens: [
-            "BTC",
-            "META1",
-            "CNY",
-            "EUR",
-            "GOLD",
-            "KRW",
-            "RUBLE",
-            "SILVER",
-            "XUSD"
-        ],
+        nativeTokens: ["BTC", "META1", "USDT"],
         bridgeTokens: ["BRIDGE.BCO", "BRIDGE.BTC", "BRIDGE.MONA", "BRIDGE.ZNY"],
         gdexTokens: [
             "BTC",
@@ -167,24 +157,24 @@ export function getMyMarketsQuotes() {
  */
 export function getFeaturedMarkets(quotes = []) {
     return [
-        ["XUSD", "META1"],
-        ["XUSD", "BTC"],
-        ["XUSD", "USDT"],
-        ["XUSD", "ETH"],
-        ["XUSD", "DASH"],
-        ["XUSD", "GOLD"],
-        ["XUSD", "HERO"],
-        ["XUSD", "BTC"],
-        ["XUSD", "ETH"],
-        ["XUSD", "EOS"],
-        ["XUSD", "BTO"],
-        ["XUSD", "EOSDAC"],
-        ["XUSD", "BTC"],
-        ["XUSD", "STEEM"],
-        ["XUSD", "EOS"],
+        ["USDT", "META1"],
+        ["USDT", "BTC"],
+        ["USDT", "USDT"],
+        ["USDT", "ETH"],
+        ["USDT", "DASH"],
+        ["USDT", "GOLD"],
+        ["USDT", "HERO"],
+        ["USDT", "BTC"],
+        ["USDT", "ETH"],
+        ["USDT", "EOS"],
+        ["USDT", "BTO"],
+        ["USDT", "EOSDAC"],
+        ["USDT", "BTC"],
+        ["USDT", "STEEM"],
+        ["USDT", "EOS"],
         ["CNY", "META1"],
         ["CNY", "BTC"],
-        ["CNY", "XUSD"],
+        ["CNY", "USDT"],
         ["CNY", "ETH"],
         ["CNY", "YOYOW"],
         ["CNY", "OCT"],

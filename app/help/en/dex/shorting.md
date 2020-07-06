@@ -1,7 +1,7 @@
 # Short Selling METAAssets
 
 In order to increase your exposure to META1 and offer liquidity to METAAssets, such
-as XUSD, EUR, GOLD, etc., you can go *borrow* this METAAsset from the network and
+as USDT, EUR, GOLD, etc., you can go *borrow* this METAAsset from the network and
 *sell it short*. We will here briefly describe the procedure.
 
 ## Borrowing

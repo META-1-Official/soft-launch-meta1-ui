@@ -96,13 +96,13 @@ class Operation {
                 /*
                 marketName = OPEN.ETH_USD
                 if (!inverted) (default)
-                    price = XUSD / OPEN.ETH
+                    price = USDT / OPEN.ETH
                     buy / sell OPEN.ETH
-                    isBid = amount_to_sell.asset_symbol = XUSD
+                    isBid = amount_to_sell.asset_symbol = USDT
                     amount = to_receive
                 if (inverted)
-                    price =  OPEN.ETH / XUSD
-                    buy / sell XUSD
+                    price =  OPEN.ETH / USDT
+                    buy / sell USDT
                     isBid = amount_to_sell.asset_symbol = OPEN.ETH
                     amount =
                 */
@@ -292,8 +292,8 @@ class Operation {
                     op[1].new_listing === listings.no_listing
                         ? "unlisted_by"
                         : op[1].new_listing === listings.white_listed
-                            ? "whitelisted_by"
-                            : "blacklisted_by";
+                        ? "whitelisted_by"
+                        : "blacklisted_by";
                 column = (
                     <span>
                         <TranslateWithLinks
@@ -893,13 +893,13 @@ class Operation {
                 /*
                 marketName = OPEN.ETH_USD
                 if (!inverted) (default)
-                    price = XUSD / OPEN.ETH
+                    price = USDT / OPEN.ETH
                     buy / sell OPEN.ETH
-                    isBid = amount_to_sell.asset_symbol = XUSD
+                    isBid = amount_to_sell.asset_symbol = USDT
                     amount = to_receive
                 if (inverted)
-                    price =  OPEN.ETH / XUSD
-                    buy / sell XUSD
+                    price =  OPEN.ETH / USDT
+                    buy / sell USDT
                     isBid = amount_to_sell.asset_symbol = OPEN.ETH
                     amount =
 

@@ -1000,7 +1000,7 @@
             "daily_pay": "Paga giornaliera (META1)",
             "date_text": "La data d'inizio dovrebbe essere almeno una settimana nel futuro, in modo da dare alle persone il tempo di scoprire, valutare e votare per il tuo worker.",
             "name_text": "Il nome del tuo worker dovrebbe essere breve e descrittivo, tipo: 'Scopo del worker - Nome Account'",
-            "pay_text": "La paga giornaliera specifica quanto quanto vuoi essere pagato al giorno, ed è specificata in META1. Attualmente, è buona norma definire il salario in XUSD/CNY, e impegnarsi a bruciare qualunque surplus che ottieni per via della crescita del prezzo di META1. Finché il tuo worker è attivo e dispone di voti a sufficienza da stare sopra il Refund Worker, riceverai questa paga giornaliera.",
+            "pay_text": "La paga giornaliera specifica quanto quanto vuoi essere pagato al giorno, ed è specificata in META1. Attualmente, è buona norma definire il salario in USDT/CNY, e impegnarsi a bruciare qualunque surplus che ottieni per via della crescita del prezzo di META1. Finché il tuo worker è attivo e dispone di voti a sufficienza da stare sopra il Refund Worker, riceverai questa paga giornaliera.",
             "period": "Durata worker",
             "title": "Nome del worker",
             "url_text": "Dovresti fornire un sito web, un documento github o Google doc che spieghi in dettaglio lo scopo del worker e come intendi utilizzare la paga del worker.",

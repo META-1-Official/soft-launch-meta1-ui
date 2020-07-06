@@ -57,17 +57,17 @@ $g.db.api.exec("get_objects",[["1.2.1"]])
 Create market asset:
 
 dbg_make_mia ACCOUNT ASSET
-dbg_make_mia 1.2.15 XUSD
+dbg_make_mia 1.2.15 USDT
 
 Place a limit order:
 
 sell_asset ACCOUNT_ID AMOUNT ASSET FOR_AMOUNT FOR_ASSET EXPIRATION fill_or_kill broadcast
-ex: sell_asset 1.2.15 1000 CORE 100 XUSD 100000 false true
+ex: sell_asset 1.2.15 1000 CORE 100 USDT 100000 false true
 
 Place a short order:
 
 short_sell_asset ACCOUNT_ID SHORT_AMOUNT ASSET_NAME COLLATERAL_AMOUNT broadcast
-ex: short_sell_asset 1.2.15 1000 XUSD 1000 true
+ex: short_sell_asset 1.2.15 1000 USDT 1000 true
 
 Generic transaction support with visual aid from template:
 $g.wallet.template("account_upgrade")

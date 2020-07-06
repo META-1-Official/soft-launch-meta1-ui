@@ -28,7 +28,7 @@ class AccountOverview extends React.Component {
             shownAssets: props.viewSettings.get("shownAssets", "active"),
             alwaysShowAssets: [
                 "META1"
-                // "XUSD",
+                // "USDT",
                 // "CNY",
                 // "OPEN.BTC",
                 // "OPEN.USDT",
@@ -157,7 +157,7 @@ class AccountOverview extends React.Component {
                 let balanceObject = ChainStore.getObject(a);
                 if (
                     balanceObject &&
-                    (!balanceObject.get("balance") && !orders[index])
+                    !balanceObject.get("balance") && !orders[index]
                 ) {
                     return false;
                 } else {

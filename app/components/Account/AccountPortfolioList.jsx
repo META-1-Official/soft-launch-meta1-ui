@@ -328,8 +328,8 @@ class AccountPortfolioList extends React.Component {
                 [action === "bridge_modal"
                     ? "bridgeAsset"
                     : action === "deposit_modal"
-                        ? "depositAsset"
-                        : "withdrawAsset"]: asset,
+                    ? "depositAsset"
+                    : "withdrawAsset"]: asset,
                 fiatModal
             },
             () => {
@@ -556,7 +556,7 @@ class AccountPortfolioList extends React.Component {
                 asset.getIn(["options", "description"])
             );
             symbol = asset.get("symbol");
-            if (symbol.indexOf("OPEN.") !== -1 && !market) market = "XUSD";
+            if (symbol.indexOf("OPEN.") !== -1 && !market) market = "USDT";
             let preferredMarket = market ? market : preferredUnit;
 
             if (notCore && preferredMarket === symbol)
@@ -813,7 +813,7 @@ class AccountPortfolioList extends React.Component {
                             asset.get("symbol").indexOf("OPEN.") !== -1 &&
                             !market
                         )
-                            market = "XUSD";
+                            market = "USDT";
                         let preferredMarket = market ? market : coreSymbol;
 
                         let directMarketLink = notCore ? (
@@ -992,21 +992,18 @@ class AccountPortfolioList extends React.Component {
     }
 }
 
-AccountPortfolioList = connect(
-    AccountPortfolioList,
-    {
-        listenTo() {
-            return [SettingsStore, MarketsStore];
-        },
-        getProps() {
-            return {
-                settings: SettingsStore.getState().settings,
-                viewSettings: SettingsStore.getState().viewSettings,
-                allMarketStats: MarketsStore.getState().allMarketStats
-            };
-        }
+AccountPortfolioList = connect(AccountPortfolioList, {
+    listenTo() {
+        return [SettingsStore, MarketsStore];
+    },
+    getProps() {
+        return {
+            settings: SettingsStore.getState().settings,
+            viewSettings: SettingsStore.getState().viewSettings,
+            allMarketStats: MarketsStore.getState().allMarketStats
+        };
     }
-);
+});
 
 AccountPortfolioList = debounceRender(AccountPortfolioList, 50, {
     leading: false

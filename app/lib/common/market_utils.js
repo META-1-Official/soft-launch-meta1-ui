@@ -211,8 +211,8 @@ const MarketUtils = {
                 ? quote.get("precision")
                 : quote.precision
             : base.toJS
-                ? base.get("precision")
-                : base.precision;
+            ? base.get("precision")
+            : base.precision;
 
         let buy, sell;
         let callPrice;
@@ -256,15 +256,15 @@ const MarketUtils = {
 
         if (order.debt) {
             if (invert) {
-                // Price in XUSD/META1, amount should be in META1, value should be in XUSD, debt is in XUSD
-                // buy is in XUSD, sell is in META1
-                // quote is XUSD, base is META1
+                // Price in USDT/META1, amount should be in META1, value should be in USDT, debt is in USDT
+                // buy is in USDT, sell is in META1
+                // quote is USDT, base is META1
                 value = order.debt / quotePrecision;
                 amount = this.limitByPrecision(value / price.full, base);
             } else {
-                // Price in META1/XUSD, amount should be in XUSD, value should be in META1, debt is in XUSD
-                // buy is in XUSD, sell is in META1
-                // quote is XUSD, base is META1
+                // Price in META1/USDT, amount should be in USDT, value should be in META1, debt is in USDT
+                // buy is in USDT, sell is in META1
+                // quote is USDT, base is META1
 
                 amount = this.limitByPrecision(
                     order.debt / quotePrecision,

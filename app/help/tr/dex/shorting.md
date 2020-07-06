@@ -1,6 +1,6 @@
 # BitAktif Kısa Satışı
 
-META1'le temasınızı arttırmak ve XUSD,EUR,GOLD gibi BitAktiflere likidite sağlamak için 
+META1'le temasınızı arttırmak ve USDT,EUR,GOLD gibi BitAktiflere likidite sağlamak için 
 bu BitAktifleri ağdan *ödünç* alabilir ve *kısa satabilirsiniz*. Prosedürü burada kısaca 
 anlatacağız.
 

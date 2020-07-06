@@ -195,12 +195,12 @@ class Asset {
  * @brief The price struct stores asset prices in the Graphene system.
  *
  * A price is defined as a ratio between two assets, and represents a possible exchange rate between those two
- * assets. prices are generally not stored in any simplified form, i.e. a price of (1000 CORE)/(20 XUSD) is perfectly
+ * assets. prices are generally not stored in any simplified form, i.e. a price of (1000 CORE)/(20 USDT) is perfectly
  * normal.
  *
  * The assets within a price are labeled base and quote. Throughout the Graphene code base, the convention used is
  * that the base asset is the asset being sold, and the quote asset is the asset being purchased, where the price is
- * represented as base/quote, so in the example price above the seller is looking to sell CORE asset and get XUSD in
+ * represented as base/quote, so in the example price above the seller is looking to sell CORE asset and get USDT in
  * return.
  */
 
@@ -842,8 +842,8 @@ class CallOrder {
     }
 
     /*
-     * Assume a XUSD:META1 market
-     * The call order will always be selling META1 in order to buy XUSD
+     * Assume a USDT:META1 market
+     * The call order will always be selling META1 in order to buy USDT
      * The asset being sold is always the collateral, which is call_price.base.asset_id.
      * The amount being sold depends on how big the debt is, only enough
      * collateral will be sold to cover the debt
@@ -899,25 +899,25 @@ class CallOrder {
         let orderDebt = order.iSum
             ? order.debt
             : orderUseCR
-                ? order.max_debt_to_cover.getAmount()
-                : order.amountToReceive().getAmount();
+            ? order.max_debt_to_cover.getAmount()
+            : order.amountToReceive().getAmount();
         let newOrderDebt = newOrder.iSum
             ? newOrder.debt
             : newOrderUseCR
-                ? newOrder.max_debt_to_cover.getAmount()
-                : newOrder.amountToReceive().getAmount();
+            ? newOrder.max_debt_to_cover.getAmount()
+            : newOrder.amountToReceive().getAmount();
 
         /* Determine which collateral values to use */
         let orderCollateral = order.iSum
             ? order.collateral
             : orderUseCR
-                ? order.max_collateral_to_sell.getAmount()
-                : order.amountForSale().getAmount();
+            ? order.max_collateral_to_sell.getAmount()
+            : order.amountForSale().getAmount();
         let newOrderCollateral = newOrder.iSum
             ? newOrder.collateral
             : newOrderUseCR
-                ? newOrder.max_collateral_to_sell.getAmount()
-                : newOrder.amountForSale().getAmount();
+            ? newOrder.max_collateral_to_sell.getAmount()
+            : newOrder.amountForSale().getAmount();
 
         newOrder.debt = newOrderDebt + orderDebt;
         newOrder.collateral = newOrderCollateral + orderCollateral;
@@ -1232,8 +1232,8 @@ class FillOrder {
         this.className = this.isCall
             ? "orderHistoryCall"
             : this.isBid
-                ? "orderHistoryBid"
-                : "orderHistoryAsk";
+            ? "orderHistoryBid"
+            : "orderHistoryAsk";
         this.time = fill.time && new Date(utils.makeISODateString(fill.time));
         this.block = fill.block;
         this.account = fill.op.account || fill.op.account_id;

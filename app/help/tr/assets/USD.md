@@ -4,4 +4,4 @@
 {description}  
 Piyasaya süren {issuer}
 
-Amerikan Doları (işeret: $; sembol: XUSD $) ABD'nin resmi para birimidir.
+Amerikan Doları (işeret: $; sembol: USDT $) ABD'nin resmi para birimidir.

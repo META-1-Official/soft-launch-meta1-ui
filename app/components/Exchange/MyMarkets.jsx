@@ -334,8 +334,8 @@ class MyMarkets extends React.Component {
             lookupBase: null,
             inputValue: "",
             minWidth: "100%",
-            findBaseInput: "XUSD",
-            activeFindBase: "XUSD"
+            findBaseInput: "USDT",
+            activeFindBase: "USDT"
         };
 
         this._setMinWidth = this._setMinWidth.bind(this);
@@ -803,7 +803,7 @@ class MyMarkets extends React.Component {
         }
 
         // Add some default base options
-        // let preferredBases = [coreSymbol, "BTC", "XUSD", "CNY"];
+        // let preferredBases = [coreSymbol, "BTC", "USDT", "CNY"];
 
         /* In the find-market tab, only use market tab 0 */
         if (!myMarketTab) activeMarketTab = 0;
@@ -1173,28 +1173,25 @@ class MyMarketsWrapper extends React.Component {
     }
 }
 
-export default connect(
-    MyMarketsWrapper,
-    {
-        listenTo() {
-            return [SettingsStore, MarketsStore, AssetStore];
-        },
-        getProps() {
-            return {
-                starredMarkets: SettingsStore.getState().starredMarkets,
-                onlyLiquid: SettingsStore.getState().viewSettings.get(
-                    "onlyLiquid",
-                    false
-                ),
-                defaultMarkets: SettingsStore.getState().defaultMarkets,
-                viewSettings: SettingsStore.getState().viewSettings,
-                preferredBases: SettingsStore.getState().preferredBases,
-                marketStats: MarketsStore.getState().allMarketStats,
-                userMarkets: SettingsStore.getState().userMarkets,
-                searchAssets: AssetStore.getState().assets,
-                onlyStars: MarketsStore.getState().onlyStars,
-                assetsLoading: AssetStore.getState().assetsLoading
-            };
-        }
+export default connect(MyMarketsWrapper, {
+    listenTo() {
+        return [SettingsStore, MarketsStore, AssetStore];
+    },
+    getProps() {
+        return {
+            starredMarkets: SettingsStore.getState().starredMarkets,
+            onlyLiquid: SettingsStore.getState().viewSettings.get(
+                "onlyLiquid",
+                false
+            ),
+            defaultMarkets: SettingsStore.getState().defaultMarkets,
+            viewSettings: SettingsStore.getState().viewSettings,
+            preferredBases: SettingsStore.getState().preferredBases,
+            marketStats: MarketsStore.getState().allMarketStats,
+            userMarkets: SettingsStore.getState().userMarkets,
+            searchAssets: AssetStore.getState().assets,
+            onlyStars: MarketsStore.getState().onlyStars,
+            assetsLoading: AssetStore.getState().assetsLoading
+        };
     }
-);
+});

@@ -22,7 +22,7 @@ the reader and customer to leverage those features in full or only partially.
 * **Trade Almost Anything**:
   The META1 DEX is asset agnostic. Hence you can trade at **any** pair.
   While some pairs may end up with low liquidity, such as SILVER:GOLD, other
-  pairs such as XUSD:EUR for FOREX trading will see huge volume.
+  pairs such as USDT:EUR for FOREX trading will see huge volume.
   
 * **No Limits**:
   The META1 protocol is unable to limit your trading experience.

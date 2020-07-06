@@ -349,8 +349,8 @@ class Asset extends React.Component {
         let preferredMarket = description.market
             ? description.market
             : core_asset
-                ? core_asset.get("symbol")
-                : "META1";
+            ? core_asset.get("symbol")
+            : "META1";
         if (false) {
             preferredMarket = ChainStore.getAsset(
                 asset.bitasset.options.short_backing_asset
@@ -361,7 +361,7 @@ class Asset extends React.Component {
                 preferredMarket = core_asset.get("symbol");
             }
         }
-        if (asset.symbol === core_asset.get("symbol")) preferredMarket = "XUSD";
+        if (asset.symbol === core_asset.get("symbol")) preferredMarket = "USDT";
         if (urls && urls.length) {
             urls.forEach(url => {
                 let markdownUrl = `<a target="_blank" class="external-link" rel="noopener noreferrer" href="${url}">${url}</a>`;
@@ -395,7 +395,7 @@ class Asset extends React.Component {
     }
 
     renderSummary(asset) {
-        // TODO: confidential_supply: 0 XUSD   [IF NOT ZERO OR NOT DISABLE CONFIDENTIAL]
+        // TODO: confidential_supply: 0 USDT   [IF NOT ZERO OR NOT DISABLE CONFIDENTIAL]
         let dynamic = this.props.getDynamicObject(asset.dynamic_asset_data_id);
         if (dynamic) dynamic = dynamic.toJS();
         var options = asset.options;
@@ -1250,7 +1250,7 @@ class Asset extends React.Component {
         // options.blacklist_authorities = ["1.2.3", "1.2.4"];
         // options.whitelist_authorities = ["1.2.1", "1.2.2"];
         // options.blacklist_markets = ["JPY", "RUB"];
-        // options.whitelist_markets = ["XUSD", "EUR", "GOLD"];
+        // options.whitelist_markets = ["USDT", "EUR", "GOLD"];
 
         // options.max_market_fee initially a string
         var maxMarketFee = permissionBooleans["charge_market_fee"] ? (
@@ -1536,8 +1536,8 @@ class Asset extends React.Component {
                                     median_offset > 0
                                         ? "txtlabel success"
                                         : median_offset < 0
-                                            ? "txtlabel warning"
-                                            : "txtlabel"
+                                        ? "txtlabel warning"
+                                        : "txtlabel"
                                 }
                             >
                                 {median_offset}%
@@ -2114,21 +2114,18 @@ class Asset extends React.Component {
     }
 }
 
-Asset = connect(
-    Asset,
-    {
-        listenTo() {
-            return [AccountStore];
-        },
-        getProps() {
-            return {
-                currentAccount:
-                    AccountStore.getState().currentAccount ||
-                    AccountStore.getState().passwordAccount
-            };
-        }
+Asset = connect(Asset, {
+    listenTo() {
+        return [AccountStore];
+    },
+    getProps() {
+        return {
+            currentAccount:
+                AccountStore.getState().currentAccount ||
+                AccountStore.getState().passwordAccount
+        };
     }
-);
+});
 
 Asset = AssetWrapper(Asset, {
     propNames: ["backingAsset"]

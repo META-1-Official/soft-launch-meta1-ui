@@ -1930,10 +1930,10 @@ class Exchange extends React.Component {
 
             baseSymbol = base.get("symbol");
             quoteSymbol = quote.get("symbol");
-            // if(quoteSymbol === "META1" && baseSymbol === "XUSD") {
+            // if(quoteSymbol === "META1" && baseSymbol === "USDT") {
             //     var sellPrice = 11;
             // }
-            // else if (quoteSymbol === "XUSD" && baseSymbol === "META1") {
+            // else if (quoteSymbol === "USDT" && baseSymbol === "META1") {
             //     var buyPrice = 44;
             // }
 
@@ -1974,8 +1974,8 @@ class Exchange extends React.Component {
                 latest.getPrice() === second_latest.getPrice()
                     ? ""
                     : latest.getPrice() - second_latest.getPrice() > 0
-                        ? "change-up"
-                        : "change-down";
+                    ? "change-up"
+                    : "change-down";
         }
 
         // Fees
@@ -2052,7 +2052,7 @@ class Exchange extends React.Component {
         };
 
         let buyForm = isFrozen ? null : tinyScreen &&
-        !this.state.mobileKey.includes("buySellTab") ? null : (
+          !this.state.mobileKey.includes("buySellTab") ? null : (
             <Tabs
                 animated={false}
                 activeKey={
@@ -2214,7 +2214,7 @@ class Exchange extends React.Component {
         );
 
         let sellForm = isFrozen ? null : tinyScreen &&
-        !this.state.mobileKey.includes("buySellTab") ? null : (
+          !this.state.mobileKey.includes("buySellTab") ? null : (
             <Tabs
                 activeKey={
                     this.props.viewSettings.get("order-form-ask") || "limit"
@@ -2497,8 +2497,8 @@ class Exchange extends React.Component {
                             ? centerContainerWidth > 1200
                                 ? "medium-6 large-6 xlarge-4"
                                 : centerContainerWidth > 800
-                                    ? "medium-6"
-                                    : ""
+                                ? "medium-6"
+                                : ""
                             : "medium-12",
                         "no-padding no-overflow small-12 order-6"
                     )}
@@ -2532,8 +2532,8 @@ class Exchange extends React.Component {
                             ? centerContainerWidth > 1200
                                 ? "medium-6 large-6 xlarge-4"
                                 : centerContainerWidth > 800
-                                    ? "medium-6"
-                                    : ""
+                                ? "medium-6"
+                                : ""
                             : "medium-12",
                         "no-padding no-overflow small-12",
                         verticalOrderBook || verticalOrderForm
@@ -2570,8 +2570,8 @@ class Exchange extends React.Component {
                             ? centerContainerWidth > 1200
                                 ? "medium-6 large-6 xlarge-4"
                                 : centerContainerWidth > 800
-                                    ? "medium-12"
-                                    : ""
+                                ? "medium-12"
+                                : ""
                             : "medium-12",
                         "no-padding no-overflow small-12 order-7"
                     )}
@@ -2610,8 +2610,8 @@ class Exchange extends React.Component {
                             ? centerContainerWidth > 1200
                                 ? "medium-6 large-6 xlarge-4"
                                 : centerContainerWidth > 800
-                                    ? "medium-6"
-                                    : ""
+                                ? "medium-6"
+                                : ""
                             : "medium-12",
                         "no-padding no-overflow small-12 order-8"
                     )}
@@ -2870,10 +2870,10 @@ class Exchange extends React.Component {
                                 ? "medium-12 xlarge-6"
                                 : "medium-6 xlarge-6"
                             : centerContainerWidth > 800
-                                ? groupTabsCount == 1
-                                    ? "medium-12"
-                                    : "medium-6"
-                                : "",
+                            ? groupTabsCount == 1
+                                ? "medium-12"
+                                : "medium-6"
+                            : "",
                         "small-12 order-1 my-open-orders-res"
                     )}
                 >
@@ -2895,7 +2895,7 @@ class Exchange extends React.Component {
                 <div
                     className={cnames(
                         centerContainerWidth > 1200 &&
-                        (verticalOrderBook || verticalOrderBook)
+                            (verticalOrderBook || verticalOrderBook)
                             ? "xlarge-order-6 xlarge-8 order-9"
                             : "",
                         "small-12 grid-block orderbook no-padding align-spaced no-overflow wrap"

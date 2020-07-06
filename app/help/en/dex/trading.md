@@ -7,14 +7,14 @@ by the DEX and how trading pairs are presented.
 
 In META1, almost any asset can be traded with all other assets. Once we have
 picked two assets, we usually refer to a *market pair*. For instance, we can
-trade XUSD against EUR in the XUSD:EUR pair.
+trade USDT against EUR in the USDT:EUR pair.
 
 For sake of consistency, we will use the generalized terms *base* and *quote*
 such that pairs are represented as
 
     *quote* : *base*
 
-and for instance with *base* being XUSD and *quote* being EUR, denote the EUR:XUSD
+and for instance with *base* being USDT and *quote* being EUR, denote the EUR:USDT
 pair.
 
 ## Order Books
@@ -29,8 +29,8 @@ an overview of ask/bid and the corresponding buy/sell operations for each side:
 | Bid        | *base*  | *quote* |
 | ---------- | ------- | ------- |
 
-Obviously, what is on the bid side of the XUSD:EUR pair will be on the ask side
-on the EUR:XUSD pair. Of course prices are internally represented as fractions,
+Obviously, what is on the bid side of the USDT:EUR pair will be on the ask side
+on the EUR:USDT pair. Of course prices are internally represented as fractions,
 and thus results in both pairs being identical.
 
 ## Trading
