@@ -146,7 +146,6 @@ class MarketGroup extends React.Component {
                             key={header.name}
                             className="clickable"
                             onClick={this._changeSort.bind(this, "volume")}
-                            style={{textAlign: "right"}}
                         >
                             <Translate content="exchange.vol_short" />
                         </th>
@@ -154,7 +153,7 @@ class MarketGroup extends React.Component {
 
                 case "price":
                     return (
-                        <th key={header.name} style={{textAlign: "right"}}>
+                        <th key={header.name}>
                             <Translate content="exchange.price" />
                         </th>
                     );
@@ -179,7 +178,6 @@ class MarketGroup extends React.Component {
                             key={header.name}
                             className="clickable"
                             onClick={this._changeSort.bind(this, "change")}
-                            style={{textAlign: "right"}}
                         >
                             <Translate content="exchange.change" />
                         </th>

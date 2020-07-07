@@ -1988,13 +1988,18 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
     .mymarkets-tabs {
         > li {
             @include button-focus($secondary-text-color, $panel-bg-color, 0);
-            @include radialGradient($button-mix2, $button-mix1);
+            background: -webkit-radial-gradient(
+                center,
+                circle farthest-corner,
+                #0f0101 0%,
+                #1f0302 100%
+            );
             border-radius: 5px;
             &:hover {
                 @include button-focus($primary-text-color, $panel-bg-color, 10);
             }
             &.active {
-                @include button-focus($primary-text-color, $panel-bg-color, 10);
+                @include radialGradient($button-mix2, $button-mix1);
             }
         }
     }
