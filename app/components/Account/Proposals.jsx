@@ -20,6 +20,13 @@ import JSONModal from "components/Modal/JSONModal";
 
 const {operations} = grapheneChainTypes;
 const ops = Object.keys(operations);
+ops.push(
+    "property_create_operation",
+    "property_update_operation",
+    "property_approve_operation",
+    "property_delete_operation",
+    "asset_price_publish_operation"
+);
 
 class Proposals extends Component {
     static propTypes = {
@@ -51,10 +58,10 @@ class Proposals extends Component {
 
     componentDidMount() {
         /*
-        * Account objects don't get updated by underlying proposal changes, but
-        * the ChainStore does, so in order to update this component when a proposal
-        * changes, we need to update it whenever the ChainStore itself updates
-        */
+         * Account objects don't get updated by underlying proposal changes, but
+         * the ChainStore does, so in order to update this component when a proposal
+         * changes, we need to update it whenever the ChainStore itself updates
+         */
         ChainStore.subscribe(this.forceUpdate);
     }
 

@@ -31,6 +31,13 @@ require("./operations.scss");
 require("./json-inspector.scss");
 
 let ops = Object.keys(operations);
+ops.push(
+    "property_create_operation",
+    "property_update_operation",
+    "property_approve_operation",
+    "property_delete_operation",
+    "asset_price_publish_operation"
+);
 let listings = Object.keys(account_constants.account_listing);
 
 const TranslateBoolean = ({value, ...otherProps}) => (
@@ -2384,7 +2391,7 @@ class Transaction extends React.Component {
 
                     break;
                 default:
-                    console.log("unimplemented tx op:", op);
+                    //console.log("unimplemented tx op:", op);
 
                     rows.push(
                         <tr key={key++}>

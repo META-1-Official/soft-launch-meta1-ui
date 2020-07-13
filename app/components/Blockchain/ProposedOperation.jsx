@@ -17,6 +17,13 @@ import {Icon as AntIcon} from "bitshares-ui-style-guide";
 require("./operations.scss");
 
 let ops = Object.keys(operations);
+ops.push(
+    "property_create_operation",
+    "property_update_operation",
+    "property_approve_operation",
+    "property_delete_operation",
+    "asset_price_publish_operation"
+);
 // let listings = account_constants.account_listing;
 
 export const TransactionIDAndExpiry = ({
@@ -85,19 +92,18 @@ class Row extends React.Component {
                         </span>
                     )}
                 </span>
-                {!hideExpiration &&
-                    this.props.expiration && (
-                        <TransactionIDAndExpiry
-                            id={id}
-                            expiration={expiration}
-                            style={{
-                                paddingTop: 5,
-                                fontSize: "0.85rem",
-                                paddingBottom: "0.5rem",
-                                display: "block"
-                            }}
-                        />
-                    )}
+                {!hideExpiration && this.props.expiration && (
+                    <TransactionIDAndExpiry
+                        id={id}
+                        expiration={expiration}
+                        style={{
+                            paddingTop: 5,
+                            fontSize: "0.85rem",
+                            paddingBottom: "0.5rem",
+                            display: "block"
+                        }}
+                    />
+                )}
             </div>
         );
     }

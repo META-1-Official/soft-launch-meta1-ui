@@ -22,6 +22,13 @@ import report from "bitshares-report";
 import LoadingIndicator from "../LoadingIndicator";
 import {Tooltip, Modal, Button, Select, Input} from "bitshares-ui-style-guide";
 const ops = Object.keys(operations);
+ops.push(
+    "property_create_operation",
+    "property_update_operation",
+    "property_approve_operation",
+    "property_delete_operation",
+    "asset_price_publish_operation"
+);
 import {Link} from "react-router-dom";
 import FormattedAsset from "../Utility/FormattedAsset";
 import BlockTime from "../Blockchain/BlockTime";
@@ -514,7 +521,7 @@ class RecentTransactions extends React.Component {
                                 </Tooltip>
                             ) : null}
 
-                            {historyCount > 0 && this.props.dashboard ? (
+                            {/*{historyCount > 0 && this.props.dashboard ? (
                                 <Tooltip
                                     placement="bottom"
                                     title={counterpart.translate(
@@ -532,7 +539,7 @@ class RecentTransactions extends React.Component {
                                         <Translate content="account.download_history" />
                                     </a>
                                 </Tooltip>
-                            ) : null}
+                            ) : null}*/}
                         </div>
                         {this.state.accountHistoryError && (
                             <div
@@ -644,19 +651,16 @@ class RecentTransactions extends React.Component {
 }
 RecentTransactions = BindToChainState(RecentTransactions);
 
-RecentTransactions = connect(
-    RecentTransactions,
-    {
-        listenTo() {
-            return [SettingsStore];
-        },
-        getProps() {
-            return {
-                marketDirections: SettingsStore.getState().marketDirections
-            };
-        }
+RecentTransactions = connect(RecentTransactions, {
+    listenTo() {
+        return [SettingsStore];
+    },
+    getProps() {
+        return {
+            marketDirections: SettingsStore.getState().marketDirections
+        };
     }
-);
+});
 
 class TransactionWrapper extends React.Component {
     static propTypes = {

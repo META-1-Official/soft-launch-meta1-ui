@@ -2351,7 +2351,12 @@
             "witness_create": "証人を作成",
             "witness_update": "証人を更新",
             "witness_withdraw_pay": "証人報酬を引き出し",
-            "worker_create": "ワーカーを作成"
+            "worker_create": "Create worker",
+            "property_create_operation": "Create property",
+            "property_update_operation": "Update property",
+            "property_approve_operation:": "Approve property",
+            "property_delete_operation": "Delete property",
+            "asset_price_publish_operation": "Publish asset price"
         },
         "vesting_balance_create": "作成済み権利確定残高:",
         "waiting": "確認を待っています..",

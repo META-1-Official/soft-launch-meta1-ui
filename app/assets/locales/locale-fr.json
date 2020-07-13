@@ -2352,7 +2352,12 @@
             "witness_create": "Création de témoin",
             "witness_update": "Update witness",
             "witness_withdraw_pay": "Retrait de salaire de témoin",
-            "worker_create": "Création d'ouvrier"
+            "worker_create": "Create worker",
+            "property_create_operation": "Create property",
+            "property_update_operation": "Update property",
+            "property_approve_operation:": "Approve property",
+            "property_delete_operation": "Delete property",
+            "asset_price_publish_operation": "Publish asset price"
         },
         "vesting_balance_create": "a créé un solde bloqué pour",
         "waiting": "Waiting for confirmation..",

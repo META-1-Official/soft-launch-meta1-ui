@@ -2352,7 +2352,12 @@
             "witness_create": "증인 생성",
             "witness_update": "증인 업데이트",
             "witness_withdraw_pay": "증인 봉급 인출",
-            "worker_create": "예산 항목 생성"
+            "worker_create": "Create worker",
+            "property_create_operation": "Create property",
+            "property_update_operation": "Update property",
+            "property_approve_operation:": "Approve property",
+            "property_delete_operation": "Delete property",
+            "asset_price_publish_operation": "Publish asset price"
         },
         "vesting_balance_create": "created vesting balance of",
         "waiting": "Waiting for confirmation..",

@@ -39,7 +39,8 @@ class Settings extends React.Component {
             "viewOnlyMode"
         ];
         // disable that the user can change login method if only one is allowed
-        if (getAllowedLogins().length > 1) general.push("passwordLogin");
+
+        //if (getAllowedLogins().length > 1) general.push("passwordLogin");
         general.push("reset");
 
         this.state = {

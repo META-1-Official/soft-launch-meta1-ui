@@ -2352,7 +2352,12 @@
             "witness_create": "Tanık oluşturma",
             "witness_update": "Tanık güncelleme",
             "witness_withdraw_pay": "Tanık maaş çekimi",
-            "worker_create": "Bütçe ögesi oluşturma"
+            "worker_create": "Create worker",
+            "property_create_operation": "Create property",
+            "property_update_operation": "Update property",
+            "property_approve_operation:": "Approve property",
+            "property_delete_operation": "Delete property",
+            "asset_price_publish_operation": "Publish asset price"
         },
         "vesting_balance_create": "Bekletilen bakiyesi oluşturulan hesap:",
         "waiting": "Onay bekleniyor...",

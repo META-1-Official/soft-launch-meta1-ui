@@ -2453,7 +2453,12 @@
             "witness_create": "Create witness",
             "witness_update": "Update witness",
             "witness_withdraw_pay": "Witness pay withdrawal",
-            "worker_create": "Create worker"
+            "worker_create": "Create worker",
+            "property_create_operation": "Create property",
+            "property_update_operation": "Update property",
+            "property_approve_operation:": "Approve property",
+            "property_delete_operation": "Delete property",
+            "asset_price_publish_operation": "Publish asset price"
         },
         "vesting_balance_create": "created vesting balance of",
         "waiting": "Waiting for confirmation..",

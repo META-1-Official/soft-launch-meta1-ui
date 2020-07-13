@@ -2356,7 +2356,12 @@
             "witness_create": "创建见证人",
             "witness_update": "更新见证人",
             "witness_withdraw_pay": "领取见证人报酬",
-            "worker_create": "创建预算项目"
+            "worker_create": "Create worker",
+            "property_create_operation": "Create property",
+            "property_update_operation": "Update property",
+            "property_approve_operation:": "Approve property",
+            "property_delete_operation": "Delete property",
+            "asset_price_publish_operation": "Publish asset price"
         },
         "vesting_balance_create": "创建待解冻余额",
         "waiting": "等待确认中…",

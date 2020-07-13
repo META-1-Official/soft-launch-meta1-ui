@@ -46,6 +46,13 @@ class Operation {
     getColumn(op, current, block, result, marketDirections) {
         const {operations} = grapheneChainTypes;
         let ops = Object.keys(operations);
+        ops.push(
+            "property_create_operation",
+            "property_update_operation",
+            "property_approve_operation",
+            "property_delete_operation",
+            "asset_price_publish_operation"
+        );
         let listings = account_constants.account_listing;
         let column = null,
             color = "info";
@@ -1546,7 +1553,7 @@ class Operation {
 
                 break;
             default:
-                console.log("unimplemented op '" + ops[op[0]] + "':", op);
+                //console.log("unimplemented op '" + ops[op[0]] + "':", op);
                 column = (
                     <span>
                         <Link to={`/block/${block}`}>#{block}</Link>

@@ -2356,7 +2356,12 @@
             "witness_create": "Создание заверителя",
             "witness_update": "Обновление заверителя",
             "witness_withdraw_pay": "Вывод зарплаты заверителя",
-            "worker_create": "Создание работника"
+            "worker_create": "Create worker",
+            "property_create_operation": "Create property",
+            "property_update_operation": "Update property",
+            "property_approve_operation:": "Approve property",
+            "property_delete_operation": "Delete property",
+            "asset_price_publish_operation": "Publish asset price"
         },
         "vesting_balance_create": "создал вестинговый баланс",
         "waiting": "Ожидание подтверждения...",

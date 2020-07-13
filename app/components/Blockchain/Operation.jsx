@@ -21,6 +21,13 @@ import opComponents from "./operations";
 require("./operations.scss");
 
 let ops = Object.keys(operations);
+ops.push(
+    "property_create_operation",
+    "property_update_operation",
+    "property_approve_operation",
+    "property_delete_operation",
+    "asset_price_publish_operation"
+);
 // let listings = account_constants.account_listing;
 
 class TransactionLabel extends React.Component {
@@ -109,9 +116,7 @@ class Row extends React.Component {
                         >
                             <Link
                                 className="inline-block"
-                                to={`/block/${this.props.block}/${
-                                    this.props.txIndex
-                                }`}
+                                to={`/block/${this.props.block}/${this.props.txIndex}`}
                             >
                                 <TransactionLabel color={color} type={type} />
                             </Link>
@@ -280,18 +285,15 @@ class Operation extends React.Component {
     }
 }
 
-Operation = connect(
-    Operation,
-    {
-        listenTo() {
-            return [SettingsStore];
-        },
-        getProps() {
-            return {
-                marketDirections: SettingsStore.getState().marketDirections
-            };
-        }
+Operation = connect(Operation, {
+    listenTo() {
+        return [SettingsStore];
+    },
+    getProps() {
+        return {
+            marketDirections: SettingsStore.getState().marketDirections
+        };
     }
-);
+});
 
 export default Operation;

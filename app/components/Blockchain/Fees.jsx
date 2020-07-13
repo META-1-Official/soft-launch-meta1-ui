@@ -12,6 +12,13 @@ import {ChainStore, ChainTypes as grapheneChainTypes} from "meta1js";
 import {Card} from "bitshares-ui-style-guide";
 const {operations} = grapheneChainTypes;
 let ops = Object.keys(operations);
+ops.push(
+    "property_create_operation",
+    "property_update_operation",
+    "property_approve_operation",
+    "property_delete_operation",
+    "asset_price_publish_operation"
+);
 
 // Define groups and their corresponding operation ids
 let fee_grouping = {

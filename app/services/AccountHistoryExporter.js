@@ -3,6 +3,13 @@ import {ChainTypes as grapheneChainTypes, FetchChain} from "meta1js";
 import report from "bitshares-report";
 const {operations} = grapheneChainTypes;
 const ops = Object.keys(operations);
+ops.push(
+    "property_create_operation",
+    "property_update_operation",
+    "property_approve_operation",
+    "property_delete_operation",
+    "asset_price_publish_operation"
+);
 
 const FULL = "FULL";
 const COINBASE = "COINBASE";

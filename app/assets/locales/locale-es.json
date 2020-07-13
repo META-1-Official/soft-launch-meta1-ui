@@ -2357,7 +2357,12 @@
             "witness_create": "Crear Testigo",
             "witness_update": "Actualizar Testigo",
             "witness_withdraw_pay": "Retirar pago del Testigo",
-            "worker_create": "Crear presupuesto de trabajo"
+            "worker_create": "Create worker",
+            "property_create_operation": "Create property",
+            "property_update_operation": "Update property",
+            "property_approve_operation:": "Approve property",
+            "property_delete_operation": "Delete property",
+            "asset_price_publish_operation": "Publish asset price"
         },
         "vesting_balance_create": "ha creado el fondo de consolidación de",
         "waiting": "esperando confirmación..",

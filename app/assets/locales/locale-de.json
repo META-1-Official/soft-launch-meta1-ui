@@ -2343,7 +2343,12 @@
             "witness_create": "Zeugen erstellen",
             "witness_update": "Zeugen ändern",
             "witness_withdraw_pay": "Zeugenlohn ausbezahlen",
-            "worker_create": "Budgetpunkt erstellen"
+            "worker_create": "Create worker",
+            "property_create_operation": "Create property",
+            "property_update_operation": "Update property",
+            "property_approve_operation:": "Approve property",
+            "property_delete_operation": "Delete property",
+            "asset_price_publish_operation": "Publish asset price"
         },
         "vesting_balance_create": "Ein Sperrfristguthaben wurde erstellt.",
         "waiting": "Warte auf Bestätigung ...",
