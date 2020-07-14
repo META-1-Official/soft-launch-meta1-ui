@@ -436,7 +436,6 @@ class SettingsStore {
                     "BTWTY"
                 ]
             };
-            console.log(topMarkets);
 
             let bases = {
                 markets_9e40bec4: getMyMarketsBases(),

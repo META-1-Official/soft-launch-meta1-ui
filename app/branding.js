@@ -83,7 +83,7 @@ export function getUnits() {
     if (_isTestnet()) {
         return ["META1"];
     } else {
-        return ["META1", "USDT", "ETH", "BTC", "LTC", "EOS"];
+        return ["META1", "USDT", "ETH", "BTC", "LTC", "EOS", "XLM", "BNB"];
     }
 }
 
@@ -94,7 +94,7 @@ export function getUnits() {
  */
 
 export function getMyMarketsBases() {
-    return ["META1", "BTC", "ETH", "USDT", "LTC"];
+    return ["META1", "BTC", "ETH", "USDT", "LTC", "EOS", "XLM", "BNB"];
 }
 
 /**
@@ -104,7 +104,7 @@ export function getMyMarketsBases() {
  */
 export function getMyMarketsQuotes() {
     let tokens = {
-        nativeTokens: ["BTC", "META1", "USDT"],
+        nativeTokens: ["BTC", "META1", "USDT", "EOS", "XLM", "BNB"],
         bridgeTokens: ["BRIDGE.BCO", "BRIDGE.BTC", "BRIDGE.MONA", "BRIDGE.ZNY"],
         gdexTokens: [
             "BTC",

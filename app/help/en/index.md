@@ -13,9 +13,9 @@ of this application.
  * [Wallet](introduction/wallets.md)
  * [Backups](introduction/backups.md)
  * [Blockchain](introduction/blockchain.md)
- * [Witnesses](introduction/witness.md)
- * [Workers](introduction/workers.md)
- * [Committe Members](introduction/committee.md)
+ * Witnesses
+ * Workers
+ * Committe Members
 
 ## Accounts
  * [Introduction](accounts/general.md)
@@ -30,10 +30,6 @@ of this application.
  * [Introduction](dex/introduction.md)
  * [Trading](dex/trading.md)
  * [Short Selling BitAssets](dex/shorting.md)
-
-## Development
- * [Meta1 UI Github](https://github.com/bitshares/bitshares-ui)
- * [HackTheDEX](introduction/hackthedex.md)
 
 ----------
 [Glossary](glossary.md)
