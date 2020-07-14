@@ -34,14 +34,18 @@ export const settingsAPIs = {
     DEFAULT_WS_NODE: "wss://api.meta1.io/ws",
     WS_NODE_LIST: [
         {
-            url: "ws://127.0.0.1:8090",
-            location: "Locally hosted"
+            url: "wss://api.meta1.io/ws",
+            region: "Central US",
+            country: "United States",
+            location: "Central, US",
+            operator: "Witness: meta1",
+            contact: "telegram:@Avowe"
         },
         {
-            url: "wss://api.meta1.io/ws",
-            region: "Toronto",
-            country: "META1",
-            location: "Testnet",
+            url: "wss://electra.meta1.io/ws",
+            region: "Miami, US",
+            country: "United States",
+            location: "US",
             operator: "Witness: meta1",
             contact: "telegram:@Avowe"
         }
