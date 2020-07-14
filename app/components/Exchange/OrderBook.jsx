@@ -173,19 +173,23 @@ class OrderBookRowHorizontal extends React.Component {
               );
 
         return (
-            <tr
-                onClick={this.props.onClick}
-                className={
-                    order.isMine(this.props.currentAccount) ? "my-order" : ""
-                }
-            >
-                <td style={{width: "33.5%"}} className={integerClass}>
-                    {price}
-                </td>
-                <td> {amount}</td>
-                <td className="column-hide-xs">{value}</td>
-                {/*<td className="column-hide-xs">{total}</td>*/}
-            </tr>
+            <Tooltip title={"Total: " + total} placement="right">
+                <tr
+                    onClick={this.props.onClick}
+                    className={
+                        order.isMine(this.props.currentAccount)
+                            ? "my-order"
+                            : ""
+                    }
+                >
+                    <td style={{width: "33.5%"}} className={integerClass}>
+                        {price}
+                    </td>
+                    <td> {amount}</td>
+                    <td className="column-hide-xs">{value}</td>
+                    {/*<td className="column-hide-xs">{total}</td>*/}
+                </tr>
+            </Tooltip>
         );
     }
 }
