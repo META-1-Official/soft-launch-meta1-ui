@@ -1233,11 +1233,7 @@ class Header extends React.Component {
                                 active: active.indexOf("arts") !== -1
                             }
                         )}
-                        onClick={() => {
-                            window.open(
-                                "https://api.meta1.io/explorer-backing-assets"
-                            );
-                        }}
+                        onClick={this._onNavigate.bind(this, "/asset-explorer")}
                     >
                         <div className="table-cell">
                             <Translate

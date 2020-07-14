@@ -34,6 +34,14 @@ const Invoice = Loadable({
     loading: LoadingIndicator
 });
 
+const assetExplorer = Loadable({
+    loader: () =>
+        import(
+            /* webpackChunkName: "exchange" */ "./components/Exchange/AssetExplorer"
+        ),
+    loading: LoadingIndicator
+});
+
 const Exchange = Loadable({
     loader: () =>
         import(
@@ -529,6 +537,11 @@ class App extends React.Component {
                                     component={CreateWorker}
                                 />
 
+                                <Route
+                                    exact
+                                    path="/asset-explorer"
+                                    component={assetExplorer}
+                                />
                                 <Route
                                     exact
                                     path="/confirm"
