@@ -8,8 +8,5 @@
  * [Proposed Transactions](accounts/proposed.md)
  * [Permissions](accounts/permissions.md)
  * [Memberships](accounts/membership.md)
- * [Market Pegged Assets](assets/mpa.md)
- * [User Issued Assets](assets/uia.md)
- * [Privatized METAAssets](assets/privbitassets.md)
  * [Decentralized Exchange](dex/introduction.md)
  * [Trading](dex/trading.md)

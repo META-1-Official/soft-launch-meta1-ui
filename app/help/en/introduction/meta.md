@@ -9,11 +9,11 @@ You can chat with other member of the META1 community in real time at:
 
 - [Telegram](https://t.me/meta1exchange)
 
-### Developers
+<!--### Developers
 If you are a software developer, you may contribute via a bounty system at:
 
 - [Github UI](https://github.com/meta-source/meta-ui) - private repository
-- [Github Core](https://github.com/meta-source/meta-core) - private repository
+- [Github Core](https://github.com/meta-source/meta-core) - private repository-->
 
 ## Introduction
 Welcome to the worlds fastest decentralized exchange (The DEX).
@@ -33,9 +33,9 @@ META1 does for business what bitcoin did for money by utilizing distributed
 consensus technology to create companies that are inherently global,
 transparent, trustworthy, efficient and most importantly profitable.
 
-## Wallet
+<!--## Wallet
 This wallet allows access most features of the META1 network including
 
 - [BitAssets](/help/assets/mpa)
 - [User-Issued Assets](/help/assets/uia)
-- [The DEX](/help/dex/introduction)
+- [The DEX](/help/dex/introduction)-->
