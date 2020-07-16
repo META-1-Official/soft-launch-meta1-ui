@@ -35,16 +35,16 @@ export const settingsAPIs = {
     WS_NODE_LIST: [
         {
             url: "wss://api.meta1.io/ws",
-            region: "Central US",
-            country: "United States",
+            region: "API",
+            country: "API",
             location: "Central, US",
             operator: "Witness: meta1",
             contact: "telegram:@Avowe"
         },
         {
             url: "wss://electra.meta1.io/ws",
-            region: "Miami, US",
-            country: "United States",
+            region: "ELECTRA",
+            country: "ELECTRA",
             location: "US",
             operator: "Witness: meta1",
             contact: "telegram:@Avowe"

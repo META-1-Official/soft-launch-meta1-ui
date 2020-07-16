@@ -231,13 +231,14 @@ class ApiNode extends React.Component {
                 ? counterpart.translate(node.location.translate)
                 : node.location;
 
-        let title = !!location ? location : "";
-        if (!!node.country) {
+        //let title = !!location ? location : "";
+        /*if (!!node.country) {
             title = node.country + (!!title ? " - " + title : "");
         }
         if (!!node.region) {
             title = node.region + (!!title ? " - " + title : "");
-        }
+        }*/
+        let title = node.country;
 
         if (popup) {
             return (
@@ -647,26 +648,19 @@ class AccessSettings extends React.Component {
     }
 }
 
-AccessSettings = connect(
-    AccessSettings,
-    {
-        listenTo() {
-            return [SettingsStore];
-        },
-        getProps() {
-            return {
-                // apiServer and activeNode are ambiguous definition when dealing with isActive, autoSelectionActive etc..
-                // using distinct names
-                selectedNode: SettingsStore.getState().settings.get(
-                    "apiServer"
-                ),
-                connectedNode: SettingsStore.getState().settings.get(
-                    "activeNode"
-                ),
-                apiLatencies: SettingsStore.getState().apiLatencies
-            };
-        }
+AccessSettings = connect(AccessSettings, {
+    listenTo() {
+        return [SettingsStore];
+    },
+    getProps() {
+        return {
+            // apiServer and activeNode are ambiguous definition when dealing with isActive, autoSelectionActive etc..
+            // using distinct names
+            selectedNode: SettingsStore.getState().settings.get("apiServer"),
+            connectedNode: SettingsStore.getState().settings.get("activeNode"),
+            apiLatencies: SettingsStore.getState().apiLatencies
+        };
     }
-);
+});
 
 export default AccessSettings;
