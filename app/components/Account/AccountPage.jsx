@@ -20,6 +20,7 @@ import AccountVesting from "./AccountVesting";
 import AccountPermissions from "./AccountPermissions";
 import AccountSignedMessages from "./AccountSignedMessages";
 import AccountWhitelist from "./AccountWhitelist";
+import AccountVoting from "./AccountVoting";
 import AccountOverview from "./AccountOverview";
 
 class AccountPage extends React.Component {
@@ -150,6 +151,14 @@ class AccountPage extends React.Component {
                             )}
                         />
                         <Route
+                            path={`/account/${account_name}/voting/:tab`}
+                            render={() => <AccountVoting {...passOnProps} />}
+                        />
+                        <Redirect
+                            from={`/account/${account_name}/voting`}
+                            to={`/account/${account_name}/voting/witnesses`}
+                        />
+                        <Route
                             path={`/account/${account_name}/whitelist`}
                             exact
                             render={() => <AccountWhitelist {...passOnProps} />}
@@ -178,24 +187,21 @@ class AccountPageStoreWrapper extends React.Component {
     }
 }
 
-export default connect(
-    AccountPageStoreWrapper,
-    {
-        listenTo() {
-            return [AccountStore, SettingsStore, WalletUnlockStore];
-        },
-        getProps() {
-            return {
-                myActiveAccounts: AccountStore.getState().myActiveAccounts,
-                searchAccounts: AccountStore.getState().searchAccounts,
-                currentAccount:
-                    AccountStore.getState().currentAccount ||
-                    AccountStore.getState().passwordAccount,
-                settings: SettingsStore.getState().settings,
-                hiddenAssets: SettingsStore.getState().hiddenAssets,
-                wallet_locked: WalletUnlockStore.getState().locked,
-                viewSettings: SettingsStore.getState().viewSettings
-            };
-        }
+export default connect(AccountPageStoreWrapper, {
+    listenTo() {
+        return [AccountStore, SettingsStore, WalletUnlockStore];
+    },
+    getProps() {
+        return {
+            myActiveAccounts: AccountStore.getState().myActiveAccounts,
+            searchAccounts: AccountStore.getState().searchAccounts,
+            currentAccount:
+                AccountStore.getState().currentAccount ||
+                AccountStore.getState().passwordAccount,
+            settings: SettingsStore.getState().settings,
+            hiddenAssets: SettingsStore.getState().hiddenAssets,
+            wallet_locked: WalletUnlockStore.getState().locked,
+            viewSettings: SettingsStore.getState().viewSettings
+        };
     }
-);
+});

@@ -574,6 +574,12 @@ class App extends React.Component {
                                     path="/prediction"
                                     component={PredictionMarketsPage}
                                 />
+                                <Redirect
+                                    path={"/voting"}
+                                    to={{
+                                        pathname: `/account/${accountName}/voting`
+                                    }}
+                                />
                                 <Route path="*" component={Page404} />
                             </Switch>
                         </div>
