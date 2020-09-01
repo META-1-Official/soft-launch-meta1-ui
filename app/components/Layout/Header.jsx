@@ -720,7 +720,8 @@ class Header extends React.Component {
                 </a>
             );
         }
-        if (active.indexOf("spotlight") !== -1) {
+        {
+            /*if (active.indexOf("spotlight") !== -1) {
             dynamicMenuItem = (
                 <a style={{flexFlow: "row"}} className={cnames({active: true})}>
                     <Icon
@@ -736,6 +737,7 @@ class Header extends React.Component {
                     />
                 </a>
             );
+        }*/
         }
         if (active.indexOf("settings") !== -1) {
             dynamicMenuItem = (
@@ -1276,7 +1278,7 @@ class Header extends React.Component {
                         </div>
                     </li>
 
-                    <li
+                    {/*<li
                         className={cnames(
                             {active: active.indexOf("/spotlight") !== -1},
                             "divider"
@@ -1286,7 +1288,7 @@ class Header extends React.Component {
                         <div className="table-cell">
                             <Translate content="header.showcases" />
                         </div>
-                    </li>
+                    </li>*/}
 
                     <li
                         className={cnames(
