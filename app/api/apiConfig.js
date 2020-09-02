@@ -37,21 +37,21 @@ export const settingsAPIs = {
             url: "wss://api.meta1.io/ws",
             region: "API",
             country: "API",
-            location: "Central, US",
+            location: "Northern America",
             operator: "Witness: meta1"
         },
         {
             url: "wss://electra.meta1.io/ws",
             region: "ELECTRA",
             country: "ELECTRA",
-            location: "US",
+            location: "Central America",
             operator: "Witness: meta1"
         },
         {
             url: "wss://alcyone.meta1.io/ws",
             region: "Southern Asia",
             country: "ALCYONE",
-            location: "US",
+            location: "Southern Asia",
             operator: "Witness: meta1"
         }
     ],
