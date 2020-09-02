@@ -43,7 +43,15 @@ export const settingsAPIs = {
             country: "META1",
             location: "Testnet",
             operator: "Witness: meta1",
-            contact: "telegram:@Avowe"
+            contact: ""
+        },
+        {
+            url: "wss://alcyone.meta1.io/ws",
+            region: "Southern Asia",
+            country: "Singapore",
+            location: "Singapore",
+            operator: "Witness: meta1",
+            contact: ""
         }
     ],
     ES_WRAPPER_LIST: [
