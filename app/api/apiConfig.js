@@ -39,7 +39,7 @@ export const settingsAPIs = {
             country: "API",
             location: "Central, US",
             operator: "Witness: meta1",
-            contact: "telegram:@Avowe"
+            contact: "email:info@meta1.io"
         },
         {
             url: "wss://electra.meta1.io/ws",
@@ -47,7 +47,15 @@ export const settingsAPIs = {
             country: "ELECTRA",
             location: "US",
             operator: "Witness: meta1",
-            contact: "telegram:@Avowe"
+            contact: "email:info@meta1.io"
+        },
+        {
+            url: "wss://alcyone.meta1.io/ws",
+            region: "Southern Asia",
+            country: "ALCYONE",
+            location: "US",
+            operator: "Witness: meta1",
+            contact: "email:info@meta1.io"
         }
     ],
     ES_WRAPPER_LIST: [
