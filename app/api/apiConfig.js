@@ -53,6 +53,20 @@ export const settingsAPIs = {
             country: "ALCYONE",
             location: "Southern Asia",
             operator: "Witness: meta1"
+        },
+        {
+            url: "wss://zeus.meta1.io/ws",
+            region: "Northern Europe",
+            country: "Zeus",
+            location: "Northern Europe",
+            operator: "Witness: meta1"
+        },
+        {
+            url: "wss://taygete.meta1.io/ws",
+            region: "Northern America",
+            country: "Taygete",
+            location: "Northern America",
+            operator: "Witness: meta1"
         }
     ],
     ES_WRAPPER_LIST: [
