@@ -67,7 +67,14 @@ export const settingsAPIs = {
             country: "Taygete",
             location: "Northern America",
             operator: "Witness: meta1"
-        }
+        },
+        {
+            url: "wss://maia.meta1.io/ws",
+            region: "Northern America",
+            country: "Maia",
+            location: "Northern America",
+            operator: "Witness: meta1"
+        }        
     ],
     ES_WRAPPER_LIST: [
         {
