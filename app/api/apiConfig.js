@@ -43,38 +43,73 @@ export const settingsAPIs = {
         {
             url: "wss://electra.meta1.io/ws",
             region: "ELECTRA",
-            country: "ELECTRA",
+            country: "Electra",
             location: "Central America",
             operator: "Witness: meta1"
         },
         {
             url: "wss://alcyone.meta1.io/ws",
-            region: "Southern Asia",
-            country: "ALCYONE",
+            region: "ALCYONE",
+            country: "Alcyone",
             location: "Southern Asia",
             operator: "Witness: meta1"
         },
         {
             url: "wss://zeus.meta1.io/ws",
-            region: "Northern Europe",
+            region: "ZEUS",
             country: "Zeus",
             location: "Northern Europe",
             operator: "Witness: meta1"
         },
         {
             url: "wss://taygete.meta1.io/ws",
-            region: "Northern America",
+            region: "TAYGETE",
             country: "Taygete",
             location: "Northern America",
             operator: "Witness: meta1"
         },
         {
             url: "wss://maia.meta1.io/ws",
-            region: "Northern America",
+            region: "MAIA",
             country: "Maia",
             location: "Northern America",
             operator: "Witness: meta1"
-        }        
+        },
+        {
+            url: "wss://celaeno.meta1.io/ws",
+            region: "CELAENO",
+            country: "Celaeno",
+            location: "Australia",
+            operator: "Witness: meta1"
+        },
+        {
+            url: "wss://asterope.meta1.io/ws",
+            region: "ASTEROPE",
+            country: "Asterope",
+            location: "Western Europe",
+            operator: "Witness: meta1"
+        },
+        {
+            url: "wss://pleione.meta1.io/ws",
+            region: "PLEIONE",
+            country: "Pleione",
+            location: "Northern America",
+            operator: "Witness: meta1"
+        },
+        {
+            url: "wss://hathor.meta1.io/ws",
+            region: "HATHOR",
+            country: "Hathor",
+            location: "Northern Europe",
+            operator: "Witness: meta1"
+        },
+        {
+            url: "wss://sun.meta1.io/ws",
+            region: "SUN",
+            country: "Sun",
+            location: "Southern Asia",
+            operator: "Witness: meta1"
+        }
     ],
     ES_WRAPPER_LIST: [
         {
