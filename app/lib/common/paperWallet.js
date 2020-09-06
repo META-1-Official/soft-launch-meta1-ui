@@ -9,8 +9,8 @@ const _createPaperWalletAsPDF = function(
     memoKey,
     accountName
 ) {
-    const width = 300,
-        height = 450, //mm
+    const width = 1050,
+        height = 1150, //mm
         lineMargin = 5,
         qrSize = 50,
         textMarginLeft = qrSize + 7,
