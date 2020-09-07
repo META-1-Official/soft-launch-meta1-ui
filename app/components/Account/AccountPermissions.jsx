@@ -365,6 +365,7 @@ class AccountPermissions extends React.Component {
                                         data-tip={counterpart.translate(
                                             "account.perm.create_paperwallet_private_hint"
                                         )}
+                                        data-place="bottom"
                                         onClick={() => {
                                             this.onPdfCreate();
                                         }}

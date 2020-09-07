@@ -21,7 +21,7 @@ const _createPaperWalletAsPDF = function(
         logoWidth = (width * 3) / 4,
         logoHeight = logoWidth / 2.8, //  logo original width/height=2.8
         logoPositionX = (width - logoWidth) / 2;
-    let rowHeight = logoHeight + 50;
+    let rowHeight = 110;
     const keys = [activeKeys, ownerkeys, memoKey];
     const keysName = ["Active Key", "Owner Key", "Memo Key"];
 
@@ -52,11 +52,11 @@ const _createPaperWalletAsPDF = function(
         }
         gQrcode(publicKey, qrMargin, rowHeight + 10, currentPage);
         if (!locked && !!privateKey) {
-            gQrcode(privateKey, qrRightPos, rowHeight + 10, currentPage);
+            gQrcode(privateKey, 315, rowHeight + 10, currentPage);
         }
         pdf.text("PublicKey", textMarginLeft, rowHeight + 20);
         pdf.text(publicKey, textMarginLeft, rowHeight + 30);
-        pdf.rect(textMarginLeft - 1, rowHeight + 24, textWidth, textHeight);
+        pdf.rect(textMarginLeft - 1, rowHeight + 24, 258, textHeight);
         if (!locked) {
             pdf.text("PrivateKey", textMarginLeft, rowHeight + 40);
             if (!!privateKey) {
@@ -64,7 +64,7 @@ const _createPaperWalletAsPDF = function(
             } else {
                 pdf.text("Not found.", textMarginLeft, rowHeight + 50);
             }
-            pdf.rect(textMarginLeft - 1, rowHeight + 44, textWidth, textHeight);
+            pdf.rect(textMarginLeft - 1, rowHeight + 44, 258, textHeight);
         }
         rowHeight += 50;
     };
@@ -82,16 +82,7 @@ const _createPaperWalletAsPDF = function(
 
     let img = new Image();
     img.src = image;
-    pdf.addImage(
-        img,
-        "PNG",
-        logoPositionX,
-        30,
-        logoWidth,
-        logoHeight,
-        "",
-        "MEDIUM"
-    );
+    pdf.addImage(img, "PNG", 115, 30, 150, 50, "", "MEDIUM");
     pdf.text("Account:", 18, rowHeight - 10);
     pdf.text(accountName, 42, rowHeight - 10);
 
@@ -101,12 +92,12 @@ const _createPaperWalletAsPDF = function(
         }
         checkPageH(pdf, rowHeight, 400);
         pdf.text("Public", 22, rowHeight + 7);
-        pdf.text(keysName[index], 120, rowHeight + 7);
+        pdf.text(keysName[index], 170, rowHeight + 7);
         if (!locked) {
-            pdf.text("Private", 260, rowHeight + 7);
+            pdf.text("Private", 327, rowHeight + 7);
         }
-        pdf.line(lineMargin, rowHeight + 1, width - lineMargin, rowHeight + 1);
-        pdf.line(lineMargin, rowHeight + 9, width - lineMargin, rowHeight + 9);
+        pdf.line(lineMargin, rowHeight + 1, 365, rowHeight + 1);
+        pdf.line(lineMargin, rowHeight + 9, 365, rowHeight + 9);
         if (typeof publicKeys === "string") {
             keyRow(publicKeys);
         } else {
