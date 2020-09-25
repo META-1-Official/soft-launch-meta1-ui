@@ -23,7 +23,7 @@ nvm use v9
 Once you have Node installed, you can clone the repo:
 
 ```
-https://github.com/meta1-blockchain/meta1-ui.git
+https://github.com/META1CoinTrust/soft-launch-meta1-ui.git
 cd meta1-ui
 ```
 
