@@ -68,6 +68,21 @@ class AccountRegistrationForm extends React.Component {
 
     componentDidMount() {
         ReactTooltip.rebuild();
+
+        var url_string = window.location.href;
+        var url = new URL(url_string);
+
+        var firstname = url.searchParams.get("firstname");
+        var lastname = url.searchParams.get("lastname");
+        var email = url.searchParams.get("email");
+        var phone = url.searchParams.get("phone");
+
+        this.setState({
+            firstname: firstname,
+            lastname: lastname,
+            email: email,
+            phone: phone
+        });
     }
 
     caChange = () => {
@@ -196,6 +211,7 @@ class AccountRegistrationForm extends React.Component {
                                 id="firstname"
                                 required
                                 placeholder="John"
+                                value={this.state.firstname}
                                 onChange={this.onFirstnameChange}
                             />
                         </Form.Item>
@@ -204,6 +220,7 @@ class AccountRegistrationForm extends React.Component {
                                 id="lastname"
                                 required
                                 placeholder="Doe"
+                                value={this.state.lastname}
                                 onChange={this.onLastnameChange}
                             />
                         </Form.Item>
@@ -212,6 +229,7 @@ class AccountRegistrationForm extends React.Component {
                                 id="email"
                                 required
                                 placeholder="email@example.com"
+                                value={this.state.email}
                                 onChange={this.onEmailChange}
                             />
                         </Form.Item>
@@ -220,6 +238,7 @@ class AccountRegistrationForm extends React.Component {
                                 id="phone"
                                 required
                                 placeholder="+1XXXXXXXXX"
+                                value={this.state.phone}
                                 onChange={this.onPhoneChange}
                             />
                         </Form.Item>

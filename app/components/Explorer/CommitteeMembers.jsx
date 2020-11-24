@@ -79,10 +79,16 @@ class CommitteeMemberList extends React.Component {
                         rank: ranks[a.get("id")],
                         name: account.get("name"),
                         votes: account_data.get("total_votes"),
-                        url: sanitize(account_data.get("url"), {
-                            whiteList: [], // empty, means filter out all tags
-                            stripIgnoreTag: true // filter out all HTML not in the whilelist
-                        })
+                        url: sanitize(
+                            account_data.get("url") +
+                                "/" +
+                                account.get("name") +
+                                "-committee",
+                            {
+                                whiteList: [], // empty, means filter out all tags
+                                stripIgnoreTag: true // filter out all HTML not in the whilelist
+                            }
+                        )
                     };
                 });
         }
@@ -231,23 +237,20 @@ class CommitteeMembersStoreWrapper extends React.Component {
     }
 }
 
-CommitteeMembersStoreWrapper = connect(
-    CommitteeMembersStoreWrapper,
-    {
-        listenTo() {
-            return [SettingsStore];
-        },
-        getProps() {
-            return {
-                cardView: SettingsStore.getState().viewSettings.get(
-                    "cardViewCommittee"
-                ),
-                filterCommitteeMember: SettingsStore.getState().viewSettings.get(
-                    "filterCommitteeMember"
-                )
-            };
-        }
+CommitteeMembersStoreWrapper = connect(CommitteeMembersStoreWrapper, {
+    listenTo() {
+        return [SettingsStore];
+    },
+    getProps() {
+        return {
+            cardView: SettingsStore.getState().viewSettings.get(
+                "cardViewCommittee"
+            ),
+            filterCommitteeMember: SettingsStore.getState().viewSettings.get(
+                "filterCommitteeMember"
+            )
+        };
     }
-);
+});
 
 export default CommitteeMembersStoreWrapper;
