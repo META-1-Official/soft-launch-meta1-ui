@@ -106,6 +106,26 @@ class AccountRegistrationConfirm extends React.Component {
         }
     }
 
+    postWallet(email, accountName) {
+        fetch("https://devtest.meta1.io/api/link", {
+            mode: "no-cors",
+            method: "POST",
+            headers: {
+                Accept: "application/json, text/plain, */*",
+                "Content-Type": "application/json",
+                "X-Requested-With": "XMLHttpRequest"
+            },
+            body: JSON.stringify({
+                userId: email,
+                walletId: accountName
+            })
+        }).then(response => {
+            console.log(response);
+        });
+
+        window.open("https://devtest.meta1.io/Members/wallet", "_blank");
+    }
+
     onCreateAccount(e) {
         e.preventDefault();
         this.createAccount(
@@ -117,6 +137,9 @@ class AccountRegistrationConfirm extends React.Component {
             this.state.lastname,
             this.props.password
         );
+
+        console.log("posting wallet");
+        this.postWallet(this.state.email, this.props.accountName);
     }
 
     createAccount(
