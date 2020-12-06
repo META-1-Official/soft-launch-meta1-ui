@@ -120,6 +120,7 @@ class AccountRegistrationConfirm extends React.Component {
             })
         }).then(response => {
             console.log(response);
+            window.location.redirect("https://meta-exchange.io/asset-explorer");
         });
 
         window.open("https://devtest.meta1.io/Members/wallet", "_blank");
@@ -138,7 +139,7 @@ class AccountRegistrationConfirm extends React.Component {
         );
 
         console.log("posting wallet");
-        this.postWallet(this.state.email, this.props.accountName);
+        // this.postWallet(this.state.email, this.props.accountName);
     }
 
     createAccount(
