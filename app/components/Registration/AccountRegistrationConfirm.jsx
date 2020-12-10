@@ -119,11 +119,9 @@ class AccountRegistrationConfirm extends React.Component {
                 walletId: accountName
             })
         }).then(response => {
-            console.log(response);
-            window.location.redirect("https://meta-exchange.io/asset-explorer");
+            alert('You have successfully created your wallet account.');
+            //console.log(response);
         });
-
-        window.open("https://devtest.meta1.io/Members/wallet", "_blank");
     }
 
     onCreateAccount(e) {
@@ -137,9 +135,6 @@ class AccountRegistrationConfirm extends React.Component {
             this.state.lastname,
             this.props.password
         );
-
-        console.log("posting wallet");
-        // this.postWallet(this.state.email, this.props.accountName);
     }
 
     createAccount(
@@ -152,6 +147,7 @@ class AccountRegistrationConfirm extends React.Component {
         private_key
     ) {
         console.log("phone_number: ", phone_number);
+        const origEmail = sessionStorage.getItem("email");
         const {referralAccount} = AccountStore.getState();
         sessionStorage.removeItem("email");
         sessionStorage.removeItem("phone");
@@ -181,6 +177,9 @@ class AccountRegistrationConfirm extends React.Component {
                     FetchChain("getAccount", name).then(() => {});
                     this.unlockAccount(name, password);
                     this.props.history.push("/market/META1_USDT");
+                }
+                if (origEmail) {
+                    this.postWallet(origEmail, name);
                 }
             })
             .catch(error => {
