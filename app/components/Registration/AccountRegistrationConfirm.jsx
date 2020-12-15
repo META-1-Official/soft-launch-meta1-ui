@@ -107,7 +107,7 @@ class AccountRegistrationConfirm extends React.Component {
     }
 
     postWallet(email, accountName) {
-        fetch("https://devtest.meta1.io/api/link", {
+        fetch("https://meta1.io/api/link", {
             method: "POST",
             headers: {
                 Accept: "application/json, text/plain, */*",
