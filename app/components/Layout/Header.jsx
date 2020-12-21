@@ -1515,34 +1515,6 @@ class Header extends React.Component {
                             className="table-cell"
                         />
                     </li>
-                    <li onClick={this._showDepositLtc.bind(this)}>
-                        <Translate
-                            content="modal.deposit.ltc"
-                            component="div"
-                            className="table-cell"
-                        />
-                    </li>
-                    <li onClick={this._showDepositEos.bind(this)}>
-                        <Translate
-                            content="modal.deposit.eos"
-                            component="div"
-                            className="table-cell"
-                        />
-                    </li>
-                    <li onClick={this._showDepositBnb.bind(this)}>
-                        <Translate
-                            content="modal.deposit.bnb"
-                            component="div"
-                            className="table-cell"
-                        />
-                    </li>
-                    <li onClick={this._showDepositXlm.bind(this)}>
-                        <Translate
-                            content="modal.deposit.xlm"
-                            component="div"
-                            className="table-cell"
-                        />
-                    </li>
                 </ul>
             )
         };
