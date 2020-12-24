@@ -154,7 +154,7 @@ export default class DepositModal extends React.Component {
     }
 
     getDepositAddress() {
-        fetch("https://api.meta1.io/api")
+        fetch("https://gateway.meta1.io/api")
             .then(response => {
                 fetch("https://gateway.meta1.io/api/wallet/init/xlm", {
                     method: "POST",
