@@ -1515,6 +1515,13 @@ class Header extends React.Component {
                             className="table-cell"
                         />
                     </li>
+                    <li onClick={this._showDepositLtc.bind(this)}>
+                        <Translate
+                            content="modal.deposit.ltc"
+                            component="div"
+                            className="table-cell"
+                        />
+                    </li>
                 </ul>
             )
         };
