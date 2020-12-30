@@ -27,6 +27,7 @@ class AccountRegistrationConfirm extends React.Component {
         password: PropTypes.string.isRequired,
         toggleConfirmed: PropTypes.func.isRequired,
         toggleConfirmedTerms: PropTypes.func.isRequired,
+        toggleConfirmedTerms2: PropTypes.func.isRequired,
         history: PropTypes.object.isRequired
     };
 
@@ -36,11 +37,13 @@ class AccountRegistrationConfirm extends React.Component {
         this.state = {
             confirmed: false,
             confirmedTerms: false,
+            confirmedTerms2: false,
             isErrored: false
         };
         this.onFinishConfirm = this.onFinishConfirm.bind(this);
         this.toggleConfirmed = this.toggleConfirmed.bind(this);
         this.toggleConfirmedTerms = this.toggleConfirmedTerms.bind(this);
+        this.toggleConfirmedTerms2 = this.toggleConfirmedTerms2.bind(this);
         this.createAccount = this.createAccount.bind(this);
         this.onCreateAccount = this.onCreateAccount.bind(this);
     }
@@ -48,7 +51,8 @@ class AccountRegistrationConfirm extends React.Component {
     shouldComponentUpdate(nextProps, nextState) {
         return (
             nextState.confirmed !== this.state.confirmed ||
-            nextState.confirmedTerms !== this.state.confirmedTerms
+            nextState.confirmedTerms !== this.state.confirmedTerms ||
+            nextState.confirmedTerms2 !== this.state.confirmedTerms2
         );
     }
 
@@ -119,7 +123,7 @@ class AccountRegistrationConfirm extends React.Component {
                 walletId: accountName
             })
         }).then(response => {
-            alert('You have successfully created your wallet account.');
+            alert("You have successfully created your wallet account.");
             //console.log(response);
         });
     }
@@ -220,6 +224,12 @@ class AccountRegistrationConfirm extends React.Component {
         });
     }
 
+    toggleConfirmedTerms2(e) {
+        this.setState({
+            confirmedTerms2: e.target.checked
+        });
+    }
+
     render() {
         return (
             <Form layout={"vertical"}>
@@ -268,7 +278,18 @@ class AccountRegistrationConfirm extends React.Component {
                     >
                         &nbsp;&nbsp;&nbsp;
                         <button className="reset-this terms">
-                            I am a living man or woman hence a living being.
+                            I understand that no one can recover my password if
+                            I lose or forget it
+                        </button>
+                    </Checkbox>{" "}
+                    <hr></hr>
+                    <Checkbox
+                        checked={this.state.confirmedTerms2}
+                        onChange={this.toggleConfirmedTerms2}
+                    >
+                        &nbsp;&nbsp;&nbsp;
+                        <button className="reset-this terms">
+                            I have written down or otherwise stored my password
                         </button>
                     </Checkbox>
                     <div id="myModal" class="custom-modal">
@@ -990,7 +1011,9 @@ class AccountRegistrationConfirm extends React.Component {
                     <Button
                         type="primary"
                         disabled={
-                            !this.state.confirmed || !this.state.confirmedTerms
+                            !this.state.confirmed ||
+                            !this.state.confirmedTerms ||
+                            !this.state.confirmedTerms2
                         }
                         onClick={this.onCreateAccount}
                     >

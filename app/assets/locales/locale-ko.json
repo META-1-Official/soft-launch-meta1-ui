@@ -1756,7 +1756,7 @@
         "refcode_optional": "Referral Code (optional)"
     },
     "registration": {
-        "accountConfirmation": "I have written down or otherwise stored my username and password.",
+        "accountConfirmation": "I understand that I will lose access to my funds if I lose my password",
         "accountDescription": "Please keep your password in a safe place. Don’t share it with any third-parties or send it online.",
         "accountLoginByValue": "Account name + Password",
         "accountModelTitle": "By Account Name<span class=\"hide-text-for-small\"> and Password</span>",
