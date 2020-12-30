@@ -55,8 +55,7 @@ class WalletActions {
         email,
         phone_number,
         first_name,
-        last_name,
-        private_key
+        last_name
     ) {
         let {privKey: owner_private} = WalletDb.generateKeyFromPassword(
             account_name,
@@ -78,7 +77,6 @@ class WalletActions {
             "new active pubkey",
             active_private.toPublicKey().toPublicKeyString()
         );
-        console.log("private_key", private_key);
         console.log(
             "new owner pubkey",
             owner_private.toPublicKey().toPublicKeyString()
@@ -148,8 +146,7 @@ class WalletActions {
                                 email: email,
                                 phone_number: phone_number,
                                 first_name: first_name,
-                                last_name: last_name,
-                                private_key: private_key
+                                last_name: last_name
                             }
                         })
                     }
@@ -189,8 +186,7 @@ class WalletActions {
         email,
         phone_number,
         first_name,
-        last_name,
-        private_key
+        last_name
     ) {
         if (WalletDb.isLocked()) {
             let error = "wallet locked";
@@ -265,8 +261,7 @@ class WalletActions {
                             email: email,
                             phone_number: phone_number,
                             first_name: first_name,
-                            last_name: last_name,
-                            private_key: private_key
+                            last_name: last_name
                         }
                     })
                 }

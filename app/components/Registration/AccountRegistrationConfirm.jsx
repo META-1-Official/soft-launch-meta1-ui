@@ -28,6 +28,7 @@ class AccountRegistrationConfirm extends React.Component {
         toggleConfirmed: PropTypes.func.isRequired,
         toggleConfirmedTerms: PropTypes.func.isRequired,
         toggleConfirmedTerms2: PropTypes.func.isRequired,
+        toggleConfirmedTerms3: PropTypes.func.isRequired,
         history: PropTypes.object.isRequired
     };
 
@@ -38,12 +39,14 @@ class AccountRegistrationConfirm extends React.Component {
             confirmed: false,
             confirmedTerms: false,
             confirmedTerms2: false,
+            confirmedTerms3: false,
             isErrored: false
         };
         this.onFinishConfirm = this.onFinishConfirm.bind(this);
         this.toggleConfirmed = this.toggleConfirmed.bind(this);
         this.toggleConfirmedTerms = this.toggleConfirmedTerms.bind(this);
         this.toggleConfirmedTerms2 = this.toggleConfirmedTerms2.bind(this);
+        this.toggleConfirmedTerms3 = this.toggleConfirmedTerms3.bind(this);
         this.createAccount = this.createAccount.bind(this);
         this.onCreateAccount = this.onCreateAccount.bind(this);
     }
@@ -52,7 +55,8 @@ class AccountRegistrationConfirm extends React.Component {
         return (
             nextState.confirmed !== this.state.confirmed ||
             nextState.confirmedTerms !== this.state.confirmedTerms ||
-            nextState.confirmedTerms2 !== this.state.confirmedTerms2
+            nextState.confirmedTerms2 !== this.state.confirmedTerms2 ||
+            nextState.confirmedTerms3 !== this.state.confirmedTerms3
         );
     }
 
@@ -230,6 +234,12 @@ class AccountRegistrationConfirm extends React.Component {
         });
     }
 
+    toggleConfirmedTerms3(e) {
+        this.setState({
+            confirmedTerms3: e.target.checked
+        });
+    }
+
     render() {
         return (
             <Form layout={"vertical"}>
@@ -282,7 +292,6 @@ class AccountRegistrationConfirm extends React.Component {
                             I lose or forget it
                         </button>
                     </Checkbox>{" "}
-                    <hr></hr>
                     <Checkbox
                         checked={this.state.confirmedTerms2}
                         onChange={this.toggleConfirmedTerms2}
@@ -292,6 +301,17 @@ class AccountRegistrationConfirm extends React.Component {
                             I have written down or otherwise stored my password
                         </button>
                     </Checkbox>
+                    <hr></hr>
+                    <Checkbox
+                        checked={this.state.confirmedTerms3}
+                        onChange={this.toggleConfirmedTerms3}
+                    >
+                        &nbsp;&nbsp;&nbsp;
+                        <button className="reset-this terms">
+                            I am a living man or woman hence a living being
+                        </button>
+                    </Checkbox>{" "}
+                    <hr></hr>
                     <div id="myModal" class="custom-modal">
                         <div class="custom-modal-content">
                             <span class="close">&times;</span>
@@ -1013,7 +1033,8 @@ class AccountRegistrationConfirm extends React.Component {
                         disabled={
                             !this.state.confirmed ||
                             !this.state.confirmedTerms ||
-                            !this.state.confirmedTerms2
+                            !this.state.confirmedTerms2 ||
+                            !this.state.confirmedTerms3
                         }
                         onClick={this.onCreateAccount}
                     >
