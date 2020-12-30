@@ -48,6 +48,13 @@ export const settingsAPIs = {
             operator: "Witness: meta1"
         },
         {
+            url: "wss://atkas.meta1.io/ws",
+            region: "ATLAS",
+            country: "Atlas",
+            location: "Northern America",
+            operator: "Witness: meta1"
+        },
+        {
             url: "wss://alcyone.meta1.io/ws",
             region: "ALCYONE",
             country: "Alcyone",
