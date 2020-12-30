@@ -292,6 +292,7 @@ class AccountRegistrationConfirm extends React.Component {
                             I lose or forget it
                         </button>
                     </Checkbox>{" "}
+                    <hr></hr>
                     <Checkbox
                         checked={this.state.confirmedTerms2}
                         onChange={this.toggleConfirmedTerms2}
