@@ -10,9 +10,9 @@ import SendModal from "../Modal/SendModal";
 import DepositModalBtc from "../Modal/DepositModalBtc";
 import DepositModalEth from "../Modal/DepositModalEth";
 import DepositModalUsdt from "../Modal/DepositModalUsdt";
-import DepositModalEos from "../Modal/DepositModalEos";
-import DepositModalXlm from "../Modal/DepositModalXlm";
-import DepositModalBnb from "../Modal/DepositModalBnb";
+// import DepositModalEos from "../Modal/DepositModalEos";
+// import DepositModalXlm from "../Modal/DepositModalXlm";
+// import DepositModalBnb from "../Modal/DepositModalBnb";
 import DepositModalLtc from "../Modal/DepositModalLtc";
 import Icon from "../Icon/Icon";
 import Translate from "react-translate-component";
@@ -95,14 +95,14 @@ class Header extends React.Component {
         this.showDepositModalUsdt = this.showDepositModalUsdt.bind(this);
         this.hideDepositModalUsdt = this.hideDepositModalUsdt.bind(this);
 
-        this.showDepositModalEos = this.showDepositModalEos.bind(this);
-        this.hideDepositModalEos = this.hideDepositModalEos.bind(this);
+        // this.showDepositModalEos = this.showDepositModalEos.bind(this);
+        // this.hideDepositModalEos = this.hideDepositModalEos.bind(this);
 
-        this.showDepositModalXlm = this.showDepositModalXlm.bind(this);
-        this.hideDepositModalXlm = this.hideDepositModalXlm.bind(this);
+        // this.showDepositModalXlm = this.showDepositModalXlm.bind(this);
+        // this.hideDepositModalXlm = this.hideDepositModalXlm.bind(this);
 
-        this.showDepositModalBnb = this.showDepositModalBnb.bind(this);
-        this.hideDepositModalBnb = this.hideDepositModalBnb.bind(this);
+        // this.showDepositModalBnb = this.showDepositModalBnb.bind(this);
+        // this.hideDepositModalBnb = this.hideDepositModalBnb.bind(this);
 
         this.showDepositModalLtc = this.showDepositModalLtc.bind(this);
         this.hideDepositModalLtc = this.hideDepositModalLtc.bind(this);
@@ -1845,7 +1845,7 @@ class Header extends React.Component {
                     modalId="deposit_modal_new1331"
                     account={currentAccount}
                 />
-                <DepositModalEos
+                {/* <DepositModalEos
                     visibleMeta={this.state.isDepositModalVisibleEos}
                     hideModalMeta={this.hideDepositModalEos}
                     showModalMeta={this.showDepositModalEos}
@@ -1868,7 +1868,7 @@ class Header extends React.Component {
                     ref="deposit_modal_newfsdfs1sd1"
                     modalId="deposit_modal_newfsdfs1sd1"
                     account={currentAccount}
-                />
+                /> */}
                 <DepositModalLtc
                     visibleMeta={this.state.isDepositModalVisibleLtc}
                     hideModalMeta={this.hideDepositModalLtc}
