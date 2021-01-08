@@ -1304,6 +1304,7 @@ class Header extends React.Component {
                         </div>
                     </li>
 
+                    /* no hardware wallet support at this time, remove to reduce questions
                     <li
                         className={cnames({
                             active:
@@ -1350,6 +1351,7 @@ class Header extends React.Component {
                             <Translate content="explorer.assets.ledger" />
                         </div>
                     </li>
+                    *** end no hardware wallet support at this time, remove to reduce questions */
                     <li
                         className={cnames({
                             active: active.indexOf("/signedmessages") !== -1,
