@@ -1,13 +1,13 @@
 import React, {Component} from "react";
-import Showcase from "./Showcase";
 import {connect} from "alt-react";
 import {ChainStore} from "meta1js";
-import AccountStore from "../../stores/AccountStore";
 import {createPaperWalletAsPDF} from "common/paperWallet";
+import Showcase from "./Showcase";
+import AccountStore from "../../stores/AccountStore";
 
 class ShowcaseGrid extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {currentAccount: null};
     }
 
@@ -26,15 +26,16 @@ class ShowcaseGrid extends Component {
     }
 
     render() {
+        const {history} = this.props;
+        const {currentAccount} = this.state;
         let hasAccount = this.state.currentAccount !== null;
 
-        let thiz = this;
         const tiles = [
             {
                 title: "showcases.paper_wallet.title",
                 target: () => {
                     if (hasAccount) {
-                        createPaperWalletAsPDF(this.state.currentAccount);
+                        createPaperWalletAsPDF(currentAccount);
                     }
                 },
                 description: "showcases.paper_wallet.description",
@@ -45,9 +46,7 @@ class ShowcaseGrid extends Component {
             },
             {
                 title: "showcases.barter.title",
-                target: event => {
-                    thiz.props.history.push("/barter");
-                },
+                target: () => history.push("/barter"),
                 description: "showcases.barter.description",
                 icon: "barter",
                 disabled: hasAccount
@@ -58,7 +57,7 @@ class ShowcaseGrid extends Component {
                 title: "showcases.borrow.title",
                 target: () => {
                     if (hasAccount) {
-                        thiz.props.history.push("/borrow");
+                        history.push("/borrow");
                     }
                 },
                 description: "showcases.borrow.description",
@@ -69,9 +68,7 @@ class ShowcaseGrid extends Component {
             },
             {
                 title: "showcases.direct_debit.title",
-                target: event => {
-                    thiz.props.history.push("/direct-debit");
-                },
+                target: () => history.push("/direct-debit"),
                 description: "showcases.direct_debit.description",
                 icon: "htlc",
                 disabled: hasAccount
@@ -80,9 +77,7 @@ class ShowcaseGrid extends Component {
             },
             {
                 title: "showcases.htlc.title",
-                target: event => {
-                    thiz.props.history.push("/htlc");
-                },
+                target: () => history.push("/htlc"),
                 description: "showcases.htlc.description",
                 icon: "direct_debit",
                 disabled: hasAccount
@@ -91,9 +86,7 @@ class ShowcaseGrid extends Component {
             },
             {
                 title: "showcases.prediction_market.title",
-                target: event => {
-                    thiz.props.history.push("/prediction");
-                },
+                target: () => history.push("/prediction"),
                 description: "showcases.prediction_market.description",
                 icon: "prediction",
                 disabled: hasAccount
@@ -110,6 +103,7 @@ class ShowcaseGrid extends Component {
             }
             // .... even more tiles in this list
         ];
+
         return (
             <div
                 className="overflow-visible showcases-grid"
@@ -118,52 +112,58 @@ class ShowcaseGrid extends Component {
                 }}
             >
                 <div className="showcases-grid--wrapper">
-                    {tiles.map(tile => {
-                        return (
-                            <div
-                                key={tile.title}
-                                className="showcases-grid--wrapper--item"
-                            >
-                                {!!tile.disabled ? (
-                                    <Showcase
-                                        target={tile.target}
-                                        title={tile.title}
-                                        description={tile.description}
-                                        icon={tile.icon}
-                                        disabled={tile.disabled}
-                                        comingSoon={tile.comingSoon || false}
-                                    />
-                                ) : (
-                                    <Showcase
-                                        target={tile.target}
-                                        title={tile.title}
-                                        description={tile.description}
-                                        icon={tile.icon}
-                                    />
-                                )}
-                            </div>
-                        );
-                    })}
+                    {tiles.map(
+                        ({
+                            target,
+                            title,
+                            description,
+                            icon,
+                            disabled,
+                            comingSoon
+                        }) => {
+                            return (
+                                <div
+                                    key={tile.title}
+                                    className="showcases-grid--wrapper--item"
+                                >
+                                    {!!tile.disabled ? (
+                                        <Showcase
+                                            target={target}
+                                            title={title}
+                                            description={description}
+                                            icon={icon}
+                                            disabled={disabled}
+                                            comingSoon={comingSoon || false}
+                                        />
+                                    ) : (
+                                        <Showcase
+                                            target={target}
+                                            title={title}
+                                            description={description}
+                                            icon={icon}
+                                        />
+                                    )}
+                                </div>
+                            );
+                        }
+                    )}
                 </div>
             </div>
         );
     }
 }
 
-ShowcaseGrid = connect(
-    ShowcaseGrid,
-    {
-        listenTo() {
-            return [AccountStore];
-        },
-        getProps() {
-            return {
-                currentAccount:
-                    AccountStore.getState().currentAccount ||
-                    AccountStore.getState().passwordAccount
-            };
-        }
+ShowcaseGrid = connect(ShowcaseGrid, {
+    listenTo() {
+        return [AccountStore];
+    },
+    getProps() {
+        return {
+            currentAccount:
+                AccountStore.getState().currentAccount ||
+                AccountStore.getState().passwordAccount
+        };
     }
-);
+});
 
 export default ShowcaseGrid;
