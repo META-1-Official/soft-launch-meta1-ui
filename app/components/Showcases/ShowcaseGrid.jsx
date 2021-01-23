@@ -123,10 +123,10 @@ class ShowcaseGrid extends Component {
                         }) => {
                             return (
                                 <div
-                                    key={tile.title}
+                                    key={title}
                                     className="showcases-grid--wrapper--item"
                                 >
-                                    {!!tile.disabled ? (
+                                    {!!disabled ? (
                                         <Showcase
                                             target={target}
                                             title={title}
