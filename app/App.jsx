@@ -513,10 +513,10 @@ class App extends React.Component {
                                     component={DirectDebit}
                                 />
 
-                                {/* <Route
+                                <Route
                                     path="/spotlight"
                                     component={ShowcaseGrid}
-                                />*/}
+                                />
 
                                 {/* Wallet backup/restore routes */}
                                 <Route

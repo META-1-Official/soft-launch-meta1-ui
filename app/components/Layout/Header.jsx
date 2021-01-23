@@ -720,8 +720,8 @@ class Header extends React.Component {
                 </a>
             );
         }
-        {
-            /*if (active.indexOf("spotlight") !== -1) {
+
+        if (active.indexOf("spotlight") !== -1) {
             dynamicMenuItem = (
                 <a style={{flexFlow: "row"}} className={cnames({active: true})}>
                     <Icon
@@ -737,8 +737,8 @@ class Header extends React.Component {
                     />
                 </a>
             );
-        }*/
         }
+
         if (active.indexOf("settings") !== -1) {
             dynamicMenuItem = (
                 <a
@@ -1277,8 +1277,7 @@ class Header extends React.Component {
                             <Translate content="header.settings" />
                         </div>
                     </li>
-
-                    {/*<li
+                    <li
                         className={cnames(
                             {active: active.indexOf("/spotlight") !== -1},
                             "divider"
@@ -1288,8 +1287,7 @@ class Header extends React.Component {
                         <div className="table-cell">
                             <Translate content="header.showcases" />
                         </div>
-                    </li>*/}
-
+                    </li>
                     <li
                         className={cnames(
                             {active: active.indexOf("/settings") !== -1},
@@ -1303,8 +1301,8 @@ class Header extends React.Component {
                             <Translate content="header.settings" />{" "}
                         </div>
                     </li>
-
-                    /* no hardware wallet support at this time, remove to reduce questions
+                    /* no hardware wallet support at this time, remove to reduce
+                    questions
                     <li
                         className={cnames({
                             active:
@@ -1351,7 +1349,8 @@ class Header extends React.Component {
                             <Translate content="explorer.assets.ledger" />
                         </div>
                     </li>
-                    *** end no hardware wallet support at this time, remove to reduce questions */
+                    *** end no hardware wallet support at this time, remove to
+                    reduce questions */
                     <li
                         className={cnames({
                             active: active.indexOf("/signedmessages") !== -1,
@@ -1372,7 +1371,6 @@ class Header extends React.Component {
                             <Translate content="account.signedmessages.menuitem" />
                         </div>
                     </li>
-
                     <li
                         className={cnames({
                             active: active.indexOf("/member-stats") !== -1,
@@ -1393,7 +1391,6 @@ class Header extends React.Component {
                             <Translate content="account.member.stats" />
                         </div>
                     </li>
-
                     {isMyAccount ? (
                         <li
                             className={cnames({
@@ -1409,7 +1406,6 @@ class Header extends React.Component {
                             </div>
                         </li>
                     ) : null}
-
                     <li
                         className={cnames({
                             active: active.indexOf("/whitelist") !== -1,
@@ -1430,7 +1426,6 @@ class Header extends React.Component {
                             <Translate content="account.whitelist.title" />
                         </div>
                     </li>
-
                     <li
                         className={cnames("divider", {
                             active: active.indexOf("/permissions") !== -1,
@@ -1451,7 +1446,6 @@ class Header extends React.Component {
                             <Translate content="account.permissions" />
                         </div>
                     </li>
-
                     {showAccountLinks ? (
                         <li
                             className={cnames(
@@ -1570,9 +1564,7 @@ class Header extends React.Component {
                                                     this
                                                 )}
                                                 className="button outline small"
-                                            >
-                                                >
-                                            </div>
+                                            ></div>
                                         </div>
                                     </li>
                                 </ul>
