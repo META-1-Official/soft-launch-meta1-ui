@@ -119,4 +119,9 @@ Application breaking issues and bugs should be submitted to the issue tracker an
 When all issues to the current RC are fixed, `staging` branch is released to the stable `master` branch.
 
 
+## Notes
 
+### Spotlight page
+
+There is a component: `app/components/Showcases/ShowcaseGrid.jsx`.
+You can enable or disable (both manually or programmatically) grid items by changing variable `tiles`.
