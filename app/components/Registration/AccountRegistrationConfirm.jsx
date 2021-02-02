@@ -154,8 +154,11 @@ class AccountRegistrationConfirm extends React.Component {
         last_name,
         private_key
     ) {
-        console.log("phone_number: ", phone_number);
-        const origEmail = sessionStorage.getItem("email");
+        var url_string = window.location.href;
+        var url = new URL(url_string);
+        var origEmail = url.searchParams.get("email");
+        console.log("phone_number: ", phone_number, "urlEmail: ", origEmail);
+        
         const {referralAccount} = AccountStore.getState();
         sessionStorage.removeItem("email");
         sessionStorage.removeItem("phone");
