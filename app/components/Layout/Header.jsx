@@ -1577,7 +1577,7 @@ class Header extends React.Component {
             <div className="header-container" style={{minHeight: "38px"}}>
                 <div>
                     <div
-                        className="header menu-group primary"
+                        className="header menu-group"
                         style={{flexWrap: "nowrap", justifyContent: "none"}}
                     >
                         {__ELECTRON__ ? (

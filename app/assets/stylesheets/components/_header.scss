@@ -20,13 +20,13 @@
         border-bottom: none;
     }
     padding-left: 0 !important;
-    // min-height: 64px;
-    // text-transform: uppercase;
+    min-height: 64px;
+    text-transform: uppercase;
     .menu-bar > li {
         padding: 0;
         border-right: none;
         > a {
-            font-weight: bold;
+            //font-weight: bold;
             line-height: 2rem;
             padding-left: 1.25rem;
             padding-right: 0.75rem;
@@ -199,8 +199,8 @@ ul.dropdown.header-menu {
                 content: ">";
                 position: absolute;
                 right: 10px;
-                margin-top: -13.5px;
-                top: 50%;
+                // margin-top: -13.5px;
+                // top: 50%;
             }
         }
         &.parent-item {

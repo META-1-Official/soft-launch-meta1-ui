@@ -52,28 +52,18 @@ class DepositModalContent extends React.Component {
 
     render() {
         return (
-            <div>
+            <div class="modal-deposit-container">
                 <div className="QR" style={{textAlign: "center"}}>
                     <QRCode value={this.props.depositAddress} />
                 </div>
                 <h5>Minimum deposit: 0.001 BTC</h5>
                 <div className="grid-block container-row">
-                    <div style={{paddingRight: "1rem"}}>
-                        <CopyButton
-                            text={this.props.depositAddress}
-                            className={"copyIcon"}
-                        />
-                    </div>
-                    <div style={{wordBreak: "break-word"}}>
-                        <div
-                            style={{
-                                fontSize: "0.8rem",
-                                fontWeight: "bold",
-                                paddingBottom: "0.3rem"
-                            }}
-                        >
-                            Your deposit address for BTC:
-                        </div>
+                    <CopyButton
+                        text={this.props.depositAddress}
+                        className={"copyIcon"}
+                    />
+                    <div>
+                        <p>Your deposit address for BTC:</p>
                         {this.props.depositAddress == "Gateway is down" ? (
                             <div
                                 className="modal__highlight"
@@ -100,9 +90,9 @@ class DepositModalContent extends React.Component {
                     </div>
                 </div>
                 <h6>
-                    <b>IMPORTANT:</b> Send only BTC to this deposit address.
-                    Sending less than 0.001 BTC or any other currency to this
-                    address may result in the loss of your deposit.
+                    <strong>IMPORTANT:</strong> Send only BTC to this deposit
+                    address. Sending less than 0.001 BTC or any other currency
+                    to this address may result in the loss of your deposit.
                 </h6>
             </div>
         );

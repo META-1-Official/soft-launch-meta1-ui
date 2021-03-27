@@ -48,10 +48,11 @@ div.input-wrapper {
 
 // QR canvas
 .QR {
-    padding: 1rem;
     > canvas {
         background: white;
-        padding: 0.5rem;
+        padding: 1rem;
+        box-sizing: content-box;
+        border-radius: $global-radius;
     }
 }
 

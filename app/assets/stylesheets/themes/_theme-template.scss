@@ -11,17 +11,6 @@
     }
 }
 
-.portfolio-btn {
-    background: black !important;
-    color: white !important;
-}
-
-.portfolio-btn:hover {
-    background: rgb(82, 2, 2) !important;
-    color: black !important;
-    transform: scale(1.4);
-}
-
 body.darkTheme .ant-tabs .ant-tabs-bottom-content.ant-tabs-content-animated,
 body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
     height: 100% !important;
@@ -214,18 +203,11 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 ) {
     $hamburger-submenu-display-endpoint: 990px;
 
-    .short-long-button span {
-        width: 100% !important;
-    }
-    .short-long-button button {
-        width: 100% !important;
-    }
-
     ul.header-menu {
         .divider {
             margin: 0;
         }
-        background-color: $header-menu-background-color !important;
+        background-color: $header-menu-background-color;
     }
 
     .menu-dropdown-wrapper {
@@ -517,7 +499,8 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
     }
 
     #content-wrapper {
-        @include colorGr($primary-text-color, $bg-color, $bg-color-mixin);
+        //@include colorGr($primary-text-color, $bg-color, $bg-color-mixin);
+        color: $primary-text-color;
     }
 
     hr {
@@ -740,7 +723,7 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
         @include colorGr($secondary-text-color, $bg-color, $bg-color-mixin);
     }
     .page-layout {
-        background-color: lighten($account-header, 4%);
+        //background-color: lighten($account-header, 4%);
 
         .column-header {
             > ul {
@@ -764,7 +747,7 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
             background-color: darken($bg-color, 4%);
         }
         .main-content {
-            @include radialGradient($bg-color-mixin, $bg-color);
+            //@include radialGradient($bg-color-mixin, $bg-color);
             &.margin-block {
                 background-color: $main-content-margin-block-bg-color;
             }
@@ -948,9 +931,7 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
             }
         }
     }
-    .header-container span.icon.lock-unlock > svg > path {
-        fill: #d5ba48;
-    }
+
     .header-dropdown-sub-link.enabled {
         color: $secondary-text-color;
         &:hover {
@@ -976,7 +957,12 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
         }
     }
     .header .logo {
-        color: $secondary-text-color;
+        //color: $secondary-text-color;
+        img {
+            margin-top: 0 !important;
+            margin-bottom: 0;
+            width: 100px;
+        }
     }
     .header-right-menu {
         // a:hover {background-color: lighten($panel-bg-color, 4%);}
@@ -1042,7 +1028,7 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
         }
         &.table-hover > tbody > tr:hover > td,
         .table-hover > tbody > tr:hover > th {
-            @include radialGradient($bg-color-mixin, $bg-color);
+            //@include radialGradient($bg-color-mixin, $bg-color);
         }
         > tbody > tr.table-empty > td {
             padding: 5rem 0;
@@ -1116,7 +1102,8 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
             color: $secondary-text-color;
         }
         ul.dropdown {
-            @include color($light-text-color, $super-light-panel-bg-color);
+            //@include color($light-text-color, $super-light-panel-bg-color);
+            color: $light-text-color;
             &::after {
                 border-bottom-color: $super-light-panel-bg-color;
             }
@@ -1303,6 +1290,9 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
     // Tabs
     .tabs {
         border-bottom-color: $dark-text-color;
+        a {
+            background-color: transparent;
+        }
         > .tab-item {
             color: $secondary-text-color;
             &.is-active {
@@ -1317,10 +1307,12 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
         }
     }
     .tab-content {
+        border-radius: 5px;
+        border-top-left-radius: 0;
         background-color: $tabs-content-background-color;
         div.header-selector {
             .filter input {
-                @include radialGradient($bg-color-mixin, $bg-color);
+                //@include radialGradient($bg-color-mixin, $bg-color);
             }
             .selector {
                 .inactive {
@@ -1717,7 +1709,7 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
     }
     .menu-group.primary,
     .menu-group.primary .menu-bar {
-        @include radialGradient($account-background, $bg-color-mixin);
+        //@include radialGradient($account-background, $bg-color-mixin);
         li {
             > a {
                 color: $account-dimmed;
@@ -2237,32 +2229,33 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 
     /* Table view account */
     div.grid-content.app-tables {
-        @include radialGradient($bg-color-mixin, $account-background);
+        //@include radialGradient($bg-color-mixin, $account-background);
     }
     div.tabs-container {
-        @include radialGradient($bg-color-mixin, $account-background);
+        //@include radialGradient($bg-color-mixin, $account-background);
     }
 
     div.account-tabs {
         > div.service-selector {
-            background-color: $bg-color;
-            border-bottom: $tabs-border-size solid $tabs-border-color;
+            //background-color: $bg-color;
+            //border-bottom: $tabs-border-size solid $tabs-border-color;
         }
     }
     ul.account-overview {
-        background-color: $tabs-background-color;
+        //background-color: $tabs-background-color;
         li {
             transition: all 0.3s ease 0s;
-
-            background-color: $tabs-item-background-color;
-
+            //background-color: $tabs-item-background-color;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
             border-top: 0;
             border-left: 0;
             border-right: 0;
-            border-bottom: $tabs-item-border-size solid $tabs-item-border-color;
+            //border-bottom: $tabs-item-border-size solid $tabs-item-border-color;
 
             > a {
-                background-color: $tabs-item-background-color;
+                //background-color: $tabs-item-background-color;
+                background-color: transparent;
                 color: $tabs-item-color;
                 border: none;
                 transition: all 0.3s ease 0s;
@@ -2275,8 +2268,7 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
             }
             &.is-active,
             &:hover {
-                border-bottom: $tabs-item-border-size solid
-                    $tabs-item--active--border-color;
+                //border-bottom: $tabs-item-border-size solid $tabs-item--active--border-color;
                 background-color: $tabs-item--active--background-color;
                 > a {
                     color: $account-primarytext;
@@ -2479,7 +2471,7 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
         background-color: transparent !important;
     }
     .header-container {
-        background-color: radialGradient($bg-color-mixin, $account-background);
+        background-color: $header-background-color;
 
         box-shadow: $header-shadow;
 
@@ -2490,7 +2482,7 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
                 li {
                     a {
                         text-decoration: none;
-                        background: $header-item-background-color;
+                        //background: $header-item-background-color;
                         color: $header-item--color;
                         svg path {
                             fill: $header-item--color !important;
@@ -2520,9 +2512,10 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
             }
         }
         .dropdown.header-menu {
-            background-color: $panel-bg-color;
+            //background-color: $panel-bg-color;
             li.divider {
-                border-bottom: 1px solid $dark-text-color;
+                border-bottom: 1px solid
+                    darken($header-menu-background-color, 8%);
             }
             > li:hover {
                 background-color: $super-light-panel-bg-color;
@@ -3008,21 +3001,17 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
     display: flex;
     align-items: center;
     flex-wrap: nowrap;
-    height: 38px !important;
+    //height: 38px !important;
     .menu-bar {
-        height: 38px !important;
+        //height: 38px !important;
         overflow: visible;
-    }
-    .logo {
-        padding-top: 0.7rem;
-        padding-bottom: 0.8rem;
     }
     .dropdown-wrapper:after {
         display: none;
     }
     .menu-dropdown-wrapper {
         height: 20px;
-        width: 65px;
+        //width: 65px;
         text-align: left;
         border-radius: 0;
         .hamburger .icon {
@@ -3033,10 +3022,7 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
     .dropdown.header-menu {
         top: 65px;
     }
-    .hamburger svg rect,
-    .hamburger-x svg rect {
-        fill: $bs-blue;
-    }
+
     .total-value {
         text-align: right;
         font-size: 80%;

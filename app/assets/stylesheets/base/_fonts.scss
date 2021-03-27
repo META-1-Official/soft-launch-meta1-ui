@@ -254,4 +254,5 @@ button,
 strong,
 b {
     @include RobotoMedium;
+    font-weight: normal !important;
 }

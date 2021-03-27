@@ -195,7 +195,7 @@ div.transfer-input {
     /* Size & position */
     position: relative;
     margin: 0 auto;
-    padding: 21px 26px;
+    padding: 26px 20px;
 
     /* Styles */
     background: transparent;
@@ -238,7 +238,7 @@ div.transfer-input {
 
         /* Styles */
         background: #fff;
-        border-radius: 0 0 5px 5px;
+        border-radius: $global-radius;
         border: 1px solid rgba(0, 0, 0, 0.2);
         border-top: none;
         border-bottom: none;
