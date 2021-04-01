@@ -214,21 +214,14 @@ class Tabs extends React.Component {
                 <div className="service-selector">
                     <ul
                         style={style}
-                        className={cnames("button-group no-margin", tabsClass, {
+                        className={cnames("button-group ", tabsClass, {
                             segmented
                         })}
                     >
                         {collapseTabs ? (
-                            <li
-                                style={{
-                                    paddingLeft: 10,
-                                    paddingRight: 10,
-                                    minWidth: "15rem"
-                                }}
-                            >
+                            <li>
                                 <select
                                     value={this.state.activeTab}
-                                    style={{marginTop: 10, marginBottom: 10}}
                                     className="bts-select"
                                     onChange={e => {
                                         let ind = parseInt(e.target.value, 10);
@@ -261,17 +254,14 @@ class Tabs extends React.Component {
     }
 }
 
-Tabs = connect(
-    Tabs,
-    {
-        listenTo() {
-            return [SettingsStore];
-        },
-        getProps() {
-            return {viewSettings: SettingsStore.getState().viewSettings};
-        }
+Tabs = connect(Tabs, {
+    listenTo() {
+        return [SettingsStore];
+    },
+    getProps() {
+        return {viewSettings: SettingsStore.getState().viewSettings};
     }
-);
+});
 
 Tabs = withRouter(Tabs);
 

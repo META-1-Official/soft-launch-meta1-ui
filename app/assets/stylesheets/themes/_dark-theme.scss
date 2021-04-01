@@ -10,7 +10,7 @@ $inactive-text-color: black;
 $link-text-color: #ffa800;
 $error-text-color: #ff3950;
 
-$settings-select-bg: #270303;
+$settings-select-bg: $input-background;
 $settings-select-color: darken($primary-text-color, 20%);
 $settings-api-node-border-color: #640000;
 $main-content-margin-block-bg-color: #ff0000;
@@ -25,11 +25,11 @@ $settings-menu-hover-bg: darken($light-panel-bg-color, 20%);
 $settings-menu-active-bg: darken($light-panel-bg-color, 20%);
 $button-bg-color: #000000;
 $secondary-button-bg-color: #ff0f0f;
-$input-background: lighten($bg-color, 1%);
+$input-background: #494b54;
 
 $alert-color: $error-text-color;
 $info-color: #a0d3e8;
-$success-color: #7bd500;
+$success-color: #009688;
 $warning-color: #ffa800;
 $fee-color: $secondary-text-color;
 

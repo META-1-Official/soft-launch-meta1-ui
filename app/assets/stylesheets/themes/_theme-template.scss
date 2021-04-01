@@ -526,16 +526,18 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
     // }
 
     .label.success {
-        color: $success-color;
+        color: $white;
         border-color: $success-color;
+        background-color: $success-color;
     }
     .label.info {
         color: $info-color;
         border-color: $info-color;
     }
     .label.warning {
-        color: $warning-color;
+        color: $primary-dark;
         border-color: $warning-color;
+        background-color: $warning-color;
     }
     .nested-approval-state {
         .tooltip {
@@ -550,8 +552,9 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
     }
     .label.cancel,
     .label.alert {
-        color: $alert-color;
+        color: $white;
         border-color: $alert-color;
+        background-color: $alert-color;
     }
     .txtlabel.success {
         color: $success-color;
@@ -1997,12 +2000,12 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
     select.native-coin-types,
     select.external-coin-types {
         color: $secondary-text-color;
-        background-color: $light-panel-bg-color;
+        background-color: $input-background;
         border: 0;
         &:hover,
         &:focus,
         &:active {
-            background-color: $light-panel-bg-color;
+            //background-color: $light-panel-bg-color;
         }
     }
     .api-node {
