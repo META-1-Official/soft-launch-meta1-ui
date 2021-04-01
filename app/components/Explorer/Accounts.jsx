@@ -103,8 +103,8 @@ class Accounts extends React.Component {
                     return a.accountId > b.accountId
                         ? 1
                         : a.accountId < b.accountId
-                            ? -1
-                            : 0;
+                        ? -1
+                        : 0;
                 },
                 render: id => {
                     return <div>{id}</div>;
@@ -150,8 +150,8 @@ class Accounts extends React.Component {
                     return a.accountName > b.accountName
                         ? 1
                         : a.accountName < b.accountName
-                            ? -1
-                            : 0;
+                        ? -1
+                        : 0;
                 },
                 render: name => {
                     return (
@@ -174,8 +174,8 @@ class Accounts extends React.Component {
                         ? 1
                         : this.balanceObjects[a.accountBalance] <
                           this.balanceObjects[b.accountBalance]
-                            ? -1
-                            : 0;
+                        ? -1
+                        : 0;
                 },
                 render: balance => {
                     return (
@@ -202,8 +202,8 @@ class Accounts extends React.Component {
                         ? 1
                         : this.balanceObjects[a.accountBalance] <
                           this.balanceObjects[b.accountBalance]
-                            ? -1
-                            : 0;
+                        ? -1
+                        : 0;
                 },
                 render: balance => {
                     return (
@@ -266,7 +266,7 @@ class Accounts extends React.Component {
         return (
             <div className="grid-block vertical">
                 <div className="grid-block vertical">
-                    <div className="grid-block main-content small-12 medium-10 medium-offset-1 main-content vertical">
+                    <div className="grid-content">
                         <div className="generic-bordered-box">
                             <div
                                 style={{

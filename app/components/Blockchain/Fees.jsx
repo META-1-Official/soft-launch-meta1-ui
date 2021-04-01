@@ -186,7 +186,7 @@ class FeeGroup extends React.Component {
 
         return (
             <div className="asset-card">
-                <Card>{this.props.title.toUpperCase()}</Card>
+                <h4>{this.props.title.toUpperCase()}</h4>
                 <table className="table">
                     <thead>
                         <tr>
@@ -231,18 +231,19 @@ class Fees extends React.Component {
         }
 
         return (
-            <div className="grid-block vertical" style={{overflow: "visible"}}>
+            <div className="padding">
                 <div
-                    className="grid-block small-12 shrink"
+                    className="grid-block vertical"
                     style={{overflow: "visible"}}
                 >
-                    <HelpContent path={"components/Fees"} />
-                </div>
-                <div
-                    className="grid-block small-12 "
-                    style={{overflow: "visible"}}
-                >
-                    <div className="grid-content">{feeGroups}</div>
+                    <div className="grid-block small-12 shrink">
+                        <HelpContent path={"components/Fees"} />
+                    </div>
+                    <div className="grid-block small-12">
+                        <div className="grid-block vertical">
+                            <div className="">{feeGroups}</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         );

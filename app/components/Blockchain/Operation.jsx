@@ -89,7 +89,7 @@ class Row extends React.Component {
         fee.amount = parseInt(fee.amount, 10);
 
         return (
-            <tr>
+            <tr class="ant-table-row">
                 {this.props.includeOperationId ? (
                     <td style={{textAlign: "left"}}>
                         {/* {this.props.block}#{this.props.txIndex}<br /> */}
@@ -109,9 +109,7 @@ class Row extends React.Component {
                         >
                             <Link
                                 className="inline-block"
-                                to={`/block/${this.props.block}/${
-                                    this.props.txIndex
-                                }`}
+                                to={`/block/${this.props.block}/${this.props.txIndex}`}
                             >
                                 <TransactionLabel color={color} type={type} />
                             </Link>
@@ -280,18 +278,15 @@ class Operation extends React.Component {
     }
 }
 
-Operation = connect(
-    Operation,
-    {
-        listenTo() {
-            return [SettingsStore];
-        },
-        getProps() {
-            return {
-                marketDirections: SettingsStore.getState().marketDirections
-            };
-        }
+Operation = connect(Operation, {
+    listenTo() {
+        return [SettingsStore];
+    },
+    getProps() {
+        return {
+            marketDirections: SettingsStore.getState().marketDirections
+        };
     }
-);
+});
 
 export default Operation;

@@ -367,21 +367,13 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
     }
 
     .explore-witness--info {
-        width: 100%;
-
-        border: 1px solid $explorer--witnesses--info-border;
-        background: $explorer--witnesses--info-bg;
-
-        padding: 12px;
-        border-radius: 5px;
-
         table {
             width: 100%;
 
             thead {
                 th {
                     font-weight: 400;
-                    color: $explorer--witnesses--info-table-title-color;
+                    color: darken($white, 30%);
                     font-size: 14px;
                     padding-bottom: 8px;
                 }
@@ -1732,6 +1724,7 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
     }
     // Asset Detail
     .asset-card {
+        margin: 4rem 0;
         .card-divider {
             background: $panel-bg-color;
         }
@@ -1981,15 +1974,21 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
         // }
     }
     .mymarkets-tabs {
+        margin-bottom: 1rem !important;
         > li {
-            @include button-focus($secondary-text-color, $panel-bg-color, 0);
-            @include radialGradient($button-mix2, $button-mix1);
             border-radius: 5px;
+            color: $link-text-color;
+            border: solid 1px;
+            font-size: 1.1rem;
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
             &:hover {
-                @include button-focus($primary-text-color, $panel-bg-color, 10);
+                color: $primary-dark;
+                background-color: $link-text-color;
             }
             &.active {
-                @include button-focus($primary-text-color, $panel-bg-color, 10);
+                color: $primary-dark;
+                background-color: $link-text-color;
             }
         }
     }

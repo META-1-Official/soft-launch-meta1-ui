@@ -142,38 +142,28 @@ class HelpContent extends React.PureComponent {
 
         if (!value && locale !== "en") {
             console.warn(
-                `missing path '${
-                    this.props.path
-                }' for locale '${locale}' help files, rolling back to 'en'`
+                `missing path '${this.props.path}' for locale '${locale}' help files, rolling back to 'en'`
             );
             value = HelpData["en"][this.props.path];
         }
 
         if (!value && this.props.alt_path) {
             console.warn(
-                `missing path '${
-                    this.props.path
-                }' for locale '${locale}' help files, rolling back to alt_path '${
-                    this.props.alt_path
-                }'`
+                `missing path '${this.props.path}' for locale '${locale}' help files, rolling back to alt_path '${this.props.alt_path}'`
             );
             value = HelpData[locale][this.props.alt_path];
         }
 
         if (!value && this.props.alt_path && locale != "en") {
             console.warn(
-                `missing alt_path '${
-                    this.props.alt_path
-                }' for locale '${locale}' help files, rolling back to 'en'`
+                `missing alt_path '${this.props.alt_path}' for locale '${locale}' help files, rolling back to 'en'`
             );
             value = HelpData["en"][this.props.alt_path];
         }
 
         if (!value) {
             console.error(
-                `help file not found '${
-                    this.props.path
-                }' for locale '${locale}'`
+                `help file not found '${this.props.path}' for locale '${locale}'`
             );
             return !null;
         }
@@ -193,18 +183,14 @@ class HelpContent extends React.PureComponent {
 
         if (!value) {
             console.error(
-                `help section not found ${this.props.path}#${
-                    this.props.section
-                }`
+                `help section not found ${this.props.path}#${this.props.section}`
             );
             return null;
         }
 
         if (typeof value === "object") {
             console.error(
-                `help section content invalid ${this.props.path}#${
-                    this.props.section
-                }`
+                `help section content invalid ${this.props.path}#${this.props.section}`
             );
             return null;
         }
@@ -212,7 +198,7 @@ class HelpContent extends React.PureComponent {
         return (
             <div
                 style={this.props.style}
-                className="help-content"
+                className="help-content pepe"
                 dangerouslySetInnerHTML={{
                     __html: this.setVars(value, this.props.hide_issuer)
                 }}

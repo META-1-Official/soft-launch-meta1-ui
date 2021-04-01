@@ -464,6 +464,48 @@ body {
             border-top: none;
         }
 
+        // Explore
+        .explore-panels {
+            .blocks-row {
+                + .blocks-row {
+                    padding-top: round($global-gutter / 2);
+                }
+                .grid-block {
+                    + .grid-block {
+                        padding-left: round($global-gutter / 2);
+                    }
+                    .grid-content {
+                        padding: round($global-gutter / 2);
+                        border-radius: $global-radius;
+                        background-color: $tabs-content-background-color;
+                    }
+                }
+            }
+            .recent-block {
+                margin-top: round($global-gutter * 2);
+                .grid-block.medium-6 {
+                    + .grid-block.medium-6 {
+                        padding-left: round($global-gutter / 2);
+                    }
+                    > .grid-block {
+                        padding: round($global-gutter / 2);
+                        border-radius: $global-radius;
+                        background-color: $tabs-content-background-color;
+                    }
+                    .ant-table {
+                        margin-left: -round($global-gutter / 2);
+                        margin-right: -round($global-gutter / 2);
+                    }
+                }
+            }
+        }
+        .explore-witness--info {
+            margin-bottom: $global-gutter;
+            padding: round($global-gutter / 2);
+            border-radius: $global-radius;
+            background-color: $tabs-content-background-color;
+        }
+
         // Switcher
         button.ant-switch {
             border-radius: 100px !important;

@@ -420,7 +420,7 @@ class Assets extends React.Component {
         return (
             <div className="grid-block vertical">
                 <div className="grid-block vertical">
-                    <div className="grid-block main-content small-12 medium-10 medium-offset-1 main-content vertical">
+                    <div className="grid-content">
                         <div className="generic-bordered-box">
                             <div
                                 style={{

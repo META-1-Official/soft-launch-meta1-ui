@@ -81,7 +81,7 @@ class Explorer extends React.Component {
                             key={tab.link}
                             tab={counterpart.translate(tab.translate)}
                         >
-                            <div className="padding">
+                            <div className="">
                                 <TabContent />
                             </div>
                         </Tabs.TabPane>
