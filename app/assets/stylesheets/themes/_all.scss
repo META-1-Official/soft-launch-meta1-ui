@@ -131,10 +131,17 @@ body {
             border-radius: $global-radius;
             color: $link-text-color;
             border-color: $link-text-color;
+            line-height: 1em !important;
             &.ant-btn-primary {
-                color: #fff;
+                color: $primary-dark;
                 background-color: $link-text-color;
                 border-color: $link-text-color;
+                &[disabled] {
+                    opacity: 0.5;
+                    color: #fff !important;
+                    background-color: $link-text-color !important;
+                    border-color: $link-text-color !important;
+                }
             }
             &.ant-btn-ghost {
                 border-radius: $global-radius;
@@ -184,6 +191,14 @@ body {
                 }
             }
         }
+        input[type="text"],
+        textarea {
+            background-color: $input-background !important;
+        }
+        textarea {
+            margin-bottom: $global-gutter;
+        }
+
         .ant-input {
             width: 100%;
             height: 32px;
@@ -465,6 +480,21 @@ body {
         }
 
         // Explore
+        #markettab {
+            margin-bottom: round($global-gutter * 2);
+            .mymarkets-header {
+                font-size: 1rem;
+                padding: 0.85em 1em;
+                transition: border-color 0.3s ease 0s;
+                border-radius: $global-radius $global-radius 0 0;
+                &:not(.inactive) {
+                    background-color: $tabs-content-background-color;
+                }
+            }
+            .tab-content {
+                border-top-left-radius: $global-radius;
+            }
+        }
         .explore-panels {
             .blocks-row {
                 + .blocks-row {

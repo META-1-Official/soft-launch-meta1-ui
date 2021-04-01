@@ -523,8 +523,9 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
         background-color: $success-color;
     }
     .label.info {
-        color: $info-color;
+        color: $primary-dark;
         border-color: $info-color;
+        background-color: $info-color;
     }
     .label.warning {
         color: $primary-dark;
@@ -1873,9 +1874,9 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
     //         background-color: $row-accent-color;
     //     }
     // }
-    .mymarkets-header {
-        background-color: $header-color;
-    }
+    // .mymarkets-header {
+    //     background-color: $tabs-content-background-color;s
+    // }
     tr.activeMarket,
     tr.activeMarket:hover {
         color: #4c85d8;
@@ -1991,9 +1992,6 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
                 background-color: $link-text-color;
             }
         }
-    }
-    .mymarkets-list {
-        border-top: 2px solid $panel-bg-color;
     }
     select.bts-select,
     select.native-coin-types,
@@ -2791,6 +2789,17 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
         }
 
         .selection-block {
+            &:not(.inactive-model-block) {
+                border: solid 1px $link-text-color;
+                background-color: opacify($link-text-color, 0.1);
+                color: $white;
+                .ant-btn-primary {
+                    background-color: rgba(255, 255, 255, 0.5);
+                    color: $primary-dark;
+                }
+                .account-security {
+                }
+            }
             .selection-title,
             .choice-model,
             .model-option {
@@ -2798,20 +2807,21 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
             }
 
             .recommended {
-                background-color: $positive-color-alternative;
+                background-color: $white;
                 color: $dark-help-text;
             }
 
             .model-option-value {
-                color: $positive-color-alternative;
+                color: $white;
+                font-size: 1.3em;
             }
 
             .account-option-value {
-                color: $negative-color-alternative;
+                //color: $negative-color-alternative;
             }
 
             .account-security {
-                color: $medium-color;
+                //color: $medium-color;
             }
 
             .option-border {
@@ -2829,7 +2839,7 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
         }
 
         .plate {
-            background-color: darkred;
+            //background-color: darkred;
         }
 
         span.checkbox {

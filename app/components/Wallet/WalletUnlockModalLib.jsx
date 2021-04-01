@@ -148,9 +148,9 @@ export const WalletDisplay = ({name, onUseOtherWallet}) => (
 export const CreateLocalWalletLink = ({onCreate}) => (
     <div className="login-hint">
         <Translate content="wallet.no_wallet" component="span" />{" "}
-        <span className="button" onClick={onCreate}>
+        <button className="ant-btn" onClick={onCreate}>
             <Translate content="wallet.create_wallet" />
-        </span>
+        </button>
     </div>
 );
 

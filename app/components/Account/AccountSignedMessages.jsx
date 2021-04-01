@@ -274,7 +274,7 @@ class AccountSignedMessages extends React.Component {
                                     />
                                     <span>
                                         <button
-                                            className="button"
+                                            className="ant-btn"
                                             onClick={this._tabSMSignAction.bind(
                                                 this
                                             )}
@@ -357,7 +357,7 @@ class AccountSignedMessages extends React.Component {
                                     />
                                     <span>
                                         <button
-                                            className="button"
+                                            className="ant-btn"
                                             onClick={this._tabVMAction.bind(
                                                 this
                                             )}
