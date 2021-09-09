@@ -20,6 +20,7 @@ import {BodyClassName, Notification} from "bitshares-ui-style-guide";
 import {DEFAULT_NOTIFICATION_DURATION} from "services/Notification";
 import Loadable from "react-loadable";
 import NewsHeadline from "components/Layout/NewsHeadline";
+import Onramperwallet from "components/Wallet/Onramperwallet";
 
 import {Route, Switch, Redirect} from "react-router-dom";
 
@@ -535,6 +536,11 @@ class App extends React.Component {
                                 <Route
                                     path="/create-worker"
                                     component={CreateWorker}
+                                />
+
+                                <Route
+                                    path="/Onramperwallet"
+                                    component={Onramperwallet}
                                 />
 
                                 <Route

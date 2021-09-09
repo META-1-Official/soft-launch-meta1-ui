@@ -157,7 +157,8 @@ class AccountOverview extends React.Component {
                 let balanceObject = ChainStore.getObject(a);
                 if (
                     balanceObject &&
-                    !balanceObject.get("balance") && !orders[index]
+                    !balanceObject.get("balance") &&
+                    !orders[index]
                 ) {
                     return false;
                 } else {
@@ -387,6 +388,12 @@ class AccountOverview extends React.Component {
                                         >
                                             <Translate content="account.show_visual" />
                                         </div>
+                                    </div>
+                                    <div className="walletbtn">
+                                        <a href="/onramperwallet">
+                                            {" "}
+                                            Fund Account{" "}
+                                        </a>
                                     </div>
                                 </div>
 
