@@ -1,6 +1,5 @@
 import React from "react";
 import Translate from "react-translate-component";
-import {ChainStore} from "meta1js";
 import AccountStore from "stores/AccountStore";
 import counterpart from "counterpart";
 import {connect} from "alt-react";
@@ -15,6 +14,9 @@ class Withdraw extends React.Component {
         this.hideModal = this.hideModal.bind(this);
         this.onClose = this.onClose.bind(this);
         this.onAccountNameChange = this.onAccountNameChange.bind(this);
+        this.onWithdrawalAddressChange = this.onWithdrawalAddressChange.bind(
+            this
+        );
         this.onAmountChange = this.onAmountChange.bind(this);
         this.handleCurrencyChange = this.handleCurrencyChange.bind(this);
         this.currencies = {
@@ -40,6 +42,7 @@ class Withdraw extends React.Component {
             isModalVisible: false,
             hidden: false,
             accountName: "",
+            withdrawalAddress: "",
             accountError: null,
             amount: "",
             amountError: null,
@@ -58,6 +61,7 @@ class Withdraw extends React.Component {
             {
                 open: false,
                 accountName: "",
+                withdrawalAddress: "",
                 accountError: null,
                 amount: "",
                 amountError: null,
@@ -71,12 +75,18 @@ class Withdraw extends React.Component {
 
     async onSubmit(e) {
         e.preventDefault();
-        const {amount, currency: crypto, accountName: walletName} = this.state;
+        const {
+            amount,
+            currency: crypto,
+            accountName: walletName,
+            withdrawalAddress
+        } = this.state;
         console.log("Value of form", amount, crypto, walletName);
         const payload = {
             amount,
             crypto,
-            walletName
+            walletName,
+            withdrawalAddress
         };
         try {
             const resp2 = await axios.post(
@@ -87,32 +97,23 @@ class Withdraw extends React.Component {
             this.setState({hidden: true});
             this.onClose();
         } catch (err) {
-            alert(Error in request);
+            alert("Error in request");
             console.log(err);
         }
-    }
-
-    onAmountChanged({amount, asset}) {
-        if (!asset) return;
-
-        if (typeof asset !== "object") {
-            asset = ChainStore.getAsset(asset);
-        }
-
-        this.setState({
-            amount,
-            asset,
-            asset_id: asset.get("id"),
-            error: null,
-            maxAmount: false
-        });
     }
 
     onAccountNameChange(e) {
         const val = e.target.value;
         this.setState({
             accountName: val,
-            accountError: val ? null : "Please enter account Nname"
+            accountError: val ? null : "Please enter Wallet Name"
+        });
+    }
+
+    onWithdrawalAddressChange(e) {
+        const val = e.target.value;
+        this.setState({
+            withdrawalAddress: val
         });
     }
 
@@ -138,6 +139,7 @@ class Withdraw extends React.Component {
         let {
             hidden,
             accountName,
+            withdrawalAddress,
             amount,
             accountError,
             amountError
@@ -187,7 +189,7 @@ class Withdraw extends React.Component {
                             <Form className="full-width" layout="vertical">
                                 <Form.Item
                                     label={counterpart.translate(
-                                        "account.name"
+                                        "account.meta_name"
                                     )}
                                     validateStatus={
                                         accountError ? "error" : null
@@ -197,6 +199,18 @@ class Withdraw extends React.Component {
                                     <Input
                                         value={accountName}
                                         onChange={this.onAccountNameChange}
+                                    />
+                                </Form.Item>
+                                <Form.Item
+                                    label={counterpart.translate(
+                                        "account.withdrawal_address"
+                                    )}
+                                >
+                                    <Input
+                                        value={withdrawalAddress}
+                                        onChange={
+                                            this.onWithdrawalAddressChange
+                                        }
                                     />
                                 </Form.Item>
                                 <Form.Item
