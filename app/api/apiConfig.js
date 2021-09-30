@@ -116,6 +116,13 @@ export const settingsAPIs = {
             country: "Sun",
             location: "Southern Asia",
             operator: "Witness: meta1"
+        },
+        {
+            url: "wss://testnetapi.meta1.io/ws",
+            region: "SUN",
+            country: "Sun",
+            location: "Southern Asia",
+            operator: "Witness: meta1"
         }
     ],
     ES_WRAPPER_LIST: [
