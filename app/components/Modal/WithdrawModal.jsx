@@ -19,8 +19,7 @@ class Withdraw extends React.Component {
         this.handleCurrencyChange = this.handleCurrencyChange.bind(this);
         this.currencies = {
             eth: "ETH",
-            usdt: "USDT",
-            btc: "BTC"
+            usdt: "USDT"
         };
     }
 
