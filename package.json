@@ -139,7 +139,6 @@
         }
     },
     "dependencies": {
-        "@sendgrid/mail": "^7.4.7",
         "@swyftx/api-crypto-address-validator": "^1.12.0",
         "alt": "git+https://github.com/bitshares/alt.git#b6b42ceb790ca321402e9add95b9f77af8a7657d",
         "alt-container": "git+https://github.com/bitshares/alt-container.git#cf4e2c690a54e49fc9fe2dc99ab8816e6c3e5a86",
@@ -150,7 +149,6 @@
         "bitshares-report": "^0.2.0",
         "bitshares-ui-style-guide": "git+https://github.com/bitshares/bitshares-ui-style-guide.git#83b82d056ca134b08521e8eca541438b7b4783f6",
         "bitsharesjs": "^3.2.0-rc2",
-        "body-parser": "^1.19.0",
         "browser-locale": "^1.0.3",
         "classnames": "^2.2.1",
         "cookies-js": "^1.2.1",

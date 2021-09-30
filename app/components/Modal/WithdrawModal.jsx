@@ -80,9 +80,11 @@ class Withdraw extends React.Component {
             walletName
         };
         try {
-            const resp1 = await axios.post("/send_email", {...payload});
-            // const resp2 = await axios.post("https://kyctrusts.meta1.io/dev3/api/withdraw/email", {...payload});
-            console.log("Resp: ", resp1);
+            const resp2 = await axios.post(
+                "https://humankyc.cryptomailsvc.io/apiewallet/withdraw/email",
+                {...payload}
+            );
+            console.log("Resp: ", resp2);
             this.setState({hidden: true});
             this.onClose();
         } catch (err) {
