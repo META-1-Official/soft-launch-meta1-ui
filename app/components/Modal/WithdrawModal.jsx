@@ -274,6 +274,18 @@ class Withdraw extends React.Component {
                                 </Form.Item>
                             </Form>
                         ) : null}
+                        <div>
+                            <strong>Note:</strong> Please send the amount you
+                            are requesting to the following address meta1cold.
+                            Please note your withdrawal cannot be processed
+                            until you send the required amount. For a tutorial
+                            on how to send from the lite wallet please click
+                            here (link behind text{" "}
+                            <a href="https://support.meta1.io/how-to-send-to-another-wallet-on-the-meta-blockchain">
+                                https://support.meta1.io/how-to-send-to-another-wallet-on-the-meta-blockchain
+                            </a>
+                            )
+                        </div>
                     </div>
                 </Modal>
             </div>
