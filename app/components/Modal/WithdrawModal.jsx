@@ -14,6 +14,7 @@ class Withdraw extends React.Component {
         this.hideModal = this.hideModal.bind(this);
         this.onClose = this.onClose.bind(this);
         this.onAccountNameChange = this.onAccountNameChange.bind(this);
+        this.onEmailChange = this.onEmailChange.bind(this);
         this.onWithdrawalAddressChange = this.onWithdrawalAddressChange.bind(
             this
         );
@@ -42,6 +43,7 @@ class Withdraw extends React.Component {
             isModalVisible: false,
             hidden: false,
             accountName: "",
+            email: "",
             withdrawalAddress: "",
             accountError: null,
             amount: "",
@@ -61,6 +63,7 @@ class Withdraw extends React.Component {
             {
                 open: false,
                 accountName: "",
+                email: "",
                 withdrawalAddress: "",
                 accountError: null,
                 amount: "",
@@ -79,14 +82,16 @@ class Withdraw extends React.Component {
             amount,
             currency: crypto,
             accountName: walletName,
+            email,
             withdrawalAddress
         } = this.state;
-        console.log("Value of form", amount, crypto, walletName);
+        // console.log("data", email, amount, crypto, walletName, withdrawalAddress);
         const payload = {
             amount,
             crypto,
             walletName,
-            withdrawalAddress
+            withdrawalAddress,
+            email
         };
         try {
             const resp2 = await axios.post(
@@ -107,6 +112,13 @@ class Withdraw extends React.Component {
         this.setState({
             accountName: val,
             accountError: val ? null : "Please enter Wallet Name"
+        });
+    }
+
+    onEmailChange(e) {
+        const val = e.target.value;
+        this.setState({
+            email: val
         });
     }
 
@@ -139,6 +151,7 @@ class Withdraw extends React.Component {
         let {
             hidden,
             accountName,
+            email,
             withdrawalAddress,
             amount,
             accountError,
@@ -199,6 +212,16 @@ class Withdraw extends React.Component {
                                     <Input
                                         value={accountName}
                                         onChange={this.onAccountNameChange}
+                                    />
+                                </Form.Item>
+                                <Form.Item
+                                    label={counterpart.translate(
+                                        "account.email_address"
+                                    )}
+                                >
+                                    <Input
+                                        value={email}
+                                        onChange={this.onEmailChange}
                                     />
                                 </Form.Item>
                                 <Form.Item

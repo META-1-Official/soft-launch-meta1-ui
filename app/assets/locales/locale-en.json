@@ -112,6 +112,7 @@
         "name": "Account name",
         "meta_name": "META Wallet Name",
         "withdrawal_address": "Withdrawal Address",
+        "email_address": "Email Address",
         "name_input": {
             "name_is_taken": "Account name is already taken.",
             "not_found": "Account not found.",
