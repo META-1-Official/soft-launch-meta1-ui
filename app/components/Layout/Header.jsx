@@ -10,7 +10,6 @@ import SendModal from "../Modal/SendModal";
 import DepositModalBtc from "../Modal/DepositModalBtc";
 import DepositModalEth from "../Modal/DepositModalEth";
 import DepositModalUsdt from "../Modal/DepositModalUsdt";
-import WithdrawModal from "../Modal/WithdrawModal";
 // import DepositModalEos from "../Modal/DepositModalEos";
 // import DepositModalXlm from "../Modal/DepositModalXlm";
 // import DepositModalBnb from "../Modal/DepositModalBnb";
@@ -90,11 +89,11 @@ class Header extends React.Component {
         this.showDepositModalBtc = this.showDepositModalBtc.bind(this);
         this.hideDepositModalBtc = this.hideDepositModalBtc.bind(this);
 
-        this.showDepositModalEth = this.showDepositModalEth.bind(this);
-        this.hideDepositModalEth = this.hideDepositModalEth.bind(this);
-
-        this.showDepositModalUsdt = this.showDepositModalUsdt.bind(this);
-        this.hideDepositModalUsdt = this.hideDepositModalUsdt.bind(this);
+        // this.showDepositModalEth = this.showDepositModalEth.bind(this);
+        // this.hideDepositModalEth = this.hideDepositModalEth.bind(this);
+        //
+        // this.showDepositModalUsdt = this.showDepositModalUsdt.bind(this);
+        // this.hideDepositModalUsdt = this.hideDepositModalUsdt.bind(this);
 
         // this.showDepositModalEos = this.showDepositModalEos.bind(this);
         // this.hideDepositModalEos = this.hideDepositModalEos.bind(this);
@@ -332,12 +331,6 @@ class Header extends React.Component {
     _triggerMenu(e) {
         e.preventDefault();
         ZfApi.publish("mobile-menu", "toggle");
-    }
-
-    _showWithdraw(e) {
-        e.preventDefault();
-        if (this.withdraw_modal) this.withdraw_modal.show();
-        this._closeDropdown();
     }
 
     _toggleLock(e) {
@@ -1284,6 +1277,7 @@ class Header extends React.Component {
                             <Translate content="header.settings" />
                         </div>
                     </li>
+
                     {/*<li
                         className={cnames(
                             {active: active.indexOf("/spotlight") !== -1},
@@ -1295,6 +1289,7 @@ class Header extends React.Component {
                             <Translate content="header.showcases" />
                         </div>
                     </li>*/}
+
                     <li
                         className={cnames(
                             {active: active.indexOf("/settings") !== -1},
@@ -1308,8 +1303,8 @@ class Header extends React.Component {
                             <Translate content="header.settings" />{" "}
                         </div>
                     </li>
-                    /* no hardware wallet support at this time, remove to reduce
-                    questions
+
+                    /* no hardware wallet support at this time, remove to reduce questions
                     <li
                         className={cnames({
                             active:
@@ -1356,8 +1351,7 @@ class Header extends React.Component {
                             <Translate content="explorer.assets.ledger" />
                         </div>
                     </li>
-                    *** end no hardware wallet support at this time, remove to
-                    reduce questions */
+                    *** end no hardware wallet support at this time, remove to reduce questions */
                     <li
                         className={cnames({
                             active: active.indexOf("/signedmessages") !== -1,
@@ -1378,6 +1372,7 @@ class Header extends React.Component {
                             <Translate content="account.signedmessages.menuitem" />
                         </div>
                     </li>
+
                     <li
                         className={cnames({
                             active: active.indexOf("/member-stats") !== -1,
@@ -1398,6 +1393,7 @@ class Header extends React.Component {
                             <Translate content="account.member.stats" />
                         </div>
                     </li>
+
                     {isMyAccount ? (
                         <li
                             className={cnames({
@@ -1413,6 +1409,7 @@ class Header extends React.Component {
                             </div>
                         </li>
                     ) : null}
+
                     <li
                         className={cnames({
                             active: active.indexOf("/whitelist") !== -1,
@@ -1433,6 +1430,7 @@ class Header extends React.Component {
                             <Translate content="account.whitelist.title" />
                         </div>
                     </li>
+
                     <li
                         className={cnames("divider", {
                             active: active.indexOf("/permissions") !== -1,
@@ -1453,6 +1451,7 @@ class Header extends React.Component {
                             <Translate content="account.permissions" />
                         </div>
                     </li>
+
                     {showAccountLinks ? (
                         <li
                             className={cnames(
@@ -1504,20 +1503,20 @@ class Header extends React.Component {
                             className="table-cell"
                         />
                     </li>
-                    <li onClick={this._showDepositEth.bind(this)}>
-                        <Translate
-                            content="modal.deposit.eth"
-                            component="div"
-                            className="table-cell"
-                        />
-                    </li>
-                    <li onClick={this._showDepositUsdt.bind(this)}>
-                        <Translate
-                            content="modal.deposit.usdt"
-                            component="div"
-                            className="table-cell"
-                        />
-                    </li>
+                    {/*<li onClick={this._showDepositEth.bind(this)}>*/}
+                    {/*    <Translate*/}
+                    {/*        content="modal.deposit.eth"*/}
+                    {/*        component="div"*/}
+                    {/*        className="table-cell"*/}
+                    {/*    />*/}
+                    {/*</li>*/}
+                    {/*<li onClick={this._showDepositUsdt.bind(this)}>*/}
+                    {/*    <Translate*/}
+                    {/*        content="modal.deposit.usdt"*/}
+                    {/*        component="div"*/}
+                    {/*        className="table-cell"*/}
+                    {/*    />*/}
+                    {/*</li>*/}
                     <li onClick={this._showDepositLtc.bind(this)}>
                         <Translate
                             content="modal.deposit.ltc"
@@ -1801,7 +1800,6 @@ class Header extends React.Component {
                                     }
                                     showDeposit={this._showDeposit.bind(this)}
                                     showSend={this._showSend.bind(this)}
-                                    showWithdraw={this._showWithdraw.bind(this)}
                                     toggleDropdownSubmenu={this._toggleDropdownSubmenu.bind(
                                         this,
                                         SUBMENUS.SETTINGS
@@ -1833,22 +1831,22 @@ class Header extends React.Component {
                     modalId="deposit_modal_new1"
                     account={currentAccount}
                 />
-                <DepositModalEth
-                    visibleMeta={this.state.isDepositModalVisibleEth}
-                    hideModalMeta={this.hideDepositModalEth}
-                    showModalMeta={this.showDepositModalEth}
-                    ref="deposit_modal_new11"
-                    modalId="deposit_modal_new11"
-                    account={currentAccount}
-                />
-                <DepositModalUsdt
-                    visibleMeta={this.state.isDepositModalVisibleUsdt}
-                    hideModalMeta={this.hideDepositModalUsdt}
-                    showModalMeta={this.showDepositModalUsdt}
-                    ref="deposit_modal_new1331"
-                    modalId="deposit_modal_new1331"
-                    account={currentAccount}
-                />
+                {/*<DepositModalEth*/}
+                {/*    visibleMeta={this.state.isDepositModalVisibleEth}*/}
+                {/*    hideModalMeta={this.hideDepositModalEth}*/}
+                {/*    showModalMeta={this.showDepositModalEth}*/}
+                {/*    ref="deposit_modal_new11"*/}
+                {/*    modalId="deposit_modal_new11"*/}
+                {/*    account={currentAccount}*/}
+                {/*/>*/}
+                {/*<DepositModalUsdt*/}
+                {/*    visibleMeta={this.state.isDepositModalVisibleUsdt}*/}
+                {/*    hideModalMeta={this.hideDepositModalUsdt}*/}
+                {/*    showModalMeta={this.showDepositModalUsdt}*/}
+                {/*    ref="deposit_modal_new1331"*/}
+                {/*    modalId="deposit_modal_new1331"*/}
+                {/*    account={currentAccount}*/}
+                {/*/>*/}
                 {/* <DepositModalEos
                     visibleMeta={this.state.isDepositModalVisibleEos}
                     hideModalMeta={this.hideDepositModalEos}
@@ -1880,13 +1878,6 @@ class Header extends React.Component {
                     ref="deposit_modal_new112"
                     modalId="deposit_modal_new122"
                     account={currentAccount}
-                />
-                <WithdrawModal
-                    id="withdraw_modal_header"
-                    refCallback={e => {
-                        if (e) this.withdraw_modal = e;
-                    }}
-                    from_name={currentAccount}
                 />
             </div>
         );
@@ -1929,3 +1920,4 @@ Header = connect(Header, {
 });
 
 export default withRouter(Header);
+
