@@ -1,7 +1,7 @@
 import React from "react";
-import BaseModal from "../Modal/BaseModal";
+// import BaseModal from "../Modal/BaseModal";
 import ZfApi from "react-foundation-apps/src/utils/foundation-api";
-import PasswordInput from "../Forms/PasswordInput";
+// import PasswordInput from "../Forms/PasswordInput";
 import AltContainer from "alt-container";
 import WalletDb from "stores/WalletDb";
 import WalletUnlockStore from "stores/WalletUnlockStore";
@@ -31,6 +31,9 @@ import {PrivateKey} from "meta1js";
 import {saveAs} from "file-saver";
 import LoginTypeSelector from "./LoginTypeSelector";
 import counterpart from "counterpart";
+
+import OpenLogin from "@toruslabs/openlogin";
+
 import {
     WalletSelector,
     CreateLocalWalletLink,
@@ -45,8 +48,18 @@ import {withRouter} from "react-router-dom";
 import {setLocalStorageType, isPersistantType} from "lib/common/localStorage";
 import Translate from "react-translate-component";
 import Icon from "../Icon/Icon";
-import ReCAPTCHA from "react-google-recaptcha";
+// import ReCAPTCHA from "react-google-recaptcha";
 
+console.log(
+    "TORUS Data",
+    process.env.TORUS_PROJECT_ID,
+    process.env.TORUS_NETWORK
+);
+const openlogin = new OpenLogin({
+    clientId: process.env.TORUS_PROJECT_ID,
+    network: process.env.TORUS_NETWORK,
+    uxMode: "popup"
+});
 class WalletUnlockModal extends React.Component {
     constructor(props) {
         super(props);
@@ -201,6 +214,7 @@ class WalletUnlockModal extends React.Component {
                 this.setState({
                     isModalVisible: true
                 });
+                // this.renderTorusLogin();
             } else {
                 resolve();
             }
@@ -426,7 +440,19 @@ class WalletUnlockModal extends React.Component {
         }
     };
 
+    async renderTorusLogin() {
+        await openlogin.init();
+        if (openlogin.privKey) {
+            console.log(
+                "User is already logged in. Private key: " + openlogin.privKey
+            );
+        } else {
+            await openlogin.login();
+        }
+    }
+
     render() {
+        // return (<React.Fragment></React.Fragment>);
         const {
             backup,
             passwordLogin,

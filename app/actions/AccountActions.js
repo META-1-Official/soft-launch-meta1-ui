@@ -152,6 +152,12 @@ class AccountActions {
         last_name,
         private_key
     ) {
+        console.log("account_name", account_name);
+        console.log("password", password);
+        console.log("registrar", registrar);
+        console.log("referrer", referrer);
+        console.log("referrer_percent", referrer_percent);
+        console.log("refcode", refcode);
         console.log("phone_number: ", phone_number);
         console.log("private_key", private_key);
         return dispatch => {

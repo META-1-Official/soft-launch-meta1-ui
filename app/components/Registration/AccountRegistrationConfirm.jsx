@@ -182,7 +182,9 @@ class AccountRegistrationConfirm extends React.Component {
                     });
                     TransactionConfirmStore.listen(this.onFinishConfirm);
                 } else {
-                    FetchChain("getAccount", name).then(() => {});
+                    FetchChain("getAccount", name).then(data => {
+                        console.log("Data in Fetch chain", data);
+                    });
                     this.unlockAccount(name, password);
                     this.props.history.push("/market/META1_USDT");
                 }
@@ -191,7 +193,7 @@ class AccountRegistrationConfirm extends React.Component {
                 }
             })
             .catch(error => {
-                console.log("ERROR AccountActions.createAccount", error);
+                console.log("ERROR AccountActions.createAccount ARC", error);
                 // let errorMsg =
                 //     error.base && error.base.length && error.base.length > 0
                 //         ? error.base[0]

@@ -70,7 +70,7 @@ module.exports = function(env) {
         new HtmlWebpackPlugin({
             template: "!!handlebars-loader!app/assets/index.hbs",
             templateParameters: {
-                title: "META Exchange ", /* + __VERSION__, */
+                title: "META Exchange " /* + __VERSION__, */,
                 INCLUDE_BASE: !!env.prod && !env.hash,
                 PRODUCTION: !!env.prod,
                 ELECTRON: !!env.electron
@@ -158,7 +158,16 @@ module.exports = function(env) {
     } else {
         plugins.push(
             new webpack.DefinePlugin({
-                "process.env": {NODE_ENV: JSON.stringify("development")},
+                "process.env": {
+                    NODE_ENV: JSON.stringify("development"),
+                    TORUS_PROJECT_ID: JSON.stringify(
+                        process.env.TORUS_PROJECT_ID
+                    ),
+                    TORUS_PROJECT_SECRET: JSON.stringify(
+                        process.env.TORUS_PROJECT_SECRET
+                    ),
+                    TORUS_NETWORK: JSON.stringify(process.env.TORUS_NETWORK)
+                },
                 __DEV__: true
             })
         );

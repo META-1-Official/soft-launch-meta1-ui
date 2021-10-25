@@ -376,6 +376,11 @@ class WalletDb extends BaseStore {
         let seed = accountName + role + password;
         let privKey = PrivateKey.fromSeed(seed);
         let pubKey = privKey.toPublicKey().toString();
+        const faucetAddress = SettingsStore.getSetting("faucet_address");
+        console.log("Testnet? ", faucetAddress);
+        pubKey = faucetAddress.includes("testnet")
+            ? `META1TEST${pubKey.substring(3)}`
+            : pubKey;
 
         return {privKey, pubKey};
     }
@@ -387,6 +392,7 @@ class WalletDb extends BaseStore {
         account = null,
         roles = ["active", "owner", "memo"]
     ) {
+        console.log("STarting validate");
         if (account) {
             let id = 0;
             function setKey(role, priv, pub) {
@@ -409,6 +415,7 @@ class WalletDb extends BaseStore {
                 fromWif = PrivateKey.fromWif(password);
             } catch (err) {}
             let acc = ChainStore.getAccount(account, false);
+            console.log("!!! validate pass: acc", acc);
             let key;
             if (fromWif) {
                 key = {
@@ -416,12 +423,14 @@ class WalletDb extends BaseStore {
                     pubKey: fromWif.toPublicKey().toString()
                 };
             }
+            console.log("!!! validate pass: key", key);
 
             /* Test the pubkey for each role against either the wif key, or the password generated keys */
             roles.forEach(role => {
                 if (!fromWif) {
                     key = this.generateKeyFromPassword(account, role, password);
                 }
+                console.log("!!! validate pass: key in roles", role, key);
 
                 let foundRole = false;
 

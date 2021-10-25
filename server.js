@@ -4,6 +4,7 @@ var express = require("express");
 var devMiddleware = require("webpack-dev-middleware");
 var hotMiddleware = require("webpack-hot-middleware");
 var fs = require("fs");
+require("dotenv").config({path: `.env.${process.env.NODE_ENV}`});
 
 const perf_dev = process.argv[2] === "perf-dev";
 
@@ -61,6 +62,7 @@ http.createServer(app).listen(8080);
 https.createServer(options, app).listen(8085);
 
 console.log("Listening at http://localhost:8080/ or https://localhost:8085/");
+console.log("!!!!! Env:", process.env.NODE_ENV, process.env.TORUS_PROJECT_ID);
 // new WebpackDevServer(compiler, {
 //     publicPath: config.output.publicPath,
 //     hot: true,
