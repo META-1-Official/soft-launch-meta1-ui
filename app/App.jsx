@@ -185,13 +185,19 @@ const DirectDebit = Loadable({
     loading: LoadingIndicator
 });
 
-import LoginSelector from "./components/LoginSelector";
+const AuthRedirect = Loadable({
+    loader: () =>
+        import(/* webpackChunkName: "auth" */ "./components/AuthRedirect"),
+    loading: LoadingIndicator
+});
+
+// import LoginSelector from "./components/LoginSelector";
 import Login from "./components/Login/Login";
-import RegistrationSelector from "./components/Registration/RegistrationSelector";
-import WalletRegistration from "./components/Registration/WalletRegistration";
+// import RegistrationSelector from "./components/Registration/RegistrationSelector";
+// import WalletRegistration from "./components/Registration/WalletRegistration";
 import AccountRegistration from "./components/Registration/AccountRegistration";
 import {CreateWalletFromBrainkey} from "./components/Wallet/WalletCreate";
-import ShowcaseGrid from "./components/Showcases/ShowcaseGrid";
+// import ShowcaseGrid from "./components/Showcases/ShowcaseGrid";
 import PriceAlertNotifications from "./components/PriceAlertNotifications";
 
 class App extends React.Component {
@@ -407,6 +413,12 @@ class App extends React.Component {
         let {walletMode, theme, location, match, ...others} = this.props;
         let content = null;
 
+        console.log(
+            "#### render data in app",
+            this.state.syncFail,
+            this.state.loading,
+            __DEPRECATED__
+        );
         if (this.state.syncFail) {
             content = <SyncError />;
         } else if (this.state.loading) {
@@ -476,6 +488,10 @@ class App extends React.Component {
                                     component={AccountRegistration}
                                 />
                                 <Route
+                                    path="/auth-proceed"
+                                    component={AuthRedirect}
+                                />
+                                {/* <Route
                                     path="/registration/local"
                                     exact
                                     component={WalletRegistration}
@@ -484,7 +500,7 @@ class App extends React.Component {
                                     path="/registration/cloud"
                                     exact
                                     component={AccountRegistration}
-                                />
+                                /> */}
                                 <Route path="/arts" component={Arts} />
                                 {/* Explorer routes */}
                                 <Route

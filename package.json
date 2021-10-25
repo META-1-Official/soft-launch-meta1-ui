@@ -185,6 +185,7 @@
         "prop-types": "^15.6.1",
         "qrcode": "^1.3.0",
         "qrcode.react": "^0.7.1",
+        "qs": "^6.10.1",
         "query-string": "^6.1.0",
         "react": "^16.4.1",
         "react-autocomplete": "^1.7.2",

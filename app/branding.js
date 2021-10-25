@@ -44,7 +44,7 @@ export function getFaucet() {
     // https://faucet.testnet.meta1.io/faucet/
     return {
         // url: "https://faucet.meta1.io/faucet", // 2017-12-infrastructure worker proposal
-        url: "https://faucet.testnet.meta1.io/faucet/",
+        url: "https://faucet.testnet.meta1.io/faucet",
         show: true,
         editable: true
     };

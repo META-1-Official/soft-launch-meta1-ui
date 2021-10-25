@@ -81,12 +81,16 @@ class NewsHeadline extends React.Component {
     }
 
     async getNewsThroughAsset() {
-        const notificationList = await getNotifications();
-        const news = filterNews(
-            notificationList,
-            this.props.hiddenNewsHeadline
-        );
-        this.setState({news});
+        try {
+            const notificationList = await getNotifications();
+            const news = filterNews(
+                notificationList,
+                this.props.hiddenNewsHeadline
+            );
+            this.setState({news});
+        } catch (err) {
+            console.log("Error in news: ", err);
+        }
     }
 
     onClose(item) {
@@ -158,18 +162,15 @@ class NewsHeadline extends React.Component {
     }
 }
 
-NewsHeadline = connect(
-    NewsHeadline,
-    {
-        listenTo() {
-            return [SettingsStore];
-        },
-        getProps() {
-            return {
-                hiddenNewsHeadline: SettingsStore.getState().hiddenNewsHeadline
-            };
-        }
+NewsHeadline = connect(NewsHeadline, {
+    listenTo() {
+        return [SettingsStore];
+    },
+    getProps() {
+        return {
+            hiddenNewsHeadline: SettingsStore.getState().hiddenNewsHeadline
+        };
     }
-);
+});
 
 export default NewsHeadline;
