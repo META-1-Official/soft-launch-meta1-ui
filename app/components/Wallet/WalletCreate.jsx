@@ -77,6 +77,10 @@ class CreateNewWallet extends Component {
             this.state.brnkey
         );
         SettingsActions.changeSetting({
+            setting: "passwordlessLogin",
+            value: false
+        });
+        SettingsActions.changeSetting({
             setting: "passwordLogin",
             value: false
         });

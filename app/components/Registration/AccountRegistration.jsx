@@ -3,8 +3,8 @@ import Translate from "react-translate-component";
 // import ReactTooltip from "react-tooltip";
 import utils from "common/utils";
 // import SettingsActions from "actions/SettingsActions";
-import WalletDb from "stores/WalletDb";
-import WalletUnlockActions from "actions/WalletUnlockActions";
+// import WalletDb from "stores/WalletDb";
+// import WalletUnlockActions from "actions/WalletUnlockActions";
 import {connect} from "alt-react";
 import {Layout, Button, Tooltip} from "bitshares-ui-style-guide";
 import {RingLoader} from "react-spinners";
@@ -111,6 +111,7 @@ class AccountRegistration extends React.Component {
                 // this.props.history.push("/auth-proceed?mode=loggedin");
             } else {
                 ss.set("account_registration_name", accountName);
+                ss.remove("account_login_name");
                 if (registrarAccount) {
                     ss.set(
                         "account_registration_registrarAccount",
@@ -156,6 +157,7 @@ class AccountRegistration extends React.Component {
     proceedWithExistingEmail() {
         const {registrarAccount, accountName} = this.state;
         ss.set("account_registration_name", accountName);
+        ss.remove("account_login_name");
         if (registrarAccount) {
             ss.set("account_registration_registrarAccount", registrarAccount);
         }
@@ -168,6 +170,7 @@ class AccountRegistration extends React.Component {
         if (openLogin) {
             await openLogin.logout({});
             ss.set("account_registration_name", accountName);
+            ss.remove("account_login_name");
             if (registrarAccount) {
                 ss.set(
                     "account_registration_registrarAccount",
@@ -197,11 +200,6 @@ class AccountRegistration extends React.Component {
     //         console.log(response);
     //     });
     // }
-
-    unlockAccount(name, password) {
-        WalletDb.validatePassword(password, true, name);
-        WalletUnlockActions.checkLock.defer();
-    }
 
     onAccountNameChange(e) {
         const state = {...this.state};

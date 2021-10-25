@@ -1,12 +1,14 @@
 import React from "react";
 // import {withRouter} from "react-router-dom";
 import {connect} from "alt-react";
+import {ChainStore} from "meta1js";
 import {PrivateKey, FetchChain} from "meta1js/es";
 import qs from "qs";
 
 import AuthStore from "../stores/AuthStore";
 import AccountStore from "../stores/AccountStore";
 import WalletDb from "../stores/WalletDb";
+import WalletUnlockStore from "../stores/WalletUnlockStore";
 import TransactionConfirmStore from "../stores/TransactionConfirmStore";
 import AccountActions from "../actions/AccountActions";
 import WalletUnlockActions from "../actions/WalletUnlockActions";
@@ -24,17 +26,19 @@ class AuthRedirect extends React.Component {
         this.onFinishConfirm = this.onFinishConfirm.bind(this);
         this.createAccount = this.createAccount.bind(this);
         this.state = {
-            skipCreationFlow: false
+            skipCreationFlow: false,
+            passwordError: false
         };
         this.skipFreshCreationAndProceed = this.skipFreshCreationAndProceed.bind(
             this
         );
+        this.validateLogin = this.validateLogin.bind(this);
     }
 
     componentDidMount() {
         const {openLogin, privKey, authData, setOpenLoginInstance} = this.props;
         console.log("Location Data", this.props, this.props.location);
-        debugger;
+        // debugger;
         if (this.props.location && this.props.location.search) {
             const param = qs.parse(this.props.location.search, {
                 ignoreQueryPrefix: true
@@ -56,17 +60,20 @@ class AuthRedirect extends React.Component {
         if (!openLogin) {
             setOpenLoginInstance();
         }
+        if (openLogin && !privKey) {
+            this.generateAuthData();
+        }
         // if (privKey && authData) {
         //     debugger;
         //     this.authProceed();
         // }
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps, prevState) {
         const {openLogin, privKey, authData} = this.props;
         const {skipCreationFlow} = this.state;
         if (openLogin && !prevProps.openLogin && !skipCreationFlow) {
-            debugger;
+            // debugger;
             this.generateAuthData();
         }
         if (
@@ -76,19 +83,22 @@ class AuthRedirect extends React.Component {
             ((privKey && !prevProps.privKey) ||
                 (authData && !prevProps.authData))
         ) {
-            debugger;
-            this.authProceed("register");
+            // debugger;
+            this.authProceed();
+        }
+        if (!prevState.passwordError && this.state.passwordError) {
+            this.props.history.push("/registration");
         }
     }
 
     skipFreshCreationAndProceed() {
         this.setState({skipCreationFlow: true});
-        this.authProceed("register");
+        this.authProceed();
     }
 
     async generateAuthData() {
         const {openLogin, setPrivKey, setAuthData} = this.props;
-        debugger;
+        // debugger;
         try {
             await openLogin.init();
             if (openLogin.privKey) {
@@ -96,7 +106,7 @@ class AuthRedirect extends React.Component {
                 const data = await openLogin.getUserInfo();
                 setPrivKey(privKey);
                 setAuthData(data);
-                debugger;
+                // debugger;
             } else {
                 this.props.history.push("/registration");
             }
@@ -105,11 +115,11 @@ class AuthRedirect extends React.Component {
         }
     }
 
-    async authProceed(mode) {
+    async authProceed() {
         const {privKey, authData} = this.props;
         const regUserName = ss.get("account_registration_name", "");
         const logInUserName = ss.get("account_login_name", "");
-        if (regUserName && mode === "register") {
+        if (regUserName) {
             const password = this.genKey(`${regUserName}${privKey}`);
             debugger;
             let firstName = "",
@@ -128,9 +138,9 @@ class AuthRedirect extends React.Component {
                 lastName
             );
             ss.remove("account_registration_name");
-        } else if (logInUserName && mode === "login") {
-            // login logic to be implemented here
-            ss.remove("account_login_name");
+        } else if (logInUserName) {
+            const password = this.genKey(`${logInUserName}${privKey}`);
+            this.validateLogin(password, logInUserName);
         } else {
             this.props.history.push("/registration");
         }
@@ -138,12 +148,23 @@ class AuthRedirect extends React.Component {
 
     genKey(seed) {
         const key = `P${PrivateKey.fromSeed(seed).toWif()}`;
-        console.log("Key cal", key);
         return key;
     }
 
-    unlockAccount(name, password) {
-        WalletDb.validatePassword(password, true, name);
+    async unlockAccount(name, password) {
+        let chainAccount = ChainStore.getAccount(account);
+        while (chainAccount === undefined) {
+            chainAccount = ChainStore.getAccount(account);
+            console.log("Chain Account", chainAccount);
+            await this.timer(1000);
+        }
+        WalletDb.validatePassword(
+            password.substring(1),
+            true,
+            name,
+            ["active", "owner", "memo"],
+            chainAccount
+        );
         WalletUnlockActions.checkLock.defer();
     }
 
@@ -184,7 +205,7 @@ class AuthRedirect extends React.Component {
             password
         )
             .then(() => {
-                debugger;
+                // debugger;
                 AccountActions.setPasswordAccount(name);
                 if (registrarAccount) {
                     FetchChain("getAccount", name).then(() => {
@@ -193,7 +214,7 @@ class AuthRedirect extends React.Component {
                     TransactionConfirmStore.listen(this.onFinishConfirm);
                 } else {
                     FetchChain("getAccount", name).then(data => {
-                        debugger;
+                        // debugger;
                         console.log("Data in Fetch chain", data);
                     });
                     this.unlockAccount(name, password);
@@ -224,6 +245,38 @@ class AuthRedirect extends React.Component {
             });
     }
 
+    timer = ms => new Promise(res => setTimeout(res, ms));
+
+    async validateLogin(password, account) {
+        const {resolve} = this.props;
+        let chainAccount = ChainStore.getAccount(account);
+        while (chainAccount === undefined) {
+            chainAccount = ChainStore.getAccount(account);
+            console.log("Chain Account", chainAccount);
+            await this.timer(1000);
+        }
+        const {cloudMode} = WalletDb.validatePassword(
+            password || "",
+            true, //unlock
+            account,
+            ["active", "owner", "memo"],
+            chainAccount
+        );
+        // debugger;
+        if (WalletDb.isLocked()) {
+            this.setState({passwordError: true});
+        } else {
+            if (cloudMode) AccountActions.setPasswordAccount(account);
+            WalletUnlockActions.change();
+            // if (stopAskingForBackup) WalletActions.setBackupDate();
+            // else if (this.shouldUseBackupLogin()) this.backup();
+            if (resolve) resolve();
+            WalletUnlockActions.cancel();
+            ss.remove("account_login_name");
+            this.props.history.push("/market/META1_USDT");
+        }
+    }
+
     render() {
         return <LoadingIndicator />;
     }
@@ -233,7 +286,7 @@ class AuthRedirect extends React.Component {
 
 export default connect(AuthRedirect, {
     listenTo() {
-        return [AuthStore, AccountStore];
+        return [AuthStore, AccountStore, WalletUnlockStore];
     },
     getProps() {
         return {
@@ -243,7 +296,8 @@ export default connect(AuthRedirect, {
             authData: AuthStore.getState().authData,
             setOpenLoginInstance: AuthStore.setOpenLoginInstance,
             setPrivKey: AuthStore.setPrivKey,
-            setAuthData: AuthStore.setAuthData
+            setAuthData: AuthStore.setAuthData,
+            resolve: WalletUnlockStore.getState().resolve
         };
     }
 });

@@ -10,8 +10,9 @@ import SettingsActions from "actions/SettingsActions";
 import WalletUnlockActions from "actions/WalletUnlockActions";
 import SettingsStore from "stores/SettingsStore";
 import IntlActions from "actions/IntlActions";
-import CreateAccount from "./Account/CreateAccount";
-import CreateAccountPassword from "./Account/CreateAccountPassword";
+// import CreateAccount from "./Account/CreateAccount";
+// import CreateAccountPassword from "./Account/CreateAccountPassword";
+import AccountRegistrationForm from "./Registration/AccountRegistrationForm";
 import {Route} from "react-router-dom";
 import {getWalletName, getLogo} from "branding";
 import {Select, Row, Col, Icon} from "bitshares-ui-style-guide";
@@ -176,7 +177,7 @@ class LoginSelector extends React.Component {
                                 className="button primary"
                                 onClick={() => {
                                     SettingsActions.changeSetting.defer({
-                                        setting: "passwordLogin",
+                                        setting: "passwordlessLogin",
                                         value: true
                                     });
                                     WalletUnlockActions.unlock().catch(
@@ -221,13 +222,13 @@ class LoginSelector extends React.Component {
                         <Route
                             path="/registration"
                             exact
-                            component={CreateAccount}
+                            component={AccountRegistrationForm}
                         />
-                        <Route
+                        {/* <Route
                             path="/registration"
                             exact
                             component={CreateAccountPassword}
-                        />
+                        /> */}
                     </div>
                 </div>
             </div>

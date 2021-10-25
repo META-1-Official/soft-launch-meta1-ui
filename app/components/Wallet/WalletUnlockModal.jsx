@@ -9,6 +9,7 @@ import WalletManagerStore from "stores/WalletManagerStore";
 import BackupStore from "stores/BackupStore";
 import AccountStore from "stores/AccountStore";
 import SettingsStore from "stores/SettingsStore";
+import AuthStore from "stores/AuthStore";
 import WalletUnlockActions from "actions/WalletUnlockActions";
 import WalletActions from "actions/WalletActions";
 import BackupActions, {restore, backup} from "actions/BackupActions";
@@ -31,9 +32,6 @@ import {PrivateKey} from "meta1js";
 import {saveAs} from "file-saver";
 import LoginTypeSelector from "./LoginTypeSelector";
 import counterpart from "counterpart";
-
-import OpenLogin from "@toruslabs/openlogin";
-
 import {
     WalletSelector,
     CreateLocalWalletLink,
@@ -45,21 +43,16 @@ import {
 } from "./WalletUnlockModalLib";
 import {backupName} from "common/backupUtils";
 import {withRouter} from "react-router-dom";
-import {setLocalStorageType, isPersistantType} from "lib/common/localStorage";
+import ls, {
+    setLocalStorageType,
+    isPersistantType
+} from "lib/common/localStorage";
 import Translate from "react-translate-component";
 import Icon from "../Icon/Icon";
 // import ReCAPTCHA from "react-google-recaptcha";
 
-console.log(
-    "TORUS Data",
-    process.env.TORUS_PROJECT_ID,
-    process.env.TORUS_NETWORK
-);
-const openlogin = new OpenLogin({
-    clientId: process.env.TORUS_PROJECT_ID,
-    network: process.env.TORUS_NETWORK,
-    uxMode: "popup"
-});
+const STORAGE_KEY = "__AuthData__";
+const ss = new ls(STORAGE_KEY);
 class WalletUnlockModal extends React.Component {
     constructor(props) {
         super(props);
@@ -67,14 +60,22 @@ class WalletUnlockModal extends React.Component {
         this.account_input = React.createRef();
 
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
+        this.renderTorusLogin = this.renderTorusLogin.bind(this);
     }
 
     initialState = (props = this.props) => {
-        const {passwordAccount, currentWallet} = props;
+        const {
+            passwordAccount,
+            passwordlessAccount,
+            currentWallet,
+            passwordlessLogin
+        } = props;
         return {
             isModalVisible: false,
             passwordError: null,
-            accountName: passwordAccount,
+            accountName: passwordlessLogin
+                ? passwordlessAccount
+                : passwordAccount,
             walletSelected: !!currentWallet,
             customError: null,
             isOpen: false,
@@ -98,7 +99,10 @@ class WalletUnlockModal extends React.Component {
         // Updating the accountname through the listener breaks UX (#2335)
         if (walletSelected && !restoringBackup && !newCurrentWallet)
             newState.walletSelected = false;
-        if (this.props.passwordLogin != np.passwordLogin) {
+        if (
+            this.props.passwordLogin != np.passwordLogin ||
+            this.props.passwordlessLogin != np.passwordlessLogin
+        ) {
             newState.passwordError = false;
             newState.customError = null;
         }
@@ -129,8 +133,8 @@ class WalletUnlockModal extends React.Component {
     handleModalOpen = () => {
         BackupActions.reset();
         this.setState({isOpen: true}, () => {
-            const {passwordLogin} = this.props;
-            if (!passwordLogin) {
+            const {passwordLogin, passwordlessLogin} = this.props;
+            if (!passwordLogin || !passwordlessLogin) {
                 const {password_input} = this.refs;
                 if (password_input) {
                     password_input.clear();
@@ -162,7 +166,10 @@ class WalletUnlockModal extends React.Component {
     };
 
     componentDidMount() {
-        const {modalId} = this.props;
+        const {modalId, passwordlessLogin} = this.props;
+        if (passwordlessLogin) {
+            this.props.setOpenLoginInstance();
+        }
         ZfApi.subscribe(modalId, (name, msg) => {
             const {isOpen} = this.state;
 
@@ -176,10 +183,19 @@ class WalletUnlockModal extends React.Component {
     }
 
     componentDidUpdate() {
-        const {resolve, isLocked, passwordLogin} = this.props;
+        const {
+            resolve,
+            isLocked,
+            passwordLogin,
+            passwordlessLogin
+        } = this.props;
         const {isModalVisible, accountName, focusedOnce} = this.state;
 
-        if (!focusedOnce && isModalVisible && passwordLogin) {
+        if (
+            !focusedOnce &&
+            isModalVisible &&
+            (passwordLogin || passwordlessLogin)
+        ) {
             let account_input =
                 this.account_input && this.account_input.current;
             let password_input = this.password_input;
@@ -198,7 +214,12 @@ class WalletUnlockModal extends React.Component {
                 account_input.focus();
                 this.setState({focusedOnce: true});
             }
-        } else if (!focusedOnce && isModalVisible && !passwordLogin) {
+        } else if (
+            !focusedOnce &&
+            isModalVisible &&
+            !passwordLogin &&
+            !passwordlessLogin
+        ) {
             let password_input = this.password_input2;
             if (!password_input) {
                 this.forceUpdate();
@@ -214,7 +235,6 @@ class WalletUnlockModal extends React.Component {
                 this.setState({
                     isModalVisible: true
                 });
-                // this.renderTorusLogin();
             } else {
                 resolve();
             }
@@ -257,6 +277,31 @@ class WalletUnlockModal extends React.Component {
         }
     };
 
+    renderTorusLogin = async () => {
+        const {accountName} = this.state;
+        if (this.props.isLoading || !this.props.openLogin) {
+            return;
+        }
+        try {
+            const {openLogin} = this.props;
+            debugger;
+            await openLogin.init();
+            ss.set("account_login_name", accountName);
+            ss.remove("account_registration_name");
+            if (openLogin.privKey) {
+                await openLogin.logout({});
+                await openLogin.login();
+                // this.props.history.push("/auth-proceed?mode=loggedin");
+            } else {
+                const privKey = await openLogin.login();
+                // const data = await openLogin.getUserInfo();
+                console.log("User is logged in. Private key: " + privKey);
+            }
+        } catch (error) {
+            console.log("Error in Torus Render", error);
+        }
+    };
+
     passwordInput = () =>
         this.refs.password_input ||
         this.refs.custom_password_input.refs.password_input;
@@ -288,10 +333,10 @@ class WalletUnlockModal extends React.Component {
     handleLogin = e => {
         if (e) e.preventDefault();
 
-        const {passwordLogin, backup} = this.props;
+        const {passwordLogin, backup, passwordlessLogin} = this.props;
         const {walletSelected, accountName} = this.state;
         if (this.state.captcha) {
-            if (!passwordLogin && !walletSelected) {
+            if (!passwordLogin && !walletSelected && !passwordlessLogin) {
                 this.setState({
                     customError: counterpart.translate(
                         "wallet.ask_to_select_wallet"
@@ -300,7 +345,7 @@ class WalletUnlockModal extends React.Component {
             } else {
                 this.setState({passwordError: null}, () => {
                     const password = this.state.password;
-                    if (!passwordLogin && backup.name) {
+                    if (!passwordLogin && !passwordlessLogin && backup.name) {
                         this.restoreBackup(password, () =>
                             this.validate(password)
                         );
@@ -314,8 +359,19 @@ class WalletUnlockModal extends React.Component {
                                 setLocalStorageType("persistant");
                             }
                         }
-                        const account = passwordLogin ? accountName : null;
-                        this.validate(password, account);
+                        debugger;
+                        const account =
+                            passwordLogin || passwordlessLogin
+                                ? accountName
+                                : null;
+                        if (passwordlessLogin) {
+                            if (!accountName) {
+                                return;
+                            }
+                            this.renderTorusLogin();
+                        } else {
+                            this.validate(password, account);
+                        }
                     }
                 });
             }
@@ -440,22 +496,12 @@ class WalletUnlockModal extends React.Component {
         }
     };
 
-    async renderTorusLogin() {
-        await openlogin.init();
-        if (openlogin.privKey) {
-            console.log(
-                "User is already logged in. Private key: " + openlogin.privKey
-            );
-        } else {
-            await openlogin.login();
-        }
-    }
-
     render() {
         // return (<React.Fragment></React.Fragment>);
         const {
             backup,
             passwordLogin,
+            passwordlessLogin,
             modalId,
             currentWallet,
             walletNames,
@@ -482,7 +528,7 @@ class WalletUnlockModal extends React.Component {
         // https://github.com/akiran/react-foundation-apps/issues/34
 
         let footer = [];
-        if (passwordLogin) {
+        if (passwordLogin || passwordlessLogin) {
             footer.push(
                 <Tooltip
                     key="wallet.remember_me_explanation"
@@ -590,7 +636,7 @@ class WalletUnlockModal extends React.Component {
             >
                 <Form className="full-width" layout="vertical">
                     <LoginTypeSelector />
-                    {passwordLogin ? (
+                    {passwordLogin || passwordlessLogin ? (
                         <div>
                             <DisableChromeAutocomplete />
                             <AccountSelector
@@ -608,23 +654,27 @@ class WalletUnlockModal extends React.Component {
                                 reserveErrorSpace
                             />
 
-                            <Form.Item
-                                label={counterpart.translate(
-                                    "settings.password"
-                                )}
-                                validateStatus={passwordError ? "error" : ""}
-                                help={passwordError || ""}
-                            >
-                                <Input
-                                    type="password"
-                                    value={this.state.password}
-                                    onChange={this.handlePasswordChange}
-                                    onPressEnter={this.handleLogin}
-                                    ref={input => {
-                                        this.password_input = input;
-                                    }}
-                                />
-                            </Form.Item>
+                            {passwordLogin && (
+                                <Form.Item
+                                    label={counterpart.translate(
+                                        "settings.password"
+                                    )}
+                                    validateStatus={
+                                        passwordError ? "error" : ""
+                                    }
+                                    help={passwordError || ""}
+                                >
+                                    <Input
+                                        type="password"
+                                        value={this.state.password}
+                                        onChange={this.handlePasswordChange}
+                                        onPressEnter={this.handleLogin}
+                                        ref={input => {
+                                            this.password_input = input;
+                                        }}
+                                    />
+                                </Form.Item>
+                            )}
                         </div>
                     ) : (
                         <div>
@@ -754,13 +804,21 @@ class WalletUnlockModalContainer extends React.Component {
                     locked: () => WalletUnlockStore.getState().locked,
                     passwordLogin: () =>
                         WalletUnlockStore.getState().passwordLogin,
+                    passwordlessLogin: () =>
+                        WalletUnlockStore.getState().passwordlessLogin,
                     passwordAccount: () =>
                         AccountStore.getState().passwordAccount || "",
+                    passwordlessAccount: () =>
+                        AccountStore.getState().passwordlessAccount || "",
                     walletLockTimeout: () => {
                         return SettingsStore.getState().settings.get(
                             "walletLockTimeout"
                         );
-                    }
+                    },
+                    isLoading: () => AuthStore.getState().isLoading,
+                    openLogin: () => AuthStore.getState().openLogin,
+                    privKey: () => AuthStore.getState().privKey,
+                    setOpenLoginInstance: () => AuthStore.setOpenLoginInstance
                 }}
             >
                 <WalletUnlockModal {...this.props} />

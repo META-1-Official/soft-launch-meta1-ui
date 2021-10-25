@@ -131,9 +131,13 @@ class WalletDb extends BaseStore {
         const passwordLogin = SettingsStore.getState().settings.get(
             "passwordLogin"
         );
+        const passwordlessLogin = SettingsStore.getState().settings.get(
+            "passwordlessLogin"
+        );
 
         if (
             !passwordLogin &&
+            !passwordlessLogin &&
             this.state.wallet &&
             Apis.instance().chain_id !== this.state.wallet.chain_id
         )
@@ -390,12 +394,14 @@ class WalletDb extends BaseStore {
         password,
         unlock = false,
         account = null,
-        roles = ["active", "owner", "memo"]
+        roles = ["active", "owner", "memo"],
+        chainAccount
     ) {
         console.log("STarting validate");
         if (account) {
             let id = 0;
             function setKey(role, priv, pub) {
+                console.log("!!!! key", pub, priv);
                 if (!_passwordKey) _passwordKey = {};
                 _passwordKey[pub] = priv;
 
@@ -413,8 +419,12 @@ class WalletDb extends BaseStore {
             let fromWif;
             try {
                 fromWif = PrivateKey.fromWif(password);
-            } catch (err) {}
-            let acc = ChainStore.getAccount(account, false);
+            } catch (err) {
+                console.log("Err in validate", err);
+            }
+            let acc = chainAccount
+                ? chainAccount
+                : ChainStore.getAccount(account, false);
             console.log("!!! validate pass: acc", acc);
             let key;
             if (fromWif) {
@@ -477,17 +487,26 @@ class WalletDb extends BaseStore {
                     true
                 );
                 if (success && !cloudMode) {
+                    const passwordlessLogin = SettingsStore.getState().settings.get(
+                        "passwordlessLogin"
+                    );
                     Notification.success({
                         message: counterpart.translate("wallet.local_switch")
                     });
-                    SettingsActions.changeSetting({
-                        setting: "passwordLogin",
-                        value: false
-                    });
+                    if (!!passwordlessLogin) {
+                        SettingsActions.changeSetting({
+                            setting: "passwordLogin",
+                            value: false
+                        });
+                    } else {
+                        SettingsActions.changeSetting({
+                            setting: "passwordlessLogin",
+                            value: false
+                        });
+                    }
                     return {success: true, cloudMode: false};
                 }
             }
-
             return {success: !!_passwordKey, cloudMode: true};
         } else {
             let wallet = this.state.wallet;
