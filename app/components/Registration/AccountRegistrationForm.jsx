@@ -13,18 +13,18 @@ import AccountNameInput from "./../Forms/AccountNameInputStyleGuide";
 import AccountSelect from "../Forms/AccountSelect";
 import LoadingIndicator from "../LoadingIndicator";
 import Icon from "../Icon/Icon";
-import CopyButton from "../Utility/CopyButton";
+// import CopyButton from "../Utility/CopyButton";
 import {
     Form,
     Input,
     Button,
-    Tooltip,
-    Notification
+    Tooltip
+    // Notification
 } from "bitshares-ui-style-guide";
 import ReCAPTCHA from "react-google-recaptcha";
-import authenticator from "authenticator";
-import QRCode from "qrcode.react";
-import swal from "sweetalert";
+// import authenticator from "authenticator";
+// import QRCode from "qrcode.react";
+// import swal from "sweetalert";
 
 class AccountRegistrationForm extends React.Component {
     static propTypes = {
@@ -38,21 +38,22 @@ class AccountRegistrationForm extends React.Component {
             accountName: "",
             registrarAccount: null,
             loading: false,
-            generatedPassword: `P${key.get_random_key().toWif()}`,
-            confirmPassword: "",
-            email: "",
+            // generatedPassword: `P${key.get_random_key().toWif()}`,
+            // confirmPassword: "",
+            // email: "",
             phone: "",
             firstname: "",
             lastname: "",
             captcha: false
         };
         this.onSubmit = this.onSubmit.bind(this);
+        this.populateData = this.populateData.bind(this);
         this.onRegistrarAccountChange = this.onRegistrarAccountChange.bind(
             this
         );
         this.onAccountNameChange = this.onAccountNameChange.bind(this);
-        this.onConfirmation = this.onConfirmation.bind(this);
-        this.onEmailChange = this.onEmailChange.bind(this);
+        // this.onConfirmation = this.onConfirmation.bind(this);
+        // this.onEmailChange = this.onEmailChange.bind(this);
         this.onPhoneChange = this.onPhoneChange.bind(this);
         this.onLastnameChange = this.onLastnameChange.bind(this);
         this.onFirstnameChange = this.onFirstnameChange.bind(this);
@@ -68,19 +69,22 @@ class AccountRegistrationForm extends React.Component {
 
     componentDidMount() {
         ReactTooltip.rebuild();
+        this.populateData();
+    }
 
-        var url_string = window.location.href;
-        var url = new URL(url_string);
+    populateData() {
+        const url_string = window.location.href;
+        const url = new URL(url_string);
 
-        var firstname = url.searchParams.get("firstname");
-        var lastname = url.searchParams.get("lastname");
-        var email = url.searchParams.get("email");
-        var phone = url.searchParams.get("phone");
+        const firstname = url.searchParams.get("firstname");
+        const lastname = url.searchParams.get("lastname");
+        // const email = url.searchParams.get("email");
+        const phone = url.searchParams.get("phone");
 
         this.setState({
             firstname: firstname,
             lastname: lastname,
-            email: email,
+            // email: email,
             phone: phone
         });
     }
@@ -110,11 +114,11 @@ class AccountRegistrationForm extends React.Component {
         this.setState({registrarAccount});
     }
 
-    onEmailChange(e) {
-        const value = e.currentTarget.value;
-        console.log(value);
-        this.setState({email: value});
-    }
+    // onEmailChange(e) {
+    //     const value = e.currentTarget.value;
+    //     console.log(value);
+    //     this.setState({email: value});
+    // }
 
     onPhoneChange(e) {
         const value = e.currentTarget.value;
@@ -136,26 +140,26 @@ class AccountRegistrationForm extends React.Component {
 
     onSubmit(e) {
         e.preventDefault();
-        sessionStorage.email = this.state.email;
+        // sessionStorage.email = this.state.email;
         sessionStorage.phone = this.state.phone;
         sessionStorage.firstname = this.state.firstname;
         sessionStorage.lastname = this.state.lastname;
 
         if (this.isValid()) {
             this.props.continue({
-                accountName: this.state.accountName,
-                password: this.state.generatedPassword
+                accountName: this.state.accountName
+                // password: this.state.generatedPassword
             });
         }
     }
 
-    onConfirmation(e) {
-        const value = e.currentTarget.value;
-        this.setState({
-            confirmPassword: value,
-            passwordConfirmed: value === this.state.generatedPassword
-        });
-    }
+    // onConfirmation(e) {
+    //     const value = e.currentTarget.value;
+    //     this.setState({
+    //         confirmPassword: value,
+    //         passwordConfirmed: value === this.state.generatedPassword
+    //     });
+    // }
 
     isValid() {
         const firstAccount = AccountStore.getMyAccounts().length === 0;
@@ -190,17 +194,17 @@ class AccountRegistrationForm extends React.Component {
             }
         }
 
-        const getConfirmationPasswordHelp = () => {
-            return this.state.confirmPassword && !this.state.passwordConfirmed
-                ? counterpart.translate("wallet.confirm_error")
-                : "";
-        };
+        // const getConfirmationPasswordHelp = () => {
+        //     return this.state.confirmPassword && !this.state.passwordConfirmed
+        //         ? counterpart.translate("wallet.confirm_error")
+        //         : "";
+        // };
 
-        const getConfirmationPasswordValidateStatus = () => {
-            return this.state.confirmPassword && !this.state.passwordConfirmed
-                ? "error"
-                : "";
-        };
+        // const getConfirmationPasswordValidateStatus = () => {
+        //     return this.state.confirmPassword && !this.state.passwordConfirmed
+        //         ? "error"
+        //         : "";
+        // };
 
         return (
             <div>
@@ -224,7 +228,7 @@ class AccountRegistrationForm extends React.Component {
                                 onChange={this.onLastnameChange}
                             />
                         </Form.Item>
-                        <Form.Item label={"Email *"}>
+                        {/* <Form.Item label={"Email *"}>
                             <Input
                                 id="email"
                                 required
@@ -232,7 +236,7 @@ class AccountRegistrationForm extends React.Component {
                                 value={this.state.email}
                                 onChange={this.onEmailChange}
                             />
-                        </Form.Item>
+                        </Form.Item> */}
                         <Form.Item label={"Phone number *"}>
                             <Input
                                 id="phone"
@@ -270,7 +274,7 @@ class AccountRegistrationForm extends React.Component {
                         }
                         noLabel
                     />
-                    <Form.Item
+                    {/* <Form.Item
                         label={counterpart.translate("wallet.generated")}
                     >
                         <Input.TextArea
@@ -286,7 +290,7 @@ class AccountRegistrationForm extends React.Component {
                             dataPlace="top"
                             className="button registration-layout--copy-password-btn"
                         />
-                    </Form.Item>
+                    </Form.Item> */}
                     {/*<span className="inline-label generated-password-field">*/}
                     {/*<textarea*/}
                     {/*id="password"*/}
@@ -304,7 +308,7 @@ class AccountRegistrationForm extends React.Component {
                     {/*<label className="left-label" htmlFor="confirmPassword">*/}
                     {/*<Translate content="wallet.confirm_password" />*/}
                     {/*</label>*/}
-                    <Form.Item
+                    {/* <Form.Item
                         label={counterpart.translate("wallet.confirm_password")}
                         help={getConfirmationPasswordHelp()}
                         validateStatus={getConfirmationPasswordValidateStatus()}
@@ -319,7 +323,7 @@ class AccountRegistrationForm extends React.Component {
                             value={this.state.confirmPassword}
                             onChange={this.onConfirmation}
                         />
-                    </Form.Item>
+                    </Form.Item> */}
 
                     {/*<span className="inline-label">*/}
                     {/*<input*/}
@@ -370,7 +374,7 @@ class AccountRegistrationForm extends React.Component {
                             type="primary"
                             disabled={
                                 !valid ||
-                                !this.state.passwordConfirmed ||
+                                // !this.state.passwordConfirmed ||
                                 (registrarAccount && !isLTM)
                             }
                         >

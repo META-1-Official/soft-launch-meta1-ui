@@ -98,7 +98,7 @@ class AuthRedirect extends React.Component {
 
     async generateAuthData() {
         const {openLogin, setPrivKey, setAuthData} = this.props;
-        // debugger;
+        debugger;
         try {
             await openLogin.init();
             if (openLogin.privKey) {
@@ -116,28 +116,29 @@ class AuthRedirect extends React.Component {
     }
 
     async authProceed() {
-        const {privKey, authData} = this.props;
+        const {privKey} = this.props;
         const regUserName = ss.get("account_registration_name", "");
         const logInUserName = ss.get("account_login_name", "");
         if (regUserName) {
-            const password = this.genKey(`${regUserName}${privKey}`);
+            // const password = this.genKey(`${regUserName}${privKey}`);
             debugger;
-            let firstName = "",
-                lastName = "";
-            if (authData.name) {
-                const splitData = authData.name.split(" ");
-                firstName = splitData[0];
-                lastName = splitData.slice(1).toString();
-            }
-            this.createAccount(
-                regUserName,
-                password,
-                authData.email,
-                "",
-                firstName,
-                lastName
-            );
-            ss.remove("account_registration_name");
+            // let firstName = "",
+            //     lastName = "";
+            // if (authData.name) {
+            //     const splitData = authData.name.split(" ");
+            //     firstName = splitData[0];
+            //     lastName = splitData.slice(1).toString();
+            // }
+            // this.createAccount(
+            //     regUserName,
+            //     password,
+            //     authData.email,
+            //     "",
+            //     firstName,
+            //     lastName
+            // );
+            // ss.remove("account_registration_name");
+            this.props.history.push("/registration?mode=proceedRegistration");
         } else if (logInUserName) {
             const password = this.genKey(`${logInUserName}${privKey}`);
             this.validateLogin(password, logInUserName);
@@ -159,7 +160,7 @@ class AuthRedirect extends React.Component {
             await this.timer(1000);
         }
         WalletDb.validatePassword(
-            password.substring(1),
+            password,
             true,
             name,
             ["active", "owner", "memo"],

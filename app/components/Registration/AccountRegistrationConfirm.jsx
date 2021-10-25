@@ -213,10 +213,24 @@ class AccountRegistrationConfirm extends React.Component {
             });
     }
 
-    unlockAccount(name, password) {
-        WalletDb.validatePassword(password, true, name);
+    async unlockAccount(name, password) {
+        let chainAccount = ChainStore.getAccount(account);
+        while (chainAccount === undefined) {
+            chainAccount = ChainStore.getAccount(account);
+            console.log("Chain Account", chainAccount);
+            await this.timer(1000);
+        }
+        WalletDb.validatePassword(
+            password,
+            true,
+            name,
+            ["active", "owner", "memo"],
+            chainAccount
+        );
         WalletUnlockActions.checkLock.defer();
     }
+
+    timer = ms => new Promise(res => setTimeout(res, ms));
 
     toggleConfirmed(e) {
         this.setState({
