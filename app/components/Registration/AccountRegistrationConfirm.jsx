@@ -89,7 +89,13 @@ class AccountRegistrationConfirm extends React.Component {
     // }
 
     componentWillMount() {
-        console.log("session #:", sessionStorage.getItem("email"));
+        console.log(
+            "session #:",
+            sessionStorage.getItem("email"),
+            sessionStorage.getItem("phone"),
+            sessionStorage.getItem("firstname"),
+            sessionStorage.getItem("lastname")
+        );
         this.setState({
             email: sessionStorage.getItem("email"),
             phone: sessionStorage.getItem("phone"),
@@ -134,6 +140,13 @@ class AccountRegistrationConfirm extends React.Component {
 
     onCreateAccount(e) {
         e.preventDefault();
+        if (
+            !this.state.email ||
+            this.props.password ||
+            this.props.accountName
+        ) {
+            this.prop.history.push("/registration");
+        }
         this.createAccount(
             this.props.accountName,
             this.props.password,

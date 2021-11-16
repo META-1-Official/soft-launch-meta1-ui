@@ -4,6 +4,7 @@ import {connect} from "alt-react";
 import {ChainStore} from "meta1js";
 import {PrivateKey, FetchChain} from "meta1js/es";
 import qs from "qs";
+import axios from "axios";
 
 import AuthStore from "../stores/AuthStore";
 import AccountStore from "../stores/AccountStore";
@@ -27,12 +28,15 @@ class AuthRedirect extends React.Component {
         this.createAccount = this.createAccount.bind(this);
         this.state = {
             skipCreationFlow: false,
-            passwordError: false
+            passwordError: false,
+            redirectFromVoiceItEnrollment: "",
+            redirectFromVoiceItVerification: ""
         };
         this.skipFreshCreationAndProceed = this.skipFreshCreationAndProceed.bind(
             this
         );
         this.validateLogin = this.validateLogin.bind(this);
+        this.proceedVoiceItRedirect = this.proceedVoiceItRedirect.bind(this);
     }
 
     componentDidMount() {
@@ -43,6 +47,9 @@ class AuthRedirect extends React.Component {
             const param = qs.parse(this.props.location.search, {
                 ignoreQueryPrefix: true
             }).mode;
+            const jwt = qs.parse(this.props.location.search, {
+                ignoreQueryPrefix: true
+            }).status;
             if (
                 param === "existingEmailCreation" &&
                 openLogin &&
@@ -50,6 +57,8 @@ class AuthRedirect extends React.Component {
                 authData
             ) {
                 this.skipFreshCreationAndProceed();
+            } else if (jwt) {
+                this.proceedVoiceItRedirect(jwt);
             } else {
                 this.props.history.push("/registration");
             }
@@ -96,6 +105,14 @@ class AuthRedirect extends React.Component {
         this.authProceed();
     }
 
+    proceedVoiceItRedirect(jwt) {
+        // if jwt is from enrollment
+        this.setState({redirectFromVoiceItEnrollment: jwt});
+        this.props.setOpenLoginInstance();
+        // if jwt is from verification
+        // this.setState({ redirectFromVoiceItVerification: jwt });
+    }
+
     async generateAuthData() {
         const {openLogin, setPrivKey, setAuthData} = this.props;
         debugger;
@@ -116,7 +133,11 @@ class AuthRedirect extends React.Component {
     }
 
     async authProceed() {
-        const {privKey} = this.props;
+        const {privKey, authData} = this.props;
+        const {
+            redirectFromVoiceItEnrollment,
+            redirectFromVoiceItVerification
+        } = this.state;
         const regUserName = ss.get("account_registration_name", "");
         const logInUserName = ss.get("account_login_name", "");
         if (regUserName) {
@@ -138,10 +159,22 @@ class AuthRedirect extends React.Component {
             //     lastName
             // );
             // ss.remove("account_registration_name");
-            this.props.history.push("/registration?mode=proceedRegistration");
-        } else if (logInUserName) {
+            if (redirectFromVoiceItEnrollment) {
+                this.props.history.push(
+                    `/registration?voiceItToken=${redirectFromVoiceItEnrollment}`
+                );
+            } else {
+                this.props.history.push(
+                    "/registration?mode=proceedRegistration"
+                );
+            }
+        } else if (logInUserName && redirectFromVoiceItVerification) {
+            // Add logic for VOICEIT verification here
             const password = this.genKey(`${logInUserName}${privKey}`);
             this.validateLogin(password, logInUserName);
+        } else if (logInUserName) {
+            //
+            window.location.href = `${process.env.VOICEIT_URL}/video-verification?email=${authData.email}&redirectUrl=${window.location.origin}/auth-proceed`;
         } else {
             this.props.history.push("/registration");
         }

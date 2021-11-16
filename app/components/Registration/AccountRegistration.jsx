@@ -33,6 +33,7 @@ class AccountRegistration extends React.Component {
         );
         this.proceedLoggingOut = this.proceedLoggingOut.bind(this);
         this.proceedConfirmation = this.proceedConfirmation.bind(this);
+        this.proceedTorus = this.proceedTorus.bind(this);
     }
 
     componentWillMount() {
@@ -49,12 +50,19 @@ class AccountRegistration extends React.Component {
             const param = qs.parse(this.props.location.search, {
                 ignoreQueryPrefix: true
             }).mode;
+            const voiceItToken = qs.parse(this.props.location.search, {
+                ignoreQueryPrefix: true
+            }).voiceItToken;
+
             if (
                 param === "proceedRegistration" &&
                 openLogin &&
                 privKey &&
                 authData
             ) {
+                this.proceedTorus();
+            } else if (voiceItToken && openLogin && privKey && authData) {
+                // Logic for JWT verification need to be added:  expiry, origin (verify/enrollment), validity
                 this.proceedConfirmation();
             } else {
                 this.props.history.push("/registration");
@@ -62,6 +70,7 @@ class AccountRegistration extends React.Component {
         } else {
             setOpenLoginInstance();
         }
+        // window.open("https://humankyc.cryptomailsvc.io/video-enrollment", "_blank", "noopener,noreferrer");
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -107,6 +116,12 @@ class AccountRegistration extends React.Component {
                 );
                 this.props.setPrivKey(privKey);
                 this.props.setAuthData(data);
+                if (!data.email) {
+                    await openLogin.logout({});
+                    ss.set("account_registration_name", accountName);
+                    ss.remove("account_login_name");
+                    await openLogin.login();
+                }
                 this.setState({torusAlreadyAssociatedEmail: data.email});
             } else {
                 ss.set("account_registration_name", accountName);
@@ -156,22 +171,56 @@ class AccountRegistration extends React.Component {
         }
     }
 
-    proceedConfirmation() {
+    async proceedConfirmation() {
+        try {
+            const response = await axios({
+                url: process.env.VOICEIT_URL + "/voice/history",
+                method: "get",
+                headers: {
+                    Accept: "application/json",
+                    Authorization: jwt
+                }
+            });
+            console.log("Response after jwt validation", response);
+            if (response && response.data) {
+                console.log("&&&& response data", response.data);
+                debugger;
+                // check for response data length
+                const accountName = ss.get("account_registration_name", "");
+                const {privKey, authData} = this.props;
+                let password;
+                if (!accountName || !privKey) {
+                    return;
+                }
+                const email = authData.email;
+                password = this.genKey(`${accountName}${privKey}`);
+                ss.remove("account_registration_name");
+                sessionStorage.setItem("email", email);
+                /* Data population for Final Step */
+                this.setState({
+                    accountName,
+                    password,
+                    finalStep: true,
+                    formStep: false
+                });
+            }
+        } catch (err) {
+            console.log("Error proceeding auth after voiceit", err);
+        }
+    }
+
+    proceedTorus() {
         const accountName = ss.get("account_registration_name", "");
-        const {privKey} = this.props;
+        const {privKey, authData} = this.props;
         debugger;
-        let password;
+        // let password;
         if (!accountName || !privKey) {
             return;
         }
-        password = this.genKey(`${accountName}${privKey}`);
-        ss.remove("account_registration_name");
-        this.setState({
-            accountName,
-            password,
-            finalStep: true,
-            formStep: false
-        });
+        const email = authData.email;
+        // password = this.genKey(`${accountName}${privKey}`);
+        // sessionStorage.setItem("email", email);
+        window.location.href = `${process.env.VOICEIT_URL}/video-enrollment?email=${email}&redirectUrl=${window.location.origin}/auth-proceed`;
     }
 
     genKey(seed) {
