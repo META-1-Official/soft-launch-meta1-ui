@@ -20,6 +20,7 @@ import {
 } from "bitshares-ui-style-guide";
 import CopyButton from "../Utility/CopyButton";
 import QRCode from "qrcode.react";
+import Tap from "@tapfiliate/tapfiliate-js";
 
 class AccountRegistrationConfirm extends React.Component {
     static propTypes = {
@@ -174,8 +175,9 @@ class AccountRegistrationConfirm extends React.Component {
             last_name,
             private_key
         )
-            .then(() => {
+            .then(res => {
                 AccountActions.setPasswordAccount(name);
+                Tap.customer(res);
                 if (this.state.registrarAccount) {
                     FetchChain("getAccount", name).then(() => {
                         this.unlockAccount(name, password);
