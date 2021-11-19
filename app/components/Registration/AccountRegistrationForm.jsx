@@ -47,7 +47,7 @@ class AccountRegistrationForm extends React.Component {
             phone: "",
             firstname: "",
             lastname: "",
-            captcha: false
+            captcha: true // for testing purpose: setting it as true
         };
         this.onSubmit = this.onSubmit.bind(this);
         this.populateData = this.populateData.bind(this);
@@ -166,7 +166,8 @@ class AccountRegistrationForm extends React.Component {
 
     isValid() {
         const firstAccount = AccountStore.getMyAccounts().length === 0;
-        let valid = this.state.validAccountName && this.state.captcha;
+        // let valid = this.state.validAccountName && this.state.captcha; // for testing purpose: commenting out
+        let valid = this.state.validAccountName;
         if (!WalletDb.getWallet()) {
             valid = valid;
         }
