@@ -32,7 +32,8 @@ class AccountRegistration extends React.Component {
             this
         );
         this.proceedLoggingOut = this.proceedLoggingOut.bind(this);
-        this.proceedConfirmation = this.proceedConfirmation.bind(this);
+        this.proceedVoiceIT = this.proceedVoiceIT.bind(this);
+        this.proceedESign = this.proceedESign.bind(this);
         this.proceedTorus = this.proceedTorus.bind(this);
     }
 
@@ -53,7 +54,10 @@ class AccountRegistration extends React.Component {
             const voiceItToken = qs.parse(this.props.location.search, {
                 ignoreQueryPrefix: true
             }).voiceItToken;
-
+            const eSignStatus = qs.parse(this.props.location.search, {
+                ignoreQueryPrefix: true
+            }).eSignStatus;
+            debugger;
             if (
                 param === "proceedRegistration" &&
                 openLogin &&
@@ -63,7 +67,9 @@ class AccountRegistration extends React.Component {
                 this.proceedTorus();
             } else if (voiceItToken && openLogin && privKey && authData) {
                 // Logic for JWT verification need to be added:  expiry, origin (verify/enrollment), validity
-                this.proceedConfirmation();
+                this.proceedVoiceIT(decodeURI(voiceItToken));
+            } else if (eSignStatus === "success") {
+                this.proceedESign();
             } else {
                 this.props.history.push("/registration");
             }
@@ -171,56 +177,69 @@ class AccountRegistration extends React.Component {
         }
     }
 
-    async proceedConfirmation() {
-        try {
-            const response = await axios({
-                url: process.env.VOICEIT_URL + "/voice/history",
-                method: "get",
-                headers: {
-                    Accept: "application/json",
-                    Authorization: jwt
-                }
-            });
-            console.log("Response after jwt validation", response);
-            if (response && response.data) {
-                console.log("&&&& response data", response.data);
-                debugger;
-                // check for response data length
-                const accountName = ss.get("account_registration_name", "");
-                const {privKey, authData} = this.props;
-                let password;
-                if (!accountName || !privKey) {
-                    return;
-                }
-                const email = authData.email;
-                password = this.genKey(`${accountName}${privKey}`);
-                ss.remove("account_registration_name");
-                sessionStorage.setItem("email", email);
-                /* Data population for Final Step */
-                this.setState({
-                    accountName,
-                    password,
-                    finalStep: true,
-                    formStep: false
-                });
-            }
-        } catch (err) {
-            console.log("Error proceeding auth after voiceit", err);
+    async proceedVoiceIT(jwt) {
+        console.log("@@ AccountRegistration", jwt);
+        ss.set("confirmedTerms3Token", jwt);
+        const {privKey, authData} = this.props;
+        const email = authData.email;
+        ss.set("email", email);
+        const accountName = ss.get("account_registration_name", "");
+        let password;
+        if (!accountName || !privKey) {
+            return;
         }
+        password = this.genKey(`${accountName}${privKey}`);
+        // ss.remove("account_registration_name");
+        /* Data population for Final Step */
+        this.setState({
+            accountName,
+            password,
+            finalStep: true,
+            formStep: false
+        });
+    }
+
+    proceedESign() {
+        ss.set("confirmedTerms4Token", "success");
+        const {privKey, authData} = this.props;
+        const email = authData.email;
+        ss.set("email", email);
+        const accountName = ss.get("account_registration_name", "");
+        let password;
+        if (!accountName || !privKey) {
+            return;
+        }
+        password = this.genKey(`${accountName}${privKey}`);
+        // ss.remove("account_registration_name");
+        /* Data population for Final Step */
+        this.setState({
+            accountName,
+            password,
+            finalStep: true,
+            formStep: false
+        });
     }
 
     proceedTorus() {
         const accountName = ss.get("account_registration_name", "");
         const {privKey, authData} = this.props;
         debugger;
-        // let password;
+        let password;
         if (!accountName || !privKey) {
             return;
         }
         const email = authData.email;
-        // password = this.genKey(`${accountName}${privKey}`);
+        password = this.genKey(`${accountName}${privKey}`);
+        // ss.remove("account_registration_name");
         // sessionStorage.setItem("email", email);
-        window.location.href = `${process.env.VOICEIT_URL}/video-enrollment?email=${email}&redirectUrl=${window.location.origin}/auth-proceed`;
+        ss.set("email", email);
+        /* Data population for Final Step */
+        this.setState({
+            accountName,
+            password,
+            finalStep: true,
+            formStep: false
+        });
     }
 
     genKey(seed) {

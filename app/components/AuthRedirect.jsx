@@ -30,13 +30,15 @@ class AuthRedirect extends React.Component {
             skipCreationFlow: false,
             passwordError: false,
             redirectFromVoiceItEnrollment: "",
-            redirectFromVoiceItVerification: ""
+            redirectFromVoiceItVerification: "",
+            redirectFromESign: false
         };
         this.skipFreshCreationAndProceed = this.skipFreshCreationAndProceed.bind(
             this
         );
         this.validateLogin = this.validateLogin.bind(this);
         this.proceedVoiceItRedirect = this.proceedVoiceItRedirect.bind(this);
+        this.proceedESignRedirect = this.proceedESignRedirect.bind(this);
     }
 
     componentDidMount() {
@@ -49,7 +51,11 @@ class AuthRedirect extends React.Component {
             }).mode;
             const jwt = qs.parse(this.props.location.search, {
                 ignoreQueryPrefix: true
-            }).status;
+            }).token;
+            const eSignSuccess = qs.parse(this.props.location.search, {
+                ignoreQueryPrefix: true
+            }).signature;
+            debugger;
             if (
                 param === "existingEmailCreation" &&
                 openLogin &&
@@ -59,6 +65,8 @@ class AuthRedirect extends React.Component {
                 this.skipFreshCreationAndProceed();
             } else if (jwt) {
                 this.proceedVoiceItRedirect(jwt);
+            } else if (eSignSuccess === "success") {
+                this.proceedESignRedirect();
             } else {
                 this.props.history.push("/registration");
             }
@@ -107,10 +115,24 @@ class AuthRedirect extends React.Component {
 
     proceedVoiceItRedirect(jwt) {
         // if jwt is from enrollment
-        this.setState({redirectFromVoiceItEnrollment: jwt});
-        this.props.setOpenLoginInstance();
+        const logInUserName = ss.get("account_login_name", "");
+        const regUserName = ss.get("account_registration_name", "");
+        if (logInUserName) {
+            this.setState({redirectFromVoiceItVerification: jwt});
+            this.props.setOpenLoginInstance();
+        } else if (regUserName) {
+            this.setState({redirectFromVoiceItEnrollment: jwt});
+            this.props.setOpenLoginInstance();
+        }
+
         // if jwt is from verification
         // this.setState({ redirectFromVoiceItVerification: jwt });
+    }
+
+    proceedESignRedirect() {
+        this.setState({redirectFromESign: true}, () => {
+            this.props.setOpenLoginInstance();
+        });
     }
 
     async generateAuthData() {
@@ -136,45 +158,63 @@ class AuthRedirect extends React.Component {
         const {privKey, authData} = this.props;
         const {
             redirectFromVoiceItEnrollment,
-            redirectFromVoiceItVerification
+            redirectFromVoiceItVerification,
+            redirectFromESign
         } = this.state;
         const regUserName = ss.get("account_registration_name", "");
         const logInUserName = ss.get("account_login_name", "");
         if (regUserName) {
-            // const password = this.genKey(`${regUserName}${privKey}`);
             debugger;
-            // let firstName = "",
-            //     lastName = "";
-            // if (authData.name) {
-            //     const splitData = authData.name.split(" ");
-            //     firstName = splitData[0];
-            //     lastName = splitData.slice(1).toString();
-            // }
-            // this.createAccount(
-            //     regUserName,
-            //     password,
-            //     authData.email,
-            //     "",
-            //     firstName,
-            //     lastName
-            // );
-            // ss.remove("account_registration_name");
             if (redirectFromVoiceItEnrollment) {
                 this.props.history.push(
-                    `/registration?voiceItToken=${redirectFromVoiceItEnrollment}`
+                    `/registration?voiceItToken=${encodeURI(
+                        redirectFromVoiceItEnrollment
+                    )}`
                 );
+            } else if (redirectFromESign) {
+                this.props.history.push("/registration?eSignStatus=success");
             } else {
                 this.props.history.push(
                     "/registration?mode=proceedRegistration"
                 );
             }
         } else if (logInUserName && redirectFromVoiceItVerification) {
-            // Add logic for VOICEIT verification here
-            const password = this.genKey(`${logInUserName}${privKey}`);
-            this.validateLogin(password, logInUserName);
+            try {
+                const response = await axios({
+                    url:
+                        process.env.VOICEIT_URL +
+                        "/apiewallet/video-verifications",
+                    method: "get",
+                    headers: {
+                        Accept: "application/json",
+                        Authorization: redirectFromVoiceItVerification
+                    },
+                    params: {email: authData.email}
+                });
+                console.log("Response after jwt validation", response);
+                if (response && response.data) {
+                    console.log("&&&& response data", response.data);
+                    debugger;
+                    if (
+                        response.data.email === authData.email &&
+                        response.data.status === "success"
+                    ) {
+                        const password = this.genKey(
+                            `${logInUserName}${privKey}`
+                        );
+                        this.validateLogin(password, logInUserName);
+                    }
+                }
+            } catch (err) {
+                console.log("Error proceeding auth after voiceit", err);
+            }
         } else if (logInUserName) {
             //
-            window.location.href = `${process.env.VOICEIT_URL}/video-verification?email=${authData.email}&redirectUrl=${window.location.origin}/auth-proceed`;
+            window.location.href = `${
+                process.env.VOICEIT_URL
+            }/video-verification?email=${encodeURIComponent(
+                authData.email
+            )}&redirectUrl=${window.location.origin}/auth-proceed`;
         } else {
             this.props.history.push("/registration");
         }

@@ -22,9 +22,12 @@ import {
     // Notification
 } from "bitshares-ui-style-guide";
 import ReCAPTCHA from "react-google-recaptcha";
+import ls from "../../lib/common/localStorage";
 // import authenticator from "authenticator";
 // import QRCode from "qrcode.react";
 // import swal from "sweetalert";
+const STORAGE_KEY = "__AuthData__";
+const ss = new ls(STORAGE_KEY);
 
 class AccountRegistrationForm extends React.Component {
     static propTypes = {
@@ -141,9 +144,9 @@ class AccountRegistrationForm extends React.Component {
     onSubmit(e) {
         e.preventDefault();
         // sessionStorage.email = this.state.email;
-        sessionStorage.phone = this.state.phone;
-        sessionStorage.firstname = this.state.firstname;
-        sessionStorage.lastname = this.state.lastname;
+        ss.set("phone", this.state.phone);
+        ss.set("firstname", this.state.firstname);
+        ss.set("lastname", this.state.lastname);
 
         if (this.isValid()) {
             this.props.continue({

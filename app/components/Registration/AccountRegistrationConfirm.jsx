@@ -9,6 +9,7 @@ import TransactionConfirmStore from "stores/TransactionConfirmStore";
 import Translate from "react-translate-component";
 import {FetchChain} from "meta1js/es";
 import WalletUnlockActions from "actions/WalletUnlockActions";
+import axios from "axios";
 import Icon from "components/Icon/Icon";
 import {
     Notification,
@@ -20,6 +21,10 @@ import {
 } from "bitshares-ui-style-guide";
 import CopyButton from "../Utility/CopyButton";
 import QRCode from "qrcode.react";
+import ls from "../../lib/common/localStorage";
+
+const STORAGE_KEY = "__AuthData__";
+const ss = new ls(STORAGE_KEY);
 
 class AccountRegistrationConfirm extends React.Component {
     static propTypes = {
@@ -40,6 +45,7 @@ class AccountRegistrationConfirm extends React.Component {
             confirmedTerms: false,
             confirmedTerms2: false,
             confirmedTerms3: false,
+            confirmedTerms4: false,
             isErrored: false
         };
         this.onFinishConfirm = this.onFinishConfirm.bind(this);
@@ -47,6 +53,9 @@ class AccountRegistrationConfirm extends React.Component {
         this.toggleConfirmedTerms = this.toggleConfirmedTerms.bind(this);
         this.toggleConfirmedTerms2 = this.toggleConfirmedTerms2.bind(this);
         this.toggleConfirmedTerms3 = this.toggleConfirmedTerms3.bind(this);
+        this.toggleConfirmedTerms4 = this.toggleConfirmedTerms4.bind(this);
+        this.verifyVoiceIT = this.verifyVoiceIT.bind(this);
+        this.verifyESign = this.verifyESign.bind(this);
         this.createAccount = this.createAccount.bind(this);
         this.onCreateAccount = this.onCreateAccount.bind(this);
     }
@@ -56,7 +65,8 @@ class AccountRegistrationConfirm extends React.Component {
             nextState.confirmed !== this.state.confirmed ||
             nextState.confirmedTerms !== this.state.confirmedTerms ||
             nextState.confirmedTerms2 !== this.state.confirmedTerms2 ||
-            nextState.confirmedTerms3 !== this.state.confirmedTerms3
+            nextState.confirmedTerms3 !== this.state.confirmedTerms3 ||
+            nextState.confirmedTerms4 !== this.state.confirmedTerms4
         );
     }
 
@@ -91,17 +101,102 @@ class AccountRegistrationConfirm extends React.Component {
     componentWillMount() {
         console.log(
             "session #:",
-            sessionStorage.getItem("email"),
-            sessionStorage.getItem("phone"),
-            sessionStorage.getItem("firstname"),
-            sessionStorage.getItem("lastname")
+            ss.get("email", ""),
+            ss.get("phone", ""),
+            ss.get("firstname", ""),
+            ss.get("lastname", ""),
+            ss.get("confirmed", ""),
+            ss.get("confirmedTerms", ""),
+            ss.get("confirmedTerms2", ""),
+            ss.get("confirmedTerms3Token", ""),
+            ss.get("confirmedTerms4Token", "")
         );
         this.setState({
-            email: sessionStorage.getItem("email"),
-            phone: sessionStorage.getItem("phone"),
-            firstname: sessionStorage.getItem("firstname"),
-            lastname: sessionStorage.getItem("lastname")
+            email: ss.get("email", ""),
+            phone: ss.get("phone", ""),
+            firstname: ss.get("firstname", ""),
+            lastname: ss.get("lastname", ""),
+            confirmed: ss.get("confirmed", ""),
+            confirmedTerms: ss.get("confirmedTerms", ""),
+            confirmedTerms2: ss.get("confirmedTerms2", "")
         });
+    }
+
+    componentDidMount() {
+        const jwt = ss.get("confirmedTerms3Token", "");
+        const email = ss.get("email", "");
+        const eSign = ss.get("confirmedTerms4Token", "");
+        if (!email) {
+            this.props.history.push("/registration");
+        }
+        if (jwt) {
+            this.verifyVoiceIT(jwt, email);
+        }
+        if (eSign) {
+            this.verifyESign(email);
+        }
+    }
+
+    async verifyVoiceIT(jwt, email) {
+        debugger;
+        try {
+            const response = await axios({
+                url: process.env.VOICEIT_URL + "/apiewallet/video-enrollments",
+                method: "get",
+                headers: {
+                    Accept: "application/json",
+                    Authorization: jwt
+                },
+                params: {email}
+            });
+            console.log("Response after jwt validation", response);
+            if (response && response.data) {
+                console.log("&&&& response data", response.data);
+                debugger;
+                if (
+                    response.data.email === email &&
+                    response.data.status === "success"
+                ) {
+                    this.setState({confirmedTerms3: true});
+                }
+            }
+        } catch (err) {
+            console.log("Error proceeding auth after voiceit", err);
+        }
+    }
+
+    async verifyESign(email) {
+        try {
+            const response = await axios({
+                url: process.env.VOICEIT_URL + "/apiewallet/users",
+                method: "get",
+                headers: {
+                    Accept: "application/json"
+                },
+                params: {email}
+            });
+            console.log("Response after esign validation", response);
+            if (response && response.data) {
+                console.log("*** response data from eSign", response.data);
+                debugger;
+                if (
+                    response.data.email === email &&
+                    response.data.status &&
+                    response.data.status.isSign === true &&
+                    response.data.status.isPayed === true
+                ) {
+                    this.setState({confirmedTerms4: true});
+                    ss.remove("confirmedTerms4Token");
+                    ss.remove("confirmedTerms3Token");
+                    ss.remove("confirmed");
+                    ss.remove("confirmedTerms");
+                    ss.remove("confirmedTerms2");
+                    ss.remove("account_registration_name");
+                }
+            }
+        } catch (err) {
+            console.log("Error proceeding auth after voiceit", err);
+        }
     }
 
     onFinishConfirm(confirmStoreState) {
@@ -142,10 +237,10 @@ class AccountRegistrationConfirm extends React.Component {
         e.preventDefault();
         if (
             !this.state.email ||
-            this.props.password ||
-            this.props.accountName
+            !this.props.password ||
+            !this.props.accountName
         ) {
-            this.prop.history.push("/registration");
+            this.props.history.push("/registration");
         }
         this.createAccount(
             this.props.accountName,
@@ -168,12 +263,12 @@ class AccountRegistrationConfirm extends React.Component {
         private_key
     ) {
         console.log("phone_number: ", phone_number);
-        const origEmail = sessionStorage.getItem("email");
+        const origEmail = ss.get("email");
         const {referralAccount} = AccountStore.getState();
-        sessionStorage.removeItem("email");
-        sessionStorage.removeItem("phone");
-        sessionStorage.removeItem("firstname");
-        sessionStorage.removeItem("lastname");
+        ss.remove("email");
+        ss.remove("phone");
+        ss.remove("firstname");
+        ss.remove("lastname");
         AccountActions.createAccountWithPassword(
             name,
             password,
@@ -246,27 +341,88 @@ class AccountRegistrationConfirm extends React.Component {
     timer = ms => new Promise(res => setTimeout(res, ms));
 
     toggleConfirmed(e) {
-        this.setState({
-            confirmed: e.target.checked
-        });
+        this.setState(
+            {
+                confirmed: e.target.checked
+            },
+            () => {
+                ss.set("confirmed", e.target.checked);
+            }
+        );
     }
 
     toggleConfirmedTerms(e) {
-        this.setState({
-            confirmedTerms: e.target.checked
-        });
+        this.setState(
+            {
+                confirmedTerms: e.target.checked
+            },
+            () => {
+                ss.set("confirmedTerms", e.target.checked);
+            }
+        );
     }
 
     toggleConfirmedTerms2(e) {
-        this.setState({
-            confirmedTerms2: e.target.checked
-        });
+        this.setState(
+            {
+                confirmedTerms2: e.target.checked
+            },
+            () => {
+                ss.set("confirmedTerms2", e.target.checked);
+            }
+        );
     }
 
     toggleConfirmedTerms3(e) {
-        this.setState({
-            confirmedTerms3: e.target.checked
-        });
+        if (e.target.checked) {
+            const {email} = this.state;
+            window.location.href = `${
+                process.env.VOICEIT_URL
+            }/video-enrollment?email=${encodeURIComponent(email)}&redirectUrl=${
+                window.location.origin
+            }/auth-proceed`;
+        }
+        // this.setState({
+        //     confirmedTerms3: e.target.checked
+        // });
+    }
+
+    async toggleConfirmedTerms4(e) {
+        if (e.target.checked) {
+            const {email, phone, firstname, lastname} = this.state;
+            let token;
+            debugger;
+            try {
+                const response = await axios({
+                    url: process.env.VOICEIT_URL + "/apiewallet/sign/token",
+                    method: "get",
+                    headers: {
+                        Accept: "application/json"
+                    },
+                    params: {email}
+                });
+                console.log("Response after e-sign token generation", response);
+                if (response && response.headers) {
+                    console.log("^^^ response data", response.headers);
+                    debugger;
+                    if (response.headers.authorization) {
+                        token = response.headers.authorization;
+                    }
+                }
+            } catch (err) {
+                console.log("Error in e-sign token generation");
+            }
+            window.location.href = `${
+                process.env.VOICEIT_URL
+            }/e-sign?email=${encodeURIComponent(
+                email
+            )}&firstName=${firstname}&lastName=${lastname}&phoneNumber=${phone}&token=${token}&redirectUrl=${
+                window.location.origin
+            }/auth-proceed`;
+        }
+        // this.setState({
+        //     confirmedTerms4: e.target.checked
+        // });
     }
 
     render() {
@@ -339,6 +495,16 @@ class AccountRegistrationConfirm extends React.Component {
                         &nbsp;&nbsp;&nbsp;
                         <button className="reset-this terms">
                             I am a living man or woman hence a living being
+                        </button>
+                    </Checkbox>{" "}
+                    <hr></hr>
+                    <Checkbox
+                        checked={this.state.confirmedTerms4}
+                        onChange={this.toggleConfirmedTerms4}
+                    >
+                        &nbsp;&nbsp;&nbsp;
+                        <button className="reset-this terms">
+                            Sign Membership Agreement
                         </button>
                     </Checkbox>{" "}
                     <hr></hr>
