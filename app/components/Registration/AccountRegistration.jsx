@@ -111,11 +111,9 @@ class AccountRegistration extends React.Component {
         try {
             const openLogin = this.props.openLogin;
             await openLogin.init();
-            debugger;
             if (openLogin.privKey) {
                 const privKey = openLogin.privKey;
                 const data = await openLogin.getUserInfo();
-                debugger;
                 console.log(
                     "User is already logged in. Private key: " + privKey,
                     data
@@ -123,6 +121,7 @@ class AccountRegistration extends React.Component {
                 this.props.setPrivKey(privKey);
                 this.props.setAuthData(data);
                 if (!data.email) {
+                    await openLogin.init();
                     await openLogin.logout({});
                     ss.set("account_registration_name", accountName);
                     ss.remove("account_login_name");
