@@ -132,14 +132,16 @@ class AccountRegistration extends React.Component {
             } else {
                 ss.set("account_registration_name", accountName);
                 ss.remove("account_login_name");
-                debugger;
                 // if (registrarAccount) {
                 //     ss.set(
                 //         "account_registration_registrarAccount",
                 //         registrarAccount
                 //     );
                 // }
+                // await openLogin.logout({});
+                await openLogin.init();
                 await openLogin.login();
+                console.log("Having issue not loaded");
                 const data = await openLogin.getUserInfo();
                 console.log("User is logged in. Private key: " + data);
             }
@@ -171,6 +173,7 @@ class AccountRegistration extends React.Component {
             //         registrarAccount
             //     );
             // }
+            await openLogin.init();
             await openLogin.login();
         } else {
             this.setState({torusAlreadyAssociatedEmail: ""});
