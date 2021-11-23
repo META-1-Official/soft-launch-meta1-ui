@@ -44,7 +44,7 @@ class AccountRegistrationForm extends React.Component {
             phone: "",
             firstname: "",
             lastname: "",
-            captcha: false
+            captcha: true // to perform testing on dev server
         };
         this.onSubmit = this.onSubmit.bind(this);
         this.onRegistrarAccountChange = this.onRegistrarAccountChange.bind(
@@ -159,7 +159,8 @@ class AccountRegistrationForm extends React.Component {
 
     isValid() {
         const firstAccount = AccountStore.getMyAccounts().length === 0;
-        let valid = this.state.validAccountName && this.state.captcha;
+        // let valid = this.state.validAccountName && this.state.captcha; // to perform testing on dev server
+        let valid = this.state.validAccountName;
         if (!WalletDb.getWallet()) {
             valid = valid;
         }
