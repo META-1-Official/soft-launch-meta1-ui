@@ -99,6 +99,10 @@ class AccountRegistrationConfirm extends React.Component {
         });
     }
 
+    componentDidMount() {
+        Tap.init("26943-1f07d6");
+    }
+
     onFinishConfirm(confirmStoreState) {
         if (
             confirmStoreState.included &&
