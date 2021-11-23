@@ -25,3 +25,4 @@ yarn.lock
 !charting_library/package-charting-library.js
 .vs_code
 /.vs
+.env.development
