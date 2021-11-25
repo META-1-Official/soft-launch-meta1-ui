@@ -20,7 +20,7 @@ import {
 } from "bitshares-ui-style-guide";
 import CopyButton from "../Utility/CopyButton";
 import QRCode from "qrcode.react";
-import Tap from "@tapfiliate/tapfiliate-js";
+// import Tap from "@tapfiliate/tapfiliate-js";
 
 class AccountRegistrationConfirm extends React.Component {
     static propTypes = {
@@ -50,6 +50,7 @@ class AccountRegistrationConfirm extends React.Component {
         this.toggleConfirmedTerms3 = this.toggleConfirmedTerms3.bind(this);
         this.createAccount = this.createAccount.bind(this);
         this.onCreateAccount = this.onCreateAccount.bind(this);
+        this.trackSignup = this.trackSignup.bind(this);
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -99,10 +100,6 @@ class AccountRegistrationConfirm extends React.Component {
         });
     }
 
-    componentDidMount() {
-        Tap.init("26943-1f07d6");
-    }
-
     onFinishConfirm(confirmStoreState) {
         if (
             confirmStoreState.included &&
@@ -150,6 +147,10 @@ class AccountRegistrationConfirm extends React.Component {
         );
     }
 
+    trackSignup(customerId) {
+        tap("customer", customerId);
+    }
+
     createAccount(
         name,
         password,
@@ -181,7 +182,7 @@ class AccountRegistrationConfirm extends React.Component {
         )
             .then(res => {
                 AccountActions.setPasswordAccount(name);
-                Tap.customer(res);
+                this.trackSignup(res);
                 if (this.state.registrarAccount) {
                     FetchChain("getAccount", name).then(() => {
                         this.unlockAccount(name, password);

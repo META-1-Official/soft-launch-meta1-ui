@@ -16,7 +16,7 @@ import InitError from "./components/InitError";
 import SyncError from "./components/SyncError";
 import counterpart from "counterpart";
 import LogsActions from "actions/LogsActions";
-import Tap from "@tapfiliate/tapfiliate-js";
+// import Tap from "@tapfiliate/tapfiliate-js";
 
 /*
  * Electron does not support browserHistory, so we need to use hashHistory.
@@ -193,7 +193,7 @@ class AppInit extends React.Component {
                     windowsClass;
             }
         }
-        Tap.init("26943-1f07d6");
+        // Tap.init("26943-1f07d6");
         // Tap.conversion("test-conversion", "111", {customer_id: "meta-test-cust1" });
     }
 

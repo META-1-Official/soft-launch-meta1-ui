@@ -34,6 +34,13 @@ export const settingsAPIs = {
     DEFAULT_WS_NODE: "wss://api.meta1.io/ws",
     WS_NODE_LIST: [
         {
+            url: "wss://testnetapi.meta1.io/ws",
+            region: "TEST",
+            country: "TEST",
+            location: "Southern Asia",
+            operator: "Witness: meta1"
+        },
+        {
             url: "wss://api.meta1.io/ws",
             region: "API",
             country: "API",
@@ -114,13 +121,6 @@ export const settingsAPIs = {
             url: "wss://sun.meta1.io/ws",
             region: "SUN",
             country: "Sun",
-            location: "Southern Asia",
-            operator: "Witness: meta1"
-        },
-        {
-            url: "wss://testnetapi.meta1.io/ws",
-            region: "TEST",
-            country: "TEST",
             location: "Southern Asia",
             operator: "Witness: meta1"
         }
