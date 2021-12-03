@@ -5,6 +5,8 @@ import ChainTypes from "./ChainTypes";
 import utils from "common/utils";
 import {getDisplayName} from "common/reactUtils";
 import LoadingIndicator from "../LoadingIndicator";
+import checkAffiliateCommission from "./checkAffiliateCommission";
+import ls from "common/localStorage";
 
 /**
  * @brief provides automatic fetching and updating of chain data
@@ -48,6 +50,9 @@ const isAccountsListType = checkChainType(ChainTypes.ChainAccountsList);
 const isAssetsListType = checkChainType(ChainTypes.ChainAssetsList);
 const isAccountNameType = checkChainType(ChainTypes.ChainAccountName);
 
+const STORAGE_KEY = "__meta-ref__";
+const ss = new ls(STORAGE_KEY);
+
 function checkIfRequired(t) {
     for (let k in ChainTypes) {
         let v = ChainTypes[k];
@@ -80,84 +85,34 @@ function BindToChainState(Component, options = {}) {
                 this.all_chain_props = this.chain_objects;
             } else {
                 this.chain_objects = prop_types_array
-                    .filter(
-                        flow(
-                            secondEl,
-                            isObjectType
-                        )
-                    )
+                    .filter(flow(secondEl, isObjectType))
                     .map(firstEl);
                 this.chain_accounts = prop_types_array
-                    .filter(
-                        flow(
-                            secondEl,
-                            isAccountType
-                        )
-                    )
+                    .filter(flow(secondEl, isAccountType))
                     .map(firstEl);
                 this.chain_account_names = prop_types_array
-                    .filter(
-                        flow(
-                            secondEl,
-                            isAccountNameType
-                        )
-                    )
+                    .filter(flow(secondEl, isAccountNameType))
                     .map(firstEl);
                 this.chain_key_refs = prop_types_array
-                    .filter(
-                        flow(
-                            secondEl,
-                            isKeyRefsType
-                        )
-                    )
+                    .filter(flow(secondEl, isKeyRefsType))
                     .map(firstEl);
                 this.chain_address_balances = prop_types_array
-                    .filter(
-                        flow(
-                            secondEl,
-                            isAddressBalancesType
-                        )
-                    )
+                    .filter(flow(secondEl, isAddressBalancesType))
                     .map(firstEl);
                 this.chain_assets = prop_types_array
-                    .filter(
-                        flow(
-                            secondEl,
-                            isAssetType
-                        )
-                    )
+                    .filter(flow(secondEl, isAssetType))
                     .map(firstEl);
                 this.chain_objects_list = prop_types_array
-                    .filter(
-                        flow(
-                            secondEl,
-                            isObjectsListType
-                        )
-                    )
+                    .filter(flow(secondEl, isObjectsListType))
                     .map(firstEl);
                 this.chain_accounts_list = prop_types_array
-                    .filter(
-                        flow(
-                            secondEl,
-                            isAccountsListType
-                        )
-                    )
+                    .filter(flow(secondEl, isAccountsListType))
                     .map(firstEl);
                 this.chain_assets_list = prop_types_array
-                    .filter(
-                        flow(
-                            secondEl,
-                            isAssetsListType
-                        )
-                    )
+                    .filter(flow(secondEl, isAssetsListType))
                     .map(firstEl);
                 this.required_props = prop_types_array
-                    .filter(
-                        flow(
-                            secondEl,
-                            checkIfRequired
-                        )
-                    )
+                    .filter(flow(secondEl, checkIfRequired))
                     .map(firstEl);
                 this.all_chain_props = [
                     ...this.chain_objects,
@@ -276,6 +231,7 @@ function BindToChainState(Component, options = {}) {
                         false,
                         this.default_props["autosubscribe"]
                     );
+                    // console.log('^^^^ getObject', new_obj);
                     if (
                         new_obj === undefined &&
                         this.required_props.indexOf(key) === -1 &&
@@ -290,13 +246,13 @@ function BindToChainState(Component, options = {}) {
                     if (this.state[key]) new_state[key] = null;
                 }
             }
-
             /* Resolve accounts */
             for (let key of this.chain_accounts) {
                 let prop =
                     props[key] ||
                     this.dynamic_props[key] ||
                     this.default_props[key];
+                // console.log('&&&&', prop);
                 if (prop) {
                     if (prop[0] === "#" && Number.parseInt(prop.substring(1)))
                         prop = "1.2." + prop.substring(1);
@@ -311,6 +267,37 @@ function BindToChainState(Component, options = {}) {
                         prop,
                         this.default_props["autosubscribe"]
                     );
+                    const referred_user = ss.get("referred_user_id", "null");
+                    if (
+                        new_obj &&
+                        referred_user === prop &&
+                        referred_user !== "null"
+                    ) {
+                        console.log("@getAccount details", referred_user, prop);
+                        const historyList = new_obj.get("history");
+                        if (historyList) {
+                            let seen_ops = new Set();
+                            const callback = () => {
+                                console.log("Finalizing");
+                                ss.remove("referred_user_id");
+                            };
+                            const parsed = historyList
+                                .toJS()
+                                .filter(
+                                    op =>
+                                        !seen_ops.has(op.id) &&
+                                        seen_ops.add(op.id)
+                                );
+                            // console.log('###', parsed)
+                            parsed.slice(0, 25).forEach(o => {
+                                checkAffiliateCommission(
+                                    o,
+                                    referred_user,
+                                    callback
+                                );
+                            });
+                        }
+                    }
                     if (
                         new_obj === undefined &&
                         this.required_props.indexOf(key) === -1 &&
@@ -346,6 +333,7 @@ function BindToChainState(Component, options = {}) {
                     this.default_props[key];
                 if (prop) {
                     let name = ChainStore.getAccountName(prop);
+                    // console.log('^^^^ getAccountName', name);
                     if (
                         name === undefined &&
                         this.required_props.indexOf(key) === -1 &&
@@ -369,6 +357,7 @@ function BindToChainState(Component, options = {}) {
                     this.default_props[key];
                 if (prop) {
                     let new_obj = ChainStore.getAccountRefsOfKey(prop);
+                    // console.log('^^^^ getAccountRefsOfKey', new_obj);
                     if (
                         new_obj === undefined &&
                         this.required_props.indexOf(key) === -1 &&
@@ -393,7 +382,7 @@ function BindToChainState(Component, options = {}) {
 
                 if (prop) {
                     let new_obj = ChainStore.getBalanceObjects(prop);
-
+                    // console.log('^^^^ getBalanceObjects', new_obj);
                     if (
                         new_obj === undefined &&
                         this.required_props.indexOf(key) === -1 &&
@@ -417,6 +406,7 @@ function BindToChainState(Component, options = {}) {
                     this.default_props[key];
                 if (prop) {
                     let new_obj = ChainStore.getAsset(prop);
+                    // console.log('^^^^ getAsset', new_obj);
 
                     if (
                         new_obj === undefined &&
@@ -464,6 +454,7 @@ function BindToChainState(Component, options = {}) {
                                 false,
                                 this.default_props["autosubscribe"]
                             );
+                            // console.log('^^^^ getObject', new_obj);
                             if (new_obj) ++resolved_objects_counter;
                             if (prop_prev_state[index] !== new_obj) {
                                 changes = true;
@@ -507,6 +498,7 @@ function BindToChainState(Component, options = {}) {
                                 obj_id,
                                 this.default_props["autosubscribe"]
                             );
+                            // console.log('^^^^ getAccount', new_obj);
                             if (new_obj) ++resolved_objects_counter;
                             if (prop_prev_state[index] !== new_obj) {
                                 changes = true;
@@ -549,6 +541,7 @@ function BindToChainState(Component, options = {}) {
                         //console.log("-- Wrapper.chain_assets_list item -->", obj_id, index);
                         if (obj_id) {
                             let new_obj = ChainStore.getAsset(obj_id);
+                            // console.log('^^^^ getAsset', new_obj);
                             if (new_obj) ++resolved_objects_counter;
                             if (prop_prev_state[index] !== new_obj) {
                                 changes = true;

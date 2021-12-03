@@ -21,6 +21,10 @@ import {
 import CopyButton from "../Utility/CopyButton";
 import QRCode from "qrcode.react";
 // import Tap from "@tapfiliate/tapfiliate-js";
+import ls from "common/localStorage";
+
+const STORAGE_KEY = "__meta-ref__";
+const ss = new ls(STORAGE_KEY);
 
 class AccountRegistrationConfirm extends React.Component {
     static propTypes = {
@@ -149,6 +153,7 @@ class AccountRegistrationConfirm extends React.Component {
 
     trackSignup(customerId) {
         tap("customer", customerId);
+        ss.set("referred_user_id", customerId);
     }
 
     createAccount(
