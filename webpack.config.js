@@ -101,6 +101,10 @@ module.exports = function(env) {
             {
                 from: path.join(root_dir, "charting_library"),
                 to: "charting_library"
+            },
+            {
+                from: path.join(root_dir, "voiceit_library"),
+                to: "voiceit_library"
             }
         ])
     ];

@@ -376,15 +376,11 @@ class AccountRegistrationConfirm extends React.Component {
     toggleConfirmedTerms3(e) {
         if (e.target.checked) {
             const {email} = this.state;
-            window.location.href = `${
-                process.env.VOICEIT_URL
-            }/video-enrollment?email=${encodeURIComponent(email)}&redirectUrl=${
-                window.location.origin
-            }/auth-proceed`;
+            const queryString = `email=${encodeURIComponent(
+                email
+            )}&redirectUrl=${window.location.origin}/auth-proceed`;
+            window.location.href = `${process.env.VOICEIT_URL}/video-enrollment?${queryString}`;
         }
-        // this.setState({
-        //     confirmedTerms3: e.target.checked
-        // });
     }
 
     async toggleConfirmedTerms4(e) {
@@ -508,9 +504,9 @@ class AccountRegistrationConfirm extends React.Component {
                         </button>
                     </Checkbox>{" "}
                     <hr></hr>
-                    <div id="myModal" class="custom-modal">
-                        <div class="custom-modal-content">
-                            <span class="close">&times;</span>
+                    <div id="myModal" className="custom-modal">
+                        <div className="custom-modal-content">
+                            <span className="close">&times;</span>
                             <h2 style={{color: "black"}}>META1 Terms of Use</h2>
 
                             <p>Version 1.0</p>

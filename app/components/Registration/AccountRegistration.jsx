@@ -1,19 +1,26 @@
 import React from "react";
 import Translate from "react-translate-component";
+import {Helmet} from "react-helmet";
+import {connect} from "alt-react";
+
 import {Button} from "bitshares-ui-style-guide";
 import ReactTooltip from "react-tooltip";
-import {connect} from "alt-react";
 import qs from "qs";
 import {PrivateKey} from "meta1js/es";
+
 import utils from "common/utils";
 import SettingsActions from "actions/SettingsActions";
-import AccountRegistrationForm from "./AccountRegistrationForm";
-import AccountRegistrationConfirm from "./AccountRegistrationConfirm";
 import AuthStore from "../../stores/AuthStore";
 import ls from "../../lib/common/localStorage";
 
+import AccountRegistrationForm from "./AccountRegistrationForm";
+import AccountRegistrationConfirm from "./AccountRegistrationConfirm";
+
 const STORAGE_KEY = "__AuthData__";
 const ss = new ls(STORAGE_KEY);
+
+let voiceItClient;
+
 class AccountRegistration extends React.Component {
     constructor() {
         super();
@@ -251,12 +258,7 @@ class AccountRegistration extends React.Component {
 
     renderScreen() {
         const {formStep, torusAlreadyAssociatedEmail, finalStep} = this.state;
-        console.log(
-            "!!!! state: ",
-            formStep,
-            torusAlreadyAssociatedEmail,
-            finalStep
-        );
+
         if (formStep) {
             return <AccountRegistrationForm continue={this.continue} />;
         } else if (torusAlreadyAssociatedEmail) {
@@ -292,9 +294,40 @@ class AccountRegistration extends React.Component {
         }
     }
 
+    // TODO: complete this functionality
+    createVoiceItUser = async () => {
+        console.log(voiceItClient);
+    };
+
+    // TODO: notify the project that voiceit script is loaded
+    handleOnLoadVoiceItLib = ev => {
+        voiceItClient = new window.VoiceIt2.initialize(
+            "https://humankyc.cryptomailsvc.io/api/init",
+            "en-US"
+        );
+
+        voiceItClient.setThemeColor("#0000FF");
+
+        this.createVoiceItUser();
+    };
+
+    // FIXME: have to remove event listener
+    handleScriptInject({scriptTags}) {
+        if (scriptTags) {
+            const scriptTag = scriptTags[0];
+            scriptTag.onload = this.handleOnLoadVoiceItLib;
+        }
+    }
+
     render() {
         return (
             <div className="no-margin grid-block registration-layout registration">
+                <Helmet
+                    script={[{src: "../../../voiceit_library/voiceit2.min.js"}]}
+                    onChangeClientState={(_, addedTags) =>
+                        this.handleScriptInject(addedTags)
+                    }
+                />
                 <div className="grid-block horizontal align-center text-center">
                     <div>
                         <img
