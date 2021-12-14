@@ -10,6 +10,7 @@ import SendModal from "../Modal/SendModal";
 import DepositModalBtc from "../Modal/DepositModalBtc";
 import DepositModalEth from "../Modal/DepositModalEth";
 import DepositModalUsdt from "../Modal/DepositModalUsdt";
+import WithdrawModal from "../Modal/WithdrawModal";
 // import DepositModalEos from "../Modal/DepositModalEos";
 // import DepositModalXlm from "../Modal/DepositModalXlm";
 // import DepositModalBnb from "../Modal/DepositModalBnb";
@@ -331,6 +332,12 @@ class Header extends React.Component {
     _triggerMenu(e) {
         e.preventDefault();
         ZfApi.publish("mobile-menu", "toggle");
+    }
+
+    _showWithdraw(e) {
+        e.preventDefault();
+        if (this.withdraw_modal) this.withdraw_modal.show();
+        this._closeDropdown();
     }
 
     _toggleLock(e) {
@@ -1277,7 +1284,6 @@ class Header extends React.Component {
                             <Translate content="header.settings" />
                         </div>
                     </li>
-
                     {/*<li
                         className={cnames(
                             {active: active.indexOf("/spotlight") !== -1},
@@ -1289,7 +1295,6 @@ class Header extends React.Component {
                             <Translate content="header.showcases" />
                         </div>
                     </li>*/}
-
                     <li
                         className={cnames(
                             {active: active.indexOf("/settings") !== -1},
@@ -1303,8 +1308,8 @@ class Header extends React.Component {
                             <Translate content="header.settings" />{" "}
                         </div>
                     </li>
-
-                    /* no hardware wallet support at this time, remove to reduce questions
+                    /* no hardware wallet support at this time, remove to reduce
+                    questions
                     <li
                         className={cnames({
                             active:
@@ -1351,7 +1356,8 @@ class Header extends React.Component {
                             <Translate content="explorer.assets.ledger" />
                         </div>
                     </li>
-                    *** end no hardware wallet support at this time, remove to reduce questions */
+                    *** end no hardware wallet support at this time, remove to
+                    reduce questions */
                     <li
                         className={cnames({
                             active: active.indexOf("/signedmessages") !== -1,
@@ -1372,7 +1378,6 @@ class Header extends React.Component {
                             <Translate content="account.signedmessages.menuitem" />
                         </div>
                     </li>
-
                     <li
                         className={cnames({
                             active: active.indexOf("/member-stats") !== -1,
@@ -1393,7 +1398,6 @@ class Header extends React.Component {
                             <Translate content="account.member.stats" />
                         </div>
                     </li>
-
                     {isMyAccount ? (
                         <li
                             className={cnames({
@@ -1409,7 +1413,6 @@ class Header extends React.Component {
                             </div>
                         </li>
                     ) : null}
-
                     <li
                         className={cnames({
                             active: active.indexOf("/whitelist") !== -1,
@@ -1430,7 +1433,6 @@ class Header extends React.Component {
                             <Translate content="account.whitelist.title" />
                         </div>
                     </li>
-
                     <li
                         className={cnames("divider", {
                             active: active.indexOf("/permissions") !== -1,
@@ -1451,7 +1453,6 @@ class Header extends React.Component {
                             <Translate content="account.permissions" />
                         </div>
                     </li>
-
                     {showAccountLinks ? (
                         <li
                             className={cnames(
@@ -1800,6 +1801,7 @@ class Header extends React.Component {
                                     }
                                     showDeposit={this._showDeposit.bind(this)}
                                     showSend={this._showSend.bind(this)}
+                                    showWithdraw={this._showWithdraw.bind(this)}
                                     toggleDropdownSubmenu={this._toggleDropdownSubmenu.bind(
                                         this,
                                         SUBMENUS.SETTINGS
@@ -1878,6 +1880,13 @@ class Header extends React.Component {
                     ref="deposit_modal_new112"
                     modalId="deposit_modal_new122"
                     account={currentAccount}
+                />
+                <WithdrawModal
+                    id="withdraw_modal_header"
+                    refCallback={e => {
+                        if (e) this.withdraw_modal = e;
+                    }}
+                    from_name={currentAccount}
                 />
             </div>
         );
