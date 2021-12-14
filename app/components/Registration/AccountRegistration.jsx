@@ -299,10 +299,12 @@ class AccountRegistration extends React.Component {
         console.log(voiceItClient);
     };
 
+    // FIXME: determine where to import voiceit library
     // TODO: notify the project that voiceit script is loaded
+    // https://github.com/voiceittech/VoiceIt2-WebSDK#front
     handleOnLoadVoiceItLib = ev => {
         voiceItClient = new window.VoiceIt2.initialize(
-            "https://humankyc.cryptomailsvc.io/api/init",
+            process.env.REACT_APP_VOICEIT_API_URL,
             "en-US"
         );
 
