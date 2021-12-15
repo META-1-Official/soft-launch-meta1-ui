@@ -267,35 +267,40 @@ function BindToChainState(Component, options = {}) {
                         prop,
                         this.default_props["autosubscribe"]
                     );
-                    const referred_user = ss.get("referred_user_id", "null");
-                    if (
-                        new_obj &&
-                        referred_user === prop &&
-                        referred_user !== "null"
-                    ) {
+                    if (new_obj && new_obj !== this.state[key]) {
+                        const referred_user = ss.get(
+                            "referred_user_id",
+                            "null"
+                        );
                         console.log("@getAccount details", referred_user, prop);
-                        const historyList = new_obj.get("history");
-                        if (historyList) {
-                            let seen_ops = new Set();
-                            const callback = () => {
-                                console.log("Finalizing");
-                                ss.remove("referred_user_id");
-                            };
-                            const parsed = historyList
-                                .toJS()
-                                .filter(
-                                    op =>
-                                        !seen_ops.has(op.id) &&
-                                        seen_ops.add(op.id)
-                                );
-                            // console.log('###', parsed)
-                            parsed.slice(0, 25).forEach(o => {
-                                checkAffiliateCommission(
-                                    o,
-                                    referred_user,
-                                    callback
-                                );
-                            });
+                        if (
+                            referred_user === prop &&
+                            referred_user !== "null"
+                        ) {
+                            console.log("True");
+                            const historyList = new_obj.get("history");
+                            if (historyList) {
+                                let seen_ops = new Set();
+                                const callback = () => {
+                                    console.log("Finalizing");
+                                    ss.remove("referred_user_id");
+                                };
+                                const parsed = historyList
+                                    .toJS()
+                                    .filter(
+                                        op =>
+                                            !seen_ops.has(op.id) &&
+                                            seen_ops.add(op.id)
+                                    );
+                                // console.log('###', parsed)
+                                parsed.slice(0, 25).forEach(o => {
+                                    checkAffiliateCommission(
+                                        o,
+                                        referred_user,
+                                        callback
+                                    );
+                                });
+                            }
                         }
                     }
                     if (
