@@ -370,6 +370,7 @@ class RecentTransactions extends React.Component {
     }
 
     render() {
+        // console.log('### render tran', this.props);
         let {
             accountsList,
             compactView,

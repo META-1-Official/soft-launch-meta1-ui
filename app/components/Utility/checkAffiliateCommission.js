@@ -20,6 +20,7 @@ export default function getDataSource(o, referred_user, callback) {
     );
     let trxTypes = counterpart.translate("transaction.trxTypes");
     console.log("Called by chain", trxTypes[ops[o.op[0]]], referred_user);
+    console.log("%%%%", o.op[1]);
     if (
         trxTypes[ops[o.op[0]]] !== "Transfer" ||
         o.block_num > lastIrreversibleBlockNum ||
@@ -29,6 +30,9 @@ export default function getDataSource(o, referred_user, callback) {
         return;
     }
     // let fee = o.op[1].fee;
+    console.log("$$$", o.op[1].from, ChainStore.getAccount(o.op[1].from));
+    console.log("$$$", o.op[1].amount, ChainStore.getAsset(o.op[1].amount));
+    console.log("$$$", o.op[1].to, ChainStore.getAccount(o.op[1].to));
     const info = [
         {
             type: "account",
@@ -64,18 +68,18 @@ export default function getDataSource(o, referred_user, callback) {
     // console.log("fee", fee.amount);
     // console.log("fee asset", fee.asset_id);
     // console.log("tx type", trxTypes[ops[o.op[0]]]);
-    // console.log("info with id:", o.id, info);
+    console.log("info with id:", o.id, info);
     // console.log("from:::", info[0].details.name, info[0].details.id);
     // console.log("to:::", info[2].details.name, info[2].details.id);
     // console.log("amount::: ", info[1].details.symbol, info[1].details.precision, info[1].value.amount * 10**-info[1].details.precision);
-    if (referred_user === info[2].details.name) {
+    if (referred_user === info[2].details.name && info[1].details.symbol) {
         const precision = utils.get_asset_precision(info[1].details.precision);
         const decimalOffset =
             o.op[1].amount.asset_id.asset_id === "1.3.0" ? 5 : 0;
         const decimals = Math.max(0, precision - decimalOffset);
         // console.log("amount parsed::: ", o.id, info[1].details.symbol, precision, decimals, info[1].value.amount / decimals);
         console.log("finalizing and tracking", info, decimals);
-        debugger;
+        // debugger;
         tap("conversion", `${o.id}`, info[1].value.amount / decimals, {
             customer_id: info[2].details.name,
             meta_data: {
