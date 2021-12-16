@@ -1,6 +1,5 @@
 import React from "react";
 import Translate from "react-translate-component";
-import {Helmet} from "react-helmet";
 import {connect} from "alt-react";
 
 import {Button} from "bitshares-ui-style-guide";
@@ -18,8 +17,6 @@ import AccountRegistrationConfirm from "./AccountRegistrationConfirm";
 
 const STORAGE_KEY = "__AuthData__";
 const ss = new ls(STORAGE_KEY);
-
-let voiceItClient;
 
 class AccountRegistration extends React.Component {
     constructor() {
@@ -294,42 +291,9 @@ class AccountRegistration extends React.Component {
         }
     }
 
-    // TODO: complete this functionality
-    createVoiceItUser = async () => {
-        console.log(voiceItClient);
-    };
-
-    // FIXME: determine where to import voiceit library
-    // TODO: notify the project that voiceit script is loaded
-    // https://github.com/voiceittech/VoiceIt2-WebSDK#front
-    handleOnLoadVoiceItLib = ev => {
-        voiceItClient = new window.VoiceIt2.initialize(
-            process.env.REACT_APP_VOICEIT_API_URL,
-            "en-US"
-        );
-
-        voiceItClient.setThemeColor("#0000FF");
-
-        this.createVoiceItUser();
-    };
-
-    // FIXME: have to remove event listener
-    handleScriptInject({scriptTags}) {
-        if (scriptTags) {
-            const scriptTag = scriptTags[0];
-            scriptTag.onload = this.handleOnLoadVoiceItLib;
-        }
-    }
-
     render() {
         return (
             <div className="no-margin grid-block registration-layout registration">
-                <Helmet
-                    script={[{src: "../../../voiceit_library/voiceit2.min.js"}]}
-                    onChangeClientState={(_, addedTags) =>
-                        this.handleScriptInject(addedTags)
-                    }
-                />
                 <div className="grid-block horizontal align-center text-center">
                     <div>
                         <img
