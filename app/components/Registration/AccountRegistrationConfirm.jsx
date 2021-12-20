@@ -25,7 +25,7 @@ import CopyButton from "../Utility/CopyButton";
 import QRCode from "qrcode.react";
 import ls from "../../lib/common/localStorage";
 
-import {voiceItApi, kycApi} from "../../services/api";
+import voiceItService from "../../services/voice-it.service";
 
 const STORAGE_KEY = "__AuthData__";
 const ss = new ls(STORAGE_KEY);
@@ -52,7 +52,8 @@ class AccountRegistrationConfirm extends React.Component {
             confirmedTerms2: false,
             confirmedTerms3: false,
             confirmedTerms4: false,
-            isErrored: false
+            isErrored: false,
+            voiceItClientHasInitialized: false
         };
         this.onFinishConfirm = this.onFinishConfirm.bind(this);
         this.toggleConfirmed = this.toggleConfirmed.bind(this);
@@ -72,7 +73,9 @@ class AccountRegistrationConfirm extends React.Component {
             nextState.confirmedTerms !== this.state.confirmedTerms ||
             nextState.confirmedTerms2 !== this.state.confirmedTerms2 ||
             nextState.confirmedTerms3 !== this.state.confirmedTerms3 ||
-            nextState.confirmedTerms4 !== this.state.confirmedTerms4
+            nextState.confirmedTerms4 !== this.state.confirmedTerms4 ||
+            nextState.voiceItClientHasInitialized !==
+                this.state.voiceItClientHasInitialized
         );
     }
 
@@ -381,11 +384,18 @@ class AccountRegistrationConfirm extends React.Component {
 
     toggleConfirmedTerms3(e) {
         if (e.target.checked) {
-            const {email} = this.state;
-            const queryString = `email=${encodeURIComponent(
-                email
-            )}&redirectUrl=${window.location.origin}/auth-proceed`;
-            window.location.href = `${process.env.VOICEIT_URL}/video-enrollment?${queryString}`;
+            if (!this.state.voiceItClientHasInitialized) return;
+
+            voiceItClient.encapsulatedVideoEnrollment({
+                contentLanguage: "en-US", // TODO: save this value to env
+                phrase: "Never forget tomorrow is a new day",
+                completionCallback: (success, jsonResponse) => {}
+            });
+            // const {email} = this.state;
+            // const queryString = `email=${encodeURIComponent(
+            //     email
+            // )}&redirectUrl=${window.location.origin}/auth-proceed`;
+            // window.location.href = `${process.env.VOICEIT_URL}/video-enrollment?${queryString}`;
         }
     }
 
@@ -429,13 +439,28 @@ class AccountRegistrationConfirm extends React.Component {
 
     // TODO: complete this functionality
     createVoiceItUser = async () => {
-        console.log(voiceItClient);
+        const [voiceItUser] = await voiceItService.createVoiceItUser();
+        if (voiceItUser) this.generateVoiceItUserToken(voiceItUser.userId);
     };
 
-    // FIXME: determine where to import voiceit library
+    generateVoiceItUserToken = async voiceItUserId => {
+        const [
+            voiceItUserToken
+        ] = await voiceItService.generateVoiceItUserToken(voiceItUserId);
+        if (!voiceItUserToken) return;
+
+        voiceItClient.setSecureToken(voiceItUserToken);
+        this.setState({voiceItClientHasInitialized: true});
+    };
+
     // TODO: notify the project that voiceit script is loaded
     // https://github.com/voiceittech/VoiceIt2-WebSDK#front
-    onLoadVoiceItLibrary = ev => {
+    onLoadVoiceItLibrary = async _ => {
+        const [voiceItPhrases] = await voiceItService.getVoiceItPhrases(
+            "en-US"
+        );
+        console.log("voiceItPhrases: ", voiceItPhrases);
+
         voiceItClient = new window.VoiceIt2.initialize(
             process.env.REACT_APP_VOICEIT_API_URL,
             "en-US"
@@ -456,7 +481,7 @@ class AccountRegistrationConfirm extends React.Component {
 
     render() {
         return (
-            <>
+            <React.Fragment>
                 <Helmet
                     script={[{src: "../../../voiceit_library/voiceit2.min.js"}]}
                     onChangeClientState={(_, addedTags) =>
@@ -1330,7 +1355,7 @@ class AccountRegistrationConfirm extends React.Component {
                         </Button>
                     </Form.Item>
                 </Form>
-            </>
+            </React.Fragment>
         );
     }
 }
