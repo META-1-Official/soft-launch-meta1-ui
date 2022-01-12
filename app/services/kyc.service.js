@@ -1,12 +1,16 @@
 import {kycApi} from "./api";
 
 const getUserKycProfile = async email => {
-    try {
-        const {data} = await kycApi.get("/users", {params: {email}});
-        return [data, null];
-    } catch (error) {
-        return [null, error];
-    }
+    const {data} = await kycApi.get("/users", {params: {email}});
+    return data;
 };
 
-export default {getUserKycProfile};
+const postUserKycProfile = async (email, voiceitID) => {
+    const {data} = await kycApi.post("/users", {
+        email,
+        voiceitID
+    });
+    return data;
+};
+
+export default {getUserKycProfile, postUserKycProfile};
