@@ -171,7 +171,8 @@ module.exports = function(env) {
                         process.env.TORUS_PROJECT_SECRET
                     ),
                     TORUS_NETWORK: JSON.stringify(process.env.TORUS_NETWORK),
-                    VOICEIT_URL: JSON.stringify(process.env.VOICEIT_URL)
+                    VOICEIT_URL: JSON.stringify(process.env.VOICEIT_URL),
+                    VOICEIT_LANG: JSON.stringify(process.env.VOICEIT_LANG)
                 },
                 __DEV__: true
             })

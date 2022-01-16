@@ -55,7 +55,8 @@ class AccountRegistrationConfirm extends React.Component {
             confirmedTerms3: false,
             confirmedTerms4: false,
             isErrored: false,
-            voiceItClientHasInitialized: false
+            voiceItClientHasInitialized: false,
+            voiceItPhrases: []
         };
         this.onFinishConfirm = this.onFinishConfirm.bind(this);
         this.toggleConfirmed = this.toggleConfirmed.bind(this);
@@ -386,17 +387,24 @@ class AccountRegistrationConfirm extends React.Component {
 
     toggleConfirmedTerms3(e) {
         if (e.target.checked) {
-            if (!this.state.voiceItClientHasInitialized) return;
+            if (
+                !this.state.voiceItClientHasInitialized ||
+                !this.state.voiceItPhrases
+            )
+                return;
 
             voiceItClient.encapsulatedVideoEnrollment({
-                contentLanguage: "en-US", // TODO: save this value to env
-                phrase: "Never forget tomorrow is a new day",
-                completionCallback: (success, jsonResponse) => {
+                contentLanguage: process.env.VOICEIT_LANG, // TODO: save this value to env
+                phrase: this.state.voiceItPhrases[0].text,
+                completionCallback: async (success, jsonResponse) => {
+                    console.log("Status", success, jsonResponse);
                     if (success) {
                         console.log(
                             "video enrolled successfully",
                             jsonResponse
                         );
+                        this.updateStatusAndProceed();
+                        // window.location.reload();
                     } else {
                         console.log("Voice Enrollments Cancelled or Failed!");
                     }
@@ -448,10 +456,23 @@ class AccountRegistrationConfirm extends React.Component {
         // });
     }
 
-    // TODO: complete this functionality
+    updateStatusAndProceed = async () => {
+        try {
+            const data = await kycService.postVoiceItEnrollment(
+                this.state.email,
+                "success"
+            );
+            const jwt = data.authorization;
+            ss.set("confirmedTerms3Token", jwt);
+            await this.verifyVoiceIT(jwt, this.state.email);
+        } catch (err) {
+            console.log("Err in Verifying Enrollment", err);
+        }
+    };
+
     initiateVoiceItUser = async () => {
         try {
-            const email = encodeURIComponent(this.state.email);
+            const email = encodeURI(this.state.email);
             const data = await kycService.getUserKycProfile(email);
             console.log("$$$$ data", data);
             if (data && data.status && data.status.voiceitID) {
@@ -491,12 +512,14 @@ class AccountRegistrationConfirm extends React.Component {
     // TODO: notify the project that voiceit script is loaded
     // https://github.com/voiceittech/VoiceIt2-WebSDK#front
     onLoadVoiceItLibrary = async _ => {
-        const voiceItPhrases = await voiceItService.getVoiceItPhrases("en-US");
-        console.log("voiceItPhrases: ", voiceItPhrases);
+        const voiceItPhrases = await voiceItService.getVoiceItPhrases(
+            process.env.VOICEIT_LANG
+        );
+        this.setState({voiceItPhrases});
 
         voiceItClient = new window.VoiceIt2.initialize(
-            `${process.env.VOICEIT_URL}/api`,
-            "en-US"
+            `${process.env.VOICEIT_URL}/api/init`,
+            process.env.VOICEIT_LANG
         );
 
         voiceItClient.setThemeColor("#0000FF");

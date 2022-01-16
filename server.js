@@ -58,7 +58,7 @@ var options = {
     cert: fs.readFileSync("./ssl/server.crt")
 };
 
-http.createServer(app).listen(8080);
+http.createServer(app).listen(8090);
 https.createServer(options, app).listen(8085);
 
 console.log("Listening at http://localhost:8080/ or https://localhost:8085/");

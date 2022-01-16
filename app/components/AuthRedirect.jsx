@@ -5,6 +5,7 @@ import {ChainStore} from "meta1js";
 import {PrivateKey, FetchChain} from "meta1js/es";
 import qs from "qs";
 import axios from "axios";
+import {Helmet} from "react-helmet";
 
 import AuthStore from "../stores/AuthStore";
 import AccountStore from "../stores/AccountStore";
@@ -15,10 +16,12 @@ import AccountActions from "../actions/AccountActions";
 import WalletUnlockActions from "../actions/WalletUnlockActions";
 import LoadingIndicator from "./LoadingIndicator";
 import ls from "../lib/common/localStorage";
+import voiceItService from "../services/voice-it.service";
+import kycService from "../services/kyc.service";
 
 const STORAGE_KEY = "__AuthData__";
 const ss = new ls(STORAGE_KEY);
-
+let voiceItClient;
 class AuthRedirect extends React.Component {
     constructor() {
         super();
@@ -31,7 +34,10 @@ class AuthRedirect extends React.Component {
             passwordError: false,
             redirectFromVoiceItEnrollment: "",
             redirectFromVoiceItVerification: "",
-            redirectFromESign: false
+            redirectFromESign: false,
+            insertVoiceIt: false,
+            voiceItClientHasInitialized: false,
+            voiceItPhrases: []
         };
         this.skipFreshCreationAndProceed = this.skipFreshCreationAndProceed.bind(
             this
@@ -88,7 +94,7 @@ class AuthRedirect extends React.Component {
 
     componentDidUpdate(prevProps, prevState) {
         const {openLogin, privKey, authData} = this.props;
-        const {skipCreationFlow} = this.state;
+        const {skipCreationFlow, voiceItClientHasInitialized} = this.state;
         if (openLogin && !prevProps.openLogin && !skipCreationFlow) {
             // debugger;
             this.generateAuthData();
@@ -105,6 +111,12 @@ class AuthRedirect extends React.Component {
         }
         if (!prevState.passwordError && this.state.passwordError) {
             this.props.history.push("/registration");
+        }
+        if (
+            voiceItClientHasInitialized &&
+            !prevState.voiceItClientHasInitialized
+        ) {
+            this.startVerification();
         }
     }
 
@@ -179,6 +191,7 @@ class AuthRedirect extends React.Component {
                 );
             }
         } else if (logInUserName && redirectFromVoiceItVerification) {
+            // Old logic with redirection of VoiceIT service
             try {
                 const response = await axios({
                     url:
@@ -209,12 +222,12 @@ class AuthRedirect extends React.Component {
                 console.log("Error proceeding auth after voiceit", err);
             }
         } else if (logInUserName) {
-            //
-            window.location.href = `${
-                process.env.VOICEIT_URL
-            }/video-verification?email=${encodeURIComponent(
-                authData.email
-            )}&redirectUrl=${window.location.origin}/auth-proceed`;
+            this.setState({insertVoiceIt: true});
+            // window.location.href = `${
+            //     process.env.VOICEIT_URL
+            // }/video-verification?email=${encodeURIComponent(
+            //     authData.email
+            // )}&redirectUrl=${window.location.origin}/auth-proceed`;
         } else {
             this.props.history.push("/registration");
         }
@@ -351,8 +364,177 @@ class AuthRedirect extends React.Component {
         }
     }
 
+    /* VoiceIt verification/enrollment related functions start */
+    verifyVoiceIT = async (jwt, email, enrollment) => {
+        const {privKey} = this.props;
+        const logInUserName = ss.get("account_login_name", "");
+        let service = kycService.getVerificationData;
+        if (enrollment) {
+            service = kycService.getEnrollmentData;
+        }
+        const data = await service(jwt, email);
+        if (data) {
+            debugger;
+            if (data.email === email && data.status === "success") {
+                const password = this.genKey(`${logInUserName}${privKey}`);
+                this.validateLogin(password, logInUserName);
+            }
+        }
+    };
+
+    updateStatusAndProceed = async enrollemnt => {
+        try {
+            const {authData} = this.props;
+            let service = kycService.postVoiceItVerification;
+            if (enrollemnt) {
+                service = kycService.postVoiceItEnrollment;
+            }
+            const data = await service(authData.email, "success");
+            const jwt = data.authorization;
+            await this.verifyVoiceIT(jwt, authData.email, enrollemnt);
+        } catch (err) {
+            console.log("Err in Verifying Enrollment", err);
+        }
+    };
+
+    startEnrollment = () => {
+        const {voiceItPhrases} = this.state;
+        if (!voiceItPhrases) {
+            console.log("Issue with VoiceIT initialization");
+        }
+        voiceItClient.encapsulatedVideoEnrollment({
+            contentLanguage: process.env.VOICEIT_LANG,
+            phrase: voiceItPhrases[0].text,
+            completionCallback: async (success, jsonResponse) => {
+                console.log("Status", success, jsonResponse);
+                if (success) {
+                    console.log("video enrolled successfully", jsonResponse);
+                    this.updateStatusAndProceed(true);
+                    // window.location.reload();
+                } else {
+                    console.log("Voice Enrollments Cancelled or Failed!");
+                }
+            }
+        });
+    };
+
+    startVerification = () => {
+        const {voiceItPhrases} = this.state;
+        if (!voiceItPhrases) {
+            console.log("Issue with VoiceIT initialization");
+        }
+        voiceItClient.encapsulatedVideoVerification({
+            doLiveness: true,
+            contentLanguage: process.env.VOICEIT_LANG,
+            phrase: voiceItPhrases[0].text,
+            needEnrollmentsCallback: () => {
+                alert("A minimum of three enrollments are needed");
+                this.startEnrollment();
+            },
+            completionCallback: async (success, jsonResponse) => {
+                console.log("Status", success, jsonResponse);
+                if (success) {
+                    console.log("video enrolled successfully", jsonResponse);
+                    this.updateStatusAndProceed();
+                    // window.location.reload();
+                } else {
+                    console.log("Voice Enrollments Cancelled or Failed!");
+                }
+            }
+        });
+    };
+
+    initiateVoiceItUser = async () => {
+        try {
+            const {authData} = this.props;
+            const email = encodeURI(authData.email);
+            const data = await kycService.getUserKycProfile(email);
+            // console.log("$$$$ data", data);
+            if (data && data.status && data.status.voiceitID) {
+                await this.generateVoiceItUserToken(data.status.voiceitID);
+            } else {
+                const voiceItCreateData = await voiceItService.createVoiceItUser();
+                if (voiceItCreateData.userId) {
+                    const kycProfileUpdate = await kycService.postUserKycProfile(
+                        authData.email,
+                        voiceItCreateData.userId
+                    );
+                    if (!kycProfileUpdate.result) {
+                        throw new Error("Error in KYC Profile update");
+                    }
+                    await this.generateVoiceItUserToken(
+                        voiceItCreateData.userId
+                    );
+                }
+            }
+        } catch (err) {
+            console.error("Error in initiateVoiceItUser", err);
+        }
+    };
+
+    generateVoiceItUserToken = async voiceItUserId => {
+        const voiceItUserToken = await voiceItService.generateVoiceItUserToken(
+            voiceItUserId
+        );
+        if (!voiceItUserToken) {
+            throw new Error("Error generating VoiceIT Token");
+        }
+
+        voiceItClient.setSecureToken(voiceItUserToken);
+        this.setState({voiceItClientHasInitialized: true});
+    };
+
+    // TODO: notify the project that voiceit script is loaded
+    // https://github.com/voiceittech/VoiceIt2-WebSDK#front
+    onLoadVoiceItLibrary = async _ => {
+        try {
+            // console.log('%%%% sdk', window.VoiceIt2, document.VoiceIt2);
+            const voiceItPhrases = await voiceItService.getVoiceItPhrases(
+                process.env.VOICEIT_LANG
+            );
+            // console.log("voiceItPhrases: ", voiceItPhrases);
+            this.setState({voiceItPhrases});
+
+            voiceItClient = new window.VoiceIt2.initialize(
+                `${process.env.VOICEIT_URL}/api/init`,
+                process.env.VOICEIT_LANG
+            );
+
+            voiceItClient.setThemeColor("#0000FF");
+
+            this.initiateVoiceItUser();
+        } catch (err) {
+            console.log("Error initializing VoiceIT", err);
+        }
+    };
+
+    // TODO: remove event listener inside componentWillUnmount
+    onInjectScript({scriptTags}) {
+        if (scriptTags) {
+            const scriptTag = scriptTags[0];
+            scriptTag.onload = this.onLoadVoiceItLibrary;
+        }
+    }
+
+    /* VoiceIt Verification functions end */
+
     render() {
-        return <LoadingIndicator />;
+        const {insertVoiceIt} = this.state;
+        return (
+            <React.Fragment>
+                {insertVoiceIt && (
+                    <Helmet
+                        script={[
+                            {src: "../../../voiceit_library/voiceit2.min.js"}
+                        ]}
+                        onChangeClientState={(_, addedTags) =>
+                            this.onInjectScript(addedTags)
+                        }
+                    />
+                )}
+                <LoadingIndicator />
+            </React.Fragment>
+        );
     }
 }
 
