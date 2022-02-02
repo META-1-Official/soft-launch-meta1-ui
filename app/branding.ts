@@ -1,4 +1,4 @@
-import {Apis} from "meta1js-ws";
+import {Apis} from 'meta1js-ws';
 /** This file centralized customization and branding efforts throughout the whole wallet and is meant to facilitate
  *  the process.
  *
@@ -10,13 +10,13 @@ import {Apis} from "meta1js-ws";
  * @private
  */
 function _isTestnet() {
-  const chainId = (Apis.instance().chain_id || "9e40bec4").substr(0, 8);
-  if (chainId === "9e40bec4") {
-    return false;
-  } else {
-    // treat every other chain as testnet, exact would be chainId === "39f5e2ed"
-    return true;
-  }
+	const chainId = (Apis.instance().chain_id || '9e40bec4').substr(0, 8);
+	if (chainId === '9e40bec4') {
+		return false;
+	} else {
+		// treat every other chain as testnet, exact would be chainId === "39f5e2ed"
+		return true;
+	}
 }
 
 /**
@@ -24,7 +24,7 @@ function _isTestnet() {
  * @returns {string}
  */
 export function getWalletName() {
-  return "META Exchange";
+	return 'META Exchange';
 }
 
 /**
@@ -32,7 +32,7 @@ export function getWalletName() {
  * @returns {string}
  */
 export function getWalletURL() {
-  return "https://meta-exchange.io";
+	return 'https://meta-exchange.io';
 }
 
 /**
@@ -41,16 +41,16 @@ export function getWalletURL() {
  * @returns {{url: string, show: boolean}}
  */
 export function getFaucet() {
-  // https://faucet.testnet.meta1.io/faucet/
-  return {
-    // url: "https://faucet.meta1.io/faucet", // 2017-12-infrastructure worker proposal
-    url:
-      process.env.NODE_ENV === "development"
-        ? "https://faucet.testnet.meta1.io/faucet"
-        : "https://faucet.meta1.io/faucet",
-    show: true,
-    editable: true,
-  };
+	// https://faucet.testnet.meta1.io/faucet/
+	return {
+		// url: "https://faucet.meta1.io/faucet", // 2017-12-infrastructure worker proposal
+		url:
+			process.env.NODE_ENV === 'development'
+				? 'https://faucet.testnet.meta1.io/faucet'
+				: 'https://faucet.meta1.io/faucet',
+		show: true,
+		editable: true,
+	};
 }
 
 /**
@@ -58,7 +58,7 @@ export function getFaucet() {
  * @returns {*}
  */
 export function getLogo() {
-  return require("assets/logo-ico-blue.png");
+	return require('assets/logo-ico-blue.png');
 }
 
 /**
@@ -66,8 +66,8 @@ export function getLogo() {
  * @returns {string}
  */
 export function getDefaultTheme() {
-  // possible ["midnightTheme", "lightTheme"]
-  return "darkTheme";
+	// possible ["midnightTheme", "lightTheme"]
+	return 'darkTheme';
 }
 
 /**
@@ -75,8 +75,8 @@ export function getDefaultTheme() {
  * @returns {string}
  */
 export function getDefaultLogin() {
-  // possible: one of "password", "wallet"
-  return "password";
+	// possible: one of "password", "wallet"
+	return 'password';
 }
 
 /**
@@ -85,11 +85,11 @@ export function getDefaultLogin() {
  * @returns {[string,string,string,string,string,string]}
  */
 export function getUnits() {
-  if (_isTestnet()) {
-    return ["META1"];
-  } else {
-    return ["META1", "USDT", "ETH", "BTC", "LTC", "EOS", "XLM", "BNB"];
-  }
+	if (_isTestnet()) {
+		return ['META1'];
+	} else {
+		return ['META1', 'USDT', 'ETH', 'BTC', 'LTC', 'EOS', 'XLM', 'BNB'];
+	}
 }
 
 /**
@@ -99,7 +99,7 @@ export function getUnits() {
  */
 
 export function getMyMarketsBases() {
-  return ["META1", "BTC", "ETH", "USDT", "LTC", "EOS", "XLM", "BNB"];
+	return ['META1', 'BTC', 'ETH', 'USDT', 'LTC', 'EOS', 'XLM', 'BNB'];
 }
 
 /**
@@ -108,51 +108,51 @@ export function getMyMarketsBases() {
  * @returns {[string]}
  */
 export function getMyMarketsQuotes() {
-  let tokens = {
-    nativeTokens: ["BTC", "META1", "USDT", "EOS", "XLM", "BNB"],
-    bridgeTokens: ["BRIDGE.BCO", "BRIDGE.BTC", "BRIDGE.MONA", "BRIDGE.ZNY"],
-    gdexTokens: [
-      "BTC",
-      "BTO",
-      "EOS",
-      "ETH",
-      "BTM",
-      "NEO",
-      "GAS",
-      "QTUM",
-      "BKBT",
-    ],
-    openledgerTokens: [
-      "OBITS",
-      "BTC",
-      "DASH",
-      "DGD",
-      "DOGE",
-      "EOS",
-      "EOSDAC",
-      "ETH",
-    ],
-    rudexTokens: ["PPY", "GBG"],
-    sparkTokens: [
-      "ZEPH",
-      "PEG.PHP",
-      "ETH",
-      "BTC",
-      "HKD",
-      "SGD",
-      "AUD",
-      "EUR",
-      "GBP",
-    ],
-    xbtsxTokens: ["STH", "POST", "DOGE", "BTC", "LTC", "DASH"],
-    otherTokens: ["BTWTY", "TWENTIX"],
-  };
+	const tokens: ITokenDict = {
+		nativeTokens: ['BTC', 'META1', 'USDT', 'EOS', 'XLM', 'BNB'],
+		bridgeTokens: ['BRIDGE.BCO', 'BRIDGE.BTC', 'BRIDGE.MONA', 'BRIDGE.ZNY'],
+		gdexTokens: [
+			'BTC',
+			'BTO',
+			'EOS',
+			'ETH',
+			'BTM',
+			'NEO',
+			'GAS',
+			'QTUM',
+			'BKBT',
+		],
+		openledgerTokens: [
+			'OBITS',
+			'BTC',
+			'DASH',
+			'DGD',
+			'DOGE',
+			'EOS',
+			'EOSDAC',
+			'ETH',
+		],
+		rudexTokens: ['PPY', 'GBG'],
+		sparkTokens: [
+			'ZEPH',
+			'PEG.PHP',
+			'ETH',
+			'BTC',
+			'HKD',
+			'SGD',
+			'AUD',
+			'EUR',
+			'GBP',
+		],
+		xbtsxTokens: ['STH', 'POST', 'DOGE', 'BTC', 'LTC', 'DASH'],
+		otherTokens: ['BTWTY', 'TWENTIX'],
+	};
 
-  let allTokens = [];
-  for (let type in tokens) {
-    allTokens = allTokens.concat(tokens[type]);
-  }
-  return allTokens;
+	let allTokens: string[] = [];
+	for (const type in tokens) {
+		allTokens = allTokens.concat(tokens[type]);
+	}
+	return allTokens;
 }
 
 /**
@@ -160,46 +160,46 @@ export function getMyMarketsQuotes() {
  *
  * @returns {list of string tuples}
  */
-export function getFeaturedMarkets(quotes = []) {
-  return [
-    ["USDT", "META1"],
-    ["USDT", "BTC"],
-    ["USDT", "USDT"],
-    ["USDT", "ETH"],
-    ["USDT", "DASH"],
-    ["USDT", "GOLD"],
-    ["USDT", "HERO"],
-    ["USDT", "BTC"],
-    ["USDT", "ETH"],
-    ["USDT", "EOS"],
-    ["USDT", "BTO"],
-    ["USDT", "EOSDAC"],
-    ["USDT", "BTC"],
-    ["USDT", "STEEM"],
-    ["USDT", "EOS"],
-    ["CNY", "META1"],
-    ["CNY", "BTC"],
-    ["CNY", "USDT"],
-    ["CNY", "ETH"],
-    ["CNY", "YOYOW"],
-    ["CNY", "OCT"],
-    ["CNY", "BTC"],
-    ["CNY", "ETH"],
-    ["CNY", "EOS"],
-    ["CNY", "BTO"],
-    ["CNY", "BTM"],
-    ["CNY", "SEER"],
-    ["CNY", "BKBT"],
-    ["CNY", "USDT"],
-    ["CNY", "GXC"],
-    ["CNY", "GOLOS"],
-    ["CNY", "GBG"],
-    ["CNY", "BTC"],
-    ["CNY", "EOS"],
-  ].filter((a) => {
-    if (!quotes.length) return true;
-    return quotes.indexOf(a[0]) !== -1;
-  });
+export function getFeaturedMarkets(quotes: string[] = []) {
+	return [
+		['USDT', 'META1'],
+		['USDT', 'BTC'],
+		['USDT', 'USDT'],
+		['USDT', 'ETH'],
+		['USDT', 'DASH'],
+		['USDT', 'GOLD'],
+		['USDT', 'HERO'],
+		['USDT', 'BTC'],
+		['USDT', 'ETH'],
+		['USDT', 'EOS'],
+		['USDT', 'BTO'],
+		['USDT', 'EOSDAC'],
+		['USDT', 'BTC'],
+		['USDT', 'STEEM'],
+		['USDT', 'EOS'],
+		['CNY', 'META1'],
+		['CNY', 'BTC'],
+		['CNY', 'USDT'],
+		['CNY', 'ETH'],
+		['CNY', 'YOYOW'],
+		['CNY', 'OCT'],
+		['CNY', 'BTC'],
+		['CNY', 'ETH'],
+		['CNY', 'EOS'],
+		['CNY', 'BTO'],
+		['CNY', 'BTM'],
+		['CNY', 'SEER'],
+		['CNY', 'BKBT'],
+		['CNY', 'USDT'],
+		['CNY', 'GXC'],
+		['CNY', 'GOLOS'],
+		['CNY', 'GBG'],
+		['CNY', 'BTC'],
+		['CNY', 'EOS'],
+	].filter((a) => {
+		if (!quotes.length) return true;
+		return quotes.indexOf(a[0]) !== -1;
+	});
 }
 
 /**
@@ -208,7 +208,7 @@ export function getFeaturedMarkets(quotes = []) {
  * @returns {[string,string,string,string,string,string,string]}
  */
 export function getAssetNamespaces() {
-  return ["", "", "BRIDGE.", "", "", "", "CITADEL."];
+	return ['', '', 'BRIDGE.', '', '', '', 'CITADEL.'];
 }
 
 /**
@@ -216,8 +216,8 @@ export function getAssetNamespaces() {
  * @returns {[string,string]}
  */
 export function getAssetHideNamespaces() {
-  // e..g "", "bit"
-  return [];
+	// e..g "", "bit"
+	return [];
 }
 
 /**
@@ -225,30 +225,30 @@ export function getAssetHideNamespaces() {
  * @param gateway
  * @returns {boolean}
  */
-export function allowedGateway(gateway) {
-  return ["OPEN"].indexOf(gateway) >= 0;
+export function allowedGateway(gateway: string) {
+	return ['OPEN'].indexOf(gateway) >= 0;
 }
 
 export function getSupportedLanguages() {
-  // not yet supported
+	// not yet supported
 }
 
 export function getAllowedLogins() {
-  // possible: list containing any combination of ["password", "wallet"]
-  return ["password", "wallet"];
+	// possible: list containing any combination of ["password", "wallet"]
+	return ['password', 'wallet'];
 }
 
 export function getConfigurationAsset() {
-  let assetSymbol = null;
-  if (_isTestnet()) {
-    assetSymbol = "NOTIFICATIONS";
-  } else {
-    assetSymbol = "META1";
-  }
-  // explanation will be parsed out of the asset description (via split)
-  return {
-    symbol: assetSymbol,
-    explanation:
-      "This asset is used for decentralized configuration of the Meta1 UI placed under bitshares.org.",
-  };
+	let assetSymbol = null;
+	if (_isTestnet()) {
+		assetSymbol = 'NOTIFICATIONS';
+	} else {
+		assetSymbol = 'META1';
+	}
+	// explanation will be parsed out of the asset description (via split)
+	return {
+		symbol: assetSymbol,
+		explanation:
+			'This asset is used for decentralized configuration of the Meta1 UI placed under bitshares.org.',
+	};
 }

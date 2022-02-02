@@ -139,6 +139,8 @@
         }
     },
     "dependencies": {
+        "@emotion/babel-plugin": "^11.7.2",
+        "@emotion/react": "^11.7.1",
         "@swyftx/api-crypto-address-validator": "^1.12.0",
         "@toruslabs/openlogin": "^1.4.0",
         "alt": "git+https://github.com/bitshares/alt.git#b6b42ceb790ca321402e9add95b9f77af8a7657d",

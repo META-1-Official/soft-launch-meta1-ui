@@ -1,13 +1,14 @@
 {
-  "search.exclude": {
-    "**/node_modules": false
-  },
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact",
-    "Babel Javascript",
-    "typescript",
-    "typescriptreact"
-  ],
-  "eslint.alwaysShowStatus": true
+	"search.exclude": {
+		"**/node_modules": false
+	},
+	"eslint.validate": [
+		"javascript",
+		"javascriptreact",
+		"Babel Javascript",
+		"typescript",
+		"typescriptreact"
+	],
+	"eslint.alwaysShowStatus": true,
+	"editor.tabSize": 2
 }
