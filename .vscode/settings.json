@@ -1,5 +1,13 @@
 {
-    "search.exclude": {
-        "**/node_modules": false
-    }
+  "search.exclude": {
+    "**/node_modules": false
+  },
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "Babel Javascript",
+    "typescript",
+    "typescriptreact"
+  ],
+  "eslint.alwaysShowStatus": true
 }
