@@ -1,6 +1,5 @@
 import {hot} from 'react-hot-loader';
 import React from 'react';
-import {ThemeProvider} from '@emotion/react';
 import App from './App';
 import IntlActions from 'actions/IntlActions';
 import WalletManagerStore from 'stores/WalletManagerStore';
@@ -17,7 +16,6 @@ import InitError from './components/InitError';
 import SyncError from './components/SyncError';
 import counterpart from 'counterpart';
 import LogsActions from 'actions/LogsActions';
-import darkTheme from './lib/styles/themeDark';
 
 /*
  * Electron does not support browserHistory, so we need to use hashHistory.
@@ -25,7 +23,6 @@ import darkTheme from './lib/styles/themeDark';
  */
 import {BrowserRouter} from 'react-router-dom';
 const Router = BrowserRouter;
-
 class RootIntl extends React.Component {
 	componentWillMount() {
 		IntlActions.switchLocale(this.props.locale);
@@ -203,44 +200,41 @@ class AppInit extends React.Component {
 	render() {
 		const {theme, apiServer} = this.props;
 		const {apiConnected, apiError, syncError, status} = this.state;
-
 		if (!apiConnected) {
 			let server = apiServer;
 			if (!!!server) {
 				server = '';
 			}
 			return (
-				<ThemeProvider theme={darkTheme}>
-					<div
-						// style={{backgroundColor: !theme ? "#2a2a2a" : null}}
-						// inline function to access theme is just for integration purpose only. should use withTheme HOC or useTheme hook
-						css={(theme) => ({
-							backgroundColor: theme.colors.background,
-						})}
-						className={theme}
-					>
-						<div id="content-wrapper">
-							<div className="grid-frame vertical">
-								{!apiError ? (
-									<LoadingIndicator
-										loadingText={
-											status ||
-											counterpart.translate('app_init.connecting', {
-												server: server,
-											})
-										}
-									/>
-								) : syncError ? (
-									<SyncError />
-								) : (
-									<BodyClassName className={theme}>
-										<InitError />
-									</BodyClassName>
-								)}
-							</div>
+				<div
+					// style={{backgroundColor: !theme ? "#2a2a2a" : null}}
+					// inline function to access theme is just for integration purpose only. should use withTheme HOC or useTheme hook
+					css={(theme) => ({
+						backgroundColor: theme.colors.background,
+					})}
+					className={theme}
+				>
+					<div id="content-wrapper">
+						<div className="grid-frame vertical">
+							{!apiError ? (
+								<LoadingIndicator
+									loadingText={
+										status ||
+										counterpart.translate('app_init.connecting', {
+											server: server,
+										})
+									}
+								/>
+							) : syncError ? (
+								<SyncError />
+							) : (
+								<BodyClassName className={theme}>
+									<InitError />
+								</BodyClassName>
+							)}
 						</div>
 					</div>
-				</ThemeProvider>
+				</div>
 			);
 		}
 		return <RootIntl {...this.props} {...this.state} />;
