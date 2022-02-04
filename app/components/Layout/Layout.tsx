@@ -2,9 +2,7 @@ import React, {useState} from 'react';
 import {Layout, Menu, Icon} from 'antd';
 import Header from './Header';
 import {useTheme} from '@emotion/react';
-
 const {Header: AntdHeader, Content, Footer, Sider} = Layout;
-
 interface IAppLayout {
 	children: React.ReactNode;
 	height: number;
@@ -16,6 +14,7 @@ const AppLayout = ({children, height}: IAppLayout) => {
 		setcollapsed(!collapsed);
 	};
 	const theme: any = useTheme();
+
 	return (
 		<Layout>
 			<AntdHeader style={{position: 'fixed', zIndex: 1, width: '100%'}}>
@@ -76,8 +75,19 @@ const AppLayout = ({children, height}: IAppLayout) => {
 					<Content>{children}</Content>
 				</Layout>
 			</Content>
-			<Footer style={{position: 'fixed', bottom: 0, zIndex: 1, width: '100%'}}>
-				Ant Design ©2018 Created by Ant UED
+			<Footer
+				css={{
+					position: 'fixed',
+					bottom: 0,
+					zIndex: 1,
+					width: '100%',
+					textAlign: 'center',
+					backgroundColor: `${theme.colors.footerBackground} !important`,
+					padding: '12px 50px !important',
+					color: `${theme.colors.footerTextColor} !important`,
+				}}
+			>
+				Meta1 © 2022
 			</Footer>
 		</Layout>
 	);
