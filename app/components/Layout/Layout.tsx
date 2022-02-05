@@ -41,7 +41,14 @@ const AppLayout = ({children, height}: IAppLayout) => {
 			<Content>
 				<Layout>
 					<Sider
-						css={{backgroundColor: theme.colors.background}}
+						style={{backgroundColor: theme.colors.sideBar}}
+						css={{
+							'&& .ant-menu': {
+								backgroundColor: 'black',
+								height: '100%',
+								marginTop: '4rem',
+							},
+						}}
 						breakpoint="lg"
 						onBreakpoint={(broken) => {
 							broken && toggle();
@@ -52,8 +59,19 @@ const AppLayout = ({children, height}: IAppLayout) => {
 						collapsed={collapsed}
 					>
 						<div className="logo" />
-						<Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
-							<div className="logo" />
+						<Menu
+							css={{
+								'& .ant-menu-item': {
+									borderBottom: '1px solid #1c1f27',
+									height: '44px !important',
+									lineHeight: '44px !important',
+									marginBottom: '0px !important',
+									marginTop: '0px !important',
+								},
+							}}
+							mode="inline"
+							defaultSelectedKeys={['4']}
+						>
 							<Menu.Item key="1">
 								<Icon type="user" />
 								<span className="nav-text">nav 1</span>
@@ -72,7 +90,7 @@ const AppLayout = ({children, height}: IAppLayout) => {
 							</Menu.Item>
 						</Menu>
 					</Sider>
-					<Content>{children}</Content>
+					<Content css={{margin: '4rem 0rem 2rem'}}>{children}</Content>
 				</Layout>
 			</Content>
 			<Footer
