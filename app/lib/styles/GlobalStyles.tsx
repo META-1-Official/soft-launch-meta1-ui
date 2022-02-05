@@ -5,16 +5,27 @@ const GlobalStyles = (theme: any) => css`
 		.ant-menu-item-selected,
 		.ant-menu-item-selected > a,
 		.ant-menu-item-selected > a:hover {
-			color: ${theme.colors.primaryColor};
+			color: ${theme.colors.primaryColor} !important;
 		}
-		.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
-			background: ${theme.colors.menuActiveBackground};
+		.ant-menu .ant-menu-item-selected {
+			background: ${theme.colors.menuActiveBackground} !important;
 		}
 		.ant-menu-item:hover {
-			color: ${theme.colors.primaryColor};
+			color: ${theme.colors.primaryColor} !important;
 		}
 		.ant-menu-inline .ant-menu-item:after {
-			border-right: 3px solid ${theme.colors.primaryColor};
+			border-right: 3px solid ${theme.colors.primaryColor} !important;
+		}
+		.ant-menu-horizontal {
+			background: ${theme.colors.sideBar} !important;
+			.ant-menu-item-selected {
+				border-bottom: none;
+				background-color: transparent !important;
+			}
+			.ant-menu-item:hover {
+				color: ${theme.colors.primaryColor} !important;
+				border-bottom: none;
+			}
 		}
 	}
 `;

@@ -1,6 +1,6 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
 import {connect} from 'alt-react';
+import {Layout, Menu, Row, Col, Typography, Button, Avatar} from 'antd';
 import AccountActions from 'actions/AccountActions';
 import AccountStore from 'stores/AccountStore';
 import SettingsStore from 'stores/SettingsStore';
@@ -35,13 +35,17 @@ import AccountBrowsingMode from '../Account/AccountBrowsingMode';
 import {setLocalStorageType, isPersistantType} from 'lib/common/localStorage';
 
 import {getLogo} from 'branding';
+import StyledButton from 'components/Button/Button';
+import theme from 'lib/styles/themeDark';
+
 var logo = getLogo();
 
 const SUBMENUS = {
 	SETTINGS: 'SETTINGS',
 	DEPOSIT: 'DEPOSIT',
 };
-
+const {Header: AntdHeader} = Layout;
+const {Text} = Typography;
 class Header extends React.Component {
 	constructor(props) {
 		super();
@@ -579,16 +583,6 @@ class Header extends React.Component {
 					/>
 				</div>
 			) : null;
-
-		let dashboard = (
-			<a
-				href="/home"
-				className={cnames('logo')}
-				onClick={this._onNavigate.bind(this, '/home/')}
-			>
-				<img style={{marginTop: -11, height: 35, width: 89}} src={logo} />
-			</a>
-		);
 
 		let createAccountLink = myAccountCount === 0 ? true : null;
 
@@ -1430,54 +1424,118 @@ class Header extends React.Component {
 		};
 
 		return (
-			<div className="header-container" style={{minHeight: '38px'}}>
-				<div>
-					<div
+			<>
+				<AntdHeader
+					style={{
+						position: 'fixed',
+						zIndex: 1,
+						width: '100%',
+						minHeight: '2.8rem',
+						height: '3rem',
+						display: 'flex',
+						backgroundColor: 'black',
+					}}
+				>
+					<Row
+						css={{width: '100%'}}
+						justify="space-between"
+						type="flex"
+						align="middle"
+						gutter={5}
+					>
+						<Col sm={15}>
+							<Col xs={3} sm={2}>
+								<a
+									href="/home"
+									className={cnames('logo')}
+									onClick={this._onNavigate.bind(this, '/home/')}
+								>
+									<img
+										style={{marginTop: -11, height: 35, width: 89}}
+										src={logo}
+									/>
+								</a>
+							</Col>
+							<Col xs={10} sm={11}>
+								<Menu
+									css={{marginLeft: '2rem', backgroundColor: 'black'}}
+									mode="horizontal"
+									defaultSelectedKeys={['2']}
+								>
+									<Menu.Item key="1">Dashboard</Menu.Item>
+									<Menu.Item key="2">Exchange</Menu.Item>
+									<Menu.Item key="3">Explore</Menu.Item>
+									<Menu.Item key="4">Funds</Menu.Item>
+								</Menu>
+							</Col>
+						</Col>
+
+						<Col css={{display: 'flex', justifyContent: 'space-between'}}>
+							<Text css={{color: 'white', marginRight: '15px'}}>Get help</Text>
+							<StyledButton style={{marginRight: '15px'}}>
+								Buy / Sell
+							</StyledButton>
+							<Button
+								style={{
+									margin: '0px 15px',
+									border: `1px solid ${theme.colors.primaryColor}`,
+									color: theme.colors.primaryColor,
+								}}
+							>
+								Send / Recieve
+							</Button>
+							<Avatar style={{backgroundColor: '#ffc000'}} icon="user" />
+						</Col>
+					</Row>
+
+					<SendModal
+						id="send_modal_header"
+						refCallback={(e) => {
+							if (e) this.send_modal = e;
+						}}
+						from_name={currentAccount}
+					/>
+					<DepositModalBtc
+						visibleMeta={this.state.isDepositModalVisibleBtc}
+						hideModalMeta={this.hideDepositModalBtc}
+						showModalMeta={this.showDepositModalBtc}
+						ref="deposit_modal_new1"
+						modalId="deposit_modal_new1"
+						account={currentAccount}
+					/>
+					<DepositModalEth
+						visibleMeta={this.state.isDepositModalVisibleEth}
+						hideModalMeta={this.hideDepositModalEth}
+						showModalMeta={this.showDepositModalEth}
+						ref="deposit_modal_new11"
+						modalId="deposit_modal_new11"
+						account={currentAccount}
+					/>
+					<DepositModalUsdt
+						visibleMeta={this.state.isDepositModalVisibleUsdt}
+						hideModalMeta={this.hideDepositModalUsdt}
+						showModalMeta={this.showDepositModalUsdt}
+						ref="deposit_modal_new1331"
+						modalId="deposit_modal_new1331"
+						account={currentAccount}
+					/>
+					<DepositModalLtc
+						visibleMeta={this.state.isDepositModalVisibleLtc}
+						hideModalMeta={this.hideDepositModalLtc}
+						showModalMeta={this.showDepositModalLtc}
+						ref="deposit_modal_new112"
+						modalId="deposit_modal_new122"
+						account={currentAccount}
+					/>
+				</AntdHeader>
+
+				{/* <div className="header-container" style={{minHeight: '38px'}}> */}
+				{/* <div
 						className="header menu-group primary"
 						style={{flexWrap: 'nowrap', justifyContent: 'none'}}
 					>
-						{__ELECTRON__ ? (
-							<div className="grid-block show-for-medium shrink electron-navigation">
-								<ul className="menu-bar">
-									<li>
-										<div
-											style={{
-												marginLeft: '1rem',
-												height: '3rem',
-											}}
-										>
-											<div
-												style={{marginTop: '0.5rem'}}
-												onClick={this._onGoBack.bind(this)}
-												className="button outline small"
-											>
-												{'<'}
-											</div>
-										</div>
-									</li>
-									<li>
-										<div
-											style={{
-												height: '3rem',
-												marginLeft: '0.5rem',
-												marginRight: '0.75rem',
-											}}
-										>
-											<div
-												style={{marginTop: '0.5rem'}}
-												onClick={this._onGoForward.bind(this)}
-												className="button outline small"
-											>
-												>
-											</div>
-										</div>
-									</li>
-								</ul>
-							</div>
-						) : null}
-
 						<ul className="menu-bar">
-							<li>{dashboard}</li>
+							<li></li>
 							{!currentAccount || !!createAccountLink ? null : (
 								<li className="column-hide-small">
 									<Link
@@ -1539,161 +1597,134 @@ class Header extends React.Component {
 									/>
 								</a>
 							</li>
-							{/* Dynamic Menu Item */}
+
 							<li className="column-hide-small">{dynamicMenuItem}</li>
 						</ul>
-					</div>
-				</div>
+					</div> */}
 
-				<div className="truncated active-account" style={{cursor: 'pointer'}}>
-					<AccountBrowsingMode location={this.props.location} />
-					{this.props.locked == true ? null : (
-						<div>
-							<div className="text account-name">
-								<span onClick={this._toggleAccountDropdownMenu}>
-									{currentAccount}
-								</span>
-								<AccountBrowsingMode
-									location={this.props.location}
-									usernameViewIcon
-								/>
+				{/* <div className="truncated active-account" style={{cursor: 'pointer'}}>
+						<AccountBrowsingMode location={this.props.location} />
+						{this.props.locked == true ? null : (
+							<div>
+								<div className="text account-name">
+									<span onClick={this._toggleAccountDropdownMenu}>
+										{currentAccount}
+									</span>
+									<AccountBrowsingMode
+										location={this.props.location}
+										usernameViewIcon
+									/>
+								</div>
+								{walletBalance}
 							</div>
-							{walletBalance}
-						</div>
-					)}
-					{hasLocalWallet && (
-						<ul
-							className="dropdown header-menu local-wallet-menu"
-							style={{
-								right: 0,
-								maxHeight: !this.state.accountsListDropdownActive
-									? 0
-									: maxHeight,
-								overflowY: 'auto',
-								position: 'absolute',
-								width: '20em',
-							}}
-						>
-							<li
-								className={cnames(
-									{
-										active: active.indexOf('/accounts') !== -1,
-									},
-									'divider'
-								)}
-								onClick={this._onNavigate.bind(this, '/accounts')}
+						)}
+						{hasLocalWallet && (
+							<ul
+								className="dropdown header-menu local-wallet-menu"
+								style={{
+									right: 0,
+									maxHeight: !this.state.accountsListDropdownActive
+										? 0
+										: maxHeight,
+									overflowY: 'auto',
+									position: 'absolute',
+									width: '20em',
+								}}
 							>
-								<div className="table-cell">
-									<Icon size="2x" name="people" title="icons.manage_accounts" />
-								</div>
-								<div className="table-cell">
-									<Translate content="header.accounts_manage" />
-								</div>
-							</li>
-							{accountsList}
-						</ul>
-					)}
-				</div>
-				<div>
-					{this.props.currentAccount == null ? null : (
-						<span
-							onClick={this._toggleLock.bind(this)}
-							style={{cursor: 'pointer'}}
-						>
-							<Icon
-								className="lock-unlock"
-								size="2x"
-								name={this.props.locked ? 'locked' : 'unlocked'}
-								title={
-									this.props.locked
-										? 'icons.locked.common'
-										: 'icons.unlocked.common'
-								}
-							/>
-						</span>
-					)}
-				</div>
-				<div className="app-menu">
-					<div
-						onClick={this._toggleDropdownMenu}
-						className={cnames('menu-dropdown-wrapper dropdown-wrapper', {
-							active: this.state.dropdownActive,
-						})}
-					>
-						<div className="hamburger">{hamburger}</div>
-
-						{(this.state.dropdownSubmenuActive &&
-							submenus[this.state.dropdownSubmenuActiveItem] &&
-							submenus[this.state.dropdownSubmenuActiveItem]) ||
-							(this.state.dropdownSubmenuActiveDeposit &&
-								deposit[this.state.dropdownSubmenuActiveItemDeposit] &&
-								deposit[this.state.dropdownSubmenuActiveItemDeposit]) ||
-							(this.state.dropdownSubmenuActiveAdvanced &&
-								advanced[this.state.dropdownSubmenuActiveItemAdvanced] &&
-								advanced[this.state.dropdownSubmenuActiveItemAdvanced]) || (
-								<DropDownMenu
-									dropdownActive={this.state.dropdownActive}
-									toggleLock={this._toggleLock.bind(this)}
-									maxHeight={maxHeight}
-									locked={this.props.locked}
-									active={active}
-									passwordLogin={passwordLogin}
-									onNavigate={this._onNavigate.bind(this)}
-									isMyAccount={isMyAccount}
-									contacts={this.props.contacts}
-									showAccountLinks={showAccountLinks}
-									tradeUrl={tradeUrl}
-									currentAccount={currentAccount}
-									enableDepositWithdraw={enableDepositWithdraw}
-									showDeposit={this._showDeposit.bind(this)}
-									showSend={this._showSend.bind(this)}
-									toggleDropdownSubmenu={this._toggleDropdownSubmenu.bind(
-										this,
-										SUBMENUS.SETTINGS
+								<li
+									className={cnames(
+										{
+											active: active.indexOf('/accounts') !== -1,
+										},
+										'divider'
 									)}
-									toggleDropdownSubmenuAdvanced={this._toggleDropdownSubmenuAdvanced.bind(
-										this,
-										SUBMENUS.ADVANCED
-									)}
-									toggleDropdownSubmenuDeposit={this._toggleDropdownSubmenuDeposit.bind(
-										this,
-										SUBMENUS.DEPOSIT
-									)}
+									onClick={this._onNavigate.bind(this, '/accounts')}
+								>
+									<div className="table-cell">
+										<Icon
+											size="2x"
+											name="people"
+											title="icons.manage_accounts"
+										/>
+									</div>
+									<div className="table-cell">
+										<Translate content="header.accounts_manage" />
+									</div>
+								</li>
+								{accountsList}
+							</ul>
+						)}
+					</div> */}
+				{/* <div>
+						{this.props.currentAccount == null ? null : (
+							<span
+								onClick={this._toggleLock.bind(this)}
+								style={{cursor: 'pointer'}}
+							>
+								<Icon
+									className="lock-unlock"
+									size="2x"
+									name={this.props.locked ? 'locked' : 'unlocked'}
+									title={
+										this.props.locked
+											? 'icons.locked.common'
+											: 'icons.unlocked.common'
+									}
 								/>
-							)}
-					</div>
-				</div>
-				<SendModal
-					id="send_modal_header"
-					refCallback={(e) => {
-						if (e) this.send_modal = e;
-					}}
-					from_name={currentAccount}
-				/>
-				<DepositModalBtc
-					visibleMeta={this.state.isDepositModalVisibleBtc}
-					hideModalMeta={this.hideDepositModalBtc}
-					showModalMeta={this.showDepositModalBtc}
-					ref="deposit_modal_new1"
-					modalId="deposit_modal_new1"
-					account={currentAccount}
-				/>
-				<DepositModalEth
-					visibleMeta={this.state.isDepositModalVisibleEth}
-					hideModalMeta={this.hideDepositModalEth}
-					showModalMeta={this.showDepositModalEth}
-					ref="deposit_modal_new11"
-					modalId="deposit_modal_new11"
-					account={currentAccount}
-				/>
-				<DepositModalUsdt
-					visibleMeta={this.state.isDepositModalVisibleUsdt}
-					hideModalMeta={this.hideDepositModalUsdt}
-					showModalMeta={this.showDepositModalUsdt}
-					ref="deposit_modal_new1331"
-					modalId="deposit_modal_new1331"
-					account={currentAccount}
-				/>
+							</span>
+						)}
+					</div> */}
+				{/* <div className="app-menu">
+						<div
+							onClick={this._toggleDropdownMenu}
+							className={cnames('menu-dropdown-wrapper dropdown-wrapper', {
+								active: this.state.dropdownActive,
+							})}
+						>
+							<div className="hamburger">{hamburger}</div>
+
+							{(this.state.dropdownSubmenuActive &&
+								submenus[this.state.dropdownSubmenuActiveItem] &&
+								submenus[this.state.dropdownSubmenuActiveItem]) ||
+								(this.state.dropdownSubmenuActiveDeposit &&
+									deposit[this.state.dropdownSubmenuActiveItemDeposit] &&
+									deposit[this.state.dropdownSubmenuActiveItemDeposit]) ||
+								(this.state.dropdownSubmenuActiveAdvanced &&
+									advanced[this.state.dropdownSubmenuActiveItemAdvanced] &&
+									advanced[this.state.dropdownSubmenuActiveItemAdvanced]) || (
+									<DropDownMenu
+										dropdownActive={this.state.dropdownActive}
+										toggleLock={this._toggleLock.bind(this)}
+										maxHeight={maxHeight}
+										locked={this.props.locked}
+										active={active}
+										passwordLogin={passwordLogin}
+										onNavigate={this._onNavigate.bind(this)}
+										isMyAccount={isMyAccount}
+										contacts={this.props.contacts}
+										showAccountLinks={showAccountLinks}
+										tradeUrl={tradeUrl}
+										currentAccount={currentAccount}
+										enableDepositWithdraw={enableDepositWithdraw}
+										showDeposit={this._showDeposit.bind(this)}
+										showSend={this._showSend.bind(this)}
+										toggleDropdownSubmenu={this._toggleDropdownSubmenu.bind(
+											this,
+											SUBMENUS.SETTINGS
+										)}
+										toggleDropdownSubmenuAdvanced={this._toggleDropdownSubmenuAdvanced.bind(
+											this,
+											SUBMENUS.ADVANCED
+										)}
+										toggleDropdownSubmenuDeposit={this._toggleDropdownSubmenuDeposit.bind(
+											this,
+											SUBMENUS.DEPOSIT
+										)}
+									/>
+								)}
+						</div>
+					</div> */}
+
 				{/* <DepositModalEos
                     visibleMeta={this.state.isDepositModalVisibleEos}
                     hideModalMeta={this.hideDepositModalEos}
@@ -1718,15 +1749,8 @@ class Header extends React.Component {
                     modalId="deposit_modal_newfsdfs1sd1"
                     account={currentAccount}
                 /> */}
-				<DepositModalLtc
-					visibleMeta={this.state.isDepositModalVisibleLtc}
-					hideModalMeta={this.hideDepositModalLtc}
-					showModalMeta={this.showDepositModalLtc}
-					ref="deposit_modal_new112"
-					modalId="deposit_modal_new122"
-					account={currentAccount}
-				/>
-			</div>
+				{/* </div> */}
+			</>
 		);
 	}
 }

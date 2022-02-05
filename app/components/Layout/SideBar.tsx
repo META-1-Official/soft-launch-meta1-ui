@@ -70,8 +70,8 @@ const SideBar = ({collapsed, toggle}: ISideBar) => {
 			css={{
 				'&& .ant-menu': {
 					backgroundColor: 'black',
-					height: 'calc(100% - 64px)',
-					marginTop: '4rem',
+					height: 'calc(100% - 38px)',
+					marginTop: '3rem',
 				},
 			}}
 			breakpoint="lg"
@@ -91,6 +91,9 @@ const SideBar = ({collapsed, toggle}: ISideBar) => {
 						lineHeight: '44px !important',
 						marginBottom: '0px !important',
 						marginTop: '0px !important',
+					},
+					'& .ant-menu-item:first-child': {
+						borderTop: '1px solid #1c1f27',
 					},
 				}}
 				mode="inline"

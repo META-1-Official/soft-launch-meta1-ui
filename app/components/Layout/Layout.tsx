@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Layout, Menu, Icon} from 'antd';
+import {Layout} from 'antd';
 import Header from './Header';
 import {useTheme} from '@emotion/react';
 import SideBar from './SideBar';
@@ -17,30 +17,17 @@ const AppLayout = ({children, height}: IAppLayout) => {
 	};
 	return (
 		<Layout>
-			<AntdHeader style={{position: 'fixed', zIndex: 1, width: '100%'}}>
-				{/* <Icon
+			{/* <Icon
 					className="trigger"
 					type={collapsed ? 'menu-unfold' : 'menu-fold'}
 					onClick={toggle}
 				/> */}
-				<Header height={height} />
-
-				{/* <Menu
-					theme="dark"
-					mode="horizontal"
-					defaultSelectedKeys={['2']}
-					style={{lineHeight: '64px'}}
-				>
-					<Menu.Item key="1">nav 1</Menu.Item>
-					<Menu.Item key="2">nav 2</Menu.Item>
-					<Menu.Item key="3">nav 3</Menu.Item>
-				</Menu> */}
-			</AntdHeader>
+			<Header height={height} />
 
 			<Content>
 				<Layout>
 					<SideBar collapsed={collapsed} toggle={toggle} />
-					<Content css={{margin: '4rem 0rem 2rem'}}>{children}</Content>
+					<Content css={{margin: '3rem 0rem 2rem'}}>{children}</Content>
 				</Layout>
 			</Content>
 			<Footer
