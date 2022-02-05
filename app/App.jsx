@@ -34,6 +34,8 @@ import {Route, Switch, Redirect} from 'react-router-dom';
 // Nested route components
 import Page404 from './components/Page404/Page404';
 import AppLayout from 'components/Layout/Layout';
+import {Global} from '@emotion/react';
+import GlobalStyles from 'lib/styles/GlobalStyles';
 
 const Invoice = Loadable({
 	loader: () =>
