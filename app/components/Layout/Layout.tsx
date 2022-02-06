@@ -3,7 +3,7 @@ import {Layout} from 'antd';
 import Header from './Header';
 import {useTheme} from '@emotion/react';
 import SideBar from './SideBar';
-const {Header: AntdHeader, Content, Footer} = Layout;
+const {Content, Footer} = Layout;
 interface IAppLayout {
 	children: React.ReactNode;
 	height: number;
@@ -18,10 +18,10 @@ const AppLayout = ({children, height}: IAppLayout) => {
 	return (
 		<Layout>
 			{/* <Icon
-					className="trigger"
-					type={collapsed ? 'menu-unfold' : 'menu-fold'}
-					onClick={toggle}
-				/> */}
+				className="trigger"
+				type={collapsed ? 'menu-unfold' : 'menu-fold'}
+				onClick={toggle}
+			/> */}
 			<Header height={height} />
 
 			<Content>

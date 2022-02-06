@@ -21,8 +21,8 @@ import LogsActions from 'actions/LogsActions';
  * Electron does not support browserHistory, so we need to use hashHistory.
  * The same is true for servers without configuration options, such as Github Pages
  */
-import {BrowserRouter} from 'react-router-dom';
-const Router = BrowserRouter;
+import {Router} from 'react-router-dom';
+import history from 'lib/common/history';
 class RootIntl extends React.Component {
 	componentWillMount() {
 		IntlActions.switchLocale(this.props.locale);
@@ -35,7 +35,7 @@ class RootIntl extends React.Component {
 				formats={intlData.formats}
 				initialNow={Date.now()}
 			>
-				<Router>
+				<Router history={history}>
 					<App {...this.props} />
 				</Router>
 			</IntlProvider>

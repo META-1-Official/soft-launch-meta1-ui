@@ -34,8 +34,6 @@ import {Route, Switch, Redirect} from 'react-router-dom';
 // Nested route components
 import Page404 from './components/Page404/Page404';
 import AppLayout from 'components/Layout/Layout';
-import {Global} from '@emotion/react';
-import GlobalStyles from 'lib/styles/GlobalStyles';
 
 const Invoice = Loadable({
 	loader: () =>
@@ -489,7 +487,12 @@ class App extends React.Component {
 
 								<Route path="/Onramperwallet" component={Onramperwallet} />
 
-								<Route exact path="/asset-explorer" component={assetExplorer} />
+								<Route
+									exact
+									path="/asset-explorer"
+									component={assetExplorer}
+									{...this.props}
+								/>
 								<Route exact path="/confirm" component={Confirm} />
 								<Route exact path="/confirm/:confirmCode" component={Confirm} />
 								{/* Help routes */}

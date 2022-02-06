@@ -1,6 +1,16 @@
 import React from 'react';
 import {connect} from 'alt-react';
-import {Layout, Menu, Row, Col, Typography, Button, Avatar} from 'antd';
+import {
+	Layout,
+	Menu,
+	Row,
+	Col,
+	Dropdown,
+	Typography,
+	Button,
+	Avatar,
+	Icon as AntIcon,
+} from 'antd';
 import AccountActions from 'actions/AccountActions';
 import AccountStore from 'stores/AccountStore';
 import SettingsStore from 'stores/SettingsStore';
@@ -329,8 +339,8 @@ class Header extends React.Component {
 		ZfApi.publish('mobile-menu', 'toggle');
 	}
 
-	_toggleLock(e) {
-		e.preventDefault();
+	_toggleLock(e, fromMenu) {
+		!fromMenu && e.preventDefault();
 		if (WalletDb.isLocked()) {
 			WalletUnlockActions.unlock()
 				.then(() => {
@@ -351,8 +361,8 @@ class Header extends React.Component {
 		this._closeAccountNotifications();
 	}
 
-	_onNavigate(route, e) {
-		e.preventDefault();
+	_onNavigate(route, e, fromMenu) {
+		!fromMenu && e.preventDefault();
 
 		// Set Accounts Tab as active tab
 		if (route == '/accounts') {
@@ -360,7 +370,6 @@ class Header extends React.Component {
 				dashboardEntry: 'accounts',
 			});
 		}
-
 		this.props.history.push(route);
 		this._closeDropdown();
 	}
@@ -530,6 +539,28 @@ class Header extends React.Component {
 			this._closeDropdownSubmenuDeposit();
 		}
 	}
+
+	handleHeaderLink = (e) => {
+		const {lastMarket} = this.props;
+		const {key} = e;
+		if (key === 'auth') {
+			this._toggleLock(this, true);
+		} else if (key === 'createAccount') {
+			this._onNavigate('/registration/', this, true);
+		} else if (key === 'exchange') {
+			const tradeUrl = lastMarket
+				? `/market/${lastMarket}`
+				: '/market/META1_USDT';
+			this._onNavigate(`${tradeUrl}`, this, true);
+		} else if (key === 'explore') {
+			this._onNavigate('/explorer/blocks', this, true);
+		} else if (key === 'help') {
+			this._onNavigate('/help', this, true);
+		}
+		this.setState({
+			headerMenu: key,
+		});
+	};
 
 	render() {
 		let {active} = this.state;
@@ -1423,6 +1454,29 @@ class Header extends React.Component {
 			),
 		};
 
+		const avatarMenu = (
+			<Menu
+				onClick={this.handleHeaderLink}
+				selectedKeys={[this.state.headerMenu]}
+			>
+				<Menu.Item key="auth">
+					<Text>
+						<Translate
+							content={`header.${
+								this.props.locked ? 'unlock_short' : 'lock_short'
+							}`}
+						/>
+					</Text>
+				</Menu.Item>
+				<Menu.Item key="createAccount">
+					<Text>
+						<Translate content="header.create_account" />
+					</Text>
+				</Menu.Item>
+			</Menu>
+		);
+
+		const {headerMenu} = this.state;
 		return (
 			<>
 				<AntdHeader
@@ -1430,10 +1484,11 @@ class Header extends React.Component {
 						position: 'fixed',
 						zIndex: 1,
 						width: '100%',
-						minHeight: '2.8rem',
+						minHeight: '3rem',
 						height: '3rem',
 						display: 'flex',
 						backgroundColor: 'black',
+						lineHeight: '3rem',
 					}}
 				>
 					<Row
@@ -1444,7 +1499,7 @@ class Header extends React.Component {
 						gutter={5}
 					>
 						<Col sm={15}>
-							<Col xs={3} sm={2}>
+							<Col xs={3} sm={3}>
 								<a
 									href="/home"
 									className={cnames('logo')}
@@ -1456,35 +1511,101 @@ class Header extends React.Component {
 									/>
 								</a>
 							</Col>
-							<Col xs={10} sm={11}>
+							<Col xs={20} sm={20}>
 								<Menu
 									css={{marginLeft: '2rem', backgroundColor: 'black'}}
 									mode="horizontal"
-									defaultSelectedKeys={['2']}
+									onClick={this.handleHeaderLink}
+									selectedKeys={headerMenu}
 								>
-									<Menu.Item key="1">Dashboard</Menu.Item>
-									<Menu.Item key="2">Exchange</Menu.Item>
-									<Menu.Item key="3">Explore</Menu.Item>
-									<Menu.Item key="4">Funds</Menu.Item>
+									<Menu.Item key="dashboard">Dashboard</Menu.Item>
+									<Menu.Item key="exchange">
+										<Translate
+											className="column-hide-small"
+											component="span"
+											content="header.exchange"
+										/>
+									</Menu.Item>
+									<Menu.Item key="explore">
+										<Translate
+											className="column-hide-small"
+											component="span"
+											content="header.explorer"
+										/>
+									</Menu.Item>
+									<Menu.Item key="funds">Funds</Menu.Item>
 								</Menu>
 							</Col>
 						</Col>
 
-						<Col css={{display: 'flex', justifyContent: 'space-between'}}>
-							<Text css={{color: 'white', marginRight: '15px'}}>Get help</Text>
-							<StyledButton style={{marginRight: '15px'}}>
-								Buy / Sell
-							</StyledButton>
-							<Button
-								style={{
-									margin: '0px 15px',
-									border: `1px solid ${theme.colors.primaryColor}`,
-									color: theme.colors.primaryColor,
+						<Col sm={8}>
+							<div
+								css={{
+									display: 'flex',
+									justifyContent: 'flex-end',
+									alignItems: 'center',
 								}}
 							>
-								Send / Recieve
-							</Button>
-							<Avatar style={{backgroundColor: '#ffc000'}} icon="user" />
+								<Text
+									ghost={true}
+									css={(theme) => ({
+										color:
+											headerMenu === 'help'
+												? theme.colors.primaryColor
+												: theme.colors.white,
+										marginRight: '15px',
+										cursor: 'pointer',
+									})}
+									onClick={() => this.handleHeaderLink({key: 'help'})}
+								>
+									<AntIcon
+										type="question-circle"
+										css={{color: theme.colors.white, marginRight: '10px'}}
+									/>
+									Get help
+								</Text>
+								<StyledButton
+									disabled={!showAccountLinks}
+									size="small"
+									style={{marginRight: '15px'}}
+								>
+									Buy / Sell
+								</StyledButton>
+								<Button
+									size="small"
+									style={{
+										margin: '0px 15px',
+										border: `1px solid ${theme.colors.primaryColor}`,
+										color: theme.colors.primaryColor,
+									}}
+								>
+									Send / Recieve
+								</Button>
+								<Dropdown overlay={avatarMenu}>
+									<span>
+										<Avatar
+											css={{
+												'& .ant-avatar': {
+													backgroundColor: theme.colors.primaryColor,
+													cursor: 'pointer',
+												},
+											}}
+											icon="user"
+											size="small"
+										/>
+										<AntIcon
+											type="caret-down"
+											style={{
+												color: '#ffffff',
+												fontSize: '16px',
+												cursor: 'pointer',
+												opacity: '50%',
+												marginLeft: '0.5rem',
+											}}
+										/>
+									</span>
+								</Dropdown>
+							</div>
 						</Col>
 					</Row>
 
@@ -1528,9 +1649,8 @@ class Header extends React.Component {
 						account={currentAccount}
 					/>
 				</AntdHeader>
-
-				{/* <div className="header-container" style={{minHeight: '38px'}}> */}
-				{/* <div
+				{/* <div className="header-container" style={{minHeight: '38px'}}>
+					<div
 						className="header menu-group primary"
 						style={{flexWrap: 'nowrap', justifyContent: 'none'}}
 					>
@@ -1600,9 +1720,9 @@ class Header extends React.Component {
 
 							<li className="column-hide-small">{dynamicMenuItem}</li>
 						</ul>
-					</div> */}
+					</div>
 
-				{/* <div className="truncated active-account" style={{cursor: 'pointer'}}>
+					<div className="truncated active-account" style={{cursor: 'pointer'}}>
 						<AccountBrowsingMode location={this.props.location} />
 						{this.props.locked == true ? null : (
 							<div>
@@ -1654,8 +1774,8 @@ class Header extends React.Component {
 								{accountsList}
 							</ul>
 						)}
-					</div> */}
-				{/* <div>
+					</div>
+					<div>
 						{this.props.currentAccount == null ? null : (
 							<span
 								onClick={this._toggleLock.bind(this)}
@@ -1673,8 +1793,8 @@ class Header extends React.Component {
 								/>
 							</span>
 						)}
-					</div> */}
-				{/* <div className="app-menu">
+					</div>
+					<div className="app-menu">
 						<div
 							onClick={this._toggleDropdownMenu}
 							className={cnames('menu-dropdown-wrapper dropdown-wrapper', {
@@ -1723,8 +1843,9 @@ class Header extends React.Component {
 									/>
 								)}
 						</div>
-					</div> */}
-
+					</div>
+				</div> 
+				  */}
 				{/* <DepositModalEos
                     visibleMeta={this.state.isDepositModalVisibleEos}
                     hideModalMeta={this.hideDepositModalEos}
@@ -1749,7 +1870,6 @@ class Header extends React.Component {
                     modalId="deposit_modal_newfsdfs1sd1"
                     account={currentAccount}
                 /> */}
-				{/* </div> */}
 			</>
 		);
 	}
