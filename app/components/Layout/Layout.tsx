@@ -11,12 +11,26 @@ interface IAppLayout {
 
 const AppLayout = ({children, height}: IAppLayout) => {
 	const theme: any = useTheme();
-	const [collapsed, setcollapsed] = useState<boolean>(false);
+	const [collapsed, setcollapsed] = useState<boolean>(true);
 	const toggle = () => {
 		setcollapsed(!collapsed);
 	};
 	return (
-		<Layout>
+		<Layout
+			css={(theme) => ({
+				'&& .ant-layout-header': {
+					position: 'fixed',
+					zIndex: 1,
+					width: '100%',
+					minHeight: '3rem',
+					height: '3rem',
+					display: 'flex',
+					backgroundColor: `${theme.colors.black}`,
+					lineHeight: '3rem',
+					padding: '0px 9px',
+				},
+			})}
+		>
 			{/* <Icon
 				className="trigger"
 				type={collapsed ? 'menu-unfold' : 'menu-fold'}

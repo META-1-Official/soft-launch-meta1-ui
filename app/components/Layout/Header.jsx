@@ -1473,24 +1473,22 @@ class Header extends React.Component {
 						<Translate content="header.create_account" />
 					</Text>
 				</Menu.Item>
+				<Menu.Item key="getHelp">
+					<Text>Get help</Text>
+				</Menu.Item>
+				<Menu.Item key="buySell">
+					<Text>Buy / Sell</Text>
+				</Menu.Item>
+				<Menu.Item key="sendReceive">
+					<Text>Send / Recieve</Text>
+				</Menu.Item>
 			</Menu>
 		);
 
 		const {headerMenu} = this.state;
 		return (
 			<>
-				<AntdHeader
-					style={{
-						position: 'fixed',
-						zIndex: 1,
-						width: '100%',
-						minHeight: '3rem',
-						height: '3rem',
-						display: 'flex',
-						backgroundColor: 'black',
-						lineHeight: '3rem',
-					}}
-				>
+				<AntdHeader>
 					<Row
 						css={{width: '100%'}}
 						justify="space-between"
@@ -1498,20 +1496,17 @@ class Header extends React.Component {
 						align="middle"
 						gutter={5}
 					>
-						<Col sm={15}>
-							<Col xs={3} sm={3}>
+						<Col xs={20} sm={12}>
+							<Col xs={6} sm={5}>
 								<a
 									href="/home"
 									className={cnames('logo')}
 									onClick={this._onNavigate.bind(this, '/home/')}
 								>
-									<img
-										style={{marginTop: -11, height: 35, width: 89}}
-										src={logo}
-									/>
+									<img style={{height: 35}} src={logo} />
 								</a>
 							</Col>
-							<Col xs={20} sm={20}>
+							<Col xs={17} sm={19}>
 								<Menu
 									css={{marginLeft: '2rem', backgroundColor: 'black'}}
 									mode="horizontal"
@@ -1538,7 +1533,7 @@ class Header extends React.Component {
 							</Col>
 						</Col>
 
-						<Col sm={8}>
+						<Col xs={4} sm={12}>
 							<div
 								css={{
 									display: 'flex',
@@ -1555,6 +1550,9 @@ class Header extends React.Component {
 												: theme.colors.white,
 										marginRight: '15px',
 										cursor: 'pointer',
+										[`@media (max-width: ${theme.sizes.lg})`]: {
+											display: 'none',
+										},
 									})}
 									onClick={() => this.handleHeaderLink({key: 'help'})}
 								>
@@ -1564,28 +1562,46 @@ class Header extends React.Component {
 									/>
 									Get help
 								</Text>
-								<StyledButton
-									disabled={!showAccountLinks}
-									size="small"
-									style={{marginRight: '15px'}}
+								<div
+									css={(theme) => ({
+										[`@media (max-width: ${theme.sizes.lg})`]: {
+											display: 'none',
+										},
+									})}
 								>
-									Buy / Sell
-								</StyledButton>
-								<Button
-									size="small"
-									style={{
-										margin: '0px 15px',
-										border: `1px solid ${theme.colors.primaryColor}`,
-										color: theme.colors.primaryColor,
-									}}
+									<StyledButton
+										disabled={!showAccountLinks}
+										size="small"
+										style={{marginRight: '15px'}}
+									>
+										Buy / Sell
+									</StyledButton>
+								</div>
+
+								<div
+									css={(theme) => ({
+										[`@media (max-width: ${theme.sizes.lg})`]: {
+											display: 'none',
+										},
+									})}
 								>
-									Send / Recieve
-								</Button>
+									<Button
+										size="small"
+										style={{
+											margin: '0px 15px',
+											border: `1px solid ${theme.colors.primaryColor}`,
+											color: theme.colors.primaryColor,
+										}}
+									>
+										Send / Recieve
+									</Button>
+								</div>
+
 								<Dropdown overlay={avatarMenu}>
 									<span>
 										<Avatar
 											css={{
-												'& .ant-avatar': {
+												'&& .ant-avatar': {
 													backgroundColor: theme.colors.primaryColor,
 													cursor: 'pointer',
 												},
@@ -1597,7 +1613,7 @@ class Header extends React.Component {
 											type="caret-down"
 											style={{
 												color: '#ffffff',
-												fontSize: '16px',
+												fontSize: '11px',
 												cursor: 'pointer',
 												opacity: '50%',
 												marginLeft: '0.5rem',
