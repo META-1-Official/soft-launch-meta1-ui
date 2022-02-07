@@ -85,9 +85,10 @@ const SideBar = ({collapsed, toggle}: ISideBar) => {
 					marginTop: '3rem',
 				},
 			}}
-			breakpoint="lg"
+			breakpoint="sm"
 			onBreakpoint={(broken) => {
-				broken && toggle();
+				console.log('broken', broken);
+				toggle();
 			}}
 			onCollapse={(collapsed, type) => {
 				console.log(collapsed, type);
@@ -120,31 +121,6 @@ const SideBar = ({collapsed, toggle}: ISideBar) => {
 							</Menu.Item>
 						);
 					})}
-
-				{/* <Menu.Item key="2">
-					<Icon type="video-camera" />
-					<span className="nav-text">Trade</span>
-				</Menu.Item>
-				<Menu.Item key="3">
-					<Icon type="upload" />
-					<span className="nav-text">Activity</span>
-				</Menu.Item>
-				<Menu.Item key="4">
-					<Icon type="user" />
-					<span className="nav-text">Banking Assets</span>
-				</Menu.Item>
-				<Menu.Item key="4">
-					<Icon type="user" />
-					<span className="nav-text">Create Paper Wallet</span>
-				</Menu.Item>
-				<Menu.Item key="4">
-					<Icon type="user" />
-					<span className="nav-text">Transaction History</span>
-				</Menu.Item>
-				<Menu.Item key="4">
-					<Icon type="user" />
-					<span className="nav-text">Notification</span>
-				</Menu.Item> */}
 			</Menu>
 		</Sider>
 	);

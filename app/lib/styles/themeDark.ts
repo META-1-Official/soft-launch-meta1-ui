@@ -7,6 +7,10 @@ const theme = {
 		sideBar: '#000000',
 		menuActiveBackground: '#15171b',
 		white: '#cccccc',
+		black: '#000000',
+	},
+	sizes: {
+		lg: '992px',
 	},
 };
 
