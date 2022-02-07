@@ -27,9 +27,10 @@ const AppLayout = ({children, height}: IAppLayout) => {
 			<Content>
 				<Layout>
 					<SideBar collapsed={collapsed} toggle={toggle} />
-					<Content css={{margin: '3rem 0rem 2rem'}}>{children}</Content>
+					<Content css={{marginTop: '3rem'}}>{children}</Content>
 				</Layout>
 			</Content>
+
 			<Footer
 				css={{
 					position: 'fixed',
