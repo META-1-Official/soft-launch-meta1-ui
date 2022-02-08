@@ -1473,13 +1473,34 @@ class Header extends React.Component {
 						<Translate content="header.create_account" />
 					</Text>
 				</Menu.Item>
-				<Menu.Item key="getHelp">
+				<Menu.Item
+					key="getHelp"
+					css={(theme) => ({
+						[`@media (min-width: ${theme.sizes.lg})`]: {
+							display: 'none',
+						},
+					})}
+				>
 					<Text>Get help</Text>
 				</Menu.Item>
-				<Menu.Item key="buySell">
+				<Menu.Item
+					key="buySell"
+					css={(theme) => ({
+						[`@media (min-width: ${theme.sizes.lg})`]: {
+							display: 'none',
+						},
+					})}
+				>
 					<Text>Buy / Sell</Text>
 				</Menu.Item>
-				<Menu.Item key="sendReceive">
+				<Menu.Item
+					key="sendReceive"
+					css={(theme) => ({
+						[`@media (min-width: ${theme.sizes.lg})`]: {
+							display: 'none',
+						},
+					})}
+				>
 					<Text>Send / Recieve</Text>
 				</Menu.Item>
 			</Menu>
