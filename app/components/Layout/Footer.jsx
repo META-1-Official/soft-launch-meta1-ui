@@ -21,7 +21,7 @@ import ChoiceModal from '../Modal/ChoiceModal';
 import {ChainStore} from 'meta1js';
 import ifvisible from 'ifvisible';
 import {getWalletName} from 'branding';
-import {Tooltip} from 'bitshares-ui-style-guide';
+import {Tooltip} from 'antd';
 
 class Footer extends React.Component {
 	static propTypes = {

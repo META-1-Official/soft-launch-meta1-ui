@@ -139,6 +139,7 @@
         }
     },
     "dependencies": {
+        "@ant-design/icons": "^4.7.0",
         "@emotion/babel-plugin": "^11.7.2",
         "@emotion/react": "^11.7.1",
         "@swyftx/api-crypto-address-validator": "^1.12.0",

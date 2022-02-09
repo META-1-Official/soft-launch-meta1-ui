@@ -1,6 +1,11 @@
 import React from 'react';
 import {connect} from 'alt-react';
 import {
+	CaretDownOutlined,
+	QuestionCircleOutlined,
+	UserOutlined,
+} from '@ant-design/icons';
+import {
 	Layout,
 	Menu,
 	Row,
@@ -9,7 +14,7 @@ import {
 	Typography,
 	Button,
 	Avatar,
-	Icon as AntIcon,
+	notification,
 } from 'antd';
 import AccountActions from 'actions/AccountActions';
 import AccountStore from 'stores/AccountStore';
@@ -40,7 +45,6 @@ import {ChainStore} from 'meta1js';
 import {List} from 'immutable';
 import DropDownMenu from './HeaderDropdown';
 import {withRouter} from 'react-router-dom';
-import {Notification} from 'bitshares-ui-style-guide';
 import AccountBrowsingMode from '../Account/AccountBrowsingMode';
 import {setLocalStorageType, isPersistantType} from 'lib/common/localStorage';
 
@@ -438,7 +442,7 @@ class Header extends React.Component {
 		if (account_name !== this.props.currentAccount) {
 			AccountActions.setCurrentAccount.defer(account_name);
 			const key = `account-notification-${Date.now()}`;
-			Notification.success({
+			notification.success({
 				message: counterpart.translate('header.account_notify', {
 					account: account_name,
 				}),
@@ -510,7 +514,7 @@ class Header extends React.Component {
 	}
 
 	_closeAccountNotifications() {
-		this._accountNotificationActiveKeys.map((key) => Notification.close(key));
+		this._accountNotificationActiveKeys.map((key) => notification.close(key));
 		this._accountNotificationActiveKeys = [];
 	}
 
@@ -1536,18 +1540,10 @@ class Header extends React.Component {
 								>
 									<Menu.Item key="dashboard">Dashboard</Menu.Item>
 									<Menu.Item key="exchange">
-										<Translate
-											className="column-hide-small"
-											component="span"
-											content="header.exchange"
-										/>
+										<Translate component="span" content="header.exchange" />
 									</Menu.Item>
 									<Menu.Item key="explore">
-										<Translate
-											className="column-hide-small"
-											component="span"
-											content="header.explorer"
-										/>
+										<Translate component="span" content="header.explorer" />
 									</Menu.Item>
 									<Menu.Item key="funds">Funds</Menu.Item>
 								</Menu>
@@ -1577,8 +1573,7 @@ class Header extends React.Component {
 									})}
 									onClick={() => this.handleHeaderLink({key: 'help'})}
 								>
-									<AntIcon
-										type="question-circle"
+									<QuestionCircleOutlined
 										css={{color: theme.colors.white, marginRight: '10px'}}
 									/>
 									Get help
@@ -1627,11 +1622,10 @@ class Header extends React.Component {
 													cursor: 'pointer',
 												},
 											}}
-											icon="user"
+											icon={<UserOutlined />}
 											size="small"
 										/>
-										<AntIcon
-											type="caret-down"
+										<CaretDownOutlined
 											style={{
 												color: '#ffffff',
 												fontSize: '11px',
@@ -1687,226 +1681,226 @@ class Header extends React.Component {
 					/>
 				</AntdHeader>
 				{/* <div className="header-container" style={{minHeight: '38px'}}>
-					<div
-						className="header menu-group primary"
-						style={{flexWrap: 'nowrap', justifyContent: 'none'}}
-					>
-						<ul className="menu-bar">
-							<li></li>
-							{!currentAccount || !!createAccountLink ? null : (
-								<li className="column-hide-small">
-									<Link
-										style={{flexFlow: 'row'}}
-										to={`/account/${currentAccount}`}
-										className={cnames({
-											active:
-												active.indexOf('/account/') !== -1 &&
-												active.indexOf('/account/') !== -1 &&
-												active.indexOf('/assets') === -1 &&
-												active.indexOf('/voting') === -1 &&
-												active.indexOf('/signedmessages') === -1 &&
-												active.indexOf('/member-stats') === -1 &&
-												active.indexOf('/vesting') === -1 &&
-												active.indexOf('/whitelist') === -1 &&
-												active.indexOf('/permissions') === -1,
-										})}
-									>
-										<Translate
-											className="column-hide-small"
-											content="header.dashboard"
-										/>
-									</Link>
-								</li>
-							)}
-							<li className="column-hide-small">
-								<a
-									style={{flexFlow: 'row'}}
-									className={cnames(
-										active.indexOf('market/') !== -1 ? null : 'column-hide-xxs',
-										{
-											active: active.indexOf('market/') !== -1,
-										}
-									)}
-									onClick={this._onNavigate.bind(this, tradeUrl)}
-								>
-									<Translate
-										className="column-hide-small"
-										component="span"
-										content="header.exchange"
-									/>
-								</a>
-							</li>
-							<li className="column-hide-small">
-								<a
-									style={{flexFlow: 'row'}}
-									className={cnames(
-										active.indexOf('explorer') !== -1 ? null : 'column-hide-xs',
-										{
-											active: active.indexOf('explorer') !== -1,
-										}
-									)}
-									onClick={this._onNavigate.bind(this, '/explorer/blocks')}
-								>
-									<Translate
-										className="column-hide-small"
-										component="span"
-										content="header.explorer"
-									/>
-								</a>
-							</li>
+                <div
+                    className="header menu-group primary"
+                    style={{flexWrap: 'nowrap', justifyContent: 'none'}}
+                >
+                    <ul className="menu-bar">
+                        <li></li>
+                        {!currentAccount || !!createAccountLink ? null : (
+                            <li className="column-hide-small">
+                                <Link
+                                    style={{flexFlow: 'row'}}
+                                    to={`/account/${currentAccount}`}
+                                    className={cnames({
+                                        active:
+                                            active.indexOf('/account/') !== -1 &&
+                                            active.indexOf('/account/') !== -1 &&
+                                            active.indexOf('/assets') === -1 &&
+                                            active.indexOf('/voting') === -1 &&
+                                            active.indexOf('/signedmessages') === -1 &&
+                                            active.indexOf('/member-stats') === -1 &&
+                                            active.indexOf('/vesting') === -1 &&
+                                            active.indexOf('/whitelist') === -1 &&
+                                            active.indexOf('/permissions') === -1,
+                                    })}
+                                >
+                                    <Translate
+                                        className="column-hide-small"
+                                        content="header.dashboard"
+                                    />
+                                </Link>
+                            </li>
+                        )}
+                        <li className="column-hide-small">
+                            <a
+                                style={{flexFlow: 'row'}}
+                                className={cnames(
+                                    active.indexOf('market/') !== -1 ? null : 'column-hide-xxs',
+                                    {
+                                        active: active.indexOf('market/') !== -1,
+                                    }
+                                )}
+                                onClick={this._onNavigate.bind(this, tradeUrl)}
+                            >
+                                <Translate
+                                    className="column-hide-small"
+                                    component="span"
+                                    content="header.exchange"
+                                />
+                            </a>
+                        </li>
+                        <li className="column-hide-small">
+                            <a
+                                style={{flexFlow: 'row'}}
+                                className={cnames(
+                                    active.indexOf('explorer') !== -1 ? null : 'column-hide-xs',
+                                    {
+                                        active: active.indexOf('explorer') !== -1,
+                                    }
+                                )}
+                                onClick={this._onNavigate.bind(this, '/explorer/blocks')}
+                            >
+                                <Translate
+                                    className="column-hide-small"
+                                    component="span"
+                                    content="header.explorer"
+                                />
+                            </a>
+                        </li>
 
-							<li className="column-hide-small">{dynamicMenuItem}</li>
-						</ul>
-					</div>
+                        <li className="column-hide-small">{dynamicMenuItem}</li>
+                    </ul>
+                </div>
 
-					<div className="truncated active-account" style={{cursor: 'pointer'}}>
-						<AccountBrowsingMode location={this.props.location} />
-						{this.props.locked == true ? null : (
-							<div>
-								<div className="text account-name">
-									<span onClick={this._toggleAccountDropdownMenu}>
-										{currentAccount}
-									</span>
-									<AccountBrowsingMode
-										location={this.props.location}
-										usernameViewIcon
-									/>
-								</div>
-								{walletBalance}
-							</div>
-						)}
-						{hasLocalWallet && (
-							<ul
-								className="dropdown header-menu local-wallet-menu"
-								style={{
-									right: 0,
-									maxHeight: !this.state.accountsListDropdownActive
-										? 0
-										: maxHeight,
-									overflowY: 'auto',
-									position: 'absolute',
-									width: '20em',
-								}}
-							>
-								<li
-									className={cnames(
-										{
-											active: active.indexOf('/accounts') !== -1,
-										},
-										'divider'
-									)}
-									onClick={this._onNavigate.bind(this, '/accounts')}
-								>
-									<div className="table-cell">
-										<Icon
-											size="2x"
-											name="people"
-											title="icons.manage_accounts"
-										/>
-									</div>
-									<div className="table-cell">
-										<Translate content="header.accounts_manage" />
-									</div>
-								</li>
-								{accountsList}
-							</ul>
-						)}
-					</div>
-					<div>
-						{this.props.currentAccount == null ? null : (
-							<span
-								onClick={this._toggleLock.bind(this)}
-								style={{cursor: 'pointer'}}
-							>
-								<Icon
-									className="lock-unlock"
-									size="2x"
-									name={this.props.locked ? 'locked' : 'unlocked'}
-									title={
-										this.props.locked
-											? 'icons.locked.common'
-											: 'icons.unlocked.common'
-									}
-								/>
-							</span>
-						)}
-					</div>
-					<div className="app-menu">
-						<div
-							onClick={this._toggleDropdownMenu}
-							className={cnames('menu-dropdown-wrapper dropdown-wrapper', {
-								active: this.state.dropdownActive,
-							})}
-						>
-							<div className="hamburger">{hamburger}</div>
+                <div className="truncated active-account" style={{cursor: 'pointer'}}>
+                    <AccountBrowsingMode location={this.props.location} />
+                    {this.props.locked == true ? null : (
+                        <div>
+                            <div className="text account-name">
+                                <span onClick={this._toggleAccountDropdownMenu}>
+                                    {currentAccount}
+                                </span>
+                                <AccountBrowsingMode
+                                    location={this.props.location}
+                                    usernameViewIcon
+                                />
+                            </div>
+                            {walletBalance}
+                        </div>
+                    )}
+                    {hasLocalWallet && (
+                        <ul
+                            className="dropdown header-menu local-wallet-menu"
+                            style={{
+                                right: 0,
+                                maxHeight: !this.state.accountsListDropdownActive
+                                    ? 0
+                                    : maxHeight,
+                                overflowY: 'auto',
+                                position: 'absolute',
+                                width: '20em',
+                            }}
+                        >
+                            <li
+                                className={cnames(
+                                    {
+                                        active: active.indexOf('/accounts') !== -1,
+                                    },
+                                    'divider'
+                                )}
+                                onClick={this._onNavigate.bind(this, '/accounts')}
+                            >
+                                <div className="table-cell">
+                                    <Icon
+                                        size="2x"
+                                        name="people"
+                                        title="icons.manage_accounts"
+                                    />
+                                </div>
+                                <div className="table-cell">
+                                    <Translate content="header.accounts_manage" />
+                                </div>
+                            </li>
+                            {accountsList}
+                        </ul>
+                    )}
+                </div>
+                <div>
+                    {this.props.currentAccount == null ? null : (
+                        <span
+                            onClick={this._toggleLock.bind(this)}
+                            style={{cursor: 'pointer'}}
+                        >
+                            <Icon
+                                className="lock-unlock"
+                                size="2x"
+                                name={this.props.locked ? 'locked' : 'unlocked'}
+                                title={
+                                    this.props.locked
+                                        ? 'icons.locked.common'
+                                        : 'icons.unlocked.common'
+                                }
+                            />
+                        </span>
+                    )}
+                </div>
+                <div className="app-menu">
+                    <div
+                        onClick={this._toggleDropdownMenu}
+                        className={cnames('menu-dropdown-wrapper dropdown-wrapper', {
+                            active: this.state.dropdownActive,
+                        })}
+                    >
+                        <div className="hamburger">{hamburger}</div>
 
-							{(this.state.dropdownSubmenuActive &&
-								submenus[this.state.dropdownSubmenuActiveItem] &&
-								submenus[this.state.dropdownSubmenuActiveItem]) ||
-								(this.state.dropdownSubmenuActiveDeposit &&
-									deposit[this.state.dropdownSubmenuActiveItemDeposit] &&
-									deposit[this.state.dropdownSubmenuActiveItemDeposit]) ||
-								(this.state.dropdownSubmenuActiveAdvanced &&
-									advanced[this.state.dropdownSubmenuActiveItemAdvanced] &&
-									advanced[this.state.dropdownSubmenuActiveItemAdvanced]) || (
-									<DropDownMenu
-										dropdownActive={this.state.dropdownActive}
-										toggleLock={this._toggleLock.bind(this)}
-										maxHeight={maxHeight}
-										locked={this.props.locked}
-										active={active}
-										passwordLogin={passwordLogin}
-										onNavigate={this._onNavigate.bind(this)}
-										isMyAccount={isMyAccount}
-										contacts={this.props.contacts}
-										showAccountLinks={showAccountLinks}
-										tradeUrl={tradeUrl}
-										currentAccount={currentAccount}
-										enableDepositWithdraw={enableDepositWithdraw}
-										showDeposit={this._showDeposit.bind(this)}
-										showSend={this._showSend.bind(this)}
-										toggleDropdownSubmenu={this._toggleDropdownSubmenu.bind(
-											this,
-											SUBMENUS.SETTINGS
-										)}
-										toggleDropdownSubmenuAdvanced={this._toggleDropdownSubmenuAdvanced.bind(
-											this,
-											SUBMENUS.ADVANCED
-										)}
-										toggleDropdownSubmenuDeposit={this._toggleDropdownSubmenuDeposit.bind(
-											this,
-											SUBMENUS.DEPOSIT
-										)}
-									/>
-								)}
-						</div>
-					</div>
-				</div> 
-				  */}
+                        {(this.state.dropdownSubmenuActive &&
+                            submenus[this.state.dropdownSubmenuActiveItem] &&
+                            submenus[this.state.dropdownSubmenuActiveItem]) ||
+                            (this.state.dropdownSubmenuActiveDeposit &&
+                                deposit[this.state.dropdownSubmenuActiveItemDeposit] &&
+                                deposit[this.state.dropdownSubmenuActiveItemDeposit]) ||
+                            (this.state.dropdownSubmenuActiveAdvanced &&
+                                advanced[this.state.dropdownSubmenuActiveItemAdvanced] &&
+                                advanced[this.state.dropdownSubmenuActiveItemAdvanced]) || (
+                                <DropDownMenu
+                                    dropdownActive={this.state.dropdownActive}
+                                    toggleLock={this._toggleLock.bind(this)}
+                                    maxHeight={maxHeight}
+                                    locked={this.props.locked}
+                                    active={active}
+                                    passwordLogin={passwordLogin}
+                                    onNavigate={this._onNavigate.bind(this)}
+                                    isMyAccount={isMyAccount}
+                                    contacts={this.props.contacts}
+                                    showAccountLinks={showAccountLinks}
+                                    tradeUrl={tradeUrl}
+                                    currentAccount={currentAccount}
+                                    enableDepositWithdraw={enableDepositWithdraw}
+                                    showDeposit={this._showDeposit.bind(this)}
+                                    showSend={this._showSend.bind(this)}
+                                    toggleDropdownSubmenu={this._toggleDropdownSubmenu.bind(
+                                        this,
+                                        SUBMENUS.SETTINGS
+                                    )}
+                                    toggleDropdownSubmenuAdvanced={this._toggleDropdownSubmenuAdvanced.bind(
+                                        this,
+                                        SUBMENUS.ADVANCED
+                                    )}
+                                    toggleDropdownSubmenuDeposit={this._toggleDropdownSubmenuDeposit.bind(
+                                        this,
+                                        SUBMENUS.DEPOSIT
+                                    )}
+                                />
+                            )}
+                    </div>
+                </div>
+            </div> 
+              */}
 				{/* <DepositModalEos
-                    visibleMeta={this.state.isDepositModalVisibleEos}
-                    hideModalMeta={this.hideDepositModalEos}
-                    showModalMeta={this.showDepositModalEos}
-                    ref="deposit_modal_newfsdfs11"
-                    modalId="deposit_modal_newfsdfs11"
-                    account={currentAccount}
-                />
-                <DepositModalBnb
-                    visibleMeta={this.state.isDepositModalVisibleBnb}
-                    hideModalMeta={this.hideDepositModalBnb}
-                    showModalMeta={this.showDepositModalBnb}
-                    ref="deposit_modal_newfsdfs11"
-                    modalId="deposit_modal_newfsdfs11"
-                    account={currentAccount}
-                />
-                <DepositModalXlm
-                    visibleMeta={this.state.isDepositModalVisibleXlm}
-                    hideModalMeta={this.hideDepositModalXlm}
-                    showModalMeta={this.showDepositModalXlm}
-                    ref="deposit_modal_newfsdfs1sd1"
-                    modalId="deposit_modal_newfsdfs1sd1"
-                    account={currentAccount}
-                /> */}
+                visibleMeta={this.state.isDepositModalVisibleEos}
+                hideModalMeta={this.hideDepositModalEos}
+                showModalMeta={this.showDepositModalEos}
+                ref="deposit_modal_newfsdfs11"
+                modalId="deposit_modal_newfsdfs11"
+                account={currentAccount}
+            />
+            <DepositModalBnb
+                visibleMeta={this.state.isDepositModalVisibleBnb}
+                hideModalMeta={this.hideDepositModalBnb}
+                showModalMeta={this.showDepositModalBnb}
+                ref="deposit_modal_newfsdfs11"
+                modalId="deposit_modal_newfsdfs11"
+                account={currentAccount}
+            />
+            <DepositModalXlm
+                visibleMeta={this.state.isDepositModalVisibleXlm}
+                hideModalMeta={this.hideDepositModalXlm}
+                showModalMeta={this.showDepositModalXlm}
+                ref="deposit_modal_newfsdfs1sd1"
+                modalId="deposit_modal_newfsdfs1sd1"
+                account={currentAccount}
+            /> */}
 			</>
 		);
 	}
