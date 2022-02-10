@@ -448,7 +448,7 @@ class Settings extends React.Component {
 							</div>
 						</div>
 					</div>
-					{/* <WebsocketAddModal
+					<WebsocketAddModal
 						removeNode={this.state.removeNode}
 						isAddNodeModalVisible={this.state.isAddNodeModalVisible}
 						isRemoveNodeModalVisible={this.state.isRemoveNodeModalVisible}
@@ -465,7 +465,7 @@ class Settings extends React.Component {
 						changeConnection={(apiServer) => {
 							this.setState({apiServer});
 						}}
-					/> */}
+					/>
 				</div>
 			</Form>
 		);
