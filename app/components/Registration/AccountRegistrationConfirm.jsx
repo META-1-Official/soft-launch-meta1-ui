@@ -13,17 +13,9 @@ import {FetchChain} from 'meta1js/es';
 import WalletUnlockActions from 'actions/WalletUnlockActions';
 import axios from 'axios';
 import Icon from 'components/Icon/Icon';
-import {
-	Notification,
-	Button,
-	Input,
-	Checkbox,
-	Form,
-	Alert,
-} from 'bitshares-ui-style-guide';
+import {Button, Input, Checkbox, Form, Alert} from 'antd';
 import CopyButton from '../Utility/CopyButton';
 import LoadingIndicator from '../LoadingIndicator';
-import QRCode from 'qrcode.react';
 import ls from '../../lib/common/localStorage';
 
 import voiceItService from '../../services/voice-it.service';
@@ -327,7 +319,7 @@ class AccountRegistrationConfirm extends React.Component {
 				// if (error.remote_ip) {
 				//     [errorMsg] = error.remote_ip;
 				// }
-				// Notification.error({
+				// notification.error({
 				//     message: counterpart.translate(
 				//         "notifications.account_create_failure",
 				//         {

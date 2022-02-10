@@ -2,7 +2,11 @@ import React from 'react';
 import Translate from 'react-translate-component';
 import {connect} from 'alt-react';
 
+<<<<<<< HEAD
 import {Button} from 'bitshares-ui-style-guide';
+=======
+import {Button} from 'antd';
+>>>>>>> ant-upgrade
 import ReactTooltip from 'react-tooltip';
 import qs from 'qs';
 import {PrivateKey} from 'meta1js/es';

@@ -16,7 +16,8 @@ import Deprecate from './Deprecate';
 import Incognito from './components/Layout/Incognito';
 import {isIncognito} from 'feature_detect';
 import titleUtils from 'common/titleUtils';
-import {BodyClassName, Notification} from 'bitshares-ui-style-guide';
+import {BodyClassName} from 'bitshares-ui-style-guide';
+import {notification} from 'antd';
 import {DEFAULT_NOTIFICATION_DURATION} from 'services/Notification';
 import Loadable from 'react-loadable';
 import NewsHeadline from 'components/Layout/NewsHeadline';
@@ -217,7 +218,7 @@ class App extends React.Component {
 		this.showBrowserSupportModal = this.showBrowserSupportModal.bind(this);
 		this.hideBrowserSupportModal = this.hideBrowserSupportModal.bind(this);
 
-		Notification.config({
+		notification.config({
 			duration: DEFAULT_NOTIFICATION_DURATION,
 			top: 90,
 		});

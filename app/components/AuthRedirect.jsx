@@ -152,7 +152,7 @@ class AuthRedirect extends React.Component {
 				const data = await openLogin.getUserInfo();
 				setPrivKey(privKey);
 				setAuthData(data);
-				debugger;
+				// debugger;
 			} else {
 				this.props.history.push('/registration');
 			}
@@ -310,7 +310,7 @@ class AuthRedirect extends React.Component {
 				// if (error.remote_ip) {
 				//     [errorMsg] = error.remote_ip;
 				// }
-				// Notification.error({
+				// notification.error({
 				//     message: counterpart.translate(
 				//         "notifications.account_create_failure",
 				//         {
