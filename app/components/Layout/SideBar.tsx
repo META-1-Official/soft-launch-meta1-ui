@@ -90,9 +90,10 @@ const SideBar = ({collapsed, toggle}: ISideBar) => {
 				console.log('broken', broken);
 				toggle();
 			}}
-			onCollapse={(collapsed, type) => {
-				console.log(collapsed, type);
-			}}
+			// onCollapse={(collapsed, type) => {
+			// 	console.log(collapsed, type);
+			// }}
+
 			collapsed={collapsed}
 		>
 			<Menu

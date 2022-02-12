@@ -4,6 +4,7 @@ import IntlStore from 'stores/IntlStore';
 import AltContainer from 'alt-container';
 import Settings from './Settings';
 import Footer from '../Layout/Footer';
+import PageHeader from 'components/PageHeader/PageHeader';
 class SettingsContainer extends React.Component {
 	render() {
 		return (
@@ -27,6 +28,7 @@ class SettingsContainer extends React.Component {
 					},
 				}}
 			>
+				<PageHeader title="Settings" />
 				<Settings {...this.props} />
 				<Footer />
 			</AltContainer>

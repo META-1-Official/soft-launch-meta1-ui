@@ -19,12 +19,12 @@ const GlobalStyles = (theme: any) => css`
 		.ant-menu-horizontal {
 			background: ${theme.colors.sideBar} !important;
 			.ant-menu-item-selected {
-				border-bottom: none;
+				border-bottom: 3px solid ${theme.colors.primaryColor} !important;
 				background-color: transparent !important;
 			}
 			.ant-menu-item:hover {
 				color: ${theme.colors.primaryColor} !important;
-				border-bottom: none;
+				border-bottom: 3px solid ${theme.colors.primaryColor} !important;
 			}
 		}
 	}

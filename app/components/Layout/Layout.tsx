@@ -29,6 +29,9 @@ const AppLayout = ({children, height}: IAppLayout) => {
 					lineHeight: '3rem',
 					padding: '0px 9px',
 				},
+				'&& .ant-layout-content': {
+					backgroundColor: `${theme.colors.black}`,
+				},
 			})}
 		>
 			{/* <Icon

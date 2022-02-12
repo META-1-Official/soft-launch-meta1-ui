@@ -208,33 +208,34 @@ export default class SettingsEntry extends React.Component {
 
 		const EntryLayout = ({noHeader, setting, children}) => {
 			return (
-				<React.Fragment>
+				<>
 					{(noHeader && children) || (
 						<FormItem label={counterpart.translate(`settings.${setting}`)}>
 							{children}
 						</FormItem>
 					)}
-				</React.Fragment>
+				</>
 			);
 		};
-
 		return (
-			<section className="no-border-bottom">
+			<section>
 				<EntryLayout noHeader={noHeader} setting={setting}>
 					{options ? (
-						<ul className={'unstyled-list'}>
-							<li className="with-dropdown">
-								{optional}
-								<Select
-									value={value}
-									className="settings--select"
-									onChange={this.props.onChange.bind(this, setting)}
-								>
-									{options}
-								</Select>
-								{confirmButton}
-							</li>
-						</ul>
+						<>
+							<ul className={'unstyled-list'}>
+								<li className="with-dropdown">
+									{optional}
+									<Select
+										value={value}
+										className="settings--select"
+										onChange={this.props.onChange.bind(this, setting)}
+									>
+										{options}
+									</Select>
+									{confirmButton}
+								</li>
+							</ul>
+						</>
 					) : null}
 					{input ? (
 						<ul className={'unstyled-list'}>
