@@ -50,6 +50,7 @@ export default class SettingsEntry extends React.Component {
 			selected = settings.get(setting);
 		let noHeader = false;
 		let component = null;
+
 		switch (setting) {
 			case 'locale':
 				value = selected;
@@ -218,7 +219,7 @@ export default class SettingsEntry extends React.Component {
 			);
 		};
 		return (
-			<section>
+			<div css={{backgroundColor: '#0e1013', margin: '1rem', padding: '10px'}}>
 				<EntryLayout noHeader={noHeader} setting={setting}>
 					{options ? (
 						<>
@@ -246,7 +247,7 @@ export default class SettingsEntry extends React.Component {
 					{component ? component : null}
 				</EntryLayout>
 				<div className="facolor-success">{this.state.message}</div>
-			</section>
+			</div>
 		);
 	}
 }

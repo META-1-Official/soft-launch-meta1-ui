@@ -16,7 +16,7 @@ import AccessSettings from './AccessSettings';
 import {set} from 'lodash-es';
 import {getAllowedLogins, getFaucet} from '../../branding';
 
-const {Text, Title} = Typography;
+const {Title} = Typography;
 class Settings extends React.Component {
 	constructor(props) {
 		super();
@@ -374,6 +374,7 @@ class Settings extends React.Component {
 
 			default:
 				entries = settingEntries[activeEntry].map((setting) => {
+					console.log('setting', setting);
 					return (
 						<SettingsEntry
 							key={setting}
@@ -496,17 +497,6 @@ class Settings extends React.Component {
 										maxWidth: 1000,
 									}}
 								>
-									{activeEntry != 'access' && (
-										<Translate
-											unsafe
-											style={{
-												paddingTop: 5,
-												marginBottom: 30,
-											}}
-											content={`settings.${menuEntries[activeSetting]}_text`}
-											className="panel-bg-color"
-										/>
-									)}
 									{entries}
 								</div>
 							</div>
