@@ -566,7 +566,7 @@ class Header extends React.Component {
             !!a &&
             Apis.instance() &&
             Apis.instance().chain_id &&
-            Apis.instance().chain_id.substr(0, 8) === "9e40bec4";
+            Apis.instance().chain_id.substr(0, 8) === "22a8d817";
 
         if (starredAccounts.size) {
             for (let i = tradingAccounts.length - 1; i >= 0; i--) {
@@ -1277,7 +1277,6 @@ class Header extends React.Component {
                             <Translate content="header.settings" />
                         </div>
                     </li>
-
                     {/*<li
                         className={cnames(
                             {active: active.indexOf("/spotlight") !== -1},
@@ -1289,7 +1288,6 @@ class Header extends React.Component {
                             <Translate content="header.showcases" />
                         </div>
                     </li>*/}
-
                     <li
                         className={cnames(
                             {active: active.indexOf("/settings") !== -1},
@@ -1303,8 +1301,8 @@ class Header extends React.Component {
                             <Translate content="header.settings" />{" "}
                         </div>
                     </li>
-
-                    /* no hardware wallet support at this time, remove to reduce questions
+                    /* no hardware wallet support at this time, remove to reduce
+                    questions
                     <li
                         className={cnames({
                             active:
@@ -1351,7 +1349,8 @@ class Header extends React.Component {
                             <Translate content="explorer.assets.ledger" />
                         </div>
                     </li>
-                    *** end no hardware wallet support at this time, remove to reduce questions */
+                    *** end no hardware wallet support at this time, remove to
+                    reduce questions */
                     <li
                         className={cnames({
                             active: active.indexOf("/signedmessages") !== -1,
@@ -1372,7 +1371,6 @@ class Header extends React.Component {
                             <Translate content="account.signedmessages.menuitem" />
                         </div>
                     </li>
-
                     <li
                         className={cnames({
                             active: active.indexOf("/member-stats") !== -1,
@@ -1393,7 +1391,6 @@ class Header extends React.Component {
                             <Translate content="account.member.stats" />
                         </div>
                     </li>
-
                     {isMyAccount ? (
                         <li
                             className={cnames({
@@ -1409,7 +1406,6 @@ class Header extends React.Component {
                             </div>
                         </li>
                     ) : null}
-
                     <li
                         className={cnames({
                             active: active.indexOf("/whitelist") !== -1,
@@ -1430,7 +1426,6 @@ class Header extends React.Component {
                             <Translate content="account.whitelist.title" />
                         </div>
                     </li>
-
                     <li
                         className={cnames("divider", {
                             active: active.indexOf("/permissions") !== -1,
@@ -1451,7 +1446,6 @@ class Header extends React.Component {
                             <Translate content="account.permissions" />
                         </div>
                     </li>
-
                     {showAccountLinks ? (
                         <li
                             className={cnames(

@@ -31,90 +31,20 @@ export const nodeRegions = [
 export const settingsAPIs = {
     // If you want a location to be translated, add the translation to settings in locale-xx.js
     // and use an object {translate: key} in WS_NODE_LIST
-    DEFAULT_WS_NODE: "wss://api.meta1.io/ws",
+    DEFAULT_WS_NODE: "wss://maia.dev.meta1.io/ws",
     WS_NODE_LIST: [
         {
-            url: "wss://api.meta1.io/ws",
-            region: "API",
-            country: "API",
-            location: "Northern America",
-            operator: "Witness: meta1"
-        },
-        {
-            url: "wss://electra.meta1.io/ws",
-            region: "ELECTRA",
-            country: "Electra",
-            location: "Central America",
-            operator: "Witness: meta1"
-        },
-        {
-            url: "wss://atlas.meta1.io/ws",
-            region: "ATLAS",
-            country: "Atlas",
-            location: "Northern America",
-            operator: "Witness: meta1"
-        },
-        {
-            url: "wss://alcyone.meta1.io/ws",
-            region: "ALCYONE",
-            country: "Alcyone",
-            location: "Southern Asia",
-            operator: "Witness: meta1"
-        },
-        {
-            url: "wss://zeus.meta1.io/ws",
-            region: "ZEUS",
-            country: "Zeus",
-            location: "Northern Europe",
-            operator: "Witness: meta1"
-        },
-        {
-            url: "wss://taygete.meta1.io/ws",
-            region: "TAYGETE",
-            country: "Taygete",
-            location: "Northern America",
-            operator: "Witness: meta1"
-        },
-        {
-            url: "wss://maia.meta1.io/ws",
+            url: "wss://maia.dev.meta1.io/ws",
             region: "MAIA",
             country: "Maia",
-            location: "Northern America",
-            operator: "Witness: meta1"
-        },
-        {
-            url: "wss://celaeno.meta1.io/ws",
-            region: "CELAENO",
-            country: "Celaeno",
-            location: "Australia",
-            operator: "Witness: meta1"
-        },
-        {
-            url: "wss://asterope.meta1.io/ws",
-            region: "ASTEROPE",
-            country: "Asterope",
             location: "Western Europe",
             operator: "Witness: meta1"
         },
         {
-            url: "wss://pleione.meta1.io/ws",
-            region: "PLEIONE",
-            country: "Pleione",
+            url: "wss://api.dev.meta1.io/ws",
+            region: "API",
+            country: "Api",
             location: "Northern America",
-            operator: "Witness: meta1"
-        },
-        {
-            url: "wss://hathor.meta1.io/ws",
-            region: "HATHOR",
-            country: "Hathor",
-            location: "Northern Europe",
-            operator: "Witness: meta1"
-        },
-        {
-            url: "wss://sun.meta1.io/ws",
-            region: "SUN",
-            country: "Sun",
-            location: "Southern Asia",
             operator: "Witness: meta1"
         }
     ],

@@ -25,7 +25,7 @@ class Confirm extends React.Component {
         console.log("this.props.match.params.confirmCode");
 
         fetch(
-            "https://gateway.api.meta1.io/api/user/verify/" +
+            "https://gateway.dev.meta1.io/api/user/verify/" +
                 this.props.match.params.confirmCode,
             {
                 method: "GET",
