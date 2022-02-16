@@ -248,7 +248,10 @@ class ApiNode extends React.Component {
 							onClick={this.activate.bind(this, url)}
 						/>
 						<Icon
-							className={ping.color + ' hover-icon'}
+							css={(theme) => ({
+								color: theme.colors.nodeInactiveColor,
+							})}
+							// className={ping.color + ' hover-icon'}
 							name={'connect'}
 							title="icons.connect"
 							size="1_5x"
@@ -260,37 +263,86 @@ class ApiNode extends React.Component {
 			);
 		} else {
 			return (
-				<div className="api-node">
-					<div className="api-node-left">
-						<p className="api-node-title">{title}</p>
+				<div
+					css={(theme) => ({
+						verticalAlign: 'top',
+						display: 'flex',
+						padding: '1rem',
+						paddingBottom: '0px',
+						backgroundColor: theme.colors.settingBlockColor,
+						margin: '1rem 0rem',
+						borderRadius: '6px',
+					})}
+				>
+					<div
+						css={() => ({
+							width: '50%',
+							paddingRight: '1rem',
+						})}
+					>
+						<p css={{marginBottom: '0rem'}}>{title}</p>
 						{!!node.operator && (
-							<p className="api-node-operator">
+							<p
+								css={(theme) => ({
+									overflowWrap: 'break-word',
+									float: 'right',
+									fontSize: '0.813rem',
+									color: theme.colors.descriptionTextColor,
+								})}
+							>
 								{node.operator}
-								&nbsp;&nbsp;&nbsp;
 							</p>
 						)}
-						<p className="api-node-url" id={isActive ? 'active_node' : null}>
+						<p
+							css={(theme) => ({
+								overflowWrap: 'break-word',
+								fontSize: '0.813rem',
+								color: theme.colors.descriptionTextColor,
+							})}
+							className="api-node-url"
+							id={isActive ? 'active_node' : null}
+						>
 							{url}
 						</p>
 					</div>
-					<div>
-						<div className="api-status">
-							<span className={ping.color}>
-								{!!ping.rating && (
-									<Translate content={`settings.${ping.rating}`} />
-								)}
-								{!!ping.toString && <p>{ping.toString}</p>}
-							</span>
-						</div>
+
+					<div
+						css={() => ({
+							width: '25%',
+						})}
+					>
+						<span
+							// className={ping.color}
+							css={(theme) => ({
+								color: theme.colors.primaryColor,
+							})}
+						>
+							{!!ping.rating && (
+								<Translate content={`settings.${ping.rating}`} />
+							)}
+							{!!ping.toString && <p>{ping.toString}</p>}
+						</span>
 					</div>
-					<div style={{marginTop: '-5px'}}>
+
+					<div
+						css={{
+							marginTop: '12px',
+							display: 'inline-flex !important',
+							width: '25%',
+							justifyContent: 'flex-end',
+						}}
+					>
 						{canBeHidden && (
 							<a
 								onClick={
 									hidden ? this.show.bind(this, url) : this.hide.bind(this, url)
 								}
+								css={{marginRight: '1rem'}}
 							>
 								<Icon
+									css={(theme) => ({
+										fill: theme.colors.nodeInactiveColor,
+									})}
 									className={'shuffle'}
 									name={hidden ? 'eye-striked' : 'eye'}
 									title={hidden ? 'icons.eye_striked' : 'icons.eye'}
@@ -299,25 +351,33 @@ class ApiNode extends React.Component {
 							</a>
 						)}
 						{canBeRemoved && (
-							<a onClick={this.remove.bind(this, url, title)}>
+							<a
+								onClick={this.remove.bind(this, url, title)}
+								css={{marginRight: '1rem'}}
+							>
 								<Icon name={'times'} title="icons.times" size="1_5x" />
 							</a>
 						)}
-						<div className="api-status">
+						<div>
 							{!isActive ? (
 								<a id={url} onClick={this.activate.bind(this, url)}>
 									<Icon
-										className={ping.color + ' default-icon'}
+										css={(theme) => ({
+											fill: theme.colors.nodeInactiveColor,
+										})}
 										name={'disconnected'}
 										title="icons.connect"
 										size="1_5x"
 									/>
-									<Icon
+									{/* <Icon
+										css={(theme) => ({
+											color: theme.colors.nodeInactiveColor,
+										})}
 										className={ping.color + ' hover-icon'}
 										name={'connect'}
 										title="icons.connect"
 										size="1_5x"
-									/>
+									/> */}
 								</a>
 							) : (
 								<Icon
@@ -560,15 +620,23 @@ class AccessSettings extends React.Component {
 							'testnet_nodes',
 						].map((key) => {
 							return (
-								<div
+								<Button
 									key={key}
-									className={cnames('nodes-header clickable', {
-										inactive: this.state.activeTab !== key,
-									})}
 									onClick={this._changeTab.bind(this, key)}
+									shape="round"
+									size="small"
 								>
 									<Translate content={'settings.' + key} />
-								</div>
+								</Button>
+								// <div
+								// 	key={key}
+								// 	className={cnames('nodes-header clickable', {
+								// 		inactive: this.state.activeTab !== key,
+								// 	})}
+								// 	onClick={this._changeTab.bind(this, key)}
+								// >
+								// 	<Translate content={'settings.' + key} />
+								// </div>
 							);
 						})}
 					</div>

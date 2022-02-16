@@ -686,9 +686,7 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 			color: $link-text-color;
 		}
 	}
-	.icon > svg > path {
-		fill: $primary-text-color;
-	}
+
 	.footer {
 		@include color($secondary-text-color, $panel-bg-color);
 		svg > path {
@@ -1988,22 +1986,22 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 			background-color: $light-panel-bg-color;
 		}
 	}
-	.api-node {
-		.icon.shuffle svg > path {
-			fill: $button-bg-color !important;
-			@include radialGradient($button-mix2, $button-mix1);
-			border-radius: 5px;
-		}
-		.icon.link svg > path {
-			fill: $positive-color !important;
-		}
-		.icon.minus-circle svg > path {
-			fill: $negative-color !important;
-		}
-		&:nth-child(odd) {
-			background-color: lighten($bg-color, 4%);
-		}
-	}
+	// .api-node {
+	// 	.icon.shuffle svg > path {
+	// 		fill: $button-bg-color !important;
+	// 		@include radialGradient($button-mix2, $button-mix1);
+	// 		border-radius: 5px;
+	// 	}
+	// 	.icon.link svg > path {
+	// 		fill: $positive-color !important;
+	// 	}
+	// 	.icon.minus-circle svg > path {
+	// 		fill: $negative-color !important;
+	// 	}
+	// 	&:nth-child(odd) {
+	// 		background-color: lighten($bg-color, 4%);
+	// 	}
+	// }
 	.active-node {
 		border-bottom: 1px solid lighten($bg-color, 4%);
 		border-top: 1px solid lighten($bg-color, 4%);
@@ -2351,19 +2349,19 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 		.low {
 			color: $bid-color;
 			> svg > path {
-				fill: $bid-color;
+				//fill: $bid-color;
 			}
 		}
 		.medium {
 			color: $call-color;
 			> svg > path {
-				fill: $call-color;
+				//	fill: $call-color;
 			}
 		}
 		.high {
 			color: $ask-color;
 			> svg > path {
-				fill: $ask-color;
+				//fill: $ask-color;
 			}
 		}
 	}

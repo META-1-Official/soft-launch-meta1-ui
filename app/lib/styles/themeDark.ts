@@ -8,6 +8,9 @@ const theme = {
 		menuActiveBackground: '#15171b',
 		white: '#cccccc',
 		black: '#000000',
+		nodeInactiveColor: '#878889',
+		descriptionTextColor: '#cecece',
+		settingBlockColor: '#0a0b0d73',
 	},
 	sizes: {
 		lg: '992px',
