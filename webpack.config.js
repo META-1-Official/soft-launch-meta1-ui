@@ -440,10 +440,6 @@ module.exports = function (env) {
 				sanitize$: 'xss',
 				moment$: path.resolve(root_dir, 'node_modules/moment/moment.js'),
 				meta1js$: path.resolve(root_dir, 'node_modules/meta1js/'),
-				'bitshares-ui-style-guide$': path.resolve(
-					root_dir,
-					'node_modules/bitshares-ui-style-guide/dist/main.js'
-				),
 			},
 		},
 		plugins: plugins,
