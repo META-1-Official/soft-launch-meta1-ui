@@ -16,7 +16,6 @@ import Deprecate from './Deprecate';
 import Incognito from './components/Layout/Incognito';
 import {isIncognito} from 'feature_detect';
 import titleUtils from 'common/titleUtils';
-import {BodyClassName} from 'bitshares-ui-style-guide';
 import {notification} from 'antd';
 import {DEFAULT_NOTIFICATION_DURATION} from 'services/Notification';
 import Loadable from 'react-loadable';
@@ -35,6 +34,7 @@ import {Route, Switch, Redirect} from 'react-router-dom';
 // Nested route components
 import Page404 from './components/Page404/Page404';
 import AppLayout from 'components/Layout/Layout';
+import BodyClassName from 'components/BodyClassName';
 
 const Invoice = Loadable({
 	loader: () =>

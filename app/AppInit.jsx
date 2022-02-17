@@ -10,7 +10,6 @@ import alt from 'alt-instance';
 import {connect, supplyFluxContext} from 'alt-react';
 import {IntlProvider} from 'react-intl';
 import willTransitionTo from './routerTransition';
-import {BodyClassName} from 'bitshares-ui-style-guide';
 import LoadingIndicator from './components/LoadingIndicator';
 import InitError from './components/InitError';
 import SyncError from './components/SyncError';
@@ -23,6 +22,7 @@ import LogsActions from 'actions/LogsActions';
  */
 import {Router} from 'react-router-dom';
 import history from 'lib/common/history';
+import BodyClassName from 'components/BodyClassName';
 class RootIntl extends React.Component {
 	componentWillMount() {
 		IntlActions.switchLocale(this.props.locale);
