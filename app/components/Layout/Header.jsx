@@ -1587,7 +1587,6 @@ class Header extends React.Component {
 								>
 									<StyledButton
 										disabled={!showAccountLinks}
-										size="small"
 										style={{marginRight: '15px'}}
 									>
 										Buy / Sell
@@ -1601,16 +1600,12 @@ class Header extends React.Component {
 										},
 									})}
 								>
-									<Button
-										size="small"
-										style={{
-											margin: '0px 15px',
-											border: `1px solid ${theme.colors.primaryColor}`,
-											color: theme.colors.primaryColor,
-										}}
+									<StyledButton
+										transparent={true}
+										style={{marginRight: '10px'}}
 									>
 										Send / Recieve
-									</Button>
+									</StyledButton>
 								</div>
 
 								<Dropdown overlay={avatarMenu}>

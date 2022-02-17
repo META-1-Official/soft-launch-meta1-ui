@@ -9,6 +9,7 @@ import cnames from 'classnames';
 import Icon from '../Icon/Icon';
 import LoadingButton from '../Utility/LoadingButton';
 import {Switch, Button} from 'antd';
+import StyledButton from 'components/Button/Button';
 
 const autoSelectionUrl = 'wss://fake.automatic-selection.com';
 
@@ -91,6 +92,7 @@ class AutoSelectionNode extends React.Component {
 									: () => {}
 							}
 						/>
+
 						<Translate
 							component="div"
 							style={{paddingLeft: '1rem', paddingTop: '0.2rem'}}
@@ -475,17 +477,46 @@ class AccessSettings extends React.Component {
 		);
 	}
 
-	renderAutoSelection(connectedNode) {
+	renderAutoSelection(connectedNode, backgroundPinging) {
 		const {props} = this;
 
 		return (
-			<AutoSelectionNode
-				key={autoSelectionUrl}
-				isActive={props.selectedNode === autoSelectionUrl}
-				connectedNode={connectedNode}
-				totalNodes={this._getMainNetNodes().length}
-				popup={props.popup}
-			/>
+			<div
+				css={{
+					display: 'flex',
+					flexDirection: 'row',
+					justifyContent: 'space-between',
+				}}
+			>
+				<AutoSelectionNode
+					key={autoSelectionUrl}
+					isActive={props.selectedNode === autoSelectionUrl}
+					connectedNode={connectedNode}
+					totalNodes={this._getMainNetNodes().length}
+					popup={props.popup}
+				/>
+
+				<div
+					css={{
+						display: 'flex',
+						flexDirection: 'column',
+					}}
+				>
+					<Translate
+						component="h4"
+						style={{textAlign: 'end'}}
+						content="settings.active_node"
+					/>
+					<LoadingButton
+						style={{float: 'right'}}
+						isLoading={backgroundPinging}
+						caption="settings.ping"
+						loadingType="inside-feedback-resize"
+						loadingMessage="settings.pinging"
+						onClick={this._recalculateLatency.bind(this)}
+					/>
+				</div>
+			</div>
 		);
 	}
 
@@ -569,7 +600,7 @@ class AccessSettings extends React.Component {
 			<div>
 				<div style={{fontWeight: 'bold', height: 40}}>
 					<Translate content="settings.switch" />
-					{this.renderAutoSelection(connectedNode)}
+					{this.renderAutoSelection(connectedNode, backgroundPinging)}
 				</div>
 				<div
 					className="nodes-list"
@@ -586,23 +617,9 @@ class AccessSettings extends React.Component {
 				</div>
 			</div>
 		) : (
-			<div style={{paddingTop: '1em'}}>
-				{this.renderAutoSelection(connectedNode)}
-
+			<div style={{paddingTop: '6em'}}>
+				{this.renderAutoSelection(connectedNode, backgroundPinging)}
 				<div className="active-node">
-					<LoadingButton
-						style={{float: 'right'}}
-						isLoading={backgroundPinging}
-						caption="settings.ping"
-						loadingType="inside-feedback-resize"
-						loadingMessage="settings.pinging"
-						onClick={this._recalculateLatency.bind(this)}
-					/>
-					<Translate
-						component="h4"
-						style={{marginLeft: '1rem'}}
-						content="settings.active_node"
-					/>
 					{renderNode(connectedNode, connectedNode)}
 				</div>
 				<div
@@ -620,35 +637,33 @@ class AccessSettings extends React.Component {
 							'testnet_nodes',
 						].map((key) => {
 							return (
-								<Button
+								<StyledButton
 									key={key}
 									onClick={this._changeTab.bind(this, key)}
 									shape="round"
+									transparent={this.state.activeTab === key ? false : true}
 									size="small"
+									style={{marginRight: '10px'}}
 								>
 									<Translate content={'settings.' + key} />
-								</Button>
-								// <div
-								// 	key={key}
-								// 	className={cnames('nodes-header clickable', {
-								// 		inactive: this.state.activeTab !== key,
-								// 	})}
-								// 	onClick={this._changeTab.bind(this, key)}
-								// >
-								// 	<Translate content={'settings.' + key} />
-								// </div>
+								</StyledButton>
 							);
 						})}
 					</div>
 					{this.state.activeTab === 'my_nodes' && (
-						<div style={{paddingLeft: '1rem', paddingBottom: '1rem'}}>
-							<Button type="primary" onClick={props.showAddNodeModal}>
+						<div
+							style={{
+								marginTop: '1rem',
+								paddingBottom: '1rem',
+							}}
+						>
+							<StyledButton type="primary" onClick={props.showAddNodeModal}>
 								<Translate
 									id="add"
 									component="span"
 									content="settings.add_api"
 								/>
-							</Button>
+							</StyledButton>
 						</div>
 					)}
 					{this.state.activeTab === 'testnet_nodes' && (
