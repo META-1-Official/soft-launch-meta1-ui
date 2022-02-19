@@ -6,7 +6,7 @@ const theme = {
 		footerTextColor: '#566176',
 		sideBar: '#000000',
 		menuActiveBackground: '#15171b',
-		white: '#cccccc',
+		white: '#fff',
 		black: '#000000',
 		nodeInactiveColor: '#878889',
 		descriptionTextColor: '#cecece',

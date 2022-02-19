@@ -1519,38 +1519,37 @@ class Header extends React.Component {
 						justify="space-between"
 						type="flex"
 						align="middle"
-						gutter={5}
 					>
-						<Col xs={20} sm={12}>
-							<Col xs={6} sm={5}>
-								<a
-									href="/home"
-									className={cnames('logo')}
-									onClick={this._onNavigate.bind(this, '/home/')}
-								>
-									<img style={{height: 35}} src={logo} />
-								</a>
-							</Col>
-							<Col xs={17} sm={19}>
-								<Menu
-									css={{marginLeft: '2rem', backgroundColor: 'black'}}
-									mode="horizontal"
-									onClick={this.handleHeaderLink}
-									selectedKeys={headerMenu}
-								>
-									<Menu.Item key="dashboard">Dashboard</Menu.Item>
-									<Menu.Item key="exchange">
-										<Translate component="span" content="header.exchange" />
-									</Menu.Item>
-									<Menu.Item key="explore">
-										<Translate component="span" content="header.explorer" />
-									</Menu.Item>
-									<Menu.Item key="funds">Funds</Menu.Item>
-								</Menu>
-							</Col>
+						<Col xs={23} sm={12}>
+							<Row>
+								<Col xs={6} sm={5}>
+									<a
+										href="/home"
+										onClick={this._onNavigate.bind(this, '/home/')}
+									>
+										<img style={{height: 35}} src={logo} />
+									</a>
+								</Col>
+								<Col xs={17} sm={19}>
+									<Menu
+										mode="horizontal"
+										onClick={this.handleHeaderLink}
+										selectedKeys={headerMenu}
+									>
+										<Menu.Item key="dashboard">Dashboard</Menu.Item>
+										<Menu.Item key="exchange">
+											<Translate component="span" content="header.exchange" />
+										</Menu.Item>
+										<Menu.Item key="explore">
+											<Translate component="span" content="header.explorer" />
+										</Menu.Item>
+										<Menu.Item key="funds">Funds</Menu.Item>
+									</Menu>
+								</Col>
+							</Row>
 						</Col>
 
-						<Col xs={4} sm={12}>
+						{/* <Col xs={4} sm={12}>
 							<div
 								css={{
 									display: 'flex',
@@ -1632,7 +1631,7 @@ class Header extends React.Component {
 									</span>
 								</Dropdown>
 							</div>
-						</Col>
+						</Col> */}
 					</Row>
 
 					<SendModal

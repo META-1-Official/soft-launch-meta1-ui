@@ -1,7 +1,28 @@
 import {css} from '@emotion/react';
 
 const GlobalStyles = (theme: any) => css`
-	body.darkTheme {
+	body {
+		.ant-typography {
+			color: ${theme.colors.white};
+		}
+		.ant-tabs {
+			color: ${theme.colors.white};
+		}
+		.ant-menu {
+			color: ${theme.colors.white};
+		}
+		.ant-radio-wrapper {
+			color: ${theme.colors.white};
+		}
+		.ant-form {
+			color: ${theme.colors.white};
+		}
+		color: ${theme.colors.white} !important;
+
+		// * {
+		// 	color: white; !important;
+		// }
+
 		.ant-menu-item-selected,
 		.ant-menu-item-selected > a,
 		.ant-menu-item-selected > a:hover {
