@@ -1520,7 +1520,7 @@ class Header extends React.Component {
 						type="flex"
 						align="middle"
 					>
-						<Col xs={23} sm={12}>
+						<Col xs={20} sm={12}>
 							<Row>
 								<Col xs={6} sm={5}>
 									<a
@@ -1549,7 +1549,7 @@ class Header extends React.Component {
 							</Row>
 						</Col>
 
-						{/* <Col xs={4} sm={12}>
+						<Col xs={4} sm={12}>
 							<div
 								css={{
 									display: 'flex',
@@ -1621,7 +1621,7 @@ class Header extends React.Component {
 										/>
 										<CaretDownOutlined
 											style={{
-												color: '#ffffff',
+												color: '#fff',
 												fontSize: '11px',
 												cursor: 'pointer',
 												opacity: '50%',
@@ -1631,7 +1631,7 @@ class Header extends React.Component {
 									</span>
 								</Dropdown>
 							</div>
-						</Col> */}
+						</Col>
 					</Row>
 
 					<SendModal

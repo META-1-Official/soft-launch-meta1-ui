@@ -3,7 +3,7 @@ import {css} from '@emotion/react';
 const GlobalStyles = (theme: any) => css`
 	body {
 		.ant-typography {
-			color: ${theme.colors.white};
+			//	color: ${theme.colors.white};
 		}
 		.ant-tabs {
 			color: ${theme.colors.white};
@@ -17,11 +17,7 @@ const GlobalStyles = (theme: any) => css`
 		.ant-form {
 			color: ${theme.colors.white};
 		}
-		color: ${theme.colors.white} !important;
-
-		// * {
-		// 	color: white; !important;
-		// }
+		// color: ${theme.colors.white} !important;
 
 		.ant-menu-item-selected,
 		.ant-menu-item-selected > a,
