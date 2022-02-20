@@ -541,7 +541,7 @@ class App extends React.Component {
 								/>
 							) : null}
 
-							<div id="content-wrapper">
+							<div className="content-wrapper" id="content-wrapper">
 								{content}
 								<NotificationSystem
 									ref="notificationSystem"

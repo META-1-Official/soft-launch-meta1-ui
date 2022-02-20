@@ -11,6 +11,7 @@ const theme = {
 		nodeInactiveColor: '#878889',
 		descriptionTextColor: '#cecece',
 		settingBlockColor: '#0a0b0d73',
+		borderColor: '#1c1f27',
 	},
 	sizes: {
 		lg: '992px',
