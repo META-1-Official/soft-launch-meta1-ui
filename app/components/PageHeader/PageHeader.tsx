@@ -1,5 +1,5 @@
 import React from 'react';
-import {Divider, Typography} from 'antd';
+import {Typography} from 'antd';
 
 const {Title} = Typography;
 
@@ -8,12 +8,16 @@ interface IPageHeader {
 }
 const PageHeader = ({title, ...props}: IPageHeader) => {
 	return (
-		<>
-			<div css={{marginLeft: '1rem'}}>
-				<Title {...props}>{title}</Title>
-			</div>
-			<Divider css={{'&': {marginBottom: '1px'}}} />
-		</>
+		<div
+			css={(theme) => ({
+				padding: `1rem 2rem`,
+				borderBottom: `1px solid ${theme.colors.borderColor}`,
+			})}
+		>
+			<Title css={{margin: '0px !important'}} level={2} {...props}>
+				{title}
+			</Title>
+		</div>
 	);
 };
 

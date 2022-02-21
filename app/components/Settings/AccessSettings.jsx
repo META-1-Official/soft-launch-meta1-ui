@@ -8,11 +8,11 @@ import {connect} from 'alt-react';
 import cnames from 'classnames';
 import Icon from '../Icon/Icon';
 import LoadingButton from '../Utility/LoadingButton';
-import {Switch, Button} from 'antd';
+import {Switch, Typography} from 'antd';
 import StyledButton from 'components/Button/Button';
 
 const autoSelectionUrl = 'wss://fake.automatic-selection.com';
-
+const {Title} = Typography;
 function isTestNet(url) {
 	return !__TESTNET__ && url.indexOf('testnet') !== -1;
 }
@@ -55,6 +55,9 @@ class AutoSelectionNode extends React.Component {
 		if (popup) {
 			return (
 				<div>
+					<p style={{fontSize: '80%'}}>
+						<Translate content="settings.automatic_short" />:
+					</p>
 					<Switch
 						style={{
 							float: 'right',
@@ -71,35 +74,28 @@ class AutoSelectionNode extends React.Component {
 								: () => {}
 						}
 					/>
-
-					<p style={{fontSize: '80%'}}>
-						<Translate content="settings.automatic_short" />:
-					</p>
 				</div>
 			);
 		} else {
 			return (
-				<div className="auto-node">
-					<div>
-						<Switch
-							checked={isActive}
-							onChange={
-								connectedNode != null
-									? this.activate.bind(
-											this,
-											isActive ? connectedNode.url : autoSelectionUrl
-									  )
-									: () => {}
-							}
-						/>
-
-						<Translate
-							component="div"
-							style={{paddingLeft: '1rem', paddingTop: '0.2rem'}}
-							content="settings.automatic"
-							totalNodes={totalNodes}
-						/>
-					</div>
+				<div>
+					<Translate
+						component="div"
+						// style={{paddingLeft: '1rem', paddingTop: '0.2rem'}}
+						content="settings.automatic"
+						totalNodes={totalNodes}
+					/>
+					<Switch
+						checked={isActive}
+						onChange={
+							connectedNode != null
+								? this.activate.bind(
+										this,
+										isActive ? connectedNode.url : autoSelectionUrl
+								  )
+								: () => {}
+						}
+					/>
 				</div>
 			);
 		}
@@ -595,7 +591,6 @@ class AccessSettings extends React.Component {
 		let backgroundPinging =
 			!!routerTransitioner &&
 			routerTransitioner.isBackgroundPingingInProgress();
-
 		return this.props.popup ? (
 			<div>
 				<div style={{fontWeight: 'bold', height: 40}}>
@@ -617,73 +612,115 @@ class AccessSettings extends React.Component {
 				</div>
 			</div>
 		) : (
-			<div style={{paddingTop: '6em'}}>
-				{this.renderAutoSelection(connectedNode, backgroundPinging)}
-				<div className="active-node">
-					{renderNode(connectedNode, connectedNode)}
-				</div>
+			<>
 				<div
-					className="nodes"
-					style={{
-						position: 'relative',
-						marginBottom: '2em',
-					}}
-				>
-					<div className="grid-block shrink" style={{marginLeft: 0}}>
-						{[
-							'available_nodes',
-							'my_nodes',
-							'hidden_nodes',
-							'testnet_nodes',
-						].map((key) => {
-							return (
-								<StyledButton
-									key={key}
-									onClick={this._changeTab.bind(this, key)}
-									shape="round"
-									transparent={this.state.activeTab === key ? false : true}
-									size="small"
-									style={{marginRight: '10px'}}
-								>
-									<Translate content={'settings.' + key} />
-								</StyledButton>
-							);
-						})}
-					</div>
-					{this.state.activeTab === 'my_nodes' && (
-						<div
-							style={{
-								marginTop: '1rem',
-								paddingBottom: '1rem',
-							}}
-						>
-							<StyledButton type="primary" onClick={props.showAddNodeModal}>
-								<Translate
-									id="add"
-									component="span"
-									content="settings.add_api"
-								/>
-							</StyledButton>
-						</div>
-					)}
-					{this.state.activeTab === 'testnet_nodes' && (
-						<Translate
-							component="p"
-							content={'settings.testnet_nodes_disclaimer'}
-						/>
-					)}
-					{nodesToShow.map((node) => {
-						return renderNode(node, connectedNode);
+					css={(theme) => ({
+						padding: '1rem 0px 1rem 1.2rem',
+						borderBottom: `1px solid ${theme.colors.borderColor}`,
 					})}
-					{onlyPersonalNodeActive ? (
-						<div className="api-node">
-							<p className="api-node-title" style={{padding: '1rem'}}>
-								<Translate content="settings.personal_active" />
-							</p>
-						</div>
-					) : null}
+				>
+					<Translate
+						component="h3"
+						css={(theme) => ({
+							'&&': {
+								color: theme.colors.primaryColor,
+								marginBottom: '10px',
+								fontSize: '1.25rem',
+								textTransform: 'capitalize',
+								marginBottom: '10px',
+								fontWeight: '100',
+								fontSize: '1.35rem',
+							},
+						})}
+						content={
+							'settings.' + this.props.menuEntries[this.props.activeSetting]
+						}
+					/>
+
+					{this.props.menuEntries[this.props.activeSetting] && (
+						<Title>
+							<Translate
+								unsafe
+								style={{
+									paddingTop: 5,
+									marginBottom: 30,
+								}}
+								content={`settings.${
+									this.props.menuEntries[this.props.activeSetting]
+								}_text`}
+								className="panel-bg-color"
+							/>
+						</Title>
+					)}
+					{this.renderAutoSelection(connectedNode, backgroundPinging)}
 				</div>
-			</div>
+				<div style={{padding: '2rem'}}>
+					<div className="active-node">
+						{renderNode(connectedNode, connectedNode)}
+					</div>
+					<div
+						className="nodes"
+						style={{
+							position: 'relative',
+							marginBottom: '2em',
+						}}
+					>
+						<div className="grid-block shrink" style={{marginLeft: 0}}>
+							{[
+								'available_nodes',
+								'my_nodes',
+								'hidden_nodes',
+								'testnet_nodes',
+							].map((key) => {
+								return (
+									<StyledButton
+										key={key}
+										onClick={this._changeTab.bind(this, key)}
+										shape="round"
+										transparent={this.state.activeTab === key ? false : true}
+										size="small"
+										style={{marginRight: '10px'}}
+									>
+										<Translate content={'settings.' + key} />
+									</StyledButton>
+								);
+							})}
+						</div>
+						{this.state.activeTab === 'my_nodes' && (
+							<div
+								style={{
+									marginTop: '1rem',
+									paddingBottom: '1rem',
+								}}
+							>
+								<StyledButton type="primary" onClick={props.showAddNodeModal}>
+									<Translate
+										id="add"
+										component="span"
+										content="settings.add_api"
+									/>
+								</StyledButton>
+							</div>
+						)}
+						{this.state.activeTab === 'testnet_nodes' && (
+							<Translate
+								component="p"
+								content={'settings.testnet_nodes_disclaimer'}
+							/>
+						)}
+						{nodesToShow.map((node) => {
+							return renderNode(node, connectedNode);
+						})}
+						{onlyPersonalNodeActive ? (
+							<div className="api-node">
+								<p className="api-node-title" style={{padding: '1rem'}}>
+									<Translate content="settings.personal_active" />
+								</p>
+							</div>
+						) : null}
+					</div>
+				</div>
+			</>
 		);
 	}
 }

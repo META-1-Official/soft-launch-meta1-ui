@@ -350,6 +350,8 @@ class Settings extends React.Component {
 						onChange={this._onChangeSetting.bind(this)}
 						showAddNodeModal={this.showAddNodeModal}
 						showRemoveNodeModal={this.showRemoveNodeModal}
+						menuEntries={menuEntries}
+						activeSetting={activeSetting}
 					/>
 				);
 				break;
@@ -374,7 +376,6 @@ class Settings extends React.Component {
 
 			default:
 				entries = settingEntries[activeEntry].map((setting) => {
-					console.log('setting', setting);
 					return (
 						<SettingsEntry
 							key={setting}
@@ -414,59 +415,66 @@ class Settings extends React.Component {
 					})}
 				</Menu>
 				<div
-					css={{
-						marginLeft: '1rem',
-					}}
+					css={(theme) => ({
+						border: `1px solid ${theme.colors.borderColor}`,
+						borderRadius: '7px',
+					})}
 				>
-					<Title
-						css={() => ({
-							'&&': {
-								fontSize: '1.25rem',
-								textTransform: 'capitalize',
-								marginBottom: '10px',
-							},
+					<div
+						css={(theme) => ({
+							padding: '1.2rem 0px 1.rem 1.5rem',
+							borderBottom: `1px solid ${theme.colors.borderColor}`,
 						})}
 					>
-						<Translate
-							component="h3"
-							css={(theme) => ({
+						<Title
+							css={() => ({
 								'&&': {
-									color: theme.colors.primaryColor,
+									fontSize: '1.25rem',
+									textTransform: 'capitalize',
 									marginBottom: '10px',
 								},
 							})}
-							content={'settings.' + menuEntries[activeSetting]}
-						/>
-					</Title>
-					<Title
-						css={() => ({
-							'&&': {
-								fontSize: '0.8125rem',
-								textTransform: 'capitalize',
-								marginTop: '10px',
-							},
-						})}
-					>
-						<Translate
-							unsafe
-							style={{
-								paddingTop: 5,
-								marginBottom: 30,
-							}}
-							content={`settings.${menuEntries[activeSetting]}_text`}
-							className="panel-bg-color"
-						/>
-					</Title>
-				</div>
+						>
+							<Translate
+								component="h3"
+								css={(theme) => ({
+									'&&': {
+										color: theme.colors.primaryColor,
+										marginBottom: '10px',
+									},
+								})}
+								content={'settings.' + menuEntries[activeSetting]}
+							/>
+						</Title>
+						<Title
+							css={() => ({
+								'&&': {
+									fontSize: '0.8125rem',
+									textTransform: 'capitalize',
+									marginTop: '10px',
+								},
+							})}
+						>
+							<Translate
+								unsafe
+								style={{
+									paddingTop: 5,
+									marginBottom: 30,
+								}}
+								content={`settings.${menuEntries[activeSetting]}_text`}
+								className="panel-bg-color"
+							/>
+						</Title>
+					</div>
 
-				<Form layout={'vertical'}>
-					<div
-						className={
-							this.props.deprecated ? '' : 'grid-block settings-container'
-						}
-					>
-						<div className="grid-block main-content margin-block wrap">
-							{/* <div
+					<Form layout={'vertical'}>
+						<div
+							className={
+								this.props.deprecated ? '' : 'grid-block settings-container'
+							}
+						>
+							<div className="grid-block main-content margin-block wrap">
+								{/* <div
 								className="grid-content shrink settings-menu"
 								style={{paddingRight: '2rem'}}
 							>
@@ -485,42 +493,43 @@ class Settings extends React.Component {
 								</ul>
 							</div> */}
 
-							<div
-								className="grid-content"
-								style={{
-									height: '100%',
-								}}
-							>
 								<div
-									className="grid-block small-12 no-margin vertical"
-									style={{
-										maxWidth: 1000,
+									css={{
+										height: '100%',
+										flex: '1 1 auto',
 									}}
 								>
-									{entries}
+									<div
+										className="grid-block small-12 no-margin vertical"
+										style={{
+											maxWidth: 1000,
+										}}
+									>
+										{entries}
+									</div>
 								</div>
 							</div>
+							<WebsocketAddModal
+								removeNode={this.state.removeNode}
+								isAddNodeModalVisible={this.state.isAddNodeModalVisible}
+								isRemoveNodeModalVisible={this.state.isRemoveNodeModalVisible}
+								onAddNodeClose={this.hideAddNodeModal}
+								onRemoveNodeClose={this.hideRemoveNodeModal}
+								apis={defaults['apiServer']}
+								api={defaults['apiServer']
+									.filter((a) => {
+										return a.url === this.state.apiServer;
+									})
+									.reduce((a, b) => {
+										return b && b.url;
+									}, null)}
+								changeConnection={(apiServer) => {
+									this.setState({apiServer});
+								}}
+							/>
 						</div>
-						<WebsocketAddModal
-							removeNode={this.state.removeNode}
-							isAddNodeModalVisible={this.state.isAddNodeModalVisible}
-							isRemoveNodeModalVisible={this.state.isRemoveNodeModalVisible}
-							onAddNodeClose={this.hideAddNodeModal}
-							onRemoveNodeClose={this.hideRemoveNodeModal}
-							apis={defaults['apiServer']}
-							api={defaults['apiServer']
-								.filter((a) => {
-									return a.url === this.state.apiServer;
-								})
-								.reduce((a, b) => {
-									return b && b.url;
-								}, null)}
-							changeConnection={(apiServer) => {
-								this.setState({apiServer});
-							}}
-						/>
-					</div>
-				</Form>
+					</Form>
+				</div>
 			</div>
 		);
 	}

@@ -28,7 +28,7 @@ class SettingsContainer extends React.Component {
 					},
 				}}
 			>
-				<PageHeader title="Settings" />
+				<PageHeader title="Setting" />
 				<Settings {...this.props} />
 				<Footer />
 			</AltContainer>

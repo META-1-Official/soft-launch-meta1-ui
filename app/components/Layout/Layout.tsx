@@ -12,8 +12,8 @@ interface IAppLayout {
 const AppLayout = ({children, height}: IAppLayout) => {
 	const theme: any = useTheme();
 	const [collapsed, setcollapsed] = useState<boolean>(true);
-	const toggle = () => {
-		setcollapsed(!collapsed);
+	const toggle = (value: boolean) => {
+		setcollapsed(value);
 	};
 	return (
 		<Layout

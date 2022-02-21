@@ -1,48 +1,67 @@
 import React from 'react';
-import {Layout, Menu} from 'antd';
-import Icon from '../Icon/Icon';
+import {Layout, Grid, Menu} from 'antd';
+import {
+	RiseOutlined,
+	SwapOutlined,
+	SettingOutlined,
+	FileTextOutlined,
+	BellOutlined,
+	QuestionCircleOutlined,
+	WalletOutlined,
+	ApartmentOutlined,
+} from '@ant-design/icons';
 import {useTheme} from '@emotion/react';
 import Translate from 'react-translate-component';
 import history from '../../lib/common/history'; // lib/common/history';
+
 const {Sider} = Layout;
 
 interface ISideBar {
 	collapsed: boolean;
-	toggle: () => void;
+	toggle: (boolean) => void;
 }
+const {useBreakpoint} = Grid;
 
 const SideBar = ({collapsed, toggle}: ISideBar) => {
 	const theme: any = useTheme();
+	const screens = useBreakpoint();
+
 	const menuList = [
 		{
 			menuId: 'banking-assets',
 			menuName: <Translate content="explorer.assets.title" />,
 			path: '/assets',
+			icon: <WalletOutlined />,
 		},
 		{
 			menuId: 'trade',
 			menuName: <Translate content="account.trade" />,
 			path: '/trade',
+			icon: <RiseOutlined />,
 		},
 		{
 			menuId: 'activity',
 			menuName: <Translate content="account.activity" />,
 			path: '/activity',
+			icon: <RiseOutlined />,
 		},
 		{
 			menuId: 'asset-explorer',
 			menuName: <Translate content="header.arts" />,
 			path: '/asset-explorer',
+			icon: <ApartmentOutlined />,
 		},
 		{
 			menuId: 'paper-wallet',
 			menuName: <Translate content="account.perm.create_paperwallet" />,
 			path: '/paper-wallet',
+			icon: <FileTextOutlined />,
 		},
 		{
 			menuId: 'transaction-history',
 			menuName: 'Transaction History',
 			path: '/transaction-history',
+			icon: <SwapOutlined />,
 
 			// (
 			// 	<Translate content="account.openledger.header_transaction_history" />
@@ -52,22 +71,25 @@ const SideBar = ({collapsed, toggle}: ISideBar) => {
 			menuId: 'notification',
 			menuName: 'Notification',
 			path: '/notification',
+			icon: <BellOutlined />,
 		},
 		{
 			menuId: 'help',
 			menuName: 'Help',
 			path: '/help',
+			icon: <QuestionCircleOutlined />,
 		},
 		{
 			menuId: 'settings',
 			menuName: <Translate content="header.settings" />,
 			path: '/settings',
+			icon: <SettingOutlined />,
 		},
 	];
 	const sideMenuClick = (e: any) => {
 		history.push(e.key);
 	};
-
+	console.log('screen', screens);
 	return (
 		<Sider
 			style={{
@@ -88,7 +110,7 @@ const SideBar = ({collapsed, toggle}: ISideBar) => {
 			breakpoint="sm"
 			onBreakpoint={(broken) => {
 				console.log('broken', broken);
-				toggle();
+				screens['xs'] === true ? toggle(true) : toggle(false);
 			}}
 			// onCollapse={(collapsed, type) => {
 			// 	console.log(collapsed, type);
@@ -114,10 +136,9 @@ const SideBar = ({collapsed, toggle}: ISideBar) => {
 				onClick={sideMenuClick}
 			>
 				{menuList &&
-					menuList.map(({menuName, path}) => {
+					menuList.map(({menuName, path, icon}) => {
 						return (
-							<Menu.Item key={path}>
-								<Icon type="user" />
+							<Menu.Item key={path} icon={icon}>
 								<span className="nav-text">{menuName}</span>
 							</Menu.Item>
 						);
