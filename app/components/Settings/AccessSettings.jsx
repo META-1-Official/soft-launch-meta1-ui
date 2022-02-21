@@ -2,10 +2,8 @@ import React from 'react';
 import Translate from 'react-translate-component';
 import SettingsActions from 'actions/SettingsActions';
 import SettingsStore from 'stores/SettingsStore';
-import {settingsAPIs} from '../../api/apiConfig';
 import willTransitionTo, {routerTransitioner} from '../../routerTransition';
 import {connect} from 'alt-react';
-import cnames from 'classnames';
 import Icon from '../Icon/Icon';
 import LoadingButton from '../Utility/LoadingButton';
 import {Switch, Typography} from 'antd';
@@ -78,10 +76,10 @@ class AutoSelectionNode extends React.Component {
 			);
 		} else {
 			return (
-				<div>
+				<div css={{display: 'flex'}}>
 					<Translate
 						component="div"
-						// style={{paddingLeft: '1rem', paddingTop: '0.2rem'}}
+						style={{paddingRight: '1rem'}}
 						content="settings.automatic"
 						totalNodes={totalNodes}
 					/>

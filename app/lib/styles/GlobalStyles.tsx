@@ -55,5 +55,21 @@ const GlobalStyles = (theme: any) => css`
 	.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-selected::after {
 		border-bottom: 3px solid ${theme.colors.primaryColor} !important;
 	}
+	.ant-switch {
+		background-color: #0e1013;
+		height: 15px;
+		margin-top: 4px;
+	}
+	.ant-switch-checked {
+		background-color: #b38804;
+	}
+	.ant-switch-handle::before {
+		background-color: ${theme.colors.primaryColor};
+	}
+	.ant-switch-handle {
+		top: -2px;
+		width: 19px;
+		height: 19px;
+	}
 `;
 export default GlobalStyles;
