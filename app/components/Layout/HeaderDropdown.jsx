@@ -210,8 +210,9 @@ export default class DropDownMenu extends React.Component {
                 {/*Withdrawal modal */}
                 {[
                     {
-                        disabled: true,
+                        disabled: !showAccountLinks,
                         mainText: "header.withdraw",
+                        mainCallback: this.props.showWithdrawal,
                         subURL: "/transfer"
                     }
                 ].map(
