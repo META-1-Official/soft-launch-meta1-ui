@@ -9,7 +9,7 @@ class Arts extends React.Component {
     render() {
         return (
             <Iframe
-                url="https://api.meta1.io/explorer-backing-assets"
+                url="https://api.dev.meta1.io/explorer-backing-assets"
                 display="initial"
                 position="relative"
                 allowFullScreen
