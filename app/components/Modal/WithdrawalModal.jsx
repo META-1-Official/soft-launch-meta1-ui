@@ -217,7 +217,7 @@ class WithdrawalModal extends React.Component {
                     url = "https://gateway.dev.meta1.io/usdt";
                 else
                     url =
-                        "https://api.dev.meta1.io/api/withdraw/" +
+                        "https://gateway.dev.meta1.io/api/withdraw/" +
                         asset.get("symbol");
 
                 fetch(url, {
