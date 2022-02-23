@@ -115,7 +115,7 @@ class AccountRegistrationConfirm extends React.Component {
     }
 
     postWallet(email, accountName) {
-        fetch("https://meta1.io/api/link", {
+        fetch("https://dev.meta1.io/api/link", {
             method: "POST",
             headers: {
                 Accept: "application/json, text/plain, */*",
@@ -321,11 +321,11 @@ class AccountRegistrationConfirm extends React.Component {
                             <p>Version 1.0</p>
 
                             <p>
-                                The www.meta1.io website located at
-                                https://meta1.io is a copyrighted work belonging
-                                to META1. Certain features of the Site may be
-                                subject to additional guidelines, terms, or
-                                rules, which will be posted on the Site in
+                                The www.dev.meta1.io website located at
+                                https://dev.meta1.io is a copyrighted work
+                                belonging to META1. Certain features of the Site
+                                may be subject to additional guidelines, terms,
+                                or rules, which will be posted on the Site in
                                 connection with such features.
                             </p>
 
@@ -486,14 +486,14 @@ class AccountRegistrationConfirm extends React.Component {
 
                             <p>
                                 <strong>Cookies and Web Beacons.</strong> Like
-                                any other website, www.meta1.io uses ‘cookies’.
-                                These cookies are used to store information
-                                including visitors’ preferences, and the pages
-                                on the website that the visitor accessed or
-                                visited. The information is used to optimize the
-                                users’ experience by customizing our web page
-                                content based on visitors’ browser type and/or
-                                other information.
+                                any other website, www.dev.meta1.io uses
+                                ‘cookies’. These cookies are used to store
+                                information including visitors’ preferences, and
+                                the pages on the website that the visitor
+                                accessed or visited. The information is used to
+                                optimize the users’ experience by customizing
+                                our web page content based on visitors’ browser
+                                type and/or other information.
                             </p>
 
                             <h2>Disclaimers</h2>
@@ -1024,7 +1024,7 @@ class AccountRegistrationConfirm extends React.Component {
                             <h2>Contact Information</h2>
 
                             <p>Address: Arizona, USA</p>
-                            <p>Email: rostislav@meta1.io</p>
+                            <p>Email: rostislav@dev.meta1.io</p>
                         </div>
                     </div>
                 </Form.Item>
