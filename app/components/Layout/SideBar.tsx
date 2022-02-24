@@ -89,7 +89,6 @@ const SideBar = ({collapsed, toggle}: ISideBar) => {
 	const sideMenuClick = (e: any) => {
 		history.push(e.key);
 	};
-	console.log('screen', screens);
 	return (
 		<Sider
 			style={{

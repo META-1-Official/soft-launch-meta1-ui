@@ -489,27 +489,6 @@ class AccessSettings extends React.Component {
 					totalNodes={this._getMainNetNodes().length}
 					popup={props.popup}
 				/>
-
-				<div
-					css={{
-						display: 'flex',
-						flexDirection: 'column',
-					}}
-				>
-					<Translate
-						component="h4"
-						style={{textAlign: 'end'}}
-						content="settings.active_node"
-					/>
-					<LoadingButton
-						style={{float: 'right'}}
-						isLoading={backgroundPinging}
-						caption="settings.ping"
-						loadingType="inside-feedback-resize"
-						loadingMessage="settings.pinging"
-						onClick={this._recalculateLatency.bind(this)}
-					/>
-				</div>
 			</div>
 		);
 	}
@@ -613,44 +592,64 @@ class AccessSettings extends React.Component {
 			<>
 				<div
 					css={(theme) => ({
-						padding: '1rem 0px 1rem 1.2rem',
+						padding: '1rem 1.2rem',
 						borderBottom: `1px solid ${theme.colors.borderColor}`,
+						display: 'flex',
+						justifyContent: 'space-between',
 					})}
 				>
-					<Translate
-						component="h3"
-						css={(theme) => ({
-							'&&': {
-								color: theme.colors.primaryColor,
-								marginBottom: '10px',
-								fontSize: '1.25rem',
-								textTransform: 'capitalize',
-								marginBottom: '10px',
-								fontWeight: '100',
-								fontSize: '1.35rem',
-							},
-						})}
-						content={
-							'settings.' + this.props.menuEntries[this.props.activeSetting]
-						}
-					/>
+					<div>
+						<Translate
+							component="h3"
+							css={(theme) => ({
+								'&&': {
+									color: theme.colors.primaryColor,
+									marginBottom: '10px',
+									fontSize: '1.25rem',
+									textTransform: 'capitalize',
+									marginBottom: '10px',
+									fontWeight: '100',
+									fontSize: '1.35rem',
+								},
+							})}
+							content={
+								'settings.' + this.props.menuEntries[this.props.activeSetting]
+							}
+						/>
 
-					{this.props.menuEntries[this.props.activeSetting] && (
-						<Title>
-							<Translate
-								unsafe
-								style={{
-									paddingTop: 5,
-									marginBottom: 30,
-								}}
-								content={`settings.${
-									this.props.menuEntries[this.props.activeSetting]
-								}_text`}
-								className="panel-bg-color"
-							/>
-						</Title>
-					)}
-					{this.renderAutoSelection(connectedNode, backgroundPinging)}
+						{this.props.menuEntries[this.props.activeSetting] && (
+							<Title>
+								<Translate
+									unsafe
+									style={{
+										paddingTop: 5,
+										marginBottom: 30,
+									}}
+									content={`settings.${
+										this.props.menuEntries[this.props.activeSetting]
+									}_text`}
+									className="panel-bg-color"
+								/>
+							</Title>
+						)}
+						{this.renderAutoSelection(connectedNode, backgroundPinging)}
+					</div>
+
+					<div
+						css={{
+							display: 'flex',
+							flexDirection: 'column',
+						}}
+					>
+						<Translate component="h6" content="settings.active_node" />
+						<LoadingButton
+							isLoading={backgroundPinging}
+							caption="settings.ping"
+							loadingType="inside-feedback-resize"
+							loadingMessage="settings.pinging"
+							onClick={this._recalculateLatency.bind(this)}
+						/>
+					</div>
 				</div>
 				<div style={{padding: '2rem'}}>
 					<div className="active-node">

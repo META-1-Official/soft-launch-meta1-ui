@@ -3,7 +3,7 @@ import LoadingIndicator from '../LoadingIndicator';
 import counterpart from 'counterpart';
 import {findDOMNode} from 'react-dom';
 import PropTypes from 'prop-types';
-import {Button} from 'antd';
+import StyledButton from 'components/Button/Button';
 
 /** This component gives a convenient way to indicate loading.
  *
@@ -320,6 +320,8 @@ class LoadingButton extends React.Component {
 		let buttonStyle = {
 			overflow: 'hidden',
 			position: 'relative',
+			display: 'flex',
+			alignItems: 'center',
 		};
 		if (fixButtonWidth && this.state.loadingButtonWidth != null) {
 			buttonStyle.width = this.state.loadingButtonWidth;
@@ -328,7 +330,7 @@ class LoadingButton extends React.Component {
 			<div style={this.props.style}>
 				{leftElement != null && leftElement}
 				<span style={{float: 'left'}}>
-					<Button
+					<StyledButton
 						ref={(instance) => {
 							this.loadingButton = instance;
 						}}
@@ -340,7 +342,7 @@ class LoadingButton extends React.Component {
 						style={buttonStyle}
 					>
 						{buttonInner}
-					</Button>
+					</StyledButton>
 				</span>
 				{rightElement != null && rightElement}
 				<div style={{clear: 'both'}} />

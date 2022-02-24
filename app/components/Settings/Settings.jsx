@@ -499,12 +499,7 @@ class Settings extends React.Component {
 										flex: '1 1 auto',
 									}}
 								>
-									<div
-										className="grid-block small-12 no-margin vertical"
-										style={{
-											maxWidth: 1000,
-										}}
-									>
+									<div className="grid-block small-12 no-margin vertical">
 										{entries}
 									</div>
 								</div>

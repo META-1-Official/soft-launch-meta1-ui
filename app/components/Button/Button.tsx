@@ -26,8 +26,6 @@ const StyledButton = ({
 						: theme.colors.primaryColor,
 					color: transparent ? theme.colors.primaryColor : 'black',
 					borderRadius: !shape ? '4px' : '',
-					textTransform: 'capitalize',
-					fontWeight: 'bold',
 					border: `1px solid ${theme.colors.primaryColor}`,
 				},
 			}}
