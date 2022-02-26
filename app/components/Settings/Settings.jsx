@@ -371,7 +371,12 @@ class Settings extends React.Component {
 				break;
 
 			case 'reset':
-				entries = <ResetSettings />;
+				entries = (
+					<ResetSettings
+						menuEntries={menuEntries}
+						activeSetting={activeSetting}
+					/>
+				);
 				break;
 
 			default:
