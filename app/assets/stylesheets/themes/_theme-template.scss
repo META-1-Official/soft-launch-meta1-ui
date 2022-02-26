@@ -2002,10 +2002,7 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 	// 		background-color: lighten($bg-color, 4%);
 	// 	}
 	// }
-	.active-node {
-		border-bottom: 1px solid lighten($bg-color, 4%);
-		border-top: 1px solid lighten($bg-color, 4%);
-	}
+
 	div.ant-row.ant-form-item.no-offset {
 		margin-bottom: 0;
 	}

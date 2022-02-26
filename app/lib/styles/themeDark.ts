@@ -10,7 +10,7 @@ const theme = {
 		black: '#000000',
 		nodeInactiveColor: '#878889',
 		descriptionTextColor: '#cecece',
-		settingBlockColor: '#0a0b0d73',
+		settingBlockColor: '#0e1013',
 		borderColor: '#1c1f27',
 	},
 	sizes: {

@@ -231,7 +231,6 @@ class ApiNode extends React.Component {
             title = node.region + (!!title ? " - " + title : "");
         }*/
 		let title = node.country;
-
 		if (popup) {
 			return (
 				<div className="api-status">
@@ -263,7 +262,7 @@ class ApiNode extends React.Component {
 					css={(theme) => ({
 						verticalAlign: 'top',
 						display: 'flex',
-						padding: '1rem',
+						padding: '1.5rem',
 						paddingBottom: '0px',
 						backgroundColor: theme.colors.settingBlockColor,
 						margin: '1rem 0rem',
@@ -272,7 +271,7 @@ class ApiNode extends React.Component {
 				>
 					<div
 						css={() => ({
-							width: '50%',
+							width: '40%',
 							paddingRight: '1rem',
 						})}
 					>
@@ -304,11 +303,12 @@ class ApiNode extends React.Component {
 
 					<div
 						css={() => ({
-							width: '25%',
+							width: '35%',
+							display: 'flex',
+							justifyContent: 'center',
 						})}
 					>
 						<span
-							// className={ping.color}
 							css={(theme) => ({
 								color: theme.colors.primaryColor,
 							})}
@@ -365,23 +365,18 @@ class ApiNode extends React.Component {
 										title="icons.connect"
 										size="1_5x"
 									/>
-									{/* <Icon
-										css={(theme) => ({
-											color: theme.colors.nodeInactiveColor,
-										})}
-										className={ping.color + ' hover-icon'}
-										name={'connect'}
-										title="icons.connect"
-										size="1_5x"
-									/> */}
 								</a>
 							) : (
-								<Icon
-									className={ping.color}
-									name={'connected'}
-									title="icons.connected"
-									size="2x"
-								/>
+								<a>
+									<Icon
+										css={(theme) => ({
+											fill: theme.colors.primaryColor,
+										})}
+										name={'connected'}
+										title="icons.connected"
+										size="1_5x"
+									/>
+								</a>
 							)}
 						</div>
 					</div>
@@ -471,7 +466,7 @@ class AccessSettings extends React.Component {
 		);
 	}
 
-	renderAutoSelection(connectedNode, backgroundPinging) {
+	renderAutoSelection(connectedNode) {
 		const {props} = this;
 
 		return (
@@ -592,7 +587,7 @@ class AccessSettings extends React.Component {
 			<>
 				<div
 					css={(theme) => ({
-						padding: '1rem 1.2rem',
+						padding: '1rem 1.5rem',
 						borderBottom: `1px solid ${theme.colors.borderColor}`,
 						display: 'flex',
 						justifyContent: 'space-between',
@@ -651,7 +646,7 @@ class AccessSettings extends React.Component {
 						/>
 					</div>
 				</div>
-				<div style={{padding: '2rem'}}>
+				<div style={{padding: '1rem 1.5rem'}}>
 					<div className="active-node">
 						{renderNode(connectedNode, connectedNode)}
 					</div>
