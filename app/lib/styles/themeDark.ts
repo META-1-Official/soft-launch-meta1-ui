@@ -12,6 +12,8 @@ const theme = {
 		descriptionTextColor: '#cecece',
 		settingBlockColor: '#0e1013',
 		borderColor: '#1c1f27',
+		inputBackgroundColor: '#15171b',
+		inputTextColor: '#919293',
 	},
 	sizes: {
 		lg: '992px',

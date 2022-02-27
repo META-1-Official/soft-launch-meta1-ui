@@ -2,11 +2,11 @@ import React from 'react';
 import counterpart from 'counterpart';
 import Translate from 'react-translate-component';
 import SettingsActions from 'actions/SettingsActions';
-import {Button, Typography} from 'antd';
+import {Typography} from 'antd';
 import willTransitionTo from '../../routerTransition';
 import StyledButton from 'components/Button/Button';
 
-const {Title, Paragraph} = Typography;
+const {Title} = Typography;
 export default class ResetSettings extends React.Component {
 	constructor() {
 		super();

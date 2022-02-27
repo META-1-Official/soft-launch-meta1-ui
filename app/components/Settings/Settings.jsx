@@ -15,6 +15,7 @@ import BackupSettings from './BackupSettings';
 import AccessSettings from './AccessSettings';
 import {set} from 'lodash-es';
 import {getAllowedLogins, getFaucet} from '../../branding';
+import FaucetSettings from './FaucetSettings';
 
 const {Title} = Typography;
 class Settings extends React.Component {
@@ -315,8 +316,6 @@ class Settings extends React.Component {
 		const {menuEntries, activeSetting, settingEntries} = this.state;
 		let entries;
 		let activeEntry = menuEntries[activeSetting] || menuEntries[0];
-		console.log('activeEntry', activeEntry);
-		console.log('activeSetting', activeSetting);
 
 		switch (activeEntry) {
 			case 'accounts':
@@ -363,15 +362,26 @@ class Settings extends React.Component {
 				break;
 			case 'faucet_address':
 				entries = (
-					<Input
+					// <Input
+					// 	disabled={!getFaucet().editable}
+					// 	type="text"
+					// 	defaultValue={settings.get('faucet_address')}
+					// 	onChange={
+					// 		getFaucet().editable
+					// 			? this._onChangeSetting.bind(this, 'faucet_address')
+					// 			: null
+					// 	}
+					// />
+					<FaucetSettings
 						disabled={!getFaucet().editable}
-						type="text"
 						defaultValue={settings.get('faucet_address')}
-						onChange={
+						onChange={() =>
 							getFaucet().editable
 								? this._onChangeSetting.bind(this, 'faucet_address')
 								: null
 						}
+						menuEntries={menuEntries}
+						activeSetting={activeSetting}
 					/>
 				);
 				break;
@@ -484,37 +494,18 @@ class Settings extends React.Component {
 								this.props.deprecated ? '' : 'grid-block settings-container'
 							}
 						>
-							<div className="grid-block main-content margin-block wrap">
-								{/* <div
-								className="grid-content shrink settings-menu"
-								style={{paddingRight: '2rem'}}
+							{/* <div className="grid-block main-content margin-block wrap"> */}
+							<div
+								css={{
+									height: '100%',
+									flex: '1 1 auto',
+								}}
 							>
-								<ul>
-									{menuEntries.map((entry, index) => {
-										return (
-											<li
-												className={index === activeSetting ? 'active' : ''}
-												onClick={this._redirectToEntry.bind(this, entry)}
-												key={entry}
-											>
-												<Translate content={'settings.' + entry} />
-											</li>
-										);
-									})}
-								</ul>
-							</div> */}
-
-								<div
-									css={{
-										height: '100%',
-										flex: '1 1 auto',
-									}}
-								>
-									<div className="grid-block small-12 no-margin vertical">
-										{entries}
-									</div>
+								<div className="grid-block small-12 no-margin vertical">
+									{entries}
 								</div>
 							</div>
+							{/* </div> */}
 							<WebsocketAddModal
 								removeNode={this.state.removeNode}
 								isAddNodeModalVisible={this.state.isAddNodeModalVisible}
