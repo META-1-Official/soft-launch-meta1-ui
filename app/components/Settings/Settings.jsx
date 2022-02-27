@@ -316,10 +316,16 @@ class Settings extends React.Component {
 		let entries;
 		let activeEntry = menuEntries[activeSetting] || menuEntries[0];
 		console.log('activeEntry', activeEntry);
+		console.log('activeSetting', activeSetting);
 
 		switch (activeEntry) {
 			case 'accounts':
-				entries = <AccountsSettings />;
+				entries = (
+					<AccountsSettings
+						menuEntries={menuEntries}
+						activeSetting={activeSetting}
+					/>
+				);
 				break;
 
 			case 'wallet':
