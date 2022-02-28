@@ -56,7 +56,6 @@ class AccountsSettings extends React.Component {
 						css={() => ({
 							'&&': {
 								fontSize: '0.8125rem',
-								textTransform: 'capitalize',
 								marginTop: '10px',
 							},
 						})}

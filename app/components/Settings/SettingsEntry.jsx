@@ -4,8 +4,10 @@ import Translate from 'react-translate-component';
 import AssetName from '../Utility/AssetName';
 import Notify from 'notifyjs';
 import FeeAssetSettings from './FeeAssetSettings';
-import {Checkbox, Select, Input, Form} from 'antd';
+import {Checkbox, Select, Typography, Input, Form} from 'antd';
+import StyledSelect from 'components/Select/Select';
 
+const {Text} = Typography;
 const FormItem = Form.Item;
 const Option = Select.Option;
 
@@ -150,8 +152,15 @@ export default class SettingsEntry extends React.Component {
 				value = selected;
 				input = (
 					<Input
+						css={(theme) => ({
+							'&&': {
+								backgroundColor: theme.colors.inputBackgroundColor,
+								border: 'none',
+								color: theme.colors.inputTextColor,
+								borderRadius: '6px',
+							},
+						})}
 						type="text"
-						className="settings--input"
 						value={selected}
 						onChange={this.props.onChange.bind(this, setting)}
 					/>
@@ -192,7 +201,14 @@ export default class SettingsEntry extends React.Component {
 				} else {
 					input = (
 						<input
-							className="settings-input"
+							css={(theme) => ({
+								'&&': {
+									backgroundColor: theme.colors.inputBackgroundColor,
+									border: 'none',
+									color: theme.colors.inputTextColor,
+									borderRadius: '6px',
+								},
+							})}
 							type="text"
 							defaultValue={value}
 							onBlur={this.props.onChange.bind(this, setting)}
@@ -219,30 +235,31 @@ export default class SettingsEntry extends React.Component {
 			);
 		};
 		return (
-			<div css={{backgroundColor: '#0e1013', margin: '1rem', padding: '10px'}}>
+			<div
+				css={(theme) => ({
+					backgroundColor: theme.colors.settingBlockColor,
+					margin: '1rem',
+					padding: '1rem',
+					borderRadius: '6px',
+					'& .ant-form-item-label > label': {
+						color: theme.colors.white,
+					},
+				})}
+			>
 				<EntryLayout noHeader={noHeader} setting={setting}>
 					{options ? (
 						<>
-							<ul className={'unstyled-list'}>
-								<li className="with-dropdown">
-									{optional}
-									<Select
-										value={value}
-										className="settings--select"
-										onChange={this.props.onChange.bind(this, setting)}
-									>
-										{options}
-									</Select>
-									{confirmButton}
-								</li>
-							</ul>
+							{optional}
+							<StyledSelect
+								value={value}
+								onChange={this.props.onChange.bind(this, setting)}
+							>
+								{options}
+							</StyledSelect>
+							{confirmButton}
 						</>
 					) : null}
-					{input ? (
-						<ul className={'unstyled-list'}>
-							<li>{input}</li>
-						</ul>
-					) : null}
+					{input ? input : null}
 
 					{component ? component : null}
 				</EntryLayout>

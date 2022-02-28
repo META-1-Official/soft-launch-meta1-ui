@@ -40,6 +40,29 @@ class Settings extends React.Component {
 			'showAssetPercent',
 			'viewOnlyMode',
 		];
+
+		let generalGroup = [
+			{
+				title: '',
+				options: ['locale', 'unit'],
+			},
+			{
+				title: 'Default Fee Paying Asset',
+				options: ['fee_asset'],
+			},
+			{
+				title: 'Browser Notifications',
+				options: [
+					'browser_notifications',
+					'showSettles',
+					'walletLockTimeout',
+					'themes',
+					'showAssetPercent',
+					'viewOnlyMode',
+				],
+			},
+		];
+
 		// disable that the user can change login method if only one is allowed
 
 		//if (getAllowedLogins().length > 1) general.push("passwordLogin");
@@ -316,6 +339,9 @@ class Settings extends React.Component {
 		const {menuEntries, activeSetting, settingEntries} = this.state;
 		let entries;
 		let activeEntry = menuEntries[activeSetting] || menuEntries[0];
+		console.log('activeEntry', activeEntry);
+
+		console.log('settingEntries[activeEntry]', settingEntries[activeEntry]);
 
 		switch (activeEntry) {
 			case 'accounts':
@@ -362,16 +388,6 @@ class Settings extends React.Component {
 				break;
 			case 'faucet_address':
 				entries = (
-					// <Input
-					// 	disabled={!getFaucet().editable}
-					// 	type="text"
-					// 	defaultValue={settings.get('faucet_address')}
-					// 	onChange={
-					// 		getFaucet().editable
-					// 			? this._onChangeSetting.bind(this, 'faucet_address')
-					// 			: null
-					// 	}
-					// />
 					<FaucetSettings
 						disabled={!getFaucet().editable}
 						defaultValue={settings.get('faucet_address')}
@@ -396,20 +412,71 @@ class Settings extends React.Component {
 				break;
 
 			default:
-				entries = settingEntries[activeEntry].map((setting) => {
-					return (
-						<SettingsEntry
-							key={setting}
-							setting={setting}
-							settings={settings}
-							defaults={defaults[setting === 'fee_asset' ? 'unit' : setting]}
-							onChange={this._handleSettingsEntryChange.bind(this)}
-							onNotificationChange={this._handleNotificationChange}
-							locales={this.props.localesObject}
-							{...this.state}
-						/>
-					);
-				});
+				entries = (
+					<div
+						css={{
+							padding: '0rem 1rem',
+						}}
+					>
+						<div
+							css={() => ({
+								padding: '1rem 1.5rem 0rem',
+							})}
+						>
+							<Translate
+								component="h3"
+								css={(theme) => ({
+									'&&': {
+										color: theme.colors.primaryColor,
+										marginBottom: '10px',
+										fontSize: '1.25rem',
+										textTransform: 'capitalize',
+										marginBottom: '10px',
+										fontWeight: '100',
+										fontSize: '1.35rem',
+									},
+								})}
+								content={'settings.' + menuEntries[activeSetting]}
+							/>
+
+							<Title
+								css={() => ({
+									'&&': {
+										fontSize: '0.8125rem',
+										marginTop: '10px',
+									},
+								})}
+							>
+								<Translate
+									unsafe
+									style={{
+										paddingTop: 5,
+										marginBottom: 30,
+									}}
+									content={`settings.${menuEntries[activeSetting]}_text`}
+									className="panel-bg-color"
+								/>
+							</Title>
+						</div>
+						{settingEntries[activeEntry].map((setting) => {
+							return (
+								<SettingsEntry
+									key={setting}
+									setting={setting}
+									settings={settings}
+									defaults={
+										defaults[setting === 'fee_asset' ? 'unit' : setting]
+									}
+									onChange={this._handleSettingsEntryChange.bind(this)}
+									onNotificationChange={this._handleNotificationChange}
+									locales={this.props.localesObject}
+									{...this.state}
+								/>
+							);
+						})}
+					</div>
+				);
+
 				break;
 		}
 		return (
@@ -441,60 +508,12 @@ class Settings extends React.Component {
 						borderRadius: '7px',
 					})}
 				>
-					<div
-						css={(theme) => ({
-							padding: '1.2rem 0px 1.rem 1.5rem',
-							borderBottom: `1px solid ${theme.colors.borderColor}`,
-						})}
-					>
-						<Title
-							css={() => ({
-								'&&': {
-									fontSize: '1.25rem',
-									textTransform: 'capitalize',
-									marginBottom: '10px',
-								},
-							})}
-						>
-							<Translate
-								component="h3"
-								css={(theme) => ({
-									'&&': {
-										color: theme.colors.primaryColor,
-										marginBottom: '10px',
-									},
-								})}
-								content={'settings.' + menuEntries[activeSetting]}
-							/>
-						</Title>
-						<Title
-							css={() => ({
-								'&&': {
-									fontSize: '0.8125rem',
-									textTransform: 'capitalize',
-									marginTop: '10px',
-								},
-							})}
-						>
-							<Translate
-								unsafe
-								style={{
-									paddingTop: 5,
-									marginBottom: 30,
-								}}
-								content={`settings.${menuEntries[activeSetting]}_text`}
-								className="panel-bg-color"
-							/>
-						</Title>
-					</div>
-
 					<Form layout={'vertical'}>
 						<div
 							className={
 								this.props.deprecated ? '' : 'grid-block settings-container'
 							}
 						>
-							{/* <div className="grid-block main-content margin-block wrap"> */}
 							<div
 								css={{
 									height: '100%',

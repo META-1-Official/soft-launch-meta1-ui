@@ -3,11 +3,10 @@ import counterpart from 'counterpart';
 import {connect} from 'alt-react';
 import SettingsStore from '../../stores/SettingsStore';
 import {ChainStore} from 'meta1js';
-import {Button} from 'antd';
 import Translate from 'react-translate-component';
 import AssetName from '../Utility/AssetName';
-
 import SetDefaultFeeAssetModal from '../Modal/SetDefaultFeeAssetModal';
+import StyledButton from 'components/Button/Button';
 
 class FeeAssetSettings extends React.Component {
 	constructor(props) {
@@ -31,25 +30,29 @@ class FeeAssetSettings extends React.Component {
 					display: 'flex',
 					flexDirection: 'row',
 					alignItems: 'center',
+					justifyContent: 'space-between',
 				}}
 			>
-				<Translate
-					component="span"
-					content="settings.current_fee_asset"
-					style={{marginRight: '10px'}}
-				/>
-				{asset ? <AssetName name={asset.get('symbol')} /> : null}
+				<div>
+					{' '}
+					<Translate
+						component="span"
+						content="settings.current_fee_asset"
+						style={{marginRight: '10px', color: 'white'}}
+					/>
+					{asset ? <AssetName name={asset.get('symbol')} /> : null}
+				</div>
 
-				<Button
+				<StyledButton
+					type="primary"
 					style={{margin: '15px'}}
 					key="open_change_fee_asset"
-					type="secondary"
 					onClick={() => {
 						this.setState({showModal: true});
 					}}
 				>
 					{counterpart.translate('settings.change_default_fee_asset')}
-				</Button>
+				</StyledButton>
 				{this.state.showModal && (
 					<SetDefaultFeeAssetModal
 						key="change_fee_asset_modal"

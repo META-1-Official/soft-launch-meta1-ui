@@ -115,7 +115,13 @@ class AssetName extends React.Component {
 					}
 				>
 					<span className="asset-prefix-replaced">{prefix}</span>
-					<span>{replacedName}</span>
+					<span
+						css={(theme) => ({
+							color: theme.colors.primaryColor,
+						})}
+					>
+						{replacedName}
+					</span>
 				</div>
 			);
 			if (!!noTip) {
@@ -153,7 +159,13 @@ class AssetName extends React.Component {
 					<span className={!noPrefix ? 'asset-prefix-replaced' : ''}>
 						{!noPrefix ? prefix : null}
 					</span>
-					<span>{replacedName}</span>
+					<span
+						css={(theme) => ({
+							color: theme.colors.primaryColor,
+						})}
+					>
+						{replacedName}
+					</span>
 				</span>
 			);
 			if (!!noTip) {

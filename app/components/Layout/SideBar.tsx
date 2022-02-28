@@ -62,10 +62,6 @@ const SideBar = ({collapsed, toggle}: ISideBar) => {
 			menuName: 'Transaction History',
 			path: '/transaction-history',
 			icon: <SwapOutlined />,
-
-			// (
-			// 	<Translate content="account.openledger.header_transaction_history" />
-			// ),
 		},
 		{
 			menuId: 'notification',

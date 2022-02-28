@@ -47,7 +47,6 @@ const FaucetSettings = ({
 					css={() => ({
 						'&&': {
 							fontSize: '0.8125rem',
-							textTransform: 'capitalize',
 							marginTop: '10px',
 						},
 					})}
