@@ -7,7 +7,6 @@ import SettingsStore from "stores/SettingsStore";
 import SettingsActions from "actions/SettingsActions";
 import ZfApi from "react-foundation-apps/src/utils/foundation-api";
 import SendModal from "../Modal/SendModal";
-import WithdrawalModal from "../Modal/WithdrawalModal";
 import DepositModalBtc from "../Modal/DepositModalBtc";
 import DepositModalEth from "../Modal/DepositModalEth";
 import DepositModalUsdt from "../Modal/DepositModalUsdt";
@@ -55,10 +54,7 @@ class Header extends React.Component {
             dropdownSubmenuActiveDeposit: false,
             isDepositModalVisible: false,
             hasDepositModalBeenShown: false,
-            isWithdrawModalVisible: false,
-            hasWithdrawalModalBeenShown: false,
-            isDepositModalVisibleBtc: false,
-            isWithdrawModalVisibleMeta: false
+            isDepositModalVisibleBtc: false
         };
 
         this._accountNotificationActiveKeys = [];
@@ -113,7 +109,6 @@ class Header extends React.Component {
 
         this.showDepositModal = this.showDepositModal.bind(this);
         this.hideDepositModal = this.hideDepositModal.bind(this);
-        this.showWithdrawModal = this.showWithdrawModal.bind(this);
 
         this.onBodyClick = this.onBodyClick.bind(this);
     }
@@ -128,13 +123,6 @@ class Header extends React.Component {
     hideDepositModal() {
         this.setState({
             isDepositModalVisible: false
-        });
-    }
-
-    showWithdrawModal() {
-        this.setState({
-            isWithdrawModalVisible: true,
-            hasWithdrawalModalBeenShown: true
         });
     }
 
@@ -292,12 +280,6 @@ class Header extends React.Component {
         this._closeDropdown();
     }
 
-    _showWithdrawal(e) {
-        e.preventDefault();
-        if (this.withdrawal_modal) this.withdrawal_modal.show();
-        this._closeDropdown();
-    }
-
     hideDepositModalBtc() {
         this.setState({
             isDepositModalVisibleBtc: false
@@ -344,12 +326,6 @@ class Header extends React.Component {
         e.preventDefault();
         this.showDepositModal();
         this._closeDropdown();
-    }
-
-    _showWithdraw(e) {
-        e.preventDefault();
-        this._closeDropdown();
-        this.showWithdrawModal();
     }
 
     _triggerMenu(e) {
@@ -1817,11 +1793,7 @@ class Header extends React.Component {
                                         enableDepositWithdraw
                                     }
                                     showDeposit={this._showDeposit.bind(this)}
-                                    showWithdraw={this._showWithdraw.bind(this)}
                                     showSend={this._showSend.bind(this)}
-                                    showWithdrawal={this._showWithdrawal.bind(
-                                        this
-                                    )}
                                     toggleDropdownSubmenu={this._toggleDropdownSubmenu.bind(
                                         this,
                                         SUBMENUS.SETTINGS
@@ -1842,13 +1814,6 @@ class Header extends React.Component {
                     id="send_modal_header"
                     refCallback={e => {
                         if (e) this.send_modal = e;
-                    }}
-                    from_name={currentAccount}
-                />
-                <WithdrawalModal
-                    id="withdrawal_modal_header"
-                    refCallback={e => {
-                        if (e) this.withdrawal_modal = e;
                     }}
                     from_name={currentAccount}
                 />
