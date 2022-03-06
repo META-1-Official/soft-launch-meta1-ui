@@ -282,14 +282,6 @@ class AccountRegistration extends React.Component {
 		return (
 			<div className="no-margin grid-block registration-layout registration">
 				<div className="grid-block horizontal align-center text-center">
-					<div>
-						<img
-							className={`model-img ${this.state.active ? 'confirmed' : ''}`}
-							src="/model-type-images/account.svg"
-							alt="account"
-						/>
-					</div>
-
 					<div className="create-account-block">
 						<Translate
 							component="h3"

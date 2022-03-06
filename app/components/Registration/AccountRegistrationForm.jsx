@@ -139,7 +139,6 @@ class AccountRegistrationForm extends React.Component {
 		ss.set('phone', this.state.phone);
 		ss.set('firstname', this.state.firstname);
 		ss.set('lastname', this.state.lastname);
-
 		if (this.isValid()) {
 			this.props.continue({
 				accountName: this.state.accountName,

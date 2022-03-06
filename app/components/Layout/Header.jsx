@@ -551,12 +551,12 @@ class Header extends React.Component {
 			this._toggleLock(this, true);
 		} else if (key === 'createAccount') {
 			this._onNavigate('/registration/', this, true);
-		} else if (key === 'exchange') {
+		} else if (key === 'market') {
 			const tradeUrl = lastMarket
 				? `/market/${lastMarket}`
 				: '/market/META1_USDT';
 			this._onNavigate(`${tradeUrl}`, this, true);
-		} else if (key === 'explore') {
+		} else if (key === 'explorer') {
 			this._onNavigate('/explorer/blocks', this, true);
 		} else if (key === 'help') {
 			this._onNavigate('/help', this, true);
@@ -1511,6 +1511,8 @@ class Header extends React.Component {
 		);
 
 		const {headerMenu} = this.state;
+		console.log(this.props.currentLink);
+
 		return (
 			<>
 				<AntdHeader>
@@ -1534,13 +1536,13 @@ class Header extends React.Component {
 									<Menu
 										mode="horizontal"
 										onClick={this.handleHeaderLink}
-										selectedKeys={headerMenu}
+										selectedKeys={[this.props.currentLink]}
 									>
 										<Menu.Item key="dashboard">Dashboard</Menu.Item>
-										<Menu.Item key="exchange">
+										<Menu.Item key="market">
 											<Translate component="span" content="header.exchange" />
 										</Menu.Item>
-										<Menu.Item key="explore">
+										<Menu.Item key="explorer">
 											<Translate component="span" content="header.explorer" />
 										</Menu.Item>
 										<Menu.Item key="funds">Funds</Menu.Item>

@@ -43,11 +43,11 @@ export function getWalletURL() {
 export function getFaucet() {
 	// https://faucet.testnet.meta1.io/faucet/
 	return {
-		// url: "https://faucet.meta1.io/faucet", // 2017-12-infrastructure worker proposal
-		url:
-			process.env.NODE_ENV === 'development'
-				? 'https://faucet.testnet.meta1.io/faucet'
-				: 'https://faucet.meta1.io/faucet',
+		url: 'https://faucet.meta1.io/faucet', // 2017-12-infrastructure worker proposal
+		// url:
+		// 	process.env.NODE_ENV === 'development'
+		// 		? 'https://faucet.testnet.meta1.io/faucet'
+		// 		: 'https://faucet.meta1.io/faucet',
 		show: true,
 		editable: true,
 	};

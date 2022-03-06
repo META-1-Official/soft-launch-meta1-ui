@@ -529,7 +529,7 @@ class App extends React.Component {
 
 		return (
 			<>
-				<AppLayout height={this.state.height}>
+				<AppLayout location={location} height={this.state.height}>
 					<div
 						style={{backgroundColor: !theme ? '#2a2a2a' : null}}
 						className={theme}

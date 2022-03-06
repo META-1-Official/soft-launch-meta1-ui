@@ -19,81 +19,71 @@ const {Sider} = Layout;
 interface ISideBar {
 	collapsed: boolean;
 	toggle: (boolean) => void;
+	currentLink: string;
 }
 const {useBreakpoint} = Grid;
 
-const SideBar = ({collapsed, toggle}: ISideBar) => {
+const SideBar = ({collapsed, currentLink, toggle}: ISideBar) => {
 	const theme: any = useTheme();
 	const screens = useBreakpoint();
 
 	const menuList = [
 		{
-			menuId: 'banking-assets',
+			menuId: 'assets',
 			menuName: <Translate content="explorer.assets.title" />,
-			path: '/assets',
 			icon: <WalletOutlined />,
 		},
 		{
 			menuId: 'trade',
 			menuName: <Translate content="account.trade" />,
-			path: '/trade',
 			icon: <RiseOutlined />,
 		},
 		{
 			menuId: 'activity',
 			menuName: <Translate content="account.activity" />,
-			path: '/activity',
 			icon: <RiseOutlined />,
 		},
 		{
 			menuId: 'asset-explorer',
 			menuName: <Translate content="header.arts" />,
-			path: '/asset-explorer',
 			icon: <ApartmentOutlined />,
 		},
 		{
 			menuId: 'paper-wallet',
 			menuName: <Translate content="account.perm.create_paperwallet" />,
-			path: '/paper-wallet',
 			icon: <FileTextOutlined />,
 		},
 		{
 			menuId: 'transaction-history',
 			menuName: 'Transaction History',
-			path: '/transaction-history',
 			icon: <SwapOutlined />,
 		},
 		{
 			menuId: 'notification',
 			menuName: 'Notification',
-			path: '/notification',
 			icon: <BellOutlined />,
 		},
 		{
 			menuId: 'help',
 			menuName: 'Help',
-			path: '/help',
 			icon: <QuestionCircleOutlined />,
 		},
 		{
 			menuId: 'settings',
 			menuName: <Translate content="header.settings" />,
-			path: '/settings',
 			icon: <SettingOutlined />,
 		},
 	];
 	const sideMenuClick = (e: any) => {
-		history.push(e.key);
+		history.push(`/${e.key}`);
 	};
+
+	console.log('currentLink', currentLink);
+
 	return (
 		<Sider
 			style={{
 				backgroundColor: theme.colors.sideBar,
-				// overflow: 'auto',
-				// position: 'fixed',
-				// top: 0,
-				// bottom: 0,
-				// left: 0,
 			}}
 			css={{
 				'&& .ant-menu': {
@@ -103,14 +93,12 @@ const SideBar = ({collapsed, toggle}: ISideBar) => {
 				},
 			}}
 			breakpoint="sm"
-			onBreakpoint={(broken) => {
-				console.log('broken', broken);
+			onBreakpoint={() => {
 				screens['xs'] === true ? toggle(true) : toggle(false);
 			}}
 			// onCollapse={(collapsed, type) => {
 			// 	console.log(collapsed, type);
 			// }}
-
 			collapsed={collapsed}
 		>
 			<Menu
@@ -127,13 +115,13 @@ const SideBar = ({collapsed, toggle}: ISideBar) => {
 					},
 				}}
 				mode="inline"
-				defaultSelectedKeys={['settings']}
 				onClick={sideMenuClick}
+				selectedKeys={[currentLink]}
 			>
 				{menuList &&
-					menuList.map(({menuName, path, icon}) => {
+					menuList.map(({menuName, menuId, icon}) => {
 						return (
-							<Menu.Item key={path} icon={icon}>
+							<Menu.Item key={menuId} icon={icon}>
 								<span className="nav-text">{menuName}</span>
 							</Menu.Item>
 						);

@@ -1,20 +1,30 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Layout} from 'antd';
 import Header from './Header';
 import {useTheme} from '@emotion/react';
 import SideBar from './SideBar';
+
 const {Content, Footer} = Layout;
 interface IAppLayout {
 	children: React.ReactNode;
 	height: number;
+	location: any;
 }
 
-const AppLayout = ({children, height}: IAppLayout) => {
+const AppLayout = ({children, location, height}: IAppLayout) => {
 	const theme: any = useTheme();
+
+	const pathSnippets = location.pathname.split('/').filter((i) => i);
+	const url = pathSnippets ? pathSnippets[0] : '';
 	const [collapsed, setcollapsed] = useState<boolean>(true);
+	const [currentLink, setCurrentLink] = useState<string>('');
 	const toggle = (value: boolean) => {
 		setcollapsed(value);
 	};
+	useEffect(() => {
+		setCurrentLink(url);
+	}, [url]);
+
 	return (
 		<Layout
 			css={(theme) => ({
@@ -39,11 +49,15 @@ const AppLayout = ({children, height}: IAppLayout) => {
 				type={collapsed ? 'menu-unfold' : 'menu-fold'}
 				onClick={toggle}
 			/> */}
-			<Header height={height} />
+			<Header currentLink={currentLink} height={height} />
 
 			<Content>
 				<Layout>
-					<SideBar collapsed={collapsed} toggle={toggle} />
+					<SideBar
+						currentLink={currentLink}
+						collapsed={collapsed}
+						toggle={toggle}
+					/>
 					<Content css={{marginTop: '3rem'}}>{children}</Content>
 				</Layout>
 			</Content>
