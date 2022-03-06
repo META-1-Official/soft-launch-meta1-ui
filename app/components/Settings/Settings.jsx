@@ -339,9 +339,6 @@ class Settings extends React.Component {
 		const {menuEntries, activeSetting, settingEntries} = this.state;
 		let entries;
 		let activeEntry = menuEntries[activeSetting] || menuEntries[0];
-		console.log('activeEntry', activeEntry);
-
-		console.log('settingEntries[activeEntry]', settingEntries[activeEntry]);
 
 		switch (activeEntry) {
 			case 'accounts':
