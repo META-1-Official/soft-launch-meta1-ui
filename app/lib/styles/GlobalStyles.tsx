@@ -71,5 +71,20 @@ const GlobalStyles = (theme: any) => css`
 		width: 19px;
 		height: 19px;
 	}
+	.ant-tabs {
+		.ant-tabs-nav::before {
+			border-bottom: none;
+		}
+		.ant-tabs-tab:hover {
+			color: ${theme.colors.primaryColor} !important;
+		}
+		.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+			color: ${theme.colors.primaryColor} !important;
+		}
+		.ant-tabs-tab.ant-tabs-tab-active {
+			border-bottom: 2px solid ${theme.colors.primaryColor} !important;
+			z-index: 2;
+		}
+	}
 `;
 export default GlobalStyles;

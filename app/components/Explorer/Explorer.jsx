@@ -7,7 +7,7 @@ import AssetsContainer from './AssetsContainer';
 import AccountsContainer from './AccountsContainer';
 import counterpart from 'counterpart';
 import MarketsContainer from '../Exchange/MarketsContainer';
-import {Tabs} from 'antd';
+import {Tabs, Menu} from 'antd';
 class Explorer extends React.Component {
 	constructor(props) {
 		super(props);
@@ -66,27 +66,33 @@ class Explorer extends React.Component {
 		};
 
 		return (
-			<Tabs
-				activeKey={this.props.location.pathname}
-				animated={false}
-				style={{display: 'table', height: '100%', width: '100%'}}
-				onChange={onChange}
+			<div
+				css={{
+					padding: '0.3rem 2rem',
+				}}
 			>
-				{this.state.tabs.map((tab) => {
-					const TabContent = tab.content;
+				<Tabs
+					activeKey={this.props.location.pathname}
+					animated={false}
+					style={{display: 'table', height: '100%', width: '100%'}}
+					onChange={onChange}
+				>
+					{this.state.tabs.map((tab) => {
+						const TabContent = tab.content;
 
-					return (
-						<Tabs.TabPane
-							key={tab.link}
-							tab={counterpart.translate(tab.translate)}
-						>
-							<div className="padding">
-								<TabContent />
-							</div>
-						</Tabs.TabPane>
-					);
-				})}
-			</Tabs>
+						return (
+							<Tabs.TabPane
+								key={tab.link}
+								tab={counterpart.translate(tab.translate)}
+							>
+								<div className="padding">
+									<TabContent />
+								</div>
+							</Tabs.TabPane>
+						);
+					})}
+				</Tabs>
+			</div>
 		);
 	}
 }
