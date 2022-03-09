@@ -66,33 +66,25 @@ class Explorer extends React.Component {
 		};
 
 		return (
-			<div
-				css={{
-					padding: '0.3rem 2rem',
-				}}
+			<Tabs
+				activeKey={this.props.location.pathname}
+				animated={false}
+				style={{display: 'table', height: '100%', width: '100%'}}
+				onChange={onChange}
 			>
-				<Tabs
-					activeKey={this.props.location.pathname}
-					animated={false}
-					style={{display: 'table', height: '100%', width: '100%'}}
-					onChange={onChange}
-				>
-					{this.state.tabs.map((tab) => {
-						const TabContent = tab.content;
+				{this.state.tabs.map((tab) => {
+					const TabContent = tab.content;
 
-						return (
-							<Tabs.TabPane
-								key={tab.link}
-								tab={counterpart.translate(tab.translate)}
-							>
-								<div className="padding">
-									<TabContent />
-								</div>
-							</Tabs.TabPane>
-						);
-					})}
-				</Tabs>
-			</div>
+					return (
+						<Tabs.TabPane
+							key={tab.link}
+							tab={counterpart.translate(tab.translate)}
+						>
+							<TabContent />
+						</Tabs.TabPane>
+					);
+				})}
+			</Tabs>
 		);
 	}
 }
