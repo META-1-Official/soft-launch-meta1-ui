@@ -18,6 +18,7 @@ import FormattedAsset from '../Utility/FormattedAsset';
 import Ps from 'perfect-scrollbar';
 import TransitionWrapper from '../Utility/TransitionWrapper';
 import {Row, Col, Typography} from 'antd';
+import ChartjsAreaChart from 'components/Graph/Graph';
 
 require('../Blockchain/json-inspector.scss');
 
@@ -324,10 +325,10 @@ class Blocks extends React.Component {
 							>
 								<div
 									css={() => ({
-										padding: '1rem',
+										padding: '1rem 0rem 0rem 1rem',
 										display: 'flex',
 										justifyContent: 'flex-start',
-										minHeight: '10rem',
+										minHeight: '6rem',
 									})}
 								>
 									<div
@@ -370,6 +371,15 @@ class Blocks extends React.Component {
 										</div>
 									</div>
 								</div>
+								<div
+									css={{
+										'.chartjs-tooltip': {
+											minWidth: '50px !important',
+										},
+									}}
+								>
+									<ChartjsAreaChart id="engaged" height={40} />
+								</div>
 							</div>
 						</Col>
 
@@ -385,7 +395,7 @@ class Blocks extends React.Component {
 										padding: '1rem',
 										display: 'flex',
 										justifyContent: 'flex-start',
-										minHeight: '10rem',
+										minHeight: '6rem',
 									})}
 								>
 									<div
@@ -429,7 +439,7 @@ class Blocks extends React.Component {
 										padding: '1rem',
 										display: 'flex',
 										justifyContent: 'flex-start',
-										minHeight: '10rem',
+										minHeight: '6rem',
 									})}
 								>
 									<div
@@ -482,7 +492,7 @@ class Blocks extends React.Component {
 										padding: '1rem',
 										display: 'flex',
 										justifyContent: 'flex-start',
-										minHeight: '10rem',
+										minHeight: '6rem',
 									})}
 								>
 									<div
@@ -538,7 +548,7 @@ class Blocks extends React.Component {
 										padding: '1rem',
 										display: 'flex',
 										justifyContent: 'flex-start',
-										minHeight: '10rem',
+										minHeight: '6rem',
 									})}
 								>
 									<div
@@ -593,7 +603,7 @@ class Blocks extends React.Component {
 										padding: '1rem',
 										display: 'flex',
 										justifyContent: 'flex-start',
-										minHeight: '10rem',
+										minHeight: '6rem',
 									})}
 								>
 									<div
@@ -646,7 +656,7 @@ class Blocks extends React.Component {
 										padding: '1rem',
 										display: 'flex',
 										justifyContent: 'flex-start',
-										minHeight: '10rem',
+										minHeight: '6rem',
 									})}
 								>
 									<div
@@ -699,7 +709,7 @@ class Blocks extends React.Component {
 										padding: '1rem',
 										display: 'flex',
 										justifyContent: 'flex-start',
-										minHeight: '10rem',
+										minHeight: '6rem',
 									})}
 								>
 									<div
@@ -755,7 +765,7 @@ class Blocks extends React.Component {
 										padding: '1rem',
 										display: 'flex',
 										justifyContent: 'flex-start',
-										minHeight: '10rem',
+										minHeight: '6rem',
 									})}
 								>
 									<div
@@ -808,7 +818,7 @@ class Blocks extends React.Component {
 										padding: '1rem',
 										display: 'flex',
 										justifyContent: 'flex-start',
-										minHeight: '10rem',
+										minHeight: '6rem',
 									})}
 								>
 									<div
@@ -867,7 +877,7 @@ class Blocks extends React.Component {
 										padding: '1rem',
 										display: 'flex',
 										justifyContent: 'flex-start',
-										minHeight: '10rem',
+										minHeight: '6rem',
 									})}
 								>
 									<div
@@ -915,7 +925,7 @@ class Blocks extends React.Component {
 										padding: '1rem',
 										display: 'flex',
 										justifyContent: 'flex-start',
-										minHeight: '10rem',
+										minHeight: '6rem',
 									})}
 								>
 									<div
