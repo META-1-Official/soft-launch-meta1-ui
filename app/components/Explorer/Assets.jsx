@@ -19,6 +19,7 @@ import {Radio, Select} from 'antd';
 import {List, Row, Col, Typography} from 'antd';
 import SearchInput from '../Utility/SearchInput';
 import ExploreCard from 'components/ExploreCard/ExploreCard';
+import {FaChartBar} from 'react-icons/fa';
 
 let accountStorage = new ls('__graphene__');
 const {Text} = Typography;
@@ -217,7 +218,7 @@ class Assets extends React.Component {
 					render: (item) => {
 						return (
 							<Link to={`/market/${item}`}>
-								<div> todo</div> {/* <Icon type={'line-chart'} />{' '} */}
+								{/* <Icon type={'line-chart'} />{' '} */}
 								<Translate content="header.exchange" />
 							</Link>
 						);
@@ -320,7 +321,7 @@ class Assets extends React.Component {
 					render: (item) => {
 						return (
 							<Link to={`/market/${item}`}>
-								<div>todo</div> {/* <Icon type={'line-chart'} />{' '} */}
+								<FaChartBar /> {/* <Icon type={'line-chart'} />{' '} */}
 								<Translate content="header.exchange" />
 							</Link>
 						);
