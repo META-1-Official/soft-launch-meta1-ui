@@ -18,7 +18,7 @@ import FormattedAsset from '../Utility/FormattedAsset';
 import Ps from 'perfect-scrollbar';
 import TransitionWrapper from '../Utility/TransitionWrapper';
 import {Row, Col, Typography} from 'antd';
-import ChartjsAreaChart from 'components/Graph/Graph';
+import ExploreCard from 'components/ExploreCard/ExploreCard';
 
 require('../Blockchain/json-inspector.scss');
 
@@ -317,64 +317,6 @@ class Blocks extends React.Component {
 			trxPerSec = trxCount / ((lastBlock - firstBlock) / 1000);
 		}
 
-		const ExploreCard = ({icon, showOtherGraph, children, textContent}) => {
-			return (
-				<div
-					css={(theme) => ({
-						border: `1px solid ${theme.colors.borderColor}`,
-						borderRadius: '10px',
-					})}
-				>
-					<div
-						css={() => ({
-							padding: '1rem 0rem 0rem 1rem',
-							display: 'flex',
-							justifyContent: 'flex-start',
-							minHeight: '6rem',
-						})}
-					>
-						<div
-							css={() => ({
-								height: '50px',
-								width: '50px',
-								backgroundColor: 'black',
-								borderRadius: '50%',
-								display: 'flex',
-								justifyContent: 'center',
-								alignItems: 'center',
-							})}
-						>
-							<img src={icon} alt="Logo" />
-						</div>
-						<div
-							css={() => ({
-								marginLeft: '1rem',
-							})}
-						>
-							<Translate
-								style={{fontSize: '14px', textTransform: 'uppercase'}}
-								component="span"
-								content={textContent}
-							/>
-
-							{children}
-						</div>
-					</div>
-					{!showOtherGraph && (
-						<div
-							css={{
-								'.chartjs-tooltip': {
-									minWidth: '50px !important',
-								},
-							}}
-						>
-							<ChartjsAreaChart id="engaged" height={40} />
-						</div>
-					)}
-				</div>
-			);
-		};
-
 		return (
 			<div ref="outerWrapper">
 				{/* First row of stats */}
@@ -645,12 +587,11 @@ class Blocks extends React.Component {
 								>
 									<thead
 										css={(theme) => ({
-											th: {
+											tr: {
 												backgroundColor: '#15171b',
 												border: `2px solid ${theme.colors.borderColor}`,
-												borderRadius: '10px',
-												fontSize: '14px',
-												padding: '5px 10px',
+												fontSize: '13px !important',
+												padding: '15px 10px',
 												textAlign: 'left',
 											},
 										})}
@@ -701,13 +642,13 @@ class Blocks extends React.Component {
 								<table className="table fixed-height-2rem">
 									<thead
 										css={(theme) => ({
-											th: {
+											tr: {
 												backgroundColor: '#15171b',
 												border: `2px solid ${theme.colors.borderColor}`,
-												borderRadius: '10px',
-												fontSize: '14px',
-												padding: '5px 10px',
+												borderBottom: `2px solid ${theme.colors.borderColor}`,
+												padding: '15px 10px',
 												textAlign: 'left',
+												fontSize: '13px !important',
 											},
 										})}
 									>

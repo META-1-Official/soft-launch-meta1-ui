@@ -16,10 +16,17 @@ import utils from 'common/utils';
 import ls from 'common/localStorage';
 import {Apis} from 'meta1js-ws';
 import {Radio, Select} from 'antd';
-import {List} from 'antd';
+import {List, Row, Col, Typography} from 'antd';
 import SearchInput from '../Utility/SearchInput';
+import ExploreCard from 'components/ExploreCard/ExploreCard';
 
 let accountStorage = new ls('__graphene__');
+const {Text} = Typography;
+
+const blockNumberIcon = require('assets/explorer/blockNumber.png');
+const witnessIcon = require('assets/explorer/witness.png');
+const committeeIcon = require('assets/explorer/committee.png');
+const volumeIcon = require('assets/explorer/volume.png');
 
 class Assets extends React.Component {
 	constructor(props) {
@@ -402,150 +409,209 @@ class Assets extends React.Component {
 		}
 
 		return (
-			<div className="grid-block vertical">
-				<div className="grid-block vertical">
-					<div className="grid-block main-content small-12 medium-10 medium-offset-1 main-content vertical">
-						<div className="generic-bordered-box">
-							<div
-								style={{
-									textAlign: 'left',
-									marginBottom: '24px',
-								}}
+			<div>
+				<div
+					css={(theme) => ({
+						backgroundColor: theme.colors.explorerBackground,
+						padding: '2rem 1rem',
+					})}
+				>
+					<Row justify="center" gutter={16}>
+						<Col xs={24} sm={12} md={5} lg={6}>
+							<ExploreCard
+								icon={blockNumberIcon}
+								textContent="24h Volume In Metal"
 							>
-								<span
+								<div>
+									<Text
+										css={() => ({
+											fontSize: '1.2rem',
+											color: 'white',
+											fontWeight: 700,
+										})}
+									>
+										235235
+									</Text>
+								</div>
+							</ExploreCard>
+						</Col>
+
+						<Col xs={24} sm={12} md={5} lg={6}>
+							<ExploreCard
+								icon={blockNumberIcon}
+								textContent="explorer.blocks.last_block"
+							>
+								234
+							</ExploreCard>
+						</Col>
+						<Col xs={24} sm={12} md={5} lg={6}>
+							<ExploreCard
+								icon={blockNumberIcon}
+								textContent="explorer.blocks.avg_conf_time"
+							>
+								<div>
+									<Text
+										css={() => ({
+											fontSize: '1.2rem',
+											color: 'white',
+											fontWeight: 700,
+										})}
+									>
+										235363
+									</Text>
+								</div>
+							</ExploreCard>
+						</Col>
+					</Row>
+				</div>
+
+				<div className="grid-block vertical">
+					<div className="grid-block vertical">
+						<div className="grid-block main-content small-12 medium-10 medium-offset-1 main-content vertical">
+							<div className="generic-bordered-box">
+								<div
 									style={{
-										display: 'inline-block',
-										width: '0px',
-										marginTop: '2px',
-										float: 'left',
-										fontSize: '18px',
+										textAlign: 'left',
+										marginBottom: '24px',
 									}}
 								>
-									{/* <Icon type="loading" /> */}
-									{this.state.isLoading ? <div>todo</div> : null}
-								</span>
-								<SearchInput
-									value={this.state.filterSearch}
-									style={{width: '200px'}}
-									onChange={this.handleFilterChange}
-								/>
-								<Radio.Group
-									value={this.state.activeFilter}
-									onChange={this._toggleFilter}
-									style={{
-										marginBottom: '7px',
-										marginLeft: '24px',
-									}}
-								>
-									<Radio value={'market'}>
-										<Translate content="explorer.assets.market" />
-									</Radio>
-									<Radio value={'user'}>
-										<Translate content="explorer.assets.user" />
-									</Radio>
-									<Radio value={'prediction'}>
-										<Translate content="explorer.assets.prediction" />
-									</Radio>
-								</Radio.Group>
+									<span
+										style={{
+											display: 'inline-block',
+											width: '0px',
+											marginTop: '2px',
+											float: 'left',
+											fontSize: '18px',
+										}}
+									>
+										{/* <Icon type="loading" /> */}
+										{this.state.isLoading ? <div>todo</div> : null}
+									</span>
+									<SearchInput
+										value={this.state.filterSearch}
+										style={{width: '200px'}}
+										onChange={this.handleFilterChange}
+									/>
+									<Radio.Group
+										value={this.state.activeFilter}
+										onChange={this._toggleFilter}
+										style={{
+											marginBottom: '7px',
+											marginLeft: '24px',
+										}}
+									>
+										<Radio value={'market'}>
+											<Translate content="explorer.assets.market" />
+										</Radio>
+										<Radio value={'user'}>
+											<Translate content="explorer.assets.user" />
+										</Radio>
+										<Radio value={'prediction'}>
+											<Translate content="explorer.assets.prediction" />
+										</Radio>
+									</Radio.Group>
 
-								<Select
-									style={{width: '150px', marginLeft: '24px'}}
-									value={this.state.rowsOnPage}
-									onChange={this.handleRowsChange}
-								>
-									<Select.Option key={'10'}>10 rows</Select.Option>
-									<Select.Option key={'25'}>25 rows</Select.Option>
-									<Select.Option key={'50'}>50 rows</Select.Option>
-									<Select.Option key={'100'}>100 rows</Select.Option>
-									<Select.Option key={'200'}>200 rows</Select.Option>
-								</Select>
-							</div>
+									<Select
+										style={{width: '150px', marginLeft: '24px'}}
+										value={this.state.rowsOnPage}
+										onChange={this.handleRowsChange}
+									>
+										<Select.Option key={'10'}>10 rows</Select.Option>
+										<Select.Option key={'25'}>25 rows</Select.Option>
+										<Select.Option key={'50'}>50 rows</Select.Option>
+										<Select.Option key={'100'}>100 rows</Select.Option>
+										<Select.Option key={'200'}>200 rows</Select.Option>
+									</Select>
+								</div>
 
-							{activeFilter == 'prediction' ? (
-								<List
-									style={{paddingBottom: 20}}
-									size="large"
-									itemLayout="horizontal"
-									dataSource={pm}
-									renderItem={(item) => (
-										<List.Item
-											key={item.asset.id.split('.')[2]}
-											actions={[
-												<Link
-													className="button outline"
-													to={`/market/${item.marketID}`}
-												>
-													<Translate content="header.exchange" />
-												</Link>,
-											]}
-										>
-											<List.Item.Meta
-												title={
-													<div>
-														<span
-															style={{
-																paddingTop: 10,
-																fontWeight: 'bold',
-															}}
-														>
-															<Link to={`/asset/${item.asset.symbol}`}>
-																<AssetName name={item.asset.symbol} />
-															</Link>
-														</span>
-														{item.description.condition ? (
-															<span> ({item.description.condition})</span>
-														) : null}
-													</div>
-												}
-												description={
-													<span>
-														{item.description ? (
-															<div
+								{activeFilter == 'prediction' ? (
+									<List
+										style={{paddingBottom: 20}}
+										size="large"
+										itemLayout="horizontal"
+										dataSource={pm}
+										renderItem={(item) => (
+											<List.Item
+												key={item.asset.id.split('.')[2]}
+												actions={[
+													<Link
+														className="button outline"
+														to={`/market/${item.marketID}`}
+													>
+														<Translate content="header.exchange" />
+													</Link>,
+												]}
+											>
+												<List.Item.Meta
+													title={
+														<div>
+															<span
 																style={{
-																	padding: '10px 20px 5px 0',
+																	paddingTop: 10,
+																	fontWeight: 'bold',
+																}}
+															>
+																<Link to={`/asset/${item.asset.symbol}`}>
+																	<AssetName name={item.asset.symbol} />
+																</Link>
+															</span>
+															{item.description.condition ? (
+																<span> ({item.description.condition})</span>
+															) : null}
+														</div>
+													}
+													description={
+														<span>
+															{item.description ? (
+																<div
+																	style={{
+																		padding: '10px 20px 5px 0',
+																		lineHeight: '18px',
+																	}}
+																>
+																	{item.description.main}
+																</div>
+															) : null}
+															<span
+																style={{
+																	padding: '0 20px 5px 0',
 																	lineHeight: '18px',
 																}}
 															>
-																{item.description.main}
-															</div>
-														) : null}
-														<span
-															style={{
-																padding: '0 20px 5px 0',
-																lineHeight: '18px',
-															}}
-														>
-															<LinkToAccountById account={item.asset.issuer} />
-															<span>
-																{' '}
-																-{' '}
-																<FormattedAsset
-																	amount={item.asset.dynamic.current_supply}
-																	asset={item.asset.id}
+																<LinkToAccountById
+																	account={item.asset.issuer}
 																/>
+																<span>
+																	{' '}
+																	-{' '}
+																	<FormattedAsset
+																		amount={item.asset.dynamic.current_supply}
+																		asset={item.asset.id}
+																	/>
+																</span>
+																{item.description.expiry ? (
+																	<span> - {item.description.expiry}</span>
+																) : null}
 															</span>
-															{item.description.expiry ? (
-																<span> - {item.description.expiry}</span>
-															) : null}
 														</span>
-													</span>
-												}
-											/>
-										</List.Item>
-									)}
-									pagination={{
-										position: 'bottom',
-										pageSize: 6,
-									}}
-								/>
-							) : (
-								<Table
-									style={{width: '100%', marginTop: '16px'}}
-									rowKey="symbol"
-									columns={columns}
-									dataSource={dataSource}
-								/>
-							)}
+													}
+												/>
+											</List.Item>
+										)}
+										pagination={{
+											position: 'bottom',
+											pageSize: 6,
+										}}
+									/>
+								) : (
+									<Table
+										style={{width: '100%', marginTop: '16px'}}
+										rowKey="symbol"
+										columns={columns}
+										dataSource={dataSource}
+									/>
+								)}
+							</div>
 						</div>
 					</div>
 				</div>
