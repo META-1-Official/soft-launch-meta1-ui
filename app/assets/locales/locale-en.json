@@ -964,7 +964,13 @@
 			"transactions": "# of transactions",
 			"trx": "Transaction",
 			"trx_per_block": "Trx/block",
-			"trx_per_sec": "Trx/s"
+			"trx_per_sec": "Trx/s",
+			"24h_volumn_meta1": "24h volume IN meta1",
+			"24h_volumn_usdt": "24h volume IN USDT",
+			"24h_volumn_btc": "24h volume IN BTC",
+			"24h_market_cap_meta1": "24h market cap in meta1",
+			"24h_market_cap_usdt": "24h market cap in USDT",
+			"24h_market_cap_btc": "24h market cap in BTC"
 		},
 		"committee_member": {
 			"title": "Committee member"

@@ -23,10 +23,9 @@ import ExploreCard from 'components/ExploreCard/ExploreCard';
 let accountStorage = new ls('__graphene__');
 const {Text} = Typography;
 
-const blockNumberIcon = require('assets/explorer/blockNumber.png');
-const witnessIcon = require('assets/explorer/witness.png');
-const committeeIcon = require('assets/explorer/committee.png');
-const volumeIcon = require('assets/explorer/volume.png');
+const marketCapIcon = require('assets/explorer/marketCap.png');
+const marketCapBTCIcon = require('assets/explorer/marketCapBTC.png');
+const marketCapUSDTIcon = require('assets/explorer/marketCapUSDT.png');
 
 class Assets extends React.Component {
 	constructor(props) {
@@ -416,11 +415,11 @@ class Assets extends React.Component {
 						padding: '2rem 1rem',
 					})}
 				>
-					<Row justify="center" gutter={16}>
+					<Row justify="center" gutter={[16, 16]}>
 						<Col xs={24} sm={12} md={5} lg={6}>
 							<ExploreCard
-								icon={blockNumberIcon}
-								textContent="24h Volume In Metal"
+								icon={marketCapIcon}
+								textContent="explorer.blocks.24h_volumn_meta1"
 							>
 								<div>
 									<Text
@@ -430,7 +429,7 @@ class Assets extends React.Component {
 											fontWeight: 700,
 										})}
 									>
-										235235
+										3,090
 									</Text>
 								</div>
 							</ExploreCard>
@@ -438,16 +437,26 @@ class Assets extends React.Component {
 
 						<Col xs={24} sm={12} md={5} lg={6}>
 							<ExploreCard
-								icon={blockNumberIcon}
-								textContent="explorer.blocks.last_block"
+								icon={marketCapUSDTIcon}
+								textContent="explorer.blocks.24h_volumn_usdt"
 							>
-								234
+								<div>
+									<Text
+										css={() => ({
+											fontSize: '1.2rem',
+											color: 'white',
+											fontWeight: 700,
+										})}
+									>
+										432,385
+									</Text>
+								</div>
 							</ExploreCard>
 						</Col>
 						<Col xs={24} sm={12} md={5} lg={6}>
 							<ExploreCard
-								icon={blockNumberIcon}
-								textContent="explorer.blocks.avg_conf_time"
+								icon={marketCapBTCIcon}
+								textContent="explorer.blocks.24h_volumn_btc"
 							>
 								<div>
 									<Text
@@ -458,6 +467,63 @@ class Assets extends React.Component {
 										})}
 									>
 										235363
+									</Text>
+								</div>
+							</ExploreCard>
+						</Col>
+					</Row>
+					<Row justify="center" gutter={[16, 16]} style={{marginTop: '1rem'}}>
+						<Col xs={24} sm={12} md={5} lg={6}>
+							<ExploreCard
+								icon={marketCapIcon}
+								textContent="explorer.blocks.24h_market_cap_meta1"
+							>
+								<div>
+									<Text
+										css={() => ({
+											fontSize: '1.2rem',
+											color: 'white',
+											fontWeight: 700,
+										})}
+									>
+										941
+									</Text>
+								</div>
+							</ExploreCard>
+						</Col>
+
+						<Col xs={24} sm={12} md={5} lg={6}>
+							<ExploreCard
+								icon={marketCapUSDTIcon}
+								textContent="explorer.blocks.24h_market_cap_usdt"
+							>
+								<div>
+									<Text
+										css={() => ({
+											fontSize: '1.2rem',
+											color: 'white',
+											fontWeight: 700,
+										})}
+									>
+										132,183
+									</Text>
+								</div>
+							</ExploreCard>
+						</Col>
+						<Col xs={24} sm={12} md={5} lg={6}>
+							<ExploreCard
+								icon={marketCapBTCIcon}
+								textContent="explorer.blocks.24h_market_cap_btc"
+							>
+								<div>
+									<Text
+										css={() => ({
+											fontSize: '1.2rem',
+											color: 'white',
+											fontWeight: 700,
+										})}
+									>
+										2
 									</Text>
 								</div>
 							</ExploreCard>

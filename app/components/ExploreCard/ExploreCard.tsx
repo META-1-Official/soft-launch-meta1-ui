@@ -35,6 +35,7 @@ const ExploreCard = ({
 					css={() => ({
 						height: '50px',
 						width: '50px',
+						minWidth: '50px',
 						backgroundColor: 'black',
 						borderRadius: '50%',
 						display: 'flex',
