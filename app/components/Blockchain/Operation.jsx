@@ -14,7 +14,7 @@ import {ChainStore, ChainTypes as grapheneChainTypes} from 'meta1js';
 import {connect} from 'alt-react';
 import SettingsStore from 'stores/SettingsStore';
 import PropTypes from 'prop-types';
-import {Tooltip} from 'antd';
+import {Tooltip, Tag} from 'antd';
 
 const {operations} = grapheneChainTypes;
 import opComponents from './operations';
@@ -39,7 +39,35 @@ class TransactionLabel extends React.Component {
 	render() {
 		let trxTypes = counterpart.translate('transaction.trxTypes');
 		let labelClass = classNames('label', this.props.color || 'info');
-		return <span className={labelClass}>{trxTypes[ops[this.props.type]]}</span>;
+		const {color} = this.props;
+		console.log('color', color);
+		return (
+			<Tag
+				css={(theme) => ({
+					backgroundColor:
+						color === 'warning'
+							? theme.colors.tagWarningColor
+							: color === 'cancel'
+							? theme.colors.tagCancelColor
+							: color === 'success'
+							? theme.colors.tagSuccessColor
+							: theme.colors.tagInfoColor,
+					borderColor:
+						color === 'warning'
+							? theme.colors.tagWarningColor
+							: color === 'cancel'
+							? theme.colors.tagCancelColor
+							: color === 'success'
+							? theme.colors.tagSuccessColor
+							: theme.colors.tagInfoColor,
+					borderRadius: '5px',
+					color: 'white',
+				})}
+				// className={labelClass}
+			>
+				{trxTypes[ops[this.props.type]]}
+			</Tag>
+		);
 	}
 }
 
@@ -93,7 +121,11 @@ class Row extends React.Component {
 		fee.amount = parseInt(fee.amount, 10);
 
 		return (
-			<tr>
+			<tr
+				css={(theme) => ({
+					border: `1px solid ${theme.colors.borderColor}`,
+				})}
+			>
 				{this.props.includeOperationId ? (
 					<td style={{textAlign: 'left'}}>
 						{/* {this.props.block}#{this.props.txIndex}<br /> */}

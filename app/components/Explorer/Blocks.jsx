@@ -250,10 +250,21 @@ class Blocks extends React.Component {
 				.take(20)
 				.map((block) => {
 					return (
-						<tr key={block.id}>
+						<tr
+							key={block.id}
+							css={(theme) => ({
+								border: `1px solid ${theme.colors.borderColor}`,
+							})}
+						>
 							<td>
 								<Link to={`/block/${block.id}`}>
-									#{utils.format_number(block.id, 0)}
+									<span
+										css={(theme) => ({
+											color: theme.colors.primaryColor,
+										})}
+									>
+										#{utils.format_number(block.id, 0)}{' '}
+									</span>
 								</Link>
 							</td>
 							<td>
@@ -306,6 +317,64 @@ class Blocks extends React.Component {
 			trxPerSec = trxCount / ((lastBlock - firstBlock) / 1000);
 		}
 
+		const ExploreCard = ({icon, showOtherGraph, children, textContent}) => {
+			return (
+				<div
+					css={(theme) => ({
+						border: `1px solid ${theme.colors.borderColor}`,
+						borderRadius: '10px',
+					})}
+				>
+					<div
+						css={() => ({
+							padding: '1rem 0rem 0rem 1rem',
+							display: 'flex',
+							justifyContent: 'flex-start',
+							minHeight: '6rem',
+						})}
+					>
+						<div
+							css={() => ({
+								height: '50px',
+								width: '50px',
+								backgroundColor: 'black',
+								borderRadius: '50%',
+								display: 'flex',
+								justifyContent: 'center',
+								alignItems: 'center',
+							})}
+						>
+							<img src={icon} alt="Logo" />
+						</div>
+						<div
+							css={() => ({
+								marginLeft: '1rem',
+							})}
+						>
+							<Translate
+								style={{fontSize: '14px', textTransform: 'uppercase'}}
+								component="span"
+								content={textContent}
+							/>
+
+							{children}
+						</div>
+					</div>
+					{!showOtherGraph && (
+						<div
+							css={{
+								'.chartjs-tooltip': {
+									minWidth: '50px !important',
+								},
+							}}
+						>
+							<ChartjsAreaChart id="engaged" height={40} />
+						</div>
+					)}
+				</div>
+			);
+		};
+
 		return (
 			<div ref="outerWrapper">
 				{/* First row of stats */}
@@ -317,648 +386,215 @@ class Blocks extends React.Component {
 				>
 					<Row justify="center" gutter={16}>
 						<Col xs={24} sm={12} md={5} lg={6}>
-							<div
-								css={(theme) => ({
-									border: `1px solid ${theme.colors.borderColor}`,
-									borderRadius: '10px',
-								})}
+							<ExploreCard
+								icon={blockNumberIcon}
+								textContent="explorer.blocks.current_block"
 							>
-								<div
-									css={() => ({
-										padding: '1rem 0rem 0rem 1rem',
-										display: 'flex',
-										justifyContent: 'flex-start',
-										minHeight: '6rem',
-									})}
-								>
-									<div
+								<div>
+									<Text
 										css={() => ({
-											height: '50px',
-											width: '50px',
-											backgroundColor: 'black',
-											borderRadius: '50%',
-											display: 'flex',
-											justifyContent: 'center',
-											alignItems: 'center',
+											fontSize: '1.2rem',
+											color: 'white',
+											fontWeight: 700,
 										})}
 									>
-										<img src={blockNumberIcon} alt="Logo" />
-									</div>
-									<div
-										css={() => ({
-											marginLeft: '1rem',
-										})}
-									>
-										<Translate
-											style={{fontSize: '14px', textTransform: 'uppercase'}}
-											component="span"
-											content="explorer.blocks.current_block"
-										/>
-
-										<div>
-											<Text
-												css={() => ({
-													fontSize: '1.2rem',
-													color: 'white',
-													fontWeight: 700,
-												})}
-											>
-												{utils.format_number(
-													dynGlobalObject.get('head_block_number'),
-													0
-												)}
-											</Text>
-										</div>
-									</div>
+										{utils.format_number(
+											dynGlobalObject.get('head_block_number'),
+											0
+										)}
+									</Text>
 								</div>
-								<div
-									css={{
-										'.chartjs-tooltip': {
-											minWidth: '50px !important',
-										},
-									}}
-								>
-									<ChartjsAreaChart id="engaged" height={40} />
-								</div>
-							</div>
+							</ExploreCard>
 						</Col>
 
 						<Col xs={24} sm={12} md={5} lg={6}>
-							<div
-								css={(theme) => ({
-									border: `1px solid ${theme.colors.borderColor}`,
-									borderRadius: '10px',
-								})}
+							<ExploreCard
+								icon={blockNumberIcon}
+								textContent="explorer.blocks.last_block"
 							>
-								<div
-									css={() => ({
-										padding: '1rem',
-										display: 'flex',
-										justifyContent: 'flex-start',
-										minHeight: '6rem',
-									})}
-								>
-									<div
-										css={() => ({
-											height: '50px',
-											width: '50px',
-											backgroundColor: 'black',
-											borderRadius: '50%',
-											display: 'flex',
-											justifyContent: 'center',
-											alignItems: 'center',
-										})}
-									>
-										<img src={blockNumberIcon} alt="Logo" />
-									</div>
-									<div
-										css={() => ({
-											marginLeft: '1rem',
-										})}
-									>
-										<Translate
-											style={{fontSize: '14px', textTransform: 'uppercase'}}
-											component="span"
-											content="explorer.blocks.last_block"
-										/>
-
-										<BlockTimeAgo blockTime={headBlock} />
-									</div>
-								</div>
-							</div>
+								<BlockTimeAgo blockTime={headBlock} />
+							</ExploreCard>
 						</Col>
 						<Col xs={24} sm={12} md={5} lg={6}>
-							<div
-								css={(theme) => ({
-									border: `1px solid ${theme.colors.borderColor}`,
-									borderRadius: '10px',
-								})}
+							<ExploreCard
+								icon={blockNumberIcon}
+								textContent="explorer.blocks.avg_conf_time"
 							>
-								<div
-									css={() => ({
-										padding: '1rem',
-										display: 'flex',
-										justifyContent: 'flex-start',
-										minHeight: '6rem',
-									})}
-								>
-									<div
+								<div>
+									<Text
 										css={() => ({
-											height: '50px',
-											width: '50px',
-											backgroundColor: 'black',
-											borderRadius: '50%',
-											display: 'flex',
-											justifyContent: 'center',
-											alignItems: 'center',
+											fontSize: '1.2rem',
+											color: 'white',
+											fontWeight: 700,
 										})}
 									>
-										<img src={blockNumberIcon} alt="Logo" />
-									</div>
-									<div
-										css={() => ({
-											marginLeft: '1rem',
-										})}
-									>
-										<Translate
-											style={{fontSize: '14px', textTransform: 'uppercase'}}
-											component="span"
-											content="explorer.blocks.avg_conf_time"
-										/>
-										<div>
-											<Text
-												css={() => ({
-													fontSize: '1.2rem',
-													color: 'white',
-													fontWeight: 700,
-												})}
-											>
-												{utils.format_number(trxPerSec, 2)}
-											</Text>
-										</div>
-									</div>
+										{utils.format_number(trxPerSec, 2)}
+									</Text>
 								</div>
-							</div>
+							</ExploreCard>
 						</Col>
 						<Col xs={24} sm={12} md={5} lg={6}>
-							<div
-								css={(theme) => ({
-									border: `1px solid ${theme.colors.borderColor}`,
-									borderRadius: '10px',
-								})}
+							<ExploreCard
+								icon={blockNumberIcon}
+								textContent="explorer.blocks.trx_per_sec"
 							>
-								<div
-									css={() => ({
-										padding: '1rem',
-										display: 'flex',
-										justifyContent: 'flex-start',
-										minHeight: '6rem',
-									})}
-								>
-									<div
+								<div>
+									<Text
 										css={() => ({
-											height: '50px',
-											width: '50px',
-											backgroundColor: 'black',
-											borderRadius: '50%',
-											display: 'flex',
-											justifyContent: 'center',
-											alignItems: 'center',
+											fontSize: '1.2rem',
+											color: 'white',
+											fontWeight: 700,
 										})}
 									>
-										<img src={blockNumberIcon} alt="Logo" />
-									</div>
-									<div
-										css={() => ({
-											marginLeft: '1rem',
-										})}
-									>
-										<Translate
-											style={{fontSize: '14px', textTransform: 'uppercase'}}
-											component="span"
-											content="explorer.blocks.trx_per_sec"
-										/>
-										<div>
-											<Text
-												css={() => ({
-													fontSize: '1.2rem',
-													color: 'white',
-													fontWeight: 700,
-												})}
-											>
-												{utils.format_number(trxPerSec / 2, 2)}s
-											</Text>
-										</div>
-									</div>
+										{utils.format_number(trxPerSec / 2, 2)}s
+									</Text>
 								</div>
-							</div>
+							</ExploreCard>
 						</Col>
 					</Row>
 
 					<Row justify="center" gutter={[16, 16]} style={{marginTop: '1rem'}}>
 						<Col xs={24} sm={12} md={4} lg={6}>
-							<div
-								css={(theme) => ({
-									border: `1px solid ${theme.colors.borderColor}`,
-									borderRadius: '10px',
-								})}
+							<ExploreCard
+								icon={blockNumberIcon}
+								textContent="explorer.blocks.avg_conf_time"
 							>
-								<div
-									css={() => ({
-										padding: '1rem',
-										display: 'flex',
-										justifyContent: 'flex-start',
-										minHeight: '6rem',
-									})}
-								>
-									<div
+								<div>
+									<Text
 										css={() => ({
-											height: '50px',
-											width: '50px',
-											backgroundColor: 'black',
-											borderRadius: '50%',
-											display: 'flex',
-											justifyContent: 'center',
-											alignItems: 'center',
+											fontSize: '1.2rem',
+											color: 'white',
+											fontWeight: 700,
 										})}
 									>
-										<img src={blockNumberIcon} alt="Logo" />
-									</div>
-									<div
-										css={() => ({
-											marginLeft: '1rem',
-										})}
-									>
-										<Translate
-											style={{fontSize: '14px', textTransform: 'uppercase'}}
-											component="span"
-											content="explorer.blocks.avg_conf_time"
-										/>
-
-										<div>
-											<Text
-												css={() => ({
-													fontSize: '1.2rem',
-													color: 'white',
-													fontWeight: 700,
-												})}
-											>
-												{utils.format_number(avgTime / 2, 2)}s
-											</Text>
-										</div>
-									</div>
+										{utils.format_number(avgTime / 2, 2)}s
+									</Text>
 								</div>
-							</div>
+							</ExploreCard>
 						</Col>
 
 						<Col xs={24} sm={12} md={4} lg={6}>
-							<div
-								css={(theme) => ({
-									border: `1px solid ${theme.colors.borderColor}`,
-									borderRadius: '10px',
-								})}
+							<ExploreCard
+								icon={witnessIcon}
+								textContent="explorer.blocks.active_witnesses"
 							>
-								<div
-									css={() => ({
-										padding: '1rem',
-										display: 'flex',
-										justifyContent: 'flex-start',
-										minHeight: '6rem',
-									})}
-								>
-									<div
+								<div>
+									<Text
 										css={() => ({
-											height: '50px',
-											width: '50px',
-											backgroundColor: 'black',
-											borderRadius: '50%',
-											display: 'flex',
-											justifyContent: 'center',
-											alignItems: 'center',
+											fontSize: '1.2rem',
+											color: 'white',
+											fontWeight: 700,
 										})}
 									>
-										<img src={witnessIcon} alt="witness" />
-									</div>
-									<div
-										css={() => ({
-											marginLeft: '1rem',
-										})}
-									>
-										<Translate
-											style={{fontSize: '14px', textTransform: 'uppercase'}}
-											component="span"
-											content="explorer.blocks.active_witnesses"
-										/>
-										<div>
-											<Text
-												css={() => ({
-													fontSize: '1.2rem',
-													color: 'white',
-													fontWeight: 700,
-												})}
-											>
-												{globalObject.get('active_witnesses').size}
-											</Text>
-										</div>
-									</div>
+										{globalObject.get('active_witnesses').size}
+									</Text>
 								</div>
-							</div>
+							</ExploreCard>
 						</Col>
 						<Col xs={24} sm={12} md={4} lg={6}>
-							<div
-								css={(theme) => ({
-									border: `1px solid ${theme.colors.borderColor}`,
-									borderRadius: '10px',
-								})}
+							<ExploreCard
+								icon={committeeIcon}
+								textContent="explorer.blocks.active_committee_members"
 							>
-								<div
-									css={() => ({
-										padding: '1rem',
-										display: 'flex',
-										justifyContent: 'flex-start',
-										minHeight: '6rem',
-									})}
-								>
-									<div
+								<div>
+									<Text
 										css={() => ({
-											height: '50px',
-											width: '50px',
-											backgroundColor: 'black',
-											borderRadius: '50%',
-											display: 'flex',
-											justifyContent: 'center',
-											alignItems: 'center',
+											fontSize: '1.2rem',
+											color: 'white',
+											fontWeight: 700,
 										})}
 									>
-										<img src={committeeIcon} alt="committee" />
-									</div>
-									<div
-										css={() => ({
-											marginLeft: '1rem',
-										})}
-									>
-										<Translate
-											style={{fontSize: '14px', textTransform: 'uppercase'}}
-											component="span"
-											content="explorer.blocks.active_committee_members"
-										/>
-										<div>
-											<Text
-												css={() => ({
-													fontSize: '1.2rem',
-													color: 'white',
-													fontWeight: 700,
-												})}
-											>
-												{globalObject.get('active_committee_members').size}
-											</Text>
-										</div>
-									</div>
+										{globalObject.get('active_committee_members').size}
+									</Text>
 								</div>
-							</div>
+							</ExploreCard>
 						</Col>
 						<Col xs={24} sm={12} md={4} lg={6}>
-							<div
-								css={(theme) => ({
-									border: `1px solid ${theme.colors.borderColor}`,
-									borderRadius: '10px',
-								})}
+							<ExploreCard
+								icon={blockNumberIcon}
+								textContent="explorer.blocks.trx_per_block"
 							>
-								<div
-									css={() => ({
-										padding: '1rem',
-										display: 'flex',
-										justifyContent: 'flex-start',
-										minHeight: '6rem',
-									})}
-								>
-									<div
+								<div>
+									<Text
 										css={() => ({
-											height: '50px',
-											width: '50px',
-											backgroundColor: 'black',
-											borderRadius: '50%',
-											display: 'flex',
-											justifyContent: 'center',
-											alignItems: 'center',
+											fontSize: '1.2rem',
+											color: 'white',
+											fontWeight: 700,
 										})}
 									>
-										<img src={blockNumberIcon} alt="Logo" />
-									</div>
-									<div
-										css={() => ({
-											marginLeft: '1rem',
-										})}
-									>
-										<Translate
-											style={{fontSize: '14px', textTransform: 'uppercase'}}
-											component="span"
-											content="explorer.blocks.trx_per_block"
-										/>
-										<div>
-											<Text
-												css={() => ({
-													fontSize: '1.2rem',
-													color: 'white',
-													fontWeight: 700,
-												})}
-											>
-												{utils.format_number(trxCount / blockCount || 0, 2)}{' '}
-											</Text>
-										</div>
-									</div>
+										{utils.format_number(trxCount / blockCount || 0, 2)}{' '}
+									</Text>
 								</div>
-							</div>
+							</ExploreCard>
 						</Col>
 					</Row>
 
 					<Row justify="center" gutter={[16, 16]} style={{marginTop: '1rem'}}>
 						<Col xs={24} sm={12} md={4} lg={6}>
-							<div
-								css={(theme) => ({
-									border: `1px solid ${theme.colors.borderColor}`,
-									borderRadius: '10px',
-								})}
+							<ExploreCard
+								icon={blockNumberIcon}
+								textContent="explorer.blocks.trx_per_block"
 							>
-								<div
-									css={() => ({
-										padding: '1rem',
-										display: 'flex',
-										justifyContent: 'flex-start',
-										minHeight: '6rem',
-									})}
-								>
-									<div
+								<div>
+									<Text
 										css={() => ({
-											height: '50px',
-											width: '50px',
-											backgroundColor: 'black',
-											borderRadius: '50%',
-											display: 'flex',
-											justifyContent: 'center',
-											alignItems: 'center',
+											fontSize: '1.2rem',
+											color: 'white',
+											fontWeight: 700,
 										})}
 									>
-										<img src={blockNumberIcon} alt="Logo" />
-									</div>
-									<div
-										css={() => ({
-											marginLeft: '1rem',
-										})}
-									>
-										<Translate
-											style={{fontSize: '14px', textTransform: 'uppercase'}}
-											component="span"
-											content="explorer.blocks.recently_missed_blocks"
-										/>
-										<div>
-											<Text
-												css={() => ({
-													fontSize: '1.2rem',
-													color: 'white',
-													fontWeight: 700,
-												})}
-											>
-												{dynGlobalObject.get('recently_missed_count')}
-											</Text>
-										</div>
-									</div>
+										{utils.format_number(trxCount / blockCount || 0, 2)}{' '}
+									</Text>
 								</div>
-							</div>
+							</ExploreCard>
 						</Col>
 						<Col xs={24} sm={12} md={4} lg={6}>
-							<div
-								css={(theme) => ({
-									border: `1px solid ${theme.colors.borderColor}`,
-									borderRadius: '10px',
-								})}
+							<ExploreCard
+								icon={volumeIcon}
+								textContent="explorer.asset.summary.current_supply"
 							>
-								<div
-									css={() => ({
-										padding: '1rem',
-										display: 'flex',
-										justifyContent: 'flex-start',
-										minHeight: '6rem',
-									})}
-								>
-									<div
+								<div>
+									<Text
 										css={() => ({
-											height: '50px',
-											width: '50px',
-											backgroundColor: 'black',
-											borderRadius: '50%',
-											display: 'flex',
-											justifyContent: 'center',
-											alignItems: 'center',
+											fontSize: '1.2rem',
+											color: 'white',
+											fontWeight: 700,
 										})}
 									>
-										<img src={volumeIcon} alt="Logo" />
-									</div>
-									<div
-										css={() => ({
-											marginLeft: '1rem',
-										})}
-									>
-										<Translate
-											style={{fontSize: '14px', textTransform: 'uppercase'}}
-											component="span"
-											content="explorer.asset.summary.current_supply"
-										/>
-										<div>
-											<Text
-												css={() => ({
-													fontSize: '1.2rem',
-													color: 'white',
-													fontWeight: 700,
-												})}
-											>
-												{dynamicObject ? (
-													<FormattedAsset
-														amount={dynamicObject.get('current_supply')}
-														asset={coreAsset.get('id')}
-														decimalOffset={5}
-													/>
-												) : null}
-											</Text>
-										</div>
-									</div>
+										{dynamicObject ? (
+											<FormattedAsset
+												amount={dynamicObject.get('current_supply')}
+												asset={coreAsset.get('id')}
+												decimalOffset={5}
+											/>
+										) : null}
+									</Text>
 								</div>
-							</div>
+							</ExploreCard>
 						</Col>
 						<Col xs={24} sm={12} md={4} lg={6}>
-							<div
-								css={(theme) => ({
-									border: `1px solid ${theme.colors.borderColor}`,
-									borderRadius: '10px',
-								})}
+							<ExploreCard
+								icon={volumeIcon}
+								textContent="explorer.blocks.block_times"
+								showOtherGraph={true}
 							>
-								<div
-									css={() => ({
-										padding: '1rem',
-										display: 'flex',
-										justifyContent: 'flex-start',
-										minHeight: '6rem',
-									})}
-								>
-									<div
-										css={() => ({
-											height: '50px',
-											width: '50px',
-											backgroundColor: 'black',
-											borderRadius: '50%',
-											display: 'flex',
-											justifyContent: 'center',
-											alignItems: 'center',
-										})}
-									>
-										<img src={blockNumberIcon} alt="Logo" />
-									</div>
-									<div
-										css={() => ({
-											marginLeft: '1rem',
-										})}
-									>
-										<Translate
-											style={{fontSize: '14px', textTransform: 'uppercase'}}
-											component="span"
-											content="explorer.blocks.block_times"
-										/>
-										<BlocktimeChart
-											blockTimes={blockTimes}
-											head_block_number={dynGlobalObject.get(
-												'head_block_number'
-											)}
-										/>
-									</div>
-								</div>
-							</div>
+								<BlocktimeChart
+									blockTimes={blockTimes}
+									head_block_number={dynGlobalObject.get('head_block_number')}
+								/>
+							</ExploreCard>
 						</Col>
 						<Col xs={24} sm={12} md={4} lg={6}>
-							<div
-								css={(theme) => ({
-									border: `1px solid ${theme.colors.borderColor}`,
-									borderRadius: '10px',
-								})}
+							<ExploreCard
+								icon={volumeIcon}
+								textContent="explorer.blocks.trx_per_block"
+								showOtherGraph={true}
 							>
-								<div
-									css={() => ({
-										padding: '1rem',
-										display: 'flex',
-										justifyContent: 'flex-start',
-										minHeight: '6rem',
-									})}
-								>
-									<div
-										css={() => ({
-											height: '50px',
-											width: '50px',
-											backgroundColor: 'black',
-											borderRadius: '50%',
-											display: 'flex',
-											justifyContent: 'center',
-											alignItems: 'center',
-										})}
-									>
-										<img src={volumeIcon} alt="Logo" />
-									</div>
-									<div
-										css={() => ({
-											marginLeft: '1rem',
-										})}
-									>
-										<Translate
-											style={{fontSize: '14px', textTransform: 'uppercase'}}
-											component="span"
-											content="explorer.blocks.trx_per_block"
-										/>
-
-										<TransactionChart
-											blocks={latestBlocks}
-											head_block={dynGlobalObject.get('head_block_number')}
-										/>
-									</div>
-								</div>
-							</div>
+								<TransactionChart
+									blocks={latestBlocks}
+									head_block={dynGlobalObject.get('head_block_number')}
+								/>
+							</ExploreCard>
 						</Col>
 					</Row>
 				</div>
@@ -987,18 +623,38 @@ class Blocks extends React.Component {
 				</div> */}
 
 				{/* Fourth row: transactions and blocks */}
-				<div ref="transactionsBlock" className="grid-block no-overflow">
-					<div
-						className="grid-block small-12 medium-6 vertical no-overflow"
-						style={{paddingBottom: 0}}
-					>
-						<div className="grid-block vertical no-overflow generic-bordered-box">
+				<div
+					ref="transactionsBlock"
+					className="grid-block no-overflow"
+					css={{padding: '2rem'}}
+				>
+					<div className="grid-block small-12 medium-6 vertical no-overflow">
+						<div
+							css={{marginBottom: '3.5rem'}}
+							className="grid-block vertical no-overflow generic-bordered-box"
+						>
 							<div ref="operationsText">
 								<div className="block-content-header">
 									<Translate content="account.recent" />
 								</div>
-								<table className="table fixed-height-2rem">
-									<thead>
+								<table
+									className="table fixed-height-2rem"
+									css={(theme) => ({
+										border: `2px solid ${theme.colors.borderColor}`,
+									})}
+								>
+									<thead
+										css={(theme) => ({
+											th: {
+												backgroundColor: '#15171b',
+												border: `2px solid ${theme.colors.borderColor}`,
+												borderRadius: '10px',
+												fontSize: '14px',
+												padding: '5px 10px',
+												textAlign: 'left',
+											},
+										})}
+									>
 										<tr>
 											<th>
 												<Translate content="account.votes.info" />
@@ -1043,7 +699,18 @@ class Blocks extends React.Component {
 								ref="blocks"
 							>
 								<table className="table fixed-height-2rem">
-									<thead>
+									<thead
+										css={(theme) => ({
+											th: {
+												backgroundColor: '#15171b',
+												border: `2px solid ${theme.colors.borderColor}`,
+												borderRadius: '10px',
+												fontSize: '14px',
+												padding: '5px 10px',
+												textAlign: 'left',
+											},
+										})}
+									>
 										<tr>
 											<th>
 												<Translate
