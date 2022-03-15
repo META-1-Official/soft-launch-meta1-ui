@@ -122,6 +122,9 @@ const GlobalStyles = (theme: any) => css`
 		tr > td.ant-table-cell-row-hover {
 			background: ${theme.colors.tableColumnHoverColor};
 		}
+		tr > td {
+			border-bottom: 1px solid ${theme.colors.borderColor};
+		}
 	} 
   	 
 `;
