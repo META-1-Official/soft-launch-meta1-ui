@@ -540,6 +540,7 @@ class Assets extends React.Component {
 									style={{
 										textAlign: 'left',
 										marginBottom: '24px',
+										marginTop: '2rem',
 									}}
 								>
 									<span
@@ -593,7 +594,7 @@ class Assets extends React.Component {
 
 								{activeFilter == 'prediction' ? (
 									<List
-										style={{paddingBottom: 20}}
+										style={{paddingBottom: 20, backgroundColor: 'grey'}}
 										size="large"
 										itemLayout="horizontal"
 										dataSource={pm}
@@ -672,7 +673,11 @@ class Assets extends React.Component {
 									/>
 								) : (
 									<Table
-										style={{width: '100%', marginTop: '16px'}}
+										style={{
+											width: '100%',
+											marginTop: '16px',
+											marginBottom: '2rem',
+										}}
 										rowKey="symbol"
 										columns={columns}
 										dataSource={dataSource}

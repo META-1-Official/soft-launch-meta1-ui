@@ -86,5 +86,43 @@ const GlobalStyles = (theme: any) => css`
 			z-index: 2;
 		}
 	}
+	.ant-table {
+		color: white 
+	}
+	.ant-table-thead {
+		th.ant-table-column-sort {
+			background: ${theme.colors.tableColumnColor};
+		}
+		th.ant-table-column-has-sorters {
+			&: hover{
+				background: ${theme.colors.tableColumnHoverColor};
+			}
+		}
+		tr > th {
+			color: white;
+			background: ${theme.colors.tableColumnColor};
+			padding: 10px;
+			border-bottom: none;
+		}
+	}
+
+	.ant-table-tbody {
+		background: ${theme.colors.black}; !important;
+		.ant-table-cell {
+			.ant-empty-description {
+				color: white;
+			}
+		}
+		td.ant-table-column-sort {
+			background: ${theme.colors.tableColumnHoverColor};
+		}
+		tr.ant-table-row:hover > td {
+			background: ${theme.colors.tableColumnHoverColor};
+		}   
+		tr > td.ant-table-cell-row-hover {
+			background: ${theme.colors.tableColumnHoverColor};
+		}
+	} 
+  	 
 `;
 export default GlobalStyles;

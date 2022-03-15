@@ -643,7 +643,7 @@ class Blocks extends React.Component {
 									<thead
 										css={(theme) => ({
 											tr: {
-												backgroundColor: '#15171b',
+												backgroundColor: theme.colors.tableColumnColor,
 												border: `2px solid ${theme.colors.borderColor}`,
 												borderBottom: `2px solid ${theme.colors.borderColor}`,
 												padding: '15px 10px',

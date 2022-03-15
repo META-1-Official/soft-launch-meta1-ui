@@ -19,6 +19,8 @@ const theme = {
 		tagSuccessColor: '#127655',
 		tagInfoColor: '#2b4d79',
 		tagWarningColor: '#856916',
+		tableColumnColor: '#15171b',
+		tableColumnHoverColor: '#15171beb',
 	},
 	sizes: {
 		lg: '992px',
