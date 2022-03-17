@@ -59,19 +59,6 @@ export default function SearchInput({
 					<span />
 				)
 			}
-			// suffix={
-			// 	onClear ? (
-			// 		<div>todo</div>
-			// 	) : (
-			// 		// <Icon
-			// 		// 	onClick={onClear}
-			// 		// 	type="close"
-			// 		// 	// always include DOM the icon, otherwise user looses focus when it appears and input resizes
-			// 		// 	className={value ? 'cursor-pointer' : 'hide'}
-			// 		// />
-			// 		<span />
-			// 	)
-			// }
 			{...other}
 		/>
 	);

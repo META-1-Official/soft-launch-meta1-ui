@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Table} from 'antd';
+import {Table, Spin} from 'antd';
 import AssetActions from 'actions/AssetActions';
 import SettingsActions from 'actions/SettingsActions';
 import {Link} from 'react-router-dom';
@@ -552,8 +552,7 @@ class Assets extends React.Component {
 											fontSize: '18px',
 										}}
 									>
-										{/* <Icon type="loading" /> */}
-										{this.state.isLoading ? <div>todo</div> : null}
+										{this.state.isLoading ? <Spin /> : null}
 									</span>
 									<SearchInput
 										value={this.state.filterSearch}

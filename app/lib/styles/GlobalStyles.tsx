@@ -130,6 +130,40 @@ const GlobalStyles = (theme: any) => css`
 	.ant-form-item-label > label {
 		color: white;
 	}
+	.ant-radio-checked .ant-radio-inner{
+		border-color: ${theme.colors.primaryColor} !important ;
+	}
+	
+	.ant-radio-checked .ant-radio-inner:after{
+		background-color: ${theme.colors.primaryColor};
+	}
+	
+	.ant-radio:hover .ant-radio-inner {
+		border-color: ${theme.colors.primaryColor} ;
+	}
+
+	.ant-spin-dot-item {
+		background-color: ${theme.colors.primaryColor} ;
+	}
+	.search-input{
+		.ant-input-affix-wrapper {
+			background-color: ${theme.colors.inputBackgroundColor};
+			border: none; 
+			color:${theme.colors.inputTextColor};
+			border-radius: 6px;
+ 		}
+		.ant-input-affix-wrapper > input.ant-input {
+			background-color: ${theme.colors.inputBackgroundColor};
+			border: none; 
+			color:${theme.colors.inputTextColor};
+			border-radius: 6px;
+		}
+		.ant-input-group-addon{
+			background-color: ${theme.colors.inputBackgroundColor};
+			border: none;
+ 		}
+	}
+	
   	 
 `;
 export default GlobalStyles;
