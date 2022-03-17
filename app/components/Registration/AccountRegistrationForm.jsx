@@ -223,15 +223,15 @@ class AccountRegistrationForm extends React.Component {
 								onChange={this.onLastnameChange}
 							/>
 						</Form.Item>
-						{/* <Form.Item label={"Email *"}>
-                            <Input
-                                id="email"
-                                required
-                                placeholder="email@example.com"
-                                value={this.state.email}
-                                onChange={this.onEmailChange}
-                            />
-                        </Form.Item> */}
+						<Form.Item label={'Email *'}>
+							<Input
+								id="email"
+								required
+								placeholder="email@example.com"
+								value={this.state.email}
+								onChange={this.onEmailChange}
+							/>
+						</Form.Item>
 						<Form.Item label={'Phone number *'}>
 							<Input
 								id="phone"

@@ -126,6 +126,10 @@ const GlobalStyles = (theme: any) => css`
 			border-bottom: 1px solid ${theme.colors.borderColor};
 		}
 	} 
+
+	.ant-form-item-label > label {
+		color: white;
+	}
   	 
 `;
 export default GlobalStyles;
