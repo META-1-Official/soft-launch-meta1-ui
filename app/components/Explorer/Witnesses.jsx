@@ -5,19 +5,21 @@ import ChainTypes from '../Utility/ChainTypes';
 import BindToChainState from '../Utility/BindToChainState';
 import {ChainStore} from 'meta1js';
 import FormattedAsset from '../Utility/FormattedAsset';
-import Translate from 'react-translate-component';
 import TimeAgo from '../Utility/TimeAgo';
 import {connect} from 'alt-react';
 import SettingsActions from 'actions/SettingsActions';
 import SettingsStore from 'stores/SettingsStore';
 import classNames from 'classnames';
 import {withRouter} from 'react-router-dom';
-import {Table, Input, Popover} from 'antd';
+import {Table, Popover, Row, Col, Typography} from 'antd';
 import sanitize from 'sanitize';
 import SearchInput from '../Utility/SearchInput';
+import ExploreCard from 'components/ExploreCard/ExploreCard';
 
 require('./witnesses.scss');
+const volumeIcon = require('assets/explorer/volume.png');
 
+const {Text} = Typography;
 class WitnessRow extends React.Component {
 	static propTypes = {
 		witness: ChainTypes.ChainAccount.isRequired,
@@ -404,96 +406,154 @@ class Witnesses extends React.Component {
 		}
 
 		return (
-			<div className="grid-block">
+			<>
+				<div css={{padding: '2rem'}}>
+					<Row gutter={[16, 16]}>
+						<Col xs={24} sm={12} md={4} lg={6}>
+							<ExploreCard
+								icon={volumeIcon}
+								textContent="explorer.witnesses.current"
+								witnessCard={true}
+							>
+								<div>
+									<Text
+										css={{
+											color: 'white',
+											textTransform: 'capitalize',
+										}}
+									>
+										{currentAccount ? currentAccount.get('name') : null}
+									</Text>
+								</div>
+							</ExploreCard>
+						</Col>
+						<Col xs={24} sm={12} md={4} lg={6}>
+							<ExploreCard
+								icon={volumeIcon}
+								textContent="explorer.blocks.active_witnesses"
+								witnessCard={true}
+							>
+								<div>
+									<Text
+										css={{
+											color: 'white',
+										}}
+									>
+										{Object.keys(globalObject.active_witnesses).length}
+									</Text>
+								</div>
+							</ExploreCard>
+						</Col>
+						<Col xs={24} sm={12} md={4} lg={6}>
+							<ExploreCard
+								icon={volumeIcon}
+								textContent="explorer.witnesses.participation"
+								witnessCard={true}
+							>
+								<div>
+									<Text
+										css={{
+											color: 'white',
+										}}
+									>
+										{dynGlobalObject.participation}%
+									</Text>
+								</div>
+							</ExploreCard>
+						</Col>
+						<Col xs={24} sm={12} md={4} lg={6}>
+							<ExploreCard
+								icon={volumeIcon}
+								textContent="explorer.witnesses.pay"
+								witnessCard={true}
+							>
+								<div>
+									<Text
+										css={{
+											color: 'white',
+										}}
+									>
+										<FormattedAsset
+											amount={globalObject.parameters.witness_pay_per_block}
+											asset="1.3.0"
+										/>{' '}
+									</Text>
+								</div>
+							</ExploreCard>
+						</Col>
+						<Col xs={24} sm={12} md={4} lg={6}>
+							<ExploreCard
+								icon={volumeIcon}
+								textContent="explorer.witnesses.pay"
+								witnessCard={true}
+							>
+								<div>
+									<Text
+										css={{
+											color: 'white',
+										}}
+									>
+										<FormattedAsset
+											amount={dynGlobalObject.witness_budget}
+											asset="1.3.0"
+										/>
+									</Text>
+								</div>
+							</ExploreCard>
+						</Col>
+						<Col xs={24} sm={12} md={4} lg={6}>
+							<ExploreCard
+								icon={volumeIcon}
+								textContent="explorer.witnesses.pay"
+								witnessCard={true}
+							>
+								<div>
+									<Text
+										css={{
+											color: 'white',
+										}}
+									>
+										<TimeAgo
+											time={
+												new Date(dynGlobalObject.next_maintenance_time + 'Z')
+											}
+										/>
+									</Text>
+								</div>
+							</ExploreCard>
+						</Col>
+					</Row>
+				</div>
 				<div className="grid-block">
 					<div className="grid-block">
-						<div className="grid-content ">
-							<div className="explore-witness--info">
-								<table>
-									<thead>
-										<tr>
-											<th>
-												<Translate content="explorer.witnesses.current" />
-											</th>
-											<th>
-												<Translate content="explorer.blocks.active_witnesses" />
-											</th>
-											<th>
-												<Translate content="explorer.witnesses.participation" />
-											</th>
-											<th>
-												<Translate content="explorer.witnesses.pay" />
-											</th>
-											<th>
-												<Translate content="explorer.witnesses.budget" />
-											</th>
-											<th>
-												<Translate content="explorer.witnesses.next_vote" />
-											</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>
-												{currentAccount ? currentAccount.get('name') : null}
-											</td>
-											<td>
-												{Object.keys(globalObject.active_witnesses).length}
-											</td>
-											<td>{dynGlobalObject.participation}%</td>
-											<td>
-												<FormattedAsset
-													amount={globalObject.parameters.witness_pay_per_block}
-													asset="1.3.0"
-												/>
-											</td>
-											<td>
-												{' '}
-												<FormattedAsset
-													amount={dynGlobalObject.witness_budget}
-													asset="1.3.0"
-												/>
-											</td>
-											<td>
-												{' '}
-												<TimeAgo
-													time={
-														new Date(
-															dynGlobalObject.next_maintenance_time + 'Z'
-														)
-													}
-												/>
-											</td>
-										</tr>
-									</tbody>
-								</table>
+						<div className="grid-block">
+							<div className="grid-content ">
+								<SearchInput
+									placeholder={counterpart.translate(
+										'explorer.witnesses.filter_by_name'
+									)}
+									value={this.state.filterWitness}
+									onChange={this._onFilter.bind(this)}
+									style={{
+										width: '200px',
+										marginBottom: '12px',
+										marginTop: '4px',
+									}}
+								/>
+
+								<WitnessList
+									current_aslot={dynGlobalObject.current_aslot}
+									current={current ? current.get('id') : null}
+									witnesses={Immutable.List(globalObject.active_witnesses)}
+									witnessList={globalObject.active_witnesses}
+									filter={this.state.filterWitness}
+									cardView={this.state.cardView}
+								/>
 							</div>
-
-							<SearchInput
-								placeholder={counterpart.translate(
-									'explorer.witnesses.filter_by_name'
-								)}
-								value={this.state.filterWitness}
-								onChange={this._onFilter.bind(this)}
-								style={{
-									width: '200px',
-									marginBottom: '12px',
-									marginTop: '4px',
-								}}
-							/>
-
-							<WitnessList
-								current_aslot={dynGlobalObject.current_aslot}
-								current={current ? current.get('id') : null}
-								witnesses={Immutable.List(globalObject.active_witnesses)}
-								witnessList={globalObject.active_witnesses}
-								filter={this.state.filterWitness}
-								cardView={this.state.cardView}
-							/>
 						</div>
 					</div>
 				</div>
-			</div>
+			</>
 		);
 	}
 }

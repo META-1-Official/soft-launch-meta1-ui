@@ -6,12 +6,12 @@ import Immutable from 'immutable';
 import Translate from 'react-translate-component';
 import AccountActions from 'actions/AccountActions';
 import {debounce} from 'lodash-es';
-import Icon from '../Icon/Icon';
 import BalanceComponent from '../Utility/BalanceComponent';
 import AccountStore from 'stores/AccountStore';
 import LoadingIndicator from '../LoadingIndicator';
 import SearchInput from '../Utility/SearchInput';
 import {ChainStore} from 'meta1js';
+import {FaUserPlus, FaUserAlt, FaUserMinus} from 'react-icons/fa';
 
 class Accounts extends React.Component {
 	constructor(props) {
@@ -106,20 +106,17 @@ class Accounts extends React.Component {
 				},
 			},
 			{
-				title: <Icon name="user" title="icons.user.account" />,
+				title: <FaUserAlt />,
 				dataIndex: 'accountContacts',
 				key: 'accountContacts',
 				render: (contacts, record) => {
 					return contacts.has(record.accountName) ? (
 						<div onClick={this._onRemoveContact.bind(this, record.accountName)}>
-							<Icon
-								name="minus-circle"
-								title="icons.minus_circle.remove_contact"
-							/>
+							<FaUserMinus />
 						</div>
 					) : (
 						<div onClick={this._onAddContact.bind(this, record.accountName)}>
-							<Icon name="plus-circle" title="icons.plus_circle.add_contact" />
+							<FaUserPlus />
 						</div>
 					);
 				},

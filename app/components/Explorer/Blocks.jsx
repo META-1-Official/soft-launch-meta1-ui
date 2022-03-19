@@ -331,6 +331,7 @@ class Blocks extends React.Component {
 							<ExploreCard
 								icon={blockNumberIcon}
 								textContent="explorer.blocks.current_block"
+								showAreaChart={true}
 							>
 								<div>
 									<Text
@@ -353,6 +354,7 @@ class Blocks extends React.Component {
 							<ExploreCard
 								icon={blockNumberIcon}
 								textContent="explorer.blocks.last_block"
+								showAreaChart={true}
 							>
 								<BlockTimeAgo blockTime={headBlock} />
 							</ExploreCard>
@@ -361,6 +363,7 @@ class Blocks extends React.Component {
 							<ExploreCard
 								icon={blockNumberIcon}
 								textContent="explorer.blocks.avg_conf_time"
+								showAreaChart={true}
 							>
 								<div>
 									<Text
@@ -400,6 +403,7 @@ class Blocks extends React.Component {
 							<ExploreCard
 								icon={blockNumberIcon}
 								textContent="explorer.blocks.avg_conf_time"
+								showAreaChart={true}
 							>
 								<div>
 									<Text
@@ -476,6 +480,7 @@ class Blocks extends React.Component {
 							<ExploreCard
 								icon={blockNumberIcon}
 								textContent="explorer.blocks.trx_per_block"
+								showAreaChart={true}
 							>
 								<div>
 									<Text
@@ -518,7 +523,6 @@ class Blocks extends React.Component {
 							<ExploreCard
 								icon={volumeIcon}
 								textContent="explorer.blocks.block_times"
-								showOtherGraph={true}
 							>
 								<BlocktimeChart
 									blockTimes={blockTimes}
@@ -530,7 +534,6 @@ class Blocks extends React.Component {
 							<ExploreCard
 								icon={volumeIcon}
 								textContent="explorer.blocks.trx_per_block"
-								showOtherGraph={true}
 							>
 								<TransactionChart
 									blocks={latestBlocks}

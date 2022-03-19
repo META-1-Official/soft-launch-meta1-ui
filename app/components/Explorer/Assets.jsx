@@ -421,6 +421,7 @@ class Assets extends React.Component {
 							<ExploreCard
 								icon={marketCapIcon}
 								textContent="explorer.blocks.24h_volumn_meta1"
+								showAreaChart={true}
 							>
 								<div>
 									<Text
@@ -440,6 +441,7 @@ class Assets extends React.Component {
 							<ExploreCard
 								icon={marketCapUSDTIcon}
 								textContent="explorer.blocks.24h_volumn_usdt"
+								showAreaChart={true}
 							>
 								<div>
 									<Text
@@ -458,6 +460,7 @@ class Assets extends React.Component {
 							<ExploreCard
 								icon={marketCapBTCIcon}
 								textContent="explorer.blocks.24h_volumn_btc"
+								showAreaChart={true}
 							>
 								<div>
 									<Text
@@ -478,6 +481,7 @@ class Assets extends React.Component {
 							<ExploreCard
 								icon={marketCapIcon}
 								textContent="explorer.blocks.24h_market_cap_meta1"
+								showAreaChart={true}
 							>
 								<div>
 									<Text
@@ -497,6 +501,7 @@ class Assets extends React.Component {
 							<ExploreCard
 								icon={marketCapUSDTIcon}
 								textContent="explorer.blocks.24h_market_cap_usdt"
+								showAreaChart={true}
 							>
 								<div>
 									<Text
@@ -515,6 +520,7 @@ class Assets extends React.Component {
 							<ExploreCard
 								icon={marketCapBTCIcon}
 								textContent="explorer.blocks.24h_market_cap_btc"
+								showAreaChart={true}
 							>
 								<div>
 									<Text

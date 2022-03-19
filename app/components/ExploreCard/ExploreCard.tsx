@@ -4,16 +4,18 @@ import Translate from 'react-translate-component';
 
 interface IExploreCards {
 	icon: string;
-	showOtherGraph: string;
+	showAreaChart: string;
 	children: React.ReactNode;
 	textContent: boolean;
+	witnessCard: string;
 }
 
 const ExploreCard = ({
 	icon,
-	showOtherGraph,
+	showAreaChart,
 	children,
 	textContent,
+	witnessCard,
 }: IExploreCards) => {
 	return (
 		<div
@@ -28,7 +30,7 @@ const ExploreCard = ({
 					padding: '1rem 0rem 0rem 1rem',
 					display: 'flex',
 					justifyContent: 'flex-start',
-					minHeight: '6rem',
+					minHeight: witnessCard ? '5rem' : showAreaChart ? '6rem' : '134px',
 				})}
 			>
 				<div
@@ -59,7 +61,7 @@ const ExploreCard = ({
 					{children}
 				</div>
 			</div>
-			{!showOtherGraph && (
+			{showAreaChart && (
 				<div
 					css={{
 						'.chartjs-tooltip': {
