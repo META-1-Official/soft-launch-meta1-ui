@@ -10,6 +10,7 @@ import FormattedAsset from '../Utility/FormattedAsset';
 import {EquivalentValueComponent} from '../Utility/EquivalentValueComponent';
 import {ChainStore, ChainTypes as grapheneChainTypes} from 'meta1js';
 import {Card} from 'antd';
+import theme from 'lib/styles/themeDark';
 const {operations} = grapheneChainTypes;
 let ops = Object.keys(operations);
 ops.push(
@@ -189,7 +190,16 @@ class FeeGroup extends React.Component {
 
 		return (
 			<div className="asset-card">
-				<Card>{this.props.title.toUpperCase()}</Card>
+				<Card
+					bodyStyle={{
+						padding: '12px',
+						backgroundColor: theme.colors.tableColumnColor,
+						border: 'none',
+						color: 'white',
+					}}
+				>
+					{this.props.title.toUpperCase()}
+				</Card>
 				<table className="table">
 					<thead>
 						<tr>

@@ -7,7 +7,7 @@ import AssetsContainer from './AssetsContainer';
 import AccountsContainer from './AccountsContainer';
 import counterpart from 'counterpart';
 import MarketsContainer from '../Exchange/MarketsContainer';
-import {Tabs, Menu} from 'antd';
+import {Tabs} from 'antd';
 class Explorer extends React.Component {
 	constructor(props) {
 		super(props);

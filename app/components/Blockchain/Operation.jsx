@@ -38,9 +38,7 @@ class TransactionLabel extends React.Component {
 	}
 	render() {
 		let trxTypes = counterpart.translate('transaction.trxTypes');
-		let labelClass = classNames('label', this.props.color || 'info');
 		const {color} = this.props;
-		console.log('color', color);
 		return (
 			<Tag
 				css={(theme) => ({
@@ -63,7 +61,6 @@ class TransactionLabel extends React.Component {
 					borderRadius: '5px',
 					color: 'white',
 				})}
-				// className={labelClass}
 			>
 				{trxTypes[ops[this.props.type]]}
 			</Tag>
