@@ -128,7 +128,8 @@ class WithdrawalModal extends React.Component {
             precision: asset.get("precision")
         });
 
-        let amountToSend = (sendAmount.getAmount() * 1) / 10000;
+        let amountToSend =
+            (sendAmount.getAmount() * 1) / Math.pow(10, asset.get("precision"));
 
         const minWithdrawal = {
             BTC: 0.001,
