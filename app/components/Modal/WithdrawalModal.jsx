@@ -17,7 +17,7 @@ import WalletUnlockActions from "actions/WalletUnlockActions";
 import ReactTooltip from "react-tooltip";
 import WalletDb from "stores/WalletDb";
 import PrivateKeyStore from "stores/PrivateKeyStore";
-import CAValidator from "cryptocurrency-address-validator";
+import CAValidator from "multicoin-address-validator";
 import swal from "sweetalert";
 
 const getUninitializedFeeAmount = () =>
