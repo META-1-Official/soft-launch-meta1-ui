@@ -17,7 +17,7 @@ import WalletUnlockActions from "actions/WalletUnlockActions";
 import ReactTooltip from "react-tooltip";
 import WalletDb from "stores/WalletDb";
 import PrivateKeyStore from "stores/PrivateKeyStore";
-import CAValidator from "cryptocurrency-address-validator";
+import CAValidator from "multicoin-address-validator";
 import swal from "sweetalert";
 
 const getUninitializedFeeAmount = () =>
@@ -228,10 +228,12 @@ class WithdrawalModal extends React.Component {
                     })
                 })
                     .then(response => {
+                        console.log("@10 - ", response);
                         console.log(response);
                         //console.log(this.state.asset + "balance: " +totalBalance + " " + amountToSend + " " + AccountStore.getState().currentAccount + " " + this.state.address + " " + this.state.memo  + " " + privatekey);
                     })
                     .catch(error => {
+                        console.log("@19 - ", error);
                         swal("Oops!", error, "error", {
                             customClass: "swal-modal"
                         });
@@ -275,6 +277,7 @@ class WithdrawalModal extends React.Component {
                         asset.get("symbol"),
                         "testnet"
                     );
+
                     if (valid) {
                         this.setState({submitted: "Correct!"});
                     } else {
@@ -486,6 +489,7 @@ class WithdrawalModal extends React.Component {
                         asset.get("symbol"),
                         "testnet"
                     );
+
                     if (valid) {
                         this.setState({submitted: "Correct!"});
                     } else {
