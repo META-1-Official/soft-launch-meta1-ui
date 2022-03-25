@@ -1536,7 +1536,6 @@ class Header extends React.Component {
 		);
 
 		const {headerMenu} = this.state;
-		console.log(this.props.currentLink);
 
 		return (
 			<>

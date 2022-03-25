@@ -1619,6 +1619,13 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 	}
 	.help-content {
 		padding: 10px;
+		h1,
+		h2,
+		h3 {
+			font-size: 1rem;
+			color: #ffc000;
+		}
+
 		ul {
 			list-style: none;
 		}
@@ -1626,6 +1633,7 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 			@include image($bg-color);
 			background-size: 7px 10px;
 			padding-left: 12px;
+			color: white;
 		}
 		a {
 			color: $link-text-color;

@@ -1,6 +1,6 @@
 import React from 'react';
 import counterpart from 'counterpart';
-import {Input, Form, Menu, Typography} from 'antd';
+import {Form, Menu, Typography} from 'antd';
 import IntlActions from 'actions/IntlActions';
 import Translate from 'react-translate-component';
 import SettingsActions from 'actions/SettingsActions';

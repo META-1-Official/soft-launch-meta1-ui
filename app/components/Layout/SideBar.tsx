@@ -78,8 +78,6 @@ const SideBar = ({collapsed, currentLink, toggle}: ISideBar) => {
 		history.push(`/${e.key}`);
 	};
 
-	console.log('currentLink', currentLink);
-
 	return (
 		<Sider
 			style={{
