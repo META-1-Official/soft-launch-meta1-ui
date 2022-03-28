@@ -25,20 +25,20 @@ class Help extends React.Component {
 							overflow: 'auto',
 						})}
 					>
-						<Col xs={12} sm={8} lg={6}>
+						<Col xs={24} sm={8} lg={6}>
 							<div
 								// className="help-toc"
 								css={(theme) => ({
 									padding: '20px',
 									height: '100%',
 									ul: {
-										listStyle: 'none',
-										height: `80vh`,
-										backgroundColor: '#111215',
+										listStyle: 'none !important',
+										height: `100%`,
+										backgroundColor: theme.colors.helpSideBarColor,
 									},
 									li: {
 										border: `1px solid ${theme.colors.borderColor}`,
-										padding: '5px 16px !important',
+										padding: '5px 0px 3px 2rem',
 									},
 									a: {
 										color: 'white !important',
@@ -53,21 +53,15 @@ class Help extends React.Component {
 							</div>
 						</Col>
 						<Col
-							sm={17}
-							css={(theme) => ({
+							sm={16}
+							lg={18}
+							xs={24}
+							css={() => ({
 								padding: '0rem 2rem',
 								marginTop: '4rem',
-								// border: '1px solid red',
-								p: {
-									color: 'white',
-									fontSize: '14px',
-								},
 							})}
 						>
-							{/* <div className="grid-content main-content"> */}
-
 							<HelpContent path={path || 'index'} />
-							{/* </div> */}
 						</Col>
 					</Row>
 				</div>
