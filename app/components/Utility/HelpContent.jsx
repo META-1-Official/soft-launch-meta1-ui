@@ -182,43 +182,90 @@ class HelpContent extends React.PureComponent {
 			);
 			return null;
 		}
-
 		return (
 			<div
-				// css={() => ({
-				// 	padding: 10px;
-				// 	ul {
-				// 		list-style: none;
-				// 	}
-				// 	li {
-				// 		@include image($bg-color);
-				// 		background-size: 7px 10px;
-				// 		padding-left: 12px;
-				// 	}
-				// 	a {
-				// 		color: $link-text-color;
-				// 	}
-				// 	a:hover {
-				// 		background-color: $link-text-color;
-				// 		color: $bg-color;
-				// 	}
-				// 	hr {
-				// 		border: none;
-				// 		height: 1px;
-				// 		width: 100%;
-				// 		background-color: $panel-bg-color;
-				// 	}
-				// 	code {
-				// 		color: $primary-text-color;
-				// 		background-color: transparent;
-				// 		border-color: $dark-text-color;
-				// 	}
-				// 	blockquote {
-				// 		color: $secondary-text-color;
-				// 		border-left: 3px solid $panel-bg-color;
-				// 	}
-				// })}
-				className="help-content"
+				css={(theme) =>
+					(this.props.path === 'toc') !== true
+						? {
+								h1: {
+									marginTop: '0px',
+									fontSize: '1.5rem',
+									color: theme.colors.primaryColor,
+								},
+								'h2, h3': {
+									fontSize: '1rem',
+									color: theme.colors.themeOpositeColor,
+								},
+								ul: {
+									listStyle: 'none',
+								},
+								li: {
+									paddingLeft: '12px',
+									color: theme.colors.themeOpositeColor,
+									':before': {
+										content: `'\\2022'`,
+										color: theme.colors.primaryColor,
+										marginLeft: '-2rem',
+										marginRight: '1rem',
+										fontSize: '1rem',
+									},
+								},
+								a: {
+									color: theme.colors.primaryColor, // $link-text-color;
+								},
+								hr: {
+									border: 'none',
+									height: '1px',
+									width: '100%',
+									backgroundColor: theme.colors.themeOpositeColor,
+								},
+								code: {
+									color: theme.colors.primaryColor,
+									backgroundColor: 'transparent',
+									borderColor: theme.colors.borderColor,
+								},
+								blockquote: {
+									color: theme.colors.primaryColor,
+									borderLeft: `3px solid ${theme.colors.themeOpositeColor}`,
+								},
+								table: {
+									width: '50%',
+									border: `1px solid ${theme.colors.helpTableBorderColor}`,
+									borderCollapse: 'collapse',
+									marginBottom: '20px',
+									color: 'white',
+									'td, th': {
+										padding: '10px',
+										fontSize: '14px',
+									},
+									thead: {
+										backgroundColor: '#111215',
+										th: {
+											textAlign: 'left',
+											padding: '10px',
+											color: theme.colors.primaryColor,
+										},
+									},
+									tbody: {
+										'tr:nth-child(even)': {
+											background: theme.colors.helpTableRowDarkColor,
+										},
+										'tr:nth-child(odd)': {
+											background: theme.colors.helpTableRowLightColor,
+										},
+									},
+								},
+								'p, p:last-of-type': {
+									marginBottom: '1.3rem',
+									color: `${theme.colors.textWhiteColor} !important`,
+									fontSize: '14px',
+								},
+						  }
+						: {
+								height: '100%',
+						  }
+				}
+				// className="help-content"
 				dangerouslySetInnerHTML={{
 					__html: this.setVars(value, this.props.hide_issuer),
 				}}

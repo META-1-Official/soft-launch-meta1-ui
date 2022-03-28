@@ -21,6 +21,13 @@ const theme = {
 		tagWarningColor: '#856916',
 		tableColumnColor: '#15171b',
 		tableColumnHoverColor: '#15171beb',
+		hrColor: 'black',
+		themeOpositeColor: '#fff',
+		textWhiteColor: '#cecece',
+		helpSideBarColor: '#111215',
+		helpTableBorderColor: '#1e2129',
+		helpTableRowLightColor: '#1d1e21',
+		helpTableRowDarkColor: '#111215',
 	},
 	sizes: {
 		lg: '992px',
