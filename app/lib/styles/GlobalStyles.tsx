@@ -5,21 +5,21 @@ const GlobalStyles = (theme: any) => css`
 		border-top: 1px solid ${theme.colors.borderColor};
 	}
 	.ant-typography {
-		//	color: ${theme.colors.white};
+		//	color: ${theme.colors.themeOpositeColor};
 	}
 	.ant-tabs {
-		color: ${theme.colors.white};
+		color: ${theme.colors.themeOpositeColor};;
 	}
 
 	.ant-radio-wrapper {
-		color: ${theme.colors.white};
+		color: ${theme.colors.themeOpositeColor};
 	}
 	.ant-form {
-		color: ${theme.colors.white};
+		color: ${theme.colors.themeOpositeColor};
 	}
 
 	.ant-menu {
-		color: ${theme.colors.white};
+		color: ${theme.colors.themeOpositeColor};
 		background: ${theme.colors.sideBar} !important;
 		.ant-menu-item-selected,
 		.ant-menu-item-selected > a,
@@ -87,7 +87,7 @@ const GlobalStyles = (theme: any) => css`
 		}
 	}
 	.ant-table {
-		color: white 
+		color: ${theme.colors.themeOpositeColor}; 
 	}
 	.ant-table-thead {
 		th.ant-table-column-sort {
@@ -99,7 +99,7 @@ const GlobalStyles = (theme: any) => css`
 			}
 		}
 		tr > th {
-			color: white;
+			color: ${theme.colors.themeOpositeColor};;
 			background: ${theme.colors.tableColumnColor};
 			padding: 10px;
 			border-bottom: none;
@@ -110,7 +110,7 @@ const GlobalStyles = (theme: any) => css`
 		background: ${theme.colors.black}; !important;
 		.ant-table-cell {
 			.ant-empty-description {
-				color: white;
+				color: ${theme.colors.themeOpositeColor};;
 			}
 		}
 		td.ant-table-column-sort {
@@ -128,7 +128,7 @@ const GlobalStyles = (theme: any) => css`
 	} 
 
 	.ant-form-item-label > label {
-		color: white;
+		color: ${theme.colors.themeOpositeColor};;
 	}
 	.ant-radio-checked .ant-radio-inner{
 		border-color: ${theme.colors.primaryColor} !important ;
@@ -158,10 +158,28 @@ const GlobalStyles = (theme: any) => css`
 			color:${theme.colors.inputTextColor};
 			border-radius: 6px;
 		}
-		.ant-input-group-addon{
+		.ant-input-group-addon {
 			background-color: ${theme.colors.inputBackgroundColor};
 			border: none;
  		}
+	}
+	.ant-modal-content {
+		background: ${theme.colors.black};
+		border: 1px solid ${theme.colors.borderColor};
+		border-radius: 8px;
+		padding: 1rem;
+
+		.ant-modal-close-x {
+			color: ${theme.colors.themeOpositeColor};
+		}
+	}
+	.ant-input:focus, .ant-input-focused {
+		border-color: ${theme.colors.borderColor};
+		box-shadow: none;
+	}
+
+	.ant-form-item-has-error :not(.ant-input-disabled):not(.ant-input-borderless).ant-input, .ant-form-item-has-error :not(.ant-input-affix-wrapper-disabled):not(.ant-input-affix-wrapper-borderless).ant-input-affix-wrapper, .ant-form-item-has-error :not(.ant-input-number-affix-wrapper-disabled):not(.ant-input-number-affix-wrapper-borderless).ant-input-number-affix-wrapper, .ant-form-item-has-error :not(.ant-input-disabled):not(.ant-input-borderless).ant-input:hover, .ant-form-item-has-error :not(.ant-input-affix-wrapper-disabled):not(.ant-input-affix-wrapper-borderless).ant-input-affix-wrapper:hover, .ant-form-item-has-error :not(.ant-input-number-affix-wrapper-disabled):not(.ant-input-number-affix-wrapper-borderless).ant-input-number-affix-wrapper:hover {
+		background: ${theme.colors.black};
 	}
 	
   	 

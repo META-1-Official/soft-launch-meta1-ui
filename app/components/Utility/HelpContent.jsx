@@ -257,7 +257,7 @@ class HelpContent extends React.PureComponent {
 								},
 								'p, p:last-of-type': {
 									marginBottom: '1.3rem',
-									color: `${theme.colors.textWhiteColor} !important`,
+									color: `${theme.colors.helpTextColor} !important`,
 									fontSize: '14px',
 								},
 						  }

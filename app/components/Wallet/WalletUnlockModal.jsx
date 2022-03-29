@@ -25,6 +25,7 @@ import {
 	InputNumber,
 	Tooltip,
 	notification,
+	Typography,
 } from 'antd';
 import utils from 'common/utils';
 import AccountSelector from '../Account/AccountSelectorAnt';
@@ -52,7 +53,9 @@ import Icon from '../Icon/Icon';
 // import ReCAPTCHA from "react-google-recaptcha";
 
 const STORAGE_KEY = '__AuthData__';
+
 const ss = new ls(STORAGE_KEY);
+const {Text, Title} = Typography;
 class WalletUnlockModal extends React.Component {
 	constructor(props) {
 		super(props);
@@ -595,20 +598,45 @@ class WalletUnlockModal extends React.Component {
 		return (
 			// U N L O C K
 			<Modal
-				title="Login"
+				// title="Login"
 				visible={this.state.isModalVisible}
-				wrapClassName={'unlock_wallet_modal2'}
+				// wrapClassName={'unlock_wallet_modal2'}
 				id={modalId}
-				closeable={false}
+				closeable={true}
 				ref="modal"
 				overlay={true}
 				overlayClose={false}
 				modalHeader="header.unlock_short"
 				onCancel={this.handleModalClose}
 				leftHeader
-				footer={footer}
+				// footer={footer}
 				zIndex={1001} // always on top
 			>
+				<div
+					css={(theme) => ({
+						textAlign: 'center',
+					})}
+				>
+					<Title
+						level={4}
+						css={(theme) => ({
+							'&&&&': {
+								fontSize: '1.7rem',
+								color: theme.colors.themeOpositeColor,
+								fontWeight: '400',
+							},
+						})}
+					>
+						META 1 Account Login
+					</Title>
+					<Text
+						css={(theme) => ({
+							color: theme.colors.authModalTextColor,
+						})}
+					>
+						Login with Account name (Cloud wallet) and Key file (Local wall
+					</Text>
+				</div>
 				<Form className="full-width" layout="vertical">
 					<LoginTypeSelector />
 					{passwordLogin || passwordlessLogin ? (
@@ -636,6 +664,14 @@ class WalletUnlockModal extends React.Component {
 									help={passwordError || ''}
 								>
 									<Input
+										css={(theme) => ({
+											'&&': {
+												backgroundColor: theme.colors.black,
+												border: `1px solid ${theme.colors.borderColor}`,
+												color: theme.colors.inputTextColor,
+												borderRadius: '4px',
+											},
+										})}
 										type="password"
 										value={this.state.password}
 										onChange={this.handlePasswordChange}
@@ -695,6 +731,14 @@ class WalletUnlockModal extends React.Component {
 								help={errorMessage}
 							>
 								<Input
+									css={(theme) => ({
+										'&&': {
+											backgroundColor: theme.colors.black,
+											border: `1px solid ${theme.colors.borderColor}`,
+											color: theme.colors.inputTextColor,
+											borderRadius: '4px',
+										},
+									})}
 									type="password"
 									value={this.state.password}
 									placeholder={counterpart.translate('wallet.enter_password')}

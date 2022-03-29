@@ -378,6 +378,14 @@ class AccountSelector extends React.Component {
 										: 'lowercase',
 								fontVariant: 'initial',
 							}}
+							css={(theme) => ({
+								'&&': {
+									backgroundColor: theme.colors.black,
+									border: `1px solid ${theme.colors.borderColor}`,
+									color: theme.colors.inputTextColor,
+									borderRadius: '4px',
+								},
+							})}
 							name="username"
 							id="username"
 							autoComplete="username"

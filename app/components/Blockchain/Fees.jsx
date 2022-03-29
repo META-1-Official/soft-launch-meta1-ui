@@ -197,6 +197,7 @@ class FeeGroup extends React.Component {
 						border: 'none',
 						color: 'white',
 					}}
+					bordered={false}
 				>
 					{this.props.title.toUpperCase()}
 				</Card>
