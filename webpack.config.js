@@ -138,8 +138,10 @@ module.exports = function (env) {
 			{
 				loader: 'postcss-loader',
 				options: {
-					minimize: true,
-					debug: false,
+					postcssOptions: {
+						minimize: true,
+						debug: false,
+					},
 				},
 			},
 		];
@@ -149,8 +151,10 @@ module.exports = function (env) {
 			{
 				loader: 'postcss-loader',
 				options: {
-					minimize: true,
-					debug: false,
+					postcssOptions: {
+						minimize: true,
+						debug: false,
+					},
 				},
 			},
 			{
