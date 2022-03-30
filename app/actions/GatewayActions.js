@@ -70,9 +70,7 @@ class GatewayActions {
     }
 
     fetchCoinsSimple({backer = "RUDEX", url = undefined} = {}) {
-        console.log("@20 - ", backer);
         if (!inProgress["fetchCoinsSimple_" + backer]) {
-            console.log("@21 - ", this.getMETA1Simple());
             inProgress["fetchCoinsSimple_" + backer] = true;
             return dispatch => {
                 if (backer === "META1") {
@@ -88,7 +86,6 @@ class GatewayActions {
                 );
                 fetchCoinsSimple(url)
                     .then(coins => {
-                        console.log("@22 - ", coins);
                         clearTimeout(fetchCoinsTimeout);
                         delete inProgress["fetchCoinsSimple_" + backer];
                         dispatch({
@@ -97,7 +94,6 @@ class GatewayActions {
                         });
                     })
                     .catch(err => {
-                        console.log("@23 - ", err);
                         clearTimeout(fetchCoinsTimeout);
                         delete inProgress["fetchCoinsSimple_" + backer];
 

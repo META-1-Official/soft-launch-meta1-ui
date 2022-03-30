@@ -1423,7 +1423,6 @@ export default class WithdrawModal extends React.Component {
     render() {
         let withdrawAssets = Immutable.List();
         let intermediateAccounts = Immutable.List();
-
         this.props.backedCoins.forEach(gateway => {
             gateway.forEach(coin => {
                 if (coin.withdrawalAllowed) {
