@@ -1232,7 +1232,7 @@
         "locked_tip": "<br/>Click to login.<br/><br/>Closing the browser window will also log you out.",
         "logout": "Logout",
         "payments": "Send",
-        "withdraw": "Withdraw (Inactive)",
+        "withdraw": "Withdraw",
         "payments_legacy": "or Legacy Send",
         "settings": "Settings",
         "showcases": "Spotlight",
