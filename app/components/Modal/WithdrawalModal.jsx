@@ -5,10 +5,13 @@ import {ChainStore} from "meta1js";
 import AmountSelector from "../Utility/AmountSelectorStyleGuide";
 import AccountStore from "stores/AccountStore";
 import TransactionConfirmStore from "stores/TransactionConfirmStore";
+import GatewayStore from "stores/GatewayStore";
+import Immutable from "immutable";
 import {Asset} from "common/MarketClasses";
 import {isNaN} from "lodash-es";
 import {checkBalance} from "common/trxHelper";
 import BalanceComponent from "../Utility/BalanceComponent";
+import ChainTypes from "../Utility/ChainTypes";
 import utils from "common/utils";
 import counterpart from "counterpart";
 import {connect} from "alt-react";
@@ -151,9 +154,9 @@ class WithdrawalModal extends React.Component {
         }
 
         const wendpoints = {
-            BTC: "https://gateway.dev.meta1.io/api",
-            ETH: "https://gateway.dev.meta1.io/api",
-            LTC: "https://gateway.dev.meta1.io/api"
+            BTC: "https://gateway.dev.meta1.io/api/withdraw/btc/",
+            ETH: "https://gateway.dev.meta1.io/api/withdraw/eth/",
+            LTC: "https://gateway.dev.meta1.io/api/withdraw/ltc/"
             // EOS: "https://asterope.meta-exchange.info/weos",
             // XLM: "https://asterope.meta-exchange.info/wxlm"
         };
@@ -228,7 +231,6 @@ class WithdrawalModal extends React.Component {
                     })
                 })
                     .then(response => {
-                        console.log(response);
                         //console.log(this.state.asset + "balance: " +totalBalance + " " + amountToSend + " " + AccountStore.getState().currentAccount + " " + this.state.address + " " + this.state.memo  + " " + privatekey);
                     })
                     .catch(error => {
@@ -330,7 +332,7 @@ class WithdrawalModal extends React.Component {
 
     componentWillReceiveProps(np) {
         if (
-            np.currentAccount !== this.state.from_name &&
+            np.currentAccount !== this.state.from_name ||
             np.currentAccount !== this.props.currentAccount
         ) {
             this.setState({
@@ -782,18 +784,49 @@ class WithdrawalModal extends React.Component {
 
 class WithdrawalModalConnectWrapper extends React.Component {
     render() {
-        return <WithdrawalModal {...this.props} ref={this.props.refCallback} />;
+        let withdrawAssets = Immutable.List();
+        let intermediateAccounts = Immutable.List();
+
+        this.props.backedCoins.forEach(gateway => {
+            gateway.forEach(coin => {
+                if (coin.withdrawalAllowed) {
+                    withdrawAssets.push(coin.symbol);
+                    let withdrawAccount = getIntermediateAccount(
+                        coin.symbol,
+                        this.props.backedCoins
+                    );
+
+                    if (
+                        withdrawAccount &&
+                        !intermediateAccounts.includes(withdrawAccount)
+                    )
+                        intermediateAccounts = intermediateAccounts.push(
+                            withdrawAccount
+                        );
+                }
+            });
+        });
+
+        return (
+            <WithdrawalModal
+                {...this.props}
+                ref={this.props.refCallback}
+                withdrawAssets={withdrawAssets}
+                intermediateAccounts={intermediateAccounts}
+            />
+        );
     }
 }
 
 WithdrawalModalConnectWrapper = connect(WithdrawalModalConnectWrapper, {
     listenTo() {
-        return [AccountStore];
+        return [AccountStore, GatewayStore];
     },
     getProps(props) {
         return {
             currentAccount: AccountStore.getState().currentAccount,
             passwordAccount: AccountStore.getState().passwordAccount,
+            backedCoins: GatewayStore.getState().backedCoins,
             tabIndex: props.tabIndex || 0
         };
     }

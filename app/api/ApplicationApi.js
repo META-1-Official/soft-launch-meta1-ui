@@ -7,7 +7,8 @@ import {
     TransactionBuilder,
     TransactionHelper,
     FetchChain,
-    ChainStore
+    ChainStore,
+    ChainTypes
 } from "meta1js";
 import counterpart from "counterpart";
 import {Notification} from "bitshares-ui-style-guide";
@@ -169,8 +170,8 @@ const ApplicationApi = {
                                       memo
                                   )
                                 : Buffer.isBuffer(memo)
-                                    ? memo.toString("utf-8")
-                                    : memo
+                                ? memo.toString("utf-8")
+                                : memo
                         };
                     }
                 }
@@ -285,7 +286,13 @@ const ApplicationApi = {
         });
     },
 
-    transfer_list(list_of_transfers) {
+    transfer_list(list_of_transfers, proposal_fee = null) {
+        if (!proposal_fee) {
+            proposal_fee = "1.3.0";
+        }
+        if (typeof proposal_fee !== "string") {
+            proposal_fee = proposal_fee.get("id");
+        }
         return WalletUnlockActions.unlock().then(() => {
             let proposer = null;
             let transfers = [];
@@ -309,6 +316,10 @@ const ApplicationApi = {
                             }
                         });
                         tr.add_type_operation("proposal_create", {
+                            fee: {
+                                amount: 0,
+                                asset_id: proposal_fee
+                            },
                             proposed_ops: propose,
                             fee_paying_account: proposer.get("id")
                         });
@@ -391,8 +402,8 @@ const ApplicationApi = {
                               memo
                           )
                         : Buffer.isBuffer(memo)
-                            ? memo.toString("utf-8")
-                            : memo
+                        ? memo.toString("utf-8")
+                        : memo
                 };
             }
 
@@ -688,8 +699,8 @@ const ApplicationApi = {
                               memo
                           )
                         : Buffer.isBuffer(memo)
-                            ? memo.toString("utf-8")
-                            : memo
+                        ? memo.toString("utf-8")
+                        : memo
                 };
             }
         }
@@ -750,6 +761,91 @@ const ApplicationApi = {
                 authorized_account: objects.to.get("id")
             }
         );
+
+        transactionBuilder.add_operation(op);
+        await WalletDb.process_transaction(transactionBuilder, null, broadcast);
+        if (!transactionBuilder.tr_buffer) {
+            throw "Something went finalization the transaction, this should not happen";
+        }
+    },
+
+    async createVestingBalance(
+        creator,
+        owner,
+        asset,
+        amount,
+        policy,
+        feeAsset = "1.3.0",
+        broadcast = true
+    ) {
+        // account must be unlocked
+        await WalletUnlockActions.unlock();
+
+        // ensure all arguments are chain objects
+        let objects = {
+            creator: await this._ensureAccount(creator),
+            owner: await this._ensureAccount(owner),
+            asset: await this._ensureAsset(asset),
+            feeAsset: await this._ensureAsset(feeAsset)
+        };
+
+        let transactionBuilder = new TransactionBuilder();
+        let op = transactionBuilder.get_type_operation(
+            "vesting_balance_create",
+            {
+                fee: {
+                    amount: 0,
+                    asset_id: objects.feeAsset.get("id")
+                },
+                creator: objects.creator.get("id"),
+                owner: objects.owner.get("id"),
+                amount: {
+                    amount: amount,
+                    asset_id: objects.asset.get("id")
+                },
+                policy: policy
+            }
+        );
+
+        transactionBuilder.add_operation(op);
+        await WalletDb.process_transaction(transactionBuilder, null, broadcast);
+        if (!transactionBuilder.tr_buffer) {
+            throw "Something went finalization the transaction, this should not happen";
+        }
+    },
+
+    async createTicket(
+        account,
+        asset,
+        amount,
+        targetType = ChainTypes.ticket_type.lock_forever,
+        feeAsset = "1.3.0",
+        broadcast = true
+    ) {
+        // account must be unlocked
+        await WalletUnlockActions.unlock();
+
+        // ensure all arguments are chain objects
+        let objects = {
+            account: await this._ensureAccount(account),
+            asset: await this._ensureAsset(asset),
+            feeAsset: await this._ensureAsset(feeAsset)
+        };
+
+        let transactionBuilder = new TransactionBuilder();
+        let op = transactionBuilder.get_type_operation("ticket_create", {
+            fee: {
+                amount: 0,
+                asset_id: objects.feeAsset.get("id")
+            },
+            account: objects.account.get("id"),
+            target_type: targetType,
+            amount: {
+                amount: amount,
+                asset_id: objects.asset.get("id")
+            },
+            extensions: {}
+        });
 
         transactionBuilder.add_operation(op);
         await WalletDb.process_transaction(transactionBuilder, null, broadcast);

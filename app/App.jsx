@@ -21,6 +21,7 @@ import {DEFAULT_NOTIFICATION_DURATION} from "services/Notification";
 import Loadable from "react-loadable";
 import NewsHeadline from "components/Layout/NewsHeadline";
 import Onramperwallet from "components/Wallet/Onramperwallet";
+import {updateGatewayBackers} from "common/gatewayUtils";
 
 import {Route, Switch, Redirect} from "react-router-dom";
 
@@ -331,6 +332,7 @@ class App extends React.Component {
                 this.setState({incognito});
             }.bind(this)
         );
+        updateGatewayBackers();
     }
 
     componentDidUpdate(prevProps) {

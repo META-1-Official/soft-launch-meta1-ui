@@ -1,5 +1,10 @@
 import {getFaucet} from "../branding";
 
+export const xbtsxAPIs = {
+    BASE: "https://gateway.api.meta1.io/api-gateways",
+    COINS_LIST: "/coin"
+};
+
 export const nodeRegions = [
     // region of the node follows roughly https://en.wikipedia.org/wiki/Subregion#/media/File:United_Nations_geographical_subregions.png
     "Northern Europe",
