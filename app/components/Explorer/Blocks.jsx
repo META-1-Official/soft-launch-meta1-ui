@@ -326,8 +326,8 @@ class Blocks extends React.Component {
 						padding: '2rem 1rem',
 					})}
 				>
-					<Row justify="center" gutter={16}>
-						<Col xs={24} sm={12} md={5} lg={6}>
+					<Row justify="center" gutter={[16, 16]}>
+						<Col xs={24} sm={12} md={8} lg={8} xl={6}>
 							<ExploreCard
 								icon={blockNumberIcon}
 								textContent="explorer.blocks.current_block"
@@ -349,8 +349,7 @@ class Blocks extends React.Component {
 								</div>
 							</ExploreCard>
 						</Col>
-
-						<Col xs={24} sm={12} md={5} lg={6}>
+						<Col xs={24} sm={12} md={8} lg={8} xl={6}>
 							<ExploreCard
 								icon={blockNumberIcon}
 								textContent="explorer.blocks.last_block"
@@ -359,7 +358,7 @@ class Blocks extends React.Component {
 								<BlockTimeAgo blockTime={headBlock} />
 							</ExploreCard>
 						</Col>
-						<Col xs={24} sm={12} md={5} lg={6}>
+						<Col xs={24} sm={12} md={8} lg={8} xl={6}>
 							<ExploreCard
 								icon={blockNumberIcon}
 								textContent="explorer.blocks.avg_conf_time"
@@ -378,7 +377,7 @@ class Blocks extends React.Component {
 								</div>
 							</ExploreCard>
 						</Col>
-						<Col xs={24} sm={12} md={5} lg={6}>
+						<Col xs={24} sm={12} md={8} lg={8} xl={6}>
 							<ExploreCard
 								icon={blockNumberIcon}
 								textContent="explorer.blocks.trx_per_sec"
@@ -396,10 +395,8 @@ class Blocks extends React.Component {
 								</div>
 							</ExploreCard>
 						</Col>
-					</Row>
 
-					<Row justify="center" gutter={[16, 16]} style={{marginTop: '1rem'}}>
-						<Col xs={24} sm={12} md={4} lg={6}>
+						<Col xs={24} sm={12} md={8} lg={8} xl={6}>
 							<ExploreCard
 								icon={blockNumberIcon}
 								textContent="explorer.blocks.avg_conf_time"
@@ -418,8 +415,7 @@ class Blocks extends React.Component {
 								</div>
 							</ExploreCard>
 						</Col>
-
-						<Col xs={24} sm={12} md={4} lg={6}>
+						<Col xs={24} sm={12} md={8} lg={8} xl={6}>
 							<ExploreCard
 								icon={witnessIcon}
 								textContent="explorer.blocks.active_witnesses"
@@ -437,7 +433,7 @@ class Blocks extends React.Component {
 								</div>
 							</ExploreCard>
 						</Col>
-						<Col xs={24} sm={12} md={4} lg={6}>
+						<Col xs={24} sm={12} md={8} lg={8} xl={6}>
 							<ExploreCard
 								icon={committeeIcon}
 								textContent="explorer.blocks.active_committee_members"
@@ -455,7 +451,7 @@ class Blocks extends React.Component {
 								</div>
 							</ExploreCard>
 						</Col>
-						<Col xs={24} sm={12} md={4} lg={6}>
+						<Col xs={24} sm={12} md={8} lg={8} xl={6}>
 							<ExploreCard
 								icon={blockNumberIcon}
 								textContent="explorer.blocks.trx_per_block"
@@ -473,10 +469,8 @@ class Blocks extends React.Component {
 								</div>
 							</ExploreCard>
 						</Col>
-					</Row>
 
-					<Row justify="center" gutter={[16, 16]} style={{marginTop: '1rem'}}>
-						<Col xs={24} sm={12} md={4} lg={6}>
+						<Col xs={24} sm={12} md={8} lg={8} xl={6}>
 							<ExploreCard
 								icon={blockNumberIcon}
 								textContent="explorer.blocks.trx_per_block"
@@ -495,7 +489,7 @@ class Blocks extends React.Component {
 								</div>
 							</ExploreCard>
 						</Col>
-						<Col xs={24} sm={12} md={4} lg={6}>
+						<Col xs={24} sm={12} md={8} lg={8} xl={6}>
 							<ExploreCard
 								icon={volumeIcon}
 								textContent="explorer.asset.summary.current_supply"
@@ -519,7 +513,7 @@ class Blocks extends React.Component {
 								</div>
 							</ExploreCard>
 						</Col>
-						<Col xs={24} sm={12} md={4} lg={6}>
+						<Col xs={24} sm={12} md={8} lg={8} xl={6}>
 							<ExploreCard
 								icon={volumeIcon}
 								textContent="explorer.blocks.block_times"
@@ -530,7 +524,7 @@ class Blocks extends React.Component {
 								/>
 							</ExploreCard>
 						</Col>
-						<Col xs={24} sm={12} md={4} lg={6}>
+						<Col xs={24} sm={12} md={8} lg={8} xl={6}>
 							<ExploreCard
 								icon={volumeIcon}
 								textContent="explorer.blocks.trx_per_block"

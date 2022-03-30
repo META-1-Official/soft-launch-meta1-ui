@@ -32,7 +32,13 @@ const GlobalStyles = (theme: any) => css`
 		.ant-menu-item:hover {
 			color: ${theme.colors.primaryColor} !important;
 		}
+		.ant-menu-item-disabled, .ant-menu-submenu-disabled {
+			color: grey  !important;
+			background: none;
+			cursor: not-allowed;
+		}
 	}
+
 	.ant-menu-inline {
 		border-right: 1px solid ${theme.colors.borderColor};
 		.ant-menu-item:after {

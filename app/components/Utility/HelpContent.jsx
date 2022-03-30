@@ -51,7 +51,6 @@ function adjust_links(str) {
 		}${page}" onclick="_onClickLink(event)"`;
 	});
 }
-console.log('-- HelpData -->', HelpData);
 
 class HelpContent extends React.PureComponent {
 	static propTypes = {

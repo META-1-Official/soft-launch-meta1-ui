@@ -301,7 +301,7 @@ class AccountOverview extends React.Component {
 							tabsClass="account-overview no-padding bordered-header content-block"
 						>
 							<Tab
-								title="account.portfolio"
+								title="account.portfolio.0"
 								subText={portfolioActiveAssetsBalance}
 							>
 								<div className="header-selector">

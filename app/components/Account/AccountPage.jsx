@@ -95,7 +95,6 @@ class AccountPage extends React.Component {
 			proxy: account.getIn(['options', 'voting_account']),
 			history: this.props.history,
 		};
-		//P5J1LSMMwJVZXmoWNAFKtcTZNCai2feB5y6k1RLjUA13SJkYWEPo
 		return (
 			<div className="grid-block page-layout">
 				<div className="grid-block no-padding">
