@@ -108,6 +108,8 @@ class SettingsStore {
         return {
             locale: "en",
             apiServer: settingsAPIs.DEFAULT_WS_NODE,
+            filteredApiServers: [],
+            filteredServiceProviders: ["all"],
             faucet_address: settingsAPIs.DEFAULT_FAUCET,
             unit: CORE_ASSET,
             fee_asset: CORE_ASSET,
@@ -123,7 +125,8 @@ class SettingsStore {
                 }
             },
             rememberMe: true,
-            viewOnlyMode: true
+            viewOnlyMode: true,
+            showProposedTx: false
         };
     }
 
@@ -147,8 +150,11 @@ class SettingsStore {
                 "ja"
             ],
             apiServer: settingsAPIs.WS_NODE_LIST.slice(0), // clone all default servers as configured in apiConfig.js
+            filteredApiServers: [[]],
+            filteredServiceProviders: [[]],
             unit: getUnits(),
             fee_asset: getUnits(),
+            showProposedTx: [{translate: "yes"}, {translate: "no"}],
             showSettles: [{translate: "yes"}, {translate: "no"}],
             showAssetPercent: [{translate: "yes"}, {translate: "no"}],
             themes: ["darkTheme"],
@@ -209,8 +215,10 @@ class SettingsStore {
                 }
                 // must be of same type to be compatible
                 if (typeof settings[key] === typeof defaultSettings[key]) {
-                    // incompatible settings, dont store
-                    if (typeof settings[key] == "object") {
+                    if (
+                        !(settings[key] instanceof Array) &&
+                        typeof settings[key] == "object"
+                    ) {
                         let newSetting = this._replaceDefaults(
                             "saving",
                             settings[key],
@@ -221,7 +229,17 @@ class SettingsStore {
                         }
                     } else if (settings[key] !== defaultSettings[key]) {
                         // only save if its not the default
-                        returnSettings[key] = settings[key];
+                        if (settings[key] instanceof Array) {
+                            if (
+                                JSON.stringify(settings[key]) !==
+                                JSON.stringify(defaultSettings[key])
+                            ) {
+                                returnSettings[key] = settings[key];
+                            }
+                        } else {
+                            // only save if its not the default
+                            returnSettings[key] = settings[key];
+                        }
                     }
                 }
                 // all other cases are defaults, do not put the value in local storage
@@ -234,7 +252,10 @@ class SettingsStore {
                     if (typeof settings[key] !== typeof defaultSettings[key]) {
                         // incompatible types, use default
                         setDefaults = true;
-                    } else if (typeof settings[key] == "object") {
+                    } else if (
+                        !(settings[key] instanceof Array) &&
+                        typeof settings[key] == "object"
+                    ) {
                         // check all subkeys
                         returnSettings[key] = this._replaceDefaults(
                             "loading",
@@ -429,7 +450,7 @@ class SettingsStore {
             this.basesKey = this._getChainKey("preferredBases");
             // Default markets setup
             let topMarkets = {
-                markets_22a8d817: getMyMarketsQuotes(),
+                markets_9e40bec4: getMyMarketsQuotes(),
                 markets_39f5e2ed: [
                     // TESTNET
                     "PEG.FAKEUSD",
@@ -438,7 +459,7 @@ class SettingsStore {
             };
 
             let bases = {
-                markets_22a8d817: getMyMarketsBases(),
+                markets_9e40bec4: getMyMarketsBases(),
                 markets_39f5e2ed: [
                     // TESTNET
                     "TEST"
@@ -446,7 +467,7 @@ class SettingsStore {
             };
 
             let coreAssets = {
-                markets_22a8d817: "META1",
+                markets_9e40bec4: "META1",
                 markets_39f5e2ed: "TEST"
             };
             let coreAsset = coreAssets[this.starredKey] || "META1";
@@ -457,7 +478,7 @@ class SettingsStore {
             this.onUpdateUnits();
             this.defaults.unit[0] = coreAsset;
 
-            let defaultBases = bases[this.starredKey] || bases.markets_22a8d817;
+            let defaultBases = bases[this.starredKey] || bases.markets_9e40bec4;
             let storedBases = ss.get(this.basesKey, []);
             this.preferredBases = Immutable.List(
                 storedBases.length ? storedBases : defaultBases
@@ -526,7 +547,6 @@ class SettingsStore {
             default:
                 break;
         }
-
         // check current settings
         if (this.settings.get(payload.setting) !== payload.value) {
             this.settings = this.settings.set(payload.setting, payload.value);
@@ -668,7 +688,7 @@ class SettingsStore {
     }
 
     _getChainId() {
-        return (Apis.instance().chain_id || "22a8d817").substr(0, 8);
+        return (Apis.instance().chain_id || "9e40bec4").substr(0, 8);
     }
 
     _getChainKey(key) {

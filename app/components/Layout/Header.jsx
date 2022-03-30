@@ -4,10 +4,11 @@ import {connect} from "alt-react";
 import AccountActions from "actions/AccountActions";
 import AccountStore from "stores/AccountStore";
 import SettingsStore from "stores/SettingsStore";
+import GatewayStore from "stores/GatewayStore";
 import SettingsActions from "actions/SettingsActions";
 import ZfApi from "react-foundation-apps/src/utils/foundation-api";
 import SendModal from "../Modal/SendModal";
-import WithdrawalModal from "../Modal/WithdrawalModal";
+import WithdrawModal from "../Modal/WithdrawModalNew";
 import DepositModalBtc from "../Modal/DepositModalBtc";
 import DepositModalEth from "../Modal/DepositModalEth";
 import DepositModalUsdt from "../Modal/DepositModalUsdt";
@@ -57,8 +58,7 @@ class Header extends React.Component {
             hasDepositModalBeenShown: false,
             isDepositModalVisibleBtc: false,
             isWithdrawModalVisible: false,
-            hasWithdrawalModalBeenShown: false,
-            isWithdrawModalVisibleMeta: false
+            hasWithdrawalModalBeenShown: false
         };
 
         this._accountNotificationActiveKeys = [];
@@ -115,6 +115,7 @@ class Header extends React.Component {
         this.hideDepositModal = this.hideDepositModal.bind(this);
 
         this.showWithdrawModal = this.showWithdrawModal.bind(this);
+        this.hideWithdrawModal = this.hideWithdrawModal.bind(this);
 
         this.onBodyClick = this.onBodyClick.bind(this);
     }
@@ -136,6 +137,12 @@ class Header extends React.Component {
         this.setState({
             isWithdrawModalVisible: true,
             hasWithdrawalModalBeenShown: true
+        });
+    }
+
+    hideWithdrawModal() {
+        this.setState({
+            isWithdrawModalVisible: false
         });
     }
 
@@ -295,8 +302,8 @@ class Header extends React.Component {
 
     _showWithdraw(e) {
         e.preventDefault();
-        if (this.withdrawal_modal) this.withdrawal_modal.show();
         this._closeDropdown();
+        this.showWithdrawModal();
     }
 
     hideDepositModalBtc() {
@@ -1837,13 +1844,16 @@ class Header extends React.Component {
                     }}
                     from_name={currentAccount}
                 />
-                <WithdrawalModal
-                    id="withdrawal_modal_header"
-                    refCallback={e => {
-                        if (e) this.withdrawal_modal = e;
-                    }}
-                    from_name={currentAccount}
-                />
+                {this.state.hasWithdrawalModalBeenShown && (
+                    <WithdrawModal
+                        visible={this.state.isWithdrawModalVisible}
+                        hideModal={this.hideWithdrawModal}
+                        showModal={this.showWithdrawModal}
+                        ref="withdraw_modal_new"
+                        modalId="withdraw_modal_new"
+                        backedCoins={this.props.backedCoins}
+                    />
+                )}
                 <DepositModalBtc
                     visibleMeta={this.state.isDepositModalVisibleBtc}
                     hideModalMeta={this.hideDepositModalBtc}
@@ -1911,12 +1921,14 @@ Header = connect(Header, {
             AccountStore,
             WalletUnlockStore,
             WalletManagerStore,
-            SettingsStore
+            SettingsStore,
+            GatewayStore
         ];
     },
     getProps() {
         const chainID = Apis.instance().chain_id;
         return {
+            backedCoins: GatewayStore.getState().backedCoins,
             myActiveAccounts: AccountStore.getState().myActiveAccounts,
             currentAccount:
                 AccountStore.getState().currentAccount ||
