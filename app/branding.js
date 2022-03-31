@@ -10,12 +10,12 @@ import {Apis} from "meta1js-ws";
  * @private
  */
 function _isTestnet() {
-    const mainnet = "9e40bec4c6a1d89e9b1f6f1e539";
+    const chainId = (Apis.instance().chain_id || "04e96f5d").substr(0, 8);
 
-    // treat every other chain as testnet
-    if (Apis.instance().chain_id) {
-        return Apis.instance().chain_id.substr(0, 8) !== mainnet.substr(0, 8);
+    if (chainId === "22a8d817") {
+        return false;
     } else {
+        // treat every other chain as testnet, exact would be chainId === "39f5e2ed"
         return true;
     }
 }
@@ -33,7 +33,8 @@ export function getWalletName() {
  * @returns {string}
  */
 export function getWalletURL() {
-    return "https://meta-exchange.io";
+    return "https://exchange.dev.meta1.io";
+    // return "https://meta-exchange.io";
 }
 
 /**
@@ -43,7 +44,8 @@ export function getWalletURL() {
  */
 export function getFaucet() {
     return {
-        url: "https://faucet.meta1.io/faucet",
+        url: "https://faucet.dev.meta1.io/faucet", // 2017-12-infrastructure worker proposal
+        // url: "https://faucet.meta1.io/faucet",
         show: true,
         editable: true,
         referrer: undefined
