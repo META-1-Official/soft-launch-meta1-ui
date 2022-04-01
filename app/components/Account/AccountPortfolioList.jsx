@@ -616,7 +616,7 @@ class AccountPortfolioList extends React.Component {
 				}
 				settleLink =
 					isPrediction && !globally_settled ? (
-						<>todo</> //<AntIcon type={"question-circle"} />
+						<>todosss</> //<AntIcon type={"question-circle"} />
 					) : (
 						<a onClick={this._onSettleAsset.bind(this, asset.get('id'))}>
 							<Icon name="settle" title="icons.settle" className="icon-14px" />
@@ -704,7 +704,7 @@ class AccountPortfolioList extends React.Component {
 								asset: isAssetBitAsset ? 'bit' + symbol : symbol,
 							})}
 						>
-							<>todo</> {/* <AntIcon type={'question-circle'} /> */}
+							<>todossssee</> {/* <AntIcon type={'question-circle'} /> */}
 						</Tooltip>
 					) : (
 						emptyCell

@@ -29,6 +29,8 @@ const theme = {
 		helpTableRowLightColor: '#1d1e21',
 		helpTableRowDarkColor: '#111215',
 		authModalTextColor: '#a6a6a6',
+		dropdownOptionsColor: '#15171b',
+		dropdownBackgroundColor: '#21252f',
 	},
 	sizes: {
 		lg: '992px',

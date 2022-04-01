@@ -187,6 +187,23 @@ const GlobalStyles = (theme: any) => css`
 	.ant-form-item-has-error :not(.ant-input-disabled):not(.ant-input-borderless).ant-input, .ant-form-item-has-error :not(.ant-input-affix-wrapper-disabled):not(.ant-input-affix-wrapper-borderless).ant-input-affix-wrapper, .ant-form-item-has-error :not(.ant-input-number-affix-wrapper-disabled):not(.ant-input-number-affix-wrapper-borderless).ant-input-number-affix-wrapper, .ant-form-item-has-error :not(.ant-input-disabled):not(.ant-input-borderless).ant-input:hover, .ant-form-item-has-error :not(.ant-input-affix-wrapper-disabled):not(.ant-input-affix-wrapper-borderless).ant-input-affix-wrapper:hover, .ant-form-item-has-error :not(.ant-input-number-affix-wrapper-disabled):not(.ant-input-number-affix-wrapper-borderless).ant-input-number-affix-wrapper:hover {
 		background: ${theme.colors.black};
 	}
+	.ant-select-item-option-content {
+		color: ${theme.colors.inputTextColor};
+		&: hover{
+			background: ${theme.colors.black}  ;
+		}
+	}
+	.ant-select-item-option-active:not(.ant-select-item-option-disabled) {
+		background: ${theme.colors.black} ;   
+	}
+	.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+		background-color: ${theme.colors.dropdownBackgroundColor};
+		color: ${theme.colors.themeOpositeColor};
+	 	border: 1px solid ${theme.colors.borderColor};
+	}
+	.ant-select-arrow {
+		color: ${theme.colors.themeOpositeColor};
+	}
 	
   	 
 `;

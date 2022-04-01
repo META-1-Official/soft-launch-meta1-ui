@@ -41,74 +41,69 @@ const SideBar = ({collapsed, currentLink, toggle}: ISideBar) => {
 			? false
 			: true
 		: false;
-
 	const menuList = [
 		{
-			menuId: 'assets',
-			url: `account/${accountName}`,
+			menuId: `account`,
 			menuName: <Translate content="explorer.assets.title" />,
 			icon: <WalletOutlined />,
 			enableNavLinks,
 		},
 		{
 			menuId: 'trade',
-			url: 'trade',
 			menuName: <Translate content="account.trade" />,
 			icon: <RiseOutlined />,
 			enableNavLinks,
 		},
 		{
 			menuId: 'activity',
-			url: 'activity',
 			menuName: <Translate content="account.activity" />,
 			icon: <RiseOutlined />,
 			enableNavLinks,
 		},
 		{
 			menuId: 'asset-explorer',
-			url: 'asset-explorer',
 			menuName: <Translate content="header.arts" />,
 			icon: <ApartmentOutlined />,
 			enableNavLinks: true,
 		},
 		{
 			menuId: 'paper-wallet',
-			url: 'paper-wallet',
 			menuName: <Translate content="account.perm.create_paperwallet" />,
 			icon: <FileTextOutlined />,
 			enableNavLinks,
 		},
 		{
 			menuId: 'transaction-history',
-			url: 'transaction-history',
 			menuName: 'Transaction History',
 			icon: <SwapOutlined />,
 			enableNavLinks,
 		},
 		{
 			menuId: 'notification',
-			url: 'notification',
 			menuName: 'Notification',
 			icon: <BellOutlined />,
 			enableNavLinks,
 		},
 		{
 			menuId: 'help',
-			url: 'help',
 			menuName: 'Help',
 			icon: <QuestionCircleOutlined />,
 			enableNavLinks: true,
 		},
 		{
 			menuId: 'settings',
-			url: 'settings',
 			menuName: <Translate content="header.settings" />,
 			icon: <SettingOutlined />,
 			enableNavLinks: true,
 		},
 	];
 	const sideMenuClick = (e: any) => {
-		history.push(`/${e.key}`);
+		console.log('e', e.key);
+		let link = e.key;
+		if (e.key === 'account') {
+			link = `account/${accountName}`;
+		}
+		history.push(`/${link}`);
 	};
 
 	return (
@@ -150,9 +145,9 @@ const SideBar = ({collapsed, currentLink, toggle}: ISideBar) => {
 				selectedKeys={[currentLink]}
 			>
 				{menuList &&
-					menuList.map(({menuName, url, enableNavLinks, icon}) => {
+					menuList.map(({menuName, menuId, enableNavLinks, icon}) => {
 						return (
-							<Menu.Item key={url} icon={icon} disabled={!enableNavLinks}>
+							<Menu.Item key={menuId} icon={icon} disabled={!enableNavLinks}>
 								<span className="nav-text">{menuName}</span>
 							</Menu.Item>
 						);

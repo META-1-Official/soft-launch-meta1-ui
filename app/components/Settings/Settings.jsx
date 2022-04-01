@@ -478,10 +478,13 @@ class Settings extends React.Component {
 		}
 		return (
 			<div
-				css={{
+				css={(theme) => ({
 					padding: '0.3rem 2rem',
 					width: '75%',
-				}}
+					[`@media (max-width: ${theme.sizes.lg})`]: {
+						width: '100%',
+					},
+				})}
 			>
 				<Menu
 					onClick={this.onSettingMenuClick}
@@ -506,11 +509,7 @@ class Settings extends React.Component {
 					})}
 				>
 					<Form layout={'vertical'}>
-						<div
-							className={
-								this.props.deprecated ? '' : 'grid-block settings-container'
-							}
-						>
+						<div>
 							<div
 								css={{
 									height: '100%',

@@ -11,7 +11,9 @@ const StyledSelect = ({children, ...rest}: IStyledSelect) => {
 	return (
 		<Select
 			{...rest}
-			dropdownStyle={{backgroundColor: 'green'}}
+			dropdownStyle={{
+				backgroundColor: theme.colors.dropdownOptionsColor,
+			}}
 			css={{
 				'&&& .ant-select-selector': {
 					backgroundColor: theme.colors.inputBackgroundColor,
@@ -20,6 +22,9 @@ const StyledSelect = ({children, ...rest}: IStyledSelect) => {
 					border: `1px solid #1c1f27`,
 				},
 				'& .ant-select-arrow': {
+					color: theme.colors.primaryColor,
+				},
+				'& .ant-select-item-option-content': {
 					color: theme.colors.primaryColor,
 				},
 			}}
