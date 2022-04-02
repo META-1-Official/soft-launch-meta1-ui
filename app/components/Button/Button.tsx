@@ -4,29 +4,45 @@ import React from 'react';
 
 interface IStyledButton {
 	children: React.ReactNode;
-	transparent?: boolean;
 	shape: 'circle' | 'round' | 'default' | undefined;
+	gray: boolean;
+	buttonType: 'primary' | 'gray' | 'transparent';
 }
 
 const StyledButton = ({
 	children,
-	transparent,
 	shape,
+	buttonType,
 	...rest
 }: IStyledButton) => {
 	const theme: any = useTheme();
+	let backgroundColor = theme.colors.primaryColor;
+	let border = theme.colors.primaryColor;
+	let color = 'black';
+	if (buttonType === 'primary') {
+		backgroundColor = theme.colors.primaryColor;
+		border = `1px solid ${theme.colors.primaryColor}`;
+		color = 'black';
+	} else if (buttonType === 'gray') {
+		backgroundColor = 'transparent';
+		border = `1px solid ${theme.colors.buttonGrayColor}`;
+		color = theme.colors.buttonGrayColor;
+	} else if (buttonType === 'transparent') {
+		backgroundColor = 'transparent';
+		border = `1px solid ${theme.colors.primaryColor}`;
+		color = theme.colors.primaryColor;
+	}
+
 	return (
 		<Button
 			{...rest}
 			shape={shape}
 			css={{
 				'&&&&': {
-					backgroundColor: transparent
-						? 'transparent'
-						: theme.colors.primaryColor,
-					color: transparent ? theme.colors.primaryColor : 'black',
+					backgroundColor: backgroundColor,
 					borderRadius: !shape ? '4px' : '',
-					border: `1px solid ${theme.colors.primaryColor}`,
+					border: border,
+					color: color,
 				},
 			}}
 		>

@@ -44,7 +44,7 @@ class FeeAssetSettings extends React.Component {
 				</div>
 
 				<StyledButton
-					type="primary"
+					buttonType="primary"
 					style={{margin: '15px'}}
 					key="open_change_fee_asset"
 					onClick={() => {

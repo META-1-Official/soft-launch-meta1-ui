@@ -14,6 +14,7 @@ const theme = {
 		descriptionTextColor: '#cecece',
 		settingBlockColor: '#0e1013',
 		borderColor: '#1c1f27',
+		buttonGrayColor: '#21252f',
 		inputBackgroundColor: '#15171b',
 		inputTextColor: '#919293',
 		tagCancelColor: '#823637',

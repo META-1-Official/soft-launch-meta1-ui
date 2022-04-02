@@ -1611,6 +1611,7 @@ class Header extends React.Component {
 									})}
 								>
 									<StyledButton
+										buttonType="primary"
 										disabled={!showAccountLinks}
 										style={{marginRight: '15px'}}
 									>
@@ -1626,7 +1627,7 @@ class Header extends React.Component {
 									})}
 								>
 									<StyledButton
-										transparent={true}
+										buttonType="transparent"
 										style={{marginRight: '10px'}}
 									>
 										Send / Recieve
@@ -1641,6 +1642,7 @@ class Header extends React.Component {
 									})}
 								>
 									<StyledButton
+										buttonType="primary"
 										style={{marginRight: '10px'}}
 										onClick={this._showWithdrawal.bind(this)}
 									>

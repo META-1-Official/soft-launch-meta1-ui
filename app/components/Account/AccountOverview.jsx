@@ -318,7 +318,9 @@ class AccountOverview extends React.Component {
 					>
 						<Space>
 							<StyledButton
-								transparent={currentDisplay === 'portfolio' ? false : true}
+								buttonType={
+									currentDisplay === 'portfolio' ? 'primary' : 'transparent'
+								}
 								onClick={() => {
 									onNavButtonClick('portfolio');
 								}}
@@ -326,7 +328,9 @@ class AccountOverview extends React.Component {
 								<Translate content="account.portfolio" />
 							</StyledButton>
 							<StyledButton
-								transparent={currentDisplay === 'openOrders' ? false : true}
+								buttonType={
+									currentDisplay === 'openOrders' ? 'primary' : 'transparent'
+								}
 								onClick={() => {
 									onNavButtonClick('openOrders');
 								}}
@@ -334,8 +338,10 @@ class AccountOverview extends React.Component {
 								Open Orders
 							</StyledButton>
 							<StyledButton
-								transparent={
-									currentDisplay === 'transactionHistory' ? false : true
+								buttonType={
+									currentDisplay === 'transactionHistory'
+										? 'primary'
+										: 'transparent'
 								}
 								onClick={() => {
 									onNavButtonClick('transactionHistory');
@@ -346,7 +352,7 @@ class AccountOverview extends React.Component {
 						</Space>
 						<Space>
 							<StyledButton
-								type="default"
+								buttonType="primary"
 								onClick={() => this.props.history.push('/onramperwallet')}
 							>
 								Fund Accounts

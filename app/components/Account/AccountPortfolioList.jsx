@@ -28,6 +28,7 @@ import {Tooltip} from 'antd';
 import Translate from 'react-translate-component';
 import AssetName from '../Utility/AssetName';
 import TranslateWithLinks from '../Utility/TranslateWithLinks';
+import StyledButton from 'components/Button/Button';
 
 class AccountPortfolioList extends React.Component {
 	constructor(props) {
@@ -541,15 +542,17 @@ class AccountPortfolioList extends React.Component {
 			/* Table content */
 			directMarketLink = notCore ? (
 				<Link to={`/market/${asset.get('symbol')}_${preferredMarket}`}>
-					<div className="portfolio-btn">
-						<Icon
-							name="trade"
-							title="icons.trade.trade"
-							className="icon-14px"
-						/>
-					</div>
+					<StyledButton buttonType="gray">Trade</StyledButton>
 				</Link>
-			) : notCorePrefUnit ? (
+			) : // <div className="portfolio-btn">
+			// 	<Icon
+			// 		name="trade"
+			// 		title="icons.trade.trade"
+			// 		className="icon-14px"
+			// 	/>
+			// </div>
+
+			notCorePrefUnit ? (
 				<Link to={`/market/${asset.get('symbol')}_${preferredUnit}`}>
 					<div className="portfolio-btn">
 						<Icon
@@ -563,15 +566,21 @@ class AccountPortfolioList extends React.Component {
 				emptyCell
 			);
 			transferLink = (
-				<a onClick={this.triggerSend.bind(this, asset.get('id'))}>
-					<div className="portfolio-btn">
-						<Icon
-							name="transfer"
-							title="icons.transfer"
-							className="icon-14px"
-						/>
-					</div>
-				</a>
+				<StyledButton
+					buttonType="transparent"
+					onClick={this.triggerSend.bind(this, asset.get('id'))}
+				>
+					Send
+				</StyledButton>
+				// <a onClick={this.triggerSend.bind(this, asset.get('id'))}>
+				// 		<div className="portfolio-btn">
+				// 			<Icon
+				// 				name="transfer"
+				// 				title="icons.transfer"
+				// 				className="icon-14px"
+				// 			/>
+				// 		</div>
+				// 	</a>
 			);
 
 			let {isBitAsset, borrowLink} = renderBorrow(asset, this.props.account);

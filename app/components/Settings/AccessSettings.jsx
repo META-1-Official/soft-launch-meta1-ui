@@ -666,6 +666,7 @@ class AccessSettings extends React.Component {
 							].map((key) => {
 								return (
 									<StyledButton
+										buttonType="primary"
 										key={key}
 										onClick={this._changeTab.bind(this, key)}
 										shape="round"
@@ -685,7 +686,10 @@ class AccessSettings extends React.Component {
 									paddingBottom: '1rem',
 								}}
 							>
-								<StyledButton type="primary" onClick={props.showAddNodeModal}>
+								<StyledButton
+									buttonType="primary"
+									onClick={props.showAddNodeModal}
+								>
 									<Translate
 										id="add"
 										component="span"
