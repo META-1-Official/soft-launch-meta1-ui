@@ -409,7 +409,7 @@ class Witnesses extends React.Component {
 			<>
 				<div css={{padding: '2rem'}}>
 					<Row gutter={[16, 16]}>
-						<Col xs={24} sm={12} md={4} lg={6}>
+						<Col xs={24} sm={12} md={8} lg={6}>
 							<ExploreCard
 								icon={volumeIcon}
 								textContent="explorer.witnesses.current"
@@ -427,7 +427,7 @@ class Witnesses extends React.Component {
 								</div>
 							</ExploreCard>
 						</Col>
-						<Col xs={24} sm={12} md={4} lg={6}>
+						<Col xs={24} sm={12} md={8} lg={6}>
 							<ExploreCard
 								icon={volumeIcon}
 								textContent="explorer.blocks.active_witnesses"
@@ -444,7 +444,7 @@ class Witnesses extends React.Component {
 								</div>
 							</ExploreCard>
 						</Col>
-						<Col xs={24} sm={12} md={4} lg={6}>
+						<Col xs={24} sm={12} md={8} lg={6}>
 							<ExploreCard
 								icon={volumeIcon}
 								textContent="explorer.witnesses.participation"
@@ -461,7 +461,7 @@ class Witnesses extends React.Component {
 								</div>
 							</ExploreCard>
 						</Col>
-						<Col xs={24} sm={12} md={4} lg={6}>
+						<Col xs={24} sm={12} md={8} lg={6}>
 							<ExploreCard
 								icon={volumeIcon}
 								textContent="explorer.witnesses.pay"
@@ -481,7 +481,7 @@ class Witnesses extends React.Component {
 								</div>
 							</ExploreCard>
 						</Col>
-						<Col xs={24} sm={12} md={4} lg={6}>
+						<Col xs={24} sm={12} md={8} lg={6}>
 							<ExploreCard
 								icon={volumeIcon}
 								textContent="explorer.witnesses.pay"
@@ -501,7 +501,7 @@ class Witnesses extends React.Component {
 								</div>
 							</ExploreCard>
 						</Col>
-						<Col xs={24} sm={12} md={4} lg={6}>
+						<Col xs={24} sm={12} md={8} lg={6}>
 							<ExploreCard
 								icon={volumeIcon}
 								textContent="explorer.witnesses.pay"

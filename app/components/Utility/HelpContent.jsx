@@ -51,7 +51,6 @@ function adjust_links(str) {
 		}${page}" onclick="_onClickLink(event)"`;
 	});
 }
-console.log('-- HelpData -->', HelpData);
 
 class HelpContent extends React.PureComponent {
 	static propTypes = {
@@ -257,7 +256,7 @@ class HelpContent extends React.PureComponent {
 								},
 								'p, p:last-of-type': {
 									marginBottom: '1.3rem',
-									color: `${theme.colors.textWhiteColor} !important`,
+									color: `${theme.colors.helpTextColor} !important`,
 									fontSize: '14px',
 								},
 						  }

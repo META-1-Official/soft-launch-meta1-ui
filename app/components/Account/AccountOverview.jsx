@@ -17,9 +17,11 @@ import BalanceWrapper from './BalanceWrapper';
 import AccountTreemap from './AccountTreemap';
 import AssetWrapper from '../Utility/AssetWrapper';
 import AccountPortfolioList from './AccountPortfolioList';
-import {Switch, Tooltip} from 'antd';
+import {Space, Switch, Tooltip} from 'antd';
 import counterpart from 'counterpart';
 import SearchInput from '../Utility/SearchInput';
+import PageHeader from 'components/PageHeader/PageHeader';
+import StyledButton from 'components/Button/Button';
 
 class AccountOverview extends React.Component {
 	constructor(props) {
@@ -38,6 +40,7 @@ class AccountOverview extends React.Component {
 				// "OPEN.DASH"
 			],
 			hideFishingProposals: true,
+			currentDisplay: 'portfolio',
 		};
 
 		this._handleFilterInput = this._handleFilterInput.bind(this);
@@ -289,144 +292,247 @@ class AccountOverview extends React.Component {
 		// horizontally
 		const hiddenSubText = '\u00a0';
 
+		const onNavButtonClick = (selectedDisplay) => {
+			this.setState({
+				currentDisplay: selectedDisplay,
+			});
+		};
+		const {currentDisplay} = this.state;
+
 		return (
-			<div className="grid-content app-tables no-padding" ref="appTables">
-				<div className="content-block small-12">
-					<div className="tabs-container generic-bordered-box">
-						<Tabs
-							defaultActiveTab={0}
-							segmented={false}
-							setting="overviewTab"
-							className="account-tabs"
-							tabsClass="account-overview no-padding bordered-header content-block"
-						>
-							<Tab
-								title="account.portfolio"
-								subText={portfolioActiveAssetsBalance}
+			<>
+				<div
+					css={(theme) => ({
+						borderBottom: `1px solid ${theme.colors.borderColor} `,
+					})}
+				>
+					<PageHeader title={'Your Assets'} showDivider={false} level={4} />
+
+					<div
+						css={(theme) => ({
+							display: 'flex',
+							width: '100%',
+							justifyContent: 'space-between',
+							padding: '0rem 2rem 1.5rem 2rem',
+						})}
+					>
+						<Space>
+							<StyledButton
+								buttonType={
+									currentDisplay === 'portfolio' ? 'primary' : 'transparent'
+								}
+								onClick={() => {
+									onNavButtonClick('portfolio');
+								}}
 							>
-								<div className="header-selector">
-									<div className="filter inline-block">
-										<SearchInput
-											value={this.state.filterValue}
-											onChange={this._handleFilterInput}
-										/>
-									</div>
+								<Translate content="account.portfolio" />
+							</StyledButton>
+							<StyledButton
+								buttonType={
+									currentDisplay === 'openOrders' ? 'primary' : 'transparent'
+								}
+								onClick={() => {
+									onNavButtonClick('openOrders');
+								}}
+							>
+								Open Orders
+							</StyledButton>
+							<StyledButton
+								buttonType={
+									currentDisplay === 'transactionHistory'
+										? 'primary'
+										: 'transparent'
+								}
+								onClick={() => {
+									onNavButtonClick('transactionHistory');
+								}}
+							>
+								Transaction History
+							</StyledButton>
+						</Space>
+						<Space>
+							<StyledButton
+								buttonType="primary"
+								onClick={() => this.props.history.push('/onramperwallet')}
+							>
+								Fund Accounts
+							</StyledButton>
+						</Space>
+					</div>
+				</div>
+				<div
+					css={(theme) => ({
+						padding: '1rem  2rem',
+					})}
+				>
+					{currentDisplay === 'portfolio' && (
+						<>
+							<div
+								className="header-selector"
+								css={(theme) => ({
+									marginBottom: '1rem',
+								})}
+							>
+								<div className="filter inline-block">
+									<SearchInput
+										value={this.state.filterValue}
+										onChange={this._handleFilterInput}
+									/>
+								</div>
+								<div
+									className="selector inline-block"
+									style={{
+										position: 'relative',
+										top: '8px',
+									}}
+								>
 									<div
-										className="selector inline-block"
-										style={{
-											position: 'relative',
-											top: '8px',
-										}}
+										className={cnames('inline-block', {
+											inactive: shownAssets != 'active',
+										})}
+										onClick={
+											shownAssets != 'active'
+												? this._changeShownAssets.bind(this, 'active')
+												: () => {}
+										}
 									>
-										<div
-											className={cnames('inline-block', {
-												inactive: shownAssets != 'active',
-											})}
-											onClick={
-												shownAssets != 'active'
-													? this._changeShownAssets.bind(this, 'active')
-													: () => {}
-											}
-										>
-											<Translate content="account.hide_hidden" />
-										</div>
-										{hiddenBalancesList.size ? (
-											<div
-												className={cnames('inline-block', {
-													inactive: shownAssets != 'hidden',
-												})}
-												onClick={
-													shownAssets != 'hidden'
-														? this._changeShownAssets.bind(this, 'hidden')
-														: () => {}
-												}
-											>
-												<Translate content="account.show_hidden" />
-											</div>
-										) : null}
-										<div
-											className={cnames('inline-block', {
-												inactive: shownAssets != 'visual',
-											})}
-											onClick={
-												shownAssets != 'visual'
-													? this._changeShownAssets.bind(this, 'visual')
-													: () => {}
-											}
-										>
-											<Translate content="account.show_visual" />
-										</div>
+										<Translate content="account.hide_hidden" />
 									</div>
-									<div className="walletbtn">
-										<a href="/onramperwallet"> Fund Account </a>
+									{hiddenBalancesList.size ? (
+										<div
+											className={cnames('inline-block', {
+												inactive: shownAssets != 'hidden',
+											})}
+											onClick={
+												shownAssets != 'hidden'
+													? this._changeShownAssets.bind(this, 'hidden')
+													: () => {}
+											}
+										>
+											<Translate content="account.show_hidden" />
+										</div>
+									) : null}
+									<div
+										className={cnames('inline-block', {
+											inactive: shownAssets != 'visual',
+										})}
+										onClick={
+											shownAssets != 'visual'
+												? this._changeShownAssets.bind(this, 'visual')
+												: () => {}
+										}
+									>
+										<Translate content="account.show_visual" />
 									</div>
 								</div>
-
+							</div>
+							<div>
 								{shownAssets != 'visual' ? (
 									shownAssets === 'hidden' && hiddenBalancesList.size ? (
-										hiddenPortfolioList
+										'hiddenPortfolioList'
 									) : (
 										includedPortfolioList
 									)
 								) : (
 									<AccountTreemap balanceObjects={includedBalancesList} />
 								)}
-							</Tab>
+							</div>
+						</>
+					)}
+					{currentDisplay === 'openOrders' && (
+						<AccountOrders {...this.props}>
+							<div className="total-value">
+								<span className="text">{totalValueText}</span>
+								<span className="value">{ordersValue}</span>
+							</div>
+						</AccountOrders>
+					)}
 
-							<Tab title="account.open_orders" subText={ordersValue}>
-								<AccountOrders {...this.props}>
-									<div className="total-value">
-										<span className="text">{totalValueText}</span>
-										<span className="value">{ordersValue}</span>
-									</div>
-								</AccountOrders>
-							</Tab>
-							<Tab title="account.activity" subText={hiddenSubText}>
-								<RecentTransactions
-									accountsList={Immutable.fromJS([account.get('id')])}
-									compactView={false}
-									showMore={true}
-									fullHeight={true}
-									limit={100}
-									showFilters={true}
-									dashboard
-								/>
-							</Tab>
+					{currentDisplay === 'transactionHistory' && (
+						<RecentTransactions
+							accountsList={Immutable.fromJS([account.get('id')])}
+							compactView={false}
+							showMore={true}
+							fullHeight={true}
+							limit={100}
+							showFilters={true}
+							dashboard
+						/>
+					)}
+				</div>
 
-							{account.get('proposals') && account.get('proposals').size ? (
+				{/* <div className="grid-content app-tables no-padding" ref="appTables">
+					<div className="content-block small-12">
+						<div className="tabs-container generic-bordered-box">
+							<Tabs
+								defaultActiveTab={0}
+								segmented={false}
+								setting="overviewTab"
+								className="account-tabs"
+								tabsClass="account-overview no-padding bordered-header content-block"
+							>
 								<Tab
-									title="explorer.proposals.title"
-									subText={String(
-										account.get('proposals') ? account.get('proposals').size : 0
-									)}
-								>
-									<div
-										onClick={this._toggleHideProposal.bind(this)}
-										style={{cursor: 'pointer'}}
-									>
-										<Tooltip
-											title={counterpart.translate('tooltip.propose_unhide')}
-											placement="bottom"
-										>
-											<Switch
-												style={{margin: 16}}
-												checked={this.state.hideFishingProposals}
-												onChange={this._toggleHideProposal.bind(this)}
-											/>
-											<Translate content="account.deactivate_suspicious_proposals" />
-										</Tooltip>
-									</div>
-									<Proposals
-										className="dashboard-table"
-										account={account}
-										hideFishingProposals={this.state.hideFishingProposals}
+									title="account.portfolio"
+									subText={portfolioActiveAssetsBalance}
+								></Tab>
+
+								<Tab title="account.open_orders" subText={ordersValue}>
+									<AccountOrders {...this.props}>
+										<div className="total-value">
+											<span className="text">{totalValueText}</span>
+											<span className="value">{ordersValue}</span>
+										</div>
+									</AccountOrders>
+								</Tab>
+								<Tab title="account.activity" subText={hiddenSubText}>
+									<RecentTransactions
+										accountsList={Immutable.fromJS([account.get('id')])}
+										compactView={false}
+										showMore={true}
+										fullHeight={true}
+										limit={100}
+										showFilters={true}
+										dashboard
 									/>
 								</Tab>
-							) : null}
-						</Tabs>
+
+								{account.get('proposals') && account.get('proposals').size ? (
+									<Tab
+										title="explorer.proposals.title"
+										subText={String(
+											account.get('proposals')
+												? account.get('proposals').size
+												: 0
+										)}
+									>
+										<div
+											onClick={this._toggleHideProposal.bind(this)}
+											style={{cursor: 'pointer'}}
+										>
+											<Tooltip
+												title={counterpart.translate('tooltip.propose_unhide')}
+												placement="bottom"
+											>
+												<Switch
+													style={{margin: 16}}
+													checked={this.state.hideFishingProposals}
+													onChange={this._toggleHideProposal.bind(this)}
+												/>
+												<Translate content="account.deactivate_suspicious_proposals" />
+											</Tooltip>
+										</div>
+										<Proposals
+											className="dashboard-table"
+											account={account}
+											hideFishingProposals={this.state.hideFishingProposals}
+										/>
+									</Tab>
+								) : null}
+							</Tabs>
+						</div>
 					</div>
-				</div>
-			</div>
+				</div> */}
+			</>
 		);
 	}
 }

@@ -13,6 +13,7 @@ import {
 import {useTheme} from '@emotion/react';
 import Translate from 'react-translate-component';
 import history from '../../lib/common/history'; // lib/common/history';
+import AccountStore from '../../stores/AccountStore';
 
 const {Sider} = Layout;
 
@@ -26,56 +27,83 @@ const {useBreakpoint} = Grid;
 const SideBar = ({collapsed, currentLink, toggle}: ISideBar) => {
 	const theme: any = useTheme();
 	const screens = useBreakpoint();
+	let accountName =
+		AccountStore.getState().currentAccount ||
+		AccountStore.getState().passwordAccount;
+	accountName =
+		accountName && accountName !== 'null' ? accountName : 'committee-account';
 
+	const checkCurrentAccount =
+		AccountStore.getState().currentAccount ||
+		AccountStore.getState().passwordAccount;
+	const enableNavLinks = checkCurrentAccount
+		? checkCurrentAccount === null
+			? false
+			: true
+		: false;
 	const menuList = [
 		{
-			menuId: 'assets',
+			menuId: `account`,
 			menuName: <Translate content="explorer.assets.title" />,
 			icon: <WalletOutlined />,
+			enableNavLinks,
 		},
 		{
 			menuId: 'trade',
 			menuName: <Translate content="account.trade" />,
 			icon: <RiseOutlined />,
+			enableNavLinks,
 		},
 		{
 			menuId: 'activity',
 			menuName: <Translate content="account.activity" />,
 			icon: <RiseOutlined />,
+			enableNavLinks,
 		},
 		{
 			menuId: 'asset-explorer',
 			menuName: <Translate content="header.arts" />,
 			icon: <ApartmentOutlined />,
+			enableNavLinks: true,
 		},
 		{
 			menuId: 'paper-wallet',
 			menuName: <Translate content="account.perm.create_paperwallet" />,
 			icon: <FileTextOutlined />,
+			enableNavLinks,
 		},
 		{
 			menuId: 'transaction-history',
 			menuName: 'Transaction History',
 			icon: <SwapOutlined />,
+			enableNavLinks,
 		},
 		{
 			menuId: 'notification',
 			menuName: 'Notification',
 			icon: <BellOutlined />,
+			enableNavLinks,
 		},
 		{
 			menuId: 'help',
 			menuName: 'Help',
 			icon: <QuestionCircleOutlined />,
+			enableNavLinks: true,
 		},
 		{
 			menuId: 'settings',
 			menuName: <Translate content="header.settings" />,
 			icon: <SettingOutlined />,
+			enableNavLinks: true,
 		},
 	];
 	const sideMenuClick = (e: any) => {
-		history.push(`/${e.key}`);
+		console.log('e', e.key);
+		let link = e.key;
+		if (e.key === 'account') {
+			link = `account/${accountName}`;
+		}
+		history.push(`/${link}`);
 	};
 
 	return (
@@ -117,9 +145,9 @@ const SideBar = ({collapsed, currentLink, toggle}: ISideBar) => {
 				selectedKeys={[currentLink]}
 			>
 				{menuList &&
-					menuList.map(({menuName, menuId, icon}) => {
+					menuList.map(({menuName, menuId, enableNavLinks, icon}) => {
 						return (
-							<Menu.Item key={menuId} icon={icon}>
+							<Menu.Item key={menuId} icon={icon} disabled={!enableNavLinks}>
 								<span className="nav-text">{menuName}</span>
 							</Menu.Item>
 						);

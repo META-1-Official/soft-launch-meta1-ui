@@ -331,6 +331,7 @@ class LoadingButton extends React.Component {
 				{leftElement != null && leftElement}
 				<span style={{float: 'left'}}>
 					<StyledButton
+						buttonType="primary"
 						ref={(instance) => {
 							this.loadingButton = instance;
 						}}

@@ -7,6 +7,7 @@ import './paginated-list.scss';
 import {connect} from 'alt-react';
 import SettingsStore from '../../stores/SettingsStore';
 import PropTypes from 'prop-types';
+import {AiFillSetting} from 'react-icons/ai';
 
 const {Option} = Select;
 class CustomTable extends React.Component {
@@ -121,12 +122,17 @@ class CustomTable extends React.Component {
 							isDropDownOpen: open,
 						});
 					}}
+					css={(theme) => ({
+						background: theme.colors.greyColorContrast,
+					})}
 				>
 					<Option
 						className="customizable-column--selector--option"
 						value="default"
 					>
-						{!this.state.isDropDownOpen && <div>todo</div>}
+						{!this.state.isDropDownOpen && (
+							<AiFillSetting size={18} css={{marginTop: '6px'}} />
+						)}
 						{/* <Icon type="setting" /> */}
 						{this.state.isDropDownOpen &&
 							counterpart.translate('customizable_table.customize_the_columns')}

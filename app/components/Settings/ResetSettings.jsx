@@ -101,7 +101,7 @@ export default class ResetSettings extends React.Component {
 					/>
 
 					<StyledButton
-						type="primary"
+						buttonType="primary"
 						css={{marginTop: '30px'}}
 						onClick={() => {
 							SettingsActions.clearSettings().then(() => {
