@@ -542,25 +542,11 @@ class AccountPortfolioList extends React.Component {
 			/* Table content */
 			directMarketLink = notCore ? (
 				<Link to={`/market/${asset.get('symbol')}_${preferredMarket}`}>
-					<StyledButton buttonType="gray">Trade</StyledButton>
+					<StyledButton buttonType="white">Trade</StyledButton>
 				</Link>
-			) : // <div className="portfolio-btn">
-			// 	<Icon
-			// 		name="trade"
-			// 		title="icons.trade.trade"
-			// 		className="icon-14px"
-			// 	/>
-			// </div>
-
-			notCorePrefUnit ? (
+			) : notCorePrefUnit ? (
 				<Link to={`/market/${asset.get('symbol')}_${preferredUnit}`}>
-					<div className="portfolio-btn">
-						<Icon
-							name="trade"
-							title="icons.trade.trade"
-							className="icon-14px"
-						/>
-					</div>
+					<StyledButton buttonType="white">Trade</StyledButton>
 				</Link>
 			) : (
 				emptyCell
@@ -572,15 +558,6 @@ class AccountPortfolioList extends React.Component {
 				>
 					Send
 				</StyledButton>
-				// <a onClick={this.triggerSend.bind(this, asset.get('id'))}>
-				// 		<div className="portfolio-btn">
-				// 			<Icon
-				// 				name="transfer"
-				// 				title="icons.transfer"
-				// 				className="icon-14px"
-				// 			/>
-				// 		</div>
-				// 	</a>
 			);
 
 			let {isBitAsset, borrowLink} = renderBorrow(asset, this.props.account);
@@ -736,15 +713,21 @@ class AccountPortfolioList extends React.Component {
 						emptyCell
 					),
 				burn: !isBitAsset ? (
-					<a
-						style={{marginRight: 0}}
+					<StyledButton
+						buttonType="red"
 						onClick={this._burnAsset.bind(this, asset.get('id'))}
 					>
-						<div className="portfolio-btn">
-							<Icon name="fire" className="icon-14px" />
-						</div>
-					</a>
-				) : null,
+						Burn
+					</StyledButton>
+				) : // <a
+				// 	style={{marginRight: 0}}
+				// 	onClick={this._burnAsset.bind(this, asset.get('id'))}
+				// >
+				// 	<div className="portfolio-btn">
+				// 		<Icon name="fire" className="icon-14px" />
+				// 	</div>
+				// </a>
+				null,
 			});
 		});
 		if (optionalAssets) {

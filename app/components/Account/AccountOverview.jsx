@@ -316,7 +316,7 @@ class AccountOverview extends React.Component {
 							padding: '0rem 2rem 1.5rem 2rem',
 						})}
 					>
-						<Space>
+						<Space wrap>
 							<StyledButton
 								buttonType={
 									currentDisplay === 'portfolio' ? 'primary' : 'transparent'
@@ -350,7 +350,7 @@ class AccountOverview extends React.Component {
 								Transaction History
 							</StyledButton>
 						</Space>
-						<Space>
+						<Space align="start">
 							<StyledButton
 								buttonType="primary"
 								onClick={() => this.props.history.push('/onramperwallet')}

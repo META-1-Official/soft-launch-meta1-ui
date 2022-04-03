@@ -100,7 +100,7 @@ const GlobalStyles = (theme: any) => css`
 			background: ${theme.colors.tableColumnColor};
 		}
 		th.ant-table-column-has-sorters {
-			&: hover{
+			&:hover{
 				background: ${theme.colors.tableColumnHoverColor};
 			}
 		}
@@ -132,9 +132,27 @@ const GlobalStyles = (theme: any) => css`
 			border-bottom: 1px solid ${theme.colors.borderColor};
 		}
 	} 
-
+	.ant-table-footer {
+		color: ${theme.colors.themeOpositeColor};  
+    background: ${theme.colors.tableColumnColor};
+	}
+	
+	.ant-pagination-total-text {
+		color: ${theme.colors.themeOpositeColor};  
+	}
+	.ant-pagination-prev .ant-pagination-item-link, .ant-pagination-next .ant-pagination-item-link {
+		background-color: transparent;
+		color: ${theme.colors.themeOpositeColor};  
+		border: none;
+	}
+	.ant-pagination-item-active {
+		background-color: ${theme.colors.primaryColor};
+	  a {	color: ${theme.colors.tableActivePagination}; } 
+		border: none;
+	}
+  
 	.ant-form-item-label > label {
-		color: ${theme.colors.themeOpositeColor};;
+		color: ${theme.colors.themeOpositeColor};
 	}
 	.ant-radio-checked .ant-radio-inner{
 		border-color: ${theme.colors.primaryColor} !important ;
