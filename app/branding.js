@@ -96,7 +96,7 @@ export function getUnits() {
     if (_isTestnet()) {
         return ["META1"];
     } else {
-        return ["META1", "BTC", "ETH", "USDT", "LTC"]; //, "EOS", "XLM", "BNB"];
+        return ["META1", "USDT", "ETH", "BTC", "LTC", "EOS", "XLM", "BNB"];
     }
 }
 
@@ -116,7 +116,8 @@ export function getMyMarketsBases() {
     if (_isTestnet()) {
         return ["TEST"];
     }
-    return ["META1", "BTC", "ETH", "USDT", "LTC"]; //, "EOS", "XLM", "BNB"];
+
+    return ["META1", "BTC", "ETH", "USDT", "LTC", "EOS", "XLM", "BNB"];
 }
 
 /**
@@ -129,7 +130,7 @@ export function getMyMarketsQuotes() {
         return ["TEST"];
     }
     let tokens = {
-        nativeTokens: ["META1", "BTC", "ETH", "USDT", "LTC"] //, "EOS", "XLM", "BNB"]
+        nativeTokens: ["BTC", "META1", "USDT", "EOS", "XLM", "BNB"]
     };
 
     let allTokens = [];
