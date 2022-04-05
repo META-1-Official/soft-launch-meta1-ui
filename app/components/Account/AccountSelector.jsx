@@ -30,6 +30,7 @@ import {
 	AiOutlineEdit,
 } from 'react-icons/ai';
 import {LoadingOutlined} from '@ant-design/icons';
+import StyledButton from 'components/Button/Button';
 const MAX_LOOKUP_ATTEMPTS = 5;
 /*
  * @brief Allows the user to enter an account by name or #ID
@@ -594,13 +595,22 @@ class AccountSelector extends React.Component {
 		let accountImageContainer = this.props.hideImage ? null : selectedAccount &&
 		  selectedAccount.accountType === 'pubkey' ? (
 			<div className="account-image">
-				<Icon name="key" title="icons.key" size="4x" />
+				<Icon
+					name="key"
+					title="icons.key"
+					size="2x"
+					css={{marginRight: '10px'}}
+				/>
 			</div>
 		) : (
 			<AccountImage
 				size={{
-					height: this.props.size || 33,
-					width: this.props.size || 33,
+					height: this.props.size || 25,
+					width: this.props.size || 25,
+				}}
+				style={{
+					marginRight: '10px',
+					marginTop: '4px',
 				}}
 				account={selectedAccount ? selectedAccount.id : null}
 				custom_image={null}
@@ -617,7 +627,12 @@ class AccountSelector extends React.Component {
 					}}
 					onClick={() => this.setState({locked: false})}
 				>
-					<AiOutlineEdit css={{fontSize: '1rem'}} />
+					<AiOutlineEdit
+						css={(theme) => ({
+							fontSize: '1rem',
+							color: theme.colors.themeOpositeColor,
+						})}
+					/>
 				</div>
 			</Tooltip>
 		);
@@ -677,13 +692,13 @@ class AccountSelector extends React.Component {
 										type: counterpart.translate('global.field_type.account'),
 									})}
 								>
-									<Button
-										type="primary"
+									<StyledButton
+										buttonType="primary"
 										disabled={disabledAction}
 										onClick={this.onAction.bind(this)}
 									>
 										<Translate content={this.props.action_label} />
-									</Button>
+									</StyledButton>
 								</Tooltip>
 							) : null}
 						</div>
