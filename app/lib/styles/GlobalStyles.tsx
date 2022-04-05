@@ -207,6 +207,9 @@ const GlobalStyles = (theme: any) => css`
 			color: ${theme.colors.themeOpositeColor};
 		}
 	}
+	.ant-modal-footer {
+		border-top: none;
+	}
 	.ant-input:focus, .ant-input-focused {
 		border-color: ${theme.colors.borderColor};
 		box-shadow: none;
@@ -221,14 +224,20 @@ const GlobalStyles = (theme: any) => css`
 			background: ${theme.colors.black}  ;
 		}
 	}
-	.ant-select-item-option-active:not(.ant-select-item-option-disabled) {
-		background: ${theme.colors.black} ;   
+	.ant-select-disabled.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+		background-color: ${theme.colors.dropdownBackgroundColor};
+		color: ${theme.colors.themeOpositeColor};
+		border: 1px solid ${theme.colors.borderColor};
 	}
 	.ant-select:not(.ant-select-customize-input) .ant-select-selector {
 		background-color: ${theme.colors.dropdownBackgroundColor};
 		color: ${theme.colors.themeOpositeColor};
 	 	border: 1px solid ${theme.colors.borderColor};
 	}
+	.ant-select-item-option-active:not(.ant-select-item-option-disabled) {
+		background: ${theme.colors.black} ;   
+	}
+
 	.ant-select-arrow {
 		color: ${theme.colors.themeOpositeColor};
 	}

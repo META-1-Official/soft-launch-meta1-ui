@@ -128,9 +128,6 @@ class AmountSelector extends DecimalChecker {
 					<Input
 						disabled={this.props.disabled}
 						value={value || ''}
-						style={{
-							width: 'calc(100% - 130px)',
-						}}
 						placeholder={this.props.placeholder}
 						onChange={this._onChange.bind(this)}
 						tabIndex={this.props.tabIndex}
@@ -138,6 +135,16 @@ class AmountSelector extends DecimalChecker {
 						onKeyPress={this.onKeyPress.bind(this)}
 						addonBefore={addonBefore}
 						className="input-group-unbordered-before"
+						css={(theme) => ({
+							'&&': {
+								backgroundColor: theme.colors.inputBackgroundColor,
+								border: 'none',
+								color: theme.colors.inputTextColor,
+								borderRadius: '6px',
+								width: 'calc(100% - 130px)',
+								height: '32px',
+							},
+						})}
 					/>
 					{addonAfter}
 				</Input.Group>

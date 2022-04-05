@@ -386,10 +386,14 @@ class AccountOverview extends React.Component {
 										top: '8px',
 									}}
 								>
-									<div
-										className={cnames('inline-block', {
-											inactive: shownAssets != 'active',
-										})}
+									<StyledButton
+										css={{marginRight: '1rem'}}
+										buttonType={
+											shownAssets === 'active' ? 'primary' : 'transparent'
+										}
+										// className={cnames('inline-block', {
+										// 	inactive: shownAssets != 'active',
+										// })}
 										onClick={
 											shownAssets != 'active'
 												? this._changeShownAssets.bind(this, 'active')
@@ -397,12 +401,13 @@ class AccountOverview extends React.Component {
 										}
 									>
 										<Translate content="account.hide_hidden" />
-									</div>
+									</StyledButton>
 									{hiddenBalancesList.size ? (
-										<div
-											className={cnames('inline-block', {
-												inactive: shownAssets != 'hidden',
-											})}
+										<StyledButton
+											css={{marginRight: '1rem'}}
+											buttonType={
+												shownAssets === 'hidden' ? 'primary' : 'transparent'
+											}
 											onClick={
 												shownAssets != 'hidden'
 													? this._changeShownAssets.bind(this, 'hidden')
@@ -410,12 +415,15 @@ class AccountOverview extends React.Component {
 											}
 										>
 											<Translate content="account.show_hidden" />
-										</div>
+										</StyledButton>
 									) : null}
-									<div
-										className={cnames('inline-block', {
-											inactive: shownAssets != 'visual',
-										})}
+									<StyledButton
+										buttonType={
+											shownAssets === 'visual' ? 'primary' : 'transparent'
+										}
+										// className={cnames('inline-block', {
+										// 	inactive: shownAssets != 'visual',
+										// })}
 										onClick={
 											shownAssets != 'visual'
 												? this._changeShownAssets.bind(this, 'visual')
@@ -423,7 +431,7 @@ class AccountOverview extends React.Component {
 										}
 									>
 										<Translate content="account.show_visual" />
-									</div>
+									</StyledButton>
 								</div>
 							</div>
 							<div>

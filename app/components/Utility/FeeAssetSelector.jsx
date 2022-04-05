@@ -259,13 +259,20 @@ class FeeAssetSelector extends React.Component {
 				>
 					<Input.Group compact>
 						<Input
-							style={{
-								width: 'calc(100% - 130px)',
-							}}
 							disabled={true}
 							value={feeInputString || ''}
 							tabIndex={this.props.tabIndex}
 							suffix={this.state.error ? changeDefaultButton : undefined}
+							css={(theme) => ({
+								'&&': {
+									backgroundColor: theme.colors.inputBackgroundColor,
+									border: 'none',
+									color: theme.colors.inputTextColor,
+									borderRadius: '6px',
+									width: 'calc(100% - 130px)',
+									height: '32px',
+								},
+							})}
 						/>
 
 						<AssetSelect

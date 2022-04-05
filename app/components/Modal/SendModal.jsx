@@ -24,24 +24,6 @@ import PrivateKeyStore from '../../stores/PrivateKeyStore';
 import WalletDb from '../../stores/WalletDb';
 import StyledButton from 'components/Button/Button';
 
-const EqualWidthContainer = ({children}) => (
-	<div
-		style={{
-			display: 'flex',
-			justifyContent: 'center',
-		}}
-	>
-		<div
-			style={{
-				display: 'grid',
-				gridTemplateColumns: children.map(() => '1fr').join(' '),
-			}}
-		>
-			{children}
-		</div>
-	</div>
-);
-
 const getUninitializedFeeAmount = () =>
 	new Asset({amount: 0, asset_id: '1.3.0'});
 
@@ -501,7 +483,8 @@ class SendModal extends React.Component {
 					overlay={true}
 					onCancel={this.hideModal}
 					footer={[
-						<Button
+						<StyledButton
+							buttonType="primary"
 							key={'send'}
 							disabled={isSubmitNotValid}
 							onClick={!isSubmitNotValid ? this.onSubmit.bind(this) : null}
@@ -509,16 +492,26 @@ class SendModal extends React.Component {
 							{propose
 								? counterpart.translate('propose')
 								: counterpart.translate('transfer.send')}
-						</Button>,
-						<Button key="Cancel" tabIndex={tabIndex++} onClick={this.onClose}>
+						</StyledButton>,
+						<StyledButton
+							buttonType="transparent"
+							key="Cancel"
+							tabIndex={tabIndex++}
+							onClick={this.onClose}
+						>
 							<Translate component="span" content="transfer.cancel" />
-						</Button>,
+						</StyledButton>,
 					]}
 				>
-					<div className="grid-block vertical no-overflow">
-						<div className="content-block">
-							<EqualWidthContainer>
-								{/* <Space wrap> */}
+					<div>
+						<div
+							css={(theme) => ({
+								display: 'flex',
+								justifyContent: 'center',
+								marginBottom: '1.5rem',
+							})}
+						>
+							<Space>
 								<StyledButton
 									buttonType={propose ? 'transparent' : 'primary'}
 									onClick={this.onPropose}
@@ -531,11 +524,22 @@ class SendModal extends React.Component {
 								>
 									<Translate content="propose" />
 								</StyledButton>
-								{/* </Space> */}
-							</EqualWidthContainer>
+							</Space>
 						</div>
-						<div className="content-block" style={{textAlign: 'center'}}>
+						<div
+							className="content-block"
+							style={{textAlign: 'center'}}
+							css={(theme) => ({
+								display: 'flex',
+								justifyContent: 'center',
+								marginBottom: '1rem',
+								color: theme.colors.themeOpositeColor,
+							})}
+						>
 							<Translate
+								css={(theme) => ({
+									color: theme.colors.themeOpositeColor,
+								})}
 								content={
 									propose
 										? 'transfer.header_subheader_propose'
@@ -545,7 +549,11 @@ class SendModal extends React.Component {
 							/>
 						</div>
 						{this.state.open ? (
-							<Form className="full-width" layout="vertical">
+							<Form
+								css={{paddingTop: '5px !important'}}
+								className="full-width"
+								layout="vertical"
+							>
 								{!!propose && (
 									<React.Fragment>
 										<AccountSelector
@@ -616,11 +624,19 @@ class SendModal extends React.Component {
 										title={counterpart.translate('tooltip.memo_tip')}
 									>
 										<Input.TextArea
-											style={{marginBottom: 0}}
 											rows={3}
 											value={memo}
 											tabIndex={tabIndex++}
 											onChange={this.onMemoChanged.bind(this)}
+											css={(theme) => ({
+												'&&': {
+													backgroundColor: theme.colors.inputBackgroundColor,
+													border: 'none',
+													color: theme.colors.inputTextColor,
+													borderRadius: '6px',
+													marginBottom: 0,
+												},
+											})}
 										/>
 									</Tooltip>
 								</Form.Item>
