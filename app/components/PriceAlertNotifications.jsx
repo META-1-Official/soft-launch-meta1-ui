@@ -8,6 +8,7 @@ import Translate from 'react-translate-component';
 import counterpart from 'counterpart';
 import SettingsActions from '../actions/SettingsActions';
 import AssetName from './Utility/AssetName';
+import {FaCaretDown, FaCaretUp} from 'react-icons/fa';
 
 class PriceAlertNotifications extends React.Component {
 	_getRulesForCheck(priceAlertRules, markets) {
@@ -98,11 +99,7 @@ class PriceAlertNotifications extends React.Component {
 						/>
 					),
 					icon: (
-						<div>todo</div>
-						// <Icon
-						// 	type="caret-down"
-						// 	className="price-alert--notification--icon price-alert--notification--icon--down"
-						// />
+						<FaCaretDown className="price-alert--notification--icon price-alert--notification--icon--down" />
 					),
 				});
 			}
@@ -134,11 +131,7 @@ class PriceAlertNotifications extends React.Component {
 						/>
 					),
 					icon: (
-						<div> todo </div>
-						// <Icon
-						// 	type="caret-up"
-						// 	className="price-alert--notification--icon price-alert--notification--icon--up"
-						// />
+						<FaCaretUp className="price-alert--notification--icon price-alert--notification--icon--up" />
 					),
 				});
 			}

@@ -27,6 +27,7 @@ import {
 import BalanceComponent from '../Utility/BalanceComponent';
 import ApplicationApi from '../../api/ApplicationApi';
 import {map} from 'lodash-es';
+import {AiFillQuestionCircle} from 'react-icons/ai';
 
 function moveDecimal(num, decimals) {
 	if (!num) return;
@@ -1401,8 +1402,7 @@ export default class Barter extends Component {
 				>
 					<h2 style={{textAlign: 'center'}}>
 						<Translate content={'showcases.barter.new_barter'} />{' '}
-						<div>todo</div>
-						{/* <Icon type="question-circle" theme="filled" /> */}
+						<AiFillQuestionCircle />
 					</h2>
 				</Tooltip>
 			</Card>

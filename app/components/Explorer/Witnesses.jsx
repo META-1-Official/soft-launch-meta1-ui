@@ -15,6 +15,7 @@ import {Table, Popover, Row, Col, Typography} from 'antd';
 import sanitize from 'sanitize';
 import SearchInput from '../Utility/SearchInput';
 import ExploreCard from 'components/ExploreCard/ExploreCard';
+import {AiOutlineLink, AiOutlineKey} from 'react-icons/ai';
 
 require('./witnesses.scss');
 const volumeIcon = require('assets/explorer/volume.png');
@@ -224,7 +225,7 @@ class WitnessList extends React.Component {
 					}
 					trigger={'hover'}
 				>
-					<div>todo</div> {/* <Icon type="link" /> */}
+					<AiOutlineLink />
 				</Popover>
 			);
 		};
@@ -232,7 +233,7 @@ class WitnessList extends React.Component {
 		const keyRender = (item) => {
 			return (
 				<Popover content={<span>{item}</span>} trigger={'hover'}>
-					<div>todo</div> {/* <Icon type="key" /> */}
+					<AiOutlineKey />
 				</Popover>
 			);
 		};

@@ -9,6 +9,7 @@ import assetUtils from 'common/asset_utils';
 import assetConstants from 'chain/asset_constants';
 import {ChainStore} from 'meta1js';
 import moment from 'moment';
+import {AiOutlineQuestionCircle, AiFillQuestionCircle} from 'react-icons/ai';
 
 const IS_BITASSET = true;
 
@@ -257,14 +258,11 @@ export default class CreateMarketModal extends Modal {
 										placement="topLeft"
 									>
 										<Translate content="prediction.create_market_modal.symbol" />
-										<div>todo</div>
-										{/* <Icon
-                                            style={{
-                                                marginLeft: "0.5rem"
-                                            }}
-                                            theme="filled"
-                                            type="question-circle"
-                                        /> */}
+										<AiOutlineQuestionCircle
+											css={{
+												marginLeft: '0.5rem',
+											}}
+										/>
 									</Tooltip>
 									<Input
 										name="symbol"
@@ -292,15 +290,11 @@ export default class CreateMarketModal extends Modal {
 										placement="topLeft"
 									>
 										<Translate content="prediction.create_market_modal.condition" />
-										<div>todo</div>
-
-										{/* <Icon
-                                            style={{
-                                                marginLeft: "0.5rem"
-                                            }}
-                                            theme="filled"
-                                            type="question-circle"
-                                        /> */}
+										<AiOutlineQuestionCircle
+											css={{
+												marginLeft: '0.5rem',
+											}}
+										/>
 									</Tooltip>
 									<Input
 										name="condition"
@@ -360,15 +354,11 @@ export default class CreateMarketModal extends Modal {
 										placement="topLeft"
 									>
 										<Translate content="prediction.create_market_modal.resolution_date" />
-										<div>todo</div>
-
-										{/* <Icon
-											style={{
+										<AiFillQuestionCircle
+											css={{
 												marginLeft: '0.5rem',
 											}}
-											theme="filled"
-											type="question-circle"
-										/> */}
+										/>
 									</Tooltip>
 									<div>
 										<DatePicker
@@ -397,14 +387,11 @@ export default class CreateMarketModal extends Modal {
 									placement="topLeft"
 								>
 									<Translate content="prediction.create_market_modal.backing_asset" />
-									<div>todo</div>
-									{/* <Icon
-										style={{
+									<AiFillQuestionCircle
+										css={{
 											marginLeft: '0.5rem',
 										}}
-										theme="filled"
-										type="question-circle"
-									/> */}
+									/>
 								</Tooltip>
 								<AssetSelect
 									assets={['1.3.0', '1.3.113', '1.3.120', '1.3.121']}
@@ -423,15 +410,11 @@ export default class CreateMarketModal extends Modal {
 									placement="topLeft"
 								>
 									<Translate content="prediction.create_market_modal.commission" />
-									<div>todo</div>
-
-									{/* <Icon
-										style={{
+									<AiFillQuestionCircle
+										css={{
 											marginLeft: '0.5rem',
 										}}
-										theme="filled"
-										type="question-circle"
-									/> */}
+									/>
 								</Tooltip>
 								<Input
 									tabIndex={6}

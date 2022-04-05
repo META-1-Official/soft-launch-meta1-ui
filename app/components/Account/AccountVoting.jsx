@@ -22,6 +22,7 @@ import {Switch, Tooltip, Row, Col, Radio, Input, Button} from 'antd';
 import AccountStore from 'stores/AccountStore';
 import JoinWitnessesModal from '../Modal/JoinWitnessesModal';
 import JoinCommitteeModal from '../Modal/JoinCommitteeModal';
+import {AiOutlineSearch} from 'react-icons/ai';
 
 class AccountVoting extends React.Component {
 	static propTypes = {
@@ -753,9 +754,7 @@ class AccountVoting extends React.Component {
 												value={this.state.filterSearch}
 												style={{width: '220px'}}
 												onChange={this.handleFilterChange.bind(this)}
-												addonAfter={
-													<>todo</> // <AntIcon type="search" />
-												}
+												addonAfter={<AiOutlineSearch />}
 											/>
 										</div>
 									</div>

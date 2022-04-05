@@ -18,6 +18,7 @@ import SettingsStore from 'stores/SettingsStore';
 import {Modal, Button, Tooltip} from 'antd';
 import moment from 'moment';
 import ApplicationApi from '../../api/ApplicationApi';
+import {AiFillExclamationCircle} from 'react-icons/ai';
 
 class DirectDebitClaimModal extends React.Component {
 	constructor(props) {
@@ -426,12 +427,7 @@ class DirectDebitClaimModal extends React.Component {
 								placement="top"
 								title="You have not enough on your balance to pay the fee!"
 							>
-								<div>todo</div>
-								{/* <Icon
-                                    type="exclamation-circle"
-                                    theme="filled"
-                                    style={{color: "#fe8c00"}}
-                                /> */}
+								<AiFillExclamationCircle css={{color: '#fe8c00'}} />
 							</Tooltip>
 						)}
 					</span>

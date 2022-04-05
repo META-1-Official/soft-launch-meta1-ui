@@ -7,6 +7,7 @@ import {ChainStore} from 'meta1js';
 import PaginatedList from 'components/Utility/PaginatedList';
 import ChainTypes from '../Utility/ChainTypes';
 import FormattedAsset from '../Utility/FormattedAsset';
+import {AiFillQuestionCircle} from 'react-icons/ai';
 
 export default class PredictionMarketDetailsTable extends Component {
 	getHeader() {
@@ -200,15 +201,12 @@ export default class PredictionMarketDetailsTable extends Component {
 													: 'prediction.tooltips.oppose_is_incorrect'
 											)}
 										>
-											<div>todo</div>
-											{/* <Icon
-                                                style={{
-                                                    fontSize: "1.3rem",
-                                                    marginRight: "0.5rem"
-                                                }}
-                                                type="question-circle"
-                                                theme="filled"
-                                            /> */}
+											<AiFillQuestionCircle
+												css={{
+													fontSize: '1.3rem',
+													marginRight: '0.5rem',
+												}}
+											/>
 										</Tooltip>
 										<Button
 											onClick={() => {

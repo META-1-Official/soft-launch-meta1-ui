@@ -20,7 +20,16 @@ import accountUtils from 'common/account_utils';
 import cnames from 'classnames';
 import PropTypes from 'prop-types';
 import {Tooltip, Button, Input, Select, Form} from 'antd';
-
+import {FaUserAlt} from 'react-icons/fa';
+import {
+	AiFillWarning,
+	AiOutlineUser,
+	AiOutlineStar,
+	AiFillStar,
+	AiOutlineWarning,
+	AiOutlineEdit,
+} from 'react-icons/ai';
+import {LoadingOutlined} from '@ant-design/icons';
 const MAX_LOOKUP_ATTEMPTS = 5;
 /*
  * @brief Allows the user to enter an account by name or #ID
@@ -446,8 +455,7 @@ class AccountSelector extends React.Component {
 					title={counterpart.translate('tooltip.own_account')}
 				>
 					<span className="tooltip green">
-						<>todo</>
-						{/* <AntIcon type="user" /> */}
+						<FaUserAlt />
 					</span>
 				</Tooltip>
 			);
@@ -458,7 +466,7 @@ class AccountSelector extends React.Component {
 					title={counterpart.translate('tooltip.scam_account')}
 				>
 					<span className="tooltip red">
-						<>todo</> {/* <AntIcon type="warning" theme="filled" /> */}
+						<AiFillWarning />
 					</span>
 				</Tooltip>
 			);
@@ -470,7 +478,7 @@ class AccountSelector extends React.Component {
 					onClick={this._onRemoveContact.bind(this)}
 				>
 					<span className="tooltip green">
-						<>todo</> {/* <AntIcon type="star" theme="filled" /> */}
+						<AiFillStar />
 					</span>
 				</Tooltip>
 			);
@@ -482,7 +490,7 @@ class AccountSelector extends React.Component {
 					onClick={this._onAddContact.bind(this)}
 				>
 					<span className="tooltip">
-						<>todo</> {/* <AntIcon type="star" /> */}
+						<AiOutlineStar />
 					</span>
 				</Tooltip>
 			);
@@ -530,9 +538,9 @@ class AccountSelector extends React.Component {
 							value={account.data.name}
 							disabled={account.data.disabled ? true : undefined}
 						>
-							{account.data.isOwnAccount ? <AntIcon type="user" /> : null}
-							{account.data.isContact ? <AntIcon type="star" /> : null}
-							{account.data.isKnownScammer ? <AntIcon type="warning" /> : null}
+							{account.data.isOwnAccount ? <AiOutlineUser /> : null}
+							{account.data.isContact ? <AiOutlineStar /> : null}
+							{account.data.isKnownScammer ? <AiOutlineWarning /> : null}
 							&nbsp;
 							{account.data.name}
 							<span style={{float: 'right'}}>{account.data.statusLabel}</span>
@@ -609,7 +617,7 @@ class AccountSelector extends React.Component {
 					}}
 					onClick={() => this.setState({locked: false})}
 				>
-					<>todo</> {/* <AntIcon style={{fontSize: '1rem'}} type={'edit'} /> */}
+					<AiOutlineEdit css={{fontSize: '1rem'}} />
 				</div>
 			</Tooltip>
 		);
@@ -659,7 +667,7 @@ class AccountSelector extends React.Component {
 							{accountImageContainer}
 							{formContainer}
 							{searchInProgress ? (
-								<>todo</> // <AntIcon type="loading" style={{padding: 10}} />
+								<LoadingOutlined style={{padding: 10}} />
 							) : null}
 							{lockedStateContainer}
 							{this.props.children}

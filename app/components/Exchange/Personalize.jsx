@@ -4,6 +4,7 @@ import React from 'react';
 import Translate from 'react-translate-component';
 import {GroupOrderLimitSelector} from './OrderBook';
 import SettingsActions from 'actions/SettingsActions';
+import {AiFillQuestionCircle, AiFillInfoCircle} from 'react-icons/ai';
 
 class Personalize extends React.Component {
 	constructor(props) {
@@ -102,8 +103,7 @@ class Personalize extends React.Component {
 											'exchange.settings.tooltip.chart_type'
 										)}
 									>
-										<div>todo</div>{' '}
-										{/* <Icon type="question-circle" theme="filled" /> */}
+										<AiFillQuestionCircle />
 									</Tooltip>
 									&nbsp;
 									<Tooltip
@@ -111,8 +111,7 @@ class Personalize extends React.Component {
 											'exchange.settings.tooltip.chart_reload'
 										)}
 									>
-										<div>todo</div>
-										{/* <Icon type="info-circle" theme="filled" /> */}
+										<AiFillInfoCircle />
 									</Tooltip>
 								</h6>
 							</div>
@@ -151,8 +150,7 @@ class Personalize extends React.Component {
 										'exchange.settings.tooltip.chart_height'
 									)}
 								>
-									<div>todo</div>
-									{/* <Icon type="question-circle" theme="filled" /> */}
+									<AiFillQuestionCircle />
 								</Tooltip>
 							</h6>
 						</div>
@@ -175,9 +173,7 @@ class Personalize extends React.Component {
 											'exchange.settings.tooltip.chart_tools'
 										)}
 									>
-										<div>todo</div>
-
-										{/* <Icon type="question-circle" theme="filled" /> */}
+										<AiFillQuestionCircle />
 									</Tooltip>
 									&nbsp;
 									<Tooltip
@@ -185,8 +181,7 @@ class Personalize extends React.Component {
 											'exchange.settings.tooltip.chart_reload'
 										)}
 									>
-										<div>todo</div>
-										{/* <Icon type="info-circle" theme="filled" /> */}
+										<AiFillInfoCircle />
 									</Tooltip>
 								</h6>
 							</div>
@@ -211,8 +206,7 @@ class Personalize extends React.Component {
 											'exchange.settings.tooltip.show_markets'
 										)}
 									>
-										<div>todo</div>
-										{/* <Icon type="question-circle" theme="filled" /> */}
+										<AiFillQuestionCircle />
 									</Tooltip>
 									&nbsp;
 									<Tooltip
@@ -220,8 +214,7 @@ class Personalize extends React.Component {
 											'exchange.settings.tooltip.chart_reload'
 										)}
 									>
-										<div>todo</div>
-										{/* <Icon type="info-circle" theme="filled" /> */}
+										<AiFillInfoCircle />
 									</Tooltip>
 								</h6>
 							</div>
@@ -246,8 +239,7 @@ class Personalize extends React.Component {
 											'exchange.settings.tooltip.chart_zoom'
 										)}
 									>
-										<div>todo</div>
-										{/* <Icon type="question-circle" theme="filled" /> */}
+										<AiFillQuestionCircle />
 									</Tooltip>
 									&nbsp;
 									<Tooltip
@@ -255,8 +247,7 @@ class Personalize extends React.Component {
 											'exchange.settings.tooltip.chart_reload'
 										)}
 									>
-										<div>todo</div>
-										{/* <Icon type="info-circle" theme="filled" /> */}
+										<AiFillInfoCircle />
 									</Tooltip>
 								</h6>
 							</div>
@@ -283,8 +274,7 @@ class Personalize extends React.Component {
 										'exchange.settings.tooltip.order_book_grouping'
 									)}
 								>
-									<div>todo</div>
-									{/* <Icon type="question-circle" theme="filled" /> */}
+									<AiFillQuestionCircle />
 								</Tooltip>
 							</h6>
 						</div>
@@ -313,8 +303,7 @@ class Personalize extends React.Component {
 											'exchange.settings.tooltip.order_style'
 										)}
 									>
-										<div>todo</div>
-										{/* <Icon type="question-circle" theme="filled" /> */}
+										<AiFillQuestionCircle />
 									</Tooltip>
 								</h6>
 							</div>
@@ -354,8 +343,7 @@ class Personalize extends React.Component {
 											'exchange.settings.tooltip.position_order_form'
 										)}
 									>
-										<div>todo</div>
-										{/* <Icon type="question-circle" theme="filled" /> */}
+										<AiFillQuestionCircle />
 									</Tooltip>
 								</h6>
 							</div>
@@ -395,8 +383,7 @@ class Personalize extends React.Component {
 											'exchange.settings.tooltip.position_order_orders'
 										)}
 									>
-										<div>todo</div>
-										{/* <Icon type="question-circle" theme="filled" /> */}
+										<AiFillQuestionCircle />
 									</Tooltip>
 								</h6>
 							</div>
@@ -436,8 +423,7 @@ class Personalize extends React.Component {
 											'exchange.settings.tooltip.position_order_asset'
 										)}
 									>
-										<div>todo</div>
-										{/* <Icon type="question-circle" theme="filled" /> */}
+										<AiFillQuestionCircle />
 									</Tooltip>
 								</h6>
 							</div>
@@ -475,8 +461,7 @@ class Personalize extends React.Component {
 											'exchange.settings.tooltip.orderbook_auto_scroll'
 										)}
 									>
-										<div>todo</div>
-										{/* <Icon type="question-circle" theme="filled" /> */}
+										<AiFillQuestionCircle />
 									</Tooltip>
 								</h6>
 							</div>
@@ -501,8 +486,7 @@ class Personalize extends React.Component {
 											'exchange.settings.tooltip.reverse_order_book'
 										)}
 									>
-										<div>todo</div>
-										{/* <Icon type="question-circle" theme="filled" /> */}
+										<AiFillQuestionCircle />
 									</Tooltip>
 								</h6>
 							</div>
@@ -527,8 +511,7 @@ class Personalize extends React.Component {
 											'exchange.settings.tooltip.single_colum_order_form'
 										)}
 									>
-										<div>todo</div>
-										{/* <Icon type="question-circle" theme="filled" /> */}
+										<AiFillQuestionCircle />
 									</Tooltip>
 								</h6>
 							</div>
@@ -551,8 +534,7 @@ class Personalize extends React.Component {
 									'exchange.settings.tooltip.panel_grouping'
 								)}
 							>
-								<div>todo</div>
-								{/* <Icon type="question-circle" theme="filled" /> */}
+								<AiFillQuestionCircle />
 							</Tooltip>
 						</header>
 					)}
@@ -637,8 +619,7 @@ class Personalize extends React.Component {
 											'exchange.settings.tooltip.market_location'
 										)}
 									>
-										<div>todo</div>
-										{/* <Icon type="question-circle" theme="filled" /> */}
+										<AiFillQuestionCircle />
 									</Tooltip>
 								</h6>
 							</div>
@@ -673,8 +654,7 @@ class Personalize extends React.Component {
 											'exchange.settings.tooltip.reduce_scrollbars'
 										)}
 									>
-										<div>todo</div>
-										{/* <Icon type="question-circle" theme="filled" /> */}
+										<AiFillQuestionCircle />
 									</Tooltip>
 									&nbsp;
 									<Tooltip
@@ -682,8 +662,7 @@ class Personalize extends React.Component {
 											'exchange.settings.tooltip.reload'
 										)}
 									>
-										<div>todo</div>
-										{/* <Icon type="info-circle" theme="filled" /> */}
+										<AiFillInfoCircle />
 									</Tooltip>
 								</h6>
 							</div>
@@ -708,8 +687,7 @@ class Personalize extends React.Component {
 											'exchange.settings.tooltip.hide_function_buttons'
 										)}
 									>
-										<div>todo</div>
-										{/* <Icon type="question-circle" theme="filled" /> */}
+										<AiFillQuestionCircle />
 									</Tooltip>
 								</h6>
 							</div>

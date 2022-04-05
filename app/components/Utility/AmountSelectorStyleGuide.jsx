@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import {DecimalChecker} from './DecimalChecker';
 import {Form, Input} from 'antd';
 import AssetSelect from './AssetSelect';
+import {AiOutlineUnlock, AiOutlineLock} from 'react-icons/ai';
 
 class AmountSelector extends DecimalChecker {
 	static propTypes = {
@@ -79,17 +80,25 @@ class AmountSelector extends DecimalChecker {
 
 		let addonBefore =
 			typeof this.props.lockStatus == 'boolean' ? (
-				<div>todo</div>
-			) : // <Icon
-			//     className={!this.props.lockStatus ? "grey" : "green"}
-			//     type={!this.props.lockStatus ? "unlock" : "lock"}
-			//     onClick={this._onLockChange.bind(
-			//         this,
-			//         !this.props.lockStatus ? true : false
-			//     )}
-			//     style={{fontSize: "20px"}}
-			// />
-			null;
+				<>
+					{!this.props.lockStatus ? (
+						<AiOutlineUnlock
+							className={'grey'}
+							onClick={this._onLockChange.bind(
+								this,
+								!this.props.lockStatus ? true : false
+							)}
+							css={{fontSize: '20px'}}
+						/>
+					) : (
+						<AiOutlineLock
+							className={'green'}
+							onClick={this._onLockChange.bind(this, false)}
+							css={{fontSize: '20px'}}
+						/>
+					)}
+				</>
+			) : null;
 
 		let addonAfter = this.props.isPrice ? (
 			<div>

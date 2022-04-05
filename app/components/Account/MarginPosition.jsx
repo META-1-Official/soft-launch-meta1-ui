@@ -16,6 +16,7 @@ import {List} from 'immutable';
 import {Link} from 'react-router-dom';
 import {Tooltip} from 'antd';
 import asset_utils from '../../lib/common/asset_utils';
+import {AiFillQuestionCircle} from 'react-icons/ai';
 
 const alignRight = {textAlign: 'right'};
 const alignLeft = {textAlign: 'left'};
@@ -371,7 +372,7 @@ class MarginPosition extends React.Component {
 							})}
 						>
 							<div style={{paddingBottom: 5}}>
-								<>todo</> {/* <AntIcon type={'question-circle'} /> */}
+								<AiFillQuestionCircle />
 							</div>
 						</Tooltip>
 					) : (

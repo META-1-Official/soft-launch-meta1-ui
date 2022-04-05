@@ -14,7 +14,7 @@ import utils from 'common/utils';
 import Operation from 'components/Blockchain/Operation';
 import notify from 'actions/NotificationActions';
 import {Modal, Button, Alert, Switch} from 'antd';
-
+import {LoadingOutlined} from '@ant-design/icons';
 class TransactionConfirm extends React.Component {
 	constructor(props) {
 		super(props);
@@ -175,7 +175,7 @@ class TransactionConfirm extends React.Component {
 			header = (
 				<div>
 					{counterpart.translate('transaction.broadcasting')}
-					<div>todo</div> {/* <AIcon type="loading" /> */}
+					<LoadingOutlined />
 				</div>
 			);
 			footer = [];
