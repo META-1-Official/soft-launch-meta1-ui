@@ -3,6 +3,7 @@ import QrReader from 'react-qr-reader';
 import counterpart from 'counterpart';
 import PropTypes from 'prop-types';
 import {Modal, Button} from 'antd';
+import {FaCamera} from 'react-icons/fa';
 
 class QRScanner extends React.Component {
 	modalId = 'qr_scanner_modal';
@@ -99,12 +100,10 @@ class QRScanner extends React.Component {
 
 		return (
 			<div className="qr-address-scanner">
-				{/* <Icon
-					type="camera"
+				<FaCamera
 					onClick={this.handleClick}
-					style={{fontSize: '24px', padding: 5}}
-				/> */}
-				<div> todo</div>
+					css={{fontSize: '24px', padding: 5}}
+				/>
 				<Modal
 					visible={this.state.visible}
 					className="qr-address-scanner-modal"

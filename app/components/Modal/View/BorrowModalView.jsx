@@ -8,6 +8,7 @@ import counterpart from 'counterpart';
 import HelpContent from '../../Utility/HelpContent';
 import {Checkbox, Tooltip, Form, Slider, Input, Row, Col} from 'antd';
 import asset_utils from '../../../lib/common/asset_utils';
+import {AiOutlineQuestionCircle} from 'react-icons/ai';
 
 export function BorrowModalView({
 	// Objects
@@ -308,7 +309,7 @@ export function BorrowModalView({
 												'tooltip.target_collateral_ratio'
 											)}
 										>
-											<div>todo</div> {/* <Icon type="question-circle" /> */}
+											<AiOutlineQuestionCircle />
 										</Tooltip>
 									</Input.Group>
 

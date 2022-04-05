@@ -5,6 +5,7 @@ import AssetName from '../Utility/AssetName';
 import {PRICE_ALERT_TYPES} from '../../services/Exchange';
 import AssetWrapper from '../Utility/AssetWrapper';
 import counterpart from 'counterpart';
+import {AiOutlinePlus} from 'react-icons/ai';
 
 class PriceAlert extends React.Component {
 	constructor(props) {
@@ -293,7 +294,7 @@ class PriceAlert extends React.Component {
 
 							<div className="exchange--price-alert--items--add">
 								<a href="javascript:void(0)" onClick={this.handleAddRule}>
-									<div> todo</div> {/* <Icon type="plus" />{" "} */}
+									<AiOutlinePlus />
 									{counterpart.translate('exchange.price_alert.add_rule')}
 								</a>
 							</div>

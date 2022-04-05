@@ -17,6 +17,7 @@ import {Route} from 'react-router-dom';
 import {getWalletName, getLogo} from 'branding';
 import {Select, Row, Col} from 'antd';
 var logo = getLogo();
+import {AiOutlineGlobal} from 'react-icons/ai';
 
 const FlagImage = ({flag, width = 50, height = 50}) => {
 	return (
@@ -141,11 +142,7 @@ class LoginSelector extends React.Component {
 									>
 										<Row className="login-selector--language-select--wrapper">
 											<Col span={4}>
-												<div>todo</div>
-												{/* <Icon
-													type="global"
-													className="login-selector--language-select--icon"
-												/> */}
+												<AiOutlineGlobal className="login-selector--language-select--icon" />
 											</Col>
 											<Col span={20}>{flagDropdown}</Col>
 										</Row>

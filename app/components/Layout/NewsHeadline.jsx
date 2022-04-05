@@ -6,6 +6,7 @@ import {connect} from 'alt-react';
 import SettingsStore from 'stores/SettingsStore';
 import {hash} from 'meta1js';
 import {getNotifications, getGateways} from '../../lib/chain/onChainConfig';
+import {AiOutlineClose} from 'react-icons/ai';
 
 const getNewsItemHash = (news) => {
 	return hash
@@ -136,14 +137,12 @@ class NewsHeadline extends React.Component {
 					<div className="git-info" key={`git-alert${index}`}>
 						<Alert type={type} message={content} banner />
 						{type === 'info' || type === 'warning' ? (
-							<div>todo</div>
-						) : // <Icon
-						//     type="close"
-						//     className="close-icon"
-						//     style={{cursor: "pointer"}}
-						//     onClick={this.onClose.bind(this, item)}
-						// />
-						null}
+							<AiOutlineClose
+								className="close-icon"
+								css={{cursor: 'pointer'}}
+								onClick={this.onClose.bind(this, item)}
+							/>
+						) : null}
 					</div>,
 				];
 			}

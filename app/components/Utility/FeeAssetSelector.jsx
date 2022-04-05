@@ -12,6 +12,7 @@ import debounceRender from 'react-debounce-render';
 import {connect} from 'alt-react';
 import SettingsStore from '../../stores/SettingsStore';
 import {checkFeeStatusAsync} from 'common/trxHelper';
+import {AiOutlineQuestionCircle} from 'react-icons/ai';
 
 class FeeAssetSelector extends React.Component {
 	static propTypes = {
@@ -237,8 +238,7 @@ class FeeAssetSelector extends React.Component {
 							'transfer.errors.' + this.state.error.tooltip
 						)}
 					>
-						&nbsp; <div>todo</div>
-						{/* <Icon type="question-circle" /> */}
+						&nbsp; <AiOutlineQuestionCircle />
 					</Tooltip>
 				)}
 			</div>

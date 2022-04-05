@@ -29,6 +29,7 @@ import Translate from 'react-translate-component';
 import AssetName from '../Utility/AssetName';
 import TranslateWithLinks from '../Utility/TranslateWithLinks';
 import StyledButton from 'components/Button/Button';
+import {FaQuestionCircle} from 'react-icons/fa';
 
 class AccountPortfolioList extends React.Component {
 	constructor(props) {
@@ -602,7 +603,7 @@ class AccountPortfolioList extends React.Component {
 				}
 				settleLink =
 					isPrediction && !globally_settled ? (
-						<>todosss</> //<AntIcon type={"question-circle"} />
+						<FaQuestionCircle />
 					) : (
 						<a onClick={this._onSettleAsset.bind(this, asset.get('id'))}>
 							<Icon name="settle" title="icons.settle" className="icon-14px" />
@@ -690,7 +691,7 @@ class AccountPortfolioList extends React.Component {
 								asset: isAssetBitAsset ? 'bit' + symbol : symbol,
 							})}
 						>
-							<>todossssee</> {/* <AntIcon type={'question-circle'} /> */}
+							<FaQuestionCircle />
 						</Tooltip>
 					) : (
 						emptyCell
@@ -719,15 +720,7 @@ class AccountPortfolioList extends React.Component {
 					>
 						Burn
 					</StyledButton>
-				) : // <a
-				// 	style={{marginRight: 0}}
-				// 	onClick={this._burnAsset.bind(this, asset.get('id'))}
-				// >
-				// 	<div className="portfolio-btn">
-				// 		<Icon name="fire" className="icon-14px" />
-				// 	</div>
-				// </a>
-				null,
+				) : null,
 			});
 		});
 		if (optionalAssets) {

@@ -16,6 +16,7 @@ import sanitize from 'sanitize';
 import counterpart from 'counterpart';
 import {bindToCurrentAccount, hasLoaded} from '../Utility/BindToCurrentAccount';
 import Operation from '../Blockchain/Operation';
+import {AiOutlineQuestionCircle} from 'react-icons/ai';
 
 // invoice example:
 //{
@@ -419,7 +420,7 @@ class Invoice extends React.Component {
 									title={counterpart.translate('invoice.tooltip_payment_proof')}
 									mouseEnterDelay={0.5}
 								>
-									<div>todo</div> {/* <Icon type="question-circle" /> */}
+									<AiOutlineQuestionCircle />
 								</Tooltip>
 							</h3>
 

@@ -11,7 +11,7 @@ import utils from 'common/utils';
 import AssetStore from 'stores/AssetStore';
 import {Form, Input, Modal} from 'antd';
 import AssetName from '../Utility/AssetName';
-
+import {LoadingOutlined} from '@ant-design/icons';
 class MarketListItem extends Component {
 	static propTypes = {
 		onClose: PropTypes.func,
@@ -333,10 +333,7 @@ class MarketPickerWrapper extends Component {
 					</ul>
 				</div>
 			);
-		return (
-			<>todo loading</>
-			// <AntIcon style={{marginLeft: '8px'}} type="loading" theme="outlined" />
-		);
+		return <LoadingOutlined style={{marginLeft: '8px'}} />;
 	}
 
 	render() {

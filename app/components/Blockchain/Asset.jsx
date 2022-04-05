@@ -26,6 +26,8 @@ import AssetPublishFeed from './AssetPublishFeed';
 import AssetResolvePrediction from './AssetResolvePrediction';
 import BidCollateralOperation from './BidCollateralOperation';
 import {Tooltip, Table, Collapse} from 'antd';
+import {AiFillQuestionCircle} from 'react-icons/ai';
+
 const {Panel} = Collapse;
 
 class AssetFlag extends React.Component {
@@ -491,8 +493,7 @@ class Asset extends React.Component {
 							)}
 						>
 							<Translate content="explorer.asset.summary.market_fee_referral_reward_percent" />{' '}
-							{/* <Icon type="question-circle" theme="filled" /> */}{' '}
-							<div>todo</div>
+							<AiFillQuestionCircle />
 						</Tooltip>
 					</td>
 					<td> {options.extensions.reward_percent / 100.0} % </td>

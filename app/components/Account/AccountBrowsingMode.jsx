@@ -7,7 +7,7 @@ import SettingsActions from 'actions/SettingsActions';
 import counterpart from 'counterpart';
 import Translate from 'react-translate-component';
 import {Button, Modal, Popover, Tooltip} from 'antd';
-
+import {AiOutlineEye} from 'react-icons/ai';
 class AccountBrowsingMode extends React.Component {
 	constructor(props) {
 		super(props);
@@ -100,13 +100,11 @@ class AccountBrowsingMode extends React.Component {
 					}
 					placement="bottom"
 				>
-					<div> todo</div>
-					{/* <Icon
-                        style={{marginLeft: 10}}
-                        className="blue"
-                        type="eye"
-                        onClick={this.handleSwitchBack}
-                    /> */}
+					<AiOutlineEye
+						css={{marginLeft: 10}}
+						className="blue"
+						onClick={this.handleSwitchBack}
+					/>
 				</Popover>
 			) : null;
 		} else {

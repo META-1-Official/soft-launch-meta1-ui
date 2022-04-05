@@ -21,6 +21,7 @@ import AssetName from '../Utility/AssetName';
 import {EquivalentValueComponent} from '../Utility/EquivalentValueComponent';
 import utils from 'common/utils';
 import asset_utils from 'common/asset_utils';
+import {FaChartBar} from 'react-icons/fa';
 
 class AccountOrders extends React.Component {
 	constructor(props) {
@@ -307,7 +308,7 @@ class AccountOrders extends React.Component {
 								'symbol'
 							)}`}
 						>
-							<div> todo </div> {/* <Icon type="bar-chart" /> */}
+							<FaChartBar />
 						</Link>
 					);
 				},

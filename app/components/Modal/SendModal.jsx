@@ -16,12 +16,13 @@ import utils from 'common/utils';
 import counterpart from 'counterpart';
 import {connect} from 'alt-react';
 import {getWalletName} from 'branding';
-import {Form, Modal, Button, Tooltip, Input} from 'antd';
+import {Form, Modal, Button, Tooltip, Input, Space} from 'antd';
 import swal from 'sweetalert';
 import WalletUnlockActions from '../../actions/WalletUnlockActions';
 import ReactTooltip from 'react-tooltip';
 import PrivateKeyStore from '../../stores/PrivateKeyStore';
 import WalletDb from '../../stores/WalletDb';
+import StyledButton from 'components/Button/Button';
 
 const EqualWidthContainer = ({children}) => (
 	<div
@@ -517,18 +518,20 @@ class SendModal extends React.Component {
 					<div className="grid-block vertical no-overflow">
 						<div className="content-block">
 							<EqualWidthContainer>
-								<Button
-									type={propose ? 'ghost' : 'primary'}
+								{/* <Space wrap> */}
+								<StyledButton
+									buttonType={propose ? 'transparent' : 'primary'}
 									onClick={this.onPropose}
 								>
 									<Translate content="transfer.send" />
-								</Button>
-								<Button
-									type={propose ? 'primary' : 'ghost'}
+								</StyledButton>
+								<StyledButton
+									buttonType={propose ? 'primary' : 'transparent'}
 									onClick={this.onPropose}
 								>
 									<Translate content="propose" />
-								</Button>
+								</StyledButton>
+								{/* </Space> */}
 							</EqualWidthContainer>
 						</div>
 						<div className="content-block" style={{textAlign: 'center'}}>

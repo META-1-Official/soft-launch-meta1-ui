@@ -19,6 +19,7 @@ import {bindToCurrentAccount} from '../Utility/BindToCurrentAccount';
 import AssetStore from '../../stores/AssetStore';
 import MarketsStore from '../../stores/MarketsStore';
 import {connect} from 'alt-react';
+import {AiFillQuestionCircle} from 'react-icons/ai';
 
 const ISSUERS_WHITELIST = ['1.2.1634961']; // "iamredbar1", "sports-owner", "twat123"
 
@@ -572,15 +573,11 @@ class PredictionMarkets extends Component {
 									'prediction.tooltips.hide_unknown_houses'
 								)}
 							>
-								<div>todo</div>
-
-								{/* <Icon
-                                    style={{
-                                        marginLeft: "0.5rem"
-                                    }}
-                                    type="question-circle"
-                                    theme="filled"
-                                /> */}
+								<AiFillQuestionCircle
+									css={{
+										marginLeft: '0.5rem',
+									}}
+								/>
 							</Tooltip>
 							<Switch
 								style={{marginLeft: '20px'}}
@@ -600,15 +597,11 @@ class PredictionMarkets extends Component {
 									'prediction.tooltips.hide_invalid_asset'
 								)}
 							>
-								<div>todo</div>
-
-								{/* <Icon
-									style={{
+								<AiFillQuestionCircle
+									css={{
 										marginLeft: '0.5rem',
 									}}
-									type="question-circle"
-									theme="filled"
-								/> */}
+								/>
 							</Tooltip>
 						</span>
 					</div>
@@ -618,16 +611,12 @@ class PredictionMarkets extends Component {
 								'prediction.tooltips.create_prediction_market_asset'
 							)}
 						>
-							<div>todo</div>
-
-							{/* <Icon
-								style={{
+							<AiFillQuestionCircle
+								css={{
 									fontSize: '1.3rem',
 									marginRight: '0.5rem',
 								}}
-								type="question-circle"
-								theme="filled"
-							/> */}
+							/>
 						</Tooltip>
 						<Button onClick={this.onCreatePredictionMarketModalOpen}>
 							{counterpart.translate('prediction.overview.create_market')}
@@ -663,15 +652,11 @@ class PredictionMarkets extends Component {
 							'prediction.tooltips.what_is_a_prediction_offer'
 						)}
 					>
-						<div>todo</div>
-
-						{/* <Icon
-							style={{
+						<AiFillQuestionCircle
+							css={{
 								marginLeft: '0.5rem',
 							}}
-							type="question-circle"
-							theme="filled"
-						/> */}
+						/>
 					</Tooltip>
 				</h3>
 				<div
@@ -706,16 +691,12 @@ class PredictionMarkets extends Component {
 								'prediction.tooltips.add_prediction'
 							)}
 						>
-							<div>todo</div>
-
-							{/* <Icon
-								style={{
+							<AiFillQuestionCircle
+								css={{
 									fontSize: '1.3rem',
 									marginRight: '0.5rem',
 								}}
-								type="question-circle"
-								theme="filled"
-							/> */}
+							/>
 						</Tooltip>
 						<Button onClick={this.onAddOpinionModalOpen}>
 							{counterpart.translate('prediction.details.add_prediction')}

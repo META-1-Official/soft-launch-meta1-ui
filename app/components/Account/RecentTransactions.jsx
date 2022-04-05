@@ -35,6 +35,7 @@ import OperationAnt from '../Blockchain/OperationAnt';
 import SettingsStore from 'stores/SettingsStore';
 import {connect} from 'alt-react';
 import PendingBlock from '../Utility/PendingBlock';
+import {AiOutlineFileSearch} from 'react-icons/ai';
 
 const operation = new OperationAnt();
 
@@ -311,8 +312,7 @@ class RecentTransactions extends React.Component {
 						className="cursor-pointer"
 						onClick={() => this.openJSONModal(o.id)}
 					>
-						{o.id} <>todo</>
-						{/* <AntIcon type="file-search" /> */}
+						{o.id} <AiOutlineFileSearch />
 					</span>
 					<JSONModal
 						visible={this.state.visibleId === o.id}

@@ -140,14 +140,24 @@ const GlobalStyles = (theme: any) => css`
 	.ant-pagination-total-text {
 		color: ${theme.colors.themeOpositeColor};  
 	}
+	.ant-pagination-item {
+		background: transparent; 
+		border:none;
+		line-height: 26px;
+		min-width: 26px;
+    height: 26px;
+	}
 	.ant-pagination-prev .ant-pagination-item-link, .ant-pagination-next .ant-pagination-item-link {
 		background-color: transparent;
 		color: ${theme.colors.themeOpositeColor};  
 		border: none;
 	}
-	.ant-pagination-item-active {
+ 	.ant-pagination-item-active {
 		background-color: ${theme.colors.primaryColor};
 	  a {	color: ${theme.colors.tableActivePagination}; } 
+		&:hover{
+			a {	color: ${theme.colors.tableActivePagination}; } 
+		}
 		border: none;
 	}
   

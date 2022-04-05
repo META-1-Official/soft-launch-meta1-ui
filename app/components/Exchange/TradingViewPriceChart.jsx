@@ -8,6 +8,7 @@ import SettingsStore from 'stores/SettingsStore';
 import SettingsActions from 'actions/SettingsActions';
 import {connect} from 'alt-react';
 import Translate from 'react-translate-component';
+import {AiOutlineDelete} from 'react-icons/ai';
 
 // import MarketsStore from "stores/MarketsStore";
 
@@ -273,12 +274,10 @@ class TradingViewPriceChart extends React.Component {
 				key: 'actions',
 				render: (text, record) => {
 					return (
-						<div> todo</div>
-						// <Icon
-						//     style={{width: "32px"}}
-						//     onClick={this.handleDelete.bind(this, record.name)}
-						//     type="delete"
-						// />
+						<AiOutlineDelete
+							css={{width: '32px'}}
+							onClick={this.handleDelete.bind(this, record.name)}
+						/>
 					);
 				},
 			},
