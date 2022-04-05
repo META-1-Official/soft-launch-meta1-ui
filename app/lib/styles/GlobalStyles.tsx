@@ -7,9 +7,7 @@ const GlobalStyles = (theme: any) => css`
 	.ant-typography {
 		//	color: ${theme.colors.themeOpositeColor};
 	}
-	.ant-tabs {
-		color: ${theme.colors.themeOpositeColor};;
-	}
+	
 
 	.ant-radio-wrapper {
 		color: ${theme.colors.themeOpositeColor};
@@ -78,6 +76,9 @@ const GlobalStyles = (theme: any) => css`
 		height: 19px;
 	}
 	.ant-tabs {
+		color: ${theme.colors.themeOpositeColor};;
+	}
+	.ant-tabs {
 		.ant-tabs-nav::before {
 			border-bottom: none;
 		}
@@ -90,6 +91,22 @@ const GlobalStyles = (theme: any) => css`
 		.ant-tabs-tab.ant-tabs-tab-active {
 			border-bottom: 2px solid ${theme.colors.primaryColor} !important;
 			z-index: 2;
+		}
+
+	}
+	.ant-tabs-card {
+		.ant-tabs-tab-btn {
+			color: ${theme.colors.tabCardNavColor}
+		}
+		.ant-tabs-nav .ant-tabs-tab, .ant-tabs-card > div > .ant-tabs-nav .ant-tabs-tab {
+			background: transparent;
+			border: none;
+		}
+		.ant-tabs-tab.ant-tabs-tab-active {
+			border-top: 2px solid ${theme.colors.primaryColor} !important;
+			z-index: 2;
+			border-bottom: none !important;
+			background-color: ${theme.colors.black}
 		}
 	}
 	.ant-table {

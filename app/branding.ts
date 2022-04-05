@@ -60,6 +60,21 @@ export function getFaucet() {
 export function getLogo() {
 	return require('assets/logo-ico-blue.png');
 }
+/**
+ * Logo that is used throughout the UI
+ * @returns {*}
+ */
+export function getBankingAssetsLogo() {
+	return require('assets/banking-assets/bankingAssetsLogo.png');
+}
+
+/**
+ * get any Image that is used throughout the UI
+ * @returns {*}
+ */
+export function getGoldImage() {
+	return require('assets/banking-assets/gold.png');
+}
 
 /**
  * Default set theme for the UI
