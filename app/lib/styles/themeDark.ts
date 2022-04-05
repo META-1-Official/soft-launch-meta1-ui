@@ -25,6 +25,7 @@ const theme = {
 		tableColumnColor: '#15171b',
 		tableColumnHoverColor: '#15171beb',
 		tableActivePagination: '#0a0b0d',
+		tabCardNavColor: '#969ba6',
 		hrColor: '#0a0b0d',
 		helpTextColor: '#cecece',
 		helpSideBarColor: '#111215',
