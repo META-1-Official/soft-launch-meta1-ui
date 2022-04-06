@@ -22,7 +22,7 @@ import ChainTypes from '../Utility/ChainTypes';
 import FormattedAsset from '../Utility/FormattedAsset';
 import BalanceComponent from '../Utility/BalanceComponent';
 import QRScanner from '../QRAddressScanner';
-import {Modal, Button, Select, Input} from 'bitshares-ui-style-guide';
+import {Modal, Button, Select, Input} from 'antd';
 import counterpart from 'counterpart';
 import {
 	gatewaySelector,

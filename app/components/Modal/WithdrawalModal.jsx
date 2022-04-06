@@ -15,7 +15,7 @@ import ChainTypes from '../Utility/ChainTypes';
 import utils from 'common/utils';
 import counterpart from 'counterpart';
 import {connect} from 'alt-react';
-import {Form, Modal, Button, Tooltip, Input} from 'bitshares-ui-style-guide';
+import {Form, Modal, Button, Tooltip, Input} from 'antd';
 import WalletUnlockActions from 'actions/WalletUnlockActions';
 import ReactTooltip from 'react-tooltip';
 import WalletDb from 'stores/WalletDb';

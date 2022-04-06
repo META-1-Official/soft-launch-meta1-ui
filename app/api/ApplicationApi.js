@@ -11,7 +11,7 @@ import {
 	ChainTypes,
 } from 'meta1js';
 import counterpart from 'counterpart';
-import {Notification} from 'bitshares-ui-style-guide';
+import {notification} from 'antd';
 
 const ApplicationApi = {
 	create_account(
@@ -94,7 +94,7 @@ const ApplicationApi = {
 		if (with_private_keys) {
 			memo.private_key = WalletDb.getPrivateKey(memo.public_key);
 			if (!memo.private_key) {
-				Notification.error({
+				notification.error({
 					message: counterpart.translate('account.errors.memo_missing'),
 				});
 				throw new Error(
