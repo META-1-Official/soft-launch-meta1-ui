@@ -5,19 +5,22 @@ import {ChainStore} from 'meta1js';
 import AmountSelector from '../Utility/AmountSelectorStyleGuide';
 import AccountStore from 'stores/AccountStore';
 import TransactionConfirmStore from 'stores/TransactionConfirmStore';
+import GatewayStore from 'stores/GatewayStore';
+import Immutable from 'immutable';
 import {Asset} from 'common/MarketClasses';
 import {isNaN} from 'lodash-es';
 import {checkBalance} from 'common/trxHelper';
 import BalanceComponent from '../Utility/BalanceComponent';
+import ChainTypes from '../Utility/ChainTypes';
 import utils from 'common/utils';
 import counterpart from 'counterpart';
 import {connect} from 'alt-react';
-import {Form, Modal, Button, Tooltip, Input} from 'antd';
+import {Form, Modal, Button, Tooltip, Input} from 'bitshares-ui-style-guide';
 import WalletUnlockActions from 'actions/WalletUnlockActions';
 import ReactTooltip from 'react-tooltip';
 import WalletDb from 'stores/WalletDb';
 import PrivateKeyStore from 'stores/PrivateKeyStore';
-import CAValidator from 'cryptocurrency-address-validator';
+import CAValidator from 'multicoin-address-validator';
 import swal from 'sweetalert';
 
 const getUninitializedFeeAmount = () =>
@@ -128,7 +131,8 @@ class WithdrawalModal extends React.Component {
 			precision: asset.get('precision'),
 		});
 
-		let amountToSend = (sendAmount.getAmount() * 1) / 10000;
+		let amountToSend =
+			(sendAmount.getAmount() * 1) / Math.pow(10, asset.get('precision'));
 
 		const minWithdrawal = {
 			BTC: 0.001,
@@ -150,11 +154,11 @@ class WithdrawalModal extends React.Component {
 		}
 
 		const wendpoints = {
-			BTC: 'https://asterope.meta-exchange.info/testnet-wbtc',
-			ETH: 'https://aphrodite.meta-exchange.info/weth',
-			LTC: 'https://alcyone.meta-exchange.info/wltc',
-			EOS: 'https://asterope.meta-exchange.info/weos',
-			XLM: 'https://asterope.meta-exchange.info/wxlm',
+			BTC: 'https://gateway.dev.meta1.io/api/withdraw/btc/',
+			ETH: 'https://gateway.dev.meta1.io/api/withdraw/eth/',
+			LTC: 'https://gateway.dev.meta1.io/api/withdraw/ltc/',
+			// EOS: "https://asterope.meta-exchange.info/weos",
+			// XLM: "https://asterope.meta-exchange.info/wxlm"
 		};
 
 		const withdrawalFee = {
@@ -209,7 +213,7 @@ class WithdrawalModal extends React.Component {
 						privatekey,
 					};
 				}
-				console.log('@03 - send withdraw request payload: ', queryBody);
+
 				fetch(url_endpoit, {
 					method: 'POST',
 					headers: {
@@ -222,7 +226,6 @@ class WithdrawalModal extends React.Component {
 					}),
 				})
 					.then((response) => {
-						console.log(response);
 						//console.log(this.state.asset + "balance: " +totalBalance + " " + amountToSend + " " + AccountStore.getState().currentAccount + " " + this.state.address + " " + this.state.memo  + " " + privatekey);
 					})
 					.catch((error) => {
@@ -261,13 +264,11 @@ class WithdrawalModal extends React.Component {
 				if (this.state.address !== '') {
 					if (asset.get('symbol') == 'EOS' && this.state.address.length == 12)
 						return this.setState({submitted: 'Correct!'});
-
 					let valid = CAValidator.validate(
 						this.state.address,
 						asset.get('symbol'),
 						'testnet'
 					);
-
 					if (valid) {
 						this.setState({submitted: 'Correct!'});
 					} else {
@@ -320,7 +321,7 @@ class WithdrawalModal extends React.Component {
 
 	componentWillReceiveProps(np) {
 		if (
-			np.currentAccount !== this.state.from_name &&
+			np.currentAccount !== this.state.from_name ||
 			np.currentAccount !== this.props.currentAccount
 		) {
 			this.setState({
@@ -721,18 +722,47 @@ class WithdrawalModal extends React.Component {
 
 class WithdrawalModalConnectWrapper extends React.Component {
 	render() {
-		return <WithdrawalModal {...this.props} ref={this.props.refCallback} />;
+		let withdrawAssets = Immutable.List();
+		let intermediateAccounts = Immutable.List();
+
+		this.props.backedCoins.forEach((gateway) => {
+			gateway.forEach((coin) => {
+				if (coin.withdrawalAllowed) {
+					withdrawAssets.push(coin.symbol);
+					let withdrawAccount = getIntermediateAccount(
+						coin.symbol,
+						this.props.backedCoins
+					);
+
+					if (
+						withdrawAccount &&
+						!intermediateAccounts.includes(withdrawAccount)
+					)
+						intermediateAccounts = intermediateAccounts.push(withdrawAccount);
+				}
+			});
+		});
+
+		return (
+			<WithdrawalModal
+				{...this.props}
+				ref={this.props.refCallback}
+				withdrawAssets={withdrawAssets}
+				intermediateAccounts={intermediateAccounts}
+			/>
+		);
 	}
 }
 
 WithdrawalModalConnectWrapper = connect(WithdrawalModalConnectWrapper, {
 	listenTo() {
-		return [AccountStore];
+		return [AccountStore, GatewayStore];
 	},
 	getProps(props) {
 		return {
 			currentAccount: AccountStore.getState().currentAccount,
 			passwordAccount: AccountStore.getState().passwordAccount,
+			backedCoins: GatewayStore.getState().backedCoins,
 			tabIndex: props.tabIndex || 0,
 		};
 	},

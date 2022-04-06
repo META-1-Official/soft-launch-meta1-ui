@@ -19,6 +19,7 @@ import {
 import AccountActions from 'actions/AccountActions';
 import AccountStore from 'stores/AccountStore';
 import SettingsStore from 'stores/SettingsStore';
+import GatewayStore from 'stores/GatewayStore';
 import SettingsActions from 'actions/SettingsActions';
 import ZfApi from 'react-foundation-apps/src/utils/foundation-api';
 import SendModal from '../Modal/SendModal';
@@ -76,7 +77,6 @@ class Header extends React.Component {
 			isDepositModalVisibleBtc: false,
 			isWithdrawModalVisible: false,
 			hasWithdrawalModalBeenShown: false,
-			isWithdrawModalVisibleMeta: false,
 		};
 
 		this._accountNotificationActiveKeys = [];
@@ -126,6 +126,7 @@ class Header extends React.Component {
 		this.hideDepositModal = this.hideDepositModal.bind(this);
 
 		this.showWithdrawModal = this.showWithdrawModal.bind(this);
+		this.hideWithdrawModal = this.hideWithdrawModal.bind(this);
 
 		this.onBodyClick = this.onBodyClick.bind(this);
 	}
@@ -147,6 +148,12 @@ class Header extends React.Component {
 		this.setState({
 			isWithdrawModalVisible: true,
 			hasWithdrawalModalBeenShown: true,
+		});
+	}
+
+	hideWithdrawModal() {
+		this.setState({
+			isWithdrawModalVisible: false,
 		});
 	}
 
@@ -303,12 +310,6 @@ class Header extends React.Component {
 		this._closeDropdown();
 	}
 
-	_showWithdrawal(e) {
-		e.preventDefault();
-		if (this.withdrawal_modal) this.withdrawal_modal.show();
-		this._closeDropdown();
-	}
-
 	hideDepositModalBtc() {
 		this.setState({
 			isDepositModalVisibleBtc: false,
@@ -368,8 +369,8 @@ class Header extends React.Component {
 		ZfApi.publish('mobile-menu', 'toggle');
 	}
 
-	_toggleLock(e, fromMenu) {
-		!fromMenu && e.preventDefault();
+	_toggleLock(e) {
+		e.preventDefault();
 		if (WalletDb.isLocked()) {
 			WalletUnlockActions.unlock()
 				.then(() => {
@@ -390,8 +391,8 @@ class Header extends React.Component {
 		this._closeAccountNotifications();
 	}
 
-	_onNavigate(route, e, fromMenu) {
-		!fromMenu && e.preventDefault();
+	_onNavigate(route, e) {
+		e.preventDefault();
 
 		// Set Accounts Tab as active tab
 		if (route == '/accounts') {
@@ -614,7 +615,7 @@ class Header extends React.Component {
 			!!a &&
 			Apis.instance() &&
 			Apis.instance().chain_id &&
-			Apis.instance().chain_id.substr(0, 8) === '9e40bec4';
+			Apis.instance().chain_id.substr(0, 8) === '22a8d817';
 
 		if (starredAccounts.size) {
 			for (let i = tradingAccounts.length - 1; i >= 0; i--) {
@@ -1900,7 +1901,10 @@ class Header extends React.Component {
                                     showAccountLinks={showAccountLinks}
                                     tradeUrl={tradeUrl}
                                     currentAccount={currentAccount}
-									enableDepositWithdraw={enableDepositWithdraw}
+                                    enableDepositWithdraw={
+                                        enableDepositWithdraw
+                                    }
+                                    showWithdraw={this._showWithdraw.bind(this)}
                                     showDeposit={this._showDeposit.bind(this)}
                                     showSend={this._showSend.bind(this)}
                                     toggleDropdownSubmenu={this._toggleDropdownSubmenu.bind(
@@ -1919,33 +1923,71 @@ class Header extends React.Component {
                             )}
                     </div>
                 </div>
-			</div>
-			*/}
-
-				{/* <DepositModalEos
-                visibleMeta={this.state.isDepositModalVisibleEos}
-                hideModalMeta={this.hideDepositModalEos}
-                showModalMeta={this.showDepositModalEos}
-                ref="deposit_modal_newfsdfs11"
-                modalId="deposit_modal_newfsdfs11"
-                account={currentAccount}
-            />
-            <DepositModalBnb
-                visibleMeta={this.state.isDepositModalVisibleBnb}
-                hideModalMeta={this.hideDepositModalBnb}
-                showModalMeta={this.showDepositModalBnb}
-                ref="deposit_modal_newfsdfs11"
-                modalId="deposit_modal_newfsdfs11"
-                account={currentAccount}
-            />
-            <DepositModalXlm
-                visibleMeta={this.state.isDepositModalVisibleXlm}
-                hideModalMeta={this.hideDepositModalXlm}
-                showModalMeta={this.showDepositModalXlm}
-                ref="deposit_modal_newfsdfs1sd1"
-                modalId="deposit_modal_newfsdfs1sd1"
-                account={currentAccount}
-            /> */}
+                <SendModal
+                    id="send_modal_header"
+                    refCallback={e => {
+                        if (e) this.send_modal = e;
+                    }}
+                    from_name={currentAccount}
+                />
+                {this.state.hasWithdrawalModalBeenShown && (
+                    <WithdrawModal
+                        visible={this.state.isWithdrawModalVisible}
+                        hideModal={this.hideWithdrawModal}
+                        showModal={this.showWithdrawModal}
+                        ref="withdraw_modal_new"
+                        modalId="withdraw_modal_new"
+                        backedCoins={this.props.backedCoins}
+                    />
+                )}
+                <DepositModalBtc
+                    visibleMeta={this.state.isDepositModalVisibleBtc}
+                    hideModalMeta={this.hideDepositModalBtc}
+                    showModalMeta={this.showDepositModalBtc}
+                    ref="deposit_modal_new1"
+                    modalId="deposit_modal_new1"
+                    account={currentAccount}
+                />
+                <DepositModalEth
+                    visibleMeta={this.state.isDepositModalVisibleEth}
+                    hideModalMeta={this.hideDepositModalEth}
+                    showModalMeta={this.showDepositModalEth}
+                    ref="deposit_modal_new11"
+                    modalId="deposit_modal_new11"
+                    account={currentAccount}
+                />
+                <DepositModalUsdt
+                    visibleMeta={this.state.isDepositModalVisibleUsdt}
+                    hideModalMeta={this.hideDepositModalUsdt}
+                    showModalMeta={this.showDepositModalUsdt}
+                    ref="deposit_modal_new1331"
+                    modalId="deposit_modal_new1331"
+                    account={currentAccount}
+                />
+                {/* <DepositModalEos
+                    visibleMeta={this.state.isDepositModalVisibleEos}
+                    hideModalMeta={this.hideDepositModalEos}
+                    showModalMeta={this.showDepositModalEos}
+                    ref="deposit_modal_newfsdfs11"
+                    modalId="deposit_modal_newfsdfs11"
+                    account={currentAccount}
+                />
+                <DepositModalBnb
+                    visibleMeta={this.state.isDepositModalVisibleBnb}
+                    hideModalMeta={this.hideDepositModalBnb}
+                    showModalMeta={this.showDepositModalBnb}
+                    ref="deposit_modal_newfsdfs11"
+                    modalId="deposit_modal_newfsdfs11"
+                    account={currentAccount}
+                />
+                <DepositModalXlm
+                    visibleMeta={this.state.isDepositModalVisibleXlm}
+                    hideModalMeta={this.hideDepositModalXlm}
+                    showModalMeta={this.showDepositModalXlm}
+                    ref="deposit_modal_newfsdfs1sd1"
+                    modalId="deposit_modal_newfsdfs1sd1"
+                    account={currentAccount}
+                /> */}
 			</>
 		);
 	}
@@ -1953,11 +1995,18 @@ class Header extends React.Component {
 
 Header = connect(Header, {
 	listenTo() {
-		return [AccountStore, WalletUnlockStore, WalletManagerStore, SettingsStore];
+		return [
+			AccountStore,
+			WalletUnlockStore,
+			WalletManagerStore,
+			SettingsStore,
+			GatewayStore,
+		];
 	},
 	getProps() {
 		const chainID = Apis.instance().chain_id;
 		return {
+			backedCoins: GatewayStore.getState().backedCoins,
 			myActiveAccounts: AccountStore.getState().myActiveAccounts,
 			currentAccount:
 				AccountStore.getState().currentAccount ||

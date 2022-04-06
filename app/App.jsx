@@ -29,6 +29,7 @@ import AccountRegistration from './components/Registration/AccountRegistration';
 import {CreateWalletFromBrainkey} from './components/Wallet/WalletCreate';
 // import ShowcaseGrid from "./components/Showcases/ShowcaseGrid";
 import PriceAlertNotifications from './components/PriceAlertNotifications';
+import {updateGatewayBackers} from 'common/gatewayUtils';
 
 import {Route, Switch, Redirect} from 'react-router-dom';
 // Nested route components
@@ -327,6 +328,7 @@ class App extends React.Component {
 				this.setState({incognito});
 			}.bind(this)
 		);
+		updateGatewayBackers();
 	}
 
 	componentDidUpdate(prevProps) {
@@ -397,12 +399,6 @@ class App extends React.Component {
 		let {incognito, incognitoWarningDismissed} = this.state;
 		let {walletMode, theme, location, match, ...others} = this.props;
 		let content = null;
-		console.log(
-			'#### render data in app',
-			this.state.syncFail,
-			this.state.loading,
-			__DEPRECATED__
-		);
 		if (this.state.syncFail) {
 			content = <SyncError />;
 		} else if (this.state.loading) {
