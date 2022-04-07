@@ -7,6 +7,9 @@ import {
 } from "common/gateways";
 import counterpart from "counterpart";
 import {isGatewayTemporarilyDisabled} from "../chain/onChainConfig";
+import chainIds from "chain/chainIds";
+
+const MAIN_NET_CHAINID_SHORT = chainIds.MAIN_NET.substr(0, 8);
 
 export function getGatewayName(asset) {
     if (asset.get("issuer") === "1.2.0") {
@@ -118,8 +121,7 @@ export function getAssetAndGateway(symbol) {
     }
 }
 
-export async function updateGatewayBackers(chain = "22a8d817") {
-    console.log("asd", Apis.instance().chain_id);
+export async function updateGatewayBackers(chain = MAIN_NET_CHAINID_SHORT) {
     // Only fetch this when on desired chain, default to main chain
     if (!Apis.instance().chain_id) return;
     if (Apis.instance().chain_id.substr(0, 8) === chain) {

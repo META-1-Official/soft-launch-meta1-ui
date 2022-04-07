@@ -17,8 +17,10 @@ import {Apis} from "meta1js-ws";
 import {Radio, Table, Select, Icon} from "bitshares-ui-style-guide";
 import {List} from "antd";
 import SearchInput from "../Utility/SearchInput";
+import chainIds from "chain/chainIds";
 
 let accountStorage = new ls("__graphene__");
+const MAIN_NET_CHAINID_SHORT = chainIds.MAIN_NET.substr(0, 8);
 
 class Assets extends React.Component {
     constructor(props) {
@@ -26,7 +28,7 @@ class Assets extends React.Component {
 
         let chainID = Apis.instance().chain_id;
         if (chainID) chainID = chainID.substr(0, 8);
-        else chainID = "22a8d817";
+        else chainID = MAIN_NET_CHAINID_SHORT;
 
         this.state = {
             chainID,
@@ -36,7 +38,7 @@ class Assets extends React.Component {
             totalAssets:
                 typeof accountStorage.get(`totalAssets_${chainID}`) != "object"
                     ? accountStorage.get(`totalAssets_${chainID}`)
-                    : chainID && chainID === "22a8d817"
+                    : chainID && chainID === MAIN_NET_CHAINID_SHORT
                     ? 3000
                     : 50, // mainnet has 3000+ assets, other chains may not have that many
             assetsFetched: 0,

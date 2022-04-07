@@ -7,6 +7,7 @@ import {
     getActiveWallets
 } from "common/gatewayMethods";
 import {getOnChainConfig} from "../lib/chain/onChainConfig";
+import account_constants from "chain/account_constants.js";
 
 let inProgress = {};
 
@@ -119,8 +120,8 @@ class GatewayActions {
                 withdrawalAllowed: true,
                 memoSupport: false,
                 precision: 8,
-                issuer: "meta1cold",
-                issuerId: "1.2.21",
+                issuer: account_constants.issuer_name,
+                issuerId: account_constants.issuer_id,
                 assetId: "1.3.2",
                 walletType: "btc",
                 minAmount: 100000,
@@ -139,8 +140,8 @@ class GatewayActions {
                 withdrawalAllowed: true,
                 memoSupport: false,
                 precision: 8,
-                issuer: "meta1cold",
-                issuerId: "1.2.21",
+                issuer: account_constants.issuer_name,
+                issuerId: account_constants.issuer_id,
                 assetId: "1.3.4",
                 walletType: "ltc",
                 minAmount: 200000,
@@ -159,8 +160,8 @@ class GatewayActions {
                 withdrawalAllowed: true,
                 memoSupport: false,
                 precision: 7,
-                issuer: "meta1cold",
-                issuerId: "1.2.21",
+                issuer: account_constants.issuer_name,
+                issuerId: account_constants.issuer_id,
                 assetId: "1.3.3",
                 walletType: "eth",
                 minAmount: 200000,
@@ -179,8 +180,8 @@ class GatewayActions {
                 withdrawalAllowed: true,
                 memoSupport: false,
                 precision: 6,
-                issuer: "meta1cold",
-                issuerId: "1.2.21",
+                issuer: account_constants.issuer_name,
+                issuerId: account_constants.issuer_id,
                 assetId: "1.3.1",
                 walletType: "eth",
                 minAmount: 50000000,
