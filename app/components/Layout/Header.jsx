@@ -321,6 +321,11 @@ class Header extends React.Component {
 			isDepositModalVisibleEth: false,
 		});
 	}
+	_showWithdrawal(e) {
+		e.preventDefault();
+		if (this.withdrawal_modal) this.withdrawal_modal.show();
+		this._closeDropdown();
+	}
 
 	hideDepositModalUsdt() {
 		this.setState({
@@ -369,8 +374,8 @@ class Header extends React.Component {
 		ZfApi.publish('mobile-menu', 'toggle');
 	}
 
-	_toggleLock(e) {
-		e.preventDefault();
+	_toggleLock(e, fromMenu) {
+		!fromMenu && e.preventDefault();
 		if (WalletDb.isLocked()) {
 			WalletUnlockActions.unlock()
 				.then(() => {
@@ -391,8 +396,8 @@ class Header extends React.Component {
 		this._closeAccountNotifications();
 	}
 
-	_onNavigate(route, e) {
-		e.preventDefault();
+	_onNavigate(route, e, fromMenu) {
+		!fromMenu && e.preventDefault();
 
 		// Set Accounts Tab as active tab
 		if (route == '/accounts') {
@@ -1496,6 +1501,7 @@ class Header extends React.Component {
 								this.props.locked ? 'unlock_short' : 'lock_short'
 							}`}
 						/>
+						asas
 					</Text>
 				</Menu.Item>
 				<Menu.Item key="createAccount">
