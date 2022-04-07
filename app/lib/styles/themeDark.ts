@@ -1,7 +1,7 @@
 const theme = {
 	colors: {
 		primaryColor: '#ffc000',
-		themeOpositeColor: '#fff',
+		themeOpositeColor: '#ffff',
 		background: '#1f1a17',
 		footerBackground: '#15171b',
 		explorerBackground: '#0c0e11',
@@ -35,6 +35,8 @@ const theme = {
 		authModalTextColor: '#a6a6a6',
 		dropdownOptionsColor: '#15171b',
 		dropdownBackgroundColor: '#21252f',
+		bankingAssetsStatusColor: '#0f923a',
+		bankingAssetsDetailBackground: '#15171b',
 	},
 	sizes: {
 		lg: '992px',

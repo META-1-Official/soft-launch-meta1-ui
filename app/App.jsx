@@ -36,6 +36,7 @@ import {Route, Switch, Redirect} from 'react-router-dom';
 import Page404 from './components/Page404/Page404';
 import AppLayout from 'components/Layout/Layout';
 import BodyClassName from 'components/BodyClassName';
+import AssetExplorerDetails from './components/Exchange/AssetExplorerDetails';
 
 const Invoice = Loadable({
 	loader: () =>
@@ -488,6 +489,12 @@ class App extends React.Component {
 									exact
 									path="/asset-explorer"
 									component={assetExplorer}
+									{...this.props}
+								/>
+								<Route
+									exact
+									path="/asset-explorer-details"
+									component={AssetExplorerDetails}
 									{...this.props}
 								/>
 								<Route exact path="/confirm" component={Confirm} />

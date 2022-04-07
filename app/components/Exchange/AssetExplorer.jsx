@@ -2,26 +2,41 @@ import React from 'react';
 import {Col, Row, List, Avatar, Progress, Tabs, Typography} from 'antd';
 import PageHeader from 'components/PageHeader/PageHeader';
 import {getBankingAssetsLogo, getGoldImage} from 'branding';
+import theme from '../../lib/styles/themeDark';
 
 const {Text} = Typography;
 const {TabPane} = Tabs;
-const AssetExplorer = () => {
+
+const AssetExplorer = ({history}) => {
 	const bankingAssetsLogo = getBankingAssetsLogo();
 
 	const data = [
 		{
-			title: 'Ant Design Title 1',
+			description:
+				'BEGINNING BALANCE GOLD RESERVE ASSIGNMENT OF $8,888,888,888.00 WITH SUPPORTING BONDS OF EQUAL VALUE INSURING THE PRINCIPAL GOLD RESERVES',
+			descriptionAmount: '$8,888,888,888',
+			status: 'Approved',
+			percent: 100,
 		},
 		{
-			title: 'Ant Design Title 2',
+			description:
+				'GOLD RESERVE ASSET ASSIGNMENT OF $500,000,000.00 WITH SUPPORTING BONDS OF EQUAL VALUE INSURING THE PRINCIPAL GOLD RESERVES',
+			descriptionAmount: '$8,888,888,888',
+			status: 'Approved',
+			percent: 100,
 		},
 		{
-			title: 'Ant Design Title 3',
-		},
-		{
-			title: 'Ant Design Title 4',
+			description:
+				'GOLD RESERVE ASSET ASSIGNMENT OF $5,600,000,000 WITH SUPPORTING BONDS OF EQUAL VALUE INSURING THE PRINCIPAL GOLD RESERVES',
+			descriptionAmount: '$5,600,000,000',
+			status: 'Approved',
+			percent: 71.8,
 		},
 	];
+
+	const onDescriptionClick = () => {
+		history.push('asset-explorer-details');
+	};
 
 	return (
 		<div>
@@ -65,7 +80,7 @@ const AssetExplorer = () => {
 									fontFamily: 'Poppins',
 								})}
 							>
-								META1 Coin Current Asset Value: $99.74{' '}
+								META1 Coin Current Asset Value: $99.74
 							</Text>
 						</div>
 						<div
@@ -81,14 +96,14 @@ const AssetExplorer = () => {
 									fontFamily: 'Poppins',
 								})}
 							>
-								Asset Assignment statistics, history & data{' '}
+								Asset Assignment statistics, history & data
 							</Text>
 						</div>
 					</Col>
 				</Row>
 
 				<div
-					css={(theme) => ({
+					css={() => ({
 						padding: '10px',
 					})}
 				>
@@ -105,7 +120,12 @@ const AssetExplorer = () => {
 							<List
 								itemLayout="horizontal"
 								dataSource={data}
-								renderItem={(item) => (
+								renderItem={({
+									description,
+									descriptionAmount,
+									status,
+									percent,
+								}) => (
 									<List.Item>
 										<List.Item.Meta
 											avatar={
@@ -126,16 +146,16 @@ const AssetExplorer = () => {
 												<Row>
 													<Col xs={24} sm={12} css={{paddingLeft: '1rem'}}>
 														<Text
+															onClick={onDescriptionClick}
 															css={(theme) => ({
 																color: theme.colors.descriptionTextColor,
 																fontSize: '14px',
 																paddingBottom: '10px',
 																fontFamily: 'Poppins',
+																cursor: 'pointer',
 															})}
 														>
-															BEGINNING BALANCE GOLD RESERVE ASSIGNMENT OF
-															$8,888,888,888.00 WITH SUPPORTING BONDS OF EQUAL
-															VALUE INSURING THE PRINCIPAL GOLD RESERVES
+															{description}
 														</Text>
 														<br />
 														<Text
@@ -144,24 +164,39 @@ const AssetExplorer = () => {
 																fontWeight: 'bold',
 															})}
 														>
-															$8,888,888,888
+															{descriptionAmount}
 														</Text>
 													</Col>
-													<Col xs={24} sm={6}>
+													<Col xs={24} sm={6} css={{textAlign: 'center'}}>
 														<Text
 															css={(theme) => ({
-																color: '#0f923a',
+																color: theme.colors.bankingAssetsStatusColor,
 																fontSize: '14px',
 																paddingBottom: '10px',
 																fontFamily: 'Poppins',
 															})}
 														>
-															Approved
+															{status}
 														</Text>
 													</Col>
 
 													<Col xs={24} sm={6}>
-														<Progress percent={50} showInfo={false} />
+														<Text
+															css={(theme) => ({
+																color: theme.colors.themeOpositeColor,
+																float: 'right',
+															})}
+														>
+															{percent}%
+														</Text>
+														<Progress
+															percent={percent}
+															strokeColor={
+																theme.colors.bankingAssetsStatusColor
+															}
+															showInfo={false}
+															trailColor={theme.colors.borderColor}
+														/>
 													</Col>
 												</Row>
 											}
@@ -171,10 +206,10 @@ const AssetExplorer = () => {
 							/>
 						</TabPane>
 						<TabPane tab="Cancelled" key="2">
-							Content of card tab 2
+							No backed assets found with required filter.
 						</TabPane>
 						<TabPane tab="Pending" key="3">
-							Content of card tab 3
+							No backed assets found with required filter.{' '}
 						</TabPane>
 					</Tabs>
 				</div>
@@ -185,18 +220,17 @@ const AssetExplorer = () => {
 
 export default AssetExplorer;
 
-// import React from "react";
-
+// import React from 'react';
 // class AssetExplorer extends React.Component {
-//     render() {
-//         return (
-//             <div
-//                 dangerouslySetInnerHTML={{
-//                     __html: `<iframe src="https://api.meta1.io" width="100%" style="height:100vh; border-width:0px; border:none;" height="100%"></iframe>`
-//                 }}
-//             />
-//         );
-//     }
+// 	render() {
+// 		return (
+// 			<div
+// 				dangerouslySetInnerHTML={{
+// 					__html: `<iframe src="https://api.dev.meta1.io" width="100%" style="height:100vh; border-width:0px; border:none;" height="100%"></iframe>`,
+// 				}}
+// 			/>
+// 		);
+// 	}
 // }
 
 // export default AssetExplorer;
