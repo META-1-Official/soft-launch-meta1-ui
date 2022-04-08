@@ -5,7 +5,7 @@ import {FaArrowLeft} from 'react-icons/fa';
 
 const {Text, Title} = Typography;
 
-const AssetExplorerDetails = () => {
+const AssetExplorerDetails = ({history}) => {
 	return (
 		<div
 			css={(theme) => ({
@@ -55,7 +55,9 @@ const AssetExplorerDetails = () => {
 						color: `${theme.colors.primaryColor} !important`,
 						fontSize: '14px',
 						marginBottom: '1rem',
+						cursor: 'pointer',
 					})}
+					onClick={() => history.push('./asset-explorer')}
 				>
 					<FaArrowLeft
 						css={(theme) => ({

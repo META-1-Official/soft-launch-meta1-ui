@@ -805,7 +805,6 @@ class Header extends React.Component {
 								}}
 							>
 								<Text
-									ghost={true}
 									css={(theme) => ({
 										color:
 											headerMenu === 'help'
