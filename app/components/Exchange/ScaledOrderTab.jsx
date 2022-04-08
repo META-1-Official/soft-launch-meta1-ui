@@ -30,6 +30,7 @@ class ScaledOrderForm extends Component {
 
 		this.handleClickBalance = this.handleClickBalance.bind(this);
 		this.handleCurrentPriceClick = this.handleCurrentPriceClick.bind(this);
+		this.formRef = React.createRef();
 	}
 
 	componentDidMount() {
@@ -130,7 +131,14 @@ class ScaledOrderForm extends Component {
 	}
 
 	_getFormValues() {
-		return this.props.form.getFieldsValue();
+		if (this.formRef && this.formRef.current) {
+			console.log(
+				'&&&& this.formRef.current.getFieldsValue()',
+				this.formRef?.current?.getFieldsValue()
+			);
+			return this.formRef.current.getFieldsValue();
+		}
+		return {};
 	}
 
 	_filterFeeStatuses(feeStatuses) {
@@ -267,7 +275,7 @@ class ScaledOrderForm extends Component {
 	}
 
 	_getTotal() {
-		const formValues = this._getFormValues();
+		const formValues = this._getFormValues() || {};
 
 		const amount = Number(formValues.amount);
 		const priceLower = Number(formValues.priceLower);
@@ -399,18 +407,18 @@ class ScaledOrderForm extends Component {
 
 	handleClickBalance() {
 		if (this.props.type === 'bid') {
-			this.props.form.setFieldsValue({
+			this.formRef.current?.setFieldsValue({
 				amount: this._getQuantityFromTotal(this.props.baseAssetBalance),
 			});
 		} else {
-			this.props.form.setFieldsValue({
+			this.formRef.current?.setFieldsValue({
 				amount: this.props.quoteAssetBalance,
 			});
 		}
 	}
 
 	handleCurrentPriceClick() {
-		this.props.form.setFieldsValue({
+		this.formRef.current?.setFieldsValue({
 			priceLower: this.props.currentPrice,
 		});
 	}
@@ -452,7 +460,8 @@ class ScaledOrderForm extends Component {
 		const quote = quoteAsset;
 		const base = baseAsset;
 
-		const {getFieldDecorator} = this.props.form;
+		// const {getFieldDecorator} = this.formRef.current || {};
+		console.log('**** getFieldDecorator', this.formRef.current);
 
 		const marketFeeSymbol = (
 			<AssetNameWrapper name={this.props.quoteAsset.get('symbol')} />
@@ -479,30 +488,22 @@ class ScaledOrderForm extends Component {
 			wrapperCol: {span: 16, offset: 2},
 		};
 
-		const actionRadio = getFieldDecorator('action', {
-			initialValue: isBid
-				? SCALED_ORDER_ACTION_TYPES.BUY
-				: SCALED_ORDER_ACTION_TYPES.SELL,
-		})(
-			<Radio.Group>
-				<Radio value={SCALED_ORDER_ACTION_TYPES.BUY}>
-					{counterpart.translate('scaled_orders.action.buy')}
-				</Radio>
-				<Radio value={SCALED_ORDER_ACTION_TYPES.SELL}>
-					{counterpart.translate('scaled_orders.action.sell')}
-				</Radio>
-			</Radio.Group>
-		);
+		// const actionRadio = getFieldDecorator('action', {
+		// 	initialValue: isBid
+		// 		? SCALED_ORDER_ACTION_TYPES.BUY
+		// 		: SCALED_ORDER_ACTION_TYPES.SELL,
+		// })(
+		// 	<Radio.Group>
+		// 		<Radio value={SCALED_ORDER_ACTION_TYPES.BUY}>
+		// 			{counterpart.translate('scaled_orders.action.buy')}
+		// 		</Radio>
+		// 		<Radio value={SCALED_ORDER_ACTION_TYPES.SELL}>
+		// 			{counterpart.translate('scaled_orders.action.sell')}
+		// 		</Radio>
+		// 	</Radio.Group>
+		// );
 
-		const priceLowerInput = getFieldDecorator('priceLower', {
-			validateFirst: true,
-			validateTrigger: 'onBlur',
-			rules: [
-				Validation.Rules.required(),
-				Validation.Rules.number(),
-				Validation.Rules.min({min: 0, name: 'Price', higherThan: true}),
-			],
-		})(
+		const priceLowerInput = () => (
 			<Input
 				placeholder="0.0"
 				style={{width: '100%'}}
@@ -515,19 +516,7 @@ class ScaledOrderForm extends Component {
 
 		const priceLower = Number((formValues && formValues.priceLower) || 0);
 
-		const priceUpperInput = getFieldDecorator('priceUpper', {
-			validateFirst: true,
-			validateTrigger: 'onBlur',
-			rules: [
-				Validation.Rules.required(),
-				Validation.Rules.number(),
-				Validation.Rules.min({
-					min: priceLower,
-					name: 'Price',
-					higherThan: true,
-				}),
-			],
-		})(
+		const priceUpperInput = () => (
 			<Input
 				placeholder="0.0"
 				style={{width: '100%'}}
@@ -536,16 +525,17 @@ class ScaledOrderForm extends Component {
 			/>
 		);
 
-		const feeCurrencySelect = getFieldDecorator('feeCurrency', {
-			initialValue:
-				ChainStore.getAsset('1.3.0') &&
-				ChainStore.getAsset('1.3.0').get &&
-				ChainStore.getAsset('1.3.0').get('symbol'),
-		})(
+		// To do: Check functionality
+		const feeCurrencySelect = () => (
 			<Select
 				showSearch
 				dropdownMatchSelectWidth={false}
 				style={{minWidth: '80px', maxWidth: '120px'}}
+				initialValue={
+					ChainStore.getAsset('1.3.0') &&
+					ChainStore.getAsset('1.3.0').get &&
+					ChainStore.getAsset('1.3.0').get('symbol')
+				}
 			>
 				{this.state.feeAssets &&
 					this.state.feeAssets.map &&
@@ -565,16 +555,21 @@ class ScaledOrderForm extends Component {
 			</Select>
 		);
 
-		const feeInput = (
-			<Input
-				disabled
-				placeholder="0.0"
-				style={{width: '100%'}}
-				autoComplete="off"
-				addonAfter={feeCurrencySelect}
-				value={this._getFee()}
-			/>
-		);
+		const feeInput = () => {
+			if (this.formRef) {
+				return (
+					<Input
+						disabled
+						placeholder="0.0"
+						style={{width: '100%'}}
+						autoComplete="off"
+						addonAfter={() => feeCurrencySelect()}
+						value={this._getFee()}
+					/>
+				);
+			}
+			return <></>;
+		};
 
 		const marketFeeInput = (
 			<Input
@@ -586,15 +581,20 @@ class ScaledOrderForm extends Component {
 			/>
 		);
 
-		const totalInput = (
-			<Input
-				disabled
-				style={{width: '100%'}}
-				autoComplete="off"
-				addonAfter={totalSymbol}
-				value={this._getTotal()}
-			/>
-		);
+		const totalInput = () => {
+			if (this.formRef) {
+				return (
+					<Input
+						disabled
+						style={{width: '100%'}}
+						autoComplete="off"
+						addonAfter={totalSymbol}
+						value={this._getTotal()}
+					/>
+				);
+			}
+			return <></>;
+		};
 
 		const totalInputValidation = Validation.Rules.balance({
 			balance: this.props.baseAssetBalance,
@@ -625,11 +625,7 @@ class ScaledOrderForm extends Component {
 			);
 		}
 
-		const quantityInput = getFieldDecorator('amount', {
-			validateFirst: true,
-			validateTrigger: 'onBlur',
-			rules: quantityRules,
-		})(
+		const quantityInput = () => (
 			<Input
 				placeholder="0.0"
 				style={{width: '100%'}}
@@ -638,18 +634,7 @@ class ScaledOrderForm extends Component {
 			/>
 		);
 
-		const orderCountInput = getFieldDecorator('orderCount', {
-			validateFirst: true,
-			rules: [
-				Validation.Rules.required(),
-				Validation.Rules.number(),
-				Validation.Rules.min({
-					min: 1,
-					name: 'Orders Count',
-					higherThan: true,
-				}),
-			],
-		})(
+		const orderCountInput = () => (
 			<Input
 				style={{width: '100%'}}
 				placeholder="0"
@@ -714,33 +699,69 @@ class ScaledOrderForm extends Component {
 					layout="horizontal"
 					hideRequiredMark={true}
 					style={{padding: '0px 0px'}}
+					ref={this.formRef}
 				>
 					<Form.Item
 						{...formItemProps}
+						name="priceLower"
 						label={counterpart.translate('scaled_orders.price_lower')}
+						validateFirst={true}
+						validateTrigger="onBlur"
+						rules={[
+							Validation.Rules.required(),
+							Validation.Rules.number(),
+							Validation.Rules.min({min: 0, name: 'Price', higherThan: true}),
+						]}
 					>
-						{priceLowerInput}
+						{priceLowerInput()}
 					</Form.Item>
 
 					<Form.Item
 						{...formItemProps}
+						name="priceUpper"
 						label={counterpart.translate('scaled_orders.price_upper')}
+						validateFirst={true}
+						validateTrigger="onBlur"
+						rules={[
+							Validation.Rules.required(),
+							Validation.Rules.number(),
+							Validation.Rules.min({
+								min: priceLower,
+								name: 'Price',
+								higherThan: true,
+							}),
+						]}
 					>
-						{priceUpperInput}
+						{priceUpperInput()}
 					</Form.Item>
 
 					<Form.Item
 						{...formItemProps}
 						label={counterpart.translate('scaled_orders.quantity')}
+						name="amount"
+						validateFirst={true}
+						validateTrigger={'onBlur'}
+						rules={quantityRules}
 					>
-						{quantityInput}
+						{quantityInput()}
 					</Form.Item>
 
 					<Form.Item
 						{...formItemProps}
 						label={counterpart.translate('scaled_orders.order_count')}
+						name="orderCount"
+						validateFirst={true}
+						rules={[
+							Validation.Rules.required(),
+							Validation.Rules.number(),
+							Validation.Rules.min({
+								min: 1,
+								name: 'Orders Count',
+								higherThan: true,
+							}),
+						]}
 					>
-						{orderCountInput}
+						{orderCountInput()}
 					</Form.Item>
 
 					<Form.Item
@@ -749,17 +770,23 @@ class ScaledOrderForm extends Component {
 						validateStatus={totalInputStatus}
 						label={counterpart.translate('scaled_orders.total')}
 					>
-						{totalInput}
+						{totalInput()}
 					</Form.Item>
 
 					<Form.Item
 						{...formItemProps}
 						label={counterpart.translate('scaled_orders.fee')}
+						name="feeCurrency"
+						initialValue={
+							ChainStore.getAsset('1.3.0') &&
+							ChainStore.getAsset('1.3.0').get &&
+							ChainStore.getAsset('1.3.0').get('symbol')
+						}
 					>
-						{feeInput}
+						{feeInput()}
 					</Form.Item>
 
-					{this._isMarketFeeVisible() ? (
+					{this._isMarketFeeVisible() && (
 						<Form.Item
 							{...formItemProps}
 							label={`${counterpart.translate(
@@ -768,7 +795,7 @@ class ScaledOrderForm extends Component {
 						>
 							{marketFeeInput}
 						</Form.Item>
-					) : null}
+					)}
 
 					<Form.Item
 						style={{marginBottom: '6px'}}
@@ -875,7 +902,7 @@ class ScaledOrderForm extends Component {
 	}
 }
 
-ScaledOrderForm = Form.create({})(ScaledOrderForm);
+// ScaledOrderForm = Form.create({})(ScaledOrderForm);
 
 class ScaledOrderTab extends Component {
 	constructor(props) {

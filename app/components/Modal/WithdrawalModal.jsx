@@ -22,6 +22,7 @@ import WalletDb from 'stores/WalletDb';
 import PrivateKeyStore from 'stores/PrivateKeyStore';
 import CAValidator from 'multicoin-address-validator';
 import swal from 'sweetalert';
+import {getIntermediateAccount} from 'common/gatewayUtils';
 
 const getUninitializedFeeAmount = () =>
 	new Asset({amount: 0, asset_id: '1.3.1'});
