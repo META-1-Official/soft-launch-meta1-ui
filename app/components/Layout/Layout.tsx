@@ -15,7 +15,14 @@ const AppLayout = ({children, location, height}: IAppLayout) => {
 	const theme: any = useTheme();
 
 	const pathSnippets = location.pathname.split('/').filter((i) => i);
-	const url = pathSnippets ? pathSnippets[0] : '';
+	let url = '';
+	if (pathSnippets && pathSnippets.length > 1) {
+		if (pathSnippets.includes('whitelist')) {
+			url = 'whitelist';
+		}
+	} else {
+		url = pathSnippets ? pathSnippets[0] : '';
+	}
 	const [collapsed, setcollapsed] = useState<boolean>(true);
 	const [currentLink, setCurrentLink] = useState<string>('');
 	const toggle = (value: boolean) => {

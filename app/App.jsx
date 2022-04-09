@@ -430,7 +430,6 @@ class App extends React.Component {
 									<Redirect to="/home/" />
 								</Route>
 								<Route path="/home/" exact component={DashboardPage} />
-
 								<Route path="/account/:account_name" component={AccountPage} />
 								<Route path="/accounts" component={DashboardAccountsOnly} />
 								<Route path="/market/:marketID" component={Exchange} />

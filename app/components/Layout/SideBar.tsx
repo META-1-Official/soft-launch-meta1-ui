@@ -33,6 +33,7 @@ const SideBar = ({collapsed, currentLink, toggle}: ISideBar) => {
 	accountName =
 		accountName && accountName !== 'null' ? accountName : 'committee-account';
 
+	console.log('currentLink', currentLink);
 	const checkCurrentAccount =
 		AccountStore.getState().currentAccount ||
 		AccountStore.getState().passwordAccount;
@@ -85,6 +86,12 @@ const SideBar = ({collapsed, currentLink, toggle}: ISideBar) => {
 			enableNavLinks,
 		},
 		{
+			menuId: 'whitelist',
+			menuName: 'Whitelist',
+			icon: <FileTextOutlined />,
+			enableNavLinks,
+		},
+		{
 			menuId: 'help',
 			menuName: 'Help',
 			icon: <QuestionCircleOutlined />,
@@ -98,10 +105,12 @@ const SideBar = ({collapsed, currentLink, toggle}: ISideBar) => {
 		},
 	];
 	const sideMenuClick = (e: any) => {
-		console.log('e', e.key);
 		let link = e.key;
 		if (e.key === 'account') {
 			link = `account/${accountName}`;
+		}
+		if (e.key === 'whitelist') {
+			link = `account/${accountName}/whitelist`;
 		}
 		history.push(`/${link}`);
 	};

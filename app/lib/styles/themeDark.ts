@@ -40,6 +40,7 @@ const theme = {
 	},
 	sizes: {
 		lg: '992px',
+		sm: '576px',
 	},
 };
 

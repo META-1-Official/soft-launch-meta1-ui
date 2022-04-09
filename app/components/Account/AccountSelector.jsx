@@ -686,22 +686,23 @@ class AccountSelector extends React.Component {
 							) : null}
 							{lockedStateContainer}
 							{this.props.children}
-							{this.props.onAction ? (
-								<Tooltip
-									title={counterpart.translate('tooltip.required_input', {
-										type: counterpart.translate('global.field_type.account'),
-									})}
-								>
-									<StyledButton
-										buttonType="primary"
-										disabled={disabledAction}
-										onClick={this.onAction.bind(this)}
-									>
-										<Translate content={this.props.action_label} />
-									</StyledButton>
-								</Tooltip>
-							) : null}
 						</div>
+						{this.props.onAction ? (
+							<Tooltip
+								title={counterpart.translate('tooltip.required_input', {
+									type: counterpart.translate('global.field_type.account'),
+								})}
+							>
+								<StyledButton
+									css={{marginTop: '1rem'}}
+									buttonType="primary"
+									disabled={disabledAction}
+									onClick={this.onAction.bind(this)}
+								>
+									<Translate content={this.props.action_label} />
+								</StyledButton>
+							</Tooltip>
+						) : null}
 					</Form.Item>
 				</Form>
 			</Tooltip>
