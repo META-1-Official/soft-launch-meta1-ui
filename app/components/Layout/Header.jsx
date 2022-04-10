@@ -757,7 +757,6 @@ class Header extends React.Component {
 		);
 
 		const {headerMenu} = this.state;
-
 		return (
 			<>
 				<AntdHeader>

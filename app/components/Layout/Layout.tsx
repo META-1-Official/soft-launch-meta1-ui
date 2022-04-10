@@ -15,23 +15,37 @@ const AppLayout = ({children, location, height}: IAppLayout) => {
 	const theme: any = useTheme();
 
 	const pathSnippets = location.pathname.split('/').filter((i) => i);
-	let url = '';
+	const [collapsed, setcollapsed] = useState<boolean>(true);
+
+	let link = '';
 	if (pathSnippets && pathSnippets.length > 1) {
 		if (pathSnippets.includes('whitelist')) {
-			url = 'whitelist';
+			link = 'whitelist';
+		}
+		if (pathSnippets.includes('membershipStats')) {
+			link = 'membershipStats';
+		}
+		if (pathSnippets.includes('market')) {
+			link = 'market';
+		}
+		if (pathSnippets.includes('explorer')) {
+			link = 'explorer';
 		}
 	} else {
-		url = pathSnippets ? pathSnippets[0] : '';
+		link = pathSnippets ? pathSnippets[0] : '';
 	}
-	const [collapsed, setcollapsed] = useState<boolean>(true);
 	const [currentLink, setCurrentLink] = useState<string>('');
 	const toggle = (value: boolean) => {
 		setcollapsed(value);
 	};
 	useEffect(() => {
-		setCurrentLink(url);
-	}, [url]);
+		setCurrentLink(link);
+		if (link === 'market' && collapsed) {
+			setcollapsed(true);
+		}
+	}, [link]);
 
+	console.log('link', link);
 	return (
 		<Layout
 			css={(theme) => ({
