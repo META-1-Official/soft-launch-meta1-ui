@@ -18,12 +18,17 @@ class WalletUnlockStore {
         // can't use settings store due to possible initialization race conditions
         const storedSettings = ss.get("settings_v4", {});
         if (storedSettings.passwordLogin === undefined) {
-            storedSettings.passwordLogin = true;
+            storedSettings.passwordLogin = false;
+        }
+        if (storedSettings.passwordlessLogin === undefined) {
+            storedSettings.passwordlessLogin = true;
         }
         let passwordLogin = storedSettings.passwordLogin;
+        const passwordlessLogin = storedSettings.passwordlessLogin;
         this.state = {
             locked: true,
             passwordLogin: passwordLogin,
+            passwordlessLogin,
             rememberMe:
                 storedSettings.rememberMe === undefined
                     ? true
@@ -93,6 +98,10 @@ class WalletUnlockStore {
         } else if (payload.setting === "passwordLogin") {
             this.setState({
                 passwordLogin: payload.value
+            });
+        } else if (payload.setting === "passwordlessLogin") {
+            this.setState({
+                passwordlessLogin: payload.value
             });
         } else if (payload.setting === "rememberMe") {
             this.setState({

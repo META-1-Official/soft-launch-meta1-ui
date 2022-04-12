@@ -1,91 +1,89 @@
 .table {
-    width: 100%;
+	width: 100%;
 }
 
 .table > tbody > tr > td {
-    padding: 5px;
-    text-align: left;
+	padding: 5px;
+	text-align: left;
 }
 
 .table > thead > tr > th {
-    border-bottom: 1px solid #ddd;
-    padding: 12px 5px;
-    text-transform: uppercase;
-    font-weight: normal;
-    font-size: 0.875rem;
-    color: #777;
-    text-align: left;
+	padding: 5px 10px;
+	text-transform: uppercase;
+	font-weight: normal;
+	color: #777;
+	text-align: left;
 }
 
 .table.order-table > thead > tr > th {
-    border-bottom: 1px solid #ddd;
-    padding: 5px 8px 5px 5px;
-    text-transform: uppercase;
-    font-weight: normal;
-    font-size: 12px;
-    color: #777;
-    text-align: left;
+	border-bottom: 1px solid #ddd;
+	padding: 5px 8px 5px 5px;
+	text-transform: uppercase;
+	font-weight: normal;
+	font-size: 12px;
+	color: #777;
+	text-align: left;
 }
 
 .table > tbody.orderbook > tr > td {
-    //border-left: 1px solid rgb(49, 49, 49);
-    padding: 0px 5px 4px 0px;
-    font-size: 12px !important;
-    text-align: right !important;
+	//border-left: 1px solid rgb(49, 49, 49);
+	padding: 0px 5px 4px 0px;
+	font-size: 12px !important;
+	text-align: right !important;
 }
 
 .table.order-table > tbody > tr > td {
-    //border-left: 1px solid rgb(49, 49, 49);
-    padding: 0px 5px 4px 0px;
-    font-size: 12px !important;
-    text-align: right !important;
+	//border-left: 1px solid rgb(49, 49, 49);
+	padding: 0px 5px 4px 0px;
+	font-size: 12px !important;
+	text-align: right !important;
 }
 
 .table.order-table > tbody > tr > td.centric-items {
-    border-left: 1px solid rgb(49, 49, 49);
-    padding: 0px 5px 4px 0px;
-    font-size: 12px !important;
-    text-align: center !important;
+	border-left: 1px solid rgb(49, 49, 49);
+	padding: 0px 5px 4px 0px;
+	font-size: 12px !important;
+	text-align: center !important;
 }
 
 .table > tbody > tr:last-of-type > td {
-    border-bottom: none;
+	border-bottom: none;
 }
 
 .table-hover > tbody > tr:hover > td,
 .table-hover > tbody > tr:hover > th {
-    background-color: #f5f5f5;
+	background-color: #f5f5f5;
 }
 
 .key-value-table {
-    tr > td:first-child {
-        padding-left: 0 !important;
-    }
-    tr > td:last-child {
-        text-align: right;
-    }
+	tr > td:first-child {
+		padding-left: 0 !important;
+	}
+	tr > td:last-child {
+		text-align: right;
+	}
 }
 
 .table.compact {
-    td,
-    th {
-        font-size: 94%;
-    }
+	td,
+	th {
+		font-size: 94%;
+	}
 }
 
 /* Wrap table in div with this class to make horizontal scroll */
 .responsive-table {
-    border-collapse: collapse;
-    overflow-x: auto;
-    display: block;
-    max-width: 100%;
-    width: 100vw;
+	border-collapse: collapse;
+	overflow-x: auto;
+	display: block;
+	max-width: 100%;
+	width: 100vw;
 }
 
 th.is-sortable {
-    cursor: pointer;
-    &.is-active {
-        text-decoration: underline;
-        text-underline-position: under;
-    }
+	cursor: pointer;
+	&.is-active {
+		text-decoration: underline;
+		text-underline-position: under;
+	}
 }

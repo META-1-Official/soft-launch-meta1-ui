@@ -1,38 +1,28 @@
-var path = require("path");
-var webpack = require("webpack");
-var express = require("express");
-var devMiddleware = require("webpack-dev-middleware");
-var hotMiddleware = require("webpack-hot-middleware");
-var fs = require("fs");
+/* eslint-disable @typescript-eslint/no-var-requires */
+const path = require("path");
+const webpack = require("webpack");
+const express = require("express");
+const webpackDevMiddleware = require("webpack-dev-middleware");
+const hotMiddleware = require("webpack-hot-middleware");
+const fs = require("fs");
+require("dotenv").config({path: `.env.${process.env.NODE_ENV}`});
 
 const perf_dev = process.argv[2] === "perf-dev";
 
-var ProgressPlugin = require("webpack/lib/ProgressPlugin");
-var config = require("./webpack.config.js")({prod: false, perf_dev});
+const config = require("./webpack.config.js")({prod: false, perf_dev});
 
-var app = express();
-var compiler = webpack(config);
+const app = express();
+const compiler = webpack(config);
 
-var https = require("https");
-var http = require("http");
-
-compiler.apply(
-    new ProgressPlugin(function(percentage, msg) {
-        process.stdout.write(
-            (percentage * 100).toFixed(2) +
-                "% " +
-                msg +
-                "                 \033[0G"
-        );
-    })
-);
+const https = require("https");
+const http = require("http");
 
 app.use(
-    devMiddleware(compiler, {
-        publicPath: config.output.publicPath,
-        historyApiFallback: true
-    })
+  webpackDevMiddleware(compiler, {
+    publicPath: config.output.publicPath,
+  })
 );
+app.use(require("webpack-hot-middleware")(compiler));
 
 app.use(hotMiddleware(compiler));
 
@@ -40,27 +30,28 @@ app.use(hotMiddleware(compiler));
 //     res.sendFile(path.join(__dirname, "app/assets/index.html"));
 // });
 
-app.use("*", function(req, res, next) {
-    var filename = path.join(compiler.outputPath, "index.html");
-    compiler.outputFileSystem.readFile(filename, function(err, result) {
-        if (err) {
-            return next(err);
-        }
-        res.set("content-type", "text/html");
-        res.send(result);
-        res.end();
-    });
+app.use("*", function (req, res, next) {
+  const filename = path.join(compiler.outputPath, "index.html");
+  compiler.outputFileSystem.readFile(filename, function (err, result) {
+    if (err) {
+      return next(err);
+    }
+    res.set("content-type", "text/html");
+    res.send(result);
+    res.end();
+  });
 });
 
-var options = {
-    key: fs.readFileSync("./ssl/server.key"),
-    cert: fs.readFileSync("./ssl/server.crt")
+const options = {
+  key: fs.readFileSync("./ssl/server.key"),
+  cert: fs.readFileSync("./ssl/server.crt"),
 };
 
-http.createServer(app).listen(8080);
+http.createServer(app).listen(8090);
 https.createServer(options, app).listen(8085);
 
-console.log("Listening at http://localhost:8080/ or https://localhost:8085/");
+console.log("Listening at http://localhost:8090/ or https://localhost:8085/");
+console.log("!!!!! Env:", process.env.NODE_ENV, process.env.TORUS_PROJECT_ID);
 // new WebpackDevServer(compiler, {
 //     publicPath: config.output.publicPath,
 //     hot: true,

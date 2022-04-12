@@ -1,50 +1,50 @@
-import React from "react";
-import BindToChainState from "components/Utility/BindToChainState";
-import DepositWithdrawAssetSelector from "../DepositWithdraw/DepositWithdrawAssetSelector";
-import Translate from "react-translate-component";
-import ExchangeInput from "components/Exchange/ExchangeInput";
-import AssetName from "../Utility/AssetName";
-import {extend, debounce} from "lodash-es";
-import GatewayStore from "stores/GatewayStore";
-import AssetStore from "stores/AssetStore";
-import MarketsStore from "stores/MarketsStore";
-import MarketsActions from "actions/MarketsActions";
-import {connect} from "alt-react";
-import SettingsStore from "stores/SettingsStore";
-import Immutable from "immutable";
-import {Asset, Price} from "common/MarketClasses";
-import utils from "common/utils";
-import MarketUtils from "common/market_utils";
-import BalanceWrapper from "../Account/BalanceWrapper";
-import AccountActions from "actions/AccountActions";
-import AccountStore from "stores/AccountStore";
-import ChainTypes from "../Utility/ChainTypes";
-import FormattedAsset from "../Utility/FormattedAsset";
-import BalanceComponent from "../Utility/BalanceComponent";
-import QRScanner from "../QRAddressScanner";
-import {Modal, Button, Select, Input} from "bitshares-ui-style-guide";
-import counterpart from "counterpart";
+import React from 'react';
+import BindToChainState from 'components/Utility/BindToChainState';
+import DepositWithdrawAssetSelector from '../DepositWithdraw/DepositWithdrawAssetSelector';
+import Translate from 'react-translate-component';
+import ExchangeInput from 'components/Exchange/ExchangeInput';
+import AssetName from '../Utility/AssetName';
+import {extend, debounce} from 'lodash-es';
+import GatewayStore from 'stores/GatewayStore';
+import AssetStore from 'stores/AssetStore';
+import MarketsStore from 'stores/MarketsStore';
+import MarketsActions from 'actions/MarketsActions';
+import {connect} from 'alt-react';
+import SettingsStore from 'stores/SettingsStore';
+import Immutable from 'immutable';
+import {Asset, Price} from 'common/MarketClasses';
+import utils from 'common/utils';
+import MarketUtils from 'common/market_utils';
+import BalanceWrapper from '../Account/BalanceWrapper';
+import AccountActions from 'actions/AccountActions';
+import AccountStore from 'stores/AccountStore';
+import ChainTypes from '../Utility/ChainTypes';
+import FormattedAsset from '../Utility/FormattedAsset';
+import BalanceComponent from '../Utility/BalanceComponent';
+import QRScanner from '../QRAddressScanner';
+import {Modal, Button, Select, Input} from 'antd';
+import counterpart from 'counterpart';
 import {
-    gatewaySelector,
-    _getNumberAvailableGateways,
-    _onAssetSelected,
-    _getCoinToGatewayMapping
-} from "lib/common/assetGatewayMixin";
-import {getGatewayStatusByAsset} from "common/gatewayUtils";
-import {availableGateways} from "common/gateways";
+	gatewaySelector,
+	_getNumberAvailableGateways,
+	_onAssetSelected,
+	_getCoinToGatewayMapping,
+} from 'lib/common/assetGatewayMixin';
+import {getGatewayStatusByAsset} from 'common/gatewayUtils';
+import {availableGateways} from 'common/gateways';
 import {
-    nudgeWithdrawal,
-    validateAddress as blocktradesValidateAddress,
-    WithdrawAddresses
-} from "lib/common/gatewayMethods";
-import FeeAssetSelector from "components/Utility/FeeAssetSelector";
-import {checkBalance} from "common/trxHelper";
-import AccountSelector from "components/Account/AccountSelector";
-import {ChainStore} from "meta1js";
-const gatewayBoolCheck = "withdrawalAllowed";
+	nudgeWithdrawal,
+	validateAddress as blocktradesValidateAddress,
+	WithdrawAddresses,
+} from 'lib/common/gatewayMethods';
+import FeeAssetSelector from 'components/Utility/FeeAssetSelector';
+import {checkBalance} from 'common/trxHelper';
+import AccountSelector from 'components/Account/AccountSelector';
+import {ChainStore} from 'meta1js';
+const gatewayBoolCheck = 'withdrawalAllowed';
 
-import {getAssetAndGateway, getIntermediateAccount} from "common/gatewayUtils";
-import TransactionConfirmStore from "../../stores/TransactionConfirmStore";
+import {getAssetAndGateway, getIntermediateAccount} from 'common/gatewayUtils';
+import TransactionConfirmStore from '../../stores/TransactionConfirmStore';
 
 class WithdrawModalNew extends React.Component {
     constructor(props) {
@@ -1155,302 +1155,269 @@ class WithdrawModalNew extends React.Component {
                 null
             */}
 
-                        {/*WITHDRAW ADDRESS*/}
-                        {assetAndGateway && !isBTS ? (
-                            <div style={{marginBottom: "1em"}}>
-                                <label className="left-label">
-                                    <Translate
-                                        component="span"
-                                        content="modal.withdraw.address"
-                                    />
-                                </label>
-                                {addressError ? (
-                                    <div
-                                        className="has-error"
-                                        style={{
-                                            position: "absolute",
-                                            right: "1em",
-                                            marginTop: "-30px"
-                                        }}
-                                    >
-                                        <Translate content="modal.withdraw.address_not_valid" />
-                                    </div>
-                                ) : null}
-                                <div>
-                                    <div className="inline-label">
-                                        <Select
-                                            showSearch
-                                            style={{width: "100%"}}
-                                            value={address}
-                                            onSearch={this.onAddressChanged.bind(
-                                                this
-                                            )}
-                                            onSelect={this.onAddressSelected.bind(
-                                                this
-                                            )}
-                                        >
-                                            {address &&
-                                            storedAddresses.indexOf(address) ==
-                                                -1 ? (
-                                                <Select.Option value={address}>
-                                                    {address}
-                                                </Select.Option>
-                                            ) : null}
-                                            {storedAddresses.map(address => (
-                                                <Select.Option value={address}>
-                                                    {address}
-                                                </Select.Option>
-                                            ))}
-                                        </Select>
-                                        <span>
-                                            <QRScanner
-                                                label="Scan"
-                                                onSuccess={
-                                                    this.handleQrScanSuccess
-                                                }
-                                                submitBtnText={counterpart.translate(
-                                                    "qr_address_scanner.use_address"
-                                                )}
-                                                dataFoundText={
-                                                    counterpart.translate(
-                                                        "qr_address_scanner.address_found"
-                                                    ) + ":"
-                                                }
-                                            />
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        ) : null}
+						{/*WITHDRAW ADDRESS*/}
+						{assetAndGateway && !isBTS ? (
+							<div style={{marginBottom: '1em'}}>
+								<label className="left-label">
+									<Translate
+										component="span"
+										content="modal.withdraw.address"
+									/>
+								</label>
+								{addressError ? (
+									<div
+										className="has-error"
+										style={{
+											position: 'absolute',
+											right: '1em',
+											marginTop: '-30px',
+										}}
+									>
+										<Translate content="modal.withdraw.address_not_valid" />
+									</div>
+								) : null}
+								<div>
+									<div className="inline-label">
+										<Select
+											showSearch
+											style={{width: '100%'}}
+											value={address}
+											onSearch={this.onAddressChanged.bind(this)}
+											onSelect={this.onAddressSelected.bind(this)}
+										>
+											{address && storedAddresses.indexOf(address) == -1 ? (
+												<Select.Option value={address}>{address}</Select.Option>
+											) : null}
+											{storedAddresses.map((address) => (
+												<Select.Option value={address}>{address}</Select.Option>
+											))}
+										</Select>
+										<span>
+											<QRScanner
+												label="Scan"
+												onSuccess={this.handleQrScanSuccess}
+												submitBtnText={counterpart.translate(
+													'qr_address_scanner.use_address'
+												)}
+												dataFoundText={
+													counterpart.translate(
+														'qr_address_scanner.address_found'
+													) + ':'
+												}
+											/>
+										</span>
+									</div>
+								</div>
+							</div>
+						) : null}
 
-                        {isBTS ? (
-                            <div style={{marginBottom: "1em"}}>
-                                <AccountSelector
-                                    label="transfer.to"
-                                    accountName={state.btsAccountName}
-                                    onChange={this.onBTSAccountNameChanged.bind(
-                                        this
-                                    )}
-                                    onAccountChanged={this.onBTSAccountChanged.bind(
-                                        this
-                                    )}
-                                    account={state.btsAccountName}
-                                    size={60}
-                                    error={state.btsAccountError}
-                                />
-                            </div>
-                        ) : null}
+						{isBTS ? (
+							<div style={{marginBottom: '1em'}}>
+								<AccountSelector
+									label="transfer.to"
+									accountName={state.btsAccountName}
+									onChange={this.onBTSAccountNameChanged.bind(this)}
+									onAccountChanged={this.onBTSAccountChanged.bind(this)}
+									account={state.btsAccountName}
+									size={60}
+									error={state.btsAccountError}
+								/>
+							</div>
+						) : null}
 
-                        {/*PUBLIC key - custom field (PRIZM) */}
-                        {backingAsset &&
-                        backingAsset.supportsPublicKey !== undefined ? (
-                            <div style={{marginBottom: "1em"}}>
-                                <label className="left-label">
-                                    <Translate content="modal.withdraw.public_key" />
-                                </label>
-                                {
-                                    <Input.TextArea
-                                        value={state.withdraw_publicKey}
-                                        onChange={this.onWithdrawPublicKeyChanged.bind(
-                                            this
-                                        )}
-                                        onInput={this.onWithdrawPublicKeyChanged.bind(
-                                            this
-                                        )}
-                                    />
-                                }
-                            </div>
-                        ) : null}
+						{/*PUBLIC key - custom field (PRIZM) */}
+						{backingAsset && backingAsset.supportsPublicKey !== undefined ? (
+							<div style={{marginBottom: '1em'}}>
+								<label className="left-label">
+									<Translate content="modal.withdraw.public_key" />
+								</label>
+								{
+									<Input.TextArea
+										value={state.withdraw_publicKey}
+										onChange={this.onWithdrawPublicKeyChanged.bind(this)}
+										onInput={this.onWithdrawPublicKeyChanged.bind(this)}
+									/>
+								}
+							</div>
+						) : null}
 
-                        {/*MEMO*/}
-                        {isBTS ||
-                        (backingAsset && backingAsset.supportsMemos) ? (
-                            <div style={{marginBottom: "1em"}}>
-                                <label className="left-label">
-                                    <Translate content="modal.withdraw.memo" />
-                                </label>
-                                <Input.TextArea
-                                    value={state.memo}
-                                    onChange={this.onMemoChanged.bind(this)}
-                                />
-                            </div>
-                        ) : null}
+						{/*MEMO*/}
+						{isBTS || (backingAsset && backingAsset.supportsMemos) ? (
+							<div style={{marginBottom: '1em'}}>
+								<label className="left-label">
+									<Translate content="modal.withdraw.memo" />
+								</label>
+								<Input.TextArea
+									value={state.memo}
+									onChange={this.onMemoChanged.bind(this)}
+								/>
+							</div>
+						) : null}
 
-                        {/*FEE & GATEWAY FEE*/}
-                        {assetAndGateway || isBTS ? (
-                            <div className="grid-block no-overflow wrap shrink">
-                                <div
-                                    className="small-12 medium-6 withdraw-fee-selector"
-                                    style={{paddingRight: 5}}
-                                >
-                                    <FeeAssetSelector
-                                        account={this.props.account}
-                                        transaction={{
-                                            type: "transfer",
-                                            options: ["price_per_kbyte"],
-                                            data: {
-                                                type: "memo",
-                                                content:
-                                                    this.state.selectedAsset.toLowerCase() +
-                                                    ":" +
-                                                    this.state.address +
-                                                    (this.state.memo
-                                                        ? ":" + this.state.memo
-                                                        : "")
-                                            }
-                                        }}
-                                        onChange={this.onFeeChanged.bind(this)}
-                                    />
-                                </div>
-                                <div className="small-12 medium-6 ant-form-item-label withdraw-fee-selector">
-                                    <label className="amount-selector-field--label">
-                                        <Translate content="gateway.fee" />
-                                    </label>
-                                    <div className="grid-block no-overflow wrap shrink">
-                                        <ExchangeInput
-                                            placeholder="0.0"
-                                            id="baseMarketFee"
-                                            value={
-                                                !!backingAsset &&
-                                                "gateFee" in backingAsset
-                                                    ? backingAsset.gateFee
-                                                    : 0
-                                            }
-                                            disabled
-                                            addonAfter={
-                                                <span>
-                                                    <AssetName
-                                                        noTip
-                                                        name={
-                                                            backingAsset.symbol
-                                                        }
-                                                    />
-                                                </span>
-                                            }
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        ) : null}
-                    </div>
-                </div>
-            </Modal>
-        );
-    }
+						{/*FEE & GATEWAY FEE*/}
+						{assetAndGateway || isBTS ? (
+							<div className="grid-block no-overflow wrap shrink">
+								<div
+									className="small-12 medium-6 withdraw-fee-selector"
+									style={{paddingRight: 5}}
+								>
+									<FeeAssetSelector
+										account={this.props.account}
+										transaction={{
+											type: 'transfer',
+											options: ['price_per_kbyte'],
+											data: {
+												type: 'memo',
+												content:
+													this.state.selectedAsset.toLowerCase() +
+													':' +
+													this.state.address +
+													(this.state.memo ? ':' + this.state.memo : ''),
+											},
+										}}
+										onChange={this.onFeeChanged.bind(this)}
+									/>
+								</div>
+								<div className="small-12 medium-6 ant-form-item-label withdraw-fee-selector">
+									<label className="amount-selector-field--label">
+										<Translate content="gateway.fee" />
+									</label>
+									<div className="grid-block no-overflow wrap shrink">
+										<ExchangeInput
+											placeholder="0.0"
+											id="baseMarketFee"
+											value={
+												!!backingAsset && 'gateFee' in backingAsset
+													? backingAsset.gateFee
+													: 0
+											}
+											disabled
+											addonAfter={
+												<span>
+													<AssetName noTip name={backingAsset.symbol} />
+												</span>
+											}
+										/>
+									</div>
+								</div>
+							</div>
+						) : null}
+					</div>
+				</div>
+			</Modal>
+		);
+	}
 }
 
 const ConnectedWithdrawModal = connect(WithdrawModalNew, {
-    listenTo() {
-        return [GatewayStore, AssetStore, SettingsStore, MarketsStore];
-    },
-    getProps() {
-        return {
-            backedCoins: GatewayStore.getState().backedCoins,
-            preferredCurrency: SettingsStore.getSetting("unit"),
-            marketStats: MarketsStore.getState().allMarketStats
-        };
-    }
+	listenTo() {
+		return [GatewayStore, AssetStore, SettingsStore, MarketsStore];
+	},
+	getProps() {
+		return {
+			backedCoins: GatewayStore.getState().backedCoins,
+			preferredCurrency: SettingsStore.getSetting('unit'),
+			marketStats: MarketsStore.getState().allMarketStats,
+		};
+	},
 });
 
 class WithdrawModalWrapper extends React.Component {
-    static propTypes = {
-        account: ChainTypes.ChainAccount.isRequired,
-        withdrawAssets: ChainTypes.ChainAssetsList,
-        intermediateAccounts: ChainTypes.ChainAccountsList
-    };
+	static propTypes = {
+		account: ChainTypes.ChainAccount.isRequired,
+		withdrawAssets: ChainTypes.ChainAssetsList,
+		intermediateAccounts: ChainTypes.ChainAccountsList,
+	};
 
-    static defaultProps = {
-        account: "",
-        withdrawAssets: Immutable.List(),
-        intermediateAccounts: Immutable.List()
-    };
+	static defaultProps = {
+		account: '',
+		withdrawAssets: Immutable.List(),
+		intermediateAccounts: Immutable.List(),
+	};
 
-    render() {
-        const {props} = this;
+	render() {
+		const {props} = this;
 
-        if (!props.account) return null;
+		if (!props.account) return null;
 
-        let balances = props.account.get("balances");
-        let assets = Immutable.fromJS({});
-        balances.forEach((item, id) => {
-            try {
-                let asset = ChainStore.getAsset(id).toJS();
-                assets = assets.set(id, asset);
-            } catch (e) {
-                console.error(e);
-            }
-        });
+		let balances = props.account.get('balances');
+		let assets = Immutable.fromJS({});
+		balances.forEach((item, id) => {
+			try {
+				let asset = ChainStore.getAsset(id).toJS();
+				assets = assets.set(id, asset);
+			} catch (e) {
+				console.error(e);
+			}
+		});
 
-        props.backedCoins.forEach(gateway => {
-            gateway.forEach(coin => {
-                if (coin.withdrawalAllowed) {
-                    try {
-                        let asset = ChainStore.getAsset(coin.symbol).toJS();
-                        if (!assets.has(asset.id))
-                            assets = assets.set(asset.id, asset);
-                    } catch (e) {}
-                }
-            });
-        });
+		props.backedCoins.forEach((gateway) => {
+			gateway.forEach((coin) => {
+				if (coin.withdrawalAllowed) {
+					try {
+						let asset = ChainStore.getAsset(coin.symbol).toJS();
+						if (!assets.has(asset.id)) assets = assets.set(asset.id, asset);
+					} catch (e) {}
+				}
+			});
+		});
 
-        return (
-            <BalanceWrapper
-                wrap={ConnectedWithdrawModal}
-                {...props}
-                balances={props.account.get("balances")}
-                assets={assets}
-            />
-        );
-    }
+		return (
+			<BalanceWrapper
+				wrap={ConnectedWithdrawModal}
+				{...props}
+				balances={props.account.get('balances')}
+				assets={assets}
+			/>
+		);
+	}
 }
 
 const ConnectedWrapper = connect(BindToChainState(WithdrawModalWrapper), {
-    listenTo() {
-        return [AccountStore];
-    },
-    getProps() {
-        return {
-            account: AccountStore.getState().currentAccount
-        };
-    }
+	listenTo() {
+		return [AccountStore];
+	},
+	getProps() {
+		return {
+			account: AccountStore.getState().currentAccount,
+		};
+	},
 });
 
 export default class WithdrawModal extends React.Component {
-    shouldComponentUpdate(np, ns) {
-        if (!this.props.visible && !np.visible) return false;
-        return true;
-    }
+	shouldComponentUpdate(np, ns) {
+		if (!this.props.visible && !np.visible) return false;
+		return true;
+	}
 
-    render() {
-        let withdrawAssets = Immutable.List();
-        let intermediateAccounts = Immutable.List();
-        this.props.backedCoins.forEach(gateway => {
-            gateway.forEach(coin => {
-                if (coin.withdrawalAllowed) {
-                    withdrawAssets.push(coin.symbol);
-                    let withdrawAccount = getIntermediateAccount(
-                        coin.symbol,
-                        this.props.backedCoins
-                    );
-                    if (
-                        withdrawAccount &&
-                        !intermediateAccounts.includes(withdrawAccount)
-                    )
-                        intermediateAccounts = intermediateAccounts.push(
-                            withdrawAccount
-                        );
-                }
-            });
-        });
+	render() {
+		let withdrawAssets = Immutable.List();
+		let intermediateAccounts = Immutable.List();
+		this.props.backedCoins.forEach((gateway) => {
+			gateway.forEach((coin) => {
+				if (coin.withdrawalAllowed) {
+					withdrawAssets.push(coin.symbol);
+					let withdrawAccount = getIntermediateAccount(
+						coin.symbol,
+						this.props.backedCoins
+					);
+					if (
+						withdrawAccount &&
+						!intermediateAccounts.includes(withdrawAccount)
+					)
+						intermediateAccounts = intermediateAccounts.push(withdrawAccount);
+				}
+			});
+		});
 
-        return (
-            <ConnectedWrapper
-                {...this.props}
-                id={this.props.modalId}
-                close={this.props.hideModal}
-                withdrawAssets={withdrawAssets}
-                intermediateAccounts={intermediateAccounts}
-            />
-        );
-    }
+		return (
+			<ConnectedWrapper
+				{...this.props}
+				id={this.props.modalId}
+				close={this.props.hideModal}
+				withdrawAssets={withdrawAssets}
+				intermediateAccounts={intermediateAccounts}
+			/>
+		);
+	}
 }

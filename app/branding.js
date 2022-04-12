@@ -1,5 +1,5 @@
-import {Apis} from "meta1js-ws";
-import chainIds from "chain/chainIds";
+import {Apis} from 'meta1js-ws';
+import chainIds from 'chain/chainIds';
 
 const MAIN_NET_CHAINID_SHORT = chainIds.MAIN_NET.substr(0, 8);
 
@@ -14,14 +14,14 @@ const MAIN_NET_CHAINID_SHORT = chainIds.MAIN_NET.substr(0, 8);
  * @private
  */
 function _isTestnet() {
-    const chainId = (Apis.instance().chain_id || "04e96f5d").substr(0, 8);
+	const chainId = (Apis.instance().chain_id || '04e96f5d').substr(0, 8);
 
-    if (chainId === MAIN_NET_CHAINID_SHORT) {
-        return false;
-    } else {
-        // treat every other chain as testnet, exact would be chainId === "39f5e2ed"
-        return true;
-    }
+	if (chainId === MAIN_NET_CHAINID_SHORT) {
+		return false;
+	} else {
+		// treat every other chain as testnet, exact would be chainId === "39f5e2ed"
+		return true;
+	}
 }
 
 /**
@@ -29,7 +29,7 @@ function _isTestnet() {
  * @returns {string}
  */
 export function getWalletName() {
-    return "META Exchange";
+	return 'META Exchange';
 }
 
 /**
@@ -37,8 +37,8 @@ export function getWalletName() {
  * @returns {string}
  */
 export function getWalletURL() {
-    return "https://exchange.dev.meta1.io";
-    // return "https://meta-exchange.io";
+	return 'https://exchange.dev.meta1.io';
+	// return "https://meta-exchange.io";
 }
 
 /**
@@ -47,22 +47,22 @@ export function getWalletURL() {
  * @returns {{url: string, show: boolean}}
  */
 export function getFaucet() {
-    return {
-        url: "https://faucet.dev.meta1.io/faucet", // 2017-12-infrastructure worker proposal
-        // url: "https://faucet.meta1.io/faucet",
-        show: true,
-        editable: true,
-        referrer: undefined
-    };
+	return {
+		url: 'https://faucet.dev.meta1.io/faucet', // 2017-12-infrastructure worker proposal
+		// url: "https://faucet.meta1.io/faucet",
+		show: true,
+		editable: true,
+		referrer: undefined,
+	};
 }
 
 export function getTestFaucet() {
-    // fixme should be solved by introducing _isTestnet into getFaucet and fixing the mess in the Settings when fetching faucet address
-    return {
-        url: "",
-        show: true,
-        editable: false
-    };
+	// fixme should be solved by introducing _isTestnet into getFaucet and fixing the mess in the Settings when fetching faucet address
+	return {
+		url: '',
+		show: true,
+		editable: false,
+	};
 }
 
 /**
@@ -70,16 +70,31 @@ export function getTestFaucet() {
  * @returns {*}
  */
 export function getLogo() {
-    return require("assets/logo-ico-blue.png");
+	return require('assets/logo-ico-blue.png');
 }
 
+/**
+ * Logo that is used throughout the UI
+ * @returns {*}
+ */
+export function getBankingAssetsLogo() {
+	return require('assets/banking-assets/bankingAssetsLogo.png');
+}
+
+/**
+ * get any Image that is used throughout the UI
+ * @returns {*}
+ */
+export function getGoldImage() {
+	return require('assets/banking-assets/gold.png');
+}
 /**
  * Default set theme for the UI
  * @returns {string}
  */
 export function getDefaultTheme() {
-    // possible ["darkTheme", "lightTheme", "midnightTheme"]
-    return "darkTheme";
+	// possible ["darkTheme", "lightTheme", "midnightTheme"]
+	return 'darkTheme';
 }
 
 /**
@@ -87,8 +102,8 @@ export function getDefaultTheme() {
  * @returns {string}
  */
 export function getDefaultLogin() {
-    // possible: one of "password", "wallet"
-    return "password";
+	// possible: one of "password", "wallet"
+	return 'password';
 }
 
 /**
@@ -97,18 +112,18 @@ export function getDefaultLogin() {
  * @returns {[string,string,string,string,string,string]}
  */
 export function getUnits() {
-    if (_isTestnet()) {
-        return ["META1"];
-    } else {
-        return ["META1", "USDT", "ETH", "BTC", "LTC", "EOS", "XLM", "BNB"];
-    }
+	if (_isTestnet()) {
+		return ['META1'];
+	} else {
+		return ['META1', 'USDT', 'ETH', 'BTC', 'LTC', 'EOS', 'XLM', 'BNB'];
+	}
 }
 
 export function getDefaultMarket() {
-    if (_isTestnet()) {
-        return "USDT_META1";
-    }
-    return "USDT_META1";
+	if (_isTestnet()) {
+		return 'USDT_META1';
+	}
+	return 'USDT_META1';
 }
 
 /**
@@ -117,11 +132,11 @@ export function getDefaultMarket() {
  * @returns {[string]}
  */
 export function getMyMarketsBases() {
-    if (_isTestnet()) {
-        return ["TEST"];
-    }
+	if (_isTestnet()) {
+		return ['TEST'];
+	}
 
-    return ["META1", "BTC", "ETH", "USDT", "LTC", "EOS", "XLM", "BNB"];
+	return ['META1', 'BTC', 'ETH', 'USDT', 'LTC', 'EOS', 'XLM', 'BNB'];
 }
 
 /**
@@ -130,18 +145,18 @@ export function getMyMarketsBases() {
  * @returns {[string]}
  */
 export function getMyMarketsQuotes() {
-    if (_isTestnet()) {
-        return ["TEST"];
-    }
-    let tokens = {
-        nativeTokens: ["BTC", "META1", "USDT", "EOS", "XLM", "BNB"]
-    };
+	if (_isTestnet()) {
+		return ['TEST'];
+	}
+	let tokens = {
+		nativeTokens: ['BTC', 'META1', 'USDT', 'EOS', 'XLM', 'BNB'],
+	};
 
-    let allTokens = [];
-    for (let type in tokens) {
-        allTokens = allTokens.concat(tokens[type]);
-    }
-    return allTokens;
+	let allTokens = [];
+	for (let type in tokens) {
+		allTokens = allTokens.concat(tokens[type]);
+	}
+	return allTokens;
 }
 
 /**
@@ -150,18 +165,18 @@ export function getMyMarketsQuotes() {
  * @returns {list of string tuples}
  */
 export function getFeaturedMarkets(quotes = []) {
-    if (_isTestnet()) {
-        return [["USD", "TEST"]];
-    }
-    return [
-        ["USDT", "META1"],
-        ["USDT", "BTC"],
-        ["USDT", "ETH"],
-        ["USDT", "LTC"]
-    ].filter(a => {
-        if (!quotes.length) return true;
-        return quotes.indexOf(a[0]) !== -1;
-    });
+	if (_isTestnet()) {
+		return [['USD', 'TEST']];
+	}
+	return [
+		['USDT', 'META1'],
+		['USDT', 'BTC'],
+		['USDT', 'ETH'],
+		['USDT', 'LTC'],
+	].filter((a) => {
+		if (!quotes.length) return true;
+		return quotes.indexOf(a[0]) !== -1;
+	});
 }
 
 /**
@@ -170,10 +185,10 @@ export function getFeaturedMarkets(quotes = []) {
  * @returns {[string,string,string,string,string,string,string]}
  */
 export function getAssetNamespaces() {
-    if (_isTestnet()) {
-        return [];
-    }
-    return [];
+	if (_isTestnet()) {
+		return [];
+	}
+	return [];
 }
 
 /**
@@ -181,8 +196,8 @@ export function getAssetNamespaces() {
  * @returns {[string,string]}
  */
 export function getAssetHideNamespaces() {
-    // e..g "OPEN.", "bit"
-    return [];
+	// e..g "OPEN.", "bit"
+	return [];
 }
 
 /**
@@ -191,38 +206,38 @@ export function getAssetHideNamespaces() {
  * @returns {boolean}
  */
 export function allowedGateway(gateway) {
-    const allowedGateways = ["META1"];
-    if (!gateway) {
-        // answers the question: are any allowed?
-        return allowedGateways.length > 0;
-    }
-    return allowedGateways.indexOf(gateway) >= 0;
+	const allowedGateways = ['META1'];
+	if (!gateway) {
+		// answers the question: are any allowed?
+		return allowedGateways.length > 0;
+	}
+	return allowedGateways.indexOf(gateway) >= 0;
 }
 
 export function getSupportedLanguages() {
-    // not yet supported
+	// not yet supported
 }
 
 export function getAllowedLogins() {
-    // possible: list containing any combination of ["password", "wallet"]
-    return ["password", "wallet"];
+	// possible: list containing any combination of ["password", "wallet"]
+	return ['password', 'wallet'];
 }
 
 export function getConfigurationAsset() {
-    let assetSymbol = null;
-    if (_isTestnet()) {
-        assetSymbol = "NOTIFICATIONS";
-    } else {
-        assetSymbol = "META1";
-    }
-    // explanation will be parsed out of the asset description (via split)
-    return {
-        symbol: assetSymbol,
-        explanation:
-            "This asset is used for decentralized configuration of the Meta1 UI placed under bitshares.org."
-    };
+	let assetSymbol = null;
+	if (_isTestnet()) {
+		assetSymbol = 'NOTIFICATIONS';
+	} else {
+		assetSymbol = 'META1';
+	}
+	// explanation will be parsed out of the asset description (via split)
+	return {
+		symbol: assetSymbol,
+		explanation:
+			'This asset is used for decentralized configuration of the Meta1 UI placed under bitshares.org.',
+	};
 }
 
 export function getSteemNewsTag() {
-    return null;
+	return null;
 }

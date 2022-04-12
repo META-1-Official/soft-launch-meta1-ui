@@ -2,8 +2,9 @@ import WalletDb from "stores/WalletDb";
 import WalletUnlockActions from "actions/WalletUnlockActions";
 import CachedPropertyActions from "actions/CachedPropertyActions";
 import ApplicationApi from "api/ApplicationApi";
+import axios from "axios";
 import {TransactionBuilder, FetchChain} from "meta1js";
-import {Apis} from "meta1js-ws";
+import {Apis, ChainConfig} from "meta1js-ws";
 import alt from "alt-instance";
 import SettingsStore from "stores/SettingsStore";
 
@@ -57,6 +58,7 @@ class WalletActions {
         first_name,
         last_name
     ) {
+        let faucetAddress = SettingsStore.getSetting("faucet_address");
         let {privKey: owner_private} = WalletDb.generateKeyFromPassword(
             account_name,
             "owner",
@@ -72,26 +74,42 @@ class WalletActions {
             "memo",
             password
         );
-        console.log("create account:", account_name);
+
+        /* Above 3 keys would have a Prefix of GPH, lets replace it with META1TEST in case of testnet */
+        const owner_public = faucetAddress.includes("testnet")
+            ? `META1TEST${owner_private
+                  .toPublicKey()
+                  .toPublicKeyString()
+                  .substring(3)}`
+            : owner_private.toPublicKey().toPublicKeyString();
+        const active_public = faucetAddress.includes("testnet")
+            ? `META1TEST${active_private
+                  .toPublicKey()
+                  .toPublicKeyString()
+                  .substring(3)}`
+            : active_private.toPublicKey().toPublicKeyString();
+        const memo_public = faucetAddress.includes("testnet")
+            ? `META1TEST${memo_private
+                  .toPublicKey()
+                  .toPublicKeyString()
+                  .substring(3)}`
+            : memo_private.toPublicKey().toPublicKeyString();
+
         console.log(
-            "new active pubkey",
-            active_private.toPublicKey().toPublicKeyString()
+            "create account:",
+            account_name,
+            ChainConfig.address_prefix
         );
-        console.log(
-            "new owner pubkey",
-            owner_private.toPublicKey().toPublicKeyString()
-        );
-        console.log(
-            "new memo pubkey",
-            memo_private.toPublicKey().toPublicKeyString()
-        );
+        console.log("new active pubkey", owner_public);
+        console.log("new owner pubkey", active_public);
+        console.log("new memo pubkey", memo_public);
 
         return new Promise((resolve, reject) => {
             let create_account = () => {
                 return ApplicationApi.create_account(
-                    owner_private.toPublicKey().toPublicKeyString(),
-                    active_private.toPublicKey().toPublicKeyString(),
-                    memo_private.toPublicKey().toPublicKeyString(),
+                    owner_public,
+                    active_public,
+                    memo_public,
                     account_name,
                     registrar, //registrar_id,
                     referrer, //referrer_id,
@@ -108,7 +126,7 @@ class WalletActions {
             } else {
                 // using faucet
 
-                let faucetAddress = SettingsStore.getSetting("faucet_address");
+                console.log("$$$$$$ facucet address", faucetAddress);
                 if (
                     window &&
                     window.location &&
@@ -120,50 +138,71 @@ class WalletActions {
                     );
                 }
 
-                let create_account_promise = fetch(
-                    faucetAddress + "/api/v1/accounts",
-                    {
-                        method: "post",
-                        mode: "cors",
-                        headers: {
-                            Accept: "application/json",
-                            "Content-type": "application/json"
-                        },
-                        body: JSON.stringify({
-                            account: {
-                                name: account_name,
-                                owner_key: owner_private
-                                    .toPublicKey()
-                                    .toPublicKeyString(),
-                                active_key: active_private
-                                    .toPublicKey()
-                                    .toPublicKeyString(),
-                                memo_key: memo_private
-                                    .toPublicKey()
-                                    .toPublicKeyString(),
-                                refcode: refcode,
-                                referrer: referrer,
-                                email: email,
-                                phone_number: phone_number,
-                                first_name: first_name,
-                                last_name: last_name
-                            }
-                        })
+                let create_account_promise = axios({
+                    url: faucetAddress + "/api/v1/accounts",
+                    method: "post",
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json"
+                    },
+                    data: {
+                        account: {
+                            name: account_name,
+                            owner_key: owner_public,
+                            active_key: active_public,
+                            memo_key: memo_public,
+                            refcode: refcode,
+                            referrer: referrer,
+                            email: email,
+                            phone_number: phone_number,
+                            first_name: first_name,
+                            last_name: last_name
+                        }
                     }
-                )
-                    .then(r =>
-                        r.json().then(res => {
-                            if (!res || (res && res.error)) {
-                                reject(res.error);
-                            } else {
-                                resolve(res);
-                            }
-                        })
-                    )
-                    .catch(reject);
+                });
+
+                // let create_account_promise = fetch(
+                //     faucetAddress + "/api/v1/accounts",
+                //     {
+                //         method: "post",
+                //         mode: "cors",
+                //         headers: {
+                //             Accept: "application/json",
+                //             "Content-Type": "application/json",
+                //             // "Access-Control-Allow-Methods": "GET,HEAD,OPTIONS,POST,PUT",
+                //             "Access-Control-Allow-Headers:": "Access-Control-Allow-Headers, Origin,Accept, Content-Type",
+                //             "Access-Control-Allow-Origin": "*"
+                //         },
+                //         body: JSON.stringify({
+                //             account: {
+                //                 name: account_name,
+                //                 owner_key: owner_public,
+                //                 active_key: active_public,
+                //                 memo_key: memo_public,
+                //                 refcode: refcode,
+                //                 referrer: referrer,
+                //                 email: email,
+                //                 phone_number: phone_number,
+                //                 first_name: first_name,
+                //                 last_name: last_name
+                //             }
+                //         })
+                //     }
+                // )
+                //     .then(r =>
+                //         r.json().then(res => {
+                //             if (!res || (res && res.error)) {
+                //                 reject(res.error);
+                //             } else {
+                //                 resolve(res);
+                //             }
+                //         })
+                //     )
+                //     .catch(reject);
 
                 return create_account_promise
                     .then(result => {
+                        debugger;
                         if (result && result.error) {
                             reject(result.error);
                         } else {
