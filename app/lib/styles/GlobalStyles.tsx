@@ -258,6 +258,28 @@ const GlobalStyles = (theme: any) => css`
 	.ant-select-arrow {
 		color: ${theme.colors.themeOpositeColor};
 	}
+
+	.ant-collapse {
+		border: 1px solid ${theme.colors.borderColor};
+		background-color: ${theme.colors.black};
+
+		.ant-collapse-item{
+			border-bottom: none;
+		}
+		.ant-collapse-header {
+			background-color: ${theme.colors.CollapseHeaderColor};
+			color:  ${theme.colors.themeOpositeColor} !important;
+			padding-left: 15px !important;
+			font-size: 15px;
+			font-family: Poppins;
+ 		}
+		.ant-collapse-content {
+			color: ${theme.colors.themeOpositeColor};
+			background-color: ${theme.colors.black};
+			border-top: none;
+		}
+	}
+	
 	
   	 
 `;

@@ -22,8 +22,8 @@ const AppLayout = ({children, location, height}: IAppLayout) => {
 		if (pathSnippets.includes('whitelist')) {
 			link = 'whitelist';
 		}
-		if (pathSnippets.includes('membershipStats')) {
-			link = 'membershipStats';
+		if (pathSnippets.includes('member-stats')) {
+			link = 'member-stats';
 		}
 		if (pathSnippets.includes('market')) {
 			link = 'market';

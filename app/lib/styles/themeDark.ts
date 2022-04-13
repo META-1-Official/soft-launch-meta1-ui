@@ -37,6 +37,7 @@ const theme = {
 		dropdownBackgroundColor: '#21252f',
 		bankingAssetsStatusColor: '#0f923a',
 		bankingAssetsDetailBackground: '#15171b',
+		CollapseHeaderColor: '#15171b',
 	},
 	sizes: {
 		lg: '992px',

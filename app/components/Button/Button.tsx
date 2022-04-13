@@ -6,12 +6,14 @@ interface IStyledButton {
 	children: React.ReactNode;
 	shape: 'circle' | 'round' | 'default' | undefined;
 	buttonType: 'primary' | 'white' | 'transparent' | 'red';
+	fill?: boolean;
 }
 
 const StyledButton = ({
 	children,
 	shape,
 	buttonType,
+	fill,
 	...rest
 }: IStyledButton) => {
 	const theme: any = useTheme();
@@ -23,9 +25,9 @@ const StyledButton = ({
 		border = `1px solid ${theme.colors.primaryColor}`;
 		color = 'black';
 	} else if (buttonType === 'white') {
-		backgroundColor = 'transparent';
+		backgroundColor = fill ? theme.colors.buttonWhiteColor : 'transparent';
 		border = `1px solid ${theme.colors.buttonWhiteColor}`;
-		color = theme.colors.buttonWhiteColor;
+		color = fill ? theme.colors.black : theme.colors.buttonWhiteColor;
 	} else if (buttonType === 'transparent') {
 		backgroundColor = 'transparent';
 		border = `1px solid ${theme.colors.primaryColor}`;

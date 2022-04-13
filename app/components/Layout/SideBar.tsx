@@ -91,7 +91,7 @@ const SideBar = ({collapsed, currentLink, toggle}: ISideBar) => {
 			enableNavLinks,
 		},
 		{
-			menuId: 'membershipStats',
+			menuId: 'member-stats',
 			menuName: 'Membership stats',
 			icon: <FileTextOutlined />,
 			enableNavLinks,
@@ -117,7 +117,7 @@ const SideBar = ({collapsed, currentLink, toggle}: ISideBar) => {
 		if (e.key === 'whitelist') {
 			link = `account/${accountName}/whitelist`;
 		}
-		if (e.key === 'membershipStats') {
+		if (e.key === 'member-stats') {
 			link = `account/${accountName}/member-stats`;
 		}
 		history.push(`/${link}`);
