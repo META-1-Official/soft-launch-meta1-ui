@@ -367,21 +367,21 @@ module.exports = function (env) {
 					use: scssLoaders,
 				},
 				{
-					test: /\.png$/,
+					test: /\.(png|gif)$/,
 					exclude: [
 						path.resolve(root_dir, 'app/assets/asset-symbols'),
 						path.resolve(root_dir, 'app/assets/language-dropdown/img'),
+						path.resolve(root_dir, 'app/assets/loader'),
 					],
 					use: [
 						{
 							loader: 'url-loader',
 							options: {
-								limit: 100000,
+								limit: 1000000,
 							},
 						},
 					],
 				},
-
 				{
 					test: /\.woff$/,
 					use: [

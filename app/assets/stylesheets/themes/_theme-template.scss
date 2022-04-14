@@ -741,7 +741,8 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 			background-color: darken($bg-color, 4%);
 		}
 		.main-content {
-			@include radialGradient($bg-color-mixin, $bg-color);
+			// @include radialGradient($bg-color-mixin, $bg-color);
+			background-color: black;
 			&.margin-block {
 				background-color: $main-content-margin-block-bg-color;
 			}
