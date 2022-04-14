@@ -63,7 +63,7 @@ class AppInit extends React.Component {
 	 * @param error
 	 */
 	componentDidCatch(error) {
-		this.saveExtendedLog('error', [error]);
+		// this.saveExtendedLog('error', [error]);
 	}
 
 	componentDidUpdate(nextProps, nextState) {
@@ -152,9 +152,9 @@ class AppInit extends React.Component {
 	}
 
 	componentWillMount() {
-		if (!__DEV__) {
-			this._enablePersistingLog();
-		}
+		// if (!__DEV__) {
+		// 	this._enablePersistingLog();
+		// }
 
 		willTransitionTo(true, this._statusCallback.bind(this))
 			.then(() => {
@@ -189,9 +189,9 @@ class AppInit extends React.Component {
 		}
 	}
 
-	componentWillUnmount() {
-		this.mounted = false;
-	}
+	// componentWillUnmount() {
+	// 	this.mounted = false;
+	// }
 
 	_statusCallback(status) {
 		this.setState({status});

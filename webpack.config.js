@@ -267,19 +267,25 @@ module.exports = function (env) {
 			sourceMapFilename: '[name].js.map',
 			globalObject: 'this',
 		},
+		performance: {
+			hints: false,
+			maxEntrypointSize: 512000,
+			maxAssetSize: 512000,
+		},
 		optimization: {
+			runtimeChunk: 'single',
 			splitChunks: {
 				cacheGroups: {
 					styles: {
 						name: 'styles',
-						test: /\.css$/,
+						test: /.css$/,
 						chunks: 'all',
 						enforce: true,
 					},
 					vendor: {
 						name: 'vendor',
-						test: /node_modules/,
-						chunks: 'initial',
+						test: /[\/]node_modules[\/]/,
+						chunks: 'all',
 						enforce: true,
 					},
 				},
