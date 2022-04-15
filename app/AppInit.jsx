@@ -63,7 +63,7 @@ class AppInit extends React.Component {
 	 * @param error
 	 */
 	componentDidCatch(error) {
-		this.saveExtendedLog('error', [error]);
+		// this.saveExtendedLog('error', [error]);
 	}
 
 	componentDidUpdate(nextProps, nextState) {
@@ -152,9 +152,9 @@ class AppInit extends React.Component {
 	}
 
 	componentWillMount() {
-		if (!__DEV__) {
-			this._enablePersistingLog();
-		}
+		// if (!__DEV__) {
+		// 	this._enablePersistingLog();
+		// }
 
 		willTransitionTo(true, this._statusCallback.bind(this))
 			.then(() => {
@@ -178,8 +178,11 @@ class AppInit extends React.Component {
 
 	componentDidMount() {
 		this.mounted = true;
-		//Detect OS for platform specific fixes
-		if (navigator.platform.indexOf('Win') > -1) {
+		let platform =
+			navigator?.userAgentData?.platform || navigator?.platform || 'unknown';
+
+		// Detect OS for platform specific fixes
+		if (platform.indexOf('Win') > -1) {
 			var main = document.getElementById('content');
 			var windowsClass = 'windows';
 			if (main.className.indexOf('windows') === -1) {
@@ -189,9 +192,9 @@ class AppInit extends React.Component {
 		}
 	}
 
-	componentWillUnmount() {
-		this.mounted = false;
-	}
+	// componentWillUnmount() {
+	// 	this.mounted = false;
+	// }
 
 	_statusCallback(status) {
 		this.setState({status});
@@ -207,8 +210,6 @@ class AppInit extends React.Component {
 			}
 			return (
 				<div
-					// style={{backgroundColor: !theme ? "#2a2a2a" : null}}
-					// inline function to access theme is just for integration purpose only. should use withTheme HOC or useTheme hook
 					css={(theme) => ({
 						backgroundColor: theme.colors.background,
 					})}

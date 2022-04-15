@@ -60,7 +60,7 @@ class AuthRedirect extends React.Component {
 			const eSignSuccess = qs.parse(this.props.location.search, {
 				ignoreQueryPrefix: true,
 			}).signature;
-			debugger;
+			// debugger;
 			if (
 				param === 'existingEmailCreation' &&
 				openLogin &&
@@ -144,7 +144,7 @@ class AuthRedirect extends React.Component {
 
 	async generateAuthData() {
 		const {openLogin, setPrivKey, setAuthData} = this.props;
-		debugger;
+		// debugger;
 		try {
 			await openLogin.init();
 			if (openLogin.privKey) {
@@ -171,7 +171,7 @@ class AuthRedirect extends React.Component {
 		const regUserName = ss.get('account_registration_name', '');
 		const logInUserName = ss.get('account_login_name', '');
 		if (regUserName) {
-			debugger;
+			// debugger;
 			if (redirectFromVoiceItEnrollment) {
 				this.props.history.push(
 					`/registration?voiceItToken=${encodeURI(
@@ -198,7 +198,7 @@ class AuthRedirect extends React.Component {
 				console.log('Response after jwt validation', response);
 				if (response && response.data) {
 					console.log('&&&& response data', response.data);
-					debugger;
+					// debugger;
 					if (
 						response.data.email === authData.email &&
 						response.data.status === 'success'
@@ -364,7 +364,7 @@ class AuthRedirect extends React.Component {
 		}
 		const data = await service(jwt, email);
 		if (data) {
-			debugger;
+			// debugger;
 			if (data.email === email && data.status === 'success') {
 				const password = this.genKey(`${logInUserName}${privKey}`);
 				this.validateLogin(password, logInUserName);

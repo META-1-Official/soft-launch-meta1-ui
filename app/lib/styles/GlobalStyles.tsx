@@ -7,7 +7,6 @@ const GlobalStyles = (theme: any) => css`
 	.ant-typography {
 		//	color: ${theme.colors.themeOpositeColor};
 	}
-	
 
 	.ant-radio-wrapper {
 		color: ${theme.colors.themeOpositeColor};

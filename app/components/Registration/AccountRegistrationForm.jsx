@@ -13,15 +13,9 @@ import AccountNameInput from './../Forms/AccountNameInputStyleGuide';
 import AccountSelect from '../Forms/AccountSelect';
 import LoadingIndicator from '../LoadingIndicator';
 import Icon from '../Icon/Icon';
-// import CopyButton from "../Utility/CopyButton";
+import CopyButton from '../Utility/CopyButton';
 import {Form, Input, Button, Tooltip} from 'antd';
 import ReCAPTCHA from 'react-google-recaptcha';
-import ls from '../../lib/common/localStorage';
-// import authenticator from "authenticator";
-// import QRCode from "qrcode.react";
-// import swal from "sweetalert";
-const STORAGE_KEY = '__AuthData__';
-const ss = new ls(STORAGE_KEY);
 
 class AccountRegistrationForm extends React.Component {
 	static propTypes = {
@@ -35,20 +29,20 @@ class AccountRegistrationForm extends React.Component {
 			accountName: '',
 			registrarAccount: null,
 			loading: false,
-			// generatedPassword: `P${key.get_random_key().toWif()}`,
-			// confirmPassword: "",
-			// email: "",
+			generatedPassword: `P${key.get_random_key().toWif()}`,
+			confirmPassword: '',
+			email: '',
 			phone: '',
 			firstname: '',
 			lastname: '',
-			captcha: true, // for testing purpose: setting it as true
+			captcha: false,
 		};
 		this.onSubmit = this.onSubmit.bind(this);
 		this.populateData = this.populateData.bind(this);
 		this.onRegistrarAccountChange = this.onRegistrarAccountChange.bind(this);
 		this.onAccountNameChange = this.onAccountNameChange.bind(this);
-		// this.onConfirmation = this.onConfirmation.bind(this);
-		// this.onEmailChange = this.onEmailChange.bind(this);
+		this.onConfirmation = this.onConfirmation.bind(this);
+		this.onEmailChange = this.onEmailChange.bind(this);
 		this.onPhoneChange = this.onPhoneChange.bind(this);
 		this.onLastnameChange = this.onLastnameChange.bind(this);
 		this.onFirstnameChange = this.onFirstnameChange.bind(this);
@@ -73,13 +67,13 @@ class AccountRegistrationForm extends React.Component {
 
 		const firstname = url.searchParams.get('firstname');
 		const lastname = url.searchParams.get('lastname');
-		// const email = url.searchParams.get("email");
+		const email = url.searchParams.get('email');
 		const phone = url.searchParams.get('phone');
 
 		this.setState({
 			firstname: firstname,
 			lastname: lastname,
-			// email: email,
+			email: email,
 			phone: phone,
 		});
 	}
@@ -109,11 +103,11 @@ class AccountRegistrationForm extends React.Component {
 		this.setState({registrarAccount});
 	}
 
-	// onEmailChange(e) {
-	//     const value = e.currentTarget.value;
-	//     console.log(value);
-	//     this.setState({email: value});
-	// }
+	onEmailChange(e) {
+		const value = e.currentTarget.value;
+		console.log(value);
+		this.setState({email: value});
+	}
 
 	onPhoneChange(e) {
 		const value = e.currentTarget.value;
@@ -135,25 +129,26 @@ class AccountRegistrationForm extends React.Component {
 
 	onSubmit(e) {
 		e.preventDefault();
-		// sessionStorage.email = this.state.email;
-		ss.set('phone', this.state.phone);
-		ss.set('firstname', this.state.firstname);
-		ss.set('lastname', this.state.lastname);
+		sessionStorage.email = this.state.email;
+		sessionStorage.phone = this.state.phone;
+		sessionStorage.firstname = this.state.firstname;
+		sessionStorage.lastname = this.state.lastname;
+
 		if (this.isValid()) {
 			this.props.continue({
 				accountName: this.state.accountName,
-				// password: this.state.generatedPassword
+				password: this.state.generatedPassword,
 			});
 		}
 	}
 
-	// onConfirmation(e) {
-	//     const value = e.currentTarget.value;
-	//     this.setState({
-	//         confirmPassword: value,
-	//         passwordConfirmed: value === this.state.generatedPassword
-	//     });
-	// }
+	onConfirmation(e) {
+		const value = e.currentTarget.value;
+		this.setState({
+			confirmPassword: value,
+			passwordConfirmed: value === this.state.generatedPassword,
+		});
+	}
 
 	isValid() {
 		const firstAccount = AccountStore.getMyAccounts().length === 0;
@@ -188,18 +183,6 @@ class AccountRegistrationForm extends React.Component {
 				isLTM = true;
 			}
 		}
-
-		// const getConfirmationPasswordHelp = () => {
-		//     return this.state.confirmPassword && !this.state.passwordConfirmed
-		//         ? counterpart.translate("wallet.confirm_error")
-		//         : "";
-		// };
-
-		// const getConfirmationPasswordValidateStatus = () => {
-		//     return this.state.confirmPassword && !this.state.passwordConfirmed
-		//         ? "error"
-		//         : "";
-		// };
 
 		return (
 			<div>
@@ -269,73 +252,21 @@ class AccountRegistrationForm extends React.Component {
 						}
 						noLabel
 					/>
-					{/* <Form.Item
-                        label={counterpart.translate("wallet.generated")}
-                    >
-                        <Input.TextArea
-                            disabled={true}
-                            style={{paddingRight: "50px"}}
-                            rows={2}
-                            id="password"
-                            value={this.state.generatedPassword}
-                        />
-                        <CopyButton
-                            text={this.state.generatedPassword}
-                            tip="tooltip.copy_password"
-                            dataPlace="top"
-                            className="button registration-layout--copy-password-btn"
-                        />
-                    </Form.Item> */}
-					{/*<span className="inline-label generated-password-field">*/}
-					{/*<textarea*/}
-					{/*id="password"*/}
-					{/*rows="2"*/}
-					{/*readOnly*/}
-					{/*disabled*/}
-					{/*defaultValue={this.state.generatedPassword}*/}
-					{/*/>*/}
-					{/*<CopyButton*/}
-					{/*text={this.state.generatedPassword}*/}
-					{/*tip="tooltip.copy_password"*/}
-					{/*dataPlace="top"*/}
-					{/*/>*/}
-					{/*</span>*/}
-					{/*<label className="left-label" htmlFor="confirmPassword">*/}
-					{/*<Translate content="wallet.confirm_password" />*/}
-					{/*</label>*/}
-					{/* <Form.Item
-                        label={counterpart.translate("wallet.confirm_password")}
-                        help={getConfirmationPasswordHelp()}
-                        validateStatus={getConfirmationPasswordValidateStatus()}
-                    >
-                        <Input
-                            placeholder={counterpart.translate(
-                                "wallet.confirm_password"
-                            )}
-                            type="password"
-                            name="password"
-                            id="confirmPassword"
-                            value={this.state.confirmPassword}
-                            onChange={this.onConfirmation}
-                        />
-                    </Form.Item> */}
-
-					{/*<span className="inline-label">*/}
-					{/*<input*/}
-					{/*type="password"*/}
-					{/*name="password"*/}
-					{/*id="confirmPassword"*/}
-					{/*value={this.state.confirmPassword}*/}
-					{/*onChange={this.onConfirmation}*/}
-					{/*/>*/}
-					{/*</span>*/}
-					{/*{this.state.confirmPassword &&*/}
-					{/*!this.state.passwordConfirmed ? (*/}
-					{/*<div className="has-error">*/}
-					{/*<Translate content="wallet.confirm_error" />*/}
-					{/*</div>*/}
-					{/*) : null}*/}
-
+					<Form.Item label={counterpart.translate('wallet.generated')}>
+						<Input.TextArea
+							disabled={true}
+							style={{paddingRight: '50px'}}
+							rows={2}
+							id="password"
+							value={this.state.generatedPassword}
+						/>
+						<CopyButton
+							text={this.state.generatedPassword}
+							tip="tooltip.copy_password"
+							dataPlace="top"
+							className="button registration-layout--copy-password-btn"
+						/>
+					</Form.Item>
 					{firstAccount ? null : (
 						<div className="full-width-content form-group no-overflow">
 							<label htmlFor="account">
@@ -369,6 +300,7 @@ class AccountRegistrationForm extends React.Component {
 								// !this.state.passwordConfirmed ||
 								(registrarAccount && !isLTM)
 							}
+							onClick={(e) => this.onSubmit(e)}
 						>
 							<Translate content="registration.continue" />
 						</Button>
