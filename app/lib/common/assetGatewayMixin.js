@@ -3,7 +3,8 @@ import Translate from 'react-translate-component';
 import counterpart from 'counterpart';
 import {getGatewayStatusByAsset} from 'common/gatewayUtils';
 import {Link} from 'react-router-dom';
-import {Select, Icon} from 'antd';
+import {Select} from 'antd';
+import Icon from '../../components/Icon/Icon';
 import utils from 'common/utils';
 
 function _getCoinToGatewayMapping(boolCheck = 'depositAllowed') {

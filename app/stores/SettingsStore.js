@@ -12,7 +12,9 @@ import {
 	getMyMarketsQuotes,
 	getUnits,
 } from 'branding';
+import chainIds from 'chain/chainIds';
 
+const MAIN_NET_CHAINID_SHORT = chainIds.MAIN_NET.substr(0, 8);
 const CORE_ASSET = 'META1'; // Setting this to META1 to prevent loading issues when used with META1 chain which is the most usual case currently
 
 const STORAGE_KEY = '__graphene__';
@@ -652,7 +654,7 @@ class SettingsStore {
 	}
 
 	_getChainId() {
-		return (Apis.instance().chain_id || '22a8d817').substr(0, 8);
+		return (Apis.instance().chain_id || MAIN_NET_CHAINID_SHORT).substr(0, 8);
 	}
 
 	_getChainKey(key) {
