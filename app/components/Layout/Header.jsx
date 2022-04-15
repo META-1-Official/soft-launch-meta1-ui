@@ -572,10 +572,12 @@ class Header extends React.Component {
 	}
 
 	handleHeaderLink = (e) => {
-		const {lastMarket} = this.props;
+		const {lastMarket, currentAccount} = this.props;
 		const {key} = e;
 		if (key === 'auth') {
 			this._toggleLock(this, true);
+		} else if (key === 'dashboard') {
+			this._onNavigate(`/account/${currentAccount}`, this, true);
 		} else if (key === 'createAccount') {
 			this._onNavigate('/registration/', this, true);
 		} else if (key === 'market') {
