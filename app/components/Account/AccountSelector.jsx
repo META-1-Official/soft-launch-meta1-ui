@@ -630,7 +630,7 @@ class AccountSelector extends React.Component {
 					<AiOutlineEdit
 						css={(theme) => ({
 							fontSize: '1rem',
-							color: theme.colors.themeOpositeColor,
+							color: theme.colors.themeOppositeColor,
 						})}
 					/>
 				</div>

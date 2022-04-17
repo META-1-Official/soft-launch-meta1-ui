@@ -10,7 +10,6 @@ import AccountActions from 'actions/AccountActions';
 import TimeAgo from '../Utility/TimeAgo';
 import HelpContent from '../Utility/HelpContent';
 import accountUtils from 'common/account_utils';
-import {Tabs, Tab} from '../Utility/Tabs';
 import {getWalletName} from 'branding';
 import {getWalletURL} from '../../branding';
 import StyledButton from 'components/Button/Button';
@@ -65,7 +64,6 @@ class AccountMembership extends React.Component {
 
 	render() {
 		let {gprops, core_asset} = this.props;
-		console.log('----', member_status);
 		let account = this.props.account.toJS();
 
 		let ltr = ChainStore.getAccount(account.lifetime_referrer, false);
@@ -157,7 +155,11 @@ class AccountMembership extends React.Component {
 
 					{member_status === 'lifetime' ? null : (
 						<>
-							<StyledButton buttonType="white" fill={true}>
+							<StyledButton
+								buttonType="white"
+								fill={true}
+								onClick={this.upgradeAccount.bind(this, account.id, true)}
+							>
 								<Translate content="account.member.upgrade_lifetime" />
 							</StyledButton>
 							<>
@@ -321,7 +323,7 @@ class AccountMembership extends React.Component {
 										lineHeight: 1.5715,
 										cursor: 'pointer',
 										marginTop: 0,
-										color: theme.colors.themeOpositeColor,
+										color: theme.colors.themeOppositeColor,
 									},
 								})}
 							>

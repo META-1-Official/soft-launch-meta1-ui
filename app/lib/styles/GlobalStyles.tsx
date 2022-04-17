@@ -5,19 +5,19 @@ const GlobalStyles = (theme: any) => css`
 		border-top: 1px solid ${theme.colors.borderColor};
 	}
 	.ant-typography {
-		//	color: ${theme.colors.themeOpositeColor};
+		//	color: ${theme.colors.themeOppositeColor};
 	}
 	
 
 	.ant-radio-wrapper {
-		color: ${theme.colors.themeOpositeColor};
+		color: ${theme.colors.themeOppositeColor};
 	}
 	.ant-form {
-		color: ${theme.colors.themeOpositeColor};
+		color: ${theme.colors.themeOppositeColor};
 	}
 
 	.ant-menu {
-		color: ${theme.colors.themeOpositeColor};
+		color: ${theme.colors.themeOppositeColor};
 		background: ${theme.colors.sideBar} !important;
 		.ant-menu-item-selected,
 		.ant-menu-item-selected > a,
@@ -76,7 +76,7 @@ const GlobalStyles = (theme: any) => css`
 		height: 19px;
 	}
 	.ant-tabs {
-		color: ${theme.colors.themeOpositeColor};;
+		color: ${theme.colors.themeOppositeColor};;
 	}
 	.ant-tabs {
 		.ant-tabs-nav::before {
@@ -110,7 +110,7 @@ const GlobalStyles = (theme: any) => css`
 		}
 	}
 	.ant-table {
-		color: ${theme.colors.themeOpositeColor}; 
+		color: ${theme.colors.themeOppositeColor}; 
 	}
 	.ant-table-thead {
 		th.ant-table-column-sort {
@@ -122,7 +122,7 @@ const GlobalStyles = (theme: any) => css`
 			}
 		}
 		tr > th {
-			color: ${theme.colors.themeOpositeColor};;
+			color: ${theme.colors.themeOppositeColor};;
 			background: ${theme.colors.tableColumnColor};
 			padding: 10px;
 			border-bottom: none;
@@ -133,7 +133,7 @@ const GlobalStyles = (theme: any) => css`
 		background: ${theme.colors.black}; !important;
 		.ant-table-cell {
 			.ant-empty-description {
-				color: ${theme.colors.themeOpositeColor};;
+				color: ${theme.colors.themeOppositeColor};;
 			}
 		}
 		td.ant-table-column-sort {
@@ -150,12 +150,12 @@ const GlobalStyles = (theme: any) => css`
 		}
 	} 
 	.ant-table-footer {
-		color: ${theme.colors.themeOpositeColor};  
+		color: ${theme.colors.themeOppositeColor};  
     background: ${theme.colors.tableColumnColor};
 	}
 	
 	.ant-pagination-total-text {
-		color: ${theme.colors.themeOpositeColor};  
+		color: ${theme.colors.themeOppositeColor};  
 	}
 	.ant-pagination-item {
 		background: transparent; 
@@ -166,7 +166,7 @@ const GlobalStyles = (theme: any) => css`
 	}
 	.ant-pagination-prev .ant-pagination-item-link, .ant-pagination-next .ant-pagination-item-link {
 		background-color: transparent;
-		color: ${theme.colors.themeOpositeColor};  
+		color: ${theme.colors.themeOppositeColor};  
 		border: none;
 	}
  	.ant-pagination-item-active {
@@ -179,7 +179,7 @@ const GlobalStyles = (theme: any) => css`
 	}
   
 	.ant-form-item-label > label {
-		color: ${theme.colors.themeOpositeColor};
+		color: ${theme.colors.themeOppositeColor};
 	}
 	.ant-radio-checked .ant-radio-inner{
 		border-color: ${theme.colors.primaryColor} !important ;
@@ -221,11 +221,16 @@ const GlobalStyles = (theme: any) => css`
 		padding: 1rem;
 
 		.ant-modal-close-x {
-			color: ${theme.colors.themeOpositeColor};
+			color: ${theme.colors.themeOppositeColor};
 		}
 	}
 	.ant-modal-footer {
 		border-top: none;
+		.ant-btn-primary {
+			background-color: ${theme.colors.primaryColor};
+			border : 1px solid ${theme.colors.primaryColor};
+			color: ${theme.colors.black};
+		}
 	}
 	.ant-input:focus, .ant-input-focused {
 		border-color: ${theme.colors.borderColor};
@@ -243,12 +248,12 @@ const GlobalStyles = (theme: any) => css`
 	}
 	.ant-select-disabled.ant-select:not(.ant-select-customize-input) .ant-select-selector {
 		background-color: ${theme.colors.dropdownBackgroundColor};
-		color: ${theme.colors.themeOpositeColor};
+		color: ${theme.colors.themeOppositeColor};
 		border: 1px solid ${theme.colors.borderColor};
 	}
 	.ant-select:not(.ant-select-customize-input) .ant-select-selector {
 		background-color: ${theme.colors.dropdownBackgroundColor};
-		color: ${theme.colors.themeOpositeColor};
+		color: ${theme.colors.themeOppositeColor};
 	 	border: 1px solid ${theme.colors.borderColor};
 	}
 	.ant-select-item-option-active:not(.ant-select-item-option-disabled) {
@@ -256,7 +261,7 @@ const GlobalStyles = (theme: any) => css`
 	}
 
 	.ant-select-arrow {
-		color: ${theme.colors.themeOpositeColor};
+		color: ${theme.colors.themeOppositeColor};
 	}
 
 	.ant-collapse {
@@ -268,13 +273,13 @@ const GlobalStyles = (theme: any) => css`
 		}
 		.ant-collapse-header {
 			background-color: ${theme.colors.CollapseHeaderColor};
-			color:  ${theme.colors.themeOpositeColor} !important;
+			color:  ${theme.colors.themeOppositeColor} !important;
 			padding-left: 15px !important;
 			font-size: 15px;
 			font-family: Poppins;
  		}
 		.ant-collapse-content {
-			color: ${theme.colors.themeOpositeColor};
+			color: ${theme.colors.themeOppositeColor};
 			background-color: ${theme.colors.black};
 			border-top: none;
 		}

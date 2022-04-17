@@ -193,14 +193,14 @@ class HelpContent extends React.PureComponent {
 								},
 								'h2, h3': {
 									fontSize: '1rem',
-									color: theme.colors.themeOpositeColor,
+									color: theme.colors.themeOppositeColor,
 								},
 								ul: {
 									listStyle: 'none',
 								},
 								li: {
 									paddingLeft: '12px',
-									color: theme.colors.themeOpositeColor,
+									color: theme.colors.themeOppositeColor,
 									':before': {
 										content: `'\\2022'`,
 										color: theme.colors.primaryColor,
@@ -216,7 +216,7 @@ class HelpContent extends React.PureComponent {
 									border: 'none',
 									height: '1px',
 									width: '100%',
-									backgroundColor: theme.colors.themeOpositeColor,
+									backgroundColor: theme.colors.themeOppositeColor,
 								},
 								code: {
 									color: theme.colors.primaryColor,
@@ -225,7 +225,7 @@ class HelpContent extends React.PureComponent {
 								},
 								blockquote: {
 									color: theme.colors.primaryColor,
-									borderLeft: `3px solid ${theme.colors.themeOpositeColor}`,
+									borderLeft: `3px solid ${theme.colors.themeOppositeColor}`,
 								},
 								table: {
 									width: '50%',

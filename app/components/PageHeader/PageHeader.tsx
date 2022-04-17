@@ -16,7 +16,7 @@ const PageHeader = ({title, level, showDivider, ...props}: IPageHeader) => {
 				borderBottom: showDivider
 					? `1px solid ${theme.colors.borderColor}`
 					: 'none',
-				color: theme.colors.themeOpositeColor,
+				color: theme.colors.themeOppositeColor,
 			})}
 		>
 			<Title css={{margin: '0px !important'}} level={level} {...props}>

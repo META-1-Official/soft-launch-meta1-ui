@@ -75,7 +75,7 @@ const AssetExplorer = ({history}) => {
 						>
 							<Text
 								css={(theme) => ({
-									color: theme.colors.themeOpositeColor,
+									color: theme.colors.themeOppositeColor,
 									fontSize: '16px',
 									fontFamily: 'Poppins',
 								})}
@@ -183,7 +183,7 @@ const AssetExplorer = ({history}) => {
 													<Col xs={24} sm={6}>
 														<Text
 															css={(theme) => ({
-																color: theme.colors.themeOpositeColor,
+																color: theme.colors.themeOppositeColor,
 																float: 'right',
 															})}
 														>

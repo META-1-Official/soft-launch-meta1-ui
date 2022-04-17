@@ -622,7 +622,7 @@ class WalletUnlockModal extends React.Component {
 						css={(theme) => ({
 							'&&&&': {
 								fontSize: '1.7rem',
-								color: theme.colors.themeOpositeColor,
+								color: theme.colors.themeOppositeColor,
 								fontWeight: '400',
 							},
 						})}

@@ -97,6 +97,12 @@ const SideBar = ({collapsed, currentLink, toggle}: ISideBar) => {
 			enableNavLinks,
 		},
 		{
+			menuId: 'signedmessages',
+			menuName: 'Signed Messages',
+			icon: <FileTextOutlined />,
+			enableNavLinks,
+		},
+		{
 			menuId: 'help',
 			menuName: 'Help',
 			icon: <QuestionCircleOutlined />,
@@ -119,6 +125,9 @@ const SideBar = ({collapsed, currentLink, toggle}: ISideBar) => {
 		}
 		if (e.key === 'member-stats') {
 			link = `account/${accountName}/member-stats`;
+		}
+		if (e.key === 'signedmessages') {
+			link = `account/${accountName}/signedmessages`;
 		}
 		history.push(`/${link}`);
 	};

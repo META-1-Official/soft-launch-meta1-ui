@@ -1,8 +1,9 @@
 const theme = {
 	colors: {
 		primaryColor: '#ffc000',
-		themeOpositeColor: '#ffff',
+		themeOppositeColor: '#ffff',
 		background: '#1f1a17',
+		containerBackgroundColor: '#15171b',
 		footerBackground: '#15171b',
 		explorerBackground: '#0c0e11',
 		footerTextColor: '#566176',

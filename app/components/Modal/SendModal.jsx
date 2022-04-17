@@ -533,12 +533,12 @@ class SendModal extends React.Component {
 								display: 'flex',
 								justifyContent: 'center',
 								marginBottom: '1rem',
-								color: theme.colors.themeOpositeColor,
+								color: theme.colors.themeOppositeColor,
 							})}
 						>
 							<Translate
 								css={(theme) => ({
-									color: theme.colors.themeOpositeColor,
+									color: theme.colors.themeOppositeColor,
 								})}
 								content={
 									propose

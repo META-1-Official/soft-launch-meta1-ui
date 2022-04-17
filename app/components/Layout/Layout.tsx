@@ -31,6 +31,9 @@ const AppLayout = ({children, location, height}: IAppLayout) => {
 		if (pathSnippets.includes('explorer')) {
 			link = 'explorer';
 		}
+		if (pathSnippets.includes('signedmessages')) {
+			link = 'signedmessages';
+		}
 	} else {
 		link = pathSnippets ? pathSnippets[0] : '';
 	}
@@ -45,7 +48,6 @@ const AppLayout = ({children, location, height}: IAppLayout) => {
 		}
 	}, [link]);
 
-	console.log('link', link);
 	return (
 		<Layout
 			css={(theme) => ({
