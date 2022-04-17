@@ -5,11 +5,13 @@ import {ChainStore} from 'meta1js';
 import utils from 'common/utils';
 import WalletActions from 'actions/WalletActions';
 import {Apis} from 'meta1js-ws';
-import {Button} from 'antd';
+import {Button, Typography} from 'antd';
 import PaginatedList from 'components/Utility/PaginatedList';
 import SearchInput from '../Utility/SearchInput';
 import counterpart from 'counterpart';
+import PageHeader from 'components/PageHeader/PageHeader';
 
+const {Text} = Typography;
 class AccountVesting extends React.Component {
 	constructor(props) {
 		super(props);
@@ -328,32 +330,53 @@ class AccountVesting extends React.Component {
 		});
 
 		return (
-			<div className="grid-content vertical">
-				<Translate component="h1" content="account.vesting.title" />
-				<Translate content="account.vesting.explain" component="p" />
-				<div className="header-selector padding">
-					<SearchInput
-						onChange={this.onSearch.bind(this)}
-						value={this.state.searchTerm}
-						autoComplete="off"
-						placeholder={counterpart.translate('exchange.filter')}
-					/>
-					{this.state.error && (
-						<Translate
-							className="header-selector--error"
-							content="errors.loading_from_blockchain"
-						/>
-					)}
-				</div>
+			<>
 				<div>
-					<PaginatedList
-						loading={this.state.loading}
-						rows={vb}
-						header={header}
-						pageSize={10}
+					<PageHeader
+						title={<Translate content="account.vesting.title" />}
+						level={2}
+						showDivider
 					/>
 				</div>
-			</div>
+				<div
+					css={(theme) => ({
+						padding: '1rem 2rem',
+						[`@media (max-width: ${theme.sizes.sm})`]: {
+							padding: '1rem',
+						},
+					})}
+				>
+					<Text>
+						<Translate
+							css={{color: 'white'}}
+							content="account.vesting.explain"
+							component="p"
+						/>
+					</Text>
+					<div className="header-selector padding">
+						<SearchInput
+							onChange={this.onSearch.bind(this)}
+							value={this.state.searchTerm}
+							autoComplete="off"
+							placeholder={counterpart.translate('exchange.filter')}
+						/>
+						{this.state.error && (
+							<Translate
+								className="header-selector--error"
+								content="errors.loading_from_blockchain"
+							/>
+						)}
+					</div>
+					<div>
+						<PaginatedList
+							loading={this.state.loading}
+							rows={vb}
+							header={header}
+							pageSize={10}
+						/>
+					</div>
+				</div>
+			</>
 		);
 	}
 }

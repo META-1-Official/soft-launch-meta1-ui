@@ -103,6 +103,12 @@ const SideBar = ({collapsed, currentLink, toggle}: ISideBar) => {
 			enableNavLinks,
 		},
 		{
+			menuId: 'vesting',
+			menuName: 'Vested Balance',
+			icon: <FileTextOutlined />,
+			enableNavLinks,
+		},
+		{
 			menuId: 'help',
 			menuName: 'Help',
 			icon: <QuestionCircleOutlined />,
@@ -128,6 +134,9 @@ const SideBar = ({collapsed, currentLink, toggle}: ISideBar) => {
 		}
 		if (e.key === 'signedmessages') {
 			link = `account/${accountName}/signedmessages`;
+		}
+		if (e.key === 'vesting') {
+			link = `account/${accountName}/vesting`;
 		}
 		history.push(`/${link}`);
 	};

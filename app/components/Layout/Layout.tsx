@@ -34,6 +34,9 @@ const AppLayout = ({children, location, height}: IAppLayout) => {
 		if (pathSnippets.includes('signedmessages')) {
 			link = 'signedmessages';
 		}
+		if (pathSnippets.includes('vesting')) {
+			link = 'vesting';
+		}
 	} else {
 		link = pathSnippets ? pathSnippets[0] : '';
 	}

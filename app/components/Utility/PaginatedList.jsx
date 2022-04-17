@@ -34,6 +34,7 @@ export default class PaginatedList extends React.Component {
 				<Table
 					loading={loading}
 					dataSource={rows}
+					scroll={{x: 1200}}
 					uns
 					columns={Array.isArray(header) ? header : []}
 					footer={() => (extraRow ? extraRow : <span>&nbsp;</span>)}
