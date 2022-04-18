@@ -7,8 +7,15 @@ interface IPageHeader {
 	title: string;
 	level: 5 | 1 | 2 | 3 | 4 | undefined;
 	showDivider: boolean;
+	actionButtons: any;
 }
-const PageHeader = ({title, level, showDivider, ...props}: IPageHeader) => {
+const PageHeader = ({
+	title,
+	level,
+	showDivider,
+	actionButtons,
+	...props
+}: IPageHeader) => {
 	return (
 		<div
 			css={(theme) => ({
@@ -19,9 +26,20 @@ const PageHeader = ({title, level, showDivider, ...props}: IPageHeader) => {
 				color: theme.colors.themeOppositeColor,
 			})}
 		>
-			<Title css={{margin: '0px !important'}} level={level} {...props}>
-				{title}
-			</Title>
+			<div
+				css={(theme) => ({
+					display: 'flex',
+					justifyContent: 'space-between',
+					[`@media (max-width: ${theme.sizes.sm})`]: {
+						flexDirection: 'column',
+					},
+				})}
+			>
+				<Title css={{margin: '0px !important'}} level={level} {...props}>
+					{title}
+				</Title>
+				<div>{actionButtons}</div>
+			</div>
 		</div>
 	);
 };

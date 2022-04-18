@@ -588,6 +588,15 @@ class AccountSelector extends React.Component {
 					}
 					editable={!!editableInput ? editableInput.toString() : undefined}
 					readOnly={!!editableInput ? (!editableInput).toString() : undefined}
+					css={(theme) => ({
+						'&&&&': {
+							backgroundColor: theme.colors.inputBackgroundColor,
+							border: 'none',
+							color: theme.colors.inputTextColor,
+							borderRadius: '6px',
+							fontSize: '14px',
+						},
+					})}
 				/>
 			);
 		}

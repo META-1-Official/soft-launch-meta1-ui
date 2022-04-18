@@ -3,7 +3,7 @@ const theme = {
 		primaryColor: '#ffc000',
 		themeOppositeColor: '#ffff',
 		background: '#1f1a17',
-		containerBackgroundColor: '#15171b',
+		containerBackgroundColor: '#0e1013',
 		footerBackground: '#15171b',
 		explorerBackground: '#0c0e11',
 		footerTextColor: '#566176',

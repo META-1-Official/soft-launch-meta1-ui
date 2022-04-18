@@ -465,7 +465,12 @@ class RecentTransactions extends React.Component {
 									{this.props.title ? (
 										this.props.title
 									) : (
-										<Translate content="account.recent" />
+										<Translate
+											css={(theme) => ({
+												color: theme.colors.themeOppositeColor,
+											})}
+											content="account.recent"
+										/>
 									)}
 								</span>
 							</div>

@@ -37,6 +37,9 @@ const AppLayout = ({children, location, height}: IAppLayout) => {
 		if (pathSnippets.includes('vesting')) {
 			link = 'vesting';
 		}
+		if (pathSnippets.includes('permissions')) {
+			link = 'permissions';
+		}
 	} else {
 		link = pathSnippets ? pathSnippets[0] : '';
 	}

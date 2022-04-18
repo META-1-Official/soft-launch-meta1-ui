@@ -2,6 +2,7 @@ import React from 'react';
 import Immutable from 'immutable';
 import Translate from 'react-translate-component';
 import counterpart from 'counterpart';
+import {notification, Space, Tabs, Typography} from 'antd';
 import utils from 'common/utils';
 import accountUtils from 'common/account_utils';
 import {createPaperWalletAsPDF} from 'common/paperWallet';
@@ -10,11 +11,13 @@ import {PublicKey} from 'meta1js';
 import AccountPermissionsList from './AccountPermissionsList';
 import AccountPermissionsMigrate from './AccountPermissionsMigrate';
 import PubKeyInput from '../Forms/PubKeyInput';
-import {Tabs, Tab} from '../Utility/Tabs';
+// import {Tabs, Tab} from '../Utility/Tabs';
 import HelpContent from '../Utility/HelpContent';
 import {RecentTransactions} from './RecentTransactions';
-import {notification} from 'antd';
+import PageHeader from 'components/PageHeader/PageHeader';
+import StyledButton from 'components/Button/Button';
 
+const {Text} = Typography;
 class AccountPermissions extends React.Component {
 	constructor(props) {
 		super(props);
@@ -307,67 +310,114 @@ class AccountPermissions extends React.Component {
 			});
 
 		let publish_buttons_class =
-			'button' +
-			(!(error1 || error2) &&
+			!(error1 || error2) &&
 			this.isChanged() &&
 			this.isValidPubKey(this.state.memo_key)
-				? ''
-				: ' disabled');
-		let reset_buttons_class = 'button' + (this.isChanged() ? '' : ' disabled');
+				? false
+				: true;
+		let reset_buttons_class = this.isChanged() ? false : true;
 
 		let accountsList = Immutable.Set();
 		accountsList = accountsList.add(this.props.account.get('id'));
 
 		return (
-			<div className="grid-content app-tables no-padding" ref="appTables">
-				<div className="content-block small-12">
-					<div className="tabs-container generic-bordered-box">
-						<Tabs
-							defaultActiveTab={1}
-							segmented={false}
-							setting="permissionsTab"
-							className="account-tabs"
-							tabsClass="account-overview bordered-header content-block"
-							contentClass="padding"
-							actionButtons={
-								<div className="action-buttons">
-									<button
-										className={reset_buttons_class}
-										onClick={this.onReset}
-										tabIndex={8}
-									>
-										<Translate content="account.perm.reset" />
-									</button>
+			<>
+				<PageHeader
+					title="Permission"
+					showDivider
+					level={2}
+					actionButtons={
+						<Space size={[8, 16]} wrap>
+							<StyledButton
+								buttonType="transparent"
+								style={{marginLeft: 10}}
+								data-tip={counterpart.translate(
+									'account.perm.create_paperwallet_private_hint'
+								)}
+								data-place="bottom"
+								onClick={() => {
+									this.onPdfCreate();
+								}}
+								tabIndex={10}
+							>
+								<Translate content="account.perm.create_paperwallet" />
+							</StyledButton>
+							<StyledButton
+								buttonType="white"
+								disabled={reset_buttons_class}
+								onClick={this.onReset}
+								tabIndex={8}
+							>
+								<Translate content="account.perm.reset" />
+							</StyledButton>
 
-									<button
-										className={publish_buttons_class}
-										onClick={this.onPublish}
-										tabIndex={9}
-									>
-										<Translate content="account.perm.publish" />
-									</button>
-									<button
-										className={'button'}
-										style={{marginLeft: 10}}
-										data-tip={counterpart.translate(
-											'account.perm.create_paperwallet_private_hint'
-										)}
-										data-place="bottom"
-										onClick={() => {
-											this.onPdfCreate();
-										}}
-										tabIndex={10}
-									>
-										<Translate content="account.perm.create_paperwallet" />
-									</button>
-								</div>
-							}
+							<StyledButton
+								buttonType="primary"
+								disabled={publish_buttons_class}
+								onClick={this.onPublish}
+								tabIndex={9}
+							>
+								<Translate content="account.perm.publish" />
+							</StyledButton>
+						</Space>
+					}
+				/>
+				<div
+					css={(theme) => ({
+						padding: '1rem 2rem',
+						[`@media (max-width: ${theme.sizes.sm})`]: {
+							padding: '1rem',
+						},
+					})}
+				>
+					<Tabs
+						defaultActiveKey="1"
+						animated={false}
+						// onChange={this.onTabChange}
+						css={(theme) => ({
+							'.ant-tabs-nav': {
+								margin: '0 0 0px 0',
+							},
+							'.ant-tabs-content-holder': {
+								border: `1px solid ${theme.colors.borderColor}`,
+								borderRadius: '7px',
+								paddingTop: '1rem',
+								[`@media (max-width: ${theme.sizes.lg})`]: {
+									padding: '1rem',
+								},
+							},
+						})}
+					>
+						<Tabs.TabPane
+							tab={<Translate content="account.perm.active" />}
+							key={counterpart.translate('account.perm.active')}
 						>
-							<Tab title="account.perm.active">
+							<div
+								css={(theme) => ({
+									borderBottom: `1px solid ${theme.colors.borderColor}`,
+									paddingLeft: '1.5rem',
+								})}
+							>
+								<Text
+									css={(theme) => ({
+										color: theme.colors.primaryColor,
+										fontSize: '1rem',
+									})}
+								>
+									<Translate content="account.perm.active" />
+								</Text>
 								<HelpContent path="components/AccountPermActive" />
+							</div>
+							<div
+								css={(theme) => ({
+									backgroundColor: theme.colors.containerBackgroundColor,
+									margin: '1.5rem',
+									padding: '1rem',
+								})}
+							>
 								<form className="threshold">
 									<label className="horizontal">
-										<Translate content="account.perm.threshold" /> &nbsp; &nbsp;
+										<Translate content="account.perm.threshold" /> <br />
 										<input
 											type="number"
 											placeholder="0"
@@ -377,6 +427,16 @@ class AccountPermissions extends React.Component {
 												this,
 												'active_threshold'
 											)}
+											css={(theme) => ({
+												'&&&&': {
+													backgroundColor: theme.colors.inputBackgroundColor,
+													border: 'none',
+													color: theme.colors.inputTextColor,
+													borderRadius: '6px',
+													fontSize: '14px',
+													marginTop: '1rem',
+												},
+											})}
 											autoComplete="off"
 											tabIndex={1}
 										/>
@@ -400,13 +460,40 @@ class AccountPermissions extends React.Component {
 								{error1 ? (
 									<div className="content-block has-error">{error1}</div>
 								) : null}
-							</Tab>
+							</div>
+						</Tabs.TabPane>
 
-							<Tab title="account.perm.owner">
+						<Tabs.TabPane
+							tab={<Translate content="account.perm.owner" />}
+							key={counterpart.translate('account.perm.owner')}
+						>
+							<div
+								css={(theme) => ({
+									borderBottom: `1px solid ${theme.colors.borderColor}`,
+									paddingLeft: '1.5rem',
+								})}
+							>
+								<Text
+									css={(theme) => ({
+										color: theme.colors.primaryColor,
+										fontSize: '1rem',
+									})}
+								>
+									<Translate content="account.perm.owner" />
+								</Text>
 								<HelpContent path="components/AccountPermOwner" />
+							</div>
+							<div
+								css={(theme) => ({
+									backgroundColor: theme.colors.containerBackgroundColor,
+									margin: '1.5rem',
+									padding: '1rem',
+								})}
+							>
 								<form className="threshold">
 									<label className="horizontal">
-										<Translate content="account.perm.threshold" /> &nbsp; &nbsp;
+										<Translate content="account.perm.threshold" />
+										<br />
 										<input
 											type="number"
 											placeholder="0"
@@ -418,6 +505,16 @@ class AccountPermissions extends React.Component {
 											)}
 											autoComplete="off"
 											tabIndex={4}
+											css={(theme) => ({
+												'&&&&': {
+													backgroundColor: theme.colors.inputBackgroundColor,
+													border: 'none',
+													color: theme.colors.inputTextColor,
+													borderRadius: '6px',
+													fontSize: '14px',
+													marginTop: '1rem',
+												},
+											})}
 										/>
 									</label>
 								</form>
@@ -439,13 +536,39 @@ class AccountPermissions extends React.Component {
 								{error2 ? (
 									<div className="content-block has-error">{error2}</div>
 								) : null}
-							</Tab>
+							</div>
+						</Tabs.TabPane>
 
-							<Tab title="account.perm.memo_key">
+						<Tabs.TabPane
+							tab={<Translate content="account.perm.memo_key" />}
+							key={counterpart.translate('account.perm.memo_key')}
+						>
+							<div
+								css={(theme) => ({
+									borderBottom: `1px solid ${theme.colors.borderColor}`,
+									paddingLeft: '1.5rem',
+								})}
+							>
+								<Text
+									css={(theme) => ({
+										color: theme.colors.primaryColor,
+										fontSize: '1rem',
+									})}
+								>
+									<Translate content="account.perm.memo_key" />
+								</Text>
 								<HelpContent
 									style={{maxWidth: '800px'}}
 									path="components/AccountPermMemo"
 								/>
+							</div>
+							<div
+								css={(theme) => ({
+									backgroundColor: theme.colors.containerBackgroundColor,
+									margin: '1.5rem',
+									padding: '1rem',
+								})}
+							>
 								<PubKeyInput
 									ref="memo_key"
 									value={this.state.memo_key}
@@ -454,9 +577,38 @@ class AccountPermissions extends React.Component {
 									onChange={this.onMemoKeyChanged.bind(this)}
 									tabIndex={7}
 								/>
-							</Tab>
-
-							<Tab title="account.perm.password_model">
+							</div>
+						</Tabs.TabPane>
+						<Tabs.TabPane
+							tab={<Translate content="account.perm.password_model" />}
+							key={counterpart.translate('account.perm.password_model')}
+						>
+							<div
+								css={(theme) => ({
+									borderBottom: `1px solid ${theme.colors.borderColor}`,
+									paddingLeft: '1.5rem',
+								})}
+							>
+								<Text
+									css={(theme) => ({
+										color: theme.colors.primaryColor,
+										fontSize: '1rem',
+									})}
+								>
+									<Translate content="account.perm.password_model" />
+								</Text>
+							</div>
+							<div
+								css={(theme) => ({
+									// backgroundColor: theme.colors.containerBackgroundColor,
+									margin: '1.5rem',
+									padding: '1rem',
+									[`@media (max-width: ${theme.sizes.sm})`]: {
+										padding: '14px',
+										margin: '14px',
+									},
+								})}
+							>
 								<AccountPermissionsMigrate
 									active={this.state.password_active}
 									owner={this.state.password_owner}
@@ -472,23 +624,28 @@ class AccountPermissions extends React.Component {
 									onRemoveOwner={this.onRemoveItem.bind(this, 'owner')}
 									onSetMemo={this.onMemoKeyChanged.bind(this)}
 								/>
-							</Tab>
-						</Tabs>
+							</div>
+						</Tabs.TabPane>
+					</Tabs>
 
-						<div className="tab-content" style={{padding: 10}}>
-							<div className="divider" />
-
-							<RecentTransactions
-								accountsList={accountsList}
-								limit={25}
-								compactView={false}
-								filter="account_update"
-								style={{paddingBottom: '2rem'}}
-							/>
-						</div>
+					<div>
+						<RecentTransactions
+							accountsList={accountsList}
+							limit={25}
+							compactView={false}
+							filter="account_update"
+							style={{paddingBottom: '2rem'}}
+						/>
 					</div>
 				</div>
-			</div>
+				{/* <div className="grid-content app-tables no-padding" ref="appTables">
+					<div className="content-block small-12">
+						<div className="tabs-container generic-bordered-box">
+							<div className="tab-content" style={{padding: 10}}></div>
+						</div>
+					</div>
+				</div> */}
+			</>
 		);
 	}
 }

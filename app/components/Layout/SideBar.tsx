@@ -109,6 +109,12 @@ const SideBar = ({collapsed, currentLink, toggle}: ISideBar) => {
 			enableNavLinks,
 		},
 		{
+			menuId: 'permissions',
+			menuName: 'Permissions',
+			icon: <FileTextOutlined />,
+			enableNavLinks,
+		},
+		{
 			menuId: 'help',
 			menuName: 'Help',
 			icon: <QuestionCircleOutlined />,
@@ -137,6 +143,9 @@ const SideBar = ({collapsed, currentLink, toggle}: ISideBar) => {
 		}
 		if (e.key === 'vesting') {
 			link = `account/${accountName}/vesting`;
+		}
+		if (e.key === 'permissions') {
+			link = `account/${accountName}/permissions`;
 		}
 		history.push(`/${link}`);
 	};
