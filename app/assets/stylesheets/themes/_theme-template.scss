@@ -2551,7 +2551,8 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 		select {
 			width: auto;
 			padding: 0;
-			background: transparent;
+			// background: transparent;
+			background-color: black;
 			border: 0;
 			color: $primary-text-color;
 			border-bottom: 1px dotted rgb(160, 159, 159);

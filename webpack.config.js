@@ -194,21 +194,6 @@ module.exports = function (env) {
 			new webpack.DefinePlugin({
 				__DEV__: true,
 			})
-			// new webpack.DefinePlugin({
-			//     "process.env": {
-			//         NODE_ENV: JSON.stringify("development"),
-			//         TORUS_PROJECT_ID: JSON.stringify(
-			//             process.env.TORUS_PROJECT_ID
-			//         ),
-			//         TORUS_PROJECT_SECRET: JSON.stringify(
-			//             process.env.TORUS_PROJECT_SECRET
-			//         ),
-			//         TORUS_NETWORK: JSON.stringify(process.env.TORUS_NETWORK),
-			//         VOICEIT_URL: JSON.stringify(process.env.VOICEIT_URL),
-			//         VOICEIT_LANG: JSON.stringify(process.env.VOICEIT_LANG)
-			//     },
-			//     __DEV__: true
-			// })
 		);
 		plugins.push(
 			new webpack.HotModuleReplacementPlugin(),

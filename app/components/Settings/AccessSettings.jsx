@@ -634,6 +634,7 @@ class AccessSettings extends React.Component {
 						css={{
 							display: 'flex',
 							flexDirection: 'column',
+							color: 'white',
 						}}
 					>
 						<Translate component="h6" content="settings.active_node" />

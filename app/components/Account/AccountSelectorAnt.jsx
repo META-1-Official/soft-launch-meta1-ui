@@ -12,6 +12,7 @@ import Icon from '../Icon/Icon';
 import accountUtils from 'common/account_utils';
 import PropTypes from 'prop-types';
 import {Form, Input, Tooltip} from 'antd';
+import styled from '@emotion/styled';
 
 /**
  * @brief Allows the user to enter an account by name or #ID
@@ -20,6 +21,10 @@ import {Form, Input, Tooltip} from 'antd';
  * manage the layout of data and to filter the user input.
  *
  */
+
+const StyledInput = styled(Input)`
+	color: white !important;
+`;
 
 class AccountSelector extends React.Component {
 	static propTypes = {
@@ -370,7 +375,7 @@ class AccountSelector extends React.Component {
 			<div className="account-selector" style={this.props.style}>
 				<div className="content-area">
 					{labelWrapper(
-						<Input
+						<StyledInput
 							style={{
 								textTransform:
 									this.getInputType(accountName) === 'pubkey'
@@ -382,7 +387,7 @@ class AccountSelector extends React.Component {
 								'&&': {
 									backgroundColor: theme.colors.black,
 									border: `1px solid ${theme.colors.borderColor}`,
-									color: theme.colors.inputTextColor,
+									color: 'white',
 									borderRadius: '4px',
 								},
 							})}

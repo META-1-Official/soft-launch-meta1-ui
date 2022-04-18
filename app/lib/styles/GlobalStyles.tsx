@@ -231,6 +231,11 @@ const GlobalStyles = (theme: any) => css`
 		box-shadow: none;
 	}
 
+	.ant-input {
+		background-color: transparent;
+		color: #919293;
+	}
+
 	.ant-form-item-has-error :not(.ant-input-disabled):not(.ant-input-borderless).ant-input, .ant-form-item-has-error :not(.ant-input-affix-wrapper-disabled):not(.ant-input-affix-wrapper-borderless).ant-input-affix-wrapper, .ant-form-item-has-error :not(.ant-input-number-affix-wrapper-disabled):not(.ant-input-number-affix-wrapper-borderless).ant-input-number-affix-wrapper, .ant-form-item-has-error :not(.ant-input-disabled):not(.ant-input-borderless).ant-input:hover, .ant-form-item-has-error :not(.ant-input-affix-wrapper-disabled):not(.ant-input-affix-wrapper-borderless).ant-input-affix-wrapper:hover, .ant-form-item-has-error :not(.ant-input-number-affix-wrapper-disabled):not(.ant-input-number-affix-wrapper-borderless).ant-input-number-affix-wrapper:hover {
 		background: ${theme.colors.black};
 	}
@@ -257,7 +262,5 @@ const GlobalStyles = (theme: any) => css`
 	.ant-select-arrow {
 		color: ${theme.colors.themeOpositeColor};
 	}
-	
-  	 
 `;
 export default GlobalStyles;

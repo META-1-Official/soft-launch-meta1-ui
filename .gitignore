@@ -4,7 +4,6 @@
 */npm-debug.log
 *.map
 *.log
-build
 app/electron
 app/components/Exchange/exchange.css
 stats*
@@ -26,3 +25,4 @@ app/test/MarketClasses.js
 .vs_code
 /.vs
 .env.*
+build

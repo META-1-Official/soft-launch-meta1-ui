@@ -138,9 +138,8 @@ class LoadingButton extends React.Component {
 		if (this.props.onClick != null) {
 			// persist button width
 			this.setState({
-				loadingButtonWidth: findDOMNode(
-					this.loadingButton
-				).getBoundingClientRect().width,
+				loadingButtonWidth:
+					findDOMNode(this.loadingButton)?.getBoundingClientRect().width ?? 30,
 				loading: true,
 			});
 			event.persist();
