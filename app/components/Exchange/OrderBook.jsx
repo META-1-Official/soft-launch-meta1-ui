@@ -181,8 +181,8 @@ class OrderBookRowHorizontal extends React.Component {
 					<td style={{width: '33.5%'}} className={integerClass}>
 						{price}
 					</td>
-					<td> {amount}</td>
-					<td className="column-hide-xs">{value}</td>
+					<td className={integerClass}> {amount}</td>
+					<td className={integerClass}>{value}</td>
 					{/*<td className="column-hide-xs">{total}</td>*/}
 				</tr>
 			</Tooltip>

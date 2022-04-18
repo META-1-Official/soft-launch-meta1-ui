@@ -276,7 +276,6 @@ class WalletUnlockModal extends React.Component {
 		}
 		try {
 			const {openLogin} = this.props;
-			debugger;
 			await openLogin.init();
 			ss.set('account_login_name', accountName);
 			ss.remove('account_registration_name');
@@ -346,7 +345,6 @@ class WalletUnlockModal extends React.Component {
 								setLocalStorageType('persistant');
 							}
 						}
-						debugger;
 						const account =
 							passwordLogin || passwordlessLogin ? accountName : null;
 						if (passwordlessLogin) {
@@ -607,6 +605,7 @@ class WalletUnlockModal extends React.Component {
 				overlay={true}
 				overlayClose={false}
 				modalHeader="header.unlock_short"
+				onOk={this.handleLogin}
 				onCancel={this.handleModalClose}
 				leftHeader
 				// footer={footer}

@@ -252,19 +252,25 @@ module.exports = function (env) {
 			sourceMapFilename: '[name].js.map',
 			globalObject: 'this',
 		},
+		performance: {
+			hints: false,
+			maxEntrypointSize: 512000,
+			maxAssetSize: 512000,
+		},
 		optimization: {
+			runtimeChunk: 'single',
 			splitChunks: {
 				cacheGroups: {
 					styles: {
 						name: 'styles',
-						test: /\.css$/,
+						test: /.css$/,
 						chunks: 'all',
 						enforce: true,
 					},
 					vendor: {
 						name: 'vendor',
-						test: /node_modules/,
-						chunks: 'initial',
+						test: /[\/]node_modules[\/]/,
+						chunks: 'all',
 						enforce: true,
 					},
 				},
@@ -346,21 +352,21 @@ module.exports = function (env) {
 					use: scssLoaders,
 				},
 				{
-					test: /\.png$/,
+					test: /\.(png|gif)$/,
 					exclude: [
 						path.resolve(root_dir, 'app/assets/asset-symbols'),
 						path.resolve(root_dir, 'app/assets/language-dropdown/img'),
+						path.resolve(root_dir, 'app/assets/loader'),
 					],
 					use: [
 						{
 							loader: 'url-loader',
 							options: {
-								limit: 100000,
+								limit: 1000000,
 							},
 						},
 					],
 				},
-
 				{
 					test: /\.woff$/,
 					use: [

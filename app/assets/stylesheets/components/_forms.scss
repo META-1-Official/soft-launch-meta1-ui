@@ -72,8 +72,10 @@ div.account-image {
 	line-height: 0px !important;
 }
 
-.ant-form-item-control {
-	line-height: 0px !important;
+.ant-form-item-control-input-content {
+	span {
+		color: white;
+	}
 }
 
 .asset-input.ant-form-item {

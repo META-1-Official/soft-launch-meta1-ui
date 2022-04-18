@@ -22,7 +22,7 @@ import GatewayStore from 'stores/GatewayStore';
 import SettingsActions from 'actions/SettingsActions';
 import ZfApi from 'react-foundation-apps/src/utils/foundation-api';
 import SendModal from '../Modal/SendModal';
-import WithdrawalModal from '../Modal/WithdrawalModal';
+import WithdrawModal from '../Modal/WithdrawModalNew';
 import DepositModalBtc from '../Modal/DepositModalBtc';
 import DepositModalEth from '../Modal/DepositModalEth';
 import DepositModalUsdt from '../Modal/DepositModalUsdt';
@@ -47,12 +47,14 @@ import {List} from 'immutable';
 import {withRouter} from 'react-router-dom';
 import AccountBrowsingMode from '../Account/AccountBrowsingMode';
 import {setLocalStorageType, isPersistantType} from 'lib/common/localStorage';
+import chainIds from 'chain/chainIds';
 
 import {getLogo} from 'branding';
 import StyledButton from 'components/Button/Button';
 import theme from 'lib/styles/themeDark';
 
 var logo = getLogo();
+const MAIN_NET_CHAINID_SHORT = chainIds.MAIN_NET.substr(0, 8);
 
 const {Header: AntdHeader} = Layout;
 const {Text} = Typography;
@@ -315,10 +317,10 @@ class Header extends React.Component {
 			isDepositModalVisibleEth: false,
 		});
 	}
-	_showWithdrawal(e) {
+	_showWithdraw(e) {
 		e.preventDefault();
-		if (this.withdrawal_modal) this.withdrawal_modal.show();
 		this._closeDropdown();
+		this.showWithdrawModal();
 	}
 
 	hideDepositModalUsdt() {
@@ -570,10 +572,12 @@ class Header extends React.Component {
 	}
 
 	handleHeaderLink = (e) => {
-		const {lastMarket} = this.props;
+		const {lastMarket, currentAccount} = this.props;
 		const {key} = e;
 		if (key === 'auth') {
 			this._toggleLock(this, true);
+		} else if (key === 'dashboard') {
+			this._onNavigate(`/account/${currentAccount}`, this, true);
 		} else if (key === 'createAccount') {
 			this._onNavigate('/registration/', this, true);
 		} else if (key === 'market') {
@@ -614,7 +618,7 @@ class Header extends React.Component {
 			!!a &&
 			Apis.instance() &&
 			Apis.instance().chain_id &&
-			Apis.instance().chain_id.substr(0, 8) === '22a8d817';
+			Apis.instance().chain_id.substr(0, 8) === MAIN_NET_CHAINID_SHORT;
 
 		if (starredAccounts.size) {
 			for (let i = tradingAccounts.length - 1; i >= 0; i--) {
@@ -863,7 +867,7 @@ class Header extends React.Component {
 									<StyledButton
 										buttonType="primary"
 										style={{marginRight: '10px'}}
-										onClick={this._showWithdrawal.bind(this)}
+										onClick={this._showWithdraw.bind(this)}
 									>
 										Withdraw
 									</StyledButton>
@@ -903,13 +907,16 @@ class Header extends React.Component {
 						}}
 						from_name={currentAccount}
 					/>
-					<WithdrawalModal
-						id="withdrawal_modal_header"
-						refCallback={(e) => {
-							if (e) this.withdrawal_modal = e;
-						}}
-						from_name={currentAccount}
-					/>
+					{this.state.hasWithdrawalModalBeenShown && (
+						<WithdrawModal
+							visible={this.state.isWithdrawModalVisible}
+							hideModal={this.hideWithdrawModal}
+							showModal={this.showWithdrawModal}
+							ref="withdraw_modal_new"
+							modalId="withdraw_modal_new"
+							backedCoins={this.props.backedCoins}
+						/>
+					)}
 					<DepositModalBtc
 						visibleMeta={this.state.isDepositModalVisibleBtc}
 						hideModalMeta={this.hideDepositModalBtc}

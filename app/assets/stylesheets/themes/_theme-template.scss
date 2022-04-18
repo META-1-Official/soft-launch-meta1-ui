@@ -741,7 +741,8 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 			background-color: darken($bg-color, 4%);
 		}
 		.main-content {
-			@include radialGradient($bg-color-mixin, $bg-color);
+			// @include radialGradient($bg-color-mixin, $bg-color);
+			background-color: black;
 			&.margin-block {
 				background-color: $main-content-margin-block-bg-color;
 			}
@@ -2550,7 +2551,8 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 		select {
 			width: auto;
 			padding: 0;
-			background: transparent;
+			// background: transparent;
+			background-color: black;
 			border: 0;
 			color: $primary-text-color;
 			border-bottom: 1px dotted rgb(160, 159, 159);
