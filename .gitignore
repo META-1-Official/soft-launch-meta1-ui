@@ -25,3 +25,4 @@ app/test/MarketClasses.js
 .vs_code
 /.vs
 .env.*
+build
