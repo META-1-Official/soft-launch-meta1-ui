@@ -36,6 +36,7 @@ const SideBar = ({collapsed, currentLink, toggle}: ISideBar) => {
 	const checkCurrentAccount =
 		AccountStore.getState().currentAccount ||
 		AccountStore.getState().passwordAccount;
+	console.log('@1 - ', checkCurrentAccount);
 	const enableNavLinks = checkCurrentAccount
 		? checkCurrentAccount === null
 			? false
@@ -111,15 +112,17 @@ const SideBar = ({collapsed, currentLink, toggle}: ISideBar) => {
 	];
 	const sideMenuClick = (e: any) => {
 		let link = e.key;
+
 		if (e.key === 'account') {
 			link = `account/${accountName}`;
-		}
-		if (e.key === 'whitelist') {
+		} else if (e.key === 'trade') {
+			link = `account/${accountName}/trade`;
+		} else if (e.key === 'whitelist') {
 			link = `account/${accountName}/whitelist`;
-		}
-		if (e.key === 'membershipStats') {
+		} else if (e.key === 'membershipStats') {
 			link = `account/${accountName}/member-stats`;
 		}
+
 		history.push(`/${link}`);
 	};
 
