@@ -36,7 +36,7 @@ const SideBar = ({collapsed, currentLink, toggle}: ISideBar) => {
 	const checkCurrentAccount =
 		AccountStore.getState().currentAccount ||
 		AccountStore.getState().passwordAccount;
-	console.log('@1 - ', checkCurrentAccount);
+
 	const enableNavLinks = checkCurrentAccount
 		? checkCurrentAccount === null
 			? false

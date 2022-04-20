@@ -114,7 +114,6 @@ class Assets extends React.Component {
 
 	componentWillReceiveProps(nextProps) {
 		if (nextProps.assets !== this.props.assets) {
-			console.log('@1 - ', nextProps.assets);
 			this._checkAssets(nextProps.assets);
 		}
 	}

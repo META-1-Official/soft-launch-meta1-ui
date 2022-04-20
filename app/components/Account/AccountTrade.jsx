@@ -10,6 +10,7 @@ import AltContainer from 'alt-container';
 import AssetWrapper from '../Utility/AssetWrapper';
 import PageHeader from 'components/PageHeader/PageHeader';
 import SearchInput from '../Utility/SearchInput';
+import Icon from '../Icon/Icon';
 
 class AccountTrade extends React.Component {
 	constructor(props) {
@@ -19,7 +20,7 @@ class AccountTrade extends React.Component {
 			searchTerm: '',
 			isLoading: false,
 			selectedDuration: '1h',
-			selectedAsset: 'All Assets',
+			selectedAsset: 'ALL',
 		};
 	}
 
@@ -35,13 +36,9 @@ class AccountTrade extends React.Component {
 		if (this.props.account.get('assets').size) return;
 		let lastAsset = assets
 			.sort((a, b) => {
-				if (a.symbol > b.symbol) {
-					return 1;
-				} else if (a.symbol < b.symbol) {
-					return -1;
-				} else {
-					return 0;
-				}
+				if (a.symbol > b.symbol) return 1;
+				else if (a.symbol < b.symbol) return -1;
+				else return 0;
 			})
 			.last();
 
@@ -62,17 +59,32 @@ class AccountTrade extends React.Component {
 		this._searchAccounts(e.target.value);
 	}
 
-	handleRowsChange(rows) {
-		this.setState({
-			rowsOnPage: rows,
-		});
-		this.forceUpdate();
+	handleRowsChange(rows, type) {
+		console.log('@11 - ', rows, type);
+		if (type === 'duration') this.setState({selectedDuration: rows});
+		else if (type === 'asset') this.setState({selectedAsset: rows});
 	}
 
 	render() {
-		let {account, assets, assetsList} = this.props;
-		let {accountName, currentTab} = this.state;
-		console.log('@19 - ', assets, assetsList);
+		const {account, assets} = this.props;
+		const {accountName, currentTab} = this.state;
+
+		const assetOptions = assets.map((asset) => (
+			<Select.Option key={asset.symbol}>{asset.symbol}</Select.Option>
+		));
+
+		let _toggleBoxes = assets.map((asset) => {
+			console.log('@12 - ', asset);
+			return (
+				<div key={asset.symbol} className="toggle-box">
+					{asset.symbol}
+				</div>
+			);
+		});
+		let toggleBoxes = _toggleBoxes.map((toggleBox) => {
+			console.log('@13 - ', toggleBox);
+			return toggleBox[2];
+		});
 
 		return (
 			<div className="account-trade">
@@ -89,8 +101,8 @@ class AccountTrade extends React.Component {
 						/>
 						<Select
 							style={{width: '70px', marginLeft: '24px'}}
-							value={this.state.rowsOnPage}
-							onChange={this.handleRowsChange}
+							value={this.state.selectedDuration}
+							onChange={(rows) => this.handleRowsChange(rows, 'duration')}
 						>
 							<Select.Option key={'1h'}>1h</Select.Option>
 							<Select.Option key={'3h'}>3h</Select.Option>
@@ -101,18 +113,18 @@ class AccountTrade extends React.Component {
 						</Select>
 						<Select
 							style={{width: '150px', marginLeft: '24px'}}
-							value={this.state.rowsOnPage}
-							onChange={this.handleRowsChange}
+							value={this.state.selectedAsset}
+							onChange={(rows) => this.handleRowsChange(rows, 'asset')}
 						>
-							<Select.Option key={'10'}>10 rows</Select.Option>
-							<Select.Option key={'25'}>25 rows</Select.Option>
-							<Select.Option key={'50'}>50 rows</Select.Option>
-							<Select.Option key={'100'}>100 rows</Select.Option>
-							<Select.Option key={'200'}>200 rows</Select.Option>
+							<Select.Option key={'ALL'}>All Assets</Select.Option>
+							{assetOptions}
 						</Select>
 					</div>
 					<div className="select">
-						<span>asset select</span>
+						<div className="toggle-box">
+							<Icon name="fi-star" className="white-star" />
+						</div>
+						{toggleBoxes}
 					</div>
 					<div className="table">
 						<span>table</span>
