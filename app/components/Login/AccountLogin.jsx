@@ -88,10 +88,11 @@ class AccountLogin extends React.Component {
 				account
 			);
 
-			if (WalletDb.isLocked()) {
-				this.setState({passwordError: true});
-				return false;
-			}
+			// if (WalletDb.isLocked()) {
+			// 	this.setState({passwordError: true});
+			// 	return false;
+			// }
+			WalletUnlockActions.unlock();
 			this.setState({
 				password: '',
 			});

@@ -11,7 +11,7 @@ interface IAppLayout {
 	location: any;
 }
 
-const AppLayout = ({children, location, height}: IAppLayout) => {
+const AppLayout = ({children, location, height}: IAppLayout, others) => {
 	const theme: any = useTheme();
 
 	const pathSnippets = location.pathname.split('/').filter((i) => i);
@@ -70,7 +70,7 @@ const AppLayout = ({children, location, height}: IAppLayout) => {
 				type={collapsed ? 'menu-unfold' : 'menu-fold'}
 				onClick={toggle}
 			/> */}
-			<Header currentLink={currentLink} height={height} />
+			<Header currentLink={currentLink} height={height} {...others} />
 
 			<Content>
 				<Layout>
