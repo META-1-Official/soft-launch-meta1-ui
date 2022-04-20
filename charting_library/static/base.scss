@@ -132,7 +132,7 @@ input.symbol-edit,
 
       .button, .apply-common-tooltip {
         border: 1px solid $layout-top-button-border-color !important;
-        background-color: black;
+        background-color: $primary-btn-background;
       }
 
       // template button border

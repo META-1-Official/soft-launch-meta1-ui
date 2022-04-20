@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'alt-react';
 import {
 	CaretDownOutlined,
+	ConsoleSqlOutlined,
 	QuestionCircleOutlined,
 	UserOutlined,
 } from '@ant-design/icons';
@@ -75,6 +76,7 @@ class Header extends React.Component {
 			hasWithdrawalModalBeenShown: false,
 		};
 
+		console.log('PROPS', this.props);
 		this._accountNotificationActiveKeys = [];
 		this.unlisten = null;
 		this._toggleAccountDropdownMenu =
@@ -317,8 +319,8 @@ class Header extends React.Component {
 			isDepositModalVisibleEth: false,
 		});
 	}
-	_showWithdraw(e) {
-		e.preventDefault();
+	_showWithdraw(e, fromMenu) {
+		!fromMenu && e.preventDefault();
 		this._closeDropdown();
 		this.showWithdrawModal();
 	}
@@ -357,12 +359,6 @@ class Header extends React.Component {
 		e.preventDefault();
 		this.showDepositModal();
 		this._closeDropdown();
-	}
-
-	_showWithdraw(e) {
-		e.preventDefault();
-		this._closeDropdown();
-		this.showWithdrawModal();
 	}
 
 	_triggerMenu(e) {
@@ -589,6 +585,8 @@ class Header extends React.Component {
 			this._onNavigate('/explorer/blocks', this, true);
 		} else if (key === 'help') {
 			this._onNavigate('/help', this, true);
+		} else if (key === 'withdraw') {
+			this._showWithdraw(this, true);
 		}
 		this.setState({
 			headerMenu: key,
@@ -712,9 +710,20 @@ class Header extends React.Component {
 			<Menu
 				onClick={this.handleHeaderLink}
 				selectedKeys={[this.state.headerMenu]}
+				css={(theme) => ({
+					width: 245,
+					padding: 0,
+				})}
 			>
-				<Menu.Item key="auth">
-					<Text>
+				<Menu.Item
+					key="auth"
+					css={(theme) => ({
+						background: '#21252F',
+						paddingTop: '10px',
+						paddingBottom: '10px',
+					})}
+				>
+					<Text style={{color: '#FFC000', fontSize: '15px'}}>
 						<Translate
 							content={`header.${
 								this.props.locked ? 'unlock_short' : 'lock_short'
@@ -722,10 +731,37 @@ class Header extends React.Component {
 						/>
 					</Text>
 				</Menu.Item>
-				<Menu.Item key="createAccount">
-					<Text>
+				<Menu.Item
+					key="createAccount"
+					css={(theme) => ({
+						background: '#282D3A',
+						paddingTop: '10px',
+						paddingBottom: '10px',
+					})}
+				>
+					<Text style={{color: '#FFFFFF', fontSize: '15px'}}>
 						<Translate content="header.create_account" />
 					</Text>
+				</Menu.Item>
+				<Menu.Item
+					key="addContact"
+					css={(theme) => ({
+						background: '#282D3A',
+						paddingTop: '10px',
+						paddingBottom: '10px',
+					})}
+				>
+					<Text style={{color: '#FFFFFF', fontSize: '15px'}}>Add Contact</Text>
+				</Menu.Item>
+				<Menu.Item
+					key="send"
+					css={(theme) => ({
+						background: '#2E3445',
+						paddingTop: '10px',
+						paddingBottom: '10px',
+					})}
+				>
+					<Text style={{color: '#FFFFFF', fontSize: '15px'}}>Send</Text>
 				</Menu.Item>
 				<Menu.Item
 					key="getHelp"
@@ -745,7 +781,7 @@ class Header extends React.Component {
 						},
 					})}
 				>
-					<Text>Buy / Sell</Text>
+					<Text style={{color: '#FFFFFF', fontSize: '15px'}}>Buy / Sell</Text>
 				</Menu.Item>
 				<Menu.Item
 					key="sendReceive"
@@ -755,7 +791,40 @@ class Header extends React.Component {
 						},
 					})}
 				>
-					<Text>Send / Recieve</Text>
+					<Text style={{color: '#FFFFFF', fontSize: '15px'}}>
+						Send / Recieve
+					</Text>
+				</Menu.Item>
+				<Menu.Item
+					key="withdraw"
+					css={(theme) => ({
+						background: '#2E3445',
+						paddingTop: '10px',
+						paddingBottom: '10px',
+					})}
+				>
+					<Text style={{color: '#FFFFFF', fontSize: '15px'}}>Withdraw</Text>
+				</Menu.Item>
+
+				<Menu.Item
+					key="send"
+					css={(theme) => ({
+						background: '#2E3445',
+						paddingTop: '10px',
+						paddingBottom: '10px',
+					})}
+				>
+					<Text style={{color: '#FFFFFF', fontSize: '15px'}}>Deposit</Text>
+				</Menu.Item>
+				<Menu.Item
+					key="send"
+					css={(theme) => ({
+						background: '#2E3445',
+						paddingTop: '10px',
+						paddingBottom: '10px',
+					})}
+				>
+					<Text style={{color: '#FFFFFF', fontSize: '15px'}}>Advanced</Text>
 				</Menu.Item>
 			</Menu>
 		);
@@ -857,22 +926,6 @@ class Header extends React.Component {
 									</StyledButton>
 								</div>
 
-								<div
-									css={(theme) => ({
-										[`@media (max-width: ${theme.sizes.lg})`]: {
-											display: 'none',
-										},
-									})}
-								>
-									<StyledButton
-										buttonType="primary"
-										style={{marginRight: '10px'}}
-										onClick={this._showWithdraw.bind(this)}
-									>
-										Withdraw
-									</StyledButton>
-								</div>
-
 								<Dropdown overlay={avatarMenu}>
 									<span>
 										<Avatar
@@ -882,8 +935,7 @@ class Header extends React.Component {
 													cursor: 'pointer',
 												},
 											}}
-											icon={<UserOutlined />}
-											size="small"
+											src="https://cdn.vectorstock.com/i/1000x1000/19/45/user-avatar-icon-sign-symbol-vector-4001945.webp"
 										/>
 										<CaretDownOutlined
 											style={{
