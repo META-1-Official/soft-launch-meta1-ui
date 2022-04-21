@@ -543,8 +543,14 @@ div.account-trade {
 			display: inline-block;
 			width: 60px;
 			text-align: center;
-			padding-top: 5px;
-			padding-bottom: 5px;
+			padding-top: 10px;
+			padding-bottom: 10px;
+
+			&.selected {
+				border-top: 1px #dea702 solid;
+				color: #dea702;
+				background-color: #0a0b0d;
+			}
 		}
 
 		.toggle-box:hover {

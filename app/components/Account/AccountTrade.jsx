@@ -10,6 +10,7 @@ import AltContainer from 'alt-container';
 import AssetWrapper from '../Utility/AssetWrapper';
 import PageHeader from 'components/PageHeader/PageHeader';
 import SearchInput from '../Utility/SearchInput';
+import Translate from 'react-translate-component';
 import Icon from '../Icon/Icon';
 
 class AccountTrade extends React.Component {
@@ -21,6 +22,8 @@ class AccountTrade extends React.Component {
 			isLoading: false,
 			selectedDuration: '1h',
 			selectedAsset: 'ALL',
+			activeAsset: 'USDT',
+			rowsOnPage: '25',
 		};
 	}
 
@@ -67,16 +70,143 @@ class AccountTrade extends React.Component {
 
 	render() {
 		const {account, assets} = this.props;
-		const {accountName, currentTab} = this.state;
+		const {accountName, currentTab, activeAsset, rowsOnPage} = this.state;
 
 		const assetOptions = assets.map((asset) => (
 			<Select.Option key={asset.symbol}>{asset.symbol}</Select.Option>
 		));
-		console.log('@10 - ', assets);
+
 		let toggleBoxes = [];
 		assets.map((asset) => {
-			toggleBoxes.push(<div className="toggle-box">{asset.symbol}</div>);
+			if (asset.symbol === activeAsset)
+				toggleBoxes.push(
+					<div className="toggle-box selected">{asset.symbol}</div>
+				);
+			else toggleBoxes.push(<div className="toggle-box">{asset.symbol}</div>);
 		});
+
+		let dataSource = [];
+		let columns = [];
+		const fakeAssets = [
+			{
+				name: 'BNB',
+				price: '585.00',
+				rateChange: 4.52,
+				rateHigh: '585.2',
+				rateLow: '562.3',
+				marketCap: '9852943',
+			},
+			{
+				name: 'EOS',
+				price: '4.3234',
+				rateChange: 3.85,
+				rateHigh: '4.349',
+				rateLow: '4.224',
+				marketCap: '452423',
+			},
+		];
+
+		fakeAssets.map((asset) => {
+			dataSource.push({
+				name: asset.name,
+				price: asset.price,
+				rateChange: asset.rateChange,
+				rateHighLow: `$${asset.rateHigh}/${asset.rateLow}`,
+				marketCap: asset.marketCap,
+			});
+		});
+
+		columns = [
+			{
+				title: <Translate component="span" content="account.votes.name" />,
+				dataIndex: 'name',
+				key: 'name',
+				sorter: (a, b) => {
+					return a.name > b.name ? 1 : a.name < b.name ? -1 : 0;
+				},
+				render: (name) => {
+					return (
+						<div>
+							<div>{name}</div>
+						</div>
+					);
+				},
+			},
+			{
+				title: <Translate component="span" content="exchange.price" />,
+				dataIndex: 'price',
+				key: 'price',
+				sorter: (a, b) => {
+					return a.price > b.price ? 1 : a.price < b.price ? -1 : 0;
+				},
+				render: (price) => {
+					return (
+						<div>
+							<div>{price}</div>
+						</div>
+					);
+				},
+			},
+			{
+				title: <Translate component="span" content="account.hour_24" />,
+				dataIndex: 'rateChange',
+				key: 'rateChange',
+				sorter: (a, b) => {
+					return a.rateChange > b.rateChange
+						? 1
+						: a.rateChange < b.rateChange
+						? -1
+						: 0;
+				},
+				render: (rateChange) => {
+					return (
+						<div>
+							<div>{rateChange}</div>
+						</div>
+					);
+				},
+			},
+			{
+				title: (
+					<Translate component="span" content="account.hour_24_high_low" />
+				),
+				dataIndex: 'rateHighLow',
+				key: 'rateHighLow',
+				sorter: (a, b) => {
+					return a.rateHighLow > b.rateHighLow
+						? 1
+						: a.rateHighLow < b.rateHighLow
+						? -1
+						: 0;
+				},
+				render: (rateHighLow) => {
+					return (
+						<div>
+							<div>{rateHighLow}</div>
+						</div>
+					);
+				},
+			},
+			{
+				title: <Translate component="span" content="account.market_cap" />,
+				dataIndex: 'marketCap',
+				key: 'marketCap',
+				sorter: (a, b) => {
+					return a.marketCap > b.marketCap
+						? 1
+						: a.marketCap < b.marketCap
+						? -1
+						: 0;
+				},
+				render: (marketCap) => {
+					return (
+						<div>
+							<div>{marketCap}</div>
+						</div>
+					);
+				},
+			},
+		];
 
 		return (
 			<div className="account-trade">
@@ -119,7 +249,16 @@ class AccountTrade extends React.Component {
 						{toggleBoxes}
 					</div>
 					<div className="table">
-						<span>table</span>
+						<Table
+							style={{width: '100%', marginTop: '16px'}}
+							rowKey="name"
+							columns={columns}
+							dataSource={dataSource}
+							pagination={{
+								position: 'bottom',
+								pageSize: Number(rowsOnPage),
+							}}
+						/>
 					</div>
 					<div>
 						<span>pagination</span>
