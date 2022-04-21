@@ -792,7 +792,7 @@ class Header extends React.Component {
 					})}
 				>
 					<Text style={{color: '#FFFFFF', fontSize: '15px'}}>
-						Send / Recieve
+						Send / Receive
 					</Text>
 				</Menu.Item>
 				<Menu.Item
@@ -922,7 +922,7 @@ class Header extends React.Component {
 										buttonType="transparent"
 										style={{marginRight: '10px'}}
 									>
-										Send / Recieve
+										Send / Receive
 									</StyledButton>
 								</div>
 

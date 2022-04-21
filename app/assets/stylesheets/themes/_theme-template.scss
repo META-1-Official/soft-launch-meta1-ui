@@ -769,7 +769,7 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 		&:hover,
 		&:focus,
 		&:active {
-			background-color: black !important;
+			opacity: 0.5;
 		}
 		&.outline {
 			span {
@@ -778,7 +778,7 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 			color: white;
 			border-color: $secondary-text-color;
 			&:hover {
-				color: black;
+				color: white;
 				border-color: $light-text-color;
 			}
 		}
