@@ -533,4 +533,22 @@ div.account-trade {
 			margin-top: 7px;
 		}
 	}
+
+	div.select {
+		border-left: 1px solid #1c1f27;
+		border-right: 1px solid #1c1f27;
+		background-color: #0a0b0d !important;
+
+		.toggle-box {
+			display: inline-block;
+			width: 60px;
+			text-align: center;
+			padding-top: 5px;
+			padding-bottom: 5px;
+		}
+
+		.toggle-box:hover {
+			cursor: pointer;
+		}
+	}
 }

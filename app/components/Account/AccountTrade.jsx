@@ -72,18 +72,10 @@ class AccountTrade extends React.Component {
 		const assetOptions = assets.map((asset) => (
 			<Select.Option key={asset.symbol}>{asset.symbol}</Select.Option>
 		));
-
-		let _toggleBoxes = assets.map((asset) => {
-			console.log('@12 - ', asset);
-			return (
-				<div key={asset.symbol} className="toggle-box">
-					{asset.symbol}
-				</div>
-			);
-		});
-		let toggleBoxes = _toggleBoxes.map((toggleBox) => {
-			console.log('@13 - ', toggleBox);
-			return toggleBox[2];
+		console.log('@10 - ', assets);
+		let toggleBoxes = [];
+		assets.map((asset) => {
+			toggleBoxes.push(<div className="toggle-box">{asset.symbol}</div>);
 		});
 
 		return (
