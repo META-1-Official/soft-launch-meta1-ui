@@ -12,6 +12,12 @@ import PageHeader from 'components/PageHeader/PageHeader';
 import SearchInput from '../Utility/SearchInput';
 import Translate from 'react-translate-component';
 import Icon from '../Icon/Icon';
+import MarketsActions from 'actions/MarketsActions';
+import MarketsStore from 'stores/MarketsStore';
+import {
+	getResolutionsFromBuckets,
+	getBucketFromResolution,
+} from '../exchange/tradingViewClasses';
 
 class AccountTrade extends React.Component {
 	constructor(props) {
@@ -20,9 +26,10 @@ class AccountTrade extends React.Component {
 		this.state = {
 			searchTerm: '',
 			isLoading: false,
+			isFetchingMarketInfo: false,
 			selectedDuration: '1h',
 			selectedAsset: 'ALL',
-			activeAsset: 'USDT',
+			baseAssetSymbol: 'USDT',
 			rowsOnPage: '25',
 		};
 	}
@@ -33,6 +40,10 @@ class AccountTrade extends React.Component {
 
 	componentWillMount() {
 		this._checkAssets(this.props.assets, true);
+
+		setTimeout(() => {
+			this._getMarketInfo(this.props.assets);
+		}, 3000);
 	}
 
 	_checkAssets(assets, force) {
@@ -51,6 +62,52 @@ class AccountTrade extends React.Component {
 		} else if (assets.size >= this.state.assetsFetched) {
 			AssetActions.getAssetList.defer(lastAsset.symbol, 100);
 			this.setState({assetsFetched: this.state.assetsFetched + 99});
+		}
+	}
+
+	_getMarketInfo(assets) {
+		const {baseAssetSymbol, isFetchingMarketInfo} = this.state;
+
+		if (!isFetchingMarketInfo) {
+			this.setState({isFetchingMarketInfo: true});
+
+			const newBucketSize = getBucketFromResolution('D');
+			console.log('@1100  -');
+			MarketsActions.changeBucketSize(newBucketSize);
+			console.log('@1101  -');
+			const baseAssetId = assets.find(
+				(asset) => asset.symbol === baseAssetSymbol
+			).id;
+			const baseAsset = ChainStore.getAsset(baseAssetId);
+
+			assets.map((asset) => {
+				const quoteAsset = ChainStore.getAsset(asset.id);
+				console.log(
+					'@1102  -',
+					newBucketSize,
+					quoteAsset.get('id'),
+					baseAsset.get('id')
+				);
+
+				MarketsActions.unSubscribeMarket(
+					quoteAsset.get('id'),
+					baseAsset.get('id')
+				)
+					.then(() => {
+						MarketsActions.subscribeMarket(
+							baseAsset,
+							quoteAsset,
+							newBucketSize
+						).then(() => {
+							let bars = MarketsStore.getState().priceData;
+							console.log('@1104 - ', bars);
+							bars = bars.filter((a) => {
+								return a.time >= from && a.time <= to;
+							});
+						});
+					})
+					.catch((e) => console.log('@1105 - ', e));
+			});
 		}
 	}
 
@@ -80,9 +137,16 @@ class AccountTrade extends React.Component {
 		assets.map((asset) => {
 			if (asset.symbol === activeAsset)
 				toggleBoxes.push(
-					<div className="toggle-box selected">{asset.symbol}</div>
+					<div key={asset.symbol} className="toggle-box selected">
+						{asset.symbol}
+					</div>
 				);
-			else toggleBoxes.push(<div className="toggle-box">{asset.symbol}</div>);
+			else
+				toggleBoxes.push(
+					<div key={asset.symbol} className="toggle-box">
+						{asset.symbol}
+					</div>
+				);
 		});
 
 		let dataSource = [];
