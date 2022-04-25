@@ -1,11 +1,17 @@
 import React from 'react';
 import {connect} from 'alt-react';
+import moment from 'moment';
 import {ChainStore} from 'meta1js';
 import {Map, List} from 'immutable';
 import SettingsStore from 'stores/SettingsStore';
 import AssetStore from 'stores/AssetStore';
 import AssetActions from 'actions/AssetActions';
 import {Table, Select} from 'antd';
+import {
+	ArrowRightOutlined,
+	ArrowUpOutlined,
+	ArrowDownOutlined,
+} from '@ant-design/icons';
 import AltContainer from 'alt-container';
 import AssetWrapper from '../Utility/AssetWrapper';
 import PageHeader from 'components/PageHeader/PageHeader';
@@ -14,10 +20,22 @@ import Translate from 'react-translate-component';
 import Icon from '../Icon/Icon';
 import MarketsActions from 'actions/MarketsActions';
 import MarketsStore from 'stores/MarketsStore';
+import marketUtils from 'common/market_utils';
+import utils from 'common/utils';
 import {
 	getResolutionsFromBuckets,
 	getBucketFromResolution,
 } from '../exchange/tradingViewClasses';
+import ChartjsAreaChart from '../Graph/Graph';
+
+const bnbIcon = require('assets/explorer/BNB_new.png');
+const eosIcon = require('assets/explorer/EOS_new.png');
+const ltcIcon = require('assets/explorer/LTC_new.png');
+const xlmIcon = require('assets/explorer/XLM_new.png');
+const btcIcon = require('assets/explorer/BTC_new.png');
+const ethIcon = require('assets/explorer/ETH_new.png');
+const usdtIcon = require('assets/explorer/USDT_new.png');
+const meta1Icon = require('assets/explorer/marketCap.png');
 
 class AccountTrade extends React.Component {
 	constructor(props) {
@@ -27,23 +45,34 @@ class AccountTrade extends React.Component {
 			searchTerm: '',
 			isLoading: false,
 			isFetchingMarketInfo: false,
-			selectedDuration: '1h',
+			selectedResolution: '1h',
 			selectedAsset: 'ALL',
 			baseAssetSymbol: 'USDT',
 			rowsOnPage: '25',
+			marketBars: [],
 		};
 	}
 
 	componentWillReceiveProps(nextProps) {
 		this._checkAssets(nextProps.assets);
+
+		if (nextProps.assets.size > 0) {
+			setTimeout(() => {
+				this._getMarketInfo(
+					this.props.assets,
+					this.state.baseAssetSymbol,
+					this.state.selectedResolution
+				);
+			}, 1000);
+		}
 	}
 
 	componentWillMount() {
 		this._checkAssets(this.props.assets, true);
+	}
 
-		setTimeout(() => {
-			this._getMarketInfo(this.props.assets);
-		}, 3000);
+	componentWillUnmount() {
+		if (this.statsInterval) this.statsInterval();
 	}
 
 	_checkAssets(assets, force) {
@@ -65,48 +94,85 @@ class AccountTrade extends React.Component {
 		}
 	}
 
-	_getMarketInfo(assets) {
-		const {baseAssetSymbol, isFetchingMarketInfo} = this.state;
+	_getMarketInfo(assets, baseAssetSymbol, resolution) {
+		const {isFetchingMarketInfo} = this.state;
+		const marketBars = this.state.marketBars;
 
-		if (!isFetchingMarketInfo) {
+		if (!isFetchingMarketInfo && assets.size > 0) {
 			this.setState({isFetchingMarketInfo: true});
 
-			const newBucketSize = getBucketFromResolution('D');
-			console.log('@1100  -');
+			const newBucketSize = getBucketFromResolution(resolution);
 			MarketsActions.changeBucketSize(newBucketSize);
-			console.log('@1101  -');
+			const from = moment()
+				.subtract(parseInt(resolution[0]), resolution[1])
+				.valueOf();
+			const to = moment().valueOf();
 			const baseAssetId = assets.find(
 				(asset) => asset.symbol === baseAssetSymbol
 			).id;
 			const baseAsset = ChainStore.getAsset(baseAssetId);
 
-			assets.map((asset) => {
+			assets.map((asset, index) => {
 				const quoteAsset = ChainStore.getAsset(asset.id);
-				console.log(
-					'@1102  -',
-					newBucketSize,
-					quoteAsset.get('id'),
-					baseAsset.get('id')
-				);
-
+				const marketName = marketUtils.getMarketName(baseAsset, quoteAsset);
 				MarketsActions.unSubscribeMarket(
 					quoteAsset.get('id'),
 					baseAsset.get('id')
 				)
 					.then(() => {
 						MarketsActions.subscribeMarket(
-							baseAsset,
 							quoteAsset,
+							baseAsset,
 							newBucketSize
 						).then(() => {
 							let bars = MarketsStore.getState().priceData;
-							console.log('@1104 - ', bars);
-							bars = bars.filter((a) => {
-								return a.time >= from && a.time <= to;
-							});
+							console.log(
+								'@1103 - _getMarketInfo #1',
+								from,
+								to,
+								bars.length,
+								bars
+							);
+							// bars = bars.filter((a) => a.time >= from && a.time <= to);
+							console.log(
+								'@1104 - _getMarketInfo #2',
+								resolution,
+								newBucketSize,
+								quoteAsset.get('id'),
+								baseAsset.get('id'),
+								bars
+							);
+
+							const marketBarIndex = marketBars.findIndex(
+								(marketBar) =>
+									marketBar['quoteAssetId'] === quoteAsset.get('id') &&
+									marketBar['baseAssetId'] === baseAsset.get('id')
+							);
+							const newMarketBar = {
+								quoteAssetId: quoteAsset.get('id'),
+								baseAssetId: baseAsset.get('id'),
+								bars: bars.slice(-36),
+							};
+
+							if (marketBarIndex > -1) {
+								marketBars[marketBarIndex] = newMarketBar;
+							} else {
+								marketBars.push(newMarketBar);
+							}
+
+							this.setState({isFetchingMarketInfo: false, marketBars});
 						});
 					})
-					.catch((e) => console.log('@1105 - ', e));
+					.catch((e) => {
+						console.log('Error: Failed to subscribe market, ', e);
+						this.setState({isFetchingMarketInfo: false});
+					});
+
+				this.statsInterval = MarketsActions.getMarketStatsInterval(
+					newBucketSize,
+					baseAsset,
+					quoteAsset
+				);
 			});
 		}
 	}
@@ -119,79 +185,89 @@ class AccountTrade extends React.Component {
 		this._searchAccounts(e.target.value);
 	}
 
-	handleRowsChange(rows, type) {
-		console.log('@11 - ', rows, type);
-		if (type === 'duration') this.setState({selectedDuration: rows});
-		else if (type === 'asset') this.setState({selectedAsset: rows});
+	_onDropDownChange(option, type) {
+		if (type === 'resolution') {
+			this.setState({selectedResolution: option});
+			this._getMarketInfo(
+				this.props.assets,
+				this.state.baseAssetSymbol,
+				option
+			);
+		} else if (type === 'baseAsset') {
+			this.setState({selectedAsset: option});
+		}
 	}
 
-	render() {
-		const {account, assets} = this.props;
-		const {accountName, currentTab, activeAsset, rowsOnPage} = this.state;
+	onClickAsset(newBaseAssetSymbol) {
+		this.setState({baseAssetSymbol: newBaseAssetSymbol});
+		this._getMarketInfo(
+			this.props.assets,
+			newBaseAssetSymbol,
+			this.state.selectedResolution
+		);
+	}
 
-		const assetOptions = assets.map((asset) => (
-			<Select.Option key={asset.symbol}>{asset.symbol}</Select.Option>
-		));
+	onClickBuy(name) {
+		const quoteAssetName = name.split('/')[0];
+		const baseAssetName = name.split('/')[1];
 
-		let toggleBoxes = [];
-		assets.map((asset) => {
-			if (asset.symbol === activeAsset)
-				toggleBoxes.push(
-					<div key={asset.symbol} className="toggle-box selected">
-						{asset.symbol}
-					</div>
-				);
-			else
-				toggleBoxes.push(
-					<div key={asset.symbol} className="toggle-box">
-						{asset.symbol}
-					</div>
-				);
-		});
+		window.location.href = `/market/${quoteAssetName}_${baseAssetName}`;
+	}
 
-		let dataSource = [];
-		let columns = [];
-		const fakeAssets = [
-			{
-				name: 'BNB',
-				price: '585.00',
-				rateChange: 4.52,
-				rateHigh: '585.2',
-				rateLow: '562.3',
-				marketCap: '9852943',
-			},
-			{
-				name: 'EOS',
-				price: '4.3234',
-				rateChange: 3.85,
-				rateHigh: '4.349',
-				rateLow: '4.224',
-				marketCap: '452423',
-			},
-		];
-
-		fakeAssets.map((asset) => {
-			dataSource.push({
-				name: asset.name,
-				price: asset.price,
-				rateChange: asset.rateChange,
-				rateHighLow: `$${asset.rateHigh}/${asset.rateLow}`,
-				marketCap: asset.marketCap,
-			});
-		});
-
-		columns = [
+	_buildColumns() {
+		return [
 			{
 				title: <Translate component="span" content="account.votes.name" />,
-				dataIndex: 'name',
 				key: 'name',
 				sorter: (a, b) => {
 					return a.name > b.name ? 1 : a.name < b.name ? -1 : 0;
 				},
-				render: (name) => {
+				render: (rowData) => {
+					const quoteAssetName = rowData.quoteAssetName;
+					const baseAssetName = rowData.baseAssetName;
+					let icon = bnbIcon;
+
+					switch (quoteAssetName) {
+						case 'BNB':
+							icon = bnbIcon;
+							break;
+						case 'BTC':
+							icon = btcIcon;
+							break;
+						case 'ETH':
+							icon = ethIcon;
+							break;
+						case 'EOS':
+							icon = eosIcon;
+							break;
+						case 'XLM':
+							icon = xlmIcon;
+							break;
+						case 'LTC':
+							icon = ltcIcon;
+							break;
+						case 'META1':
+							icon = meta1Icon;
+							break;
+						case 'USDT':
+							icon = usdtIcon;
+							break;
+					}
+
 					return (
 						<div>
-							<div>{name}</div>
+							<img
+								className="asset-img"
+								src={icon}
+								alt="Asset logo"
+								width="28px"
+							/>
+							<div className="asset-name">
+								<span className="quote">
+									<strong>{quoteAssetName}</strong>
+								</span>
+								<span className="base">{` / ${baseAssetName}`}</span>
+							</div>
 						</div>
 					);
 				},
@@ -206,7 +282,7 @@ class AccountTrade extends React.Component {
 				render: (price) => {
 					return (
 						<div>
-							<div>{price}</div>
+							<div className="price">{`$${price}`}</div>
 						</div>
 					);
 				},
@@ -223,9 +299,63 @@ class AccountTrade extends React.Component {
 						: 0;
 				},
 				render: (rateChange) => {
+					let className =
+						rateChange === '0.00'
+							? ''
+							: rateChange > 0
+							? 'change-up'
+							: 'change-down';
 					return (
-						<div>
-							<div>{rateChange}</div>
+						<div className="change">
+							{className === 'change-up' && (
+								<ArrowUpOutlined className={className} />
+							)}
+							{className === 'change-down' && (
+								<ArrowDownOutlined className={className} />
+							)}
+							{className === '' && <ArrowRightOutlined className={className} />}
+							<div className={className}>{`${rateChange} %`}</div>
+						</div>
+					);
+				},
+			},
+			{
+				title: '',
+				render: (rowData) => {
+					if (!rowData.marketBar || rowData.marketBar === []) {
+						return <div className="chart">N/A</div>;
+					}
+
+					const labels = [];
+					const data = [];
+					(rowData.marketBar.bars || []).map((iter) => {
+						labels.push(moment(iter.time).format('Do MMM YYYY hh:mm:ss'));
+						data.push(iter.open);
+					});
+
+					let borderColor =
+						rowData.rateChange === '0.00'
+							? '#999999'
+							: rowData.rateChange > 0
+							? '#019d53'
+							: '#ff2929';
+					const datasets = [
+						{
+							data,
+							borderColor,
+							borderWidth: 2,
+							fill: true,
+							pointHoverRadius: 0,
+							pointHoverBorderColor: 'transparent',
+						},
+					];
+					return (
+						<div className="chart">
+							<ChartjsAreaChart
+								id="engaged"
+								datasets={datasets}
+								labels={labels}
+							/>
 						</div>
 					);
 				},
@@ -270,7 +400,198 @@ class AccountTrade extends React.Component {
 					);
 				},
 			},
+			{
+				title: '',
+				dataIndex: 'marketName',
+				render: (marketName) => {
+					return (
+						<div>
+							<button
+								className="buy"
+								onClick={() => this.onClickBuy(marketName)}
+							>
+								BUY
+							</button>
+						</div>
+					);
+				},
+			},
+			{
+				title: <Translate component="span" content="account.watch" />,
+				render: (watch) => {
+					return (
+						<div>
+							<Icon name="fi-star" className="white-star" />
+						</div>
+					);
+				},
+			},
 		];
+	}
+
+	_buildDataSource(assets, marketStats) {
+		if (assets.size === 0) return [];
+
+		const {baseAssetSymbol} = this.state;
+		const _dataSource = [];
+		const baseAssetId = assets.find(
+			(asset) => asset.symbol === baseAssetSymbol
+		).id;
+		const filteredMarketStats = marketStats
+			.filter((marketStat) => marketStat.price)
+			.filter((marketStat) => {
+				return marketStat.price.base.asset_id === baseAssetId;
+			});
+
+		filteredMarketStats.map((stats) => {
+			const base = stats.price.base;
+			const quote = stats.price.quote;
+
+			// Name
+			const quoteAssetName = assets.find(
+				(asset) => asset.id === quote.asset_id
+			).symbol;
+			const baseAssetName = assets.find(
+				(asset) => asset.id === base.asset_id
+			).symbol;
+			const name = `${quoteAssetName}/${baseAssetName}`;
+
+			// Price
+			let finalPrice =
+				stats && stats.price
+					? stats.price.toReal()
+					: stats &&
+					  stats.close &&
+					  stats.close.quote.amount &&
+					  stats.close.base.amount
+					? utils.get_asset_price(
+							stats.close.quote.amount,
+							quote,
+							stats.close.base.amount,
+							base,
+							true
+					  )
+					: utils.get_asset_price(
+							price.quote.amount,
+							quote,
+							price.base.amount,
+							base,
+							true
+					  );
+
+			let highPrecisionAssets = [
+				'BTC',
+				'OPEN.BTC',
+				'TRADE.BTC',
+				'GOLD',
+				'SILVER',
+			];
+			let precision = 6;
+			if (highPrecisionAssets.indexOf(baseAssetName) !== -1) {
+				precision = 8;
+			}
+			const price = utils.format_number(
+				finalPrice,
+				finalPrice > 1000 ? 0 : finalPrice > 10 ? 2 : precision
+			);
+
+			// Change
+			let change = utils.format_number(
+				stats && stats.change ? stats.change : 0,
+				2
+			);
+
+			// Market Cap
+			let marketCap = utils.format_volume(
+				parseInt(
+					assets.find((asset) => asset.id === quote.asset_id).dynamic
+						.current_supply,
+					10
+				),
+				0
+			);
+
+			// Market Bar
+			const marketBar = this.state.marketBars.find(
+				(iter) =>
+					iter['quoteAssetId'] === quote.asset_id &&
+					iter['baseAssetId'] === baseAssetId
+			);
+
+			// Rate High & Low
+			let rateHighLow = 'N/A';
+
+			if (marketBar) {
+				let high = marketBar.bars[0].high;
+				let low = marketBar.bars[0].low;
+
+				(marketBar.bars || []).map((iter) => {
+					if (high < iter.high) high = iter.high;
+					if (low > iter.low) low = iter.low;
+				});
+
+				console.log('@1122 - ', price, high, low);
+				const rateHigh = utils.format_number(
+					low * price * 100,
+					low * price * 100 > 1000 ? 0 : low * price * 100 > 10 ? 2 : precision
+				);
+				const rateLow = utils.format_number(
+					high * price * 100,
+					high * price * 100 > 1000
+						? 0
+						: high * price * 100 > 10
+						? 2
+						: precision
+				);
+				rateHighLow = `$${rateLow} / $${rateHigh}`;
+			}
+
+			_dataSource.push({
+				quoteAssetName,
+				baseAssetName,
+				price,
+				rateChange: change,
+				rateHighLow,
+				marketCap: marketCap,
+				marketName: name,
+				watch: name,
+				marketBar,
+			});
+		});
+
+		return _dataSource;
+	}
+
+	render() {
+		const {account, assets, marketStats} = this.props;
+		const {accountName, currentTab, baseAssetSymbol, rowsOnPage} = this.state;
+
+		const assetOptions = assets.map((asset) => (
+			<Select.Option key={asset.symbol}>{asset.symbol}</Select.Option>
+		));
+
+		let toggleBoxes = [];
+		assets.map((asset) => {
+			if (asset.symbol === baseAssetSymbol)
+				toggleBoxes.push(
+					<div key={asset.symbol} className="toggle-box selected">
+						{asset.symbol}
+					</div>
+				);
+			else
+				toggleBoxes.push(
+					<div
+						key={asset.symbol}
+						className="toggle-box"
+						onClick={() => this.onClickAsset(asset.symbol)}
+					>
+						{asset.symbol}
+					</div>
+				);
+		});
+
+		const columns = this._buildColumns();
+		const dataSource = this._buildDataSource(assets, marketStats);
 
 		return (
 			<div className="account-trade">
@@ -287,20 +608,19 @@ class AccountTrade extends React.Component {
 						/>
 						<Select
 							style={{width: '70px', marginLeft: '24px'}}
-							value={this.state.selectedDuration}
-							onChange={(rows) => this.handleRowsChange(rows, 'duration')}
+							value={this.state.selectedResolution}
+							onChange={(rows) => this._onDropDownChange(rows, 'resolution')}
 						>
+							<Select.Option key={'1m'}>1m</Select.Option>
+							<Select.Option key={'5m'}>5m</Select.Option>
 							<Select.Option key={'1h'}>1h</Select.Option>
-							<Select.Option key={'3h'}>3h</Select.Option>
-							<Select.Option key={'10h'}>10h</Select.Option>
 							<Select.Option key={'1d'}>1d</Select.Option>
-							<Select.Option key={'3d'}>3d</Select.Option>
-							<Select.Option key={'10d'}>10d</Select.Option>
+							<Select.Option key={'1w'}>1w</Select.Option>
 						</Select>
 						<Select
 							style={{width: '150px', marginLeft: '24px'}}
 							value={this.state.selectedAsset}
-							onChange={(rows) => this.handleRowsChange(rows, 'asset')}
+							onChange={(rows) => this._onDropDownChange(rows, 'baseAsset')}
 						>
 							<Select.Option key={'ALL'}>All Assets</Select.Option>
 							{assetOptions}
@@ -323,9 +643,6 @@ class AccountTrade extends React.Component {
 								pageSize: Number(rowsOnPage),
 							}}
 						/>
-					</div>
-					<div>
-						<span>pagination</span>
 					</div>
 				</div>
 			</div>
@@ -353,6 +670,11 @@ export default connect(AccountTrade, {
 		} else {
 			assets = AssetStore.getState().assets;
 		}
-		return {assets, assetsList};
+
+		return {
+			assets,
+			assetsList,
+			marketStats: MarketsStore.getState().allMarketStats,
+		};
 	},
 });

@@ -103,16 +103,20 @@ function getResolutionsFromBuckets(buckets) {
 }
 
 function getBucketFromResolution(r) {
-	if (r === 'D') return 24 * 60 * 60;
+	const _r = r.toUpperCase();
 
-	if (r.indexOf('W') !== -1) {
+	if (_r === 'D') return 24 * 60 * 60;
+
+	if (_r.indexOf('W') !== -1) {
 		return parseInt(r.replace('D', ''), 10) * 7 * 24 * 60 * 60;
-	} else if (r.indexOf('D') !== -1) {
+	} else if (_r.indexOf('D') !== -1) {
 		return parseInt(r.replace('D', ''), 10) * 24 * 60 * 60;
-	} else if (r.indexOf('S') !== -1) {
-		return parseInt(r.replace('S', ''), 10);
+	} else if (_r.indexOf('H') !== -1) {
+		return parseInt(r.replace('H', ''), 10) * 60 * 60;
+	} else if (_r.indexOf('M') !== -1) {
+		return parseInt(_r.replace('M', ''), 10) * 60;
 	} else {
-		return parseInt(r, 10) * 60;
+		return parseInt(_r, 10);
 	}
 }
 

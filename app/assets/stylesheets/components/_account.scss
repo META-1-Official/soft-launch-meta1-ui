@@ -537,7 +537,7 @@ div.account-trade {
 	div.select {
 		border-left: 1px solid #1c1f27;
 		border-right: 1px solid #1c1f27;
-		background-color: #0a0b0d !important;
+		background-color: #16171b !important;
 
 		.toggle-box {
 			display: inline-block;
@@ -547,7 +547,7 @@ div.account-trade {
 			padding-bottom: 10px;
 
 			&.selected {
-				border-top: 1px #dea702 solid;
+				border-top: 2px #dea702 solid;
 				color: #dea702;
 				background-color: #0a0b0d;
 			}
@@ -555,6 +555,76 @@ div.account-trade {
 
 		.toggle-box:hover {
 			cursor: pointer;
+		}
+	}
+
+	div.table {
+		.ant-table-wrapper {
+			margin-top: 0 !important;
+
+			.ant-table-container {
+				border-left: 1px solid #1c1f27;
+				border-right: 1px solid #1c1f27;
+				border-bottom: 1px solid #1c1f27;
+				border-bottom-right-radius: 3px;
+				border-bottom-left-radius: 3px;
+				padding-bottom: 100px;
+
+				table > thead {
+					th {
+						border-bottom: 1px solid #1c1f27;
+						padding-left: 15px;
+					}
+
+					span {
+						text-transform: uppercase;
+					}
+				}
+			}
+
+			.ant-table {
+				background-color: #0a0b0d;
+
+				.ant-table-cell {
+					background-color: #0a0b0d;
+
+					.chart {
+						width: 100px;
+						height: 100%;
+					}
+				}
+			}
+		}
+
+		div.asset-name {
+			display: inline-block;
+			margin-left: 10px;
+
+			span.quote {
+				font-weight: 900;
+				color: white;
+			}
+		}
+
+		div.price {
+			color: white;
+		}
+
+		div.change div {
+			display: inline-block;
+			margin-left: 10px;
+		}
+
+		button.buy {
+			padding: 5px 15px;
+			border-radius: 5px;
+			color: white;
+			background-color: #009d56;
+			font-weight: 900;
+
+			&:hover {
+				cursor: pointer;
+			}
 		}
 	}
 }
