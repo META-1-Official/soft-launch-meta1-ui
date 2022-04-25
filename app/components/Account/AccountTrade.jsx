@@ -121,15 +121,19 @@ class AccountTrade extends React.Component {
 				)
 					.then(() => {
 						MarketsActions.subscribeMarket(
-							quoteAsset,
 							baseAsset,
+							quoteAsset,
 							newBucketSize
 						).then(() => {
 							let bars = MarketsStore.getState().priceData;
+							let quoteAsset1 = MarketsStore.getState().quoteAsset;
+							let baseAsset1 = MarketsStore.getState().baseAsset;
 							console.log(
 								'@1103 - _getMarketInfo #1',
 								from,
 								to,
+								quoteAsset1.get('id'),
+								baseAsset1.get('id'),
 								bars.length,
 								bars
 							);
@@ -530,19 +534,8 @@ class AccountTrade extends React.Component {
 					if (low > iter.low) low = iter.low;
 				});
 
-				console.log('@1122 - ', price, high, low);
-				const rateHigh = utils.format_number(
-					low * price * 100,
-					low * price * 100 > 1000 ? 0 : low * price * 100 > 10 ? 2 : precision
-				);
-				const rateLow = utils.format_number(
-					high * price * 100,
-					high * price * 100 > 1000
-						? 0
-						: high * price * 100 > 10
-						? 2
-						: precision
-				);
+				const rateHigh = high.toFixed(2);
+				const rateLow = low.toFixed(2);
 				rateHighLow = `$${rateLow} / $${rateHigh}`;
 			}
 
