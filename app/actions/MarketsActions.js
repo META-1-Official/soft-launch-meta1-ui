@@ -88,12 +88,6 @@ class MarketsActions {
 					let currentBatch = marketStatsQueue.slice(0, marketStatsQueueLength);
 					return Promise.all(currentBatch.map((q) => q.promise))
 						.then((results) => {
-							console.log('@1300 - ', {
-								tickers: results,
-								markets: currentBatch.map((q) => q.market),
-								bases: currentBatch.map((q) => q.base),
-								quotes: currentBatch.map((q) => q.quote),
-							});
 							dispatch({
 								tickers: results,
 								markets: currentBatch.map((q) => q.market),

@@ -225,7 +225,7 @@ class DataFeed {
 
 			let newBucketSize = getBucketFromResolution(resolution);
 			MarketsActions.changeBucketSize(newBucketSize);
-			console.log('@1300 - ', symbolInfo.quoteAsset.get('id'));
+
 			return MarketsActions.unSubscribeMarket(
 				symbolInfo.quoteAsset.get('id'),
 				symbolInfo.baseAsset.get('id')

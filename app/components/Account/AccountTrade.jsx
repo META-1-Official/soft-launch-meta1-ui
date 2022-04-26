@@ -11,6 +11,7 @@ import {
 	ArrowRightOutlined,
 	ArrowUpOutlined,
 	ArrowDownOutlined,
+	StarOutlined,
 } from '@ant-design/icons';
 import AltContainer from 'alt-container';
 import AssetWrapper from '../Utility/AssetWrapper';
@@ -27,6 +28,10 @@ import {
 	getBucketFromResolution,
 } from '../exchange/tradingViewClasses';
 import ChartjsAreaChart from '../Graph/Graph';
+import ls from '../../lib/common/localStorage';
+
+const STORAGE_KEY = '__AuthData__';
+const ss = new ls(STORAGE_KEY);
 
 const bnbIcon = require('assets/explorer/BNB_new.png');
 const eosIcon = require('assets/explorer/EOS_new.png');
@@ -50,6 +55,7 @@ class AccountTrade extends React.Component {
 			baseAssetSymbol: 'USDT',
 			rowsOnPage: '25',
 			marketBars: [],
+			watchPairs: ss.get('watch_pairs', '').split(', '),
 		};
 	}
 
@@ -175,18 +181,15 @@ class AccountTrade extends React.Component {
 				this.statsInterval = MarketsActions.getMarketStatsInterval(
 					newBucketSize,
 					baseAsset,
-					quoteAsset
+					quoteAsset,
+					true
 				);
 			});
 		}
 	}
 
 	_onSearchChange(e) {
-		this.setState({
-			searchTerm: e.target.value.toLowerCase(),
-			isLoading: true,
-		});
-		this._searchAccounts(e.target.value);
+		this.setState({searchTerm: e.target.value.toLowerCase()});
 	}
 
 	_onDropDownChange(option, type) {
@@ -197,7 +200,7 @@ class AccountTrade extends React.Component {
 				this.state.baseAssetSymbol,
 				option
 			);
-		} else if (type === 'baseAsset') {
+		} else if (type === 'asset-filter') {
 			this.setState({selectedAsset: option});
 		}
 	}
@@ -218,7 +221,26 @@ class AccountTrade extends React.Component {
 		window.location.href = `/market/${quoteAssetName}_${baseAssetName}`;
 	}
 
+	onClickWatch(namePair, isWatched) {
+		let watchPairs = this.state.watchPairs.filter((watchPair) => !!watchPair);
+
+		if (isWatched) {
+			const index = watchPairs.findIndex(
+				(watch_pair) => watch_pair === namePair
+			);
+			watchPairs.splice(index, 1);
+			ss.set('watch_pairs', watchPairs.join(', '));
+		} else {
+			watchPairs.push(namePair);
+			ss.set('watch_pairs', watchPairs.join(', '));
+		}
+
+		this.setState({watchPairs});
+	}
+
 	_buildColumns() {
+		const {selectedResolution, watchPairs} = this.state;
+
 		return [
 			{
 				title: <Translate component="span" content="account.votes.name" />,
@@ -292,7 +314,12 @@ class AccountTrade extends React.Component {
 				},
 			},
 			{
-				title: <Translate component="span" content="account.hour_24" />,
+				title: (
+					<span>
+						{selectedResolution}{' '}
+						<Translate component="span" content="account.change" />
+					</span>
+				),
 				dataIndex: 'rateChange',
 				key: 'rateChange',
 				sorter: (a, b) => {
@@ -366,7 +393,12 @@ class AccountTrade extends React.Component {
 			},
 			{
 				title: (
-					<Translate component="span" content="account.hour_24_high_low" />
+					<span>
+						{selectedResolution}{' '}
+						<Translate component="span" content="account.high" /> /
+						{selectedResolution}{' '}
+						<Translate component="span" content="account.low" />
+					</span>
 				),
 				dataIndex: 'rateHighLow',
 				key: 'rateHighLow',
@@ -422,10 +454,18 @@ class AccountTrade extends React.Component {
 			},
 			{
 				title: <Translate component="span" content="account.watch" />,
-				render: (watch) => {
+				render: (rowData) => {
+					const quoteAssetName = rowData.quoteAssetName;
+					const baseAssetName = rowData.baseAssetName;
+					const name = `${quoteAssetName}/${baseAssetName}`;
+					const isWatched = watchPairs.indexOf(name) > -1;
 					return (
-						<div>
-							<Icon name="fi-star" className="white-star" />
+						<div onClick={() => this.onClickWatch(name, isWatched)}>
+							{isWatched ? (
+								<Icon name="fi-star" className="white-star" />
+							) : (
+								<StarOutlined />
+							)}
 						</div>
 					);
 				},
@@ -433,16 +473,17 @@ class AccountTrade extends React.Component {
 		];
 	}
 
-	_buildDataSource(assets, marketStats) {
+	_buildDataSource(assets) {
 		if (assets.size === 0) return [];
 
-		const {baseAssetSymbol} = this.state;
+		const {baseAssetSymbol, selectedAsset, searchTerm} = this.state;
+
 		const _dataSource = [];
 		const baseAssetId = assets.find(
 			(asset) => asset.symbol === baseAssetSymbol
 		).id;
-		const filteredMarketStats = marketStats
-			.filter((marketStat) => marketStat.price)
+		const filteredMarketStats = MarketsStore.getState()
+			.allMarketStats.filter((marketStat) => marketStat.price)
 			.filter((marketStat) => {
 				return marketStat.price.base.asset_id === baseAssetId;
 			});
@@ -459,6 +500,16 @@ class AccountTrade extends React.Component {
 				(asset) => asset.id === base.asset_id
 			).symbol;
 			const name = `${quoteAssetName}/${baseAssetName}`;
+
+			// Asset Filter
+			if (selectedAsset !== 'ALL' && selectedAsset !== quoteAssetName) return;
+
+			// Keywoard Search
+			if (
+				searchTerm &&
+				name.toLowerCase().indexOf(searchTerm.toLowerCase()) < 0
+			)
+				return;
 
 			// Price
 			let finalPrice =
@@ -525,7 +576,7 @@ class AccountTrade extends React.Component {
 			// Rate High & Low
 			let rateHighLow = 'N/A';
 
-			if (marketBar) {
+			if (marketBar && marketBar.bars.length > 0) {
 				let high = marketBar.bars[0].high;
 				let low = marketBar.bars[0].low;
 
@@ -556,14 +607,14 @@ class AccountTrade extends React.Component {
 	}
 
 	render() {
-		const {account, assets, marketStats} = this.props;
-		const {accountName, currentTab, baseAssetSymbol, rowsOnPage} = this.state;
+		const {account, assets} = this.props;
+		const {baseAssetSymbol, rowsOnPage, selectedAsset} = this.state;
 
 		const assetOptions = assets.map((asset) => (
 			<Select.Option key={asset.symbol}>{asset.symbol}</Select.Option>
 		));
 
-		let toggleBoxes = [];
+		const toggleBoxes = [];
 		assets.map((asset) => {
 			if (asset.symbol === baseAssetSymbol)
 				toggleBoxes.push(
@@ -584,7 +635,7 @@ class AccountTrade extends React.Component {
 		});
 
 		const columns = this._buildColumns();
-		const dataSource = this._buildDataSource(assets, marketStats);
+		const dataSource = this._buildDataSource(assets);
 
 		return (
 			<div className="account-trade">
@@ -604,23 +655,27 @@ class AccountTrade extends React.Component {
 							value={this.state.selectedResolution}
 							onChange={(rows) => this._onDropDownChange(rows, 'resolution')}
 						>
-							<Select.Option key={'1m'}>1m</Select.Option>
 							<Select.Option key={'5m'}>5m</Select.Option>
+							<Select.Option key={'30m'}>30m</Select.Option>
 							<Select.Option key={'1h'}>1h</Select.Option>
-							<Select.Option key={'1d'}>1d</Select.Option>
+							<Select.Option key={'24h'}>24h</Select.Option>
+							<Select.Option key={'5d'}>5d</Select.Option>
 							<Select.Option key={'1w'}>1w</Select.Option>
 						</Select>
 						<Select
 							style={{width: '150px', marginLeft: '24px'}}
 							value={this.state.selectedAsset}
-							onChange={(rows) => this._onDropDownChange(rows, 'baseAsset')}
+							onChange={(rows) => this._onDropDownChange(rows, 'asset-filter')}
 						>
 							<Select.Option key={'ALL'}>All Assets</Select.Option>
 							{assetOptions}
 						</Select>
 					</div>
 					<div className="select">
-						<div className="toggle-box">
+						<div
+							className="toggle-box"
+							onClick={() => this.onClickAsset('star')}
+						>
 							<Icon name="fi-star" className="white-star" />
 						</div>
 						{toggleBoxes}
@@ -667,7 +722,6 @@ export default connect(AccountTrade, {
 		return {
 			assets,
 			assetsList,
-			marketStats: MarketsStore.getState().allMarketStats,
 		};
 	},
 });
