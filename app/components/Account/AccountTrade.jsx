@@ -26,7 +26,7 @@ import utils from 'common/utils';
 import {
 	getResolutionsFromBuckets,
 	getBucketFromResolution,
-} from '../exchange/tradingViewClasses';
+} from '../Exchange/tradingViewClasses';
 import ChartjsAreaChart from '../Graph/Graph';
 import ls from '../../lib/common/localStorage';
 
