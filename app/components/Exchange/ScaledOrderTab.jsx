@@ -132,10 +132,6 @@ class ScaledOrderForm extends Component {
 
 	_getFormValues() {
 		if (this.formRef && this.formRef.current) {
-			console.log(
-				'&&&& this.formRef.current.getFieldsValue()',
-				this.formRef?.current?.getFieldsValue()
-			);
 			return this.formRef.current.getFieldsValue();
 		}
 		return {};
