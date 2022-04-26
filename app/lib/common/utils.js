@@ -78,9 +78,19 @@ var Utils = {
 		if (amount < 10000) {
 			return this.format_number(amount, precision);
 		} else if (amount < 1000000) {
-			return (Math.round(amount / 10) / 100).toFixed(2) + 'k';
+			return (
+				this.format_number(
+					(Math.round(amount / 10) / 100).toFixed(2),
+					precision
+				) + 'K'
+			);
 		} else {
-			return (Math.round(amount / 10000) / 100).toFixed(2) + 'M';
+			return (
+				this.format_number(
+					(Math.round(amount / 10000) / 100).toFixed(2),
+					precision
+				) + 'M'
+			);
 		}
 	},
 
