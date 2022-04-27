@@ -527,6 +527,8 @@ div.account-trade {
 		border-right: 1px solid #1c1f27;
 		border-top: 1px solid #1c1f27;
 		border-radius: 3px;
+		border-bottom-right-radius: 0px;
+		border-bottom-left-radius: 0px;
 		padding: 15px;
 
 		div.ant-select {
@@ -615,7 +617,7 @@ div.account-trade {
 			margin-left: 10px;
 		}
 
-		button.buy {
+		button.trade {
 			padding: 5px 15px;
 			border-radius: 5px;
 			color: white;

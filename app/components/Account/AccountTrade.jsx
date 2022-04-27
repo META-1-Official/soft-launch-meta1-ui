@@ -23,10 +23,6 @@ import MarketsActions from 'actions/MarketsActions';
 import MarketsStore from 'stores/MarketsStore';
 import marketUtils from 'common/market_utils';
 import utils from 'common/utils';
-import {
-	getResolutionsFromBuckets,
-	getBucketFromResolution,
-} from '../Exchange/tradingViewClasses';
 import ChartjsAreaChart from '../Graph/Graph';
 import ls from '../../lib/common/localStorage';
 
@@ -107,10 +103,17 @@ class AccountTrade extends React.Component {
 		if (!isFetchingMarketInfo && assets.size > 0) {
 			this.setState({isFetchingMarketInfo: true});
 
-			const newBucketSize = getBucketFromResolution(resolution);
+			let newBucketSize = 15;
+			if (resolution === '5m') newBucketSize = 15;
+			else if (resolution === '30m') newBucketSize = 60;
+			else if (resolution === '1h') newBucketSize = 300;
+			else if (resolution === '24h') newBucketSize = 300;
+			else if (resolution === '3d') newBucketSize = 3600;
+			else if (resolution === '1w') newBucketSize = 3600;
+
 			MarketsActions.changeBucketSize(newBucketSize);
 			const from = moment()
-				.subtract(parseInt(resolution[0]), resolution[1])
+				.subtract(parseInt(resolution.slice(0, -1)), resolution.slice(-1))
 				.valueOf();
 			const to = moment().valueOf();
 			const baseAssetId = assets.find(
@@ -134,24 +137,24 @@ class AccountTrade extends React.Component {
 							let bars = MarketsStore.getState().priceData;
 							let quoteAsset1 = MarketsStore.getState().quoteAsset;
 							let baseAsset1 = MarketsStore.getState().baseAsset;
-							console.log(
-								'@1103 - _getMarketInfo #1',
-								from,
-								to,
-								quoteAsset1.get('id'),
-								baseAsset1.get('id'),
-								bars.length,
-								bars
-							);
-							// bars = bars.filter((a) => a.time >= from && a.time <= to);
-							console.log(
-								'@1104 - _getMarketInfo #2',
-								resolution,
-								newBucketSize,
-								quoteAsset.get('id'),
-								baseAsset.get('id'),
-								bars
-							);
+							// console.log(
+							// 	'@1103 - _getMarketInfo #1',
+							// 	from,
+							// 	to,
+							// 	quoteAsset1.get('id'),
+							// 	baseAsset1.get('id'),
+							// 	bars.length,
+							// 	bars
+							// );
+							bars = bars.filter((a) => a.time >= from && a.time <= to);
+							// console.log(
+							// 	'@1104 - _getMarketInfo #2',
+							// 	resolution,
+							// 	newBucketSize,
+							// 	quoteAsset.get('id'),
+							// 	baseAsset.get('id'),
+							// 	bars
+							// );
 
 							const marketBarIndex = marketBars.findIndex(
 								(marketBar) =>
@@ -214,7 +217,7 @@ class AccountTrade extends React.Component {
 		);
 	}
 
-	onClickBuy(name) {
+	onClickTrade(name) {
 		const quoteAssetName = name.split('/')[0];
 		const baseAssetName = name.split('/')[1];
 
@@ -443,10 +446,10 @@ class AccountTrade extends React.Component {
 					return (
 						<div>
 							<button
-								className="buy"
-								onClick={() => this.onClickBuy(marketName)}
+								className="trade"
+								onClick={() => this.onClickTrade(marketName)}
 							>
-								BUY
+								Trade
 							</button>
 						</div>
 					);
@@ -659,7 +662,7 @@ class AccountTrade extends React.Component {
 							<Select.Option key={'30m'}>30m</Select.Option>
 							<Select.Option key={'1h'}>1h</Select.Option>
 							<Select.Option key={'24h'}>24h</Select.Option>
-							<Select.Option key={'5d'}>5d</Select.Option>
+							<Select.Option key={'3d'}>3d</Select.Option>
 							<Select.Option key={'1w'}>1w</Select.Option>
 						</Select>
 						<Select
