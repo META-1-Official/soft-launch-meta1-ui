@@ -3,11 +3,12 @@ import {Line} from 'react-chartjs-2';
 import {customTooltips, chartLinearGradient} from './chartUtilities';
 
 const ChartjsAreaChart = (props: any) => {
-	const {labels, datasets, options, height, layout, id} = props;
+	const {labels, datasets, options, width, height, layout, id} = props;
 	const data = {
 		labels,
 		datasets,
 	};
+
 	return (
 		<div
 			className="parentContainer"
@@ -89,6 +90,7 @@ const ChartjsAreaChart = (props: any) => {
 			<Line
 				id={id}
 				data={data}
+				width={width}
 				height={height}
 				options={{
 					tooltips: {
