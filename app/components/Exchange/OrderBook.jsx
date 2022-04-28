@@ -12,7 +12,7 @@ import AssetName from '../Utility/AssetName';
 import Icon from '../Icon/Icon';
 import {Select, Tooltip} from 'antd';
 import {animateScroll} from 'react-scroll';
-
+import SectionHeader from '../Utility/SectionHeader.jsx';
 /**
  * @array: orderRows
  * @bool: noOrders
@@ -137,15 +137,15 @@ class OrderBookRowHorizontal extends React.Component {
 		let price = (
 			<PriceText price={order.getPrice()} quote={quote} base={base} />
 		);
-		let amount = isBid
-			? utils.format_number(
-					order.amountToReceive().getAmount({real: true}),
-					quote.get('precision')
-			  )
-			: utils.format_number(
-					order.amountForSale().getAmount({real: true}),
-					quote.get('precision')
-			  );
+		// let amount = isBid
+		// 	? utils.format_number(
+		// 			order.amountToReceive().getAmount({real: true}),
+		// 			quote.get('precision')
+		// 	  )
+		// 	: utils.format_number(
+		// 			order.amountForSale().getAmount({real: true}),
+		// 			quote.get('precision')
+		// 	  );
 		let value = isBid
 			? utils.format_number(
 					order.amountForSale().getAmount({real: true}),
@@ -174,17 +174,66 @@ class OrderBookRowHorizontal extends React.Component {
 
 		return (
 			<Tooltip title={'Total: ' + total} placement="right">
-				<tr
-					onClick={this.props.onClick}
-					className={order.isMine(this.props.currentAccount) ? 'my-order' : ''}
-				>
-					<td style={{width: '33.5%'}} className={integerClass}>
-						{price}
-					</td>
-					<td className={integerClass}> {amount}</td>
-					<td className={integerClass}>{value}</td>
-					{/*<td className="column-hide-xs">{total}</td>*/}
-				</tr>
+				{isBid ? (
+					<tr
+						onClick={this.props.onClick}
+						className={
+							order.isMine(this.props.currentAccount)
+								? 'my-order'
+								: 'ask-order-tr'
+						}
+						style={{
+							backgroundSize: `${Math.random() * 100}% 100%`,
+						}}
+					>
+						<td
+							style={{
+								width: '33.5%',
+								color: 'rgba(255, 255, 255, 0.5)',
+								paddingLeft: '10px',
+							}}
+						>
+							{value}
+						</td>
+						<td
+							style={{
+								color: '#009D55',
+								textAlign: 'right',
+								paddingRight: '10px',
+							}}
+						>
+							{price}
+						</td>
+					</tr>
+				) : (
+					<tr
+						onClick={this.props.onClick}
+						className={
+							order.isMine(this.props.currentAccount)
+								? 'my-order'
+								: 'bid-order-tr'
+						}
+						style={{
+							backgroundSize: `${Math.random() * 100}% 100%`,
+						}}
+					>
+						<td
+							style={{color: '#FF2929', textAlign: 'left', paddingLeft: '2px'}}
+						>
+							{price}
+						</td>
+						<td
+							style={{
+								width: '33.5%',
+								color: 'rgba(255, 255, 255, 0.5)',
+								paddingRight: '10px',
+								textAlign: 'right',
+							}}
+						>
+							{value}
+						</td>
+					</tr>
+				)}
 			</Tooltip>
 		);
 	}
@@ -297,18 +346,14 @@ class GroupedOrderBookRowHorizontal extends React.Component {
 				{position === 'left' ? (
 					<td className="column-hide-xs">{total}</td>
 				) : (
-					<td style={{width: '25%'}} className={integerClass}>
-						{price}
-					</td>
+					<td style={{width: '25%'}}>{price}</td>
 				)}
 				<td>{position === 'left' ? value : amount}</td>
 				<td>{position === 'left' ? amount : value}</td>
 				{position === 'right' ? (
 					<td className="column-hide-xs">{total}</td>
 				) : (
-					<td style={{width: '25%'}} className={integerClass}>
-						{price}
-					</td>
+					<td style={{width: '25%'}}>{price}</td>
 				)}
 			</tr>
 		);
@@ -440,7 +485,6 @@ class OrderBook extends React.Component {
 			if (this.refs.hor_bids) this.refs.hor_bids.scrollTop = 0;
 		}
 
-		// if (!nextProps.marketReady) return false;
 		return true;
 	}
 
@@ -797,28 +841,26 @@ class OrderBook extends React.Component {
 						/>
 					);
 				});
-				if (askRows.length < 100) {
-					for (var i = 0; i < 100 - askRows.length; i++) {
-						askRows.push(
-							<tr>
-								<td className="orderHistoryAsk">-</td>
-								<td>-</td>
-								<td className="column-hide-xs">-</td>
-							</tr>
-						);
-					}
-				}
-				if (bidRows.length < 100) {
-					for (var i = 0; i < 100 - bidRows.length; i++) {
-						bidRows.push(
-							<tr>
-								<td className="orderHistoryBid">-</td>
-								<td>-</td>
-								<td className="column-hide-xs">-</td>
-							</tr>
-						);
-					}
-				}
+				// if (askRows.length < 100) {
+				// 	for (var i = 0; i < 100 - askRows.length; i++) {
+				// 		askRows.push(
+				// 			<tr style={{background: '#091613'}}>
+				// 				<td className="orderHistoryAsk">-</td>
+				// 				<td className="column-hide-xs">-</td>
+				// 			</tr>
+				// 		);
+				// 	}
+				// }
+				// if (bidRows.length < 100) {
+				// 	for (var i = 0; i < 100 - bidRows.length; i++) {
+				// 		bidRows.push(
+				// 			<tr style={{background: '#1D0D0F'}}>
+				// 				<td className="orderHistoryBid">-</td>
+				// 				<td className="column-hide-xs">-</td>
+				// 			</tr>
+				// 		);
+				// 	}
+				// }
 			}
 		}
 		if (this.props.horizontal) {
@@ -836,30 +878,20 @@ class OrderBook extends React.Component {
 			let leftHeader = (
 				<thead>
 					<tr key="top-header" className="top-header">
-						<th>
-							<Translate
-								className={
-									(flipOrderBook ? 'ask-total' : 'bid-total') +
-									' header-sub-title'
-								}
-								content="exchange.price"
-							/>
+						<th
+							style={{
+								width: '33.5%',
+								textAlign: 'left',
+							}}
+						>
+							<span className="header-sub-title">VOLUME</span>
 						</th>
-
-						<th>
-							<span className="header-sub-title">
-								<AssetName dataPlace="top" name={quoteSymbol} />
-							</span>
-						</th>
-						<th className="column-hide-xs">
-							<Translate
-								className="header-sub-title"
-								content="exchange.total"
-							/>
-							<span className="header-sub-title">
-								{' '}
-								(<AssetName dataPlace="top" name={baseSymbol} />)
-							</span>
+						<th
+							style={{
+								textAlign: 'right',
+							}}
+						>
+							<span className="header-sub-title">BUY PRICE</span>
 						</th>
 					</tr>
 				</thead>
@@ -868,44 +900,16 @@ class OrderBook extends React.Component {
 			let rightHeader = (
 				<thead>
 					<tr key="top-header" className="top-header">
-						<th style={{textAlign: 'right'}}>
-							<Translate
-								className={
-									(!flipOrderBook ? 'ask-total' : 'bid-total') +
-									' header-sub-title'
-								}
-								content="exchange.price"
-							/>
-						</th>
-						<th style={{textAlign: 'right'}}>
-							<span className="header-sub-title">
-								<AssetName dataPlace="top" name={quoteSymbol} />
-							</span>
+						<th style={{textAlign: 'left'}}>
+							<span className="header-sub-title">SELL PRICE</span>
 						</th>
 						<th
-							/*className="column-hide-xs"*/ style={{
+							style={{
+								width: '33.5%',
 								textAlign: 'right',
 							}}
 						>
-							<Translate
-								className="header-sub-title"
-								content="exchange.total"
-							/>
-							{/*<a
-                                onClick={() => this.toggleTotalAsset()}
-                                className="header-sub-title underline-title"
-                            >
-                                {" "}
-                                <AssetName
-                                    dataPlace="top"
-                                    name={
-                                        !this.state.quoteTotalAsks
-                                            ? baseSymbol
-                                            : quoteSymbol
-                                    }
-                                    noTip
-                                />
-                            </a>*/}
+							<span className="header-sub-title">VOLUME</span>
 						</th>
 					</tr>
 				</thead>
@@ -915,258 +919,266 @@ class OrderBook extends React.Component {
 			let innerClass = this.props.innerClass;
 
 			return (
-				<div
-					ref="order_book"
-					style={{
-						marginRight: this.props.smallScreen ? 0 : 0,
-						height: '100%',
-					}} //this.props.smallScreen ? 10 : 0
-					className={cnames(wrapperClass)}
-				>
+				<>
+					<SectionHeader title="Order Book" />
 					<div
+						ref="order_book"
 						style={{
-							height: '51%',
-							paddingBottom: '4px',
-							overflow: 'hidden',
-							color: '#e6416e',
+							marginRight: this.props.smallScreen ? 0 : 0,
+							height: '100%',
+							display: 'flex',
+							flexDirection: 'row',
+							justifyContent: 'space-between',
 						}}
-						className={cnames(
-							innerClass,
-							flipOrderBook ? 'order-1' : 'order-2'
-						)}
+						className={cnames(wrapperClass)}
 					>
-						{/*ask div */}
-						<div style={{height: '100%'}}>
-							<div className="market-right-padding-only">
-								<table className="table order-table table-hover fixed-table text-right">
-									{!flipOrderBook ? rightHeader : leftHeader}
-								</table>
-							</div>
-							<div
-								id="top-order-table"
-								className="grid-block"
-								ref="hor_asks"
-								style={{
-									paddingRight: '0.6rem',
-									overflow: 'hidden',
-									maxHeight: this.props.chartHeight / 2 - 2,
-									lineHeight: '20px',
-									minHeight: '93%',
-								}}
-							>
-								<table
-									className="table order-table no-stripes table-hover fixed-table text-right no-overflow"
-									style={{height: '100%'}}
+						<div
+							style={{
+								overflow: 'hidden',
+								color: '#FF2929',
+							}}
+							className={cnames(
+								innerClass,
+								flipOrderBook ? 'order-1' : 'order-2'
+							)}
+						>
+							{/*ask div */}
+							<div style={{height: '100%'}}>
+								<div className="market-right-padding-only">
+									<table className="table order-table table-hover fixed-table text-right">
+										{rightHeader}
+									</table>
+								</div>
+								<div
+									id="top-order-table"
+									className="grid-block"
+									ref="hor_asks"
+									style={{
+										overflow: 'hidden',
+										maxHeight: this.props.chartHeight / 2 - 2,
+										lineHeight: '20px',
+										minHeight: '93%',
+									}}
 								>
-									<TransitionWrapper
-										ref="askTransition"
-										className="orderbook clickable"
-										component="tbody"
-										transitionName="newrow"
-										id="top-order-rows"
+									<table
+										className="table order-table no-stripes table-hover fixed-table text-right no-overflow"
+										style={{height: '100%'}}
 									>
-										{askRows.reverse()}
-									</TransitionWrapper>
-								</table>
+										<TransitionWrapper
+											ref="askTransition"
+											className="orderbook clickable"
+											component="tbody"
+											transitionName="newrow"
+											id="top-order-rows"
+										>
+											{askRows.reverse()}
+										</TransitionWrapper>
+									</table>
+								</div>
 							</div>
 						</div>
-					</div>
 
-					<div
-						style={{
-							borderTop: '2px solid black',
-							height: '48%',
-							paddingTop: '4px',
-							color: '#70a800',
-						}}
-						className={cnames(
-							innerClass,
-							flipOrderBook ? 'order-2' : 'order-1'
-						)}
-					>
-						<div style={{height: '100%'}}>
-							<div
-								className="grid-block"
-								ref="hor_bids"
-								id="bottom-order-table"
-								style={{
-									paddingRight: '0.6rem',
-									overflow: 'hidden',
-									maxHeight: this.props.chartHeight / 2 - 2,
-									lineHeight: '20px',
-									minHeight: '100%',
-								}}
-							>
-								<table
-									style={{paddingBottom: 5, height: '100%'}}
-									className="table order-table no-stripes table-hover fixed-table text-right no-overflow"
+						<div
+							style={{
+								color: '#70a800',
+							}}
+							className={cnames(
+								innerClass,
+								flipOrderBook ? 'order-2' : 'order-1'
+							)}
+						>
+							<div style={{height: '100%'}}>
+								<div className="market-right-padding-only">
+									<table className="table order-table table-hover fixed-table text-right">
+										{leftHeader}
+									</table>
+								</div>
+								<div
+									className="grid-block"
+									ref="hor_bids"
+									id="bottom-order-table"
+									style={{
+										overflow: 'hidden',
+										maxHeight: this.props.chartHeight / 2 - 2,
+										lineHeight: '20px',
+										minHeight: '100%',
+									}}
 								>
-									<TransitionWrapper
-										ref="bidTransition"
-										className="orderbook clickable"
-										component="tbody"
-										transitionName="newrow"
+									<table
+										style={{paddingBottom: 5, height: '100%'}}
+										className="table order-table no-stripes table-hover fixed-table text-right no-overflow"
 									>
-										{bidRows}
-									</TransitionWrapper>
-								</table>
+										<TransitionWrapper
+											ref="bidTransition"
+											className="orderbook clickable"
+											component="tbody"
+											transitionName="newrow"
+										>
+											{bidRows}
+										</TransitionWrapper>
+									</table>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
+				</>
 			);
 		} else {
 			// Vertical orderbook
 			return (
-				<div className="order-table-container">
-					<StickyTable
-						stickyColumnCount={0}
-						className="order-table table"
-						ref={this.verticalStickyTable}
-					>
-						<div className="sticky-table-row top-header">
-							<div className="cell header-cell left">
-								<span className="header-sub-title">
-									<AssetName name={baseSymbol} />
-								</span>
+				<>
+					<SectionHeader title="Order Book" />
+					<div className="order-table-container">
+						<StickyTable
+							stickyColumnCount={0}
+							className="order-table table"
+							ref={this.verticalStickyTable}
+						>
+							<div className="sticky-table-row top-header">
+								<div className="cell header-cell left">
+									<span className="header-sub-title">
+										<AssetName name={baseSymbol} />
+									</span>
+								</div>
+								<div className="cell header-cell">
+									<span className="header-sub-title">
+										<AssetName name={quoteSymbol} />
+									</span>
+								</div>
+								<div className="cell header-cell right">
+									<Translate
+										className="header-sub-title"
+										content="exchange.price"
+									/>
+								</div>
 							</div>
-							<div className="cell header-cell">
-								<span className="header-sub-title">
-									<AssetName name={quoteSymbol} />
-								</span>
-							</div>
-							<div className="cell header-cell right">
-								<Translate
-									className="header-sub-title"
-									content="exchange.price"
+							{orderBookReversed ? (
+								<OrderRows
+									id="top-order-rows"
+									noOrders={noOrders}
+									orderRows={bidRows}
+									isBid={true}
 								/>
-							</div>
-						</div>
-						{orderBookReversed ? (
-							<OrderRows
-								id="top-order-rows"
-								noOrders={noOrders}
-								orderRows={bidRows}
-								isBid={true}
-							/>
-						) : (
-							<OrderRows
-								id="top-order-rows"
-								noOrders={noOrders}
-								orderRows={askRows}
-								isBid={false}
-							/>
-						)}
+							) : (
+								<OrderRows
+									id="top-order-rows"
+									noOrders={noOrders}
+									orderRows={askRows}
+									isBid={false}
+								/>
+							)}
 
-						{noOrders ? (
-							<div className="sticky-table-row" ref={this.centerText}>
-								<div className="cell" />
-								<div className="cell no-orders padtop">
-									<Translate content="exchange.no_orders" />
+							{noOrders ? (
+								<div className="sticky-table-row" ref={this.centerText}>
+									<div className="cell" />
+									<div className="cell no-orders padtop">
+										<Translate content="exchange.no_orders" />
+									</div>
 								</div>
-							</div>
-						) : (
-							<div
-								className="sticky-table-row orderbook-latest-price"
-								ref={this.centerText}
-								style={{padding: 0}}
-								//data-intro={translator.translate(
-								//    "walkthrough.vertical_order"
-								//)}
-							>
-								<div className="cell right">
-									<span
-										className="clickable left"
-										onClick={this.toggleSpreadValue}
-									>
-										<Translate
-											className="orderbook-center-title"
-											content="exchange.spread"
-										/>{' '}
-										<span className="spread-value">
-											{!!spread ? spread : '0'}
-										</span>
-									</span>
-								</div>
-								<div className="cell cell-center">
-									<span style={{width: 75}}>
-										{!this.props.hideFunctionButtons ? (
-											<Icon
-												//data-intro={translator.translate(
-												//    "walkthrough.vertical_lock"
-												//)}
-												className="lock-unlock clickable icon-fill"
-												onClick={this.toggleAutoScroll}
-												name={this.state.autoScroll ? 'locked' : 'unlocked'}
-												title={
-													this.state.autoScroll
-														? 'icons.unlocked.disable_auto_scroll'
-														: 'icons.locked.enable_auto_scroll'
-												}
-											/>
-										) : null}
-										&nbsp;
-										{!this.props.hideFunctionButtons ? (
-											<Icon
-												onClick={this.props.moveOrderBook}
-												name="thumb-tack"
-												className="icon-14px icon-fill order-book-button-v clickable"
-												title={
-													this.props.horizontal
-														? 'icons.thumb_tack'
-														: 'icons.thumb_untack'
-												}
-												style={{
-													marginLeft: 0,
-												}}
-											/>
-										) : null}
-										&nbsp;
-										{currentGroupOrderLimit == 0 ? null : (
-											<Icon
-												name="grouping"
-												className="icon-14px"
-												title={translator.translate('icons.order_grouping')}
-												style={{
-													marginLeft: 0,
-												}}
-											/>
-										)}
-									</span>
-								</div>
-								<div className="cell">
-									{!!this.props.latest && (
-										<span className="right">
-											<span
-												className={
-													!this.props.changeClass
-														? 'spread-value'
-														: this.props.changeClass
-												}
-											>
-												<PriceText
-													price={this.props.latest}
-													base={this.props.base}
-													quote={this.props.quote}
-												/>
+							) : (
+								<div
+									className="sticky-table-row orderbook-latest-price"
+									ref={this.centerText}
+									style={{padding: 0}}
+								>
+									<div className="cell right">
+										<span
+											className="clickable left"
+											onClick={this.toggleSpreadValue}
+										>
+											<Translate
+												className="orderbook-center-title"
+												content="exchange.spread"
+											/>{' '}
+											<span className="spread-value">
+												{!!spread ? spread : '0'}
 											</span>
 										</span>
-									)}
+									</div>
+									<div className="cell cell-center">
+										<span style={{width: 75}}>
+											{!this.props.hideFunctionButtons ? (
+												<Icon
+													//data-intro={translator.translate(
+													//    "walkthrough.vertical_lock"
+													//)}
+													className="lock-unlock clickable icon-fill"
+													onClick={this.toggleAutoScroll}
+													name={this.state.autoScroll ? 'locked' : 'unlocked'}
+													title={
+														this.state.autoScroll
+															? 'icons.unlocked.disable_auto_scroll'
+															: 'icons.locked.enable_auto_scroll'
+													}
+												/>
+											) : null}
+											&nbsp;
+											{!this.props.hideFunctionButtons ? (
+												<Icon
+													onClick={this.props.moveOrderBook}
+													name="thumb-tack"
+													className="icon-14px icon-fill order-book-button-v clickable"
+													title={
+														this.props.horizontal
+															? 'icons.thumb_tack'
+															: 'icons.thumb_untack'
+													}
+													style={{
+														marginLeft: 0,
+													}}
+												/>
+											) : null}
+											&nbsp;
+											{currentGroupOrderLimit == 0 ? null : (
+												<Icon
+													name="grouping"
+													className="icon-14px"
+													title={translator.translate('icons.order_grouping')}
+													style={{
+														marginLeft: 0,
+													}}
+												/>
+											)}
+										</span>
+									</div>
+									<div className="cell">
+										{!!this.props.latest && (
+											<span className="right">
+												<span
+													className={
+														!this.props.changeClass
+															? 'spread-value'
+															: this.props.changeClass
+													}
+												>
+													<PriceText
+														price={this.props.latest}
+														base={this.props.base}
+														quote={this.props.quote}
+													/>
+												</span>
+											</span>
+										)}
+									</div>
 								</div>
-							</div>
-						)}
+							)}
 
-						{orderBookReversed ? (
-							<OrderRows
-								noOrders={noOrders}
-								orderRows={askRows}
-								isBid={false}
-							/>
-						) : (
-							<OrderRows noOrders={noOrders} orderRows={bidRows} isBid={true} />
-						)}
-					</StickyTable>
-				</div>
+							{orderBookReversed ? (
+								<OrderRows
+									noOrders={noOrders}
+									orderRows={askRows}
+									isBid={false}
+								/>
+							) : (
+								<OrderRows
+									noOrders={noOrders}
+									orderRows={bidRows}
+									isBid={true}
+								/>
+							)}
+						</StickyTable>
+					</div>
+				</>
 			);
 		}
 	}

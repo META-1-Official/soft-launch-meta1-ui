@@ -28,8 +28,10 @@
 
 		.exchange--price-alert--item--type {
 		}
+
 		.exchange--price-alert--item--price {
 		}
+
 		.exchange--price-alert--item--control {
 			padding: 0 !important;
 			border: 0 !important;
@@ -41,7 +43,16 @@
 	}
 }
 
-.market-layout {
+.assets-layout {
+	width: 30%;
+	display: flex;
+	flex-direction: column;
+	margin-right: 15px;
+}
+
+.info-layout {
+	width: 100%;
+
 	.column-header {
 		width: 100%;
 		padding-right: 10px;
@@ -82,6 +93,11 @@
 		padding-bottom: 0 !important;
 		border-top: none;
 	}
+}
+
+.control-layout {
+	width: 40%;
+	margin-left: 15px;
 }
 
 .ant-collapse-header {
@@ -167,6 +183,7 @@ p.order-table-title {
 .backingWarning {
 	color: yellow;
 }
+
 .backingError {
 	color: red;
 }
@@ -188,6 +205,7 @@ p.order-table-title {
 .short-long-button span {
 	padding: 2px 2px 2px 0px;
 }
+
 .short-long-button button {
 	padding: 2px 2px 2px 0px;
 }
@@ -216,6 +234,7 @@ form.order-form {
 		label {
 			font-size: 12px;
 		}
+
 		label:after {
 			content: '' !important;
 		}
@@ -233,29 +252,19 @@ form.order-form {
 	}
 }
 
-.exchange--buy-sell-form {
-	// override "Extra" of Ant.Tabs (Buy/Sell Asset) to put it
-	// on left side instead of right
-	.ant-tabs-extra-content {
-		float: left !important;
-		padding-left: 5px;
-		margin-right: 0px;
-	}
-}
-
 .flexifyGrow {
 	flex-grow: 1;
 }
 
 .buy-form {
 	> div.ant-tabs-bar {
-		border-bottom: 1px solid rgb(112, 168, 0) !important;
+		border-bottom: 1px solid #009d55 !important;
 	}
 }
 
 .sell-form {
 	> div.ant-tabs-bar {
-		border-bottom: 1px solid #e6416e !important;
+		border-bottom: 1px solid #ff2929 !important;
 	}
 }
 
@@ -263,6 +272,7 @@ form.order-form {
 	> div.Stockcharts__wrapper {
 		overflow: hidden;
 	}
+
 	> div > div.tabs {
 		margin-bottom: 0.25rem;
 
@@ -276,25 +286,30 @@ form.order-form {
 	max-height: 10px;
 	//min-height: 215px !important;
 }
+
 @media screen and (max-width: 1178px) {
 	.my-open-orders-res {
 		display: none;
 	}
 
-	.exchange--buy-sell-form {
-		max-width: 50% !important;
-	}
+	// .exchange--buy-sell-form {
+	// 	max-width: 50% !important;
+	// }
 }
+
 @media screen and (max-width: 880px) {
 	#market-charts {
 		flex-basis: 100%;
 	}
+
 	#market-orders-view-container {
 		min-height: 260px !important;
 	}
+
 	.market-history-rows {
 		max-height: 10px !important;
 	}
+
 	#top-order-table {
 		max-height: 129px !important;
 	}
@@ -302,12 +317,15 @@ form.order-form {
 	#bottom-order-table {
 		max-height: 129px !important;
 	}
+
 	.exchange-bordered {
 		max-height: 250px !important;
 	}
+
 	.my-open-orders-res {
 		min-width: 100% !important;
 	}
+
 	.orders-trade-form {
 		max-width: 50% !important;
 	}
@@ -319,45 +337,149 @@ form.order-form {
 	}
 }
 
+.ask-order-tr {
+	background-repeat: no-repeat;
+	background-position-x: right;
+	background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfQAAAA8AQMAAACq1NqkAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAANQTFRFCRYTMI3yXAAAABpJREFUeJztwQENAAAAwqD3T20PBxQAAAD8Gw8AAAEFFEsxAAAAAElFTkSuQmCC');
+}
+
+.bid-order-tr {
+	background-repeat: no-repeat;
+	background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfQAAAA8AQMAAACq1NqkAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAANQTFRFHQ0PlpVuJQAAABpJREFUeJztwQENAAAAwqD3T20PBxQAAAD8Gw8AAAEFFEsxAAAAAElFTkSuQmCC');
+}
+
+.buy-form {
+	.ant-tabs-tab {
+		width: none;
+	}
+
+	.ant-tabs-nav-list {
+		width: unset !important;
+
+		.ant-tabs-tab {
+			width: unset !important;
+			text-align: center;
+			display: flex;
+			justify-content: center;
+		}
+
+		.ant-tabs-tab.ant-tabs-tab-active {
+			border-top: none !important;
+		}
+
+		.ant-tabs-tab + .ant-tabs-tab {
+			margin: 0 0 0 10px;
+		}
+	}
+}
+
+.sell-form {
+	.ant-tabs-tab {
+		width: none;
+	}
+
+	.ant-tabs-nav-list {
+		width: unset !important;
+
+		.ant-tabs-tab {
+			width: unset !important;
+			text-align: center;
+			display: flex;
+			justify-content: center;
+		}
+
+		.ant-tabs-tab.ant-tabs-tab-active {
+			border-top: none !important;
+		}
+
+		.ant-tabs-tab + .ant-tabs-tab {
+			margin: 0 0 0 10px;
+		}
+	}
+}
+
+.buy-sell-tab {
+	.ant-tabs-nav {
+		margin: 0;
+
+		.ant-tabs-ink-bar {
+			display: none;
+		}
+
+		.ant-tabs-nav-list {
+			width: 100%;
+			padding-left: 15px;
+			padding-right: 15px;
+
+			.ant-tabs-tab {
+				width: 50%;
+				text-align: center;
+				display: flex;
+				justify-content: center;
+			}
+
+			.ant-tabs-tab.ant-tabs-tab-active {
+				border-top: 2px solid #ffc000;
+				border-bottom: none !important;
+				background: #15171b;
+			}
+		}
+	}
+
+	.ant-tabs-tabpane {
+		background: #15171b;
+	}
+}
+
 .left-order-book {
 	width: 100%;
 	display: flex;
 	justify-content: center;
 	flex-direction: column;
 	align-items: center;
+
 	table {
 		width: 100%;
 		table-layout: auto;
+
 		th {
 			padding-top: 8px !important;
 			padding-bottom: 8px !important;
 		}
 	}
+
 	.transition-container {
 		display: table-row-group;
 	}
+
 	.table-container {
 		flex-grow: 1;
 		width: 100%;
 		position: relative;
 	}
+
 	.my-order {
-		//font-weight: bold;
+		background: #15171b;
 	}
+
 	.no-orders {
 		text-align: center !important;
 		margin-left: auto;
 		margin-right: auto;
+
 		&.padtop {
 			padding-top: 1em;
 		}
 	}
+
 	.ps-scrollbar-y-rail {
 		width: 10px !important;
+
 		.ps-scrollbar-y {
 			width: 6px !important;
 		}
 	}
+
 	.cell {
 		display: table-cell;
 		font-size: 0.875rem;
@@ -365,44 +487,55 @@ form.order-form {
 		padding-bottom: 5px;
 		vertical-align: middle;
 		text-align: right;
+
 		&.header-cell {
 			padding-top: 0;
 			padding-bottom: 0;
 		}
+
 		$scrollBarSpacePadding: 15px;
+
 		&.left,
 		&.right {
 			padding-left: $scrollBarSpacePadding;
 			padding-right: $scrollBarSpacePadding;
 		}
+
 		.text-center.spread {
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
 			width: 100%;
+
 			.lock-unlock {
 				margin-left: auto;
 				margin-right: auto;
 			}
+
 			.left {
 				padding-left: $scrollBarSpacePadding;
 			}
+
 			.right {
 				padding-right: $scrollBarSpacePadding;
 			}
 		}
 	}
+
 	.column {
 		width: 100%;
 		height: 3rem;
+
 		.button.outline {
 			border-left: none;
 		}
 	}
+
 	.order-table-container {
 		width: 100%;
 		height: 100%;
 	}
+
 	.top-header {
 		text-align: right;
 		height: 31px;
@@ -425,8 +558,10 @@ form.order-form {
 .top-header {
 	padding-bottom: 0.25rem;
 }
+
 .bottom-header {
 	padding-top: 0.25rem;
+
 	> .horizontal-button {
 		height: 100%;
 		width: 100%;
@@ -486,6 +621,7 @@ ul.market-stats {
 	display: flex;
 	flex-wrap: wrap;
 }
+
 .market-stats .stat {
 	text-align: left;
 	font-size: 0.75rem;
@@ -519,6 +655,7 @@ ul.market-stats {
 	.exchange-gear {
 		display: none !important;
 	}
+
 	.exchange--chart-control {
 		display: none !important;
 	}
@@ -717,11 +854,11 @@ input[type='number']::-webkit-outer-spin-button {
 }
 
 .exchange-content-header.bid {
-	border-bottom: 1px solid rgb(112, 168, 0) !important;
+	border-bottom: 1px solid #009d55 !important;
 }
 
 .exchange-content-header.ask {
-	border-bottom: 1px solid #e6416e !important;
+	border-bottom: 1px solid #ff2929 !important;
 }
 
 .exchange-padded {
@@ -735,9 +872,11 @@ input[type='number']::-webkit-outer-spin-button {
 	height: inherit;
 	font-size: inherit;
 }
+
 .mymarkets-list {
 	padding: 0;
 	font-size: 0.75rem;
+
 	.table > thead tr th {
 		font-size: 0.75rem;
 	}
@@ -795,31 +934,37 @@ table thead tr th.mymarkets-header {
 		display: none !important;
 	}
 }
+
 @media (max-width: 570px) {
 	.hide-order-1 {
 		display: none !important;
 	}
 }
+
 @media (max-width: 720px) {
 	.hide-order-2 {
 		display: none !important;
 	}
 }
+
 @media (max-width: 880px) {
 	.hide-order-3 {
 		display: none !important;
 	}
 }
+
 @media (max-width: 1020px) {
 	.hide-order-4 {
 		display: none !important;
 	}
 }
+
 @media (max-width: 1180px) {
 	.hide-order-5 {
 		display: none !important;
 	}
 }
+
 @media (max-width: 1340px) {
 	.hide-order-6 {
 		display: none !important;
@@ -861,6 +1006,7 @@ table thead tr th.mymarkets-header {
 	0% {
 		background-color: #6b6b6b;
 	}
+
 	100% {
 		background-color: transparent;
 	}
@@ -905,6 +1051,7 @@ form.hide-container {
 		left: 0;
 		right: auto;
 		min-width: 15rem;
+
 		> ul {
 			margin: 0;
 			list-style: none;
@@ -917,26 +1064,32 @@ form.hide-container {
 				max-width: 40px;
 				display: inline-block;
 			}
+
 			> li {
 				position: relative;
+
 				&.indicator-title {
 					text-transform: uppercase;
 				}
+
 				padding: 5px;
 				min-width: 5rem;
 				border: none;
+
 				&.indicator {
 					> div:first-of-type {
 						display: inline-block;
 						padding-left: 25px;
 						width: 60%;
 					}
+
 					> div:nth-of-type(2) {
 						width: 40%;
 						text-align: right;
 						display: inline-block;
 					}
 				}
+
 				> input {
 					position: absolute;
 					top: 5px;
@@ -1047,6 +1200,7 @@ tbody.orderbook > tr.my-order > td {
 		text-align: left !important;
 		margin-bottom: 0;
 	}
+
 	:after {
 		content: none !important;
 	}

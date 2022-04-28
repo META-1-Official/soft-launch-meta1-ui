@@ -530,7 +530,7 @@ class BuySell extends React.Component {
 			color: 'grey',
 		};
 		let sellButton = {
-			backgroundColor: '#e6416e',
+			backgroundColor: '#FF2929',
 			marginTop: '10px',
 			width: '100%',
 			height: '32px',

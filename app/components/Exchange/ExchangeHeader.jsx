@@ -207,10 +207,16 @@ export default class ExchangeHeader extends React.Component {
 			: '';
 
 		return (
-			<div className="grid-block shrink no-padding overflow-visible top-bar">
+			<div
+				className="grid-block shrink no-padding overflow-visible top-bar"
+				style={{
+					border: '1px solid #1C1F27',
+					borderTopLeftRadius: '5px',
+					borderTopRightRadius: '5px',
+				}}
+			>
 				<div className="grid-block overflow-visible">
 					<div className="grid-block shrink">
-						&nbsp;&nbsp;
 						<a
 							id="center-item"
 							onClick={() => {
