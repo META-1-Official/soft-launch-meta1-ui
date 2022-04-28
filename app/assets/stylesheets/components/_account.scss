@@ -553,6 +553,10 @@ div.account-trade {
 				color: #dea702;
 				background-color: #0a0b0d;
 			}
+
+			&.disabled:hover {
+				cursor: not-allowed;
+			}
 		}
 
 		.toggle-box:hover {
