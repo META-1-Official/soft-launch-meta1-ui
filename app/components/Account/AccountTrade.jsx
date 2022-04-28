@@ -23,10 +23,6 @@ import MarketsActions from 'actions/MarketsActions';
 import MarketsStore from 'stores/MarketsStore';
 import marketUtils from 'common/market_utils';
 import utils from 'common/utils';
-import {
-	getResolutionsFromBuckets,
-	getBucketFromResolution,
-} from '../Exchange/tradingViewClasses';
 import ChartjsAreaChart from '../Graph/Graph';
 import ls from '../../lib/common/localStorage';
 
@@ -64,12 +60,8 @@ class AccountTrade extends React.Component {
 
 		if (nextProps.assets.size > 0) {
 			setTimeout(() => {
-				this._getMarketInfo(
-					this.props.assets,
-					this.state.baseAssetSymbol,
-					this.state.selectedResolution
-				);
-			}, 1000);
+				this.onClickAsset(this.state.baseAssetSymbol);
+			}, 500);
 		}
 	}
 
@@ -100,26 +92,31 @@ class AccountTrade extends React.Component {
 		}
 	}
 
-	_getMarketInfo(assets, baseAssetSymbol, resolution) {
+	_getMarketInfo(assetPairs, resolution) {
 		const {isFetchingMarketInfo} = this.state;
 		const marketBars = this.state.marketBars;
 
-		if (!isFetchingMarketInfo && assets.size > 0) {
+		if (!isFetchingMarketInfo && this.props.assets.size > 0) {
 			this.setState({isFetchingMarketInfo: true});
 
-			const newBucketSize = getBucketFromResolution(resolution);
+			let newBucketSize = 15;
+			if (resolution === '5m') newBucketSize = 15;
+			else if (resolution === '30m') newBucketSize = 60;
+			else if (resolution === '1h') newBucketSize = 300;
+			else if (resolution === '24h') newBucketSize = 300;
+			else if (resolution === '3d') newBucketSize = 3600;
+			else if (resolution === '1w') newBucketSize = 3600;
+
 			MarketsActions.changeBucketSize(newBucketSize);
 			const from = moment()
-				.subtract(parseInt(resolution[0]), resolution[1])
+				.subtract(parseInt(resolution.slice(0, -1)), resolution.slice(-1))
 				.valueOf();
 			const to = moment().valueOf();
-			const baseAssetId = assets.find(
-				(asset) => asset.symbol === baseAssetSymbol
-			).id;
-			const baseAsset = ChainStore.getAsset(baseAssetId);
 
-			assets.map((asset, index) => {
-				const quoteAsset = ChainStore.getAsset(asset.id);
+			assetPairs.map((assetPair, index) => {
+				const quoteAsset = assetPair.quoteAsset;
+				const baseAsset = assetPair.baseAsset;
+
 				const marketName = marketUtils.getMarketName(baseAsset, quoteAsset);
 				MarketsActions.unSubscribeMarket(
 					quoteAsset.get('id'),
@@ -134,24 +131,24 @@ class AccountTrade extends React.Component {
 							let bars = MarketsStore.getState().priceData;
 							let quoteAsset1 = MarketsStore.getState().quoteAsset;
 							let baseAsset1 = MarketsStore.getState().baseAsset;
-							console.log(
-								'@1103 - _getMarketInfo #1',
-								from,
-								to,
-								quoteAsset1.get('id'),
-								baseAsset1.get('id'),
-								bars.length,
-								bars
-							);
-							// bars = bars.filter((a) => a.time >= from && a.time <= to);
-							console.log(
-								'@1104 - _getMarketInfo #2',
-								resolution,
-								newBucketSize,
-								quoteAsset.get('id'),
-								baseAsset.get('id'),
-								bars
-							);
+							// console.log(
+							// 	'@1103 - _getMarketInfo #1',
+							// 	from,
+							// 	to,
+							// 	quoteAsset1.get('id'),
+							// 	baseAsset1.get('id'),
+							// 	bars.length,
+							// 	bars
+							// );
+							bars = bars.filter((a) => a.time >= from && a.time <= to);
+							// console.log(
+							// 	'@1104 - _getMarketInfo #2',
+							// 	resolution,
+							// 	newBucketSize,
+							// 	quoteAsset.get('id'),
+							// 	baseAsset.get('id'),
+							// 	bars
+							// );
 
 							const marketBarIndex = marketBars.findIndex(
 								(marketBar) =>
@@ -170,12 +167,22 @@ class AccountTrade extends React.Component {
 								marketBars.push(newMarketBar);
 							}
 
-							this.setState({isFetchingMarketInfo: false, marketBars});
+							if (
+								index === assetPairs.length - 1 ||
+								index === assetPairs.length - 2
+							) {
+								const that = this;
+								setTimeout(() => {
+									that.setState({isFetchingMarketInfo: false, marketBars});
+								}, 500);
+							} else {
+								this.setState({marketBars});
+							}
 						});
 					})
 					.catch((e) => {
 						console.log('Error: Failed to subscribe market, ', e);
-						this.setState({isFetchingMarketInfo: false});
+						this.setState({isFetchingMarketInfo: false, marketBars});
 					});
 
 				this.statsInterval = MarketsActions.getMarketStatsInterval(
@@ -195,30 +202,56 @@ class AccountTrade extends React.Component {
 	_onDropDownChange(option, type) {
 		if (type === 'resolution') {
 			this.setState({selectedResolution: option});
-			this._getMarketInfo(
-				this.props.assets,
-				this.state.baseAssetSymbol,
-				option
-			);
+			this.onClickAsset(this.state.baseAssetSymbol, option);
 		} else if (type === 'asset-filter') {
 			this.setState({selectedAsset: option});
 		}
 	}
 
 	onClickAsset(newBaseAssetSymbol) {
+		const {assets} = this.props;
+		const {watchPairs, selectedResolution, isFetchingMarketInfo} = this.state;
+		const assetPairs = [];
+
+		if (isFetchingMarketInfo) {
+			return;
+		} else if (newBaseAssetSymbol === 'star') {
+			watchPairs.map((watchPair) => {
+				const quoteAssetSymbol = watchPair.split('/')[0];
+				const baseAssetSymbol = watchPair.split('/')[1];
+				let quoteAssetId, baseAssetId;
+
+				assets.map((asset) => {
+					if (asset.symbol === quoteAssetSymbol) quoteAssetId = asset.id;
+					if (asset.symbol === baseAssetSymbol) baseAssetId = asset.id;
+				});
+
+				const quoteAsset = ChainStore.getAsset(quoteAssetId);
+				const baseAsset = ChainStore.getAsset(baseAssetId);
+				assetPairs.push({quoteAsset, baseAsset});
+			});
+		} else {
+			let baseAssetId;
+			assets.map((asset) => {
+				if (asset.symbol === newBaseAssetSymbol) baseAssetId = asset.id;
+			});
+			const baseAsset = ChainStore.getAsset(baseAssetId);
+
+			assets.map((asset) => {
+				const quoteAsset = ChainStore.getAsset(asset.id);
+				assetPairs.push({quoteAsset, baseAsset});
+			});
+		}
+
+		this._getMarketInfo(assetPairs, selectedResolution);
 		this.setState({baseAssetSymbol: newBaseAssetSymbol});
-		this._getMarketInfo(
-			this.props.assets,
-			newBaseAssetSymbol,
-			this.state.selectedResolution
-		);
 	}
 
-	onClickBuy(name) {
-		const quoteAssetName = name.split('/')[0];
-		const baseAssetName = name.split('/')[1];
+	onClickTrade(name) {
+		const quoteAssetSymbol = name.split('/')[0];
+		const baseAssetSymbol = name.split('/')[1];
 
-		window.location.href = `/market/${quoteAssetName}_${baseAssetName}`;
+		window.location.href = `/market/${quoteAssetSymbol}_${baseAssetSymbol}`;
 	}
 
 	onClickWatch(namePair, isWatched) {
@@ -249,11 +282,11 @@ class AccountTrade extends React.Component {
 					return a.name > b.name ? 1 : a.name < b.name ? -1 : 0;
 				},
 				render: (rowData) => {
-					const quoteAssetName = rowData.quoteAssetName;
-					const baseAssetName = rowData.baseAssetName;
+					const quoteAssetSymbol = rowData.quoteAssetSymbol;
+					const baseAssetSymbol = rowData.baseAssetSymbol;
 					let icon = bnbIcon;
 
-					switch (quoteAssetName) {
+					switch (quoteAssetSymbol) {
 						case 'BNB':
 							icon = bnbIcon;
 							break;
@@ -290,9 +323,9 @@ class AccountTrade extends React.Component {
 							/>
 							<div className="asset-name">
 								<span className="quote">
-									<strong>{quoteAssetName}</strong>
+									<strong>{quoteAssetSymbol}</strong>
 								</span>
-								<span className="base">{` / ${baseAssetName}`}</span>
+								<span className="base">{` / ${baseAssetSymbol}`}</span>
 							</div>
 						</div>
 					);
@@ -352,6 +385,7 @@ class AccountTrade extends React.Component {
 			},
 			{
 				title: '',
+				key: 'graph',
 				render: (rowData) => {
 					if (!rowData.marketBar || rowData.marketBar === []) {
 						return <div className="chart">N/A</div>;
@@ -438,15 +472,16 @@ class AccountTrade extends React.Component {
 			},
 			{
 				title: '',
+				key: 'trade',
 				dataIndex: 'marketName',
 				render: (marketName) => {
 					return (
 						<div>
 							<button
-								className="buy"
-								onClick={() => this.onClickBuy(marketName)}
+								className="trade"
+								onClick={() => this.onClickTrade(marketName)}
 							>
-								BUY
+								Trade
 							</button>
 						</div>
 					);
@@ -454,10 +489,11 @@ class AccountTrade extends React.Component {
 			},
 			{
 				title: <Translate component="span" content="account.watch" />,
+				key: 'watch',
 				render: (rowData) => {
-					const quoteAssetName = rowData.quoteAssetName;
-					const baseAssetName = rowData.baseAssetName;
-					const name = `${quoteAssetName}/${baseAssetName}`;
+					const quoteAssetSymbol = rowData.quoteAssetSymbol;
+					const baseAssetSymbol = rowData.baseAssetSymbol;
+					const name = `${quoteAssetSymbol}/${baseAssetSymbol}`;
 					const isWatched = watchPairs.indexOf(name) > -1;
 					return (
 						<div onClick={() => this.onClickWatch(name, isWatched)}>
@@ -476,33 +512,61 @@ class AccountTrade extends React.Component {
 	_buildDataSource(assets) {
 		if (assets.size === 0) return [];
 
-		const {baseAssetSymbol, selectedAsset, searchTerm} = this.state;
-
+		const {baseAssetSymbol, selectedAsset, searchTerm, watchPairs} = this.state;
 		const _dataSource = [];
-		const baseAssetId = assets.find(
-			(asset) => asset.symbol === baseAssetSymbol
-		).id;
-		const filteredMarketStats = MarketsStore.getState()
-			.allMarketStats.filter((marketStat) => marketStat.price)
-			.filter((marketStat) => {
-				return marketStat.price.base.asset_id === baseAssetId;
+		let filteredMarketStats = MarketsStore.getState().allMarketStats.filter(
+			(marketStat) => marketStat.price
+		);
+
+		if (baseAssetSymbol !== 'star') {
+			let baseAssetId;
+			assets.map((asset) => {
+				if (asset.symbol === baseAssetSymbol) baseAssetId = asset.id;
 			});
+			filteredMarketStats = filteredMarketStats.filter(
+				(marketStat) => marketStat.price.base.asset_id === baseAssetId
+			);
+		} else {
+			filteredMarketStats = filteredMarketStats.filter((marketStat) => {
+				let isWatched = false;
+
+				watchPairs.map((watchPair) => {
+					const quoteAssetSymbol = watchPair.split('/')[0];
+					const baseAssetSymbol = watchPair.split('/')[1];
+					let quoteAssetId, baseAssetId;
+
+					assets.map((asset) => {
+						if (asset.symbol === quoteAssetSymbol) quoteAssetId = asset.id;
+						if (asset.symbol === baseAssetSymbol) baseAssetId = asset.id;
+					});
+
+					if (
+						!isWatched &&
+						marketStat.price.base.asset_id === baseAssetId &&
+						marketStat.price.quote.asset_id === quoteAssetId
+					) {
+						isWatched = true;
+					}
+				});
+
+				return isWatched;
+			});
+		}
 
 		filteredMarketStats.map((stats) => {
 			const base = stats.price.base;
 			const quote = stats.price.quote;
 
 			// Name
-			const quoteAssetName = assets.find(
-				(asset) => asset.id === quote.asset_id
-			).symbol;
-			const baseAssetName = assets.find(
-				(asset) => asset.id === base.asset_id
-			).symbol;
-			const name = `${quoteAssetName}/${baseAssetName}`;
+			let quoteAssetSymbol, baseAssetSymbol;
+			assets.map((asset) => {
+				if (asset.id === quote.asset_id) quoteAssetSymbol = asset.symbol;
+				else if (asset.id === base.asset_id) baseAssetSymbol = asset.symbol;
+			});
+			const name = `${quoteAssetSymbol}/${baseAssetSymbol}`;
 
 			// Asset Filter
-			if (selectedAsset !== 'ALL' && selectedAsset !== quoteAssetName) return;
+			if (selectedAsset !== 'ALL' && selectedAsset !== quoteAssetSymbol) return;
 
 			// Keywoard Search
 			if (
@@ -542,7 +606,7 @@ class AccountTrade extends React.Component {
 				'SILVER',
 			];
 			let precision = 6;
-			if (highPrecisionAssets.indexOf(baseAssetName) !== -1) {
+			if (highPrecisionAssets.indexOf(baseAssetSymbol) !== -1) {
 				precision = 8;
 			}
 			const price = utils.format_number(
@@ -557,12 +621,12 @@ class AccountTrade extends React.Component {
 			);
 
 			// Market Cap
+			let dynamic;
+			assets.map((asset) => {
+				if (asset.id === quote.asset_id) dynamic = asset.dynamic;
+			});
 			let marketCap = utils.format_volume(
-				parseInt(
-					assets.find((asset) => asset.id === quote.asset_id).dynamic
-						.current_supply,
-					10
-				),
+				parseInt(dynamic.current_supply, 10),
 				0
 			);
 
@@ -570,7 +634,7 @@ class AccountTrade extends React.Component {
 			const marketBar = this.state.marketBars.find(
 				(iter) =>
 					iter['quoteAssetId'] === quote.asset_id &&
-					iter['baseAssetId'] === baseAssetId
+					iter['baseAssetId'] === base.asset_id
 			);
 
 			// Rate High & Low
@@ -591,12 +655,12 @@ class AccountTrade extends React.Component {
 			}
 
 			_dataSource.push({
-				quoteAssetName,
-				baseAssetName,
+				quoteAssetSymbol,
+				baseAssetSymbol,
 				price,
 				rateChange: change,
 				rateHighLow,
-				marketCap: marketCap,
+				marketCap,
 				marketName: name,
 				watch: name,
 				marketBar,
@@ -608,7 +672,9 @@ class AccountTrade extends React.Component {
 
 	render() {
 		const {account, assets} = this.props;
-		const {baseAssetSymbol, rowsOnPage, selectedAsset} = this.state;
+		const {baseAssetSymbol, rowsOnPage, selectedAsset, isFetchingMarketInfo} =
+			this.state;
+		const canChangeBaseAsset = isFetchingMarketInfo ? 'disabled' : '';
 
 		const assetOptions = assets.map((asset) => (
 			<Select.Option key={asset.symbol}>{asset.symbol}</Select.Option>
@@ -616,22 +682,19 @@ class AccountTrade extends React.Component {
 
 		const toggleBoxes = [];
 		assets.map((asset) => {
-			if (asset.symbol === baseAssetSymbol)
-				toggleBoxes.push(
-					<div key={asset.symbol} className="toggle-box selected">
-						{asset.symbol}
-					</div>
-				);
-			else
-				toggleBoxes.push(
-					<div
-						key={asset.symbol}
-						className="toggle-box"
-						onClick={() => this.onClickAsset(asset.symbol)}
-					>
-						{asset.symbol}
-					</div>
-				);
+			toggleBoxes.push(
+				<div
+					key={asset.symbol}
+					className={
+						asset.symbol === baseAssetSymbol
+							? `toggle-box selected ${canChangeBaseAsset}`
+							: `toggle-box ${canChangeBaseAsset}`
+					}
+					onClick={() => this.onClickAsset(asset.symbol)}
+				>
+					{asset.symbol}
+				</div>
+			);
 		});
 
 		const columns = this._buildColumns();
@@ -659,7 +722,7 @@ class AccountTrade extends React.Component {
 							<Select.Option key={'30m'}>30m</Select.Option>
 							<Select.Option key={'1h'}>1h</Select.Option>
 							<Select.Option key={'24h'}>24h</Select.Option>
-							<Select.Option key={'5d'}>5d</Select.Option>
+							<Select.Option key={'3d'}>3d</Select.Option>
 							<Select.Option key={'1w'}>1w</Select.Option>
 						</Select>
 						<Select
@@ -673,7 +736,11 @@ class AccountTrade extends React.Component {
 					</div>
 					<div className="select">
 						<div
-							className="toggle-box"
+							className={
+								baseAssetSymbol === 'star'
+									? `toggle-box selected ${canChangeBaseAsset}`
+									: `toggle-box ${canChangeBaseAsset}`
+							}
 							onClick={() => this.onClickAsset('star')}
 						>
 							<Icon name="fi-star" className="white-star" />
