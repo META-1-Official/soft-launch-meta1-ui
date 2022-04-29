@@ -34,6 +34,7 @@ import AccountNotifications from '../Notifier/NotifierContainer';
 import TranslateWithLinks from '../Utility/TranslateWithLinks';
 import PriceAlert from './PriceAlert';
 import counterpart from 'counterpart';
+import AssetsPairTabs from './AssetsPairTabs';
 
 class Exchange extends React.Component {
 	static propTypes = {
@@ -1979,7 +1980,6 @@ class Exchange extends React.Component {
 				tabBarExtraContent={<div>{buySellTitle(true)}</div>}
 				defaultActiveKey={'limit'}
 				className={cnames(
-					'small-3',
 					'middle-content',
 					flipBuySell
 						? `order-${buySellTop ? 3 : 3} large-order-${
@@ -2117,7 +2117,7 @@ class Exchange extends React.Component {
 					minWidth: '290px',
 				}}
 				className={cnames(
-					'small-3 middle-content',
+					'middle-content',
 					flipBuySell
 						? `order-${buySellTop ? 6 : 2} large-order-${
 								buySellTop ? 6 : 4
@@ -2639,20 +2639,13 @@ class Exchange extends React.Component {
 			groupTabs[2].length > 0 ? (
 				<div
 					key={`actionCard_${actionCardIndex++}`}
-					style={{height: '100%'}}
 					className="my-open-orders-res"
-					// className={cnames(
-					// 	centerContainerWidth > 1200
-					// 		? groupTabsCount == 1
-					// 			? 'medium-12 xlarge-6'
-					// 			: 'medium-6 xlarge-6'
-					// 		: centerContainerWidth > 800
-					// 			? groupTabsCount == 1
-					// 				? 'medium-12'
-					// 				: 'medium-6'
-					// 			: '',
-					// 	'small-12 order-1 my-open-orders-res'
-					// )}
+					style={{
+						border: '1px solid #1C1F27',
+						borderRadius: '5px',
+						display: 'flex',
+						flexDirection: 'column',
+					}}
 				>
 					<Tabs
 						style={{
@@ -2664,6 +2657,31 @@ class Exchange extends React.Component {
 					>
 						{groupTabs[2]}
 					</Tabs>
+					<div
+						style={{
+							width: '96%',
+							marginLeft: '2%',
+							height: '60px',
+							background: '#FF2929',
+							borderRadius: '5px',
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+							marginTop: '24px',
+							marginBottom: '38px',
+						}}
+					>
+						<div
+							style={{
+								textTransform: 'uppercase',
+								fontWeight: 600,
+								fontSize: '18px',
+								color: 'white',
+							}}
+						>
+							Cancel All Orders
+						</div>
+					</div>
 				</div>
 			) : null;
 
@@ -3012,21 +3030,15 @@ class Exchange extends React.Component {
 		return (
 			<div className="grid-block" style={{padding: '10px'}}>
 				{!this.props.marketReady ? <LoadingIndicator /> : null}
-				<div className="grid-block vertical page-layout assets-layout">
+				<div className="grid-block vertical assets-layout page-layout">
 					<div
 						style={{
 							border: '1px solid #1C1F27',
 							borderRadius: '5px',
 						}}
 					>
-						Coming Soon
+						<AssetsPairTabs account={this.props.currentAccount} />
 					</div>
-					<div
-						style={{
-							border: '1px solid #1C1F27',
-							borderRadius: '5px',
-						}}
-					></div>
 				</div>
 				<div className="grid-block vertical page-layout info-layout">
 					<ExchangeHeader
@@ -3203,7 +3215,9 @@ class Exchange extends React.Component {
 						</div>
 					</div>
 				</div>
-				<div className="grid-block vertical control-layout">{actionCards}</div>
+				<div className="grid-block vertical control-layout page-layout">
+					{actionCards}
+				</div>
 
 				{quoteIsBitAsset &&
 				(this.state.isBorrowQuoteModalVisible ||

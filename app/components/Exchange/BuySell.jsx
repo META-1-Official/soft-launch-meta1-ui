@@ -272,12 +272,12 @@ class BuySell extends React.Component {
 						asset: (basePrefix || '') + baseName,
 					})}
 				>
-					<div className="grid-block no-overflow wrap shrink">
+					<div className="grid-block no-overflow shrink limit-order-input-wrapper">
 						<div className="small-12 buy-sell-label">
 							<Translate content="explorer.asset.summary.market_fee" />,{' '}
 							{baseMarketFeePercent}
 						</div>
-						<div className="inputAddon small-12">
+						<div className="inputAddon limit-order-input">
 							<ExchangeInput
 								placeholder="0.0"
 								id="baseMarketFee"
@@ -299,12 +299,12 @@ class BuySell extends React.Component {
 						asset: (basePrefix || '') + baseName,
 					})}
 				>
-					<div className="grid-block no-overflow wrap shrink">
+					<div className="grid-block no-overflow shrink limit-order-input-wrapper">
 						<div className="small-3 buy-sell-label">
 							<Translate content="explorer.asset.summary.market_fee" />,{' '}
 							{baseMarketFeePercent}
 						</div>
-						<div className="inputAddon small-9">
+						<div className="inputAddon limit-order-input">
 							<ExchangeInput
 								placeholder="0.0"
 								id="baseMarketFee"
@@ -326,12 +326,12 @@ class BuySell extends React.Component {
 						asset: (basePrefix || '') + baseName,
 					})}
 				>
-					<div className="grid-block no-overflow wrap shrink">
+					<div className="grid-block no-overflow shrink limit-order-input-wrapper">
 						<div className="small-12 buy-sell-label">
 							<Translate content="explorer.asset.summary.market_fee" />,{' '}
 							{baseMarketFeePercent}
 						</div>
-						<div className="inputAddon small-12">
+						<div className="inputAddon limit-order-input">
 							<ExchangeInput
 								placeholder="0.0"
 								id="baseMarketFee"
@@ -360,12 +360,12 @@ class BuySell extends React.Component {
 						asset: (quotePrefix || '') + quoteName,
 					})}
 				>
-					<div className="grid-block no-overflow wrap shrink">
+					<div className="grid-block no-overflow shrink limit-order-input-wrapper">
 						<div className="small-12 buy-sell-label">
 							<Translate content="explorer.asset.summary.market_fee" />,{' '}
 							{quoteMarketFeePercent}
 						</div>
-						<div className="inputAddon small-12">
+						<div className="inputAddon limit-order-input">
 							<ExchangeInput
 								placeholder="0.0"
 								id="quoteMarketFee"
@@ -391,12 +391,12 @@ class BuySell extends React.Component {
 						asset: (quotePrefix || '') + quoteName,
 					})}
 				>
-					<div className="grid-block no-overflow wrap shrink">
+					<div className="grid-block no-overflow shrink limit-order-input-wrapper">
 						<div className="small-3 buy-sell-label">
 							<Translate content="explorer.asset.summary.market_fee" />,{' '}
 							{quoteMarketFeePercent}
 						</div>
-						<div className="inputAddon small-9">
+						<div className="inputAddon limit-order-input">
 							<ExchangeInput
 								placeholder="0.0"
 								id="quoteMarketFee"
@@ -422,12 +422,12 @@ class BuySell extends React.Component {
 						asset: (quotePrefix || '') + quoteName,
 					})}
 				>
-					<div className="grid-block no-overflow wrap shrink">
+					<div className="grid-block no-overflow shrink limit-order-input-wrapper">
 						<div className="small-12 buy-sell-label">
 							<Translate content="explorer.asset.summary.market_fee" />,{' '}
 							{quoteMarketFeePercent}
 						</div>
-						<div className="inputAddon small-12">
+						<div className="inputAddon limit-order-input">
 							<ExchangeInput
 								placeholder="0.0"
 								id="quoteMarketFee"
@@ -452,12 +452,12 @@ class BuySell extends React.Component {
 		var emptyCell = !verticalOrderForm ? (
 			<div
 				style={{visibility: 'hidden'}}
-				className="grid-block no-overflow wrap shrink"
+				className="grid-block no-overflow shrink limit-order-input-wrapper"
 			>
 				<div className="small-3 buy-sell-label">
 					<Translate content="explorer.asset.summary.market_fee" />
 				</div>
-				<div className="inputAddon small-9">
+				<div className="inputAddon limit-order-input">
 					<ExchangeInput
 						placeholder="0.0"
 						id="emptyPlaceholder"
@@ -516,32 +516,38 @@ class BuySell extends React.Component {
 			: null;
 
 		let buyButton = {
-			backgroundColor: '#70a800',
+			backgroundColor: '#FFC000',
 			marginTop: '10px',
 			width: '100%',
-			height: '32px',
-			color: 'white',
+			height: '46px',
+			color: '#330000',
+			borderRadius: '5px',
 		};
 		let buyButtonDisabled = {
-			backgroundColor: '#446600',
+			backgroundColor: '#FFC000',
 			marginTop: '10px',
 			width: '100%',
-			height: '32px',
-			color: 'grey',
+			height: '46px',
+			color: '#330000',
+			opacity: '0.5',
+			borderRadius: '5px',
 		};
 		let sellButton = {
 			backgroundColor: '#FF2929',
 			marginTop: '10px',
 			width: '100%',
-			height: '32px',
+			height: '46px',
 			color: 'white',
+			borderRadius: '5px',
 		};
 		let sellButtonDisabled = {
-			backgroundColor: '#5a0c21',
+			backgroundColor: '#FF2929',
 			marginTop: '10px',
 			width: '100%',
-			height: '32px',
-			color: 'grey',
+			height: '46px',
+			color: 'white',
+			opacity: '0.5',
+			borderRadius: '5px',
 		};
 
 		// Fee asset selection
@@ -612,12 +618,13 @@ class BuySell extends React.Component {
 		if (verticalOrderForm) {
 			formContent = (
 				<div className={containerClass}>
-					<div className="grid-block no-overflow wrap shrink">
+					<div className="limit-order-split-line">AAAA</div>
+					<div className="grid-block no-overflow shrink limit-order-input-wrapper">
 						<Translate
 							className="small-12 buy-sell-label"
 							content="exchange.price"
 						/>
-						<div className="inputAddon small-12">
+						<div className="inputAddon limit-order-input">
 							<ExchangeInput
 								id={`${type}Price`}
 								value={price}
@@ -625,22 +632,20 @@ class BuySell extends React.Component {
 								autoComplete="off"
 								placeholder="0.0"
 								addonAfter={
-									<span>
-										<AssetName dataPlace="right" name={base.get('symbol')} />
-										&nbsp;/&nbsp;
-										<AssetName dataPlace="right" name={quote.get('symbol')} />
+									<span className="limit-order-text">
+										{base.get('symbol')} / {quote.get('symbol')}
 									</span>
 								}
 							/>
 						</div>
 					</div>
-					<div className="grid-block no-overflow wrap shrink">
+					<div className="grid-block no-overflow shrink limit-order-input-wrapper">
 						{/*  */}
 						<Translate
 							className="small-12 buy-sell-label"
 							content="transfer.amount"
 						/>
-						<div className="inputAddon small-12">
+						<div className="inputAddon limit-order-input">
 							<ExchangeInput
 								id={`${type}Amount`}
 								value={amount}
@@ -655,12 +660,12 @@ class BuySell extends React.Component {
 							/>
 						</div>
 					</div>
-					<div className="grid-block no-overflow wrap shrink">
+					<div className="grid-block no-overflow shrink limit-order-input-wrapper">
 						<Translate
 							className="small-12 buy-sell-label"
 							content="exchange.total"
 						/>
-						<div className="inputAddon small-12">
+						<div className="inputAddon limit-order-input">
 							<ExchangeInput
 								id={`${type}Total`}
 								value={total}
@@ -675,12 +680,12 @@ class BuySell extends React.Component {
 							/>
 						</div>
 					</div>
-					<div className="grid-block no-overflow wrap shrink">
+					<div className="grid-block no-overflow shrink limit-order-input-wrapper">
 						<Translate
 							className="small-12 buy-sell-label"
 							content="transfer.fee"
 						/>
-						<div className="inputAddon small-12">
+						<div className="inputAddon limit-order-input">
 							<ExchangeInput
 								id={`${type}Fee`}
 								placeholder="0.0"
@@ -709,12 +714,12 @@ class BuySell extends React.Component {
 		} else {
 			formContent = singleColumnForm ? (
 				<div className={containerClass}>
-					<div className="grid-block no-overflow wrap shrink">
+					<div className="grid-block no-overflow shrink limit-order-input-wrapper">
 						<Translate
 							className="small-3 buy-sell-label"
 							content="exchange.price"
 						/>
-						<div className="inputAddon small-9">
+						<div className="inputAddon limit-order-input">
 							<ExchangeInput
 								id={`${type}Price`}
 								value={price}
@@ -722,22 +727,20 @@ class BuySell extends React.Component {
 								autoComplete="off"
 								placeholder="0.0"
 								addonAfter={
-									<span>
-										<AssetName dataPlace="right" name={base.get('symbol')} />
-										&nbsp;/&nbsp;
-										<AssetName dataPlace="right" name={quote.get('symbol')} />
+									<span className="limit-order-text">
+										{base.get('symbol')} / {quote.get('symbol')}
 									</span>
 								}
 							/>
 						</div>
 					</div>
-					<div className="grid-block no-overflow wrap shrink">
+					<div className="grid-block no-overflow shrink limit-order-input-wrapper">
 						{/*  */}
 						<Translate
 							className="small-3 buy-sell-label"
 							content="transfer.amount"
 						/>
-						<div className="inputAddon small-9">
+						<div className="inputAddon limit-order-input">
 							<ExchangeInput
 								id={`${type}Amount`}
 								value={amount}
@@ -745,19 +748,19 @@ class BuySell extends React.Component {
 								autoComplete="off"
 								placeholder="0.0"
 								addonAfter={
-									<span>
-										<AssetName dataPlace="right" name={quote.get('symbol')} />
+									<span className="limit-order-text">
+										{quote.get('symbol')}
 									</span>
 								}
 							/>
 						</div>
 					</div>
-					<div className="grid-block no-overflow wrap shrink">
+					<div className="grid-block no-overflow shrink limit-order-input-wrapper">
 						<Translate
 							className="small-3 buy-sell-label"
 							content="exchange.total"
 						/>
-						<div className="inputAddon small-9">
+						<div className="inputAddon limit-order-input">
 							<ExchangeInput
 								id={`${type}Total`}
 								value={total}
@@ -765,19 +768,17 @@ class BuySell extends React.Component {
 								autoComplete="off"
 								placeholder="0.0"
 								addonAfter={
-									<span>
-										<AssetName dataPlace="right" name={base.get('symbol')} />
-									</span>
+									<span className="limit-order-text">{base.get('symbol')}</span>
 								}
 							/>
 						</div>
 					</div>
-					<div className="grid-block no-overflow wrap shrink">
+					<div className="grid-block no-overflow shrink limit-order-input-wrapper">
 						<Translate
 							className="small-3 buy-sell-label"
 							content="transfer.fee"
 						/>
-						<div className="inputAddon small-9">
+						<div className="inputAddon limit-order-input">
 							<ExchangeInput
 								id={`${type}Fee`}
 								placeholder="0.0"
@@ -804,9 +805,9 @@ class BuySell extends React.Component {
 				</div>
 			) : (
 				<div className={containerClass}>
-					<div className="grid-block no-overflow wrap shrink">
+					<div className="grid-block no-overflow shrink">
 						<div className="small-6">
-							<div className="small-11 grid-block no-overflow wrap shrink">
+							<div className="small-11 grid-block no-overflow shrink limit-order-input-wrapper">
 								<Translate
 									className="small-3 buy-sell-label"
 									content="exchange.price"
@@ -830,7 +831,7 @@ class BuySell extends React.Component {
 									</span>
 								</div>
 							</div>
-							<div className="inputAddon small-11">
+							<div className="inputAddon limit-order-input">
 								<ExchangeInput
 									id={`${type}Price`}
 									value={price}
@@ -848,7 +849,7 @@ class BuySell extends React.Component {
 							</div>
 						</div>
 						<div className="small-6">
-							<div className="small-12 grid-block no-overflow wrap shrink">
+							<div className="small-12 grid-block no-overflow shrink limit-order-input-wrapper">
 								<Translate
 									className="small-3 buy-sell-label"
 									content="exchange.total"
@@ -879,7 +880,7 @@ class BuySell extends React.Component {
 								</div>
 							</div>
 
-							<div className="inputAddon small-12">
+							<div className="inputAddon limit-order-input">
 								<ExchangeInput
 									id={`${type}Total`}
 									value={total}
@@ -895,14 +896,14 @@ class BuySell extends React.Component {
 							</div>
 						</div>
 					</div>
-					<div className="grid-block no-overflow wrap shrink">
+					<div className="grid-block no-overflow shrink limit-order-input-wrapper limit-order-input-wrapper">
 						<div className="small-6">
 							{/*  */}
 							<Translate
 								className="small-3 buy-sell-label"
 								content="transfer.amount"
 							/>
-							<div className="inputAddon small-11">
+							<div className="inputAddon limit-order-input">
 								<ExchangeInput
 									id={`${type}Amount`}
 									value={amount}
@@ -922,7 +923,7 @@ class BuySell extends React.Component {
 								className="small-3 buy-sell-label"
 								content="transfer.fee"
 							/>
-							<div className="inputAddon small-12">
+							<div className="inputAddon limit-order-input">
 								<ExchangeInput
 									id={`${type}Fee`}
 									placeholder="0.0"
@@ -960,18 +961,9 @@ class BuySell extends React.Component {
 
 		return (
 			<div className={cnames(this.props.className)} style={this.props.styles}>
-				<div
-					className="buy-sell-container"
-					style={{paddingRight: 5}}
-					//data-intro={dataIntro}
-				>
+				<div className="buy-sell-container" style={{paddingRight: 5}}>
 					{!hideHeader ? (
-						<div
-							className={
-								'exchange-content-header exchange-content-header--buy-sell-form ' +
-								type
-							}
-						>
+						<div className={'exchange-content-header ' + type}>
 							<span>
 								<TranslateWithLinks
 									string="exchange.buysell_formatter"
@@ -1042,7 +1034,7 @@ class BuySell extends React.Component {
 						style={{fontSize: '14px'}}
 						noValidate
 					>
-						<div className="grid-block no-overflow wrap shrink">
+						<div className="grid-block no-overflow shrink">
 							{this.props.moveOrderForm && verticalOrderForm ? (
 								<div
 									style={{width: '100%', textAlign: 'right'}}
@@ -1057,8 +1049,8 @@ class BuySell extends React.Component {
 							{formContent}
 						</div>
 
-						<div className="grid-block no-overflow wrap shrink">
-							<div
+						<div className="grid-block vertical no-overflow shrink">
+							{/* <div
 								className={singleColumnForm ? 'small-12 grid-block' : 'small-6'}
 							>
 								<Translate
@@ -1095,20 +1087,23 @@ class BuySell extends React.Component {
 										{expirationsOptionsList}
 									</select>
 								</div>
-							</div>
+							</div> */}
 							{!singleColumnForm ? (
 								<div className="small-6">{marketFee}</div>
 							) : null}
 							<div className="small-12 medium-12 xlarge-12">
 								{singleColumnForm ? (
-									<div className="grid-block no-overflow wrap shrink">
+									<div className="grid-block no-overflow shrink">
 										<Translate
-											className="small-4 buy-sell-label"
+											className="buy-sell-label small-4"
 											content={
 												isBid ? 'exchange.lowest_ask' : 'exchange.highest_bid'
 											}
 										/>
-										<div className="small-8 buy-sell-label">
+										<div
+											className="buy-sell-label"
+											style={{textAlign: 'right', width: '100%'}}
+										>
 											<span
 												style={{
 													borderBottom: '#A09F9F 1px dotted',
@@ -1133,12 +1128,15 @@ class BuySell extends React.Component {
 									</div>
 								) : null}
 								{singleColumnForm ? (
-									<div className="grid-block no-overflow wrap shrink">
+									<div className="grid-block no-overflow shrink">
 										<Translate
-											className="small-4 buy-sell-label"
+											className="buy-sell-label small-4"
 											content="exchange.balance"
 										/>
-										<div className="small-8 buy-sell-label">
+										<div
+											className="buy-sell-label"
+											style={{textAlign: 'right', width: '100%'}}
+										>
 											<span
 												style={{
 													borderBottom: '#A09F9F 1px dotted',
@@ -1164,11 +1162,6 @@ class BuySell extends React.Component {
 											title={disabledText ? disabledText : ''}
 										>
 											<button
-												/*className={
-                                                    disabled
-                                                        ? null
-                                                        : buttonClass
-                                                }*/
 												style={
 													isBid
 														? disabled
@@ -1182,7 +1175,16 @@ class BuySell extends React.Component {
 												onClick={onSubmit.bind(this, true)}
 												type="primary"
 											>
-												{isBid ? 'BUY' : 'SELL'}
+												<div
+													style={{
+														fontWeight: 600,
+														fontSize: '18px',
+														textTransform: 'uppercase',
+														color: isBid ? '#330000' : 'white',
+													}}
+												>
+													{isBid ? 'BUY' : 'SELL'}
+												</div>
 											</button>
 										</Tooltip>
 										{isGloballySettled ? (

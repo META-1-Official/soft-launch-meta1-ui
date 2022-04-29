@@ -16,8 +16,9 @@ import BlockDate from '../Utility/BlockDate';
 import PriceText from '../Utility/PriceText';
 import {Tooltip} from 'antd';
 import getLocale from 'browser-locale';
+import Icon from 'components/Icon/Icon';
 
-function MarketHistoryViewRow({fill, base, quote}) {
+const AllHistoryViewRow = ({fill, base, quote}) => {
 	const isMarket = fill.id.indexOf('5.0') !== -1 ? true : false;
 	const timestamp = isMarket ? (
 		<td style={{color: 'rgba(255, 255, 255, 0.5)', textAlign: 'right'}}>
@@ -50,7 +51,131 @@ function MarketHistoryViewRow({fill, base, quote}) {
 			{timestamp}
 		</tr>
 	);
-}
+};
+
+const MarketHistoryViewRow = ({fill, base, quote}) => {
+	let base_symbol = base?._root?.entries[1][1];
+	let quote_symbol = quote?._root?.entries[1][1];
+	let pay_amount = fill.amountToPay();
+	let receive_amount = fill.amountToReceive();
+	let price = fill.getPrice();
+	let total = pay_amount * price;
+
+	return (
+		<tr className="market-history-view-row">
+			<td>
+				<div
+					className="td-content"
+					style={{
+						borderLeftColor: fill.isBid ? '#0F923A' : '#FF2929',
+						borderLeftStyle: 'solid',
+						borderLeftWidth: '8px',
+						paddingLeft: '10px',
+					}}
+				>
+					<div
+						style={{
+							fontSize: '15px',
+							fontWeight: 400,
+							color: 'white',
+							textAlign: 'center',
+						}}
+					>
+						{base_symbol}
+					</div>
+					<div
+						style={{
+							borderBottom: '1px solid #566176',
+							width: '100%',
+							height: '0px',
+							marginTop: 5,
+							marginBottom: 5,
+						}}
+					></div>
+					<div
+						style={{
+							fontSize: '12px',
+							color: '#715C5C',
+							textAlign: 'center',
+						}}
+					>
+						{quote_symbol}
+					</div>
+				</div>
+			</td>
+			<td>
+				<div
+					style={{
+						fontSize: '15px',
+						fontWeight: 400,
+						color: 'white',
+						textAlign: 'center',
+					}}
+				>
+					{receive_amount}
+				</div>
+				<div
+					style={{
+						borderBottom: '1px solid #566176',
+						width: '100%',
+						height: '0px',
+						marginTop: 5,
+						marginBottom: 5,
+					}}
+				></div>
+				<div
+					style={{
+						fontSize: '12px',
+						color: '#715C5C',
+						textAlign: 'center',
+					}}
+				>
+					{pay_amount}
+				</div>
+			</td>
+			<td>
+				<div className="td-content">
+					<div style={{color: '#715C5C'}}>
+						{Number(fill.getPrice()).toLocaleString('en')}
+					</div>
+				</div>
+			</td>
+			<td>
+				<div className="td-content">
+					<div
+						style={{
+							color: 'white',
+							fontSize: '15px',
+							fontWeight: 400,
+						}}
+					>
+						{Number(total).toLocaleString('en')}
+					</div>
+				</div>
+			</td>
+			<td>
+				<div className="td-content">
+					<div
+						style={{
+							width: '32px',
+							height: '32px',
+							background: '#0A0B0D',
+							border: '1px solid #1C1F27',
+							borderRadius: '16px',
+							display: 'flex',
+							justifyContent: 'center',
+							alignItems: 'center',
+							position: 'absolute',
+							right: 15,
+						}}
+					>
+						<Icon name="times" className="cancel-round-btn" />
+					</div>
+				</div>
+			</td>
+		</tr>
+	);
+};
 
 class MarketHistory extends React.Component {
 	constructor(props) {
@@ -225,8 +350,15 @@ class MarketHistory extends React.Component {
 				})
 				.map((trx) => {
 					let fill = new FillOrder(trx.toJS(), assets, quote.get('id'));
-
-					return (
+					AllHistoryViewRow;
+					return activeTab === 'history' ? (
+						<AllHistoryViewRow
+							key={fill.id}
+							fill={fill}
+							base={base}
+							quote={quote}
+						/>
+					) : (
 						<MarketHistoryViewRow
 							key={fill.id}
 							fill={fill}
@@ -241,7 +373,14 @@ class MarketHistory extends React.Component {
 			historyRows = this.props.history
 				.take(100)
 				.map((fill) => {
-					return (
+					return activeTab === 'history' ? (
+						<AllHistoryViewRow
+							key={fill.id}
+							fill={fill}
+							base={base}
+							quote={quote}
+						/>
+					) : (
 						<MarketHistoryViewRow
 							key={fill.id}
 							fill={fill}
