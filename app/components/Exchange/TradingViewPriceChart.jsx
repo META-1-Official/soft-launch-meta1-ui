@@ -58,7 +58,7 @@ class TradingViewPriceChart extends React.Component {
 			'header_saveload',
 		];
 
-		let enabled_features = [];
+		let enabled_features = ['hide_left_toolbar_by_default'];
 
 		if (this.props.mobile || !this.props.chartZoom) {
 			disabled_features.push('chart_scroll');
@@ -112,7 +112,7 @@ class TradingViewPriceChart extends React.Component {
 			overrides: {
 				'paneProperties.background': themeColors.bgColor,
 				'paneProperties.horzGridProperties.color': themeColors.axisLineColor,
-				'paneProperties.vertGridProperties.color': themeColors.axisLineColor,
+				'paneProperties.vertGridProperties.color': 'transparent',
 				'scalesProperties.lineColor': themeColors.axisLineColor,
 				'scalesProperties.textColor': themeColors.textColor,
 			},

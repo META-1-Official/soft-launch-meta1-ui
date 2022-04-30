@@ -15,9 +15,9 @@ const GlobalStyles = (theme: any) => css`
 		color: ${theme.colors.themeOpositeColor};
 	}
 
-	.ant-select-selection-item {
-		color: #ffc000 !important;
-	}
+	// .ant-select-selection-item {
+	// 	color: #ffc000 !important;
+	// }
 
 	.ant-menu {
 		color: ${theme.colors.themeOpositeColor};

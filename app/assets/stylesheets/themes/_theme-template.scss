@@ -1017,7 +1017,7 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 		}
 		&.table-hover > tbody > tr:hover > td,
 		.table-hover > tbody > tr:hover > th {
-			@include radialGradient($bg-color-mixin, $bg-color);
+			background-color: #4b5158;
 		}
 		> tbody > tr.table-empty > td {
 			padding: 5rem 0;
@@ -1687,6 +1687,7 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 	}
 	.orderHistoryBid {
 		color: $bid-color;
+		background: #091613;
 	}
 	.orderHistoryAsk {
 		> span.price-integer,
@@ -1703,6 +1704,7 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 	}
 	.orderHistoryAsk {
 		color: $ask-color;
+		background: #1d0d0f;
 	}
 	.orderHistoryCall {
 		> span.price-integer,

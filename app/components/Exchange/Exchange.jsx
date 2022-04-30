@@ -4,7 +4,6 @@ import {Tabs} from 'antd';
 import {Collapse, Tooltip, notification} from 'antd';
 import cnames from 'classnames';
 import translator from 'counterpart';
-import guide from 'intro.js';
 import {debounce} from 'lodash-es';
 import moment from 'moment';
 import Ps from 'perfect-scrollbar';
@@ -35,6 +34,7 @@ import AccountNotifications from '../Notifier/NotifierContainer';
 import TranslateWithLinks from '../Utility/TranslateWithLinks';
 import PriceAlert from './PriceAlert';
 import counterpart from 'counterpart';
+import AssetsPairTabs from './AssetsPairTabs';
 
 class Exchange extends React.Component {
 	static propTypes = {
@@ -107,6 +107,295 @@ class Exchange extends React.Component {
 		this.psInit = true;
 	}
 
+	// ******************** //
+	// Life Cycle Functions //
+	// ******************** //
+
+	componentWillMount() {
+		window.addEventListener('resize', this._setDimensions, {
+			capture: false,
+			passive: true,
+		});
+		// updateGatewayBackers();
+		this._checkFeeStatus();
+	}
+
+	componentDidMount() {
+		MarketsActions.getTrackedGroupsConfig();
+
+		SettingsActions.changeViewSetting.defer({
+			[this._getLastMarketKey()]:
+				this.props.quoteAsset.get('symbol') +
+				'_' +
+				this.props.baseAsset.get('symbol'),
+		});
+
+		window.addEventListener('resize', this._getWindowSize, {
+			capture: false,
+			passive: true,
+		});
+	}
+
+	// Force Render
+	_forceRender(np, ns) {
+		if (this.state.forceReRender) {
+			this.setState({
+				forceReRender: false,
+			});
+		}
+
+		if (
+			!utils.are_equal_shallow(this.state.activePanels, ns.activePanels) ||
+			!utils.are_equal_shallow(
+				this.state.verticalOrderBook,
+				ns.verticalOrderBook
+			) ||
+			np.quoteAsset !== this.props.quoteAsset ||
+			np.baseAsset !== this.props.baseAsset
+		) {
+			this.setState({
+				forceReRender: true,
+			});
+		}
+	}
+
+	shouldComponentUpdate(np, ns) {
+		let {expirationType} = this.state;
+
+		this._forceRender(np, ns);
+
+		if (!np.marketReady && !this.props.marketReady) {
+			return false;
+		}
+		let propsChanged = false;
+		let stateChanged = false;
+
+		if (
+			np.quoteAsset !== this.props.quoteAsset ||
+			np.baseAsset !== this.props.baseAsset
+		) {
+			this.setState({
+				expirationType: {
+					bid:
+						expirationType['bid'] == 'SPECIFIC'
+							? expirationType['bid']
+							: 'YEAR',
+					ask:
+						expirationType['ask'] == 'SPECIFIC'
+							? expirationType['ask']
+							: 'YEAR',
+				},
+			});
+		}
+
+		for (let key in np) {
+			if (np.hasOwnProperty(key)) {
+				propsChanged =
+					propsChanged || !utils.are_equal_shallow(np[key], this.props[key]);
+				if (propsChanged) break;
+			}
+		}
+		for (let key in ns.panelTabsActive) {
+			stateChanged = !utils.are_equal_shallow(
+				ns.panelTabsActive[key],
+				this.state.panelTabsActive[key]
+			);
+		}
+		return (
+			propsChanged || stateChanged || !utils.are_equal_shallow(ns, this.state)
+		);
+	}
+
+	_checkFeeStatus(
+		assets = [
+			this.props.coreAsset,
+			this.props.baseAsset,
+			this.props.quoteAsset,
+		],
+		account = this.props.currentAccount
+	) {
+		let feeStatus = {};
+		let p = [];
+		assets.forEach((a) => {
+			p.push(
+				checkFeeStatusAsync({
+					accountID: account.get('id'),
+					feeID: a.get('id'),
+					type: 'limit_order_create',
+				})
+			);
+		});
+		Promise.all(p)
+			.then((status) => {
+				assets.forEach((a, idx) => {
+					feeStatus[a.get('id')] = status[idx];
+				});
+				if (!utils.are_equal_shallow(this.state.feeStatus, feeStatus)) {
+					this.setState({
+						feeStatus,
+					});
+				}
+			})
+			.catch((err) => {
+				console.error('checkFeeStatusAsync error', err);
+				this.setState({feeStatus: {}});
+			});
+	}
+
+	_getWindowSize() {
+		let {innerHeight, innerWidth} = window;
+		if (innerHeight !== this.state.height || innerWidth !== this.state.width) {
+			this.setState({
+				height: innerHeight,
+				width: innerWidth,
+			});
+			let centerContainer = this.refs.center;
+			if (centerContainer) {
+				Ps.update(centerContainer);
+			}
+		}
+	}
+
+	_initPsContainer() {
+		if (this.refs.center && this.psInit) {
+			let centerContainer = this.refs.center;
+			if (centerContainer) {
+				Ps.initialize(centerContainer);
+				this.psInit = false;
+			}
+		}
+	}
+
+	componentWillReceiveProps(nextProps) {
+		this._initPsContainer();
+		if (
+			nextProps.quoteAsset !== this.props.quoteAsset ||
+			nextProps.baseAsset !== this.props.baseAsset ||
+			nextProps.currentAccount !== this.props.currentAccount
+		) {
+			this._checkFeeStatus(
+				[nextProps.coreAsset, nextProps.baseAsset, nextProps.quoteAsset],
+				nextProps.currentAccount
+			);
+		}
+		if (
+			nextProps.quoteAsset.get('symbol') !==
+				this.props.quoteAsset.get('symbol') ||
+			nextProps.baseAsset.get('symbol') !== this.props.baseAsset.get('symbol')
+		) {
+			this.setState(this._initialState(nextProps));
+
+			return SettingsActions.changeViewSetting({
+				[this._getLastMarketKey()]:
+					nextProps.quoteAsset.get('symbol') +
+					'_' +
+					nextProps.baseAsset.get('symbol'),
+			});
+		}
+
+		// if (this.props.sub && nextProps.bucketSize !== this.props.bucketSize) {
+		//     return this._changeBucketSize(nextProps.bucketSize);
+		// }
+	}
+
+	componentWillUnmount() {
+		window.removeEventListener('resize', this._getWindowSize);
+	}
+
+	_getFeeAssets(quote, base, coreAsset) {
+		let {currentAccount} = this.props;
+		const {feeStatus} = this.state;
+
+		function addMissingAsset(target, asset) {
+			if (target.indexOf(asset) === -1) {
+				target.push(asset);
+			}
+		}
+
+		function hasFeePoolBalance(id) {
+			return feeStatus[id] && feeStatus[id].hasPoolBalance;
+		}
+
+		function hasBalance(id) {
+			return feeStatus[id] && feeStatus[id].hasBalance;
+		}
+
+		let sellAssets = [coreAsset, quote === coreAsset ? base : quote];
+		addMissingAsset(sellAssets, quote);
+		addMissingAsset(sellAssets, base);
+		// let sellFeeAsset;
+
+		let buyAssets = [coreAsset, base === coreAsset ? quote : base];
+		addMissingAsset(buyAssets, quote);
+		addMissingAsset(buyAssets, base);
+		// let buyFeeAsset;
+
+		let balances = {};
+
+		currentAccount
+			.get('balances', [])
+			.filter((balance, id) => {
+				return ['1.3.0', quote.get('id'), base.get('id')].indexOf(id) >= 0;
+			})
+			.forEach((balance, id) => {
+				let balanceObject = ChainStore.getObject(balance);
+				balances[id] = {
+					balance: balanceObject
+						? parseInt(balanceObject.get('balance'), 10)
+						: 0,
+					fee: this._getFee(ChainStore.getAsset(id)),
+				};
+			});
+
+		function filterAndDefault(assets, balances, idx) {
+			let asset;
+			/* Only keep assets for which the user has a balance larger than the fee, and for which the fee pool is valid */
+			assets = assets.filter((a) => {
+				if (!balances[a.get('id')]) {
+					return false;
+				}
+				return hasFeePoolBalance(a.get('id')) && hasBalance(a.get('id'));
+			});
+
+			/* If the user has no valid balances, default to core fee */
+			if (!assets.length) {
+				asset = coreAsset;
+				assets.push(coreAsset);
+				/* If the user has balances, use the stored idx value unless that asset is no longer available*/
+			} else {
+				asset = assets[Math.min(assets.length - 1, idx)];
+			}
+
+			return {assets, asset};
+		}
+
+		let {assets: sellFeeAssets, asset: sellFeeAsset} = filterAndDefault(
+			sellAssets,
+			balances,
+			this.state.sellFeeAssetIdx
+		);
+		let {assets: buyFeeAssets, asset: buyFeeAsset} = filterAndDefault(
+			buyAssets,
+			balances,
+			this.state.buyFeeAssetIdx
+		);
+
+		let sellFee = this._getFee(sellFeeAsset);
+		let buyFee = this._getFee(buyFeeAsset);
+
+		return {
+			sellFeeAsset,
+			sellFeeAssets,
+			sellFee,
+			buyFeeAsset,
+			buyFeeAssets,
+			buyFee,
+		};
+	}
+
+	// ******************** //
+	//       Handlers       //
+	// ******************** //
 	handleOrderTypeTabChange(type, value) {
 		SettingsActions.changeViewSetting({
 			[`order-form-${type}`]: value,
@@ -463,297 +752,6 @@ class Exchange extends React.Component {
 		this.setState({
 			isConfirmSellOrderModalVisible: false,
 		});
-	}
-
-	componentWillMount() {
-		window.addEventListener('resize', this._setDimensions, {
-			capture: false,
-			passive: true,
-		});
-		// updateGatewayBackers();
-		this._checkFeeStatus();
-	}
-
-	componentDidMount() {
-		MarketsActions.getTrackedGroupsConfig();
-
-		SettingsActions.changeViewSetting.defer({
-			[this._getLastMarketKey()]:
-				this.props.quoteAsset.get('symbol') +
-				'_' +
-				this.props.baseAsset.get('symbol'),
-		});
-
-		window.addEventListener('resize', this._getWindowSize, {
-			capture: false,
-			passive: true,
-		});
-	}
-
-	/*
-	 * Force re-rendering component when state changes.
-	 * This is required for an updated value of component width
-	 *
-	 * It will trigger a re-render twice
-	 * - Once when state is changed
-	 * - Once when forceReRender is set to false
-	 */
-	_forceRender(np, ns) {
-		if (this.state.forceReRender) {
-			this.setState({
-				forceReRender: false,
-			});
-		}
-
-		if (
-			!utils.are_equal_shallow(this.state.activePanels, ns.activePanels) ||
-			!utils.are_equal_shallow(
-				this.state.verticalOrderBook,
-				ns.verticalOrderBook
-			) ||
-			np.quoteAsset !== this.props.quoteAsset ||
-			np.baseAsset !== this.props.baseAsset
-		) {
-			this.setState({
-				forceReRender: true,
-			});
-		}
-	}
-
-	shouldComponentUpdate(np, ns) {
-		let {expirationType} = this.state;
-
-		this._forceRender(np, ns);
-
-		if (!np.marketReady && !this.props.marketReady) {
-			return false;
-		}
-		let propsChanged = false;
-		let stateChanged = false;
-
-		if (
-			np.quoteAsset !== this.props.quoteAsset ||
-			np.baseAsset !== this.props.baseAsset
-		) {
-			this.setState({
-				expirationType: {
-					bid:
-						expirationType['bid'] == 'SPECIFIC'
-							? expirationType['bid']
-							: 'YEAR',
-					ask:
-						expirationType['ask'] == 'SPECIFIC'
-							? expirationType['ask']
-							: 'YEAR',
-				},
-			});
-		}
-
-		for (let key in np) {
-			if (np.hasOwnProperty(key)) {
-				propsChanged =
-					propsChanged || !utils.are_equal_shallow(np[key], this.props[key]);
-				if (propsChanged) break;
-			}
-		}
-		for (let key in ns.panelTabsActive) {
-			stateChanged = !utils.are_equal_shallow(
-				ns.panelTabsActive[key],
-				this.state.panelTabsActive[key]
-			);
-		}
-		return (
-			propsChanged || stateChanged || !utils.are_equal_shallow(ns, this.state)
-		);
-	}
-
-	_checkFeeStatus(
-		assets = [
-			this.props.coreAsset,
-			this.props.baseAsset,
-			this.props.quoteAsset,
-		],
-		account = this.props.currentAccount
-	) {
-		let feeStatus = {};
-		let p = [];
-		assets.forEach((a) => {
-			p.push(
-				checkFeeStatusAsync({
-					accountID: account.get('id'),
-					feeID: a.get('id'),
-					type: 'limit_order_create',
-				})
-			);
-		});
-		Promise.all(p)
-			.then((status) => {
-				assets.forEach((a, idx) => {
-					feeStatus[a.get('id')] = status[idx];
-				});
-				if (!utils.are_equal_shallow(this.state.feeStatus, feeStatus)) {
-					this.setState({
-						feeStatus,
-					});
-				}
-			})
-			.catch((err) => {
-				console.error('checkFeeStatusAsync error', err);
-				this.setState({feeStatus: {}});
-			});
-	}
-
-	_getWindowSize() {
-		let {innerHeight, innerWidth} = window;
-		if (innerHeight !== this.state.height || innerWidth !== this.state.width) {
-			this.setState({
-				height: innerHeight,
-				width: innerWidth,
-			});
-			let centerContainer = this.refs.center;
-			if (centerContainer) {
-				Ps.update(centerContainer);
-			}
-		}
-	}
-
-	componentDidUpdate(prevProps, prevState) {}
-
-	_initPsContainer() {
-		if (this.refs.center && this.psInit) {
-			let centerContainer = this.refs.center;
-			if (centerContainer) {
-				Ps.initialize(centerContainer);
-				this.psInit = false;
-			}
-		}
-	}
-
-	componentWillReceiveProps(nextProps) {
-		this._initPsContainer();
-		if (
-			nextProps.quoteAsset !== this.props.quoteAsset ||
-			nextProps.baseAsset !== this.props.baseAsset ||
-			nextProps.currentAccount !== this.props.currentAccount
-		) {
-			this._checkFeeStatus(
-				[nextProps.coreAsset, nextProps.baseAsset, nextProps.quoteAsset],
-				nextProps.currentAccount
-			);
-		}
-		if (
-			nextProps.quoteAsset.get('symbol') !==
-				this.props.quoteAsset.get('symbol') ||
-			nextProps.baseAsset.get('symbol') !== this.props.baseAsset.get('symbol')
-		) {
-			this.setState(this._initialState(nextProps));
-
-			return SettingsActions.changeViewSetting({
-				[this._getLastMarketKey()]:
-					nextProps.quoteAsset.get('symbol') +
-					'_' +
-					nextProps.baseAsset.get('symbol'),
-			});
-		}
-
-		// if (this.props.sub && nextProps.bucketSize !== this.props.bucketSize) {
-		//     return this._changeBucketSize(nextProps.bucketSize);
-		// }
-	}
-
-	componentWillUnmount() {
-		window.removeEventListener('resize', this._getWindowSize);
-	}
-
-	_getFeeAssets(quote, base, coreAsset) {
-		let {currentAccount} = this.props;
-		const {feeStatus} = this.state;
-
-		function addMissingAsset(target, asset) {
-			if (target.indexOf(asset) === -1) {
-				target.push(asset);
-			}
-		}
-
-		function hasFeePoolBalance(id) {
-			return feeStatus[id] && feeStatus[id].hasPoolBalance;
-		}
-
-		function hasBalance(id) {
-			return feeStatus[id] && feeStatus[id].hasBalance;
-		}
-
-		let sellAssets = [coreAsset, quote === coreAsset ? base : quote];
-		addMissingAsset(sellAssets, quote);
-		addMissingAsset(sellAssets, base);
-		// let sellFeeAsset;
-
-		let buyAssets = [coreAsset, base === coreAsset ? quote : base];
-		addMissingAsset(buyAssets, quote);
-		addMissingAsset(buyAssets, base);
-		// let buyFeeAsset;
-
-		let balances = {};
-
-		currentAccount
-			.get('balances', [])
-			.filter((balance, id) => {
-				return ['1.3.0', quote.get('id'), base.get('id')].indexOf(id) >= 0;
-			})
-			.forEach((balance, id) => {
-				let balanceObject = ChainStore.getObject(balance);
-				balances[id] = {
-					balance: balanceObject
-						? parseInt(balanceObject.get('balance'), 10)
-						: 0,
-					fee: this._getFee(ChainStore.getAsset(id)),
-				};
-			});
-
-		function filterAndDefault(assets, balances, idx) {
-			let asset;
-			/* Only keep assets for which the user has a balance larger than the fee, and for which the fee pool is valid */
-			assets = assets.filter((a) => {
-				if (!balances[a.get('id')]) {
-					return false;
-				}
-				return hasFeePoolBalance(a.get('id')) && hasBalance(a.get('id'));
-			});
-
-			/* If the user has no valid balances, default to core fee */
-			if (!assets.length) {
-				asset = coreAsset;
-				assets.push(coreAsset);
-				/* If the user has balances, use the stored idx value unless that asset is no longer available*/
-			} else {
-				asset = assets[Math.min(assets.length - 1, idx)];
-			}
-
-			return {assets, asset};
-		}
-
-		let {assets: sellFeeAssets, asset: sellFeeAsset} = filterAndDefault(
-			sellAssets,
-			balances,
-			this.state.sellFeeAssetIdx
-		);
-		let {assets: buyFeeAssets, asset: buyFeeAsset} = filterAndDefault(
-			buyAssets,
-			balances,
-			this.state.buyFeeAssetIdx
-		);
-
-		let sellFee = this._getFee(sellFeeAsset);
-		let buyFee = this._getFee(buyFeeAsset);
-
-		return {
-			sellFeeAsset,
-			sellFeeAssets,
-			sellFee,
-			buyFeeAsset,
-			buyFeeAssets,
-			buyFee,
-		};
 	}
 
 	_getFee(asset = this.props.coreAsset) {
@@ -1975,10 +1973,6 @@ class Exchange extends React.Component {
 				animated={false}
 				activeKey={this.props.viewSettings.get('order-form-bid') || 'limit'}
 				style={{
-					borderRight: '2px solid black',
-					borderLeft: '4px solid black',
-					borderTop: '2px solid black',
-					borderBottom: '4px solid black',
 					flexGrow: 1,
 					minWidth: '290px',
 				}}
@@ -1986,8 +1980,6 @@ class Exchange extends React.Component {
 				tabBarExtraContent={<div>{buySellTitle(true)}</div>}
 				defaultActiveKey={'limit'}
 				className={cnames(
-					'exchange--buy-sell-form',
-					'small-3',
 					'middle-content',
 					flipBuySell
 						? `order-${buySellTop ? 3 : 3} large-order-${
@@ -2121,15 +2113,11 @@ class Exchange extends React.Component {
 				tabBarExtraContent={<div>{buySellTitle(false)}</div>}
 				defaultActiveKey={'limit'}
 				style={{
-					borderLeft: '2px solid black',
-					borderTop: '2px solid black',
-					borderBottom: '4px solid black',
 					flexGrow: 1,
 					minWidth: '290px',
 				}}
 				className={cnames(
-					'exchange--buy-sell-form',
-					'small-3 middle-content',
+					'middle-content',
 					flipBuySell
 						? `order-${buySellTop ? 6 : 2} large-order-${
 								buySellTop ? 6 : 4
@@ -2315,15 +2303,6 @@ class Exchange extends React.Component {
 					flipOrderBook={flipOrderBook}
 					orderBookReversed={orderBookReversed}
 					marketReady={marketReady}
-					/*innerClass={cnames(
-                        centerContainerWidth > 1200
-                            ? "medium-6"
-                            : centerContainerWidth > 800
-                                ? "medium-6 large-6"
-                                : "",
-                        "small-12 middle-content",
-                        !tinyScreen ? "exchange-padded" : ""
-                    )}*/
 					currentAccount={this.props.currentAccount.get('id')}
 					handleGroupOrderLimitChange={this._onGroupOrderLimitChange.bind(this)}
 					trackedGroupsConfig={trackedGroupsConfig}
@@ -2344,12 +2323,6 @@ class Exchange extends React.Component {
 					hideFunctionButtons={hideFunctionButtons}
 				/>
 			);
-
-		// if (this.refs.order_book) {
-		// Doesn't scale backwards
-		// panelWidth = this.refs.order_book.refs.vertical_sticky_table.scrollData.scrollWidth;
-		// panelWidth = 350;
-		// }
 
 		panelWidth = 350;
 
@@ -2558,71 +2531,22 @@ class Exchange extends React.Component {
 		let buySellTab = (
 			<div
 				key={`actionCard_${actionCardIndex++}`}
-				className={'left-order-book small-12'}
 				style={{
-					paddingLeft: 5,
-					width: !smallScreen && 600,
+					border: '1px solid #1C1F27',
+					borderRadius: '5px',
+					marginTop: '15px',
 				}}
+				className="buy-sell-tab"
 			>
 				<Tabs
 					defaultActiveKey="buy"
 					activeKey={tabBuySell}
 					onChange={this._setTabBuySell.bind(this)}
-					style={{
-						padding: '0px !important',
-						margin: '0px !important',
-					}}
 				>
-					<Tabs.TabPane
-						tab={
-							<TranslateWithLinks
-								string="exchange.buysell_formatter"
-								noLink
-								noTip={false}
-								keys={[
-									{
-										type: 'asset',
-										value: quote.get('symbol'),
-										arg: 'asset',
-									},
-									{
-										type: 'translate',
-										value: isPredictionMarket
-											? 'exchange.short'
-											: 'exchange.buy',
-										arg: 'direction',
-									},
-								]}
-							/>
-						}
-						key="buy"
-					>
+					<Tabs.TabPane tab="BUY" key="buy">
 						{buyForm}
 					</Tabs.TabPane>
-					<Tabs.TabPane
-						tab={
-							<TranslateWithLinks
-								string="exchange.buysell_formatter"
-								noLink
-								noTip={false}
-								keys={[
-									{
-										type: 'asset',
-										value: quote.get('symbol'),
-										arg: 'asset',
-									},
-									{
-										type: 'translate',
-										value: isPredictionMarket
-											? 'exchange.short'
-											: 'exchange.sell',
-										arg: 'direction',
-									},
-								]}
-							/>
-						}
-						key="sell"
-					>
+					<Tabs.TabPane tab="SELL" key="sell">
 						{sellForm}
 					</Tabs.TabPane>
 				</Tabs>
@@ -2715,19 +2639,13 @@ class Exchange extends React.Component {
 			groupTabs[2].length > 0 ? (
 				<div
 					key={`actionCard_${actionCardIndex++}`}
-					style={{height: '100%'}}
-					className={cnames(
-						centerContainerWidth > 1200
-							? groupTabsCount == 1
-								? 'medium-12 xlarge-6'
-								: 'medium-6 xlarge-6'
-							: centerContainerWidth > 800
-							? groupTabsCount == 1
-								? 'medium-12'
-								: 'medium-6'
-							: '',
-						'small-12 order-1 my-open-orders-res'
-					)}
+					className="my-open-orders-res"
+					style={{
+						border: '1px solid #1C1F27',
+						borderRadius: '5px',
+						display: 'flex',
+						flexDirection: 'column',
+					}}
 				>
 					<Tabs
 						style={{
@@ -2739,6 +2657,31 @@ class Exchange extends React.Component {
 					>
 						{groupTabs[2]}
 					</Tabs>
+					<div
+						style={{
+							width: '96%',
+							marginLeft: '2%',
+							height: '60px',
+							background: '#FF2929',
+							borderRadius: '5px',
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+							marginTop: '24px',
+							marginBottom: '38px',
+						}}
+					>
+						<div
+							style={{
+								textTransform: 'uppercase',
+								fontWeight: 600,
+								fontSize: '18px',
+								color: 'white',
+							}}
+						>
+							Cancel All Orders
+						</div>
+					</div>
 				</div>
 			) : null;
 
@@ -2764,23 +2707,22 @@ class Exchange extends React.Component {
 		 */
 		let actionCards = [];
 		if (!smallScreen) {
-			if (!verticalOrderForm) {
-				actionCards.push(buyForm);
-				actionCards.push(sellForm);
-			}
+			actionCards.push(groupStandalone);
+			actionCards.push(groupTabbed2);
 
+			if (!verticalOrderForm) {
+				actionCards.push(buySellTab);
+				// actionCards.push(buyForm);
+				// actionCards.push(sellForm);
+			}
 			if (verticalOrderBook || verticalOrderForm) {
 				actionCards.push(emptyDiv);
 			}
-
-			actionCards.push(groupStandalone);
-
-			actionCards.push(groupTabbed2);
 		} else if (!tinyScreen) {
+			actionCards.push(groupStandalone);
+			actionCards.push(groupTabbed2);
 			actionCards.push(buyForm);
 			actionCards.push(sellForm);
-			actionCards.push(groupStandalone);
-			actionCards.push(groupTabbed2);
 			actionCards.push(
 				<div
 					className="order-10 small-12"
@@ -3081,51 +3023,45 @@ class Exchange extends React.Component {
 									'exchange.settings.tooltip.show_market_depth'
 							  )
 					}
-				>
-					{/* <AntIcon
-						style={{
-							cursor: 'pointer',
-							fontSize: '1.4rem',
-						}}
-						onClick={() => {
-							if (chartType == 'market_depth') {
-								this._toggleChart('price_chart');
-							} else {
-								this._toggleChart('market_depth');
-							}
-						}}
-						type={chartType == 'market_depth' ? 'bar-chart' : 'area-chart'}
-					/> */}
-				</Tooltip>
+				/>
 			</div>
 		);
 
 		return (
-			<div className="grid-block vertical">
+			<div className="grid-block" style={{padding: '10px'}}>
 				{!this.props.marketReady ? <LoadingIndicator /> : null}
-				<ExchangeHeader
-					hasAnyPriceAlert={this.props.hasAnyPriceAlert}
-					showPriceAlertModal={this.showPriceAlertModal}
-					account={this.props.currentAccount}
-					quoteAsset={quoteAsset}
-					baseAsset={baseAsset}
-					hasPrediction={hasPrediction}
-					starredMarkets={starredMarkets}
-					lowestAsk={lowestAsk}
-					highestBid={highestBid}
-					lowestCallPrice={lowestCallPrice}
-					showCallLimit={showCallLimit}
-					feedPrice={feedPrice}
-					marketReady={marketReady}
-					latestPrice={latest && latest.getPrice()}
-					marketStats={marketStats}
-					selectedMarketPickerAsset={this.state.marketPickerAsset}
-					onToggleMarketPicker={this._toggleMarketPicker.bind(this)}
-					onTogglePersonalize={this._togglePersonalize.bind(this)}
-					showVolumeChart={showVolumeChart}
-				/>
-				{tradingChartHeader}
-				<div className="grid-block page-layout market-layout">
+				<div className="grid-block vertical assets-layout page-layout">
+					<div
+						style={{
+							border: '1px solid #1C1F27',
+							borderRadius: '5px',
+						}}
+					>
+						<AssetsPairTabs account={this.props.currentAccount} />
+					</div>
+				</div>
+				<div className="grid-block vertical page-layout info-layout">
+					<ExchangeHeader
+						hasAnyPriceAlert={this.props.hasAnyPriceAlert}
+						showPriceAlertModal={this.showPriceAlertModal}
+						account={this.props.currentAccount}
+						quoteAsset={quoteAsset}
+						baseAsset={baseAsset}
+						hasPrediction={hasPrediction}
+						starredMarkets={starredMarkets}
+						lowestAsk={lowestAsk}
+						highestBid={highestBid}
+						lowestCallPrice={lowestCallPrice}
+						showCallLimit={showCallLimit}
+						feedPrice={feedPrice}
+						marketReady={marketReady}
+						latestPrice={latest && latest.getPrice()}
+						marketStats={marketStats}
+						selectedMarketPickerAsset={this.state.marketPickerAsset}
+						onToggleMarketPicker={this._toggleMarketPicker.bind(this)}
+						onTogglePersonalize={this._togglePersonalize.bind(this)}
+						showVolumeChart={showVolumeChart}
+					/>
 					{this.state.isMarketPickerModalVisible ||
 					this.state.isMarketPickerModalLoaded ? (
 						<MarketPicker
@@ -3188,12 +3124,7 @@ class Exchange extends React.Component {
 					) : null}
 
 					<AccountNotifications />
-					{/* Main vertical block with content */}
 
-					{/* Left Column - Open Orders */}
-					{leftPanelContainer}
-
-					{/* Center Column */}
 					<div
 						style={{paddingTop: 0}}
 						className={cnames('grid-block main-content vertical no-overflow')}
@@ -3241,48 +3172,51 @@ class Exchange extends React.Component {
 											{deptHighChart}
 										</div>
 									) : null}
-
-									{/* Order book */}
-									<div
-										className="orders-trade-form grid-block shrink no-overflow small-2"
-										style={{
-											flexGrow: '1',
-											minWidth: '280px',
-											display: 'inline-block',
-											borderBottom: '2px solid black',
-											borderRight: '2px solid black',
-											//position: "absolute"
-										}}
-									>
-										{orderBook}
-									</div>
-									{/* Trade history */}
-									<div
-										className="small-2 orders-trade-form"
-										style={{
-											flexGrow: '1',
-											minWidth: '280px',
-											display: 'inline-block',
-											position: 'relative',
-											borderBottom: '2px solid black',
-											borderLeft: '2px solid black',
-										}}
-									>
-										{groupTabs[1]}
-									</div>
 								</div>
 							) : null}
 
-							<div className="grid-block no-overflow wrap shrink">
-								{actionCards}
+							{/* Order book */}
+							<div
+								className="grid-block"
+								style={{
+									minHeight: '350px',
+									marginTop: '15px',
+									overflowY: 'hidden',
+								}}
+							>
+								<div
+									className="orders-trade-form grid-block shrink no-overflow"
+									style={{
+										flexGrow: '1',
+										display: 'inline-block',
+										border: '1px solid #1C1F27',
+										borderRadius: '5px',
+										width: '48%',
+										marginRight: '1%',
+									}}
+								>
+									{orderBook}
+								</div>
+								<div
+									className="orders-trade-form"
+									style={{
+										flexGrow: '1',
+										display: 'inline-block',
+										position: 'relative',
+										border: '1px solid #1C1F27',
+										borderRadius: '5px',
+										width: '48%',
+										marginLeft: '1%',
+									}}
+								>
+									{groupTabs[1]}
+								</div>
 							</div>
 						</div>
 					</div>
-					{/* End of Main Content Column */}
-
-					{/* Right Column */}
-					{rightPanelContainer}
-					{/* End of Second Vertical Block */}
+				</div>
+				<div className="grid-block vertical control-layout page-layout">
+					{actionCards}
 				</div>
 
 				{quoteIsBitAsset &&

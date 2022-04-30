@@ -660,32 +660,38 @@ class ScaledOrderForm extends Component {
 		);
 
 		let buyButton = {
-			backgroundColor: '#70a800',
+			backgroundColor: '#FFC000',
 			marginTop: '10px',
 			width: '100%',
-			height: '32px',
-			color: 'white',
+			height: '46px',
+			color: '#330000',
+			borderRadius: '5px',
 		};
 		let buyButtonDisabled = {
-			backgroundColor: '#446600',
+			backgroundColor: '#FFC000',
 			marginTop: '10px',
 			width: '100%',
-			height: '32px',
-			color: 'grey',
+			height: '46px',
+			color: '#330000',
+			opacity: '0.5',
+			borderRadius: '5px',
 		};
 		let sellButton = {
-			backgroundColor: '#e6416e',
+			backgroundColor: '#FF2929',
 			marginTop: '10px',
 			width: '100%',
-			height: '32px',
+			height: '46px',
 			color: 'white',
+			borderRadius: '5px',
 		};
 		let sellButtonDisabled = {
-			backgroundColor: '#5a0c21',
+			backgroundColor: '#FF2929',
 			marginTop: '10px',
 			width: '100%',
-			height: '32px',
-			color: 'grey',
+			height: '46px',
+			color: 'white',
+			opacity: '0.5',
+			borderRadius: '5px',
 		};
 
 		return (
@@ -793,7 +799,7 @@ class ScaledOrderForm extends Component {
 						</Form.Item>
 					)}
 
-					<Form.Item
+					{/* <Form.Item
 						style={{marginBottom: '6px'}}
 						label={counterpart.translate('transaction.expiration')}
 						{...formItemProps}
@@ -828,7 +834,7 @@ class ScaledOrderForm extends Component {
 								{expirationsOptionsList}
 							</select>
 						</div>
-					</Form.Item>
+					</Form.Item> */}
 
 					<Form.Item
 						style={{marginTop: '7px'}}
@@ -876,8 +882,6 @@ class ScaledOrderForm extends Component {
 					</Form.Item>
 
 					<button
-						//style={{marginTop: "10px", width: "100%"}}
-						onClick={this.props.handleSubmit}
 						style={
 							isBid
 								? !this.isFormValid()
@@ -887,10 +891,20 @@ class ScaledOrderForm extends Component {
 								? sellButtonDisabled
 								: sellButton
 						}
-						type="primary"
 						disabled={!this.isFormValid()}
+						onClick={this.props.handleSubmit}
+						type="primary"
 					>
-						{isBid ? 'BUY' : 'SELL'}
+						<div
+							style={{
+								fontWeight: 600,
+								fontSize: '18px',
+								textTransform: 'uppercase',
+								color: isBid ? '#330000' : 'white',
+							}}
+						>
+							{isBid ? 'BUY' : 'SELL'}
+						</div>
 					</button>
 				</Form>
 			</div>

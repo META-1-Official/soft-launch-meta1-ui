@@ -62,6 +62,7 @@ const AppLayout = ({children, location, height}: IAppLayout, others) => {
 				},
 				'&& .ant-layout-content': {
 					backgroundColor: `${theme.colors.black}`,
+					paddingBottom: '15px',
 				},
 			})}
 		>
