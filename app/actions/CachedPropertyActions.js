@@ -1,17 +1,17 @@
-import alt from "alt-instance";
+import alt from 'alt-instance';
 
 class CachedPropertyActions {
-    set(name, value) {
-        return {name, value};
-    }
+	set(name, value) {
+		return {name, value};
+	}
 
-    get(name) {
-        return {name};
-    }
+	get(name) {
+		return {name};
+	}
 
-    reset() {
-        return true;
-    }
+	reset() {
+		return true;
+	}
 }
 
 var CachedPropertyActionsWrapped = alt.createActions(CachedPropertyActions);
