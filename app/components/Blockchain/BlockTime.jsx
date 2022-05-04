@@ -20,7 +20,9 @@ class BlockTime extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {time: null};
+		this.state = {
+			time: null,
+		};
 	}
 
 	componentWillMount() {
@@ -42,8 +44,8 @@ class BlockTime extends React.Component {
 				{this.props.blockHeader ? (
 					this.props.fullDate ? (
 						counterpart.localize(this.props.blockHeader.timestamp, {
-							type: 'date',
-							format: 'full',
+							type: this.props.type || 'date',
+							format: this.props.format || 'full',
 						})
 					) : (
 						<TimeAgo time={this.props.blockHeader.timestamp} />
