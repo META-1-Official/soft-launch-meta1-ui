@@ -235,18 +235,6 @@ class AccountOverview extends React.Component {
 			/>
 		);
 
-		const includedPortfolioBalance = (
-			<span key="portfolio" className="total-value">
-				{totalValueText}: {portfolioActiveAssetsBalance}
-			</span>
-		);
-
-		const hiddenPortfolioBalance = (
-			<span key="portfolio" className="total-value">
-				{totalValueText}: {portfolioHiddenAssetsBalance}
-			</span>
-		);
-
 		includedPortfolioList = (
 			<AccountPortfolioList
 				balanceList={includedBalancesList}
@@ -262,7 +250,6 @@ class AccountOverview extends React.Component {
 				account={this.props.account}
 				isMyAccount={this.props.isMyAccount}
 				balances={this.props.balances}
-				extraRow={includedPortfolioBalance}
 				viewSettings={this.props.viewSettings}
 			/>
 		);
@@ -282,7 +269,6 @@ class AccountOverview extends React.Component {
 				account={this.props.account}
 				isMyAccount={this.props.isMyAccount}
 				balances={this.props.balances}
-				extraRow={hiddenPortfolioBalance}
 				viewSettings={this.props.viewSettings}
 				enabledColumns={this.state.enabledColumns}
 			/>
@@ -368,70 +354,23 @@ class AccountOverview extends React.Component {
 					{currentDisplay === 'portfolio' && (
 						<>
 							<div
-								className="header-selector"
+								className="portfolio header-selector"
 								css={(theme) => ({
 									marginBottom: '1rem',
 								})}
 							>
+								<div className="estimated-balance">
+									<p>Estimateed Balance</p>
+									<p className="total">
+										{portfolioActiveAssetsBalance} {preferredUnit}
+									</p>
+								</div>
 								<div className="filter inline-block">
 									<SearchInput
+										placeholder={counterpart.translate('icons.zoom')}
 										value={this.state.filterValue}
 										onChange={this._handleFilterInput}
 									/>
-								</div>
-								<div
-									className="selector inline-block"
-									style={{
-										position: 'relative',
-										top: '8px',
-									}}
-								>
-									<StyledButton
-										css={{marginRight: '1rem'}}
-										buttonType={
-											shownAssets === 'active' ? 'primary' : 'transparent'
-										}
-										// className={cnames('inline-block', {
-										// 	inactive: shownAssets != 'active',
-										// })}
-										onClick={
-											shownAssets != 'active'
-												? this._changeShownAssets.bind(this, 'active')
-												: () => {}
-										}
-									>
-										<Translate content="account.hide_hidden" />
-									</StyledButton>
-									{hiddenBalancesList.size ? (
-										<StyledButton
-											css={{marginRight: '1rem'}}
-											buttonType={
-												shownAssets === 'hidden' ? 'primary' : 'transparent'
-											}
-											onClick={
-												shownAssets != 'hidden'
-													? this._changeShownAssets.bind(this, 'hidden')
-													: () => {}
-											}
-										>
-											<Translate content="account.show_hidden" />
-										</StyledButton>
-									) : null}
-									<StyledButton
-										buttonType={
-											shownAssets === 'visual' ? 'primary' : 'transparent'
-										}
-										// className={cnames('inline-block', {
-										// 	inactive: shownAssets != 'visual',
-										// })}
-										onClick={
-											shownAssets != 'visual'
-												? this._changeShownAssets.bind(this, 'visual')
-												: () => {}
-										}
-									>
-										<Translate content="account.show_visual" />
-									</StyledButton>
 								</div>
 							</div>
 							<div>

@@ -25,18 +25,10 @@ import marketUtils from 'common/market_utils';
 import utils from 'common/utils';
 import ChartjsAreaChart from '../Graph/Graph';
 import ls from '../../lib/common/localStorage';
+import {getAssetIcon, getAssetFullName} from '../utils/asset';
 
 const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
-
-const bnbIcon = require('assets/explorer/BNB_new.png');
-const eosIcon = require('assets/explorer/EOS_new.png');
-const ltcIcon = require('assets/explorer/LTC_new.png');
-const xlmIcon = require('assets/explorer/XLM_new.png');
-const btcIcon = require('assets/explorer/BTC_new.png');
-const ethIcon = require('assets/explorer/ETH_new.png');
-const usdtIcon = require('assets/explorer/USDT_new.png');
-const meta1Icon = require('assets/explorer/marketCap.png');
 
 class AccountTrade extends React.Component {
 	constructor(props) {
@@ -284,40 +276,12 @@ class AccountTrade extends React.Component {
 				render: (rowData) => {
 					const quoteAssetSymbol = rowData.quoteAssetSymbol;
 					const baseAssetSymbol = rowData.baseAssetSymbol;
-					let icon = bnbIcon;
-
-					switch (quoteAssetSymbol) {
-						case 'BNB':
-							icon = bnbIcon;
-							break;
-						case 'BTC':
-							icon = btcIcon;
-							break;
-						case 'ETH':
-							icon = ethIcon;
-							break;
-						case 'EOS':
-							icon = eosIcon;
-							break;
-						case 'XLM':
-							icon = xlmIcon;
-							break;
-						case 'LTC':
-							icon = ltcIcon;
-							break;
-						case 'META1':
-							icon = meta1Icon;
-							break;
-						case 'USDT':
-							icon = usdtIcon;
-							break;
-					}
 
 					return (
 						<div>
 							<img
 								className="asset-img"
-								src={icon}
+								src={getAssetIcon(quoteAssetSymbol)}
 								alt="Asset logo"
 								width="28px"
 							/>
