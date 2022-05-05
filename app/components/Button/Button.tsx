@@ -5,7 +5,7 @@ import React from 'react';
 interface IStyledButton {
 	children: React.ReactNode;
 	shape: 'circle' | 'round' | 'default' | undefined;
-	buttonType: 'primary' | 'white' | 'transparent' | 'red';
+	buttonType: 'primary' | 'white' | 'transparent' | 'red' | 'green';
 }
 
 const StyledButton = ({
@@ -33,6 +33,10 @@ const StyledButton = ({
 	} else if (buttonType === 'red') {
 		backgroundColor = theme.colors.buttonRedColor;
 		border = `1px solid ${theme.colors.buttonRedColor}`;
+		color = 'white';
+	} else if (buttonType === 'green') {
+		backgroundColor = theme.colors.buttonGreenColor;
+		border = `1px solid ${theme.colors.buttonGreenColor}`;
 		color = 'white';
 	}
 

@@ -4,7 +4,6 @@ import {saveAs} from 'file-saver';
 import ChainTypes from '../Utility/ChainTypes';
 import BindToChainState from '../Utility/BindToChainState';
 import utils from 'common/utils';
-import JSONModal from 'components/Modal/JSONModal';
 import {
 	ChainTypes as grapheneChainTypes,
 	FetchChain,
@@ -64,7 +63,6 @@ function compareOps(b, a) {
 class RecentTransactions extends React.Component {
 	static propTypes = {
 		accountsList: ChainTypes.ChainAccountsList.isRequired,
-		compactView: PropTypes.bool,
 		limit: PropTypes.number,
 		maxHeight: PropTypes.number,
 		fullHeight: PropTypes.bool,
@@ -88,7 +86,6 @@ class RecentTransactions extends React.Component {
 			filter: 'all',
 			accountHistoryError: false,
 			rows: [],
-			showModal: false,
 			esNodeCustom: false,
 			esNode: settingsAPIs.ES_WRAPPER_LIST[0].url,
 			visibleId: '',
@@ -101,8 +98,6 @@ class RecentTransactions extends React.Component {
 		// http://bts-es.clockwork.gr:5000/ is alive
 		// https://explorer.bitshares-kibana.info/ is not alive
 		// http://185.208.208.184:5000/es/ is alive
-		this.showExportModal = this.showExportModal.bind(this);
-		this.hideExportModal = this.hideExportModal.bind(this);
 		this.esNodeChange = this.esNodeChange.bind(this);
 		this._generateCSV = this._generateCSV.bind(this);
 	}
@@ -133,18 +128,6 @@ class RecentTransactions extends React.Component {
 				esNode: newValue,
 			});
 		}
-	}
-
-	showExportModal() {
-		this.setState({
-			showModal: true,
-		});
-	}
-
-	hideExportModal() {
-		this.setState({
-			showModal: false,
-		});
 	}
 
 	_setHeaderHeight() {
@@ -186,12 +169,13 @@ class RecentTransactions extends React.Component {
 			nextState.fetchingAccountHistory !== this.state.fetchingAccountHistory
 		)
 			return true;
+
 		for (let key = 0; key < nextProps.accountsList.length; ++key) {
 			let npa = nextProps.accountsList[key];
 			let nsa = this.props.accountsList[key];
 			if (npa && nsa && npa.get('history') !== nsa.get('history')) return true;
 		}
-		if (this.state.showModal !== nextState.showModal) return true;
+
 		if (this.state.esNode !== nextState.esNode) return true;
 		if (this.state.esNodeCustom !== nextState.esNodeCustom) return true;
 		if (this.state.visibleId !== nextState.visibleId) return true;
@@ -250,10 +234,7 @@ class RecentTransactions extends React.Component {
 		try {
 			const AHE = new AccountHistoryExporter();
 
-			this.setState({
-				fetchingAccountHistory: true,
-				showModal: false,
-			});
+			this.setState({fetchingAccountHistory: true});
 
 			await AHE.generateCSV(
 				this.props.accountsList,
@@ -281,14 +262,6 @@ class RecentTransactions extends React.Component {
 		});
 	}
 
-	openJSONModal(id) {
-		this.setState({visibleId: id});
-	}
-
-	closeJSONModal = () => {
-		this.setState({visibleId: ''});
-	};
-
 	getDataSource(o, current_account_id) {
 		let fee = o.op[1].fee;
 		let trxTypes = counterpart.translate('transaction.trxTypes');
@@ -304,37 +277,23 @@ class RecentTransactions extends React.Component {
 		const lastIrreversibleBlockNum = dynGlobalObject.get(
 			'last_irreversible_block_num'
 		);
+
 		return {
-			key: o.id,
-			id: (
-				<Fragment>
-					<span
-						className="cursor-pointer"
-						onClick={() => this.openJSONModal(o.id)}
+			pair: (
+				<div className="pair">
+					<div
+						className={
+							cnames('txtlabel', info.color || 'info') +
+							' ' +
+							cnames('label', info.color || 'info')
+						}
 					>
-						{o.id} <AiOutlineFileSearch />
-					</span>
-					<JSONModal
-						visible={this.state.visibleId === o.id}
-						operation={o.op}
-						title={trxTypes[ops[o.op[0]] || '']}
-						hideModal={this.closeJSONModal}
-					/>
-				</Fragment>
-			),
-			type: (
-				<Link
-					className="inline-block"
-					data-place="bottom"
-					data-tip={counterpart.translate('tooltip.show_block', {
-						block: utils.format_number(o.block_num, 0),
-					})}
-					to={`/block/${o.block_num}/${o.trx_in_block}`}
-				>
-					<span className={cnames('label', info.color || 'info')}>
+						100%
+					</div>
+					<span className={cnames('txtlabel', info.color || 'info')}>
 						{trxTypes[ops[o.op[0]]]}
 					</span>
-				</Link>
+				</div>
 			),
 			info: (
 				<div>
@@ -349,12 +308,27 @@ class RecentTransactions extends React.Component {
 				</div>
 			),
 			fee: <FormattedAsset amount={fee.amount} asset={fee.asset_id} />,
-			time: <BlockTime block_number={o.block_num} fullDate={true} />,
+			time: (
+				<BlockTime
+					block_number={o.block_num}
+					fullDate={true}
+					type={'datetime'}
+					format={'short'}
+				/>
+			),
 		};
 	}
 
+	_getRowClassName(row) {
+		const labelStrIndex =
+			row.pair.props.children[0].props.className.indexOf(' label ');
+		return row.pair.props.children[0].props.className
+			.replace('txtlabel', 'tr')
+			.substr(0, labelStrIndex - 4);
+	}
+
 	render() {
-		let {accountsList, compactView, filter, customFilter, style} = this.props;
+		let {accountsList, filter, customFilter, style} = this.props;
 		let {limit} = this.state;
 		let current_account_id =
 			accountsList.length === 1 && accountsList[0]
@@ -406,57 +380,8 @@ class RecentTransactions extends React.Component {
 			</div>
 		);
 
-		const footer = (
-			<div>
-				<Button onClick={() => this._generateCSV(FULL)} type="primary">
-					<Translate content="account.export_modal.full_report" />
-				</Button>
-				<Button onClick={() => this._generateCSV(COINBASE)} type="primary">
-					<Translate content="account.export_modal.coinbase_report" />
-				</Button>
-			</div>
-		);
-
 		return (
 			<div className="recent-transactions no-overflow" style={style}>
-				<Modal
-					wrapClassName="modal--transaction-confirm"
-					title={<Translate content="account.export_modal.title" />}
-					visible={this.state.showModal}
-					id="transaction_confirm_modal"
-					ref="modal"
-					footer={footer}
-					overlay={true}
-					onCancel={this.hideExportModal}
-					noCloseBtn={true}
-				>
-					<p>
-						<Translate content="account.export_modal.description" />
-					</p>
-					{this.state.esNodeCustom ? (
-						<Input
-							type="text"
-							value={this.state.esNode}
-							onChange={this.esNodeChange}
-						/>
-					) : (
-						<Select
-							showSearch
-							value={this.state.esNode}
-							onChange={this.esNodeChange}
-							style={{
-								width: '100%',
-							}}
-						>
-							{settingsAPIs.ES_WRAPPER_LIST.concat([{url: this.useCustom}]).map(
-								(wrapper) => (
-									<Select.Option key={wrapper.url}>{wrapper.url}</Select.Option>
-								)
-							)}
-						</Select>
-					)}
-				</Modal>
-
 				<div className="generic-bordered-box">
 					{this.props.dashboard ? null : (
 						<div ref="header">
@@ -474,41 +399,14 @@ class RecentTransactions extends React.Component {
 					<div className="header-selector">
 						<div className="filter inline-block">
 							{this.props.showFilters ? (
-								<Tooltip
-									placement="bottom"
-									title={counterpart.translate('tooltip.filter_ops')}
+								<Select
+									style={{width: '210px'}}
+									value={this.state.filter}
+									onChange={this._onChangeFilter.bind(this)}
 								>
-									<Select
-										style={{
-											width: '210px',
-										}}
-										value={this.state.filter}
-										onChange={this._onChangeFilter.bind(this)}
-									>
-										{options}
-									</Select>
-								</Tooltip>
+									{options}
+								</Select>
 							) : null}
-
-							{/*{historyCount > 0 && this.props.dashboard ? (
-                                <Tooltip
-                                    placement="bottom"
-                                    title={counterpart.translate(
-                                        "transaction.csv_tip"
-                                    )}
-                                >
-                                    <a
-                                        className="inline-block iconLinkAndLabel"
-                                        onClick={this.showExportModal}
-                                        style={{
-                                            marginLeft: "1rem"
-                                        }}
-                                    >
-                                        <Icon name="excel" size="1x" />
-                                        <Translate content="account.download_history" />
-                                    </a>
-                                </Tooltip>
-                            ) : null}*/}
 						</div>
 						{this.state.accountHistoryError && (
 							<div className="has-error" style={{paddingLeft: '0.75rem'}}>
@@ -520,25 +418,14 @@ class RecentTransactions extends React.Component {
 						withTransition
 						className={
 							'table table-striped ' +
-							(compactView ? 'compact' : '') +
 							(this.props.dashboard ? ' dashboard-table table-hover' : '')
 						}
 						header={[
 							{
-								title: <Translate content="account.transactions.id" />,
-								dataIndex: 'id',
+								title: <Translate content="account.user_issued_assets.pair" />,
+								dataIndex: 'pair',
 								align: 'left',
-								render: (item) => {
-									return <span style={{whiteSpace: 'nowrap'}}>{item}</span>;
-								},
 							},
-							!compactView
-								? {
-										title: <Translate content="account.transactions.type" />,
-										dataIndex: 'type',
-										align: 'left',
-								  }
-								: {},
 							{
 								title: <Translate content="account.transactions.info" />,
 								dataIndex: 'info',
@@ -589,6 +476,7 @@ class RecentTransactions extends React.Component {
 						rows={display_history}
 						label="utility.total_x_operations"
 						extraRow={action}
+						rowClassName={(row) => this._getRowClassName(row)}
 					/>
 
 					{this.state.fetchingAccountHistory && <LoadingIndicator />}

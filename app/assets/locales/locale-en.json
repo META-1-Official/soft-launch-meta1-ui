@@ -240,7 +240,8 @@
 			"id": "ID",
 			"info": "Info",
 			"time": "Time",
-			"type": "Type"
+			"type": "Type",
+			"crypto": "Crypto"
 		},
 		"transfer_actions": "Transfer actions",
 		"unfollow": "Remove contact",
@@ -281,6 +282,7 @@
 			"force_settlement_offset_percent": "Percent offset of forced settlements",
 			"global_settle": "Allow issuer to force a global settling",
 			"id": "ID",
+			"pair": "Pair",
 			"invalid_backing_asset_change": "You can't change the backing asset of an asset that has a non-zero current supply",
 			"invalid_market_pair": "Preferred market pairing can not be the same market",
 			"invalid_permissions_change": "You can't enable a permission for an asset that has a non-zero current supply",
