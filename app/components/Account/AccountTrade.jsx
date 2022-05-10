@@ -132,7 +132,7 @@ class AccountTrade extends React.Component {
 							// 	bars.length,
 							// 	bars
 							// );
-							bars = bars.filter((a) => a.time >= from && a.time <= to);
+							// bars = bars.filter((a) => a.time >= from && a.time <= to);
 							// console.log(
 							// 	'@1104 - _getMarketInfo #2',
 							// 	resolution,
@@ -271,7 +271,11 @@ class AccountTrade extends React.Component {
 				title: <Translate component="span" content="account.votes.name" />,
 				key: 'name',
 				sorter: (a, b) => {
-					return a.name > b.name ? 1 : a.name < b.name ? -1 : 0;
+					return a.marketName > b.marketName
+						? 1
+						: a.marketName < b.marketName
+						? -1
+						: 0;
 				},
 				render: (rowData) => {
 					const quoteAssetSymbol = rowData.quoteAssetSymbol;
