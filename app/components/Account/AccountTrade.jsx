@@ -278,9 +278,13 @@ class AccountTrade extends React.Component {
 						order = sortOrder['sortOrder'];
 
 					return (
-						<div>
+						<div className="header-text">
 							<Translate component="span" content="account.votes.name" />
-							{order === 'ascend' ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
+							{!order ? null : order === 'ascend' ? (
+								<ArrowUpOutlined />
+							) : (
+								<ArrowDownOutlined />
+							)}
 						</div>
 					);
 				},
@@ -315,7 +319,26 @@ class AccountTrade extends React.Component {
 				},
 			},
 			{
-				title: <Translate component="span" content="exchange.price" />,
+				title: (sortOrder) => {
+					let order = null;
+
+					if (
+						sortOrder['sortColumn'] &&
+						sortOrder['sortColumn']['key'] === 'price'
+					)
+						order = sortOrder['sortOrder'];
+
+					return (
+						<div className="header-text">
+							<Translate component="span" content="exchange.price" />
+							{!order ? null : order === 'ascend' ? (
+								<ArrowUpOutlined />
+							) : (
+								<ArrowDownOutlined />
+							)}
+						</div>
+					);
+				},
 				dataIndex: 'price',
 				key: 'price',
 				sorter: (a, b) => {
@@ -330,12 +353,29 @@ class AccountTrade extends React.Component {
 				},
 			},
 			{
-				title: (
-					<span>
-						{selectedResolution}{' '}
-						<Translate component="span" content="account.change" />
-					</span>
-				),
+				title: (sortOrder) => {
+					let order = null;
+
+					if (
+						sortOrder['sortColumn'] &&
+						sortOrder['sortColumn']['key'] === 'rateChange'
+					)
+						order = sortOrder['sortOrder'];
+
+					return (
+						<div className="header-text">
+							<span>
+								{selectedResolution}{' '}
+								<Translate component="span" content="account.change" />
+							</span>
+							{!order ? null : order === 'ascend' ? (
+								<ArrowUpOutlined />
+							) : (
+								<ArrowDownOutlined />
+							)}
+						</div>
+					);
+				},
 				dataIndex: 'rateChange',
 				key: 'rateChange',
 				sorter: (a, b) => {
@@ -409,14 +449,31 @@ class AccountTrade extends React.Component {
 				},
 			},
 			{
-				title: (
-					<span>
-						{selectedResolution}{' '}
-						<Translate component="span" content="account.high" /> /
-						{selectedResolution}{' '}
-						<Translate component="span" content="account.low" />
-					</span>
-				),
+				title: (sortOrder) => {
+					let order = null;
+
+					if (
+						sortOrder['sortColumn'] &&
+						sortOrder['sortColumn']['key'] === 'rateHighLow'
+					)
+						order = sortOrder['sortOrder'];
+
+					return (
+						<div className="header-text">
+							<span>
+								{selectedResolution}{' '}
+								<Translate component="span" content="account.high" /> /
+								{selectedResolution}{' '}
+								<Translate component="span" content="account.low" />
+							</span>
+							{!order ? null : order === 'ascend' ? (
+								<ArrowUpOutlined />
+							) : (
+								<ArrowDownOutlined />
+							)}
+						</div>
+					);
+				},
 				dataIndex: 'rateHighLow',
 				key: 'rateHighLow',
 				sorter: (a, b) => {
@@ -435,7 +492,26 @@ class AccountTrade extends React.Component {
 				},
 			},
 			{
-				title: <Translate component="span" content="account.market_cap" />,
+				title: (sortOrder) => {
+					let order = null;
+
+					if (
+						sortOrder['sortColumn'] &&
+						sortOrder['sortColumn']['key'] === 'rateHighLow'
+					)
+						order = sortOrder['sortOrder'];
+
+					return (
+						<div className="header-text">
+							<Translate component="span" content="account.market_cap" />
+							{!order ? null : order === 'ascend' ? (
+								<ArrowUpOutlined />
+							) : (
+								<ArrowDownOutlined />
+							)}
+						</div>
+					);
+				},
 				dataIndex: 'marketCap',
 				key: 'marketCap',
 				sorter: (a, b) => {

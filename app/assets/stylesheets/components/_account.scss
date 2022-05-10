@@ -720,6 +720,14 @@ div.account-trade {
 					th {
 						border-bottom: 1px solid #1c1f27;
 						padding-left: 15px;
+
+						.header-text .anticon {
+							float: right;
+						}
+
+						.ant-table-column-sorter.ant-table-column-sorter-full {
+							display: none;
+						}
 					}
 
 					span {
