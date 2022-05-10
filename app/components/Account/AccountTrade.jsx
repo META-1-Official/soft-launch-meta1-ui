@@ -268,7 +268,22 @@ class AccountTrade extends React.Component {
 
 		return [
 			{
-				title: <Translate component="span" content="account.votes.name" />,
+				title: (sortOrder) => {
+					let order = null;
+
+					if (
+						sortOrder['sortColumn'] &&
+						sortOrder['sortColumn']['key'] === 'name'
+					)
+						order = sortOrder['sortOrder'];
+
+					return (
+						<div>
+							<Translate component="span" content="account.votes.name" />
+							{order === 'ascend' ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
+						</div>
+					);
+				},
 				key: 'name',
 				sorter: (a, b) => {
 					return a.marketName > b.marketName
