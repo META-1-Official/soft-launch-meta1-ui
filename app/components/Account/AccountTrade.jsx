@@ -497,7 +497,7 @@ class AccountTrade extends React.Component {
 
 					if (
 						sortOrder['sortColumn'] &&
-						sortOrder['sortColumn']['key'] === 'rateHighLow'
+						sortOrder['sortColumn']['key'] === 'marketCap'
 					)
 						order = sortOrder['sortOrder'];
 
