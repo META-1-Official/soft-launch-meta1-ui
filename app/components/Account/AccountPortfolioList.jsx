@@ -232,7 +232,6 @@ class AccountPortfolioList extends React.Component {
 				return this.state.portfolioSortDirection || force ? 1 : -1;
 		},
 		alphabetic: function (a, b, force) {
-			// console.log("@12 - ", a, b, force)
 			if (a.key > b.key)
 				return this.state.portfolioSortDirection || force ? 1 : -1;
 			if (a.key < b.key)
@@ -359,7 +358,6 @@ class AccountPortfolioList extends React.Component {
 	getHeader() {
 		let {settings} = this.props;
 		let {shownAssets, portfolioSortDirection, portfolioSort} = this.state;
-		console.log('@1 - ', portfolioSortDirection, portfolioSort);
 
 		const preferredUnit =
 			settings.get('unit') || this.props.core_asset.get('symbol');
