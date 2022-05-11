@@ -121,6 +121,8 @@ const SideBar = ({collapsed, currentLink, toggle}: ISideBar) => {
 			link = `account/${accountName}/whitelist`;
 		} else if (e.key === 'membershipStats') {
 			link = `account/${accountName}/member-stats`;
+		} else if (e.key === 'transaction-history') {
+			link = `account/${accountName}/?currentDisplay=transactionHistory`;
 		}
 
 		history.push(`/${link}`);

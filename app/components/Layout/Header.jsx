@@ -68,10 +68,13 @@ class Header extends React.Component {
 			dropdownActive: false,
 			dropdownSubmenuActive: false,
 			dropdownSubmenuActiveAdvanced: false,
-			dropdownSubmenuActiveDeposit: false,
-			isDepositModalVisible: false,
-			hasDepositModalBeenShown: false,
+			isDepositModalVisibleBnb: false,
 			isDepositModalVisibleBtc: false,
+			isDepositModalVisibleEth: false,
+			isDepositModalVisibleEos: false,
+			isDepositModalVisibleLtc: false,
+			isDepositModalVisibleUsdt: false,
+			isDepositModalVisibleXlm: false,
 			isWithdrawModalVisible: false,
 			hasWithdrawalModalBeenShown: false,
 		};
@@ -86,13 +89,9 @@ class Header extends React.Component {
 		this._closeDropdownSubmenu = this._closeDropdownSubmenu.bind(this);
 		this._closeDropdownSubmenuAdvanced =
 			this._closeDropdownSubmenuAdvanced.bind(this);
-		this._closeDropdownSubmenuDeposit =
-			this._closeDropdownSubmenuDeposit.bind(this);
 		this._toggleDropdownSubmenu = this._toggleDropdownSubmenu.bind(this);
 		this._toggleDropdownSubmenuAdvanced =
 			this._toggleDropdownSubmenuAdvanced.bind(this);
-		this._toggleDropdownSubmenuDeposit =
-			this._toggleDropdownSubmenuDeposit.bind(this);
 		this._closeMenuDropdown = this._closeMenuDropdown.bind(this);
 		this._closeAccountsListDropdown =
 			this._closeAccountsListDropdown.bind(this);
@@ -120,26 +119,13 @@ class Header extends React.Component {
 		this.showDepositModalLtc = this.showDepositModalLtc.bind(this);
 		this.hideDepositModalLtc = this.hideDepositModalLtc.bind(this);
 
-		this.showDepositModal = this.showDepositModal.bind(this);
-		this.hideDepositModal = this.hideDepositModal.bind(this);
+		// this.showDepositModal = this.showDepositModal.bind(this);
+		// this.hideDepositModal = this.hideDepositModal.bind(this);
 
 		this.showWithdrawModal = this.showWithdrawModal.bind(this);
 		this.hideWithdrawModal = this.hideWithdrawModal.bind(this);
 
 		this.onBodyClick = this.onBodyClick.bind(this);
-	}
-
-	showDepositModal() {
-		this.setState({
-			isDepositModalVisible: true,
-			hasDepositModalBeenShown: true,
-		});
-	}
-
-	hideDepositModal() {
-		this.setState({
-			isDepositModalVisible: false,
-		});
 	}
 
 	showWithdrawModal() {
@@ -235,44 +221,37 @@ class Header extends React.Component {
 		});
 	}
 
-	_showDepositBtc(e) {
-		e.preventDefault();
+	_showDepositBtc() {
 		this.showDepositModalBtc();
 		this._closeDropdown();
 	}
 
-	_showDepositEth(e) {
-		e.preventDefault();
+	_showDepositEth() {
 		this.showDepositModalEth();
 		this._closeDropdown();
 	}
 
-	_showDepositUsdt(e) {
-		e.preventDefault();
+	_showDepositUsdt() {
 		this.showDepositModalUsdt();
 		this._closeDropdown();
 	}
 
-	_showDepositEos(e) {
-		e.preventDefault();
+	_showDepositEos() {
 		this.showDepositModalEos();
 		this._closeDropdown();
 	}
 
-	_showDepositBnb(e) {
-		e.preventDefault();
+	_showDepositBnb() {
 		this.showDepositModalBnb();
 		this._closeDropdown();
 	}
 
-	_showDepositXlm(e) {
-		e.preventDefault();
+	_showDepositXlm() {
 		this.showDepositModalXlm();
 		this._closeDropdown();
 	}
 
-	_showDepositLtc(e) {
-		e.preventDefault();
+	_showDepositLtc() {
 		this.showDepositModalLtc();
 		this._closeDropdown();
 	}
@@ -293,8 +272,6 @@ class Header extends React.Component {
 			nextState.dropdownSubmenuActive !== this.state.dropdownSubmenuActive ||
 			nextState.dropdownSubmenuActiveAdvanced !==
 				this.state.dropdownSubmenuActiveAdvanced ||
-			nextState.dropdownSubmenuActiveDeposit !==
-				this.state.dropdownSubmenuActiveDeposit ||
 			nextState.accountsListDropdownActive !==
 				this.state.accountsListDropdownActive ||
 			nextProps.height !== this.props.height ||
@@ -302,10 +279,15 @@ class Header extends React.Component {
 		);
 	}
 
-	_showSend(e) {
-		e.preventDefault();
+	_showSend() {
 		if (this.send_modal) this.send_modal.show();
 		this._closeDropdown();
+	}
+
+	_showWithdraw(e, fromMenu) {
+		!fromMenu && e.preventDefault();
+		this._closeDropdown();
+		this.showWithdrawModal();
 	}
 
 	hideDepositModalBtc() {
@@ -318,11 +300,6 @@ class Header extends React.Component {
 		this.setState({
 			isDepositModalVisibleEth: false,
 		});
-	}
-	_showWithdraw(e, fromMenu) {
-		!fromMenu && e.preventDefault();
-		this._closeDropdown();
-		this.showWithdrawModal();
 	}
 
 	hideDepositModalUsdt() {
@@ -353,12 +330,6 @@ class Header extends React.Component {
 		this.setState({
 			isDepositModalVisibleLtc: false,
 		});
-	}
-
-	_showDeposit(e) {
-		e.preventDefault();
-		this.showDepositModal();
-		this._closeDropdown();
 	}
 
 	_triggerMenu(e) {
@@ -433,20 +404,11 @@ class Header extends React.Component {
 		}
 	}
 
-	_closeDropdownSubmenuDeposit() {
-		if (this.state.dropdownSubmenuActiveDeposit) {
-			this.setState({
-				dropdownSubmenuActiveDeposit: false,
-			});
-		}
-	}
-
 	_closeDropdown() {
 		this._closeMenuDropdown();
 		this._closeAccountsListDropdown();
 		this._closeDropdownSubmenu();
 		this._closeDropdownSubmenuAdvanced();
-		this._closeDropdownSubmenuDeposit();
 	}
 
 	_onGoBack(e) {
@@ -504,18 +466,6 @@ class Header extends React.Component {
 		});
 	}
 
-	_toggleDropdownSubmenuDeposit(
-		item = this.state.dropdownSubmenuActiveItemDeposit,
-		e
-	) {
-		if (e) e.stopPropagation();
-
-		this.setState({
-			dropdownSubmenuActiveDeposit: !this.state.dropdownSubmenuActiveDeposit,
-			dropdownSubmenuActiveItemDeposit: item,
-		});
-	}
-
 	_toggleDropdownSubmenuAdvanced(
 		item = this.state.dropdownSubmenuActiveItemAdvanced,
 		e
@@ -563,13 +513,13 @@ class Header extends React.Component {
 			this._closeMenuDropdown();
 			this._closeDropdownSubmenu();
 			this._closeDropdownSubmenuAdvanced();
-			this._closeDropdownSubmenuDeposit();
 		}
 	}
 
 	handleHeaderLink = (e) => {
 		const {lastMarket, currentAccount} = this.props;
 		const {key} = e;
+
 		if (key === 'auth') {
 			this._toggleLock(this, true);
 		} else if (key === 'dashboard') {
@@ -587,10 +537,19 @@ class Header extends React.Component {
 			this._onNavigate('/help', this, true);
 		} else if (key === 'withdraw') {
 			this._showWithdraw(this, true);
+		} else if (key === 'send') {
+			this._showSend();
+		} else if (key === 'deposit-btc') {
+			this._showDepositBtc();
+		} else if (key === 'deposit-ltc') {
+			this._showDepositLtc();
+		} else if (key === 'deposit-eth') {
+			this._showDepositEth();
+		} else if (key === 'deposit-usdt') {
+			this._showDepositUsdt();
 		}
-		this.setState({
-			headerMenu: key,
-		});
+
+		this.setState({headerMenu: key});
 	};
 
 	render() {
@@ -805,19 +764,61 @@ class Header extends React.Component {
 				>
 					<Text style={{color: '#FFFFFF', fontSize: '15px'}}>Withdraw</Text>
 				</Menu.Item>
-
-				<Menu.Item
-					key="send"
-					css={(theme) => ({
+				<Menu.SubMenu
+					title={
+						<Text style={{color: '#FFFFFF', fontSize: '15px'}}>Deposit</Text>
+					}
+					style={{
 						background: '#2E3445',
 						paddingTop: '10px',
 						paddingBottom: '10px',
-					})}
+						color: '#FFFFFF',
+						fontSize: '15px',
+					}}
 				>
-					<Text style={{color: '#FFFFFF', fontSize: '15px'}}>Deposit</Text>
-				</Menu.Item>
+					<Menu.Item
+						key="deposit-btc"
+						css={(theme) => ({
+							background: '#2E3445',
+							paddingTop: '10px',
+							paddingBottom: '10px',
+						})}
+					>
+						Depsoit BTC
+					</Menu.Item>
+					<Menu.Item
+						key="deposit-ltc"
+						css={(theme) => ({
+							background: '#2E3445',
+							paddingTop: '10px',
+							paddingBottom: '10px',
+						})}
+					>
+						Deposit LTC
+					</Menu.Item>
+					<Menu.Item
+						key="deposit-eth"
+						css={(theme) => ({
+							background: '#2E3445',
+							paddingTop: '10px',
+							paddingBottom: '10px',
+						})}
+					>
+						Deposit ETH
+					</Menu.Item>
+					<Menu.Item
+						key="deposit-usdt"
+						css={(theme) => ({
+							background: '#2E3445',
+							paddingTop: '10px',
+							paddingBottom: '10px',
+						})}
+					>
+						Deposit USDT
+					</Menu.Item>
+				</Menu.SubMenu>
 				<Menu.Item
-					key="send"
+					key="advanced"
 					css={(theme) => ({
 						background: '#2E3445',
 						paddingTop: '10px',
