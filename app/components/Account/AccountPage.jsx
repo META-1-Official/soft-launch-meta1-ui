@@ -15,6 +15,7 @@ import {Route, Switch, Redirect} from 'react-router-dom';
 import AccountAssets from './AccountAssets';
 import {AccountAssetCreate} from './AccountAssetCreate';
 import AccountAssetUpdate from './AccountAssetUpdate';
+import AccountActivity from './AccountActivity';
 import AccountTrade from './AccountTrade';
 import AccountMembership from './AccountMembership';
 import AccountVesting from './AccountVesting';
@@ -122,6 +123,11 @@ class AccountPage extends React.Component {
 						path={`/account/${account_name}/update-asset/:asset`}
 						exact
 						render={() => <AccountAssetUpdate {...passOnProps} />}
+					/>
+					<Route
+						path={`/account/${account_name}/activity`}
+						exact
+						render={() => <AccountActivity {...passOnProps} />}
 					/>
 					<Route
 						path={`/account/${account_name}/trade`}

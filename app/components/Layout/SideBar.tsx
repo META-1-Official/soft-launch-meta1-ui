@@ -42,6 +42,7 @@ const SideBar = ({collapsed, currentLink, toggle}: ISideBar) => {
 			? false
 			: true
 		: false;
+
 	const menuList = [
 		{
 			menuId: `account`,
@@ -115,6 +116,8 @@ const SideBar = ({collapsed, currentLink, toggle}: ISideBar) => {
 
 		if (e.key === 'account') {
 			link = `account/${accountName}`;
+		} else if (e.key === 'activity') {
+			link = `account/${accountName}/activity`;
 		} else if (e.key === 'trade') {
 			link = `account/${accountName}/trade`;
 		} else if (e.key === 'whitelist') {
@@ -144,9 +147,6 @@ const SideBar = ({collapsed, currentLink, toggle}: ISideBar) => {
 			onBreakpoint={() => {
 				screens['xs'] === true ? toggle(true) : toggle(false);
 			}}
-			// onCollapse={(collapsed, type) => {
-			// 	console.log(collapsed, type);
-			// }}
 			collapsed={collapsed}
 		>
 			<Menu
