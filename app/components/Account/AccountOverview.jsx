@@ -54,6 +54,23 @@ class AccountOverview extends React.Component {
 
 	componentWillMount() {
 		this._checkMarginStatus();
+
+		var qd = {};
+		location.search
+			.substr(1)
+			.split('&')
+			.forEach(function (item) {
+				item.split('=')[0] in qd
+					? qd[item.split('=')[0]].push(item.split('=')[1])
+					: (qd[item.split('=')[0]] = [item.split('=')[1]]);
+			});
+
+		if (
+			qd.hasOwnProperty('currentDisplay') &&
+			qd['currentDisplay'].length > 0
+		) {
+			this.setState({currentDisplay: qd['currentDisplay'][0]});
+		}
 	}
 
 	_checkMarginStatus(props = this.props) {
