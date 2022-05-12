@@ -160,3 +160,96 @@ div.bordered-header {
 		padding-right: 5px;
 	}
 }
+
+// Menu
+ul.header-menu {
+	width: 245px;
+	padding: 0;
+
+	li {
+		background: #2e3445;
+		padding-top: 10px;
+		padding-bottom: 10px;
+
+		&:first-of-type {
+			span {
+				color: #ffc000;
+			}
+		}
+
+		&.level-1 {
+			background: #21252f;
+		}
+
+		&.level-2 {
+			background: #282d3a;
+		}
+
+		&:hover {
+			background: #f5f5f5;
+
+			span {
+				color: black;
+			}
+		}
+
+		span {
+			color: white;
+			font-size: 15px;
+		}
+	}
+}
+
+.deposit-submenu {
+	ul {
+		width: 245px;
+		padding: 0;
+
+		li {
+			background: #2e3445;
+			padding-top: 10px;
+			padding-bottom: 10px;
+
+			span {
+				color: white;
+				font-size: 15px;
+			}
+
+			&:hover {
+				span {
+					color: black;
+				}
+			}
+		}
+	}
+}
+
+.advanced-submenu {
+	ul {
+		width: 245px;
+		padding: 0;
+
+		li {
+			background: #2e3445;
+			padding-top: 10px;
+			padding-bottom: 10px;
+
+			&.comment {
+				background: #282d3a;
+				font-size: 11px;
+				color: rgba(255, 255, 255, 0.5) !important;
+			}
+
+			&:hover {
+				span {
+					color: black;
+				}
+			}
+
+			span {
+				color: white;
+				font-size: 15px;
+			}
+		}
+	}
+}
