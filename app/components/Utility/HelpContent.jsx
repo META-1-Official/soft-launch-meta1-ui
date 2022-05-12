@@ -56,6 +56,7 @@ class HelpContent extends React.PureComponent {
 	static propTypes = {
 		path: PropTypes.string.isRequired,
 		section: PropTypes.string,
+		from: PropTypes.string,
 	};
 
 	static defaultProps = {
@@ -255,16 +256,16 @@ class HelpContent extends React.PureComponent {
 									},
 								},
 								'p, p:last-of-type': {
-									marginBottom: '1.3rem',
+									marginBottom:
+										this.props.from !== 'permissions' ? '1.3rem' : '0px',
 									color: `${theme.colors.helpTextColor} !important`,
-									fontSize: '14px',
+									fontSize: '15px',
 								},
 						  }
 						: {
 								height: '100%',
 						  }
 				}
-				// className="help-content"
 				dangerouslySetInnerHTML={{
 					__html: this.setVars(value, this.props.hide_issuer),
 				}}

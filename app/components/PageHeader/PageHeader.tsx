@@ -19,7 +19,15 @@ const PageHeader = ({title, level, showDivider, ...props}: IPageHeader) => {
 				color: theme.colors.themeOpositeColor,
 			})}
 		>
-			<Title css={{margin: '0px !important'}} level={level} {...props}>
+			<Title
+				css={{
+					margin: '0px !important',
+					fontSize: '24px !important',
+					fontWeight: '400 !important',
+				}}
+				level={level}
+				{...props}
+			>
 				{title}
 			</Title>
 		</div>

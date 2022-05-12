@@ -609,8 +609,8 @@ class AccountSelector extends React.Component {
 					width: this.props.size || 25,
 				}}
 				style={{
+					alignSelf: 'center',
 					marginRight: '10px',
-					marginTop: '4px',
 				}}
 				account={selectedAccount ? selectedAccount.id : null}
 				custom_image={null}

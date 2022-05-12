@@ -111,7 +111,7 @@ export default class AccountPermissionsMigrate extends React.Component {
 					onSubmit={this.onSubmit.bind(this)}
 					noValidate
 				>
-					<label className="left-label">
+					<label>
 						<Translate content="wallet.generated" />
 					</label>
 					<p>{this.state.generatedPassword}</p>

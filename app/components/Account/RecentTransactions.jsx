@@ -93,11 +93,6 @@ class RecentTransactions extends React.Component {
 		this.getDataSource = this.getDataSource.bind(this);
 
 		this.useCustom = counterpart.translate('account.export_modal.use_custom');
-		// https://eswrapper.bitshares.eu/ is not alive
-		// https://wrapper.elasticsearch.bitshares.ws/ is not alive
-		// http://bts-es.clockwork.gr:5000/ is alive
-		// https://explorer.bitshares-kibana.info/ is not alive
-		// http://185.208.208.184:5000/es/ is alive
 		this.esNodeChange = this.esNodeChange.bind(this);
 		this._generateCSV = this._generateCSV.bind(this);
 	}
@@ -105,8 +100,6 @@ class RecentTransactions extends React.Component {
 	componentDidMount() {
 		if (!this.props.fullHeight) {
 			let t = this.refs.transactions;
-			//ps.initialize(t);
-
 			this._setHeaderHeight();
 		}
 	}
