@@ -89,18 +89,6 @@ const SideBar = ({collapsed, currentLink, toggle}: ISideBar) => {
 			enableNavLinks,
 		},
 		{
-			menuId: 'whitelist',
-			menuName: 'Whitelist',
-			icon: <FileProtectOutlined />,
-			enableNavLinks,
-		},
-		{
-			menuId: 'membershipStats',
-			menuName: 'Membership stats',
-			icon: <FileTextOutlined />,
-			enableNavLinks,
-		},
-		{
 			menuId: 'help',
 			menuName: 'Help',
 			icon: <QuestionCircleOutlined />,
