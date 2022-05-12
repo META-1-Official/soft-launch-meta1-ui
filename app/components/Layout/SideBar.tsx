@@ -9,6 +9,8 @@ import {
 	QuestionCircleOutlined,
 	WalletOutlined,
 	ApartmentOutlined,
+	InteractionOutlined,
+	FileProtectOutlined,
 } from '@ant-design/icons';
 import {useTheme} from '@emotion/react';
 import Translate from 'react-translate-component';
@@ -59,7 +61,7 @@ const SideBar = ({collapsed, currentLink, toggle}: ISideBar) => {
 		{
 			menuId: 'activity',
 			menuName: <Translate content="account.activity" />,
-			icon: <RiseOutlined />,
+			icon: <InteractionOutlined />,
 			enableNavLinks,
 		},
 		{
@@ -89,7 +91,7 @@ const SideBar = ({collapsed, currentLink, toggle}: ISideBar) => {
 		{
 			menuId: 'whitelist',
 			menuName: 'Whitelist',
-			icon: <FileTextOutlined />,
+			icon: <FileProtectOutlined />,
 			enableNavLinks,
 		},
 		{

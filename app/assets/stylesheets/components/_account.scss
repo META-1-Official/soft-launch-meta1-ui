@@ -782,3 +782,88 @@ div.account-trade {
 		}
 	}
 }
+
+// Activity page
+div.account-activity {
+	div.content {
+		padding-left: 30px;
+		padding-right: 30px;
+
+		div.section {
+			background: #0a0b0d;
+			border: 1px solid #1c1f27;
+			border-radius: 4px;
+			margin-top: 30px;
+			margin-bottom: 90px;
+
+			.header-title {
+				padding: 30px;
+				background: #15171b;
+				font-size: 20px;
+				color: white;
+			}
+
+			.section-content {
+				margin-top: 16px;
+			}
+
+			.subsection-title1 {
+				color: #ffc000;
+				font-size: 18px;
+				padding-left: 30px;
+				margin-bottom: 10px;
+			}
+
+			.subsection-title2 {
+				font-size: 15px;
+				padding-left: 30px;
+				margin-bottom: 15px;
+
+				.hyper-text {
+					color: #ffc000;
+					text-decoration: underline;
+					margin-left: 5px;
+				}
+			}
+
+			.close-text {
+				margin-top: 40px;
+				margin-bottom: 30px;
+				padding-left: 30px;
+				font-size: 20px;
+				color: white;
+
+				.undone-text {
+					color: #ff2929;
+					text-decoration: underline;
+				}
+			}
+		}
+
+		div.table {
+			.ant-table-wrapper {
+				margin-top: 0 !important;
+
+				.ant-table-container {
+					table > thead {
+						background: #15171b;
+						th {
+							padding-left: 30px;
+							font-size: 14px;
+						}
+					}
+				}
+
+				.ant-table {
+					background-color: #0a0b0d;
+				}
+
+				td.ant-table-cell {
+					padding-left: 30px;
+					padding-right: 30px;
+					font-size: 14px;
+				}
+			}
+		}
+	}
+}
