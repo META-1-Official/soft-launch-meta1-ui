@@ -65,9 +65,6 @@ class Header extends React.Component {
 		this.state = {
 			active: props.location.pathname,
 			accountsListDropdownActive: false,
-			dropdownActive: false,
-			dropdownSubmenuActive: false,
-			dropdownSubmenuActiveAdvanced: false,
 			isDepositModalVisibleBnb: false,
 			isDepositModalVisibleBtc: false,
 			isDepositModalVisibleEth: false,
@@ -84,15 +81,6 @@ class Header extends React.Component {
 		this.unlisten = null;
 		this._toggleAccountDropdownMenu =
 			this._toggleAccountDropdownMenu.bind(this);
-		this._toggleDropdownMenu = this._toggleDropdownMenu.bind(this);
-		this._closeDropdown = this._closeDropdown.bind(this);
-		this._closeDropdownSubmenu = this._closeDropdownSubmenu.bind(this);
-		this._closeDropdownSubmenuAdvanced =
-			this._closeDropdownSubmenuAdvanced.bind(this);
-		this._toggleDropdownSubmenu = this._toggleDropdownSubmenu.bind(this);
-		this._toggleDropdownSubmenuAdvanced =
-			this._toggleDropdownSubmenuAdvanced.bind(this);
-		this._closeMenuDropdown = this._closeMenuDropdown.bind(this);
 		this._closeAccountsListDropdown =
 			this._closeAccountsListDropdown.bind(this);
 		this._closeAccountNotifications =
@@ -223,37 +211,30 @@ class Header extends React.Component {
 
 	_showDepositBtc() {
 		this.showDepositModalBtc();
-		this._closeDropdown();
 	}
 
 	_showDepositEth() {
 		this.showDepositModalEth();
-		this._closeDropdown();
 	}
 
 	_showDepositUsdt() {
 		this.showDepositModalUsdt();
-		this._closeDropdown();
 	}
 
 	_showDepositEos() {
 		this.showDepositModalEos();
-		this._closeDropdown();
 	}
 
 	_showDepositBnb() {
 		this.showDepositModalBnb();
-		this._closeDropdown();
 	}
 
 	_showDepositXlm() {
 		this.showDepositModalXlm();
-		this._closeDropdown();
 	}
 
 	_showDepositLtc() {
 		this.showDepositModalLtc();
-		this._closeDropdown();
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
@@ -268,10 +249,6 @@ class Header extends React.Component {
 			nextProps.currentLocale !== this.props.currentLocale ||
 			nextState.active !== this.state.active ||
 			nextState.hiddenAssets !== this.props.hiddenAssets ||
-			nextState.dropdownActive !== this.state.dropdownActive ||
-			nextState.dropdownSubmenuActive !== this.state.dropdownSubmenuActive ||
-			nextState.dropdownSubmenuActiveAdvanced !==
-				this.state.dropdownSubmenuActiveAdvanced ||
 			nextState.accountsListDropdownActive !==
 				this.state.accountsListDropdownActive ||
 			nextProps.height !== this.props.height ||
@@ -281,12 +258,10 @@ class Header extends React.Component {
 
 	_showSend() {
 		if (this.send_modal) this.send_modal.show();
-		this._closeDropdown();
 	}
 
 	_showWithdraw(e, fromMenu) {
 		!fromMenu && e.preventDefault();
-		this._closeDropdown();
 		this.showWithdrawModal();
 	}
 
@@ -355,7 +330,7 @@ class Header extends React.Component {
 				AccountStore.tryToSetCurrentAccount();
 			}
 		}
-		this._closeDropdown();
+
 		this._closeAccountNotifications();
 	}
 
@@ -369,7 +344,6 @@ class Header extends React.Component {
 			});
 		}
 		this.props.history.push(route);
-		this._closeDropdown();
 	}
 
 	_closeAccountsListDropdown() {
@@ -378,37 +352,6 @@ class Header extends React.Component {
 				accountsListDropdownActive: false,
 			});
 		}
-	}
-
-	_closeMenuDropdown() {
-		if (this.state.dropdownActive) {
-			this.setState({
-				dropdownActive: false,
-			});
-		}
-	}
-
-	_closeDropdownSubmenu() {
-		if (this.state.dropdownSubmenuActive) {
-			this.setState({
-				dropdownSubmenuActive: false,
-			});
-		}
-	}
-
-	_closeDropdownSubmenuAdvanced() {
-		if (this.state.dropdownSubmenuActiveAdvanced) {
-			this.setState({
-				dropdownSubmenuActiveAdvanced: false,
-			});
-		}
-	}
-
-	_closeDropdown() {
-		this._closeMenuDropdown();
-		this._closeAccountsListDropdown();
-		this._closeDropdownSubmenu();
-		this._closeDropdownSubmenuAdvanced();
 	}
 
 	_onGoBack(e) {
@@ -440,8 +383,6 @@ class Header extends React.Component {
 			});
 
 			this._accountNotificationActiveKeys.push(key);
-
-			this._closeDropdown();
 		}
 	}
 
@@ -455,35 +396,6 @@ class Header extends React.Component {
 		this.setState({
 			accountsListDropdownActive: !this.state.accountsListDropdownActive,
 		});
-	}
-
-	_toggleDropdownSubmenu(item = this.state.dropdownSubmenuActiveItem, e) {
-		if (e) e.stopPropagation();
-
-		this.setState({
-			dropdownSubmenuActive: !this.state.dropdownSubmenuActive,
-			dropdownSubmenuActiveItem: item,
-		});
-	}
-
-	_toggleDropdownSubmenuAdvanced(
-		item = this.state.dropdownSubmenuActiveItemAdvanced,
-		e
-	) {
-		if (e) e.stopPropagation();
-
-		this.setState({
-			dropdownSubmenuActiveAdvanced: !this.state.dropdownSubmenuActiveAdvanced,
-			dropdownSubmenuActiveItemAdvanced: item,
-		});
-	}
-
-	_toggleDropdownMenu() {
-		console.log('^^^ clicked');
-		this.setState({
-			dropdownActive: !this.state.dropdownActive,
-		});
-		this._closeAccountNotifications();
 	}
 
 	_closeAccountNotifications() {
@@ -509,11 +421,6 @@ class Header extends React.Component {
 		} while ((el = el.parentNode));
 
 		if (!insideAccountDropdown) this._closeAccountsListDropdown();
-		if (!insideMenuDropdown) {
-			this._closeMenuDropdown();
-			this._closeDropdownSubmenu();
-			this._closeDropdownSubmenuAdvanced();
-		}
 	}
 
 	handleHeaderLink = (e) => {
@@ -669,20 +576,10 @@ class Header extends React.Component {
 			<Menu
 				onClick={this.handleHeaderLink}
 				selectedKeys={[this.state.headerMenu]}
-				css={(theme) => ({
-					width: 245,
-					padding: 0,
-				})}
+				className="header-menu"
 			>
-				<Menu.Item
-					key="auth"
-					css={(theme) => ({
-						background: '#21252F',
-						paddingTop: '10px',
-						paddingBottom: '10px',
-					})}
-				>
-					<Text style={{color: '#FFC000', fontSize: '15px'}}>
+				<Menu.Item key="auth" className="level-1">
+					<Text>
 						<Translate
 							content={`header.${
 								this.props.locked ? 'unlock_short' : 'lock_short'
@@ -690,37 +587,16 @@ class Header extends React.Component {
 						/>
 					</Text>
 				</Menu.Item>
-				<Menu.Item
-					key="createAccount"
-					css={(theme) => ({
-						background: '#282D3A',
-						paddingTop: '10px',
-						paddingBottom: '10px',
-					})}
-				>
-					<Text style={{color: '#FFFFFF', fontSize: '15px'}}>
+				<Menu.Item key="createAccount" className="level-2">
+					<Text>
 						<Translate content="header.create_account" />
 					</Text>
 				</Menu.Item>
-				<Menu.Item
-					key="addContact"
-					css={(theme) => ({
-						background: '#282D3A',
-						paddingTop: '10px',
-						paddingBottom: '10px',
-					})}
-				>
-					<Text style={{color: '#FFFFFF', fontSize: '15px'}}>Add Contact</Text>
+				<Menu.Item key="addContact" className="level-2">
+					<Text>Add Contact</Text>
 				</Menu.Item>
-				<Menu.Item
-					key="send"
-					css={(theme) => ({
-						background: '#2E3445',
-						paddingTop: '10px',
-						paddingBottom: '10px',
-					})}
-				>
-					<Text style={{color: '#FFFFFF', fontSize: '15px'}}>Send</Text>
+				<Menu.Item key="send">
+					<Text>Send</Text>
 				</Menu.Item>
 				<Menu.Item
 					key="getHelp"
@@ -740,7 +616,7 @@ class Header extends React.Component {
 						},
 					})}
 				>
-					<Text style={{color: '#FFFFFF', fontSize: '15px'}}>Buy / Sell</Text>
+					<Text>Buy / Sell</Text>
 				</Menu.Item>
 				<Menu.Item
 					key="sendReceive"
@@ -750,83 +626,69 @@ class Header extends React.Component {
 						},
 					})}
 				>
-					<Text style={{color: '#FFFFFF', fontSize: '15px'}}>
-						Send / Receive
-					</Text>
+					<Text>Send / Receive</Text>
 				</Menu.Item>
-				<Menu.Item
-					key="withdraw"
-					css={(theme) => ({
-						background: '#2E3445',
-						paddingTop: '10px',
-						paddingBottom: '10px',
-					})}
-				>
-					<Text style={{color: '#FFFFFF', fontSize: '15px'}}>Withdraw</Text>
+				<Menu.Item key="withdraw">
+					<Text>Withdraw</Text>
 				</Menu.Item>
 				<Menu.SubMenu
-					title={
-						<Text style={{color: '#FFFFFF', fontSize: '15px'}}>Deposit</Text>
-					}
-					style={{
-						background: '#2E3445',
-						paddingTop: '10px',
-						paddingBottom: '10px',
-						color: '#FFFFFF',
-						fontSize: '15px',
-					}}
+					popupClassName="deposit-submenu"
+					title={<Text>Deposit</Text>}
 				>
-					<Menu.Item
-						key="deposit-btc"
-						css={(theme) => ({
-							background: '#2E3445',
-							paddingTop: '10px',
-							paddingBottom: '10px',
-						})}
-					>
-						Depsoit BTC
+					<Menu.Item key="deposit-btc">
+						<Text>Depsoit BTC</Text>
 					</Menu.Item>
-					<Menu.Item
-						key="deposit-ltc"
-						css={(theme) => ({
-							background: '#2E3445',
-							paddingTop: '10px',
-							paddingBottom: '10px',
-						})}
-					>
-						Deposit LTC
+					<Menu.Item key="deposit-ltc">
+						<Text>Depsoit LTC</Text>
 					</Menu.Item>
-					<Menu.Item
-						key="deposit-eth"
-						css={(theme) => ({
-							background: '#2E3445',
-							paddingTop: '10px',
-							paddingBottom: '10px',
-						})}
-					>
-						Deposit ETH
+					<Menu.Item key="deposit-eth">
+						<Text>Depsoit ETH</Text>
 					</Menu.Item>
-					<Menu.Item
-						key="deposit-usdt"
-						css={(theme) => ({
-							background: '#2E3445',
-							paddingTop: '10px',
-							paddingBottom: '10px',
-						})}
-					>
-						Deposit USDT
+					<Menu.Item key="deposit-usdt">
+						<Text>Depsoit USDT</Text>
 					</Menu.Item>
 				</Menu.SubMenu>
-				<Menu.Item
-					key="advanced"
-					css={(theme) => ({
-						background: '#2E3445',
-						paddingTop: '10px',
-						paddingBottom: '10px',
-					})}
+				<Menu.SubMenu
+					popupClassName="advanced-submenu"
+					title={<Text>Advanced</Text>}
 				>
-					<Text style={{color: '#FFFFFF', fontSize: '15px'}}>Advanced</Text>
-				</Menu.Item>
+					<Menu.Item className="comment">
+						<Text>
+							/* No hardware wallet support at this time, remove to reduse
+							questions */
+						</Text>
+					</Menu.Item>
+					<Menu.Item className="">
+						<Text>Connect with Trezor</Text>
+					</Menu.Item>
+					<Menu.Item className="">
+						<Text>Connect with Ledger Nano</Text>
+					</Menu.Item>
+					<Menu.Item className="comment">
+						<Text>
+							/* End no hardware wallet support at this time, remove to reduse
+							questions */
+						</Text>
+					</Menu.Item>
+					<Menu.Item key="advanced-signed-messages" className="">
+						<Text>Signed Messages</Text>
+					</Menu.Item>
+					<Menu.Item key="advanced-membership-stats" className="">
+						<Text>Membership Stats</Text>
+					</Menu.Item>
+					<Menu.Item key="advanced-vesting-balance" className="">
+						<Text>Vesting Balance</Text>
+					</Menu.Item>
+					<Menu.Item key="advanced=whitelist" className="">
+						<Text>Whitelist</Text>
+					</Menu.Item>
+					<Menu.Item key="advanced-permissions" className="">
+						<Text>Permissions</Text>
+					</Menu.Item>
+					<Menu.Item key="advanced-accounts" className="">
+						<Text>Accounts</Text>
+					</Menu.Item>
+				</Menu.SubMenu>
 			</Menu>
 		);
 
