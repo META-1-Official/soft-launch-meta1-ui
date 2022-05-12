@@ -220,10 +220,6 @@
 	width: 30% !important;
 }
 
-.threshold input {
-	width: 5rem !important;
-}
-
 .more-button {
 	padding-top: 0.5rem;
 }
@@ -862,6 +858,244 @@ div.account-activity {
 					padding-left: 30px;
 					padding-right: 30px;
 					font-size: 14px;
+				}
+			}
+		}
+	}
+}
+
+// Permission page
+div.account-permissions {
+	.content {
+		margin: 30px;
+		background: #0a0b0d;
+		border: 1px solid #1c1f27;
+		border-radius: 4px;
+
+		.tab-header {
+			padding: 30px;
+			border-bottom: 1px solid #1c1f27;
+
+			.tab-title {
+				font-size: 22px;
+				color: #ffc000;
+			}
+		}
+
+		.tab-content {
+			padding: 30px;
+			background: #0a0b0d;
+
+			.threshold {
+				color: rgba(255, 255, 255, 0.7);
+				font-size: 16px;
+
+				input {
+					height: 52px;
+					background: #15171b;
+					border: 1px solid #1c1f27;
+					font-size: 14px;
+					color: rgba(255, 255, 255, 0.4);
+					width: 300px;
+					padding: 20px;
+					margin-top: 10px;
+				}
+			}
+
+			.pubkey-input {
+				.content-area {
+					.header-area {
+						margin: 0;
+						label {
+							font-size: 16px;
+							color: rgba(255, 255, 255, 0.7);
+							padding-bottom: 0px;
+
+							span {
+								font-size: 16px;
+								color: #ffc000;
+							}
+						}
+					}
+				}
+
+				.input-area {
+					background: #15171b;
+					border: 1px solid #1c1f27;
+					display: flex;
+					align-items: center;
+					padding-left: 25px;
+
+					.account-image {
+						display: flex;
+						align-items: center;
+						justify-self: center;
+
+						svg {
+							width: 24px !important;
+							height: 24px !important;
+							path {
+								fill: #ffc000;
+							}
+							margin-right: 15px;
+						}
+					}
+
+					input {
+						height: 52px;
+						background: #15171b;
+						font-size: 14px;
+						color: rgba(255, 255, 255, 0.6);
+						width: 100vw;
+					}
+				}
+			}
+
+			.permission-list {
+				label {
+					color: rgba(255, 255, 255, 0.7);
+					font-size: 16px;
+				}
+
+				.ant-form-item-control-input-content {
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+					margin-bottom: 50px;
+
+					.header-area {
+						display: none;
+					}
+
+					.input-wrapper {
+						display: flex;
+						align-items: center;
+
+						canvas {
+							width: 50px !important;
+							height: 50px !important;
+						}
+
+						input {
+							height: 52px;
+							background: #15171b;
+							border: 1px solid #1c1f27;
+							font-size: 14px;
+							color: rgba(255, 255, 255, 0.4);
+							padding: 20px;
+							border-radius: 4px;
+
+							&::placeholder {
+								color: rgba(255, 255, 255, 0.4);
+							}
+						}
+					}
+
+					button {
+						margin-top: 0px !important;
+						width: 168px;
+						height: 52px;
+						border-radius: 4px;
+
+						span {
+							color: #080000;
+							font-size: 18px;
+							font-weight: 600;
+						}
+					}
+				}
+
+				.table-wrapper {
+					border: 1px solid #1c1f27;
+					border-radius: 4px;
+					padding-bottom: 60px;
+
+					.table {
+						thead {
+							background: #15171b;
+							height: 52px;
+							border-bottom: 1px solid #1c1f27;
+							th {
+								padding-left: 30px;
+								font-size: 14px;
+								color: #969ba6;
+
+								&:last-child {
+									text-align: center;
+								}
+							}
+						}
+
+						tr {
+							td {
+								padding-left: 30px;
+								padding-top: 25px;
+								padding-bottom: 25px;
+								font-size: 15px;
+								color: #ffc000;
+								border-bottom: 1px solid #1c1f27;
+
+								.account-image {
+									display: flex;
+									align-items: center;
+
+									.key-icon > svg {
+										width: 24px !important;
+										height: 24px !important;
+										path {
+											fill: #ffc000;
+										}
+										margin-right: 15px;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		.divider {
+			border-bottom: 1px solid #1c1f27;
+			height: 0;
+		}
+
+		.recent-activity {
+			padding: 30px;
+
+			.block-content-header {
+				font-size: 18px;
+				color: white;
+				padding: 0;
+			}
+
+			.ant-table-wrapper {
+				.ant-table-content {
+					border: 1px solid #1c1f27;
+					border-radius: 4px;
+
+					table {
+						thead {
+							background: #15171b;
+							height: 52px;
+							border-bottom: none;
+
+							th {
+								padding-left: 30px;
+								font-size: 14px;
+								color: #969ba6;
+								text-transform: uppercase;
+							}
+						}
+					}
+				}
+
+				.ant-table-empty {
+					background: #0a0b0d;
+
+					.ant-table-footer {
+						display: none;
+					}
 				}
 			}
 		}

@@ -12,6 +12,7 @@ import utils from 'common/utils';
 import AddressIndex from 'stores/AddressIndex';
 import PrivateKeyStore from 'stores/PrivateKeyStore';
 import PropTypes from 'prop-types';
+import {Button} from 'antd';
 
 class AccountPermissionRow extends React.Component {
 	static propTypes = {
@@ -70,22 +71,31 @@ class AccountPermissionRow extends React.Component {
 					) : pubKey ? (
 						<div className="account-image">
 							<PrivateKeyView pubkey={pubKey}>
-								<Icon name="key" title="icons.key" size="4x" />
+								<Icon name="key" title="icons.key" className="key-icon" />
 							</PrivateKeyView>
+							<div className={(has_private ? 'my-key' : '') + ' pub-key'}>
+								{name_or_key}
+							</div>
 						</div>
 					) : null}
 				</td>
-				<td className={(has_private ? 'my-key' : '') + ' pub-key'}>
-					{name_or_key}
-				</td>
 				<td>{this.props.weights[item_id]}</td>
 				<td>
-					<button
-						className="button"
+					<Button
+						type="primary"
+						css={{
+							color: '#FFC000 !important',
+							background: '#B61111',
+							border: 'none',
+							borderRadius: '4px',
+							height: '40px',
+							width: '105px',
+							fontSize: '15px',
+						}}
 						onClick={this.props.onRemoveItem.bind(this, item_id, suffix)}
 					>
 						<Translate content="account.votes.remove_witness" />
-					</button>
+					</Button>
 				</td>
 			</tr>
 		);
@@ -221,7 +231,7 @@ class AccountPermissionsList extends React.Component {
 		let cw = ['10%', '70%', '30%', '10%'];
 
 		return (
-			<div>
+			<div className="permission-list">
 				<AccountSelector
 					label={this.props.label}
 					error={error}
@@ -249,11 +259,10 @@ class AccountPermissionsList extends React.Component {
 					/>
 				</AccountSelector>
 
-				<div style={{paddingTop: '2rem'}}>
+				<div className="table-wrapper">
 					<table className="table">
 						<thead>
 							<tr>
-								<th style={{width: cw[0]}} />
 								<th style={{width: cw[1]}}>
 									<Translate content="account.perm.acct_or_key" />
 								</th>
