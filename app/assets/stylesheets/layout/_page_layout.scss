@@ -234,12 +234,6 @@ ul.header-menu {
 			padding-top: 10px;
 			padding-bottom: 10px;
 
-			&.comment {
-				background: #282d3a;
-				font-size: 11px;
-				color: rgba(255, 255, 255, 0.5) !important;
-			}
-
 			&:hover {
 				span {
 					color: black;
@@ -249,6 +243,21 @@ ul.header-menu {
 			span {
 				color: white;
 				font-size: 15px;
+			}
+
+			&.comment {
+				background: #282d3a;
+				font-size: 11px;
+
+				span {
+					color: rgba(255, 255, 255, 0.5) !important;
+				}
+
+				&:hover {
+					span {
+						color: rgba(255, 255, 255, 0.5) !important;
+					}
+				}
 			}
 		}
 	}

@@ -454,6 +454,22 @@ class Header extends React.Component {
 			this._showDepositEth();
 		} else if (key === 'deposit-usdt') {
 			this._showDepositUsdt();
+		} else if (key === 'advanced-trezor') {
+			window.open('https://beta-wallet.trezor.io/next/#/', '_blank');
+		} else if (key === 'advanced-ledger-nano') {
+			window.open('https://shop.ledger.com/pages/ledger-live', '_blank');
+		} else if (key === 'advanced-signed-messages') {
+			this._onNavigate(`/account/${currentAccount}/signedmessages`, this, true);
+		} else if (key === 'advanced-membership-stats') {
+			this._onNavigate(`/account/${currentAccount}/member-stats`, this, true);
+		} else if (key === 'advanced-vesting-balance') {
+			this._onNavigate(`/account/${currentAccount}/vesting`, this, true);
+		} else if (key === 'advanced-whitelist') {
+			this._onNavigate(`/account/${currentAccount}/whitelist`, this, true);
+		} else if (key === 'advanced-permissions') {
+			this._onNavigate(`/account/${currentAccount}/permissions`, this, true);
+		} else if (key === 'advanced-accounts') {
+			this._onNavigate('/accounts', this, true);
 		}
 
 		this.setState({headerMenu: key});
@@ -658,10 +674,10 @@ class Header extends React.Component {
 							questions */
 						</Text>
 					</Menu.Item>
-					<Menu.Item className="">
+					<Menu.Item key="advanced-trezor">
 						<Text>Connect with Trezor</Text>
 					</Menu.Item>
-					<Menu.Item className="">
+					<Menu.Item key="advanced-ledger-nano">
 						<Text>Connect with Ledger Nano</Text>
 					</Menu.Item>
 					<Menu.Item className="comment">
@@ -670,22 +686,22 @@ class Header extends React.Component {
 							questions */
 						</Text>
 					</Menu.Item>
-					<Menu.Item key="advanced-signed-messages" className="">
+					<Menu.Item key="advanced-signed-messages">
 						<Text>Signed Messages</Text>
 					</Menu.Item>
-					<Menu.Item key="advanced-membership-stats" className="">
+					<Menu.Item key="advanced-membership-stats">
 						<Text>Membership Stats</Text>
 					</Menu.Item>
-					<Menu.Item key="advanced-vesting-balance" className="">
+					<Menu.Item key="advanced-vesting-balance">
 						<Text>Vesting Balance</Text>
 					</Menu.Item>
-					<Menu.Item key="advanced=whitelist" className="">
+					<Menu.Item key="advanced-whitelist">
 						<Text>Whitelist</Text>
 					</Menu.Item>
-					<Menu.Item key="advanced-permissions" className="">
+					<Menu.Item key="advanced-permissions">
 						<Text>Permissions</Text>
 					</Menu.Item>
-					<Menu.Item key="advanced-accounts" className="">
+					<Menu.Item key="advanced-accounts">
 						<Text>Accounts</Text>
 					</Menu.Item>
 				</Menu.SubMenu>
