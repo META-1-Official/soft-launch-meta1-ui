@@ -96,7 +96,7 @@ const AppLayout = ({children, location, height}: IAppLayout, others) => {
 					color: `${theme.colors.footerTextColor} !important`,
 				}}
 			>
-				Meta1 © 2022
+				META1 © 2022
 			</Footer>
 		</Layout>
 	);
