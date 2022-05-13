@@ -20,6 +20,7 @@ class PasswordInput extends Component {
 		copy: PropTypes.bool,
 		visible: PropTypes.bool,
 		readonly: PropTypes.bool,
+		placeholder: PropTypes.string,
 	};
 
 	static defaultProps = {
@@ -169,7 +170,6 @@ class PasswordInput extends Component {
 		return (
 			<div className="account-selector">
 				<div className={password_class_name}>
-					{/* {noLabel ? null : <Translate component="label" content="wallet.password" />} */}
 					<section>
 						<label className={'left-label ' + (this.props.labelClass || '')}>
 							<Translate content="wallet.enter_password" />
@@ -189,6 +189,7 @@ class PasswordInput extends Component {
 								onKeyDown={this.onKeyDown}
 								value={value}
 								readOnly={readonly}
+								placeholder={this.props.placeholder}
 							/>
 							{copy && (
 								<CopyButton
@@ -220,7 +221,10 @@ class PasswordInput extends Component {
 						<label className="left-label">
 							<Translate content="wallet.confirm_password" />
 						</label>
-						<section style={{position: 'relative', maxWidth: '30rem'}}>
+						<section
+							style={{position: 'relative', maxWidth: '30rem'}}
+							className="confirm-password-section"
+						>
 							<input
 								id="confirm_password"
 								name="confirm_password"
@@ -228,6 +232,7 @@ class PasswordInput extends Component {
 								ref="confirm_password"
 								autoComplete="confirm-password"
 								onChange={this.handleChange}
+								placeholder="Confirmed Password"
 							/>
 							{confirmMatch ? (
 								<div className={'ok-indicator success'}>OK</div>
