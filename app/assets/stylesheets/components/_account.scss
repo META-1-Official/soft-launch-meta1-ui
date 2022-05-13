@@ -880,175 +880,292 @@ div.account-permissions {
 				font-size: 22px;
 				color: #ffc000;
 			}
+
+			p {
+				font-size: 15px !important;
+				margin-bottom: 10px;
+				color: #cecece !important;
+			}
 		}
 
 		.tab-content {
 			padding: 30px;
 			background: #0a0b0d;
 
-			.threshold {
-				color: rgba(255, 255, 255, 0.7);
-				font-size: 16px;
+			.content-wrapper {
+				background: rgba(21, 23, 27, 0.4);
+				border: 1px solid rgba(28, 31, 39, 0.4);
+				border-radius: 4px;
+				padding: 30px;
 
-				input {
-					height: 52px;
-					background: #15171b;
-					border: 1px solid #1c1f27;
-					font-size: 14px;
-					color: rgba(255, 255, 255, 0.4);
-					width: 300px;
-					padding: 20px;
-					margin-top: 10px;
-				}
-			}
-
-			.pubkey-input {
-				.content-area {
-					.header-area {
-						margin: 0;
-						label {
-							font-size: 16px;
-							color: rgba(255, 255, 255, 0.7);
-							padding-bottom: 0px;
-
-							span {
-								font-size: 16px;
-								color: #ffc000;
-							}
-						}
-					}
-				}
-
-				.input-area {
-					background: #15171b;
-					border: 1px solid #1c1f27;
-					display: flex;
-					align-items: center;
-					padding-left: 25px;
-
-					.account-image {
-						display: flex;
-						align-items: center;
-						justify-self: center;
-
-						svg {
-							width: 24px !important;
-							height: 24px !important;
-							path {
-								fill: #ffc000;
-							}
-							margin-right: 15px;
-						}
-					}
+				.threshold {
+					color: rgba(255, 255, 255, 0.7);
+					font-size: 16px;
 
 					input {
 						height: 52px;
 						background: #15171b;
+						border: 1px solid #1c1f27;
 						font-size: 14px;
-						color: rgba(255, 255, 255, 0.6);
-						width: 100vw;
+						color: rgba(255, 255, 255, 0.4);
+						width: 300px;
+						padding: 20px;
+						margin-top: 10px;
 					}
 				}
-			}
 
-			.permission-list {
-				label {
-					color: rgba(255, 255, 255, 0.7);
-					font-size: 16px;
-				}
+				.pubkey-input {
+					.content-area {
+						.header-area {
+							margin: 0;
+							label {
+								font-size: 16px;
+								color: rgba(255, 255, 255, 0.7);
+								padding-bottom: 0px;
 
-				.ant-form-item-control-input-content {
-					display: flex;
-					flex-direction: row;
-					align-items: center;
-					margin-bottom: 50px;
-
-					.header-area {
-						display: none;
+								span {
+									font-size: 16px;
+									color: #ffc000;
+								}
+							}
+						}
 					}
 
-					.input-wrapper {
+					.input-area {
+						background: #15171b;
+						border: 1px solid #1c1f27;
 						display: flex;
 						align-items: center;
+						padding-left: 25px;
 
-						canvas {
-							width: 50px !important;
-							height: 50px !important;
+						.account-image {
+							display: flex;
+							align-items: center;
+							justify-self: center;
+
+							svg {
+								width: 24px !important;
+								height: 24px !important;
+								path {
+									fill: #ffc000;
+								}
+								margin-right: 15px;
+							}
 						}
 
 						input {
 							height: 52px;
 							background: #15171b;
-							border: 1px solid #1c1f27;
 							font-size: 14px;
-							color: rgba(255, 255, 255, 0.4);
-							padding: 20px;
-							border-radius: 4px;
-
-							&::placeholder {
-								color: rgba(255, 255, 255, 0.4);
-							}
-						}
-					}
-
-					button {
-						margin-top: 0px !important;
-						width: 168px;
-						height: 52px;
-						border-radius: 4px;
-
-						span {
-							color: #080000;
-							font-size: 18px;
-							font-weight: 600;
+							color: rgba(255, 255, 255, 0.6);
+							width: 100vw;
 						}
 					}
 				}
 
-				.table-wrapper {
-					border: 1px solid #1c1f27;
-					border-radius: 4px;
-					padding-bottom: 60px;
+				.permission-list {
+					label {
+						color: rgba(255, 255, 255, 0.7);
+						font-size: 16px;
+					}
 
-					.table {
-						thead {
-							background: #15171b;
-							height: 52px;
-							border-bottom: 1px solid #1c1f27;
-							th {
-								padding-left: 30px;
+					.ant-form-item-control-input-content {
+						display: flex;
+						flex-direction: row;
+						align-items: center;
+						margin-bottom: 50px;
+
+						.header-area {
+							display: none;
+						}
+
+						.input-wrapper {
+							display: flex;
+							align-items: center;
+
+							canvas {
+								width: 50px !important;
+								height: 50px !important;
+							}
+
+							input {
+								height: 52px;
+								background: #15171b;
+								border: 1px solid #1c1f27;
 								font-size: 14px;
-								color: #969ba6;
+								color: rgba(255, 255, 255, 0.4);
+								padding: 20px;
+								border-radius: 4px;
 
-								&:last-child {
-									text-align: center;
+								&::placeholder {
+									color: rgba(255, 255, 255, 0.4);
 								}
 							}
 						}
 
-						tr {
-							td {
-								padding-left: 30px;
-								padding-top: 25px;
-								padding-bottom: 25px;
-								font-size: 15px;
-								color: #ffc000;
+						button {
+							margin-top: 0px !important;
+							width: 168px;
+							height: 52px;
+							border-radius: 4px;
+
+							span {
+								color: #080000;
+								font-size: 18px;
+								font-weight: 600;
+							}
+						}
+					}
+
+					.table-wrapper {
+						border: 1px solid #1c1f27;
+						border-radius: 4px;
+						padding-bottom: 60px;
+
+						.table {
+							thead {
+								background: #15171b;
+								height: 52px;
 								border-bottom: 1px solid #1c1f27;
+								th {
+									padding-left: 30px;
+									font-size: 14px;
+									color: #969ba6;
 
-								.account-image {
-									display: flex;
-									align-items: center;
-
-									.key-icon > svg {
-										width: 24px !important;
-										height: 24px !important;
-										path {
-											fill: #ffc000;
-										}
-										margin-right: 15px;
+									&:last-child {
+										text-align: center;
 									}
 								}
 							}
+
+							tr {
+								td {
+									padding-left: 30px;
+									padding-top: 25px;
+									padding-bottom: 25px;
+									font-size: 15px;
+									color: #ffc000;
+									border-bottom: 1px solid #1c1f27;
+
+									.account-image {
+										display: flex;
+										align-items: center;
+
+										.key-icon > svg {
+											width: 24px !important;
+											height: 24px !important;
+											path {
+												fill: #ffc000;
+											}
+											margin-right: 15px;
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+
+				.cloud-wallet-key-section {
+					label > span {
+						color: rgba(255, 255, 255, 0.7);
+						font-size: 16px;
+					}
+
+					.gen-password-field {
+						display: flex;
+						align-items: center;
+						height: 52px;
+						background: #0a0b0d;
+						border: 1px solid #ffc000;
+						border-radius: 4px;
+						padding-left: 30px;
+
+						.key-icon {
+							margin-right: 15px;
+							width: unset;
+							height: unset;
+
+							svg {
+								width: 24px !important;
+								height: 24px !important;
+								path {
+									fill: #ffc000;
+								}
+							}
+						}
+
+						div {
+							font-size: 16px;
+						}
+					}
+
+					.account-selector {
+						.left-label {
+							display: none;
+						}
+
+						progress {
+							display: none;
+						}
+
+						.generated-password-section {
+							input {
+								height: 52px;
+								background: #15171b;
+								border: 1px solid #1c1f27;
+								font-size: 14px;
+								padding: 20px;
+								border-radius: 4px;
+
+								&::placeholder {
+									font-size: 16px;
+								}
+							}
+						}
+
+						.confirm-password-section {
+							max-width: 100% !important;
+
+							input {
+								height: 52px;
+								background: #15171b;
+								border: 1px solid #1c1f27;
+								font-size: 14px;
+								padding: 20px;
+								border-radius: 4px;
+
+								&::placeholder {
+									font-size: 16px;
+								}
+							}
+						}
+					}
+
+					.key-status {
+						display: flex;
+						align-items: center;
+
+						.key-stats-wrapper {
+							background: #0a0b0d;
+							border: 1px solid #1c1f27;
+							border-radius: 4px;
+							width: 220px;
+							height: 120px;
+							display: flex;
+							flex-direction: column;
+							align-items: center;
+							justify-content: center;
+							margin-right: 30px;
+
+							.key-name {
+								color: rgba(255, 255, 255, 0.7);
+								font-size: 16px;
+							}
+						}
+
+						.in-not-use {
+							background: #15171b;
 						}
 					}
 				}

@@ -443,39 +443,41 @@ class AccountPermissions extends React.Component {
 								/>
 							</div>
 							<div className="tab-content">
-								<form className="threshold">
-									<Translate content="account.perm.threshold" />
-									<input
-										type="number"
-										placeholder="0"
-										size="5"
-										value={this.state.active_threshold}
-										onChange={this.onThresholdChanged.bind(
-											this,
-											'active_threshold'
+								<div className="content-wrapper">
+									<form className="threshold">
+										<Translate content="account.perm.threshold" />
+										<input
+											type="number"
+											placeholder="0"
+											size="5"
+											value={this.state.active_threshold}
+											onChange={this.onThresholdChanged.bind(
+												this,
+												'active_threshold'
+											)}
+											autoComplete="off"
+											tabIndex={1}
+										/>
+									</form>
+									<AccountPermissionsList
+										label="account.perm.add_permission_label"
+										accounts={active_accounts}
+										keys={active_keys}
+										weights={active_weights}
+										addresses={active_addresses}
+										validateAccount={this.validateAccount.bind(this, 'active')}
+										onAddItem={this.onAddItem.bind(this, 'active')}
+										onRemoveItem={this.onRemoveItem.bind(this, 'active')}
+										placeholder={counterpart.translate(
+											'account.perm.account_name_or_key'
 										)}
-										autoComplete="off"
-										tabIndex={1}
+										tabIndex={2}
 									/>
-								</form>
-								<AccountPermissionsList
-									label="account.perm.add_permission_label"
-									accounts={active_accounts}
-									keys={active_keys}
-									weights={active_weights}
-									addresses={active_addresses}
-									validateAccount={this.validateAccount.bind(this, 'active')}
-									onAddItem={this.onAddItem.bind(this, 'active')}
-									onRemoveItem={this.onRemoveItem.bind(this, 'active')}
-									placeholder={counterpart.translate(
-										'account.perm.account_name_or_key'
-									)}
-									tabIndex={2}
-								/>
-								<br />
-								{error1 ? (
-									<div className="content-block has-error">{error1}</div>
-								) : null}
+									<br />
+									{error1 ? (
+										<div className="content-block has-error">{error1}</div>
+									) : null}
+								</div>
 							</div>
 						</Tabs.TabPane>
 
@@ -493,39 +495,41 @@ class AccountPermissions extends React.Component {
 								/>
 							</div>
 							<div className="tab-content">
-								<form className="threshold">
-									<Translate content="account.perm.threshold" /> &nbsp; &nbsp;
-									<input
-										type="number"
-										placeholder="0"
-										size="5"
-										value={this.state.owner_threshold}
-										onChange={this.onThresholdChanged.bind(
-											this,
-											'owner_threshold'
+								<div className="content-wrapper">
+									<form className="threshold">
+										<Translate content="account.perm.threshold" /> &nbsp; &nbsp;
+										<input
+											type="number"
+											placeholder="0"
+											size="5"
+											value={this.state.owner_threshold}
+											onChange={this.onThresholdChanged.bind(
+												this,
+												'owner_threshold'
+											)}
+											autoComplete="off"
+											tabIndex={4}
+										/>
+									</form>
+									<AccountPermissionsList
+										label="account.perm.add_permission_label"
+										accounts={owner_accounts}
+										keys={owner_keys}
+										weights={owner_weights}
+										addresses={owner_addresses}
+										validateAccount={this.validateAccount.bind(this, 'owner')}
+										onAddItem={this.onAddItem.bind(this, 'owner')}
+										onRemoveItem={this.onRemoveItem.bind(this, 'owner')}
+										placeholder={counterpart.translate(
+											'account.perm.account_name_or_key'
 										)}
-										autoComplete="off"
-										tabIndex={4}
+										tabIndex={5}
 									/>
-								</form>
-								<AccountPermissionsList
-									label="account.perm.add_permission_label"
-									accounts={owner_accounts}
-									keys={owner_keys}
-									weights={owner_weights}
-									addresses={owner_addresses}
-									validateAccount={this.validateAccount.bind(this, 'owner')}
-									onAddItem={this.onAddItem.bind(this, 'owner')}
-									onRemoveItem={this.onRemoveItem.bind(this, 'owner')}
-									placeholder={counterpart.translate(
-										'account.perm.account_name_or_key'
-									)}
-									tabIndex={5}
-								/>
-								<br />
-								{error2 ? (
-									<div className="content-block has-error">{error2}</div>
-								) : null}
+									<br />
+									{error2 ? (
+										<div className="content-block has-error">{error2}</div>
+									) : null}
+								</div>
 							</div>
 						</Tabs.TabPane>
 
@@ -538,20 +542,21 @@ class AccountPermissions extends React.Component {
 									<Translate content="account.perm.memo_key" />
 								</div>
 								<HelpContent
-									style={{maxWidth: '800px'}}
 									path="components/AccountPermMemo"
 									from="permissions"
 								/>
 							</div>
 							<div className="tab-content">
-								<PubKeyInput
-									ref="memo_key"
-									value={this.state.memo_key}
-									label="account.perm.memo_public_key"
-									placeholder="Public Key"
-									onChange={this.onMemoKeyChanged.bind(this)}
-									tabIndex={7}
-								/>
+								<div className="content-wrapper">
+									<PubKeyInput
+										ref="memo_key"
+										value={this.state.memo_key}
+										label="account.perm.memo_public_key"
+										placeholder="Public Key"
+										onChange={this.onMemoKeyChanged.bind(this)}
+										tabIndex={7}
+									/>
+								</div>
 							</div>
 						</Tabs.TabPane>
 
@@ -563,23 +568,35 @@ class AccountPermissions extends React.Component {
 								<div className="tab-title">
 									<Translate content="account.perm.password_model" />
 								</div>
+								<p>
+									<Translate content="account.perm.password_model_1" />
+								</p>
+
+								<p>
+									<Translate content="wallet.password_model_1" />
+								</p>
+								<p>
+									<Translate unsafe content="wallet.password_model_2" />
+								</p>
 							</div>
 							<div className="tab-content">
-								<AccountPermissionsMigrate
-									active={this.state.password_active}
-									owner={this.state.password_owner}
-									memo={this.state.password_memo}
-									onSetPasswordKeys={this.onSetPasswordKeys.bind(this)}
-									account={this.props.account}
-									activeKeys={this.state.active_keys}
-									ownerKeys={this.state.owner_keys}
-									memoKey={this.state.memo_key}
-									onAddActive={this.onAddItem.bind(this, 'active')}
-									onRemoveActive={this.onRemoveItem.bind(this, 'active')}
-									onAddOwner={this.onAddItem.bind(this, 'owner')}
-									onRemoveOwner={this.onRemoveItem.bind(this, 'owner')}
-									onSetMemo={this.onMemoKeyChanged.bind(this)}
-								/>
+								<div className="content-wrapper">
+									<AccountPermissionsMigrate
+										active={this.state.password_active}
+										owner={this.state.password_owner}
+										memo={this.state.password_memo}
+										onSetPasswordKeys={this.onSetPasswordKeys.bind(this)}
+										account={this.props.account}
+										activeKeys={this.state.active_keys}
+										ownerKeys={this.state.owner_keys}
+										memoKey={this.state.memo_key}
+										onAddActive={this.onAddItem.bind(this, 'active')}
+										onRemoveActive={this.onRemoveItem.bind(this, 'active')}
+										onAddOwner={this.onAddItem.bind(this, 'owner')}
+										onRemoveOwner={this.onRemoveItem.bind(this, 'owner')}
+										onSetMemo={this.onMemoKeyChanged.bind(this)}
+									/>
+								</div>
 							</div>
 						</Tabs.TabPane>
 					</Tabs>
