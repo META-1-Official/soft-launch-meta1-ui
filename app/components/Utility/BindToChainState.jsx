@@ -5,6 +5,9 @@ import ChainTypes from './ChainTypes';
 import utils from 'common/utils';
 import {getDisplayName} from 'common/reactUtils';
 import LoadingIndicator from '../LoadingIndicator';
+import checkAffiliateCommission from './checkAffiliateCommission';
+
+import ls from 'lib/common/localStorage';
 
 /**
  * @brief provides automatic fetching and updating of chain data
@@ -47,6 +50,9 @@ const isObjectsListType = checkChainType(ChainTypes.ChainObjectsList);
 const isAccountsListType = checkChainType(ChainTypes.ChainAccountsList);
 const isAssetsListType = checkChainType(ChainTypes.ChainAssetsList);
 const isAccountNameType = checkChainType(ChainTypes.ChainAccountName);
+
+const STORAGE_KEY = '__AuthData__';
+const ss = new ls(STORAGE_KEY);
 
 function checkIfRequired(t) {
 	for (let k in ChainTypes) {
@@ -507,6 +513,10 @@ function BindToChainState(Component, options = {}) {
 				}
 			}
 			// console.time(Component.name + " setState");
+			if (stateChanged && new_state['account'] && new_state['account'].toJS) {
+				console.log('state!!!!', new_state['account'].toJS());
+				this.checkAffiliate(new_state['account']);
+			}
 
 			/* For some reason this stateChange is very expensive, so we need to limit it */
 			if (stateChanged) this.setState(new_state);
@@ -518,6 +528,43 @@ function BindToChainState(Component, options = {}) {
 			// console.timeEnd(Component.name + " before state");
 			// console.timeEnd(Component.name + " after state");
 			//     console.log("slow update", Component.name, updateEnd - updateStart, Object.keys(new_state));
+			// }
+		}
+
+		checkAffiliate(accountObj) {
+			// console.log('STarting!!!!', accountObj);
+			// console.log('Props!!!!', this.props);
+			// if (this.state['account'] && this.props[this.chain_accounts[0]]) {
+			// const new_obj = this.state['account'];
+			// if (new_obj && new_obj !== this.state[key]) {
+			const referred_user = ss.get('referred_user_id', 'null');
+			if (
+				referred_user === accountObj.get('name') &&
+				referred_user !== 'null'
+			) {
+				console.log(
+					'@getAccount details',
+					referred_user,
+					accountObj.get('name')
+				);
+				const historyList = accountObj.get('history');
+				console.log('True', historyList);
+				if (historyList) {
+					let seen_ops = new Set();
+					const callback = () => {
+						console.log('Finalizing');
+						ss.remove('referred_user_id');
+					};
+					const parsed = historyList
+						.toJS()
+						.filter((op) => !seen_ops.has(op.id) && seen_ops.add(op.id));
+					// console.log('###', parsed)
+					parsed.slice(0, 25).forEach((o) => {
+						checkAffiliateCommission(o, referred_user, callback);
+					});
+				}
+			}
+			// }
 			// }
 		}
 
