@@ -10,6 +10,7 @@
 		"bittrex_scam": "This account is not the real Bittrex account, please send to this account: bittrex-deposit.",
 		"bts_market": "Market",
 		"cancel_orders": "Cancel orders",
+		"cancel_all_open_orders": "Cancel all open orders",
 		"collaterals": "Margin Positions",
 		"confirm_asset_modal": {
 			"are_you_sure": "Are you sure you want to save all changes to these tabs?",
@@ -537,7 +538,7 @@
 		"borrow": "Borrow",
 		"borrow_short": "Borrow",
 		"buy": "Buy",
-		"buy_description": "Buy %(baseAsset)s %(baseName)s for %(quoteAsset)s %(quoteName)s",
+		"buy_description": "%(baseAsset)s %(baseName)s for %(quoteAsset)s %(quoteName)s",
 		"buy_min": "Buy at least",
 		"buy_sell": "Order Form",
 		"buysell_formatter": "{direction} {asset}",
@@ -657,7 +658,7 @@
 		"scaled": "Scaled",
 		"search": "Search for more markets here",
 		"sell": "Sell",
-		"sell_description": "Sell %(baseAsset)s %(baseName)s for %(quoteAsset)s %(quoteName)s",
+		"sell_description": "%(baseAsset)s %(baseName)s for %(quoteAsset)s %(quoteName)s",
 		"settings": {
 			"header": {
 				"chart_options": "Chart options",

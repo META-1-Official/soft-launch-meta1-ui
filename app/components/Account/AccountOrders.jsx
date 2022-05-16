@@ -13,6 +13,7 @@ import AccountOrderRowDescription from './AccountOrderRowDescription';
 import CollapsibleTable from '../Utility/CollapsibleTable';
 import {groupBy, sumBy, meanBy} from 'lodash-es';
 import {FormattedNumber} from 'react-intl';
+import cnames from 'classnames';
 
 import {Link} from 'react-router-dom';
 import {MarketPrice} from '../Utility/MarketPrice';
@@ -28,7 +29,6 @@ class AccountOrders extends React.Component {
 		super(props);
 
 		this.state = {
-			selectedOrders: [],
 			filterValue: '',
 			areAssetsGrouped: props.viewSettings.get('accountOrdersGrouppedByAsset'),
 		};
@@ -55,6 +55,16 @@ class AccountOrders extends React.Component {
 				quoteSymbol.indexOf(filterValue) > -1
 			);
 		});
+	}
+
+	onClickCancel(orderIds) {
+		MarketsActions.cancelLimitOrders(this.props.account.get('id'), orderIds)
+			.then((res) => {
+				console.log('Cancel orders success:', res);
+			})
+			.catch((err) => {
+				console.log('Cancel orders error:', err);
+			});
 	}
 
 	_getDataSource(orders, type) {
@@ -172,9 +182,9 @@ class AccountOrders extends React.Component {
 
 	_getColumns(areAssetsGrouped, groupedDataItems, type) {
 		let onCell = (dataItem, rowIndex) => {
-			return {
-				onClick: this.onFlip.bind(this, dataItem.marketName),
-			};
+			// return {
+			// 	onClick: this.onFlip.bind(this, dataItem.marketName),
+			// };
 		};
 
 		let firstDataItem,
@@ -298,25 +308,28 @@ class AccountOrders extends React.Component {
 		// Conditional array items: https://stackoverflow.com/a/47771259
 		return [
 			{
-				key: 'trade',
-				title: counterpart.translate('account.trade'),
-				align: 'center',
+				key: 'pair',
+				title: counterpart.translate('account.user_issued_assets.pair'),
 				render: (dataItem) => {
+					const color = dataItem.isBid ? 'danger' : 'success';
 					return (
-						<Link
-							to={`/market/${dataItem.quote.get('symbol')}_${dataItem.base.get(
-								'symbol'
-							)}`}
-						>
-							<FaChartBar />
-						</Link>
+						<div className="pair">
+							<div className={cnames('txtlabel', color)}>
+								<Link
+									to={`/market/${dataItem.quote.get(
+										'symbol'
+									)}_${dataItem.base.get('symbol')}`}
+								>
+									{dataItem.isBid ? (
+										<Translate content="exchange.buy" />
+									) : (
+										<Translate content="exchange.sell" />
+									)}
+								</Link>
+							</div>
+						</div>
 					);
 				},
-			},
-			{
-				key: 'orderID',
-				title: counterpart.translate('transaction.order_id'),
-				render: (dataItem) => '#' + dataItem.order.id.substring(4),
 			},
 			...(areAssetsGrouped
 				? [
@@ -432,7 +445,6 @@ class AccountOrders extends React.Component {
 						quote_amount={dataItem.order.sellPrice().quote.amount}
 						quote_asset={dataItem.order.sellPrice().quote.asset_id}
 						force_direction={dataItem.base.get('symbol')}
-						hide_symbols
 					/>
 				),
 				onCell: onCell,
@@ -473,67 +485,19 @@ class AccountOrders extends React.Component {
 				  }
 				: {},
 			{
-				key: 'value',
-				title: areAssetsGrouped ? (
-					<div>
-						<Translate content="exchange.value" />
-						<br />
-						{value}
-					</div>
-				) : (
-					counterpart.translate('exchange.value')
-				),
-				align: 'right',
+				key: 'Cancel',
+				title: <Translate content="global.cancel" />,
 				render: (dataItem) => (
-					<div>
-						<EquivalentValueComponent
-							hide_asset
-							amount={dataItem.order.amountForSale().getAmount()}
-							fromAsset={dataItem.order.amountForSale().asset_id}
-							noDecimals={true}
-							toAsset={dataItem.preferredUnit}
-						/>{' '}
-						<AssetName name={dataItem.preferredUnit} />
-					</div>
+					<Button
+						type="primary"
+						danger
+						onClick={() => this.onClickCancel([dataItem.order.id])}
+					>
+						<Translate content="global.cancel" />
+					</Button>
 				),
-				onCell: onCell,
-				className: 'clickable',
 			},
 		];
-	}
-
-	_renderSettleOrdersTable() {
-		const {account} = this.props;
-		const {filterValue} = this.state;
-
-		let settleOrders = account.get('settle_orders');
-
-		if (filterValue) {
-			settleOrders = this._getFilteredOrders.call(this, 'settle');
-		}
-		let dataSource = this._getDataSource(settleOrders, 'settle');
-
-		let pagination = {
-			hideOnSinglePage: true,
-			pageSize: 20,
-			showTotal: (total, range) =>
-				counterpart.translate('utility.total_x_items', {
-					count: total,
-				}),
-		};
-
-		let footer = () => <span>&nbsp;</span>;
-
-		let settleColumns = this._getColumns(false, dataSource, 'settle');
-
-		return (
-			<Table
-				columns={settleColumns}
-				dataSource={dataSource}
-				pagination={pagination}
-				footer={footer}
-			/>
-		);
 	}
 
 	_renderOrdersTable() {
@@ -554,20 +518,6 @@ class AccountOrders extends React.Component {
 					count: total,
 				}),
 		};
-
-		let footer = () => this.props.children;
-
-		let rowSelection = this.props.isMyAccount
-			? {
-					// Uncomment the following line to show translated text as a cancellable column header instead of checkbox
-					//columnTitle: counterpart.translate("wallet.cancel")
-					onChange: (selectedRowKeys, selectedRows) => {
-						this.setState({selectedOrders: selectedRowKeys});
-					},
-					// Required in order resetSelected to work
-					selectedRowKeys: this.state.selectedOrders,
-			  }
-			: null;
 
 		let tables = [];
 
@@ -594,7 +544,6 @@ class AccountOrders extends React.Component {
 						<CollapsibleTable
 							columns={columns}
 							dataSource={value}
-							rowSelection={rowSelection}
 							pagination={pagination}
 							isCollapsed={true}
 						/>
@@ -609,28 +558,13 @@ class AccountOrders extends React.Component {
 					<Table
 						columns={columns}
 						dataSource={dataSource}
-						rowSelection={rowSelection}
 						pagination={pagination}
-						footer={footer}
 					/>
 				</div>
 			);
 		}
 
 		return tables;
-	}
-
-	_cancelLimitOrders(orderId) {
-		MarketsActions.cancelLimitOrders(
-			this.props.account.get('id'),
-			this.state.selectedOrders
-		)
-			.then(() => {
-				this.resetSelected();
-			})
-			.catch((err) => {
-				console.log('cancel orders error:', err);
-			});
 	}
 
 	onFlip(marketId) {
@@ -643,20 +577,10 @@ class AccountOrders extends React.Component {
 		this.setState({filterValue: evt.target.value.toLowerCase()});
 	}
 
-	resetSelected() {
-		this.setState({selectedOrders: []});
-	}
-
-	cancelSelected() {
-		this._cancelLimitOrders.call(this);
-	}
-
 	render() {
 		const {account} = this.props;
-		const {selectedOrders} = this.state;
 
 		const ordersTable = this._renderOrdersTable();
-		const settleOrdersTable = this._renderSettleOrdersTable();
 
 		const tables = [ordersTable];
 
@@ -666,16 +590,19 @@ class AccountOrders extends React.Component {
 			});
 			this.setState({areAssetsGrouped: checked});
 		};
-
 		let settleOrdersCount = account.get('settle_orders').size;
+		let allOrderIds = [];
+		account.get('orders').map((orderId) => {
+			allOrderIds.push(orderId);
+		});
 
 		return (
 			<div
-				className="grid-content no-overflow no-padding"
+				className="grid-content no-overflow no-padding open-orders"
 				style={{paddingBottom: 15}}
 			>
 				<div
-					className="header-selector"
+					className="header-selector none"
 					style={{display: 'inline-block', width: '100%'}}
 				>
 					<div className="filter-block">
@@ -696,25 +623,6 @@ class AccountOrders extends React.Component {
 							<Translate content="account.group_by_asset" />
 						</div>
 					</div>
-					{selectedOrders.length ? (
-						<span className="action-buttons">
-							<Button
-								key="submit"
-								type="primary"
-								onClick={this.cancelSelected.bind(this)}
-							>
-								<Translate content="account.cancel_orders" />
-							</Button>
-							&nbsp;
-							<Button
-								key="cancel"
-								type="secondary"
-								onClick={this.resetSelected.bind(this)}
-							>
-								<Translate content="account.reset_orders" />
-							</Button>
-						</span>
-					) : null}
 				</div>
 
 				<div>
@@ -725,14 +633,16 @@ class AccountOrders extends React.Component {
 					)}
 					{tables}
 				</div>
-				{settleOrdersCount > 0 && (
-					<div className="grid-wrapper" key="settleGroupedTable">
-						<div className="header-selector">
-							<Translate content="account.settle_orders" />
-						</div>
-						{settleOrdersTable}
-					</div>
-				)}
+
+				<div className="cancel-all">
+					<Button
+						type="primary"
+						danger
+						onClick={() => this.onClickCancel(allOrderIds)}
+					>
+						<Translate content="account.cancel_all_open_orders" />
+					</Button>
+				</div>
 			</div>
 		);
 	}
