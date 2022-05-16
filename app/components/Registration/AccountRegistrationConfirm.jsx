@@ -54,6 +54,7 @@ class AccountRegistrationConfirm extends React.Component {
 		this.toggleConfirmedTerms3 = this.toggleConfirmedTerms3.bind(this);
 		this.createAccount = this.createAccount.bind(this);
 		this.onCreateAccount = this.onCreateAccount.bind(this);
+		this.trackSignup = this.trackSignup.bind(this);
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
@@ -148,6 +149,10 @@ class AccountRegistrationConfirm extends React.Component {
 		);
 	}
 
+	trackSignup(customerId) {
+		tap('customer', customerId);
+		ss.set('referred_user_id', customerId);
+	}
 	createAccount(
 		name,
 		password,
@@ -177,8 +182,9 @@ class AccountRegistrationConfirm extends React.Component {
 			last_name,
 			private_key
 		)
-			.then(() => {
+			.then((res) => {
 				AccountActions.setPasswordAccount(name);
+				this.trackSignup(res);
 				if (this.state.registrarAccount) {
 					FetchChain('getAccount', name).then(() => {
 						this.unlockAccount(name, password);
