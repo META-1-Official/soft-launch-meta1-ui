@@ -599,6 +599,85 @@ div.tabs-container {
 .account-input-style-guide {
 }
 
+// Open Orders page
+.open-orders {
+	border-radius: 3px;
+	border: 1px solid #1c1f27;
+
+	.grid-wrapper {
+		margin-bottom: 0;
+	}
+
+	.cancel-all {
+		padding-top: 50px;
+		padding-bottom: 50px;
+		text-align: center;
+
+		button {
+			margin: 0 auto;
+			font-size: 22px;
+			padding: 10px 30px;
+			height: 60px;
+			text-transform: uppercase;
+		}
+	}
+
+	table {
+		border-collapse: collapse;
+		border: 1px solid #1c1f27;
+		border-radius: 3px;
+		background-color: #0a0b0d;
+
+		tr {
+			td.ant-table-cell {
+				padding: 0 !important;
+			}
+
+			.success {
+				border-left: 5px solid $success-color;
+			}
+			.info {
+				border-left: 5px solid $info-color;
+			}
+			.warning {
+				border-left: 5px solid $warning-color;
+			}
+			.cancel,
+			.danger,
+			.alert {
+				border-left: 5px solid $alert-color;
+			}
+
+			.danger span {
+				color: $alert-color !important;
+				font-weight: bolder;
+			}
+
+			.success span {
+				color: $success-color !important;
+				font-weight: bolder;
+			}
+		}
+		.pair {
+			div {
+				background-color: transparent !important;
+				border-width: 3px;
+				height: 55px;
+				padding-top: 18px;
+				padding-left: 5px;
+			}
+
+			span {
+				background: none !important;
+				border: none !important;
+				margin-left: 10px;
+				vertical-align: middle;
+			}
+		}
+	}
+}
+
+// Transaction History page
 .recent-transactions {
 	.iconLinkAndLabel {
 		span {
