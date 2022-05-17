@@ -8,38 +8,42 @@ class AccountOrderRowDescription extends React.Component {
 		let {base, quote, order} = this.props;
 		const isBid = order.isBid();
 
-		let quoteColor = !isBid ? 'value negative' : 'value positive';
-		let baseColor = isBid ? 'value negative' : 'value positive';
+		let quoteColor = !isBid
+			? 'value negative quote-asset'
+			: 'value positive quote-asset';
+		let baseColor = isBid
+			? 'value negative base-asset'
+			: 'value positive base-asset';
 
 		return (
 			<Translate
 				content={
 					isBid ? 'exchange.buy_description' : 'exchange.sell_description'
 				}
-				baseAsset={utils.format_number(
-					order[isBid ? 'amountToReceive' : 'amountForSale']().getAmount({
-						real: true,
-					}),
-					base.get('precision'),
-					false
-				)}
-				quoteAsset={utils.format_number(
-					order[isBid ? 'amountForSale' : 'amountToReceive']().getAmount({
-						real: true,
-					}),
-					quote.get('precision'),
-					false
-				)}
-				baseName={
-					<AssetName
-						noTip
-						customClass={quoteColor}
-						name={quote.get('symbol')}
-					/>
+				baseAsset={
+					<span className="base-asset">
+						{utils.format_number(
+							order[isBid ? 'amountToReceive' : 'amountForSale']().getAmount({
+								real: true,
+							}),
+							base.get('precision'),
+							false
+						)}
+					</span>
 				}
-				quoteName={
-					<AssetName noTip customClass={baseColor} name={base.get('symbol')} />
+				quoteAsset={
+					<span className="quote-asset">
+						{utils.format_number(
+							order[isBid ? 'amountForSale' : 'amountToReceive']().getAmount({
+								real: true,
+							}),
+							quote.get('precision'),
+							false
+						)}
+					</span>
 				}
+				baseName={<span className="base-asset">{base.get('symbol')}</span>}
+				quoteName={<span className="quote-asset">{quote.get('symbol')}</span>}
 			/>
 		);
 	}

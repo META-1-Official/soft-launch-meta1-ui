@@ -137,6 +137,7 @@
 			"num_witnesses": "Desired Witnesses"
 		},
 		"orders": "Orders",
+		"expiry": "Expiry",
 		"other_scam": "This account is not known to be an official account, please verify the destination before transferring",
 		"overview": "Overview",
 		"password_login": "Login with password",
@@ -538,7 +539,7 @@
 		"borrow": "Borrow",
 		"borrow_short": "Borrow",
 		"buy": "Buy",
-		"buy_description": "%(baseAsset)s %(baseName)s for %(quoteAsset)s %(quoteName)s",
+		"buy_description": "%(baseAsset)s %(baseName)s / %(quoteAsset)s %(quoteName)s",
 		"buy_min": "Buy at least",
 		"buy_sell": "Order Form",
 		"buysell_formatter": "{direction} {asset}",
@@ -658,7 +659,7 @@
 		"scaled": "Scaled",
 		"search": "Search for more markets here",
 		"sell": "Sell",
-		"sell_description": "%(baseAsset)s %(baseName)s for %(quoteAsset)s %(quoteName)s",
+		"sell_description": "%(baseAsset)s %(baseName)s / %(quoteAsset)s %(quoteName)s",
 		"settings": {
 			"header": {
 				"chart_options": "Chart options",

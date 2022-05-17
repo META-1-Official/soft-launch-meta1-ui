@@ -14,6 +14,7 @@ import CollapsibleTable from '../Utility/CollapsibleTable';
 import {groupBy, sumBy, meanBy} from 'lodash-es';
 import {FormattedNumber} from 'react-intl';
 import cnames from 'classnames';
+import moment from 'moment';
 
 import {Link} from 'react-router-dom';
 import {MarketPrice} from '../Utility/MarketPrice';
@@ -308,12 +309,17 @@ class AccountOrders extends React.Component {
 		// Conditional array items: https://stackoverflow.com/a/47771259
 		return [
 			{
-				key: 'pair',
-				title: counterpart.translate('account.user_issued_assets.pair'),
+				key: 'fromTo',
+				title: (
+					<div>
+						<Translate content="exchange.buy" /> /{' '}
+						<Translate content="exchange.sell" />
+					</div>
+				),
 				render: (dataItem) => {
-					const color = dataItem.isBid ? 'danger' : 'success';
+					const color = dataItem.isBid ? 'success' : 'danger';
 					return (
-						<div className="pair">
+						<div className="from-to">
 							<div className={cnames('txtlabel', color)}>
 								<Link
 									to={`/market/${dataItem.quote.get(
@@ -331,101 +337,39 @@ class AccountOrders extends React.Component {
 					);
 				},
 			},
-			...(areAssetsGrouped
-				? [
-						{
-							key: 'operation',
-							title: operation,
-							render: (dataItem) => operation,
-							onCell: onCell,
-							className: 'clickable groupColumn',
-						},
-						...(!isSettle
-							? [
-									{
-										key: 'baseAsset',
-										title: baseAsset,
-										render: (dataItem) =>
-											formatBaseAsset(getBaseAsset(dataItem)),
-										onCell: onCell,
-										className: 'clickable groupColumn',
-									},
-									{
-										key: 'baseName',
-										title: baseName,
-										render: (dataItem) => baseName,
-										onCell: onCell,
-										className: 'clickable groupColumn',
-									},
-									{
-										key: 'for',
-										title: forText,
-										render: (dataItem) => forText,
-										onCell: onCell,
-										className: 'clickable groupColumn',
-									},
-									{
-										key: 'quoteAsset',
-										title: quoteAsset,
-										render: (dataItem) =>
-											formatQuoteAsset(getQuoteAsset(dataItem)),
-										onCell: onCell,
-										className: 'clickable groupColumn',
-									},
-									{
-										key: 'quoteName',
-										title: quoteName,
-										render: (dataItem) => quoteName,
-										onCell: onCell,
-										className: 'clickable groupColumn',
-									},
-							  ]
-							: [
-									{
-										key: 'quoteAsset',
-										title: quoteAsset,
-										render: (dataItem) =>
-											formatQuoteAsset(getQuoteAsset(dataItem)),
-										className: 'clickable groupColumn',
-									},
-									{
-										key: 'baseName',
-										title: baseName,
-										render: (dataItem) => baseName,
-										className: 'clickable groupColumn',
-									},
-							  ]),
-				  ]
-				: [
-						{
-							key: 'description',
-							title: counterpart.translate('exchange.description'),
-							render: (dataItem) =>
-								!isSettle ? (
-									<AccountOrderRowDescription {...dataItem} />
-								) : (
-									<Translate
-										content={'exchange.settlement_description'}
-										quoteAsset={utils.format_number(
-											dataItem.order.for_sale.getAmount({
-												real: true,
-											}),
-											dataItem.quote.get('precision'),
-											false
-										)}
-										quoteName={
-											<AssetName
-												noTip
-												customClass={dataItem.quoteColor}
-												name={dataItem.quote.get('symbol')}
-											/>
-										}
-									/>
-								),
-							onCell: onCell,
-							className: 'clickable',
-						},
-				  ]),
+			{
+				key: 'description',
+				title: (
+					<div>
+						<Translate content="modal.committee.from" /> /{' '}
+						<Translate content="showcases.htlc.to" />
+					</div>
+				),
+				render: (dataItem) =>
+					!isSettle ? (
+						<AccountOrderRowDescription {...dataItem} />
+					) : (
+						<Translate
+							content={'exchange.settlement_description'}
+							quoteAsset={utils.format_number(
+								dataItem.order.for_sale.getAmount({
+									real: true,
+								}),
+								dataItem.quote.get('precision'),
+								false
+							)}
+							quoteName={
+								<AssetName
+									noTip
+									customClass={dataItem.quoteColor}
+									name={dataItem.quote.get('symbol')}
+								/>
+							}
+						/>
+					),
+				onCell: onCell,
+				className: 'clickable',
+			},
 			{
 				key: 'price',
 				title: areAssetsGrouped ? (
@@ -466,27 +410,23 @@ class AccountOrders extends React.Component {
 				onCell: onCell,
 				className: 'clickable',
 			},
-			isSettle && !areAssetsGrouped
-				? {
-						key: 'settlement_date',
-						title: areAssetsGrouped ? (
-							<div>
-								<Translate content="exchange.settlement_date" />
-								<br />
-								{marketPrice}
-							</div>
-						) : (
-							counterpart.translate('exchange.settlement_date')
-						),
-						align: areAssetsGrouped ? 'right' : 'left',
-						render: (dataItem) => <span>{dataItem.settlement_date}</span>,
-						onCell: onCell,
-						className: 'clickable',
-				  }
-				: {},
+			{
+				key: 'expiryDate',
+				title: (
+					<div>
+						<Translate content="account.expiry" />{' '}
+						<Translate content="explorer.block.date" />
+					</div>
+				),
+				render: (dataItem) => (
+					<span>
+						{moment(dataItem.order.expiration).format('MMM DD, YYYY hh:mm')}
+					</span>
+				),
+			},
 			{
 				key: 'Cancel',
-				title: <Translate content="global.cancel" />,
+				title: <Translate content="account.member.action" />,
 				render: (dataItem) => (
 					<Button
 						type="primary"

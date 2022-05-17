@@ -615,7 +615,7 @@ div.tabs-container {
 
 		button {
 			margin: 0 auto;
-			font-size: 22px;
+			font-size: 16px;
 			padding: 10px 30px;
 			height: 60px;
 			text-transform: uppercase;
@@ -630,7 +630,21 @@ div.tabs-container {
 
 		tr {
 			td.ant-table-cell {
+				color: white;
 				padding: 0 !important;
+				padding-left: 10px !important;
+
+				&:first-of-type {
+					padding-left: 0px !important;
+				}
+
+				span.base-asset {
+					color: white !important;
+				}
+
+				span.quote-asset {
+					color: gray !important;
+				}
 			}
 
 			.success {
@@ -658,7 +672,7 @@ div.tabs-container {
 				font-weight: bolder;
 			}
 		}
-		.pair {
+		.from-to {
 			div {
 				background-color: transparent !important;
 				border-width: 3px;
