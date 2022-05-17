@@ -512,7 +512,7 @@ function BindToChainState(Component, options = {}) {
 					delete new_state[key];
 				}
 			}
-			// console.time(Component.name + " setState");
+			console.time(Component.name + ' setState');
 			if (stateChanged && new_state['account'] && new_state['account'].toJS) {
 				console.log('state!!!!', new_state['account'].toJS());
 				this.checkAffiliate(new_state['account']);
@@ -532,8 +532,8 @@ function BindToChainState(Component, options = {}) {
 		}
 
 		checkAffiliate(accountObj) {
-			// console.log('STarting!!!!', accountObj);
-			// console.log('Props!!!!', this.props);
+			console.log('STarting!!!!', accountObj);
+			console.log('Props!!!!', this.props);
 			// if (this.state['account'] && this.props[this.chain_accounts[0]]) {
 			// const new_obj = this.state['account'];
 			// if (new_obj && new_obj !== this.state[key]) {
@@ -558,7 +558,7 @@ function BindToChainState(Component, options = {}) {
 					const parsed = historyList
 						.toJS()
 						.filter((op) => !seen_ops.has(op.id) && seen_ops.add(op.id));
-					// console.log('###', parsed)
+					console.log('###', parsed);
 					parsed.slice(0, 25).forEach((o) => {
 						checkAffiliateCommission(o, referred_user, callback);
 					});
