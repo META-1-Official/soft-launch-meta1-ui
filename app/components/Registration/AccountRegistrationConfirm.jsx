@@ -153,6 +153,7 @@ class AccountRegistrationConfirm extends React.Component {
 		tap('customer', customerId);
 		ss.set('referred_user_id', customerId);
 	}
+
 	createAccount(
 		name,
 		password,
