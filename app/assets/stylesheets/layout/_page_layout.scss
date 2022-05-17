@@ -165,6 +165,18 @@ div.bordered-header {
 ul.header-menu {
 	width: 245px;
 	padding: 0;
+	border-top: 4px solid #ffc000;
+
+	&:before {
+		content: '\a';
+		border-style: solid;
+		border-width: 6px 7px 6px 0px;
+		border-color: transparent #ffc000 transparent transparent;
+		position: absolute;
+		transform: rotate(90deg);
+		right: 31px;
+		top: -12px;
+	}
 
 	li {
 		background: #2e3445;
