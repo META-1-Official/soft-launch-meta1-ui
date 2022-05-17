@@ -113,7 +113,8 @@ class AccountStore extends BaseStore {
 
 				return result ? decodeURIComponent(result[3]) : false;
 			}
-			let validQueries = ['r', 'ref', 'referrer', 'referral'];
+			// let validQueries = ['r', 'ref', 'referrer', 'referral'];
+			let validQueries = ['r', 'referrer', 'referral'];
 			for (let i = 0; i < validQueries.length; i++) {
 				referralAccount = getQueryParam(validQueries[i]);
 				if (referralAccount) break;
