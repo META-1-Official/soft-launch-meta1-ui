@@ -161,6 +161,13 @@ div.bordered-header {
 	}
 }
 
+// Banner
+.ant-layout-header {
+	.logo-wrapper {
+		padding-top: 7px;
+	}
+}
+
 // Menu
 ul.header-menu {
 	width: 245px;
@@ -275,6 +282,15 @@ ul.header-menu {
 	}
 }
 
-.none {
-	display: none !important;
+// Sidebar
+.ant-layout-sider-children {
+	li {
+		&.sidebar-menu-help {
+			margin-top: 70% !important;
+			border-top: 1px solid #1c1f27;
+		}
+		&.sidebar-menu-settings {
+			border-bottom: none;
+		}
+	}
 }
