@@ -159,7 +159,12 @@ const SideBar = ({collapsed, currentLink, toggle}: ISideBar) => {
 				{menuList &&
 					menuList.map(({menuName, menuId, enableNavLinks, icon}) => {
 						return (
-							<Menu.Item key={menuId} icon={icon} disabled={!enableNavLinks}>
+							<Menu.Item
+								key={menuId}
+								icon={icon}
+								disabled={!enableNavLinks}
+								className={'sidebar-menu-' + menuId}
+							>
 								<span className="nav-text">{menuName}</span>
 							</Menu.Item>
 						);
