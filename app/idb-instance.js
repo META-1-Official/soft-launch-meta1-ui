@@ -6,7 +6,7 @@ import chainIds from 'chain/chainIds';
 const DB_VERSION = 2; // Initial value was 1
 const DB_PREFIX = 'graphene_v2';
 const WALLET_BACKUP_STORES = ['wallet', 'private_keys', 'linked_accounts'];
-const MAIN_NET_CHAINID = chainIds.MAIN_NET;
+const CHAINID = chainIds[process.env.CURRENT_NET];
 
 var current_wallet_name = 'default';
 
@@ -29,7 +29,7 @@ var upgrade = function (db, oldVersion) {
 */
 var getDatabaseName = function (
 	current_wallet = current_wallet_name,
-	chain_id = __DEPRECATED__ ? MAIN_NET_CHAINID : Apis.instance().chain_id
+	chain_id = __DEPRECATED__ ? CHAINID : Apis.instance().chain_id
 ) {
 	return [
 		DB_PREFIX,
@@ -115,7 +115,7 @@ var iDB = (function () {
 
 		init_instance: function (
 			indexedDBimpl,
-			chain_id = __DEPRECATED__ ? MAIN_NET_CHAINID : Apis.instance().chain_id
+			chain_id = __DEPRECATED__ ? CHAINID : Apis.instance().chain_id
 		) {
 			if (!_instance) {
 				if (indexedDBimpl) {

@@ -1,7 +1,7 @@
 import {Apis} from 'meta1js-ws';
 import chainIds from 'chain/chainIds';
 
-const MAIN_NET_CHAINID_SHORT = chainIds.MAIN_NET.substr(0, 8);
+const CHAINID_SHORT = chainIds[process.env.CURRENT_NET].substr(0, 8);
 
 /** This file centralized customization and branding efforts throughout the whole wallet and is meant to facilitate
  *  the process.
@@ -16,7 +16,7 @@ const MAIN_NET_CHAINID_SHORT = chainIds.MAIN_NET.substr(0, 8);
 function _isTestnet() {
 	const chainId = (Apis.instance().chain_id || '04e96f5d').substr(0, 8);
 
-	if (chainId === MAIN_NET_CHAINID_SHORT) {
+	if (chainId === CHAINID_SHORT) {
 		return false;
 	} else {
 		// treat every other chain as testnet, exact would be chainId === "39f5e2ed"

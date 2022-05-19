@@ -33,7 +33,7 @@ class AccountRefsStore extends BaseStore {
 	}
 
 	_getChainId() {
-		return Apis.instance().chain_id || chainIds.MAIN_NET;
+		return Apis.instance().chain_id || chainIds[process.env.CURRENT_NET];
 	}
 
 	onAddPrivateKey({private_key_object}) {
