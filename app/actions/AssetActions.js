@@ -523,12 +523,6 @@ class AssetActions {
 								bitasset_data: results[1],
 								loading: false,
 							});
-							console.log(
-								'@111 getAssetList - ',
-								assets,
-								results[0],
-								results[1]
-							);
 							return assets && assets.length;
 						});
 					})
