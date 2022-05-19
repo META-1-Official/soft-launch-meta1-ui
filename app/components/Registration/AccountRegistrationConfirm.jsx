@@ -21,6 +21,8 @@ import ls from '../../lib/common/localStorage';
 import voiceItService from '../../services/voice-it.service';
 import kycService from '../../services/kyc.service';
 
+import {checkCustomer} from 'components/Utility/Tapfiliate';
+
 const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
 
@@ -150,7 +152,7 @@ class AccountRegistrationConfirm extends React.Component {
 	}
 
 	trackSignup(customerId) {
-		tap('customer', customerId);
+		checkCustomer(customerId);
 		ss.set('referred_user_id', customerId);
 	}
 

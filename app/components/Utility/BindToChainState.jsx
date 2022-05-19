@@ -5,7 +5,7 @@ import ChainTypes from './ChainTypes';
 import utils from 'common/utils';
 import {getDisplayName} from 'common/reactUtils';
 import LoadingIndicator from '../LoadingIndicator';
-import checkAffiliateCommission from './checkAffiliateCommission';
+import {checkConversion} from './Tapfiliate';
 
 import ls from 'lib/common/localStorage';
 
@@ -141,7 +141,6 @@ function BindToChainState(Component, options = {}) {
 				? Component.defaultProps.tempComponent || null
 				: null;
 
-			//console.log("----- Wrapper constructor ----->", this.all_chain_props);
 			this.update = this.update.bind(this);
 			this.state = {resolved: false};
 		}
@@ -372,7 +371,6 @@ function BindToChainState(Component, options = {}) {
 
 			/* Resolve lists of pure objects */
 			for (let key of this.chain_objects_list) {
-				//console.log("-- Wrapper.update -->", this.chain_objects_list);
 				let prop =
 					props[key] || this.dynamic_props[key] || this.default_props[key];
 				if (prop) {
@@ -402,7 +400,6 @@ function BindToChainState(Component, options = {}) {
 						}
 						++all_objects_counter;
 					});
-					//console.log("-- Wrapper.chain_objects_list: ", prop_new_state);
 					if (changes) new_state[key] = prop_new_state;
 				} else {
 					if (this.state[key]) new_state[key] = null;
@@ -411,7 +408,6 @@ function BindToChainState(Component, options = {}) {
 
 			/* Resolve lists of accounts */
 			for (let key of this.chain_accounts_list) {
-				//console.log("-- Wrapper.update -->", this.chain_accounts_list);
 				let prop =
 					props[key] || this.dynamic_props[key] || this.default_props[key];
 				if (prop) {
@@ -424,7 +420,6 @@ function BindToChainState(Component, options = {}) {
 					}
 					let index = 0;
 					prop.forEach((obj_id) => {
-						//console.log("-- Wrapper.chain_accounts_list item -->", obj_id, index);
 						if (obj_id) {
 							let new_obj = ChainStore.getAccount(
 								obj_id,
@@ -441,7 +436,6 @@ function BindToChainState(Component, options = {}) {
 						++index;
 						++all_objects_counter;
 					});
-					//console.log("-- Wrapper.chain_accounts_list: ", prop_new_state);
 					if (changes) new_state[key] = prop_new_state;
 				} else {
 					if (this.state[key]) new_state[key] = null;
@@ -450,7 +444,6 @@ function BindToChainState(Component, options = {}) {
 
 			/* Resolve lists of assets */
 			for (let key of this.chain_assets_list) {
-				//console.log("-- Wrapper.update -->", this.chain_assets_list);
 				let prop =
 					props[key] || this.dynamic_props[key] || this.default_props[key];
 				if (prop) {
@@ -464,7 +457,6 @@ function BindToChainState(Component, options = {}) {
 					let index = 0;
 					prop.forEach((obj_id) => {
 						++index;
-						//console.log("-- Wrapper.chain_assets_list item -->", obj_id, index);
 						if (obj_id) {
 							let new_obj = ChainStore.getAsset(obj_id);
 							if (new_obj) ++resolved_objects_counter;
@@ -477,14 +469,12 @@ function BindToChainState(Component, options = {}) {
 						}
 						++all_objects_counter;
 					});
-					//console.log("-- Wrapper.chain_assets_list: ", prop_new_state);
 					if (changes) new_state[key] = prop_new_state;
 				} else {
 					if (this.state[key]) new_state[key] = null;
 				}
 			}
 
-			//console.log("----- Wrapper update ----->", this.all_chain_props, this.all_chain_props.length, all_objects_counter, resolved_objects_counter);
 			if (all_objects_counter <= resolved_objects_counter)
 				new_state.resolved = true;
 
@@ -512,60 +502,35 @@ function BindToChainState(Component, options = {}) {
 					delete new_state[key];
 				}
 			}
-			console.time(Component.name + ' setState');
+
+			// tapfiliate implementation
 			if (stateChanged && new_state['account'] && new_state['account'].toJS) {
-				console.log('state!!!!', new_state['account'].toJS());
-				this.checkAffiliate(new_state['account']);
+				var accountObj = new_state['account'];
+
+				const referred_user = ss.get('referred_user_id', 'null');
+				console.log('REF_USER', referred_user);
+
+				if (
+					referred_user === accountObj.get('name') &&
+					referred_user !== 'null'
+				) {
+					const historyList = accountObj.get('history');
+					if (historyList) {
+						let seen_ops = new Set();
+
+						const parsed = historyList
+							.toJS()
+							.filter((op) => !seen_ops.has(op.id) && seen_ops.add(op.id));
+
+						parsed.slice(0, 25).forEach((o) => {
+							checkConversion(o, referred_user);
+						});
+					}
+				}
 			}
 
 			/* For some reason this stateChange is very expensive, so we need to limit it */
 			if (stateChanged) this.setState(new_state);
-
-			// let updateEnd = new Date().getTime();
-			// if ((updateEnd - updateStart) > 15) {
-			// console.log("slow update state change:", stateChanged, "new_state", new_state, "this state:", this.state);
-			// console.timeEnd(Component.name + " setState");
-			// console.timeEnd(Component.name + " before state");
-			// console.timeEnd(Component.name + " after state");
-			//     console.log("slow update", Component.name, updateEnd - updateStart, Object.keys(new_state));
-			// }
-		}
-
-		checkAffiliate(accountObj) {
-			console.log('STarting!!!!', accountObj);
-			console.log('Props!!!!', this.props);
-			// if (this.state['account'] && this.props[this.chain_accounts[0]]) {
-			// const new_obj = this.state['account'];
-			// if (new_obj && new_obj !== this.state[key]) {
-			const referred_user = ss.get('referred_user_id', 'null');
-			if (
-				referred_user === accountObj.get('name') &&
-				referred_user !== 'null'
-			) {
-				console.log(
-					'@getAccount details',
-					referred_user,
-					accountObj.get('name')
-				);
-				const historyList = accountObj.get('history');
-				console.log('True', historyList);
-				if (historyList) {
-					let seen_ops = new Set();
-					const callback = () => {
-						console.log('Finalizing');
-						ss.remove('referred_user_id');
-					};
-					const parsed = historyList
-						.toJS()
-						.filter((op) => !seen_ops.has(op.id) && seen_ops.add(op.id));
-					console.log('###', parsed);
-					parsed.slice(0, 25).forEach((o) => {
-						checkAffiliateCommission(o, referred_user, callback);
-					});
-				}
-			}
-			// }
-			// }
 		}
 
 		render() {

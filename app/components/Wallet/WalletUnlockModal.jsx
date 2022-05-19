@@ -347,14 +347,16 @@ class WalletUnlockModal extends React.Component {
 						}
 						const account =
 							passwordLogin || passwordlessLogin ? accountName : null;
-						if (passwordlessLogin) {
-							if (!accountName) {
-								return;
-							}
-							this.renderTorusLogin();
-						} else {
-							this.validate(password, account);
-						}
+						// if (passwordlessLogin) {
+						// 	console.log('Torus')
+						// 	if (!accountName) {
+						// 		return;
+						// 	}
+						// 	this.renderTorusLogin();
+						// } else {
+						// 	console.log("Pair")
+						this.validate(password, account);
+						// }
 					}
 				});
 			}
