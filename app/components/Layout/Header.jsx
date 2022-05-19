@@ -55,7 +55,7 @@ import StyledButton from 'components/Button/Button';
 import theme from 'lib/styles/themeDark';
 
 var logo = getLogo();
-const MAIN_NET_CHAINID_SHORT = chainIds.MAIN_NET.substr(0, 8);
+const CHAINID_SHORT = chainIds[process.env.CURRENT_NET].substr(0, 8);
 
 const {Header: AntdHeader} = Layout;
 const {Text} = Typography;
@@ -498,7 +498,7 @@ class Header extends React.Component {
 			!!a &&
 			Apis.instance() &&
 			Apis.instance().chain_id &&
-			Apis.instance().chain_id.substr(0, 8) === MAIN_NET_CHAINID_SHORT;
+			Apis.instance().chain_id.substr(0, 8) === CHAINID_SHORT;
 
 		if (starredAccounts.size) {
 			for (let i = tradingAccounts.length - 1; i >= 0; i--) {
