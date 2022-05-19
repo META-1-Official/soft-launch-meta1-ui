@@ -720,7 +720,7 @@ class Header extends React.Component {
 					>
 						<Col xs={20} sm={12}>
 							<Row>
-								<Col xs={6} sm={5}>
+								<Col xs={6} sm={5} className="logo-wrapper">
 									<a
 										href="/home"
 										onClick={this._onNavigate.bind(this, '/home/')}
