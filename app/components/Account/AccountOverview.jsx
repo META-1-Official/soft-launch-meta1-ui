@@ -403,7 +403,6 @@ class AccountOverview extends React.Component {
 							</div>
 						</>
 					)}
-
 					{currentDisplay === 'openOrders' && (
 						<AccountOrders {...this.props}>
 							<div className="total-value">

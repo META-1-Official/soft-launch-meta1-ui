@@ -12,41 +12,32 @@ interface IAppLayout {
 }
 
 const AppLayout = ({children, location, height}: IAppLayout, others) => {
-	const [collapsed, setcollapsed] = useState<boolean>(true);
-	const [currentLink, setCurrentLink] = useState<string>('');
-
 	const theme: any = useTheme();
-	const toggle = (value: boolean) => setcollapsed(value);
 
 	const pathSnippets = location.pathname.split('/').filter((i) => i);
-	let qd = {};
-	location.search
-		.substr(1)
-		.split('&')
-		.forEach(function (item) {
-			item.split('=')[0] in qd
-				? qd[item.split('=')[0]].push(item.split('=')[1])
-				: (qd[item.split('=')[0]] = [item.split('=')[1]]);
-		});
+	const [collapsed, setcollapsed] = useState<boolean>(true);
+
 	let link = '';
 	if (pathSnippets && pathSnippets.length > 1) {
-		if (pathSnippets.includes('activity')) link = 'activity';
-		else if (pathSnippets.includes('trade')) link = 'trade';
-		else if (pathSnippets.includes('account')) {
-			if (
-				qd.hasOwnProperty('currentDisplay') &&
-				qd['currentDisplay'].length > 0 &&
-				qd['currentDisplay'][0] === 'transactionHistory'
-			) {
-				link = 'transaction-history';
-			} else {
-				link = 'account';
-			}
+		if (pathSnippets.includes('whitelist')) {
+			link = 'whitelist';
+		}
+		if (pathSnippets.includes('membershipStats')) {
+			link = 'membershipStats';
+		}
+		if (pathSnippets.includes('market')) {
+			link = 'market';
+		}
+		if (pathSnippets.includes('explorer')) {
+			link = 'explorer';
 		}
 	} else {
 		link = pathSnippets ? pathSnippets[0] : '';
 	}
-
+	const [currentLink, setCurrentLink] = useState<string>('');
+	const toggle = (value: boolean) => {
+		setcollapsed(value);
+	};
 	useEffect(() => {
 		setCurrentLink(link);
 		if (link === 'market' && collapsed) {
@@ -54,6 +45,7 @@ const AppLayout = ({children, location, height}: IAppLayout, others) => {
 		}
 	}, [link]);
 
+	console.log('link', link);
 	return (
 		<Layout
 			css={(theme) => ({

@@ -101,12 +101,11 @@ const SideBar = ({collapsed, currentLink, toggle}: ISideBar) => {
 			enableNavLinks: true,
 		},
 	];
-
 	const sideMenuClick = (e: any) => {
 		let link = e.key;
 
 		if (e.key === 'account') {
-			link = `account/${accountName}/?currentDisplay=portfolio`;
+			link = `account/${accountName}`;
 		} else if (e.key === 'activity') {
 			link = `account/${accountName}/activity`;
 		} else if (e.key === 'trade') {
