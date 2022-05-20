@@ -5,7 +5,7 @@ import ChainTypes from "./ChainTypes";
 import utils from "common/utils";
 import {getDisplayName} from "common/reactUtils";
 import LoadingIndicator from "../LoadingIndicator";
-import checkAffiliateCommission from "./checkAffiliateCommission";
+import {checkConversion} from './Tapfiliate';
 import ls from "common/localStorage";
 
 /**
@@ -561,65 +561,34 @@ function BindToChainState(Component, options = {}) {
                     delete new_state[key];
                 }
             }
-            // console.time(Component.name + " setState");
-            if (
-                stateChanged &&
-                new_state["account"] &&
-                new_state["account"].toJS
-            ) {
-                console.log("state!!!!", new_state["account"].toJS());
-                this.checkAffiliate(new_state["account"]);
-            }
+            // tapfiliate implementation
+		if (stateChanged && new_state['account'] && new_state['account'].toJS) {
+			var accountObj = new_state['account'];
+
+			const referred_user = ss.get('referred_user_id', 'null');
+			console.log('REF_USER', referred_user);
+
+			if (
+				referred_user === accountObj.get('name') &&
+				referred_user !== 'null'
+			) {
+				const historyList = accountObj.get('history');
+				if (historyList) {
+					let seen_ops = new Set();
+
+					const parsed = historyList
+						.toJS()
+						.filter((op) => !seen_ops.has(op.id) && seen_ops.add(op.id));
+
+					parsed.slice(0, 25).forEach((o) => {
+						checkConversion(o, referred_user);
+					});
+				}
+			}
+		}
+			
             /* For some reason this stateChange is very expensive, so we need to limit it */
             if (stateChanged) this.setState(new_state);
-
-            // let updateEnd = new Date().getTime();
-            // if ((updateEnd - updateStart) > 15) {
-            // console.log("slow update state change:", stateChanged, "new_state", new_state, "this state:", this.state);
-            // console.timeEnd(Component.name + " setState");
-            // console.timeEnd(Component.name + " before state");
-            // console.timeEnd(Component.name + " after state");
-            //     console.log("slow update", Component.name, updateEnd - updateStart, Object.keys(new_state));
-            // }
-        }
-
-        checkAffiliate(accountObj) {
-            // console.log('STarting!!!!', accountObj);
-            // console.log('Props!!!!', this.props);
-            // if (this.state['account'] && this.props[this.chain_accounts[0]]) {
-            // const new_obj = this.state['account'];
-            // if (new_obj && new_obj !== this.state[key]) {
-            const referred_user = ss.get("referred_user_id", "null");
-            if (
-                referred_user === accountObj.get("name") &&
-                referred_user !== "null"
-            ) {
-                console.log(
-                    "@getAccount details",
-                    referred_user,
-                    accountObj.get("name")
-                );
-                const historyList = accountObj.get("history");
-                console.log("True", historyList);
-                if (historyList) {
-                    let seen_ops = new Set();
-                    const callback = () => {
-                        console.log("Finalizing");
-                        ss.remove("referred_user_id");
-                    };
-                    const parsed = historyList
-                        .toJS()
-                        .filter(
-                            op => !seen_ops.has(op.id) && seen_ops.add(op.id)
-                        );
-                    // console.log('###', parsed)
-                    parsed.slice(0, 25).forEach(o => {
-                        checkAffiliateCommission(o, referred_user, callback);
-                    });
-                }
-            }
-            // }
-            // }
         }
 
         render() {
