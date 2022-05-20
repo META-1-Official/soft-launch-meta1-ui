@@ -97,7 +97,6 @@ class AccountRegistrationConfirm extends React.Component {
 	// }
 
 	componentWillMount() {
-		console.log('session #:', sessionStorage.getItem('email'));
 		this.setState({
 			email: sessionStorage.getItem('email'),
 			phone: sessionStorage.getItem('phone'),
