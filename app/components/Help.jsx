@@ -48,7 +48,7 @@ class Help extends React.Component {
 									},
 								})}
 							>
-								<HelpContent path="toc" pathParams={this.props.match.params} />
+								<HelpContent path="toc" pathUrl={this.props.match.url} />
 							</div>
 						</Col>
 						<Col
@@ -57,12 +57,12 @@ class Help extends React.Component {
 							xs={24}
 							css={() => ({
 								padding: '0rem 2rem',
-								marginTop: '4rem',
+								marginTop: '1rem',
 							})}
 						>
 							<HelpContent
 								path={path || 'index'}
-								pathParams={this.props.match.params}
+								pathUrl={this.props.match.url}
 							/>
 						</Col>
 					</Row>

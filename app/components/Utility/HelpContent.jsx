@@ -49,13 +49,13 @@ function adjust_links(str, newRoute) {
 			page = '/' + page;
 		}
 
-		let isActive = page === newRoute;
-
 		return `<div
 				style="
-					padding: 10px 0px 10px 2rem;
+					padding: 6px 0px 6px 2rem;
 					cursor: pointer;
-					${isActive ? 'border-right: 2px solid yellow;' : ''}
+					display: inline-block;
+					width: 100%;
+					${page === newRoute ? 'border-right: 2px solid yellow;' : ''}
 				"
 				href="${__HASH_HISTORY__ ? '#' : ''}${page}"
 				onclick="_onClickLink(event)"
@@ -67,7 +67,7 @@ function adjust_links(str, newRoute) {
 class HelpContent extends React.PureComponent {
 	static propTypes = {
 		path: PropTypes.string.isRequired,
-		pathParams: PropTypes.array,
+		pathUrl: PropTypes.string,
 		section: PropTypes.string,
 		from: PropTypes.string,
 	};
@@ -81,9 +81,20 @@ class HelpContent extends React.PureComponent {
 		window._onClickLink = this.onClickLink.bind(this);
 	}
 
+	componentWillReceiveProps(nextProps) {
+		const newRoute = nextProps.pathUrl;
+
+		this.updateMenu(newRoute);
+	}
+
 	componentWillMount() {
+		const newRoute = this.props.pathUrl;
+
+		this.updateMenu(newRoute);
+	}
+
+	updateMenu(newRoute) {
 		let locale = this.props.locale || counterpart.getLocale() || 'en';
-		const pathParams = this.props.pathParams || [];
 
 		// Only load helpData for the current locale as well as the fallback 'en'
 		req
@@ -98,9 +109,7 @@ class HelpContent extends React.PureComponent {
 				let help_locale = HelpData[locale];
 				if (!help_locale) HelpData[locale] = help_locale = {};
 				let content = req(filename);
-				help_locale[key] = split_into_sections(
-					adjust_links(content, pathParams)
-				);
+				help_locale[key] = split_into_sections(adjust_links(content, newRoute));
 			});
 	}
 
@@ -120,25 +129,8 @@ class HelpContent extends React.PureComponent {
 
 		if (path.length === 0) return false;
 
-		let locale = this.props.locale || counterpart.getLocale() || 'en';
-		const pathParams = this.props.pathParams || [];
-		let newRoute = '/' + path.join('/');
-
-		// Only load helpData for the current locale as well as the fallback 'en'
-		req
-			.keys()
-			.filter((a) => {
-				return a.indexOf(`/${locale}/`) !== -1 || a.indexOf('/en/') !== -1;
-			})
-			.forEach(function (filename) {
-				var res = filename.match(/\/(.+?)\/(.+)\./);
-				let locale = res[1];
-				let key = res[2];
-				let help_locale = HelpData[locale];
-				if (!help_locale) HelpData[locale] = help_locale = {};
-				let content = req(filename);
-				help_locale[key] = split_into_sections(adjust_links(content, newRoute));
-			});
+		const newRoute = '/' + path.join('/');
+		this.updateMenu(newRoute);
 
 		this.props.history.push(newRoute);
 		return false;
