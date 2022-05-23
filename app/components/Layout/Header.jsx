@@ -441,7 +441,7 @@ class Header extends React.Component {
 		} else if (key === 'explorer') {
 			this._onNavigate('/explorer/blocks', this, true);
 		} else if (key === 'help') {
-			this._onNavigate('/help', this, true);
+			this._onNavigate('/help/introduction/wallets', this, true);
 		} else if (key === 'withdraw') {
 			this._showWithdraw(this, true);
 		} else if (key === 'send') {
