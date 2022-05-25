@@ -29,7 +29,7 @@ function split_into_sections(str) {
 	return zipObject(sections);
 }
 
-function adjust_links(str) {
+function adjust_links(str, newRoute) {
 	return str.replace(/\<a\shref\=\"(.+?)\"/gi, (match, text) => {
 		text = sanitize(text, {
 			whiteList: [], // empty, means filter out all tags
@@ -38,23 +38,36 @@ function adjust_links(str) {
 
 		if (text.indexOf((__HASH_HISTORY__ ? '#' : '') + '/') === 0)
 			return `<a href="${text}" onclick="_onClickLink(event)"`;
+
 		if (text.indexOf('http') === 0)
 			return `<a href="${text}" rel="noopener noreferrer" class="external-link" target="_blank"`;
+
 		let page = endsWith(text, '.md') ? text.substr(0, text.length - 3) : text;
 		if (!page.startsWith('/help')) {
 			page = '/help/' + page;
 		} else if (page.startsWith('help')) {
 			page = '/' + page;
 		}
-		return `<a href="${
-			__HASH_HISTORY__ ? '#' : ''
-		}${page}" onclick="_onClickLink(event)"`;
+
+		return `<div
+				style="
+					padding: 6px 0px 6px 2rem;
+					cursor: pointer;
+					display: inline-block;
+					width: 100%;
+					${page === newRoute ? 'border-right: 2px solid yellow;' : ''}
+				"
+				href="${__HASH_HISTORY__ ? '#' : ''}${page}"
+				onclick="_onClickLink(event)"
+			>
+				<a href="${__HASH_HISTORY__ ? '#' : ''}${page}"`;
 	});
 }
 
 class HelpContent extends React.PureComponent {
 	static propTypes = {
 		path: PropTypes.string.isRequired,
+		pathUrl: PropTypes.string,
 		section: PropTypes.string,
 		from: PropTypes.string,
 	};
@@ -68,7 +81,19 @@ class HelpContent extends React.PureComponent {
 		window._onClickLink = this.onClickLink.bind(this);
 	}
 
+	componentWillReceiveProps(nextProps) {
+		const newRoute = nextProps.pathUrl;
+
+		this.updateMenu(newRoute);
+	}
+
 	componentWillMount() {
+		const newRoute = this.props.pathUrl;
+
+		this.updateMenu(newRoute);
+	}
+
+	updateMenu(newRoute) {
 		let locale = this.props.locale || counterpart.getLocale() || 'en';
 
 		// Only load helpData for the current locale as well as the fallback 'en'
@@ -84,18 +109,30 @@ class HelpContent extends React.PureComponent {
 				let help_locale = HelpData[locale];
 				if (!help_locale) HelpData[locale] = help_locale = {};
 				let content = req(filename);
-				help_locale[key] = split_into_sections(adjust_links(content));
+				help_locale[key] = split_into_sections(adjust_links(content, newRoute));
 			});
 	}
 
 	onClickLink(e) {
 		e.preventDefault();
-		let path = (__HASH_HISTORY__ ? e.target.hash : e.target.pathname)
+
+		let pathname = '';
+		if (e.target.nodeName === 'DIV') {
+			pathname = e.target.firstElementChild.hash;
+		} else if (e.target.nodeName === 'A') {
+			pathname = e.target.hash;
+		}
+
+		let path = (__HASH_HISTORY__ ? pathname : e.target.pathname)
 			.split('/')
 			.filter((p) => p && p !== '#');
+
 		if (path.length === 0) return false;
-		let route = '/' + path.join('/');
-		this.props.history.push(route);
+
+		const newRoute = '/' + path.join('/');
+		this.updateMenu(newRoute);
+
+		this.props.history.push(newRoute);
 		return false;
 	}
 
@@ -182,6 +219,7 @@ class HelpContent extends React.PureComponent {
 			);
 			return null;
 		}
+
 		return (
 			<div
 				css={(theme) =>
@@ -257,7 +295,7 @@ class HelpContent extends React.PureComponent {
 								},
 								'p, p:last-of-type': {
 									marginBottom:
-										this.props.from !== 'permissions' ? '1.3rem' : '0px',
+										this.props.from !== 'permissions' ? '2.5rem' : '0px',
 									color: `${theme.colors.helpTextColor} !important`,
 									fontSize: '15px',
 								},

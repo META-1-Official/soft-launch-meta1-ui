@@ -40,7 +40,7 @@ const AssetExplorer = ({history}) => {
 
 	return (
 		<div>
-			<PageHeader title="Banking Assets" level={3} showDivider />
+			<PageHeader title="Backing Assets" level={3} showDivider />
 			<div
 				css={(theme) => ({
 					margin: '2rem',

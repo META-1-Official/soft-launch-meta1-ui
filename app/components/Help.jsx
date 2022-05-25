@@ -6,8 +6,7 @@ import {Col, Row} from 'antd';
 
 class Help extends React.Component {
 	render() {
-		console.log(this.props.match.params);
-		let path = toPairs(this.props.match.params)
+		const path = toPairs(this.props.match.params)
 			.map((p) => p[1])
 			.join('/');
 
@@ -27,7 +26,7 @@ class Help extends React.Component {
 					>
 						<Col xs={24} sm={8} lg={6}>
 							<div
-								// className="help-toc"
+								className="help-toc"
 								css={(theme) => ({
 									padding: '20px',
 									height: '100%',
@@ -38,7 +37,7 @@ class Help extends React.Component {
 									},
 									li: {
 										border: `1px solid ${theme.colors.borderColor}`,
-										padding: '5px 0px 3px 2rem',
+										padding: '0',
 									},
 									a: {
 										color: 'white !important',
@@ -49,7 +48,7 @@ class Help extends React.Component {
 									},
 								})}
 							>
-								<HelpContent path="toc" />
+								<HelpContent path="toc" pathUrl={this.props.match.url} />
 							</div>
 						</Col>
 						<Col
@@ -58,31 +57,16 @@ class Help extends React.Component {
 							xs={24}
 							css={() => ({
 								padding: '0rem 2rem',
-								marginTop: '4rem',
+								marginTop: '1rem',
 							})}
 						>
-							<HelpContent path={path || 'index'} />
+							<HelpContent
+								path={path || 'index'}
+								pathUrl={this.props.match.url}
+							/>
 						</Col>
 					</Row>
 				</div>
-
-				{/* <div className="grid-container page-layout help-content-layout">
-					<div className="grid-block page-layout">
-						<div className="grid-block main-content wrap regular-padding">
-							<div className="grid-block medium-3">
-								<div className="grid-content help-toc responsive-list">
-									<HelpContent path="toc" />
-								</div>
-							</div>
-
-							<div className="grid-block medium-9">
-								<div className="grid-content main-content">
-									<HelpContent path={path || 'index'} />
-								</div>
-							</div>
-						</div>
-					</div>
-				</div> */}
 			</>
 		);
 	}
