@@ -1,215 +1,209 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {Col, Row, List, Avatar, Progress, Tabs, Typography} from 'antd';
 import PageHeader from 'components/PageHeader/PageHeader';
 import {getBankingAssetsLogo, getGoldImage} from 'branding';
 import theme from '../../lib/styles/themeDark';
+import SearchInput from '../Utility/SearchInput';
+import {Apis} from 'meta1js-ws';
 
 const {Text} = Typography;
 const {TabPane} = Tabs;
 
 const AssetExplorer = ({history}) => {
 	const bankingAssetsLogo = getBankingAssetsLogo();
+	const [backingAssets, setBackingAssets] = useState([]);
+	const [searchQuery, setSearchQuery] = useState('');
+	const [meta1Price, setMeta1Price] = useState(0.0);
 
-	const data = [
-		{
-			description:
-				'BEGINNING BALANCE GOLD RESERVE ASSIGNMENT OF $8,888,888,888.00 WITH SUPPORTING BONDS OF EQUAL VALUE INSURING THE PRINCIPAL GOLD RESERVES',
-			descriptionAmount: '$8,888,888,888',
-			status: 'Approved',
-			percent: 100,
-		},
-		{
-			description:
-				'GOLD RESERVE ASSET ASSIGNMENT OF $500,000,000.00 WITH SUPPORTING BONDS OF EQUAL VALUE INSURING THE PRINCIPAL GOLD RESERVES',
-			descriptionAmount: '$8,888,888,888',
-			status: 'Approved',
-			percent: 100,
-		},
-		{
-			description:
-				'GOLD RESERVE ASSET ASSIGNMENT OF $5,600,000,000 WITH SUPPORTING BONDS OF EQUAL VALUE INSURING THE PRINCIPAL GOLD RESERVES',
-			descriptionAmount: '$5,600,000,000',
-			status: 'Approved',
-			percent: 71.8,
-		},
-	];
+	useEffect(() => {
+		ochestrateData();
+	}, []);
 
-	const onDescriptionClick = () => {
-		history.push('asset-explorer-details');
+	const ochestrateData = async () => {
+		var bk_assets = await Apis.db.get_all_properties();
+		var meta1_price =
+			(await Apis.db.get_asset_limitation_value('META1')) / 1000000000;
+		setMeta1Price(meta1_price);
+
+		var ochestratedAssets = [];
+		bk_assets.map(async (asset) => {
+			let status = 'Pending';
+			if (asset.approval_date) {
+				status = 'Approved';
+			}
+			if (asset.expired && !asset.approval_date) {
+				status = 'Cancelled';
+			}
+
+			ochestratedAssets.push({
+				description: asset.options.description,
+				descriptionAmount: asset.options.property_surety_bond_value,
+				status,
+				percent: get_allocation_progress(asset),
+				pid: asset.property_id,
+			});
+		});
+
+		setBackingAssets(ochestratedAssets);
 	};
 
+	const get_allocation_progress = (asset) => {
+		const {
+			initial_counter,
+			initial_counter_max,
+			approval_counter,
+			approval_counter_max,
+		} = asset;
+
+		const initial = initial_counter / initial_counter_max;
+		const approval = approval_counter / approval_counter_max;
+
+		const a = initial / 4;
+		const b = (approval * 3) / 4;
+
+		return (a + b) * 100;
+	};
+
+	const onSearchChange = (e) => {
+		setSearchQuery(e.target.value);
+	};
+
+	const onDescriptionClick = (pid) => {
+		history.push(`asset-explorer-details?backed_asset_property_id=${pid}`);
+	};
+
+	const renderList = (status) => (
+		<List
+			itemLayout="horizontal"
+			dataSource={backingAssets.filter((asset) => {
+				return (
+					asset.status === status &&
+					asset.description.toLowerCase().includes(searchQuery)
+				);
+			})}
+			renderItem={({description, descriptionAmount, status, percent, pid}) => (
+				<List.Item>
+					<List.Item.Meta
+						avatar={<Avatar src={getGoldImage()} className="asset-img" />}
+						description={
+							<Row>
+								<Col xs={24} sm={12} css={{paddingLeft: '1rem'}}>
+									<Text
+										onClick={() => onDescriptionClick(pid)}
+										css={(theme) => ({
+											color: theme.colors.descriptionTextColor,
+											fontSize: '16px',
+											cursor: 'pointer',
+										})}
+									>
+										{description}
+									</Text>
+									<br />
+									<Text
+										css={(theme) => ({
+											color: 'white',
+											fontWeight: 'bold',
+											fontSize: '18px',
+											lineHeight: '45x',
+										})}
+									>
+										${Number(descriptionAmount).toLocaleString()}
+									</Text>
+								</Col>
+								<Col
+									xs={24}
+									sm={6}
+									css={{
+										textAlign: 'center',
+										display: 'flex',
+										flexDirection: 'row',
+										alignItems: 'center',
+									}}
+								>
+									<Text
+										css={(theme) => ({
+											color: theme.colors.bankingAssetsStatusColor,
+											fontSize: '16px',
+											width: '100%',
+										})}
+									>
+										{status}
+									</Text>
+								</Col>
+
+								<Col
+									xs={24}
+									sm={6}
+									css={{
+										display: 'flex',
+										flexDirection: 'column',
+										justifyContent: 'center',
+									}}
+								>
+									<Text
+										css={(theme) => ({
+											color: percent > 50 ? '#0F923A' : '#FFC000',
+											float: 'right',
+											width: '170px',
+											textAlign: 'right',
+											fontSize: '15px',
+											marginBottom: '10px',
+										})}
+									>
+										{percent}%
+									</Text>
+									<Progress
+										percent={percent}
+										strokeColor={percent > 50 ? '#0F923A' : '#FFC000'}
+										showInfo={false}
+										trailColor={theme.colors.borderColor}
+										className="progress"
+									/>
+								</Col>
+							</Row>
+						}
+					/>
+				</List.Item>
+			)}
+		/>
+	);
+
 	return (
-		<div>
+		<div className="backing-assets">
 			<PageHeader title="Backing Assets" level={3} showDivider />
-			<div
-				css={(theme) => ({
-					margin: '2rem',
-					border: `1px solid ${theme.colors.borderColor}`,
-				})}
-			>
-				<Row align="middle" gutter={[16, 16]} css={{padding: '1.4rem 1rem'}}>
+			<div className="content-body">
+				<Row align="middle" gutter={[16, 16]} css={{padding: '30px'}}>
 					<Col xs={4} sm={3}>
 						<img src={bankingAssetsLogo} />
 					</Col>
-					<Col xs={20} sm={19}>
-						<div
-							css={(theme) => ({
-								marginBottom: '10px',
-							})}
-						>
-							<Text
-								css={(theme) => ({
-									color: theme.colors.helpTextColor,
-									fontSize: '20px',
-									paddingBottom: '10px',
-									fontFamily: 'Poppins',
-								})}
-							>
-								Explore assets assigned to META1 coin on the META blockchain{' '}
-							</Text>
-						</div>
-						<div
-							css={(theme) => ({
-								marginBottom: '10px',
-							})}
-						>
-							<Text
-								css={(theme) => ({
-									color: theme.colors.themeOpositeColor,
-									fontSize: '16px',
-									fontFamily: 'Poppins',
-								})}
-							>
-								META1 Coin Current Asset Value: $99.74
-							</Text>
-						</div>
-						<div
-							css={(theme) => ({
-								marginBottom: '10px',
-							})}
-						>
-							<Text
-								css={(theme) => ({
-									color: theme.colors.helpTextColor,
-									fontSize: '14px',
-									paddingBottom: '10px',
-									fontFamily: 'Poppins',
-								})}
-							>
-								Asset Assignment statistics, history & data
-							</Text>
-						</div>
+					<Col xs={20} sm={19} css={{display: 'flex', flexDirection: 'column'}}>
+						<Text className="title1">
+							Explore assets assigned to META1 coin on the META blockchain{' '}
+						</Text>
+						<Text className="title2">
+							META1 Coin Current Asset Value:{' '}
+							<Text className="golden">${meta1Price.toFixed(2)}</Text>
+						</Text>
+						<Text className="title3">
+							Asset Assignment statistics, history & data
+						</Text>
 					</Col>
 				</Row>
-
-				<div
-					css={() => ({
-						padding: '10px',
-					})}
-				>
-					<Tabs
-						defaultActiveKey="1"
-						type="card"
-						css={{
-							'.ant-tabs-nav-wrap': {
-								backgroundColor: '#15171b',
-							},
-						}}
-					>
-						<TabPane tab="Approved" key="1">
-							<List
-								itemLayout="horizontal"
-								dataSource={data}
-								renderItem={({
-									description,
-									descriptionAmount,
-									status,
-									percent,
-								}) => (
-									<List.Item>
-										<List.Item.Meta
-											avatar={
-												<Avatar
-													src={getGoldImage()}
-													size={{
-														xs: 24,
-														sm: 32,
-														md: 40,
-														lg: 54,
-														xl: 60,
-														xxl: 80,
-													}}
-													css={{marginLeft: '10px'}}
-												/>
-											}
-											description={
-												<Row>
-													<Col xs={24} sm={12} css={{paddingLeft: '1rem'}}>
-														<Text
-															onClick={onDescriptionClick}
-															css={(theme) => ({
-																color: theme.colors.descriptionTextColor,
-																fontSize: '14px',
-																paddingBottom: '10px',
-																fontFamily: 'Poppins',
-																cursor: 'pointer',
-															})}
-														>
-															{description}
-														</Text>
-														<br />
-														<Text
-															css={(theme) => ({
-																color: theme.colors.primaryColor,
-																fontWeight: 'bold',
-															})}
-														>
-															{descriptionAmount}
-														</Text>
-													</Col>
-													<Col xs={24} sm={6} css={{textAlign: 'center'}}>
-														<Text
-															css={(theme) => ({
-																color: theme.colors.bankingAssetsStatusColor,
-																fontSize: '14px',
-																paddingBottom: '10px',
-																fontFamily: 'Poppins',
-															})}
-														>
-															{status}
-														</Text>
-													</Col>
-
-													<Col xs={24} sm={6}>
-														<Text
-															css={(theme) => ({
-																color: theme.colors.themeOpositeColor,
-																float: 'right',
-															})}
-														>
-															{percent}%
-														</Text>
-														<Progress
-															percent={percent}
-															strokeColor={
-																theme.colors.bankingAssetsStatusColor
-															}
-															showInfo={false}
-															trailColor={theme.colors.borderColor}
-														/>
-													</Col>
-												</Row>
-											}
-										/>
-									</List.Item>
-								)}
-							/>
+				<div className="list-wrapper">
+					<SearchInput
+						placeholder={'Search for backing assets'}
+						value={searchQuery}
+						onChange={onSearchChange}
+					/>
+					<Tabs defaultActiveKey="1" type="card">
+						<TabPane tab="Approved" key="1" className="approved-tab">
+							{renderList('Approved')}
 						</TabPane>
 						<TabPane tab="Cancelled" key="2">
-							No backed assets found with required filter.
+							{renderList('Cancelled')}
 						</TabPane>
 						<TabPane tab="Pending" key="3">
-							No backed assets found with required filter.{' '}
+							{renderList('Pending')}
 						</TabPane>
 					</Tabs>
 				</div>
@@ -219,18 +213,3 @@ const AssetExplorer = ({history}) => {
 };
 
 export default AssetExplorer;
-
-// import React from 'react';
-// class AssetExplorer extends React.Component {
-// 	render() {
-// 		return (
-// 			<div
-// 				dangerouslySetInnerHTML={{
-// 					__html: `<iframe src="https://api.dev.meta1.io" width="100%" style="height:100vh; border-width:0px; border:none;" height="100%"></iframe>`,
-// 				}}
-// 			/>
-// 		);
-// 	}
-// }
-
-// export default AssetExplorer;

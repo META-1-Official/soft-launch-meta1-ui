@@ -78,7 +78,7 @@ export function getLogo() {
  * @returns {*}
  */
 export function getBankingAssetsLogo() {
-	return require('assets/banking-assets/bankingAssetsLogo.png');
+	return require('assets/backing-assets/backingAssetsLogo.png');
 }
 
 /**
@@ -86,7 +86,7 @@ export function getBankingAssetsLogo() {
  * @returns {*}
  */
 export function getGoldImage() {
-	return require('assets/banking-assets/gold.png');
+	return require('assets/backing-assets/gold.png');
 }
 /**
  * Default set theme for the UI
