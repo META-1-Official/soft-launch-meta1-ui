@@ -31,6 +31,7 @@ export default function SearchInput({
 	return (
 		<Input
 			ref={searchInput}
+			bordered={false}
 			autoComplete={autoComplete}
 			style={style}
 			type={type}
@@ -47,18 +48,18 @@ export default function SearchInput({
 					})}
 				/>
 			}
-			suffix={
-				onClear ? (
-					<FaRegTimesCircle
-						onClick={onClear}
-						type="close"
-						// always include DOM the icon, otherwise user looses focus when it appears and input resizes
-						className={value ? 'cursor-pointer' : 'hide'}
-					/>
-				) : (
-					<span />
-				)
-			}
+			// suffix={
+			// 	onClear ? (
+			// 		<FaRegTimesCircle
+			// 			onClick={onClear}
+			// 			type="close"
+			// 			// always include DOM the icon, otherwise user looses focus when it appears and input resizes
+			// 			className={value ? 'cursor-pointer' : 'hide'}
+			// 		/>
+			// 	) : (
+			// 		<span />
+			// 	)
+			// }
 			{...other}
 		/>
 	);
