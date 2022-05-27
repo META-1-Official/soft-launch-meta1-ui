@@ -223,8 +223,21 @@ const GlobalStyles = (theme: any) => css`
 		border-radius: 8px;
 		padding: 1rem;
 
-		.ant-modal-close-x {
-			color: ${theme.colors.themeOpositeColor};
+		.ant-modal-close {
+			top: -17px;
+			right: -17px;
+			background-color: red;
+			border-radius: 50%;
+
+			.ant-modal-close-x {
+				color: ${theme.colors.themeOpositeColor};
+				width: 30px;
+				height: 30px;
+
+				.ant-modal-close-icon {
+					margin-top: 7px;
+				}
+			}
 		}
 	}
 	.ant-modal-footer {

@@ -51,16 +51,19 @@ function adjust_links(str, newRoute) {
 
 		return `<div
 				style="
-					padding: 6px 0px 6px 2rem;
-					cursor: pointer;
-					display: inline-block;
-					width: 100%;
+					padding: 6px 0px 6px 2rem; cursor: pointer; display: inline-block; width: 100%;
 					${page === newRoute ? 'border-right: 2px solid yellow;' : ''}
 				"
 				href="${__HASH_HISTORY__ ? '#' : ''}${page}"
 				onclick="_onClickLink(event)"
 			>
-				<a href="${__HASH_HISTORY__ ? '#' : ''}${page}"`;
+				<a
+					style="${
+						page === newRoute
+							? 'color: #ffc000 !important; cursor: pointer;'
+							: 'cursor: pointer;'
+					}"
+					href="${__HASH_HISTORY__ ? '#' : ''}${page}"`;
 	});
 }
 
