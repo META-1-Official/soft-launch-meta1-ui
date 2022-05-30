@@ -49,7 +49,10 @@ class AccountRegistration extends React.Component {
 	render() {
 		return (
 			<div className="no-margin grid-block registration-layout registration">
-				<div className="grid-block horizontal align-center text-center">
+				<div
+					className="grid-block horizontal align-center text-center"
+					style={{flexWrap: 'wrap'}}
+				>
 					<div className="create-account-block">
 						<Translate
 							component="h3"
