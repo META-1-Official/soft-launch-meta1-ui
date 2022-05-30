@@ -59,7 +59,6 @@ class AccountSignedMessages extends React.Component {
 
 			// there should be a message entered
 			if (this.state.tabsm_message_text) {
-				console.log('@10 - ', this.state.tabsm_message_text);
 				this._tabSMPopMessage(
 					counterpart.translate('account.signedmessages.signing'),
 					0
@@ -69,14 +68,12 @@ class AccountSignedMessages extends React.Component {
 					this.state.tabsm_message_text
 				)
 					.then((res) => {
-						console.log('@11 - ', res);
 						this.setState({
 							tabsm_message_signed: res,
 							tabsm_popup: '', // clear loading message
 						});
 					})
 					.catch((err) => {
-						console.log('@12 - ', err);
 						this._tabSMPopMessage(err.message);
 						this.setState({
 							tabsm_message_signed: null,
