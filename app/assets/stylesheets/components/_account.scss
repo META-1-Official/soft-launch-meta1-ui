@@ -1321,26 +1321,31 @@ div.messages {
 	padding: 20px 50px !important;
 	background-color: #0a0b0d !important;
 
-	ul.account-overview li {
-		border-bottom: 3px solid #0a0b0d !important;
+	.service-selector {
+		background-color: transparent !important;
+		border-bottom: unset !important;
 
-		&:hover {
+		ul.account-overview li {
 			border-bottom: 3px solid #0a0b0d !important;
-		}
-
-		a {
-			background-color: #0a0b0d !important;
 
 			&:hover {
-				color: #ffc000 !important;
+				border-bottom: 3px solid #0a0b0d !important;
 			}
-		}
-
-		&.is-active {
-			border-bottom: 3px solid #ffc000 !important;
 
 			a {
-				color: #ffc000 !important;
+				background-color: #0a0b0d !important;
+
+				&:hover {
+					color: #ffc000 !important;
+				}
+			}
+
+			&.is-active {
+				border-bottom: 3px solid #ffc000 !important;
+
+				a {
+					color: #ffc000 !important;
+				}
 			}
 		}
 	}
@@ -1382,6 +1387,11 @@ div.messages {
 			color: black;
 			padding: 10px 39px;
 			margin-top: 30px;
+		}
+
+		div.verify-status {
+			display: inline-block;
+			margin-left: 10px;
 		}
 	}
 }

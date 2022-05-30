@@ -336,6 +336,7 @@ class AccountSignedMessages extends React.Component {
 											<div style={{float: 'right'}}>
 												Message is:
 												<div
+													className="verify-status"
 													style={{
 														backgroundColor: this.state.tabvm_verified
 															? 'green'
