@@ -39,6 +39,8 @@ const AppLayout = ({children, location, height}: IAppLayout, others) => {
 				qd['currentDisplay'][0] === 'transactionHistory'
 			) {
 				link = 'transaction-history';
+			} else if (pathSnippets.includes('signedmessages')) {
+				link = '';
 			} else {
 				link = 'account';
 			}

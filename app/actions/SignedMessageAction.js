@@ -168,6 +168,7 @@ class SignedMessageAction {
 					try {
 						// obtain all necessary keys
 						let memo_from_public = account.get('options').get('memo_key');
+						console.log('@150 - ', memo_from_public);
 						// The 1s are base58 for all zeros (null)
 						if (/111111111111111111111/.test(memo_from_public)) {
 							memo_from_public = null;
@@ -175,6 +176,7 @@ class SignedMessageAction {
 						let memo_from_privkey;
 						if (messageText && memo_from_public) {
 							memo_from_privkey = WalletDb.getPrivateKey(memo_from_public);
+							console.log('@151 - ', memo_from_privkey);
 							if (!memo_from_privkey) {
 								throw new Error(
 									counterpart.translate('account.signedmessages.invalidkey')

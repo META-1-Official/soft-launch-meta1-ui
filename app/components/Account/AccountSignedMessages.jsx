@@ -59,6 +59,7 @@ class AccountSignedMessages extends React.Component {
 
 			// there should be a message entered
 			if (this.state.tabsm_message_text) {
+				console.log('@10 - ', this.state.tabsm_message_text);
 				this._tabSMPopMessage(
 					counterpart.translate('account.signedmessages.signing'),
 					0
@@ -68,12 +69,14 @@ class AccountSignedMessages extends React.Component {
 					this.state.tabsm_message_text
 				)
 					.then((res) => {
+						console.log('@11 - ', res);
 						this.setState({
 							tabsm_message_signed: res,
 							tabsm_popup: '', // clear loading message
 						});
 					})
 					.catch((err) => {
+						console.log('@12 - ', err);
 						this._tabSMPopMessage(err.message);
 						this.setState({
 							tabsm_message_signed: null,
@@ -224,7 +227,10 @@ class AccountSignedMessages extends React.Component {
 
 	render() {
 		return (
-			<div className="grid-content app-tables no-padding" ref="appTables">
+			<div
+				className="grid-content app-tables no-padding messages"
+				ref="appTables"
+			>
 				<div className="content-block small-12">
 					<div className="tabs-container generic-bordered-box">
 						<Tabs
@@ -236,11 +242,6 @@ class AccountSignedMessages extends React.Component {
 						>
 							<Tab title="account.signedmessages.signmessage">
 								<div className="grid-content" style={{overflowX: 'hidden'}}>
-									<div className="content-block no-margin">
-										<h3>
-											<Translate content="account.signedmessages.signmessage" />
-										</h3>
-									</div>
 									<PubKeyInput
 										ref="memo_key"
 										value={this.state.tabsm_memo_key}
@@ -285,9 +286,6 @@ class AccountSignedMessages extends React.Component {
 							<Tab title="account.signedmessages.verifymessage">
 								<div className="grid-content" style={{overflowX: 'hidden'}}>
 									<div className="content-block no-margin">
-										<h3>
-											<Translate content="account.signedmessages.verifymessage" />
-										</h3>
 										<div
 											style={{
 												float: 'right',
