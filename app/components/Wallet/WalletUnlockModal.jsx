@@ -64,6 +64,7 @@ class WalletUnlockModal extends React.Component {
 
 		this.handlePasswordChange = this.handlePasswordChange.bind(this);
 		this.renderTorusLogin = this.renderTorusLogin.bind(this);
+		this.toggleEye = this.toggleEye.bind(this);
 	}
 
 	initialState = (props = this.props) => {
@@ -81,6 +82,7 @@ class WalletUnlockModal extends React.Component {
 			focusedOnce: false,
 			isAutoLockVisible: false,
 			captcha: true,
+			eyeChecked: false,
 		};
 	};
 
@@ -414,6 +416,11 @@ class WalletUnlockModal extends React.Component {
 		});
 	};
 
+	toggleEye = () => {
+		var tg = this.state.eyeChecked;
+		this.setState({eyeChecked: !tg});
+	};
+
 	handleAccountNameChange = (accountName) =>
 		this.setState({accountName, error: null});
 
@@ -454,7 +461,7 @@ class WalletUnlockModal extends React.Component {
 	render() {
 		const {
 			backup,
-			passwordLogin,
+			passwordLogin = true,
 			modalId,
 			currentWallet,
 			walletNames,
@@ -476,89 +483,6 @@ class WalletUnlockModal extends React.Component {
 		const errorMessage = passwordError
 			? counterpart.translate('wallet.pass_incorrect')
 			: customError;
-
-		let footer = [];
-		if (passwordLogin) {
-			footer.push(
-				<Tooltip
-					key="wallet.remember_me_explanation"
-					title={counterpart.translate('wallet.remember_me_explanation')}
-				>
-					<div
-						style={{
-							float: 'left',
-							cursor: 'pointer',
-							marginTop: '6px',
-						}}
-						onClick={this.handleRememberMe.bind(this)}
-					>
-						<Translate content="wallet.remember_me" />
-						<Switch
-							checked={this.state.rememberMe}
-							onChange={this.handleRememberMe.bind(this)}
-						/>
-					</div>
-				</Tooltip>
-			);
-			footer.push(
-				<div
-					style={{
-						float: 'left',
-					}}
-					key="settings.walletLockTimeoutTooltip"
-				>
-					<span>
-						<Tooltip
-							title={counterpart.translate('settings.walletLockTimeoutTooltip')}
-						>
-							<span>
-								<Icon
-									onClick={() => {
-										this.setState({
-											isAutoLockVisible: !this.state.isAutoLockVisible,
-										});
-									}}
-									name={'autolock'}
-									size={'1_5x'}
-									style={{
-										cursor: 'pointer',
-										top: '5px',
-										position: 'relative',
-										marginLeft: '12px',
-									}}
-								/>
-							</span>
-						</Tooltip>
-						{this.state.isAutoLockVisible && (
-							<Tooltip
-								title={counterpart.translate('settings.walletLockTimeout')}
-							>
-								<InputNumber
-									value={walletLockTimeout}
-									onChange={this.handleWalletAutoLock}
-									placeholder="Auto-lock after..."
-									style={{
-										marginLeft: '7px',
-										width: '65px',
-									}}
-								/>
-							</Tooltip>
-						)}
-					</span>
-				</div>
-			);
-		}
-		footer.push(
-			<span className="auto-lock-wrapper" key="wallet.backup_login">
-				<Button onClick={this.handleLogin} key="login-btn">
-					{counterpart.translate(
-						this.shouldUseBackupLogin()
-							? 'wallet.backup_login'
-							: 'header.unlock_short'
-					)}
-				</Button>
-			</span>
-		);
 
 		return (
 			<Modal
@@ -605,24 +529,24 @@ class WalletUnlockModal extends React.Component {
 									validateStatus={passwordError ? 'error' : ''}
 									help={passwordError || ''}
 								>
-									<Input
-										css={(theme) => ({
-											'&&': {
-												backgroundColor: theme.colors.black,
-												border: `1px solid ${theme.colors.borderColor}`,
-												color: theme.colors.inputTextColor,
-												borderRadius: '4px',
-												height: '50px',
-											},
-										})}
-										type="password"
-										value={this.state.password}
-										onChange={this.handlePasswordChange}
-										onPressEnter={this.handleLogin}
-										ref={(input) => {
-											this.password_input = input;
-										}}
-									/>
+									<div className="password-field">
+										<Input
+											type={this.state.eyeChecked ? 'text' : 'password'}
+											value={this.state.password}
+											onChange={this.handlePasswordChange}
+											onPressEnter={this.handleLogin}
+											ref={(input) => {
+												this.password_input = input;
+											}}
+											bordered={false}
+										/>
+										<div onClick={this.toggleEye}>
+											<Icon
+												name={this.state.eyeChecked ? 'eye' : 'eye-striked'}
+												className="eye-icon"
+											/>
+										</div>
+									</div>
 								</Form.Item>
 							)}
 						</div>
@@ -701,16 +625,75 @@ class WalletUnlockModal extends React.Component {
 						/>
 					)}
 				</Form>
+				{passwordLogin && (
+					<div className="control-wrapper">
+						<Tooltip
+							key="wallet.remember_me_explanation"
+							title={counterpart.translate('wallet.remember_me_explanation')}
+						>
+							<div
+								onClick={this.handleRememberMe.bind(this)}
+								className="remember-me"
+							>
+								<Switch
+									checked={this.state.rememberMe}
+									onChange={this.handleRememberMe.bind(this)}
+								/>
+								<Translate content="wallet.remember_me" />
+							</div>
+						</Tooltip>
+						<div className="timeout" key="settings.walletLockTimeoutTooltip">
+							<Tooltip
+								title={counterpart.translate(
+									'settings.walletLockTimeoutTooltip'
+								)}
+							>
+								<Icon
+									onClick={() => {
+										this.setState({
+											isAutoLockVisible: !this.state.isAutoLockVisible,
+										});
+									}}
+									name={'autolock'}
+									size={'1_5x'}
+									css={{cursor: 'pointer'}}
+								/>
+							</Tooltip>
+							{this.state.isAutoLockVisible && (
+								<Tooltip
+									title={counterpart.translate('settings.walletLockTimeout')}
+								>
+									<InputNumber
+										value={walletLockTimeout}
+										onChange={this.handleWalletAutoLock}
+										placeholder="Auto-lock after..."
+										style={{
+											marginLeft: '7px',
+											width: '65px',
+											height: '25px',
+										}}
+									/>
+								</Tooltip>
+							)}
+						</div>
+					</div>
+				)}
 				<div className="footer-wrapper">
 					<Button
 						htmlType="submit"
 						type="primary"
-						// disabled={this.passwordError !== null && this.customError !== null}
 						onClick={this.handleLogin}
 						className="login-btn"
 					>
-						Log In
+						{counterpart.translate(
+							this.shouldUseBackupLogin()
+								? 'wallet.backup_login'
+								: 'header.unlock_short'
+						)}
 					</Button>
+					<div className="redirect">
+						Or create your <a href="/registration">account</a>
+					</div>
 				</div>
 			</Modal>
 		);

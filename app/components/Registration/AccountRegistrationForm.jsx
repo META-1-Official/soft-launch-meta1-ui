@@ -16,6 +16,7 @@ import Icon from '../Icon/Icon';
 import CopyButton from '../Utility/CopyButton';
 import {Form, Input, Button, Tooltip} from 'antd';
 import ReCAPTCHA from 'react-google-recaptcha';
+import WalletUnlockActions from 'actions/WalletUnlockActions';
 
 class AccountRegistrationForm extends React.Component {
 	static propTypes = {
@@ -312,6 +313,12 @@ class AccountRegistrationForm extends React.Component {
 							<Translate content="registration.continue" />
 						</Button>
 					)}
+					<div className="redirect">
+						Or if you have an account then{' '}
+						<div className="btn" onClick={() => WalletUnlockActions.unlock()}>
+							login
+						</div>
+					</div>
 				</Form>
 			</div>
 		);
