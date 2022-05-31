@@ -98,7 +98,7 @@ class AccountPage extends React.Component {
 			history: this.props.history,
 		};
 		return (
-			<div className="no-padding">
+			<div className="no-padding account-page">
 				<Switch>
 					<Route
 						path={`/account/${account_name}`}

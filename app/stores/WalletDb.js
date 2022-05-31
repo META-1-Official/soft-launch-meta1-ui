@@ -117,6 +117,7 @@ class WalletDb extends BaseStore {
 
 	/** @return ecc/PrivateKey or null */
 	getPrivateKey(public_key) {
+		console.log('@1 - ', public_key, _passwordKey);
 		if (_passwordKey) return _passwordKey[public_key];
 		if (!public_key) return null;
 		if (public_key.Q) public_key = public_key.toPublicKeyString();
@@ -391,8 +392,10 @@ class WalletDb extends BaseStore {
 				? chainAccount
 				: ChainStore.getAccount(account, false);
 			console.log('!!! validate pass: acc', acc);
+			console.log('!!! fromWif', fromWif);
 			let key;
 			if (fromWif) {
+				console.log('!!! fromWif --- 1', fromWif);
 				key = {
 					privKey: fromWif,
 					pubKey: fromWif.toPublicKey().toString(),

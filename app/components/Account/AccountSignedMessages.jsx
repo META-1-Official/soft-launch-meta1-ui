@@ -224,7 +224,10 @@ class AccountSignedMessages extends React.Component {
 
 	render() {
 		return (
-			<div className="grid-content app-tables no-padding" ref="appTables">
+			<div
+				className="grid-content app-tables no-padding messages"
+				ref="appTables"
+			>
 				<div className="content-block small-12">
 					<div className="tabs-container generic-bordered-box">
 						<Tabs
@@ -236,11 +239,6 @@ class AccountSignedMessages extends React.Component {
 						>
 							<Tab title="account.signedmessages.signmessage">
 								<div className="grid-content" style={{overflowX: 'hidden'}}>
-									<div className="content-block no-margin">
-										<h3>
-											<Translate content="account.signedmessages.signmessage" />
-										</h3>
-									</div>
 									<PubKeyInput
 										ref="memo_key"
 										value={this.state.tabsm_memo_key}
@@ -285,9 +283,6 @@ class AccountSignedMessages extends React.Component {
 							<Tab title="account.signedmessages.verifymessage">
 								<div className="grid-content" style={{overflowX: 'hidden'}}>
 									<div className="content-block no-margin">
-										<h3>
-											<Translate content="account.signedmessages.verifymessage" />
-										</h3>
 										<div
 											style={{
 												float: 'right',
@@ -341,6 +336,7 @@ class AccountSignedMessages extends React.Component {
 											<div style={{float: 'right'}}>
 												Message is:
 												<div
+													className="verify-status"
 													style={{
 														backgroundColor: this.state.tabvm_verified
 															? 'green'

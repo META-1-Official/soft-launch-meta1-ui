@@ -2113,12 +2113,12 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 	}
 
 	/* Table view account */
-	div.grid-content.app-tables {
-		@include radialGradient($bg-color-mixin, $account-background);
-	}
-	div.tabs-container {
-		@include radialGradient($bg-color-mixin, $account-background);
-	}
+	// div.grid-content.app-tables {
+	// 	@include radialGradient($bg-color-mixin, $account-background);
+	// }
+	// div.tabs-container {
+	// 	@include radialGradient($bg-color-mixin, $account-background);
+	// }
 
 	div.account-tabs {
 		> div.service-selector {
