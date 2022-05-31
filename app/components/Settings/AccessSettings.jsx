@@ -76,10 +76,10 @@ class AutoSelectionNode extends React.Component {
 			);
 		} else {
 			return (
-				<div css={{display: 'flex'}}>
+				<div css={{display: 'flex', alignItems: 'center'}}>
 					<Translate
 						component="div"
-						style={{paddingRight: '1rem'}}
+						style={{paddingRight: '1rem', fontSize: '15px', color: '#CECECE'}}
 						content="settings.automatic"
 						totalNodes={totalNodes}
 					/>
@@ -275,7 +275,9 @@ class ApiNode extends React.Component {
 							paddingRight: '1rem',
 						})}
 					>
-						<p css={{marginBottom: '0rem'}}>{title}</p>
+						<p css={{marginBottom: '10px', textTransform: 'uppercase'}}>
+							{title}
+						</p>
 						{!!node.operator && (
 							<p
 								css={(theme) => ({
@@ -311,12 +313,17 @@ class ApiNode extends React.Component {
 						<span
 							css={(theme) => ({
 								color: theme.colors.primaryColor,
+								width: '150px',
 							})}
 						>
 							{!!ping.rating && (
 								<Translate content={`settings.${ping.rating}`} />
 							)}
-							{!!ping.toString && <p>{ping.toString}</p>}
+							{!!ping.toString && (
+								<p style={{marginTop: '10px', fontSize: '18px'}}>
+									{ping.toString}
+								</p>
+							)}
 						</span>
 					</div>
 
@@ -584,25 +591,16 @@ class AccessSettings extends React.Component {
 				</div>
 			</div>
 		) : (
-			<>
-				<div
-					css={(theme) => ({
-						padding: '1rem 1.5rem',
-						borderBottom: `1px solid ${theme.colors.borderColor}`,
-						display: 'flex',
-						justifyContent: 'space-between',
-					})}
-				>
+			<div className="node-tab">
+				<div className="nodes-header">
 					<div>
 						<Translate
 							component="h3"
 							css={(theme) => ({
 								'&&': {
 									color: theme.colors.primaryColor,
-									marginBottom: '10px',
 									fontSize: '1.25rem',
 									textTransform: 'capitalize',
-									marginBottom: '10px',
 									fontWeight: '100',
 									fontSize: '1.35rem',
 								},
@@ -658,7 +656,7 @@ class AccessSettings extends React.Component {
 							marginBottom: '2em',
 						}}
 					>
-						<div className="grid-block shrink" style={{marginLeft: 0}}>
+						<div className="grid-block shrink" style={{margin: '30px 0px'}}>
 							{[
 								'available_nodes',
 								'my_nodes',
@@ -671,9 +669,18 @@ class AccessSettings extends React.Component {
 										key={key}
 										onClick={this._changeTab.bind(this, key)}
 										shape="round"
-										transparent={this.state.activeTab === key ? false : true}
 										size="small"
-										style={{marginRight: '10px'}}
+										style={{
+											marginRight: '10px',
+											background:
+												this.state.activeTab === key
+													? 'rgba(255, 192, 0, 1.0)'
+													: 'rgba(255, 192, 0, 0.2)',
+											color: this.state.activeTab === key ? 'black' : 'white',
+											fontSize: '14px',
+											height: '30px',
+											border: 'none',
+										}}
 									>
 										<Translate content={'settings.' + key} />
 									</StyledButton>
@@ -717,7 +724,7 @@ class AccessSettings extends React.Component {
 						) : null}
 					</div>
 				</div>
-			</>
+			</div>
 		);
 	}
 }

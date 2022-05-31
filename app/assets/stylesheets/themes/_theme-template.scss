@@ -1948,19 +1948,6 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 		margin-bottom: 0;
 	}
 
-	.settings--notifications {
-		.settings--notifications--group {
-			.settings--notifications--item {
-				label {
-					color: $settings-select-color;
-				}
-			}
-		}
-		.settings--notifications--no-browser-support {
-			color: $error-text-color;
-			font-size: 12px;
-		}
-	}
 	@media (max-width: $hamburger-submenu-display-endpoint) {
 		.settings-menu {
 			display: none;
@@ -2008,16 +1995,6 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 			background-color: darken($warning-color, 15%) !important;
 			color: $dark-text-color;
 			@include RobotoMedium;
-		}
-	}
-	.nodes-header {
-		border-bottom-color: $button-bg-color;
-		background-color: $bg-color;
-		@include radialGradient($button-mix2, $button-mix1);
-		border-radius: 5px;
-		&.inactive {
-			border-bottom-color: transparent;
-			color: $secondary-text-color;
 		}
 	}
 	div.custom-dropdown-content {

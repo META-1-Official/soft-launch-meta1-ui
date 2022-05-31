@@ -49,8 +49,7 @@ function adjust_links(str, newRoute) {
 			page = '/' + page;
 		}
 
-		return `<div
-				style="
+		return `<div style="
 					padding: 6px 0px 6px 2rem; cursor: pointer; display: inline-block; width: 100%;
 					${page === newRoute ? 'border-right: 2px solid yellow;' : ''}
 				"

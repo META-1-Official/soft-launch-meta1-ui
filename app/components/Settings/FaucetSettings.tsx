@@ -33,11 +33,9 @@ const FaucetSettings = ({
 						'&&': {
 							color: theme.colors.primaryColor,
 							marginBottom: '10px',
-							fontSize: '1.25rem',
-							textTransform: 'capitalize',
-							marginBottom: '10px',
-							fontWeight: '100',
 							fontSize: '1.35rem',
+							textTransform: 'capitalize',
+							fontWeight: '100',
 						},
 					})}
 					content={'settings.' + menuEntries[activeSetting]}
@@ -75,6 +73,7 @@ const FaucetSettings = ({
 							border: 'none',
 							color: theme.colors.inputTextColor,
 							borderRadius: '6px',
+							height: '50px',
 						},
 					})}
 					disabled={disabled}

@@ -89,7 +89,8 @@ export default class ResetSettings extends React.Component {
 							fontWeight: 'normal',
 							fontFamily: 'Roboto-Medium, arial, sans-serif',
 							fontStyle: 'normal',
-							fontSize: '14px',
+							fontSize: '15px',
+							color: '#CECECE',
 						}}
 						content={'settings.reset_text_description'}
 						generalName={counterpart.translate('settings.general')}
@@ -102,7 +103,13 @@ export default class ResetSettings extends React.Component {
 
 					<StyledButton
 						buttonType="primary"
-						css={{marginTop: '30px'}}
+						css={{
+							marginTop: '30px',
+							width: '170px',
+							height: '50px',
+							textTransform: 'uppercase',
+							fontWeight: 600,
+						}}
 						onClick={() => {
 							SettingsActions.clearSettings().then(() => {
 								this._setMessage('settings.restore_default_success');

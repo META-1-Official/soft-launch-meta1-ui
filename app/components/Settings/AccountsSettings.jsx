@@ -1,5 +1,5 @@
 import React from 'react';
-import {Typography} from 'antd';
+import {Typography, Table} from 'antd';
 import {Link} from 'react-router-dom';
 import AccountStore from 'stores/AccountStore';
 import AccountActions from 'actions/AccountActions';
@@ -21,13 +21,64 @@ class AccountsSettings extends React.Component {
 		AccountActions.toggleHideAccount(account, hide);
 	}
 
+	_buildColumns() {
+		let {hiddenAccounts} = this.props;
+
+		return [
+			{
+				title: 'ACCOUNT NAME',
+				key: 'acc_name',
+				render: (rowData) => <div>{rowData.account}</div>,
+			},
+			{
+				title: 'KEYS',
+				key: 'keys',
+				render: (rowData) => (
+					<Link to={`/account/${rowData.account}/permissions`}>
+						<Translate content="settings.view_keys" />
+					</Link>
+				),
+			},
+			{
+				title: 'SHOW/HIDE',
+				key: 'show_hide',
+				render: (rowData) => {
+					let isIgnored = hiddenAccounts.has(rowData.account);
+					return (
+						<a
+							onClick={
+								isIgnored
+									? this.onToggleHide.bind(this, rowData.account, false)
+									: this.onToggleHide.bind(this, rowData.account, true)
+							}
+						>
+							<Translate
+								content={'account.' + (isIgnored ? 'unignore' : 'ignore')}
+							/>
+						</a>
+					);
+				},
+			},
+		];
+	}
+
+	_buildDataSource(accounts) {
+		const _dataSource = [];
+		accounts.map((account) => {
+			_dataSource.push({account});
+		});
+		return _dataSource;
+	}
+
 	render() {
 		let {myAccounts, hiddenAccounts} = this.props;
-
 		let accounts = hiddenAccounts.toArray().concat(myAccounts).sort();
 
+		const columns = this._buildColumns();
+		const dataSource = this._buildDataSource(accounts);
+
 		return (
-			<>
+			<div className="account-settings">
 				<div
 					css={(theme) => ({
 						padding: '1rem 1.5rem',
@@ -73,49 +124,15 @@ class AccountsSettings extends React.Component {
 						/>
 					</Title>
 				</div>
-				<div css={{padding: '1rem 1.5rem'}}>
-					{!accounts.length ? (
-						<div>
-							<Translate content="settings.no_accounts" />
-						</div>
-					) : (
-						<table className="table">
-							<tbody>
-								{accounts.map((account) => {
-									let isIgnored = hiddenAccounts.has(account);
-									let hideLink = (
-										<a
-											onClick={
-												isIgnored
-													? this.onToggleHide.bind(this, account, false)
-													: this.onToggleHide.bind(this, account, true)
-											}
-										>
-											<Translate
-												content={
-													'account.' + (isIgnored ? 'unignore' : 'ignore')
-												}
-											/>
-										</a>
-									);
-
-									return (
-										<tr key={account}>
-											<td>{account}</td>
-											<td>
-												<Link to={`/account/${account}/permissions`}>
-													<Translate content="settings.view_keys" />
-												</Link>
-											</td>
-											<td>{hideLink}</td>
-										</tr>
-									);
-								})}
-							</tbody>
-						</table>
-					)}
-				</div>
-			</>
+				<Table
+					columns={columns}
+					dataSource={dataSource}
+					pagination={{
+						position: 'bottom',
+						pageSize: 20,
+					}}
+				/>
+			</div>
 		);
 	}
 }
