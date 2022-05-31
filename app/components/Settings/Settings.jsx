@@ -410,16 +410,8 @@ class Settings extends React.Component {
 
 			default:
 				entries = (
-					<div
-						css={{
-							padding: '0rem 1rem',
-						}}
-					>
-						<div
-							css={() => ({
-								padding: '1rem 1.5rem 0rem',
-							})}
-						>
+					<div className="general-tab">
+						<div className="general-header">
 							<Translate
 								component="h3"
 								css={(theme) => ({
@@ -476,16 +468,9 @@ class Settings extends React.Component {
 
 				break;
 		}
+
 		return (
-			<div
-				css={(theme) => ({
-					padding: '0.3rem 2rem',
-					width: '75%',
-					[`@media (max-width: ${theme.sizes.lg})`]: {
-						width: '100%',
-					},
-				})}
-			>
+			<div className="settings">
 				<Menu
 					onClick={this.onSettingMenuClick}
 					selectedKeys={[activeEntry]}

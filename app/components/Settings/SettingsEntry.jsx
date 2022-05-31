@@ -88,35 +88,27 @@ export default class SettingsEntry extends React.Component {
 				value = selected;
 
 				component = (
-					<div className="settings--notifications">
-						<div className="settings--notifications--group">
-							<div className="settings--notifications--item">
-								<Checkbox
-									id="browser_notifications.allow"
-									checked={!!value.allow}
-									onChange={this.handleNotificationChange('allow')}
-								>
-									{counterpart.translate(
-										'settings.browser_notifications_allow'
-									)}
-								</Checkbox>
-							</div>
-							<div className="settings--notifications--group">
-								<div className="settings--notifications--item">
-									<Checkbox
-										id="browser_notifications.additional.transferToMe"
-										disabled={!value.allow}
-										checked={!!value.additional.transferToMe}
-										onChange={this.handleNotificationChange(
-											'additional.transferToMe'
-										)}
-									>
-										{counterpart.translate(
-											'settings.browser_notifications_additional_transfer_to_me'
-										)}
-									</Checkbox>
-								</div>
-							</div>
+					<div className="settings-notifications">
+						<div className="settings-notifications-item">
+							{counterpart.translate('settings.browser_notifications_allow')}
+							<Checkbox
+								id="browser_notifications.allow"
+								checked={!!value.allow}
+								onChange={this.handleNotificationChange('allow')}
+							/>
+						</div>
+						<div className="settings-notifications-item">
+							{counterpart.translate(
+								'settings.browser_notifications_additional_transfer_to_me'
+							)}
+							<Checkbox
+								id="browser_notifications.additional.transferToMe"
+								disabled={!value.allow}
+								checked={!!value.additional.transferToMe}
+								onChange={this.handleNotificationChange(
+									'additional.transferToMe'
+								)}
+							/>
 						</div>
 						{!!value.allow && Notify.needsPermission && (
 							<a
@@ -127,7 +119,7 @@ export default class SettingsEntry extends React.Component {
 							>
 								<Translate
 									component="div"
-									className="settings--notifications--no-browser-support"
+									className="settings-notifications-no-browser-support"
 									content="settings.browser_notifications_disabled_by_browser_notify"
 								/>
 							</a>
@@ -234,18 +226,9 @@ export default class SettingsEntry extends React.Component {
 				</>
 			);
 		};
+
 		return (
-			<div
-				css={(theme) => ({
-					backgroundColor: theme.colors.settingBlockColor,
-					margin: '1rem',
-					padding: '1rem',
-					borderRadius: '6px',
-					'& .ant-form-item-label > label': {
-						color: theme.colors.white,
-					},
-				})}
-			>
+			<div className="setting-entry">
 				<EntryLayout noHeader={noHeader} setting={setting}>
 					{options ? (
 						<>

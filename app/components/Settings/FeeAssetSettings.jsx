@@ -25,31 +25,20 @@ class FeeAssetSettings extends React.Component {
 	render() {
 		const asset = ChainStore.getAsset(this.state.current_asset);
 		return (
-			<div
-				style={{
-					display: 'flex',
-					flexDirection: 'row',
-					alignItems: 'center',
-					justifyContent: 'space-between',
-				}}
-			>
+			<div className="fee-asset-wrapper">
 				<div>
-					{' '}
 					<Translate
 						component="span"
 						content="settings.current_fee_asset"
-						style={{marginRight: '10px', color: 'white'}}
+						className="current-fee-asset"
 					/>
 					{asset ? <AssetName name={asset.get('symbol')} /> : null}
 				</div>
 
 				<StyledButton
 					buttonType="primary"
-					style={{margin: '15px'}}
 					key="open_change_fee_asset"
-					onClick={() => {
-						this.setState({showModal: true});
-					}}
+					onClick={() => this.setState({showModal: true})}
 				>
 					{counterpart.translate('settings.change_default_fee_asset')}
 				</StyledButton>

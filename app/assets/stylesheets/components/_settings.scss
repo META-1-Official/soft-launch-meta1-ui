@@ -1,109 +1,239 @@
-.settings-menu {
-	> ul {
-		> li {
-			list-style-type: none;
+.settings {
+	padding-left: 30px !important;
+	padding-right: 30px !important;
+	padding-top: 10px !important;
+	padding-bottom: 10px !important;
+
+	background: black;
+
+	.ant-menu {
+		background: black !important;
+
+		.ant-menu-title-content {
+			font-size: 15px;
+			letter-spacing: 1px;
+		}
+	}
+
+	.general-tab {
+		.general-header {
+			padding: 1rem 1.5rem;
+			border-bottom: 1px solid #1c1f27;
+		}
+
+		.setting-entry {
+			background: rgba(21, 23, 27, 0.4);
+			padding: 20px 30px;
+			border-radius: 6px;
+			margin: 15px 30px;
+
+			.ant-form-item-label > label {
+				font-size: 16px;
+				color: rgba(255, 255, 255, 0.7);
+			}
+
+			.ant-form-item-control {
+				.fee-asset-wrapper {
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+					justify-content: space-between;
+
+					.current-fee-asset {
+						margin-right: 10px;
+						font-size: 16px;
+						color: rgba(255, 255, 255, 0.7);
+					}
+
+					button {
+						height: 52px;
+						background: #ffc000;
+						border: 1px solid #1c1f27;
+						border-radius: 4px;
+
+						span {
+							color: #0a0b0d;
+							text-transform: uppercase;
+							font-size: 15px;
+							font-weight: 600;
+						}
+					}
+				}
+				.settings-notifications {
+					display: flex;
+					flex-direction: column;
+					padding-top: 5px;
+
+					.settings-notifications-item {
+						display: flex;
+						align-items: center;
+						justify-content: space-between;
+						margin-bottom: 5px;
+
+						font-size: 16px;
+						color: rgba(255, 255, 255, 0.9);
+
+						.ant-checkbox-inner {
+							background: #ffc000;
+							border: none;
+							width: 26px;
+							height: 26px;
+							border-radius: 3px;
+
+							&::after {
+								border-color: black;
+								left: 10px;
+							}
+						}
+					}
+
+					.external-link {
+						.settings-notifications-no-browser-support {
+							margin-top: 10px;
+							color: darkred;
+							font-size: 16px;
+							margin-bottom: 3px;
+						}
+
+						&::after {
+							background-size: 24px 24px;
+							width: 24px;
+							height: 24px;
+							cursor: pointer;
+						}
+					}
+				}
+			}
+
+			.ant-select-selector {
+				height: 50px;
+				display: flex;
+				align-items: center;
+
+				.ant-select-selection-item {
+					color: rgba(255, 255, 255, 0.4);
+					font-size: 14px;
+
+					span {
+						color: rgba(255, 255, 255, 0.4);
+						font-size: 14px;
+					}
+				}
+			}
+		}
+	}
+
+	.ant-typography {
+		span {
+			font-size: 15px;
+			color: #cecece;
+			font-weight: 400;
+		}
+	}
+
+	.settings-notifications {
+		input[type='checkbox'] {
 			cursor: pointer;
-			padding: 5px 0;
-			&:hover {
-				background-color: red;
-			}
+		}
 
-			&.active {
-				color: blue;
+		.settings-notifications-group {
+			margin: 15px 10px;
+
+			.settings-notifications-item {
+				label {
+					text-transform: none;
+				}
+			}
+		}
+
+		> .settings-notifications-group {
+			margin-left: 0;
+		}
+	}
+
+	.node-tab {
+		.nodes-header {
+			padding: 1rem 1.5rem;
+			border-bottom: 1px solid #1c1f27;
+			display: flex;
+			justify-content: space-between;
+
+			.ant-typography {
+				margin-bottom: 0;
 			}
 		}
 	}
-}
 
-.settings--notifications {
-	input[type='checkbox'] {
-		cursor: pointer;
+	div.api-status a .default-icon {
+		display: block;
 	}
-	.settings--notifications--group {
-		margin: 15px 10px;
-		.settings--notifications--item {
-			label {
-				text-transform: none;
-			}
+
+	div.api-status a:hover .default-icon {
+		display: none;
+	}
+
+	div.api-status a .hover-icon {
+		display: none;
+	}
+
+	div.api-status a:hover .hover-icon {
+		display: block;
+	}
+
+	.auto-node {
+		margin-left: 1rem;
+		margin-bottom: 2rem;
+
+		> div {
+			display: inline-flex;
+			vertical-align: middle;
 		}
 	}
-	> .settings--notifications--group {
-		margin-left: 0;
-	}
-}
 
-.nodes-header {
-	// text-transform: uppercase;
-	font-size: 1rem;
-	padding: 6px 10px;
-	margin-bottom: 2em;
-	font-weight: 500;
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-	transition: border-color 0.3s ease 0s;
-	overflow: hidden;
-}
+	.account-settings {
+		.ant-table-wrapper {
+			.ant-table-thead {
+				height: 46px;
+				tr {
+					font-size: 14px;
 
-// div.api-node {
-//     .api-status {
-//         overflow-wrap: break-word;
-//         font-size: 80%;
-//     }
+					th:nth-child(1) {
+						text-align: left;
+						color: #969ba6;
+					}
+					th:nth-child(2) {
+						text-align: center;
+						color: #969ba6;
+					}
+					th:nth-child(3) {
+						text-align: right;
+						color: #969ba6;
+					}
+				}
+			}
 
-//     p {
-//         margin-bottom: 0;
-//     }
-//     > div {
-//         vertical-align: top;
-//         display: inline-block;
-//         padding-bottom: 1rem;
-//         padding-top: 1rem;
-//         padding-left: 1rem;
-//     }
-//     > div.api-node-left {
-//         width: 50%;
-//         > p.api-node-url {
-//             overflow-wrap: break-word;
-//             font-size: 80%;
-//         }
-//         > p.api-node-operator {
-//             overflow-wrap: break-word;
-//             font-size: 80%;
-//             float: right;
-//             color: gray;
-//         }
-//     }
-//     > div:nth-child(2) {
-//         width: 25%;
-//     }
-//     > div:nth-child(3) {
-//         width: auto;
-//         position: absolute;
-//         right: 25px;
-//     }
-// }
-
-div.api-status a .default-icon {
-	display: block;
-}
-
-div.api-status a:hover .default-icon {
-	display: none;
-}
-
-div.api-status a .hover-icon {
-	display: none;
-}
-
-div.api-status a:hover .hover-icon {
-	display: block;
-}
-
-.auto-node {
-	margin-left: 1rem;
-	margin-bottom: 2rem;
-	> div {
-		display: inline-flex;
-		vertical-align: middle;
+			.ant-table-tbody {
+				tr {
+					td:nth-child(1) {
+						text-align: left;
+						font-size: 14px;
+					}
+					td:nth-child(2) {
+						text-align: center;
+						font-size: 14px;
+						a {
+							color: #ffc000;
+						}
+					}
+					td:nth-child(3) {
+						text-align: right;
+						font-size: 14px;
+						a {
+							color: #ffc000;
+						}
+					}
+				}
+			}
+		}
 	}
 }
