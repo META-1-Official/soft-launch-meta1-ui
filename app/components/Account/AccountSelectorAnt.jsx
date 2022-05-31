@@ -403,6 +403,7 @@ class AccountSelector extends React.Component {
 							onChange={this.onInputChanged.bind(this)}
 							onKeyDown={this.onKeyDown.bind(this)}
 							tabIndex={this.props.tabIndex}
+							bordered={false}
 						/>
 					)}
 				</div>

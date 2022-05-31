@@ -26,10 +26,136 @@ div.registration {
 	}
 
 	.create-account-block {
-		max-width: 700px;
+		max-width: 800px;
 		width: 100%;
-		padding: 0 15px;
+		padding: 40px 50px;
 		text-align: left;
+		background: #0a0b0d;
+		border: 1px solid #262a32;
+		border-radius: 10px;
+		margin-bottom: 50px;
+
+		.registration-account-title {
+			text-align: center;
+			font-weight: 500;
+		}
+
+		.warn-tooltip {
+			.ant-alert-with-description {
+				height: 105px;
+				background: #640000;
+				border-radius: 10px;
+				border: none;
+				display: flex;
+				align-items: center;
+				margin-top: 10px;
+
+				.ant-alert-description {
+					color: #ffc000;
+					font-size: 17px;
+				}
+			}
+		}
+
+		.checkbox-group {
+			margin-top: 60px;
+			margin-bottom: 50px;
+
+			.ant-checkbox-wrapper {
+				margin-left: 0px !important;
+				height: 40px;
+
+				.checkbox-text {
+					font-size: 17px;
+					color: white;
+
+					&.active {
+						color: rgba(206, 206, 206, 0.5);
+					}
+				}
+
+				.reset-this {
+					font-size: 17px;
+					color: white;
+
+					&.active {
+						color: rgba(206, 206, 206, 0.5);
+					}
+				}
+			}
+
+			.ant-checkbox-inner {
+				background-color: #ffc000;
+				border: none;
+			}
+		}
+
+		.button-wrapper {
+			.create-acc-btn {
+				height: 60px;
+				width: 100%;
+				background: #ffc000;
+				font-size: 18px;
+				font-weight: 600;
+				border-radius: 6px;
+				border: none;
+
+				span {
+					color: #440000 !important;
+					text-transform: capitalize;
+				}
+			}
+		}
+
+		.registration-form {
+			.header-text {
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+
+				p {
+					font-size: 14px;
+					line-height: 20px;
+					color: #cecece;
+				}
+			}
+
+			.form-body {
+				.info-form {
+					display: flex;
+					width: 100%;
+					flex-direction: column;
+					justify-content: center;
+
+					.form-blocks {
+						display: flex;
+						flex-direction: row;
+						align-items: center;
+
+						.ant-form-item {
+							width: 50%;
+						}
+					}
+				}
+
+				.continue-btn {
+					height: 60px;
+					width: 100%;
+					background: #ffc000;
+					color: #440000;
+					font-size: 18px;
+					font-weight: 600;
+					border-radius: 6px;
+					border: none;
+				}
+			}
+
+			.form-group {
+				select.bts-select {
+					max-width: 100% !important;
+				}
+			}
+		}
 
 		span.inline-label {
 			max-width: 30rem;
@@ -64,14 +190,6 @@ div.registration {
 			h3 {
 				margin-bottom: 28px;
 			}
-		}
-
-		.model-description {
-			max-width: 560px;
-			margin-bottom: 27px;
-			font-size: 14px;
-			letter-spacing: 0.06px;
-			line-height: 20px;
 		}
 
 		button.button-primary {
@@ -281,13 +399,6 @@ div.registration {
 				margin-bottom: 4px;
 				font-size: 20px;
 				line-height: 24px;
-			}
-
-			.model-description {
-				margin-bottom: 17px;
-				font-size: 12px;
-				letter-spacing: 0.05px;
-				line-height: 16px;
 			}
 
 			button.button-primary {

@@ -254,72 +254,86 @@ class AccountRegistrationConfirm extends React.Component {
 	render() {
 		return (
 			<Form layout={'vertical'}>
-				<Form.Item label={counterpart.translate('registration.copyPassword')}>
-					<Input.TextArea
-						disabled={true}
-						rows={2}
-						id="password"
-						value={this.props.password}
-					/>
-					<CopyButton
-						text={this.state.generatedPassword}
-						tip="tooltip.copy_password"
-						dataPlace="top"
-						className="button registration-layout--copy-password-btn"
-					/>
+				<div style={{color: '#CECECE', fontSize: '14px', marginBottom: '45px'}}>
+					<Translate component="p" content="registration.accountDescription" />
+				</div>
+				<Form.Item label={counterpart.translate('wallet.generated')}>
+					<div className="password-wrapper">
+						<Input
+							disabled={true}
+							rows={2}
+							id="password"
+							value={this.props.password}
+						/>
+						<CopyButton
+							text={this.state.generatedPassword}
+							tip="tooltip.copy_password"
+							dataPlace="top"
+							className="button registration-layout--copy-password-btn"
+						/>
+					</div>
 				</Form.Item>
-				<Form.Item>
+				<Form.Item className="warn-tooltip">
 					<Alert
-						showIcon
+						showIcon={false}
 						type={'warning'}
 						message={''}
 						description={counterpart.translate('registration.accountNote')}
 					/>
 				</Form.Item>
-
-				<Form.Item>
+				<Form.Item className="checkbox-group">
 					<Checkbox
 						checked={this.state.confirmed}
 						onChange={this.toggleConfirmed}
 					>
 						<Translate
 							content="registration.accountConfirmation"
-							className="checkbox-text"
+							className={`checkbox-text ${
+								this.state.confirmed ? 'active' : ''
+							}`}
 							unsafe
 						/>
 					</Checkbox>
-					<hr></hr>
 					<Checkbox
 						checked={this.state.confirmedTerms}
 						onChange={this.toggleConfirmedTerms}
 					>
 						&nbsp;&nbsp;&nbsp;
-						<button className="reset-this terms">
+						<button
+							className={`reset-this terms ${
+								this.state.confirmedTerms ? 'active' : ''
+							}`}
+						>
 							I understand that no one can recover my password if I lose or
 							forget it
 						</button>
-					</Checkbox>{' '}
-					<hr></hr>
+					</Checkbox>
 					<Checkbox
 						checked={this.state.confirmedTerms2}
 						onChange={this.toggleConfirmedTerms2}
 					>
 						&nbsp;&nbsp;&nbsp;
-						<button className="reset-this terms">
+						<button
+							className={`reset-this terms ${
+								this.state.confirmedTerms2 ? 'active' : ''
+							}`}
+						>
 							I have written down or otherwise stored my password
 						</button>
 					</Checkbox>
-					<hr></hr>
 					<Checkbox
 						checked={this.state.confirmedTerms3}
 						onChange={this.toggleConfirmedTerms3}
 					>
 						&nbsp;&nbsp;&nbsp;
-						<button className="reset-this terms">
+						<button
+							className={`reset-this terms ${
+								this.state.confirmedTerms3 ? 'active' : ''
+							}`}
+						>
 							I am a living man or woman hence a living being
 						</button>
-					</Checkbox>{' '}
-					<hr></hr>
+					</Checkbox>
 					<div id="myModal" class="custom-modal">
 						<div class="custom-modal-content">
 							<span class="close">&times;</span>
@@ -896,7 +910,7 @@ class AccountRegistrationConfirm extends React.Component {
 						</div>
 					</div>
 				</Form.Item>
-				<Form.Item>
+				<Form.Item className="button-wrapper">
 					<Button
 						type="primary"
 						disabled={
@@ -905,6 +919,7 @@ class AccountRegistrationConfirm extends React.Component {
 							!this.state.confirmedTerms2 ||
 							!this.state.confirmedTerms3
 						}
+						className="create-acc-btn"
 						onClick={this.onCreateAccount}
 					>
 						<Translate content="account.create_account" />

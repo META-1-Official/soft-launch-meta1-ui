@@ -215,26 +215,22 @@ class AppInit extends React.Component {
 					})}
 					className={theme}
 				>
-					<div id="content-wrapper">
-						<div className="grid-frame vertical">
-							{!apiError ? (
-								<LoadingIndicator
-									loadingText={
-										status ||
-										counterpart.translate('app_init.connecting', {
-											server: server,
-										})
-									}
-								/>
-							) : syncError ? (
-								<SyncError />
-							) : (
-								<BodyClassName className={theme}>
-									<InitError />
-								</BodyClassName>
-							)}
-						</div>
-					</div>
+					{!apiError ? (
+						<LoadingIndicator
+							loadingText={
+								status ||
+								counterpart.translate('app_init.connecting', {
+									server: server,
+								})
+							}
+						/>
+					) : syncError ? (
+						<SyncError />
+					) : (
+						<BodyClassName className={theme}>
+							<InitError />
+						</BodyClassName>
+					)}
 				</div>
 			);
 		}

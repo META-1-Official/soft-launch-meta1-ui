@@ -224,14 +224,21 @@ $block-grid-max-size: 6 !default;
 	display: flex;
 	height: $height;
 	position: relative;
-	overflow: hidden;
+	overflow: auto;
 	backface-visibility: hidden;
+
+	-ms-overflow-style: none; /* Internet Explorer 10+ */
+	scrollbar-width: none; /* Firefox */
 
 	@include grid-size($size);
 	@include grid-orient($orientation);
 	@include grid-wrap($wrap);
 	@include grid-align($align);
 	@include grid-order($order);
+}
+
+.grid-frame::-webkit-scrollbar {
+	display: none; /* Safari and Chrome */
 }
 
 /*
@@ -302,6 +309,7 @@ $block-grid-max-size: 6 !default;
 	// Change the direction children flow
 	&.vertical {
 		@include grid-orient(vertical);
+		overflow-x: hidden;
 	}
 	@each $size in $breakpoint-classes {
 		@include breakpoint($size) {

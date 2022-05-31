@@ -423,102 +423,90 @@ class App extends React.Component {
 			content = (
 				<div className="grid-frame vertical">
 					<NewsHeadline />
-					<div id="mainContainer" className="grid-block">
-						<div className="grid-block vertical">
-							<Switch>
-								<Route exact path="/">
-									<Redirect to="/home/" />
-								</Route>
-								<Route path="/home/" exact component={DashboardPage} />
-								<Route path="/account/:account_name" component={AccountPage} />
-								<Route path="/accounts" component={DashboardAccountsOnly} />
-								<Route path="/market/:marketID" component={Exchange} />
-								<Route path="/settings/:tab" component={Settings} />
-								<Route path="/settings" component={Settings} />
+					<Switch>
+						<Route exact path="/">
+							<Redirect to="/home/" />
+						</Route>
+						<Route path="/home/" exact component={DashboardPage} />
+						<Route path="/account/:account_name" component={AccountPage} />
+						<Route path="/accounts" component={DashboardAccountsOnly} />
+						<Route path="/market/:marketID" component={Exchange} />
+						<Route path="/settings/:tab" component={Settings} />
+						<Route path="/settings" component={Settings} />
 
-								<Route path="/invoice/:data" component={Invoice} />
-								<Route path="/create-account" component={AccountRegistration} />
-								<Route path="/login" component={Login} />
-								<Route
-									path="/registration"
-									exact
-									component={AccountRegistration}
-								/>
-								<Route path="/auth-proceed" component={AuthRedirect} />
-								{/* <Route
-                                    path="/registration/local"
-                                    exact
-                                    component={WalletRegistration}
-                                />
-                                <Route
-                                    path="/registration/cloud"
-                                    exact
-                                    component={AccountRegistration}
-                                /> */}
-								<Route path="/arts" component={Arts} />
-								{/* Explorer routes */}
-								<Route path="/explorer/:tab" component={Explorer} />
-								<Route path="/explorer" component={Explorer} />
-								<Route path="/asset/:symbol" component={Asset} />
-								<Route exact path="/block/:height" component={Block} />
-								<Route exact path="/block/:height/:txIndex" component={Block} />
-								<Route path="/borrow" component={Borrow} />
+						<Route path="/invoice/:data" component={Invoice} />
+						<Route path="/create-account" component={AccountRegistration} />
+						<Route path="/login" component={Login} />
+						<Route path="/registration" exact component={AccountRegistration} />
+						<Route path="/auth-proceed" component={AuthRedirect} />
+						{/* <Route
+								path="/registration/local"
+								exact
+								component={WalletRegistration}
+							/>
+							<Route
+								path="/registration/cloud"
+								exact
+								component={AccountRegistration}
+							/> */}
+						<Route path="/arts" component={Arts} />
+						{/* Explorer routes */}
+						<Route path="/explorer/:tab" component={Explorer} />
+						<Route path="/explorer" component={Explorer} />
+						<Route path="/asset/:symbol" component={Asset} />
+						<Route exact path="/block/:height" component={Block} />
+						<Route exact path="/block/:height/:txIndex" component={Block} />
+						<Route path="/borrow" component={Borrow} />
 
-								<Route path="/barter" component={Barter} />
-								<Route path="/direct-debit" component={DirectDebit} />
+						<Route path="/barter" component={Barter} />
+						<Route path="/direct-debit" component={DirectDebit} />
 
-								{/* <Route
-                                    path="/spotlight"
-                                    component={ShowcaseGrid}
-                                />*/}
+						{/* <Route
+								path="/spotlight"
+								component={ShowcaseGrid}
+							/>*/}
 
-								{/* Wallet backup/restore routes */}
-								<Route path="/wallet" component={WalletManager} />
-								<Route
-									path="/create-wallet-brainkey"
-									component={CreateWalletFromBrainkey}
-								/>
-								<Route path="/existing-account" component={ExistingAccount} />
+						{/* Wallet backup/restore routes */}
+						<Route path="/wallet" component={WalletManager} />
+						<Route
+							path="/create-wallet-brainkey"
+							component={CreateWalletFromBrainkey}
+						/>
+						<Route path="/existing-account" component={ExistingAccount} />
 
-								<Route path="/create-worker" component={CreateWorker} />
+						<Route path="/create-worker" component={CreateWorker} />
 
-								<Route path="/Onramperwallet" component={Onramperwallet} />
+						<Route path="/Onramperwallet" component={Onramperwallet} />
 
-								<Route
-									exact
-									path="/asset-explorer"
-									component={assetExplorer}
-									{...this.props}
-								/>
-								<Route
-									exact
-									path="/asset-explorer-details"
-									component={AssetExplorerDetails}
-									{...this.props}
-								/>
-								<Route exact path="/confirm" component={Confirm} />
-								<Route exact path="/confirm/:confirmCode" component={Confirm} />
-								{/* Help routes */}
-								<Route exact path="/help" component={Help} />
-								<Route exact path="/help/:path1" component={Help} />
-								<Route exact path="/help/:path1/:path2" component={Help} />
-								<Route
-									exact
-									path="/help/:path1/:path2/:path3"
-									component={Help}
-								/>
-								<Route path="/htlc" component={Htlc} />
-								<Route path="/prediction" component={PredictionMarketsPage} />
-								<Redirect
-									path={'/voting'}
-									to={{
-										pathname: `/account/${accountName}/voting`,
-									}}
-								/>
-								<Route path="*" component={Page404} />
-							</Switch>
-						</div>
-					</div>
+						<Route
+							exact
+							path="/asset-explorer"
+							component={assetExplorer}
+							{...this.props}
+						/>
+						<Route
+							exact
+							path="/asset-explorer-details"
+							component={AssetExplorerDetails}
+							{...this.props}
+						/>
+						<Route exact path="/confirm" component={Confirm} />
+						<Route exact path="/confirm/:confirmCode" component={Confirm} />
+						{/* Help routes */}
+						<Route exact path="/help" component={Help} />
+						<Route exact path="/help/:path1" component={Help} />
+						<Route exact path="/help/:path1/:path2" component={Help} />
+						<Route exact path="/help/:path1/:path2/:path3" component={Help} />
+						<Route path="/htlc" component={Htlc} />
+						<Route path="/prediction" component={PredictionMarketsPage} />
+						<Redirect
+							path={'/voting'}
+							to={{
+								pathname: `/account/${accountName}/voting`,
+							}}
+						/>
+						<Route path="*" component={Page404} />
+					</Switch>
 					<ReactTooltip
 						ref="tooltip"
 						place="top"

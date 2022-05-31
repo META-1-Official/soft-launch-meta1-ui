@@ -185,45 +185,49 @@ class AccountRegistrationForm extends React.Component {
 		}
 
 		return (
-			<div>
+			<div className="form-body">
 				<Form onSubmit={this.onSubmit} layout={'vertical'}>
-					<div style={{display: 'flex', width: '100%'}}>
-						<Form.Item label={'First name *'}>
-							<Input
-								id="firstname"
-								required
-								placeholder="John"
-								value={this.state.firstname}
-								onChange={this.onFirstnameChange}
-							/>
-						</Form.Item>
-						<Form.Item label={'Last name *'}>
-							<Input
-								id="lastname"
-								required
-								placeholder="Doe"
-								value={this.state.lastname}
-								onChange={this.onLastnameChange}
-							/>
-						</Form.Item>
-						<Form.Item label={'Email *'}>
-							<Input
-								id="email"
-								required
-								placeholder="email@example.com"
-								value={this.state.email}
-								onChange={this.onEmailChange}
-							/>
-						</Form.Item>
-						<Form.Item label={'Phone number *'}>
-							<Input
-								id="phone"
-								required
-								placeholder="+1XXXXXXXXX"
-								value={this.state.phone}
-								onChange={this.onPhoneChange}
-							/>
-						</Form.Item>
+					<div className="info-form">
+						<div className="form-blocks">
+							<Form.Item label={'First name *'} css={{marginRight: '10px'}}>
+								<Input
+									id="firstname"
+									required
+									placeholder="John"
+									value={this.state.firstname}
+									onChange={this.onFirstnameChange}
+								/>
+							</Form.Item>
+							<Form.Item label={'Last name *'} css={{marginLeft: '10px'}}>
+								<Input
+									id="lastname"
+									required
+									placeholder="Doe"
+									value={this.state.lastname}
+									onChange={this.onLastnameChange}
+								/>
+							</Form.Item>
+						</div>
+						<div className="form-blocks">
+							<Form.Item label={'Email *'} css={{marginRight: '10px'}}>
+								<Input
+									id="email"
+									required
+									placeholder="email@example.com"
+									value={this.state.email}
+									onChange={this.onEmailChange}
+								/>
+							</Form.Item>
+							<Form.Item label={'Phone number *'} css={{marginLeft: '10px'}}>
+								<Input
+									id="phone"
+									required
+									placeholder="+1XXXXXXXXX"
+									value={this.state.phone}
+									onChange={this.onPhoneChange}
+								/>
+							</Form.Item>
+						</div>
 					</div>
 					<AccountNameInput
 						cheapNameOnly={firstAccount}
@@ -253,19 +257,21 @@ class AccountRegistrationForm extends React.Component {
 						noLabel
 					/>
 					<Form.Item label={counterpart.translate('wallet.generated')}>
-						<Input.TextArea
-							disabled={true}
-							style={{paddingRight: '50px'}}
-							rows={2}
-							id="password"
-							value={this.state.generatedPassword}
-						/>
-						<CopyButton
-							text={this.state.generatedPassword}
-							tip="tooltip.copy_password"
-							dataPlace="top"
-							className="button registration-layout--copy-password-btn"
-						/>
+						<div className="password-wrapper">
+							<Input
+								disabled={true}
+								style={{paddingRight: '50px'}}
+								rows={2}
+								id="password"
+								value={this.state.generatedPassword}
+							/>
+							<CopyButton
+								text={this.state.generatedPassword}
+								tip="tooltip.copy_password"
+								dataPlace="top"
+								className="button registration-layout--copy-password-btn"
+							/>
+						</div>
 					</Form.Item>
 					{firstAccount ? null : (
 						<div className="full-width-content form-group no-overflow">
@@ -301,6 +307,7 @@ class AccountRegistrationForm extends React.Component {
 								(registrarAccount && !isLTM)
 							}
 							onClick={(e) => this.onSubmit(e)}
+							className="continue-btn"
 						>
 							<Translate content="registration.continue" />
 						</Button>
@@ -315,12 +322,8 @@ class AccountRegistrationForm extends React.Component {
 		const firstAccount = myAccounts.length === 0;
 
 		return (
-			<div>
-				<Translate
-					component="p"
-					className="model-description"
-					content="registration.accountDescription"
-				/>
+			<div className="header-text">
+				<Translate component="p" content="registration.accountDescription" />
 
 				{firstAccount ? null : (
 					<Translate component="p" content="wallet.not_first_account" />
@@ -331,7 +334,7 @@ class AccountRegistrationForm extends React.Component {
 
 	render() {
 		return (
-			<div>
+			<div className="registration-form">
 				{this.renderAccountCreateText()}
 				{this.renderAccountCreateForm()}
 			</div>
