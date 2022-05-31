@@ -148,6 +148,22 @@ div.registration {
 					border-radius: 6px;
 					border: none;
 				}
+
+				.redirect {
+					font-size: 15px;
+					color: white;
+					margin-top: 30px;
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+
+					.btn {
+						color: #ffc000;
+						text-decoration: underline;
+						cursor: pointer;
+						margin-left: 5px;
+					}
+				}
 			}
 
 			.form-group {

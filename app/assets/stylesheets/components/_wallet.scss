@@ -105,6 +105,66 @@
 				}
 			}
 		}
+
+		.password-field {
+			background: #0a0b0d;
+			border: 1px solid #262a32;
+			border-radius: 6px;
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			height: 50px;
+			padding-right: 10px;
+
+			.ant-input {
+				margin: 0 !important;
+			}
+
+			svg {
+				width: 24px;
+				height: 20px;
+				cursor: pointer;
+
+				path {
+					fill: gray;
+				}
+			}
+		}
+	}
+
+	.control-wrapper {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		margin-bottom: 40px;
+
+		.remember-me {
+			font-size: 16px;
+			color: #ffc000;
+			display: flex;
+			flex-direction: row;
+
+			span {
+				margin-left: 10px;
+				margin-right: 20px;
+			}
+		}
+
+		.timeout {
+			display: flex;
+			flex-direction: row;
+			height: 25px;
+
+			svg {
+				path {
+					fill: #ffc000;
+				}
+			}
+
+			.ant-input-number-input {
+				height: 25px;
+			}
+		}
 	}
 
 	.footer-wrapper {
@@ -120,6 +180,17 @@
 			span {
 				color: #440000 !important;
 				text-transform: capitalize;
+			}
+		}
+
+		.redirect {
+			font-size: 15px;
+			color: white;
+			margin-top: 30px;
+
+			a {
+				color: #ffc000;
+				text-decoration: underline;
 			}
 		}
 	}
