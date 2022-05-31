@@ -32,6 +32,7 @@ const AppLayout = ({children, location, height}: IAppLayout, others) => {
 	if (pathSnippets && pathSnippets.length > 1) {
 		if (pathSnippets.includes('activity')) link = 'activity';
 		else if (pathSnippets.includes('trade')) link = 'trade';
+		else if (pathSnippets.includes('permissions')) link = 'paper-wallet';
 		else if (pathSnippets.includes('account')) {
 			if (
 				qd.hasOwnProperty('currentDisplay') &&

@@ -16,6 +16,7 @@ import HelpContent from '../Utility/HelpContent';
 import {RecentTransactions} from './RecentTransactions';
 import {notification, Typography, Button} from 'antd';
 import PageHeader from 'components/PageHeader/PageHeader';
+import WalletUnlockActions from 'actions/WalletUnlockActions';
 
 const {Title} = Typography;
 
@@ -24,6 +25,7 @@ class AccountPermissions extends React.Component {
 		super(props);
 		this.state = {
 			currentTab: 'ActivePermissions',
+			currentDisplay: null,
 		};
 		this.onPublish = this.onPublish.bind(this);
 		this.onReset = this.onReset.bind(this);
@@ -32,6 +34,24 @@ class AccountPermissions extends React.Component {
 	componentWillMount() {
 		this.updateAccountData(this.props.account);
 		accountUtils.getFinalFeeAsset(this.props.account, 'account_update');
+
+		var qd = {};
+		location.search
+			.substr(1)
+			.split('&')
+			.forEach(function (item) {
+				item.split('=')[0] in qd
+					? qd[item.split('=')[0]].push(item.split('=')[1])
+					: (qd[item.split('=')[0]] = [item.split('=')[1]]);
+			});
+
+		if (
+			qd.hasOwnProperty('currentDisplay') &&
+			qd['currentDisplay'].length > 0
+		) {
+			// this.setState({currentDisplay: qd['currentDisplay'][0]});
+			this.onPdfCreate();
+		}
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -274,7 +294,10 @@ class AccountPermissions extends React.Component {
 	}
 
 	onPdfCreate() {
-		createPaperWalletAsPDF(this.props.account);
+		// Require Login
+		WalletUnlockActions.unlock().then(() => {
+			createPaperWalletAsPDF(this.props.account);
+		});
 	}
 
 	onTabChange = (e) => {
