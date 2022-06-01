@@ -3,7 +3,6 @@ import {ChainStore} from 'meta1js';
 import SettingsStore from 'stores/SettingsStore';
 import {connect} from 'alt-react';
 import {Tabs} from 'antd';
-//  import {Tabs, Tab} from '../Utility/Tabs';
 import constants from 'chain/account_constants.js';
 import AccountSelector from '../Account/AccountSelector';
 import Immutable from 'immutable';
@@ -109,10 +108,32 @@ class AccountList extends React.Component {
 						<Translate
 							css={(theme) => ({
 								color: theme.colors.primaryColor,
+								fontSize: '18px',
 							})}
 							content={this.props.emptyText}
 							account={this.props.account.get('name')}
 						/>
+						<div
+							css={{
+								width: '100%',
+								display: 'flex',
+								flexDirection: 'column',
+								marginTop: '20px',
+								marginBottom: '20px',
+								alignItems: 'center',
+							}}
+						>
+							<div
+								css={{
+									width: 90,
+									height: 100,
+									backgroundImage: `url('data:image/png;base64,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')`,
+								}}
+							/>
+						</div>
+						<span css={{fontSize: '20px', color: 'rgba(255, 255, 255, 0.5)'}}>
+							No Data
+						</span>
 					</td>
 				</tr>
 			);
@@ -246,14 +267,7 @@ class AccountWhitelist extends React.Component {
 				<div>
 					<PageHeader title={currentTab} level={2} showDivider />
 				</div>
-				<div
-					css={(theme) => ({
-						padding: '3rem 4rem',
-						[`@media (max-width: ${theme.sizes.sm})`]: {
-							padding: '1rem',
-						},
-					})}
-				>
+				<div className="account-whitelist">
 					<Tabs
 						defaultActiveKey="1"
 						animated={false}
@@ -295,19 +309,7 @@ class AccountWhitelist extends React.Component {
 										unresolved backend issue.
 									</p>
 								) : null}
-								<div
-									css={(theme) => ({
-										padding: '2rem 1rem',
-										width: '60%',
-										margin: '0 auto',
-										backgroundColor: '#15171b',
-										borderRadius: '10px',
-										[`@media (max-width: ${theme.sizes.lg})`]: {
-											width: '100%',
-											padding: '1rem',
-										},
-									})}
-								>
+								<div className="account-selector-wrapper">
 									<AccountSelector
 										label={'account.whitelist.add'}
 										accountName={accountName}
@@ -337,19 +339,7 @@ class AccountWhitelist extends React.Component {
 										removeButton
 									/>
 								</div>
-								<div
-									css={(theme) => ({
-										padding: '2rem 1rem',
-										width: '60%',
-										margin: '0 auto',
-										backgroundColor: '#15171b',
-										borderRadius: '10px',
-										[`@media (max-width: ${theme.sizes.lg})`]: {
-											width: '100%',
-											padding: '1rem',
-										},
-									})}
-								>
+								<div className="account-selector-wrapper">
 									<AccountSelector
 										label={'account.whitelist.add_black'}
 										accountName={accountName}
@@ -372,10 +362,9 @@ class AccountWhitelist extends React.Component {
 								<div
 									css={(theme) => ({
 										padding: '2rem 1rem',
-										width: '60%',
-										margin: '0 auto',
-										backgroundColor: '#15171b',
-										borderRadius: '10px',
+										display: 'flex',
+										flexDirection: 'column',
+										justifyContent: 'center',
 										[`@media (max-width: ${theme.sizes.lg})`]: {
 											width: '100%',
 											padding: '1rem',
@@ -397,10 +386,9 @@ class AccountWhitelist extends React.Component {
 							<div
 								css={(theme) => ({
 									padding: '2rem 1rem',
-									width: '60%',
-									margin: '0 auto',
-									backgroundColor: '#15171b',
-									borderRadius: '10px',
+									display: 'flex',
+									flexDirection: 'column',
+									justifyContent: 'center',
 									[`@media (max-width: ${theme.sizes.lg})`]: {
 										width: '100%',
 										padding: '1rem',
