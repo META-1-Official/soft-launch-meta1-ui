@@ -10,7 +10,7 @@ export const AccountUpgrade = ({op, linkToAccount, fromComponent}) => {
 					{linkToAccount(op[1].account_to_upgrade)} &nbsp;
 					<Translate
 						component="span"
-						content="proposal.lifetime_upgrade_account"
+						content="operation.lifetime_upgrade_account"
 					/>
 				</span>
 			);
@@ -20,7 +20,7 @@ export const AccountUpgrade = ({op, linkToAccount, fromComponent}) => {
 					{linkToAccount(op[1].account_to_upgrade)} &nbsp;
 					<Translate
 						component="span"
-						content="proposal.annual_upgrade_account"
+						content="operation.annual_upgrade_account"
 					/>
 				</span>
 			);
