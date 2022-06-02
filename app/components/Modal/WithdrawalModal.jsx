@@ -155,9 +155,9 @@ class WithdrawalModal extends React.Component {
 		}
 
 		const wendpoints = {
-			BTC: 'https://gateway.dev.meta1.io/api/withdraw/btc/',
-			ETH: 'https://gateway.dev.meta1.io/api/withdraw/eth/',
-			LTC: 'https://gateway.dev.meta1.io/api/withdraw/ltc/',
+			BTC: 'https://gateway.dev.meta-exchange.vision/api/withdraw/btc/',
+			ETH: 'https://gateway.dev.meta-exchange.vision/api/withdraw/eth/',
+			LTC: 'https://gateway.dev.meta-exchange.vision/api/withdraw/ltc/',
 			// EOS: "https://asterope.meta-exchange.info/weos",
 			// XLM: "https://asterope.meta-exchange.info/wxlm"
 		};

@@ -88,8 +88,8 @@ export const availableGateways = {
 			enabled: false,
 			selected: false,
 		},
-		landing: 'https://meta1.io/',
-		wallet: 'https://meta-exchange.io/',
+		landing: 'https://meta-exchange.vision/',
+		wallet: 'https://meta-exchange.vision/',
 	},
 };
 

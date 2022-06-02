@@ -121,9 +121,9 @@ export default class DepositModal extends React.Component {
 	}
 
 	getDepositAddress() {
-		fetch('https://gateway.dev.meta1.io/api-gateways/ltc')
+		fetch('https://gateway.dev.meta-exchange.vision/api-gateways/ltc')
 			.then((response) => {
-				fetch('https://gateway.dev.meta1.io/api/wallet/init/ltc', {
+				fetch('https://gateway.dev.meta-exchange.vision/api/wallet/init/ltc', {
 					method: 'POST',
 					headers: {
 						Accept: 'application/json, text/plain, */*',

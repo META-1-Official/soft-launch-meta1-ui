@@ -37,7 +37,7 @@ export function getWalletName() {
  * @returns {string}
  */
 export function getWalletURL() {
-	return 'https://exchange.dev.meta1.io';
+	return 'https://exchange.dev.meta-exchange.vision';
 	// return "https://meta-exchange.io";
 }
 
@@ -48,7 +48,7 @@ export function getWalletURL() {
  */
 export function getFaucet() {
 	return {
-		url: 'https://faucet.dev.meta1.io/faucet', // 2017-12-infrastructure worker proposal
+		url: 'https://faucet.dev.meta-exchange.vision/faucet',
 		// url: "https://faucet.meta1.io/faucet",
 		show: true,
 		editable: true,

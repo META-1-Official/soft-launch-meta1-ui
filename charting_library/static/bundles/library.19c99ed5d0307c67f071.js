@@ -38168,11 +38168,11 @@ function(t, e, i) {
                     value: function(t) {
                         if (q) {
                             var e = 0;
-                            this._customLogoLink = 'https://meta1.vision'
+                            this._customLogoLink = 'https://meta1coin.vision'
                             this._poweredBy && (this._poweredBy._fillСolor = "#ffc000")
 
                             var img = document.createElement('img');
-                            img.src = 'https://meta1.vision/Assets/ContentImages/banner-logo3.png';
+                            img.src = 'https://meta1coin.vision/Assets/ContentImages/banner-logo3.png';
 
                             this._poweredBy && (this._poweredBy._logo = img);
                             this._poweredBy && this._poweredBy.show && (e = this._poweredBy.height, t.save(), t.translate(this._left,
