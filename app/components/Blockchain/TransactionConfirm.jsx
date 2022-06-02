@@ -183,12 +183,12 @@ class TransactionConfirm extends React.Component {
 			header = counterpart.translate('transaction.confirm');
 
 			footer = [
-				<Button key={'confirm'} type="primary" onClick={this.onConfirmClick}>
+				<Button key={'confirm'} type="default" onClick={this.onConfirmClick}>
 					{this.props.propose
 						? counterpart.translate('propose')
 						: counterpart.translate('transfer.confirm')}
 				</Button>,
-				<Button key={'cancel'} onClick={this.onCloseClick}>
+				<Button key={'cancel'} type="danger" onClick={this.onCloseClick}>
 					{counterpart.translate('account.perm.cancel')}
 				</Button>,
 			];
@@ -241,7 +241,7 @@ class TransactionConfirm extends React.Component {
 
 						{/* P R O P O S E   F R O M */}
 						{this.props.propose ? (
-							<div className="full-width-content form-group">
+							<div className="full-width-content form-group propose-from">
 								<label>
 									<Translate content="account.propose_from" />
 								</label>
@@ -257,7 +257,7 @@ class TransactionConfirm extends React.Component {
 							{/* P R O P O S E   T O G G L E */}
 							{!this.props.transaction.has_proposed_operation() &&
 							!(broadcast || broadcasting || this.props.error) ? (
-								<div className="align-right grid-block">
+								<div className="align-right grid-block propose-toggle">
 									<label
 										style={{
 											paddingRight: '0.5rem',

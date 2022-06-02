@@ -1566,6 +1566,74 @@ div.messages {
 	}
 }
 
+// Member Stats
+.member-stats {
+	padding: 20px 50px !important;
+	background-color: #0a0b0d !important;
+
+	.tabs-container {
+		hr {
+			border-color: #1c1f27 !important;
+			background-color: #1c1f27 !important;
+		}
+
+		div.button {
+			background: white !important;
+			color: black !important;
+
+			span {
+				font-weight: bold;
+			}
+		}
+
+		.content-block {
+			.left {
+				width: 49%;
+				border: 1px solid #1c1f27;
+				border-radius: 4px;
+
+				.grid-content {
+					padding: 0px !important;
+
+					> h4,
+					> table,
+					> div > h4,
+					> div > table {
+						padding: 10px 15px !important;
+					}
+
+					> h4,
+					> div > h4 {
+						margin-top: 30px;
+						background-color: rgba(21, 23, 27, 0.4) !important;
+						border: 1px solid rgba(28, 31, 39, 0.4);
+						border-radius: 0;
+
+						&:first-of-type {
+							margin-top: 0px;
+						}
+					}
+
+					> table,
+					> div > table {
+						padding: 20px;
+
+						td:first-of-type {
+							padding-left: 15px !important;
+							padding-right: 15px !important;
+						}
+
+						td:nth-of-type(2) {
+							text-align: right !important;
+							padding-right: 15px !important;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
 // white list page
 .account-whitelist {
 	padding: 10px 30px !important;
@@ -1643,6 +1711,15 @@ div.messages {
 							}
 						}
 					}
+				}
+			}
+
+			.left.right {
+				margin-left: 2%;
+
+				p {
+					padding-left: 15px !important;
+					padding-right: 15px !important;
 				}
 			}
 		}
