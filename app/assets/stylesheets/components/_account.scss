@@ -6,12 +6,15 @@
 	> div.grid-block {
 		border-right: 1px solid $border-color;
 	}
+
 	.account-buttons-row .button {
 		min-width: 4.5rem;
 	}
+
 	.bottom {
 		border-top: 1px solid transparent;
 		padding: 0.5rem;
+
 		> .center {
 			width: auto;
 			margin: 0 auto;
@@ -52,9 +55,11 @@
 		padding-top: 0;
 		text-align: left !important;
 	}
+
 	.proposal.first {
 		padding-top: 2rem;
 	}
+
 	> thead {
 		> tr {
 			> th {
@@ -62,31 +67,38 @@
 			}
 		}
 	}
+
 	.top-left-align {
 		> td {
 			text-align: left !important;
 			vertical-align: top !important;
 		}
 	}
+
 	hr {
 		margin-top: 0.3rem;
 		margin-bottom: 0.5rem;
 		margin-right: 24px;
 	}
+
 	.list-item {
 		padding-bottom: 5px;
 		padding-top: 5px;
 	}
+
 	.approval-buttons {
 		padding-top: 0;
+
 		.button {
 			margin-right: 2rem;
 		}
+
 		.button.hidden {
 			opacity: 0;
 			cursor: default;
 		}
 	}
+
 	.scam-error {
 		margin-right: 1rem;
 		display: inline-block;
@@ -100,33 +112,41 @@
 		margin-top: 0.1rem;
 		margin-bottom: 0.1rem;
 	}
+
 	.root-status {
 		padding-top: 5px;
 		margin-bottom: 0.5rem;
 	}
+
 	.expand-button {
 		display: inline-block;
 		padding-left: 0.5rem;
 	}
+
 	.table-container {
 		border-left: 2px dashed #777;
 		padding-bottom: 0.4rem;
+
 		table {
 			margin-left: 1rem;
 			margin-top: 0.4rem;
 		}
 	}
+
 	.appended {
 		display: inline-block;
 		padding-left: 0.5rem;
 	}
+
 	table {
 		text-align: left;
+
 		> tbody {
 			> tr {
 				> td {
 					padding-right: 0.5rem;
 					vertical-align: middle;
+
 					> * {
 						vertical-align: middle;
 					}
@@ -134,9 +154,11 @@
 			}
 		}
 	}
+
 	.spacer {
 		height: 0.5rem;
 	}
+
 	.heading-perm {
 		font-size: 14px;
 	}
@@ -148,15 +170,18 @@
 
 .account-info {
 	text-align: center;
+
 	.account-title {
 		transition: opacity 0.25s linear, transform 0.25s linear, color 0.25s linear;
 		margin-bottom: 0;
 		font-weight: 600;
+
 		&.flash {
 			opacity: 0.35;
 			transform: scale(1.1);
 		}
 	}
+
 	> p:first-of-type {
 		font-size: 85%;
 		line-height: 1.2;
@@ -164,11 +189,13 @@
 
 	.account-image {
 		padding-bottom: 1rem;
+
 		> canvas {
 			padding: 1rem;
 			border: 1px solid $border-color;
 		}
 	}
+
 	> div.secondary {
 		padding-bottom: 1rem;
 		position: relative;
@@ -263,12 +290,14 @@ div.account-tabs {
 		input {
 			min-width: 13rem;
 		}
+
 		> a {
 			span.tab-title {
 				text-transform: uppercase;
 				font-variant: small-caps;
 				font-size: 0.8rem;
 			}
+
 			div.tab-subtext {
 				font-size: 0.8rem;
 				text-align: right;
@@ -280,11 +309,14 @@ div.account-tabs {
 		margin: 5px auto;
 	}
 }
+
 ul.account-overview {
 	display: table;
+
 	li {
 		display: table-cell;
 		vertical-align: middle;
+
 		> a {
 			font-size: 1.1rem;
 
@@ -293,9 +325,11 @@ ul.account-overview {
 				text-align: right;
 			}
 		}
+
 		&.total-value {
 			> a {
 				cursor: default;
+
 				> span.tab-title {
 					font-size: 95%;
 				}
@@ -309,16 +343,19 @@ table.table.dashboard-table {
 	> tbody > tr > td:first-of-type {
 		padding-left: 1.5rem;
 	}
+
 	> thead > tr > th:last-of-type,
 	> tbody > tr > td:last-of-type {
 		padding-right: 1.5rem;
 	}
+
 	> thead > tr > th {
 		@include RobotoMedium;
 		font-size: 0.875rem;
 		text-align: center;
 		border: none;
 	}
+
 	> tbody > tr {
 		> td {
 			font-size: 0.875rem;
@@ -330,10 +367,12 @@ table.table.dashboard-table {
 				overflow-x: hidden;
 				white-space: nowrap;
 				text-overflow: ellipsis;
+
 				> div span.icon > svg {
 					width: 1.75rem;
 					height: 1.75rem;
 				}
+
 				> div > a {
 					font-size: 90%;
 				}
@@ -344,6 +383,7 @@ table.table.dashboard-table {
 				max-width: 5rem;
 			}
 		}
+
 		&.total-value {
 			td {
 				vertical-align: middle;
@@ -352,11 +392,13 @@ table.table.dashboard-table {
 				border-bottom: none;
 				word-wrap: none;
 			}
+
 			td:first-of-type {
 				text-align: left;
 				text-transform: uppercase;
 				@include RobotoMedium;
 			}
+
 			td:nth-child(3) {
 				@include RobotoMedium;
 				text-align: right;
@@ -376,27 +418,33 @@ table.table.dashboard-table {
 			}
 		}
 	}
+
 	.customizable-column--selector {
 		display: none;
 	}
+
 	.asset-name {
 		img {
 			vertical-align: middle;
 		}
+
 		div {
 			display: inline-block;
 			vertical-align: middle;
 			margin-left: 20px;
+
 			a span {
 				font-weight: bolder;
 				color: white !important;
 			}
+
 			p {
 				margin: 0px;
 				font-size: 14px;
 			}
 		}
 	}
+
 	span.value {
 		color: white !important;
 		background: gray;
@@ -408,9 +456,11 @@ table.table.dashboard-table {
 		&.change-up {
 			background-color: #009d55 !important;
 		}
+
 		&.change-down {
 			background-color: #ff2929 !important;
 		}
+
 		svg {
 			margin-right: 3px;
 		}
@@ -468,6 +518,7 @@ div.portfolio {
 			p:first-of-type {
 				margin-bottom: 5px;
 			}
+
 			p:last-of-type {
 				color: white;
 				font-size: 28px;
@@ -560,6 +611,7 @@ div.tabs-container {
 
 .account-treemap {
 	padding: 10px;
+
 	text {
 		@include RobotoRegular;
 	}
@@ -569,10 +621,12 @@ div.tabs-container {
 	display: flex;
 	align-items: flex-start;
 	flex-wrap: wrap;
+
 	.legend-item {
 		display: flex;
 		margin-right: 10px;
 		margin-bottom: 10px;
+
 		.legend-square {
 			height: 16px;
 			width: 16px;
@@ -647,12 +701,15 @@ div.tabs-container {
 			.success {
 				border-left: 5px solid $success-color;
 			}
+
 			.info {
 				border-left: 5px solid $info-color;
 			}
+
 			.warning {
 				border-left: 5px solid $warning-color;
 			}
+
 			.cancel,
 			.danger,
 			.alert {
@@ -669,6 +726,7 @@ div.tabs-container {
 				font-weight: bolder;
 			}
 		}
+
 		.from-to {
 			div {
 				background-color: transparent !important;
@@ -709,17 +767,21 @@ div.tabs-container {
 			&.success {
 				border-left: 5px solid $success-color;
 			}
+
 			&.info {
 				border-left: 5px solid $info-color;
 			}
+
 			&.warning {
 				border-left: 5px solid $warning-color;
 			}
+
 			&.cancel,
 			&.alert {
 				border-left: 5px solid $alert-color;
 			}
 		}
+
 		.pair {
 			div {
 				background-color: transparent !important;
@@ -933,6 +995,7 @@ div.account-activity {
 				.ant-table-container {
 					table > thead {
 						background: #15171b;
+
 						th {
 							padding-left: 30px;
 							font-size: 14px;
@@ -956,6 +1019,113 @@ div.account-activity {
 
 // Permission page
 div.account-permissions {
+	.action-buttons {
+		display: flex;
+		align-items: center;
+
+		.papper-wallet-btn {
+			position: relative;
+			display: flex;
+			align-items: center;
+			width: 184px;
+			height: 38px;
+			color: #ffc000;
+			overflow: hidden;
+			border-radius: 4px;
+			cursor: pointer;
+		}
+
+		.papper-wallet-btn span {
+			position: absolute;
+			display: block;
+			width: 100%;
+			text-align: center;
+		}
+
+		.papper-wallet-btn span:nth-child(1) {
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 2px;
+			background: linear-gradient(90deg, transparent, #ffc000);
+			animation: animate1 2s linear infinite;
+		}
+
+		@keyframes animate1 {
+			0% {
+				left: -100%;
+			}
+
+			50%,
+			100% {
+				left: 100%;
+			}
+		}
+
+		.papper-wallet-btn span:nth-child(2) {
+			top: -100%;
+			right: 0;
+			width: 2px;
+			height: 100%;
+			background: linear-gradient(180deg, transparent, #ffc000);
+			animation: animate2 2s linear infinite;
+			animation-delay: 0.5s;
+		}
+
+		@keyframes animate2 {
+			0% {
+				top: -100%;
+			}
+
+			50%,
+			100% {
+				top: 100%;
+			}
+		}
+
+		.papper-wallet-btn span:nth-child(3) {
+			bottom: 0;
+			right: 0;
+			width: 100%;
+			height: 2px;
+			background: linear-gradient(270deg, transparent, #ffc000);
+			animation: animate3 2s linear infinite;
+			animation-delay: 1s;
+		}
+
+		@keyframes animate3 {
+			0% {
+				right: -100%;
+			}
+
+			50%,
+			100% {
+				right: 100%;
+			}
+		}
+
+		.papper-wallet-btn span:nth-child(4) {
+			bottom: -100%;
+			left: 0;
+			width: 2px;
+			height: 100%;
+			background: linear-gradient(360deg, transparent, #ffc000);
+			animation: animate4 2s linear infinite;
+			animation-delay: 1.5s;
+		}
+
+		@keyframes animate4 {
+			0% {
+				bottom: -100%;
+			}
+
+			50%,
+			100% {
+				bottom: 100%;
+			}
+		}
+	}
+
 	.content {
 		margin: 30px;
 		background: #0a0b0d;
@@ -1008,6 +1178,7 @@ div.account-permissions {
 					.content-area {
 						.header-area {
 							margin: 0;
+
 							label {
 								font-size: 16px;
 								color: rgba(255, 255, 255, 0.7);
@@ -1036,9 +1207,11 @@ div.account-permissions {
 							svg {
 								width: 24px !important;
 								height: 24px !important;
+
 								path {
 									fill: #ffc000;
 								}
+
 								margin-right: 15px;
 							}
 						}
@@ -1117,6 +1290,7 @@ div.account-permissions {
 								background: #15171b;
 								height: 52px;
 								border-bottom: 1px solid #1c1f27;
+
 								th {
 									padding-left: 30px;
 									font-size: 14px;
@@ -1144,9 +1318,11 @@ div.account-permissions {
 										.key-icon > svg {
 											width: 24px !important;
 											height: 24px !important;
+
 											path {
 												fill: #ffc000;
 											}
+
 											margin-right: 15px;
 										}
 									}
@@ -1179,6 +1355,7 @@ div.account-permissions {
 							svg {
 								width: 24px !important;
 								height: 24px !important;
+
 								path {
 									fill: #ffc000;
 								}
@@ -1449,6 +1626,89 @@ div.messages {
 						td:nth-of-type(2) {
 							text-align: right !important;
 							padding-right: 15px !important;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+// white list page
+.account-whitelist {
+	padding: 10px 30px !important;
+	background: black;
+
+	.ant-tabs {
+		.ant-tabs-nav-list {
+			background: black !important;
+
+			.ant-tabs-tab {
+				font-size: 15px;
+				letter-spacing: 1px;
+			}
+		}
+
+		.ant-tabs-content-holder {
+			.ant-tabs-tabpane {
+				.table {
+					button {
+						height: 30px;
+						background: #ffc000;
+						color: black;
+						font-size: 16px;
+						border: none;
+						display: flex;
+						align-items: center;
+						margin-top: 5px;
+
+						&:hover {
+							background: rgba(252, 192, 0, 0.5) !important;
+						}
+					}
+				}
+				.account-selector-wrapper {
+					padding: 30px;
+					width: 680px;
+					height: 235px;
+					margin: 20px auto;
+					background: rgba(21, 23, 27, 0.4);
+					border-radius: 4px;
+					border: 1px solid rgba(28, 31, 39, 0.4);
+
+					.ant-form-item-label {
+						label {
+							font-size: 16px;
+						}
+					}
+
+					.ant-form-item-control {
+						canvas {
+							width: 50px !important;
+							height: 50px !important;
+						}
+
+						button {
+							width: 110px;
+							height: 42px;
+							margin-top: 20px;
+
+							span {
+								color: #080000;
+								font-size: 16px;
+								font-weight: 600;
+							}
+						}
+						.ant-select-selector {
+							height: 50px;
+							border-radius: 4px;
+							background: #15171b;
+
+							.ant-select-selection-placeholder {
+								display: flex;
+								align-items: center;
+								color: rgba(255, 255, 255, 0.6);
+							}
 						}
 					}
 				}

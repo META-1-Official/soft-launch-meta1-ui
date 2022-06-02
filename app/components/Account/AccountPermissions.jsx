@@ -16,7 +16,6 @@ import HelpContent from '../Utility/HelpContent';
 import {RecentTransactions} from './RecentTransactions';
 import {notification, Typography, Button} from 'antd';
 import PageHeader from 'components/PageHeader/PageHeader';
-import WalletUnlockActions from 'actions/WalletUnlockActions';
 
 const {Title} = Typography;
 
@@ -49,8 +48,7 @@ class AccountPermissions extends React.Component {
 			qd.hasOwnProperty('currentDisplay') &&
 			qd['currentDisplay'].length > 0
 		) {
-			// this.setState({currentDisplay: qd['currentDisplay'][0]});
-			this.onPdfCreate();
+			this.setState({currentDisplay: qd['currentDisplay'][0]});
 		}
 	}
 
@@ -294,10 +292,7 @@ class AccountPermissions extends React.Component {
 	}
 
 	onPdfCreate() {
-		// Require Login
-		WalletUnlockActions.unlock().then(() => {
-			createPaperWalletAsPDF(this.props.account);
-		});
+		createPaperWalletAsPDF(this.props.account);
 	}
 
 	onTabChange = (e) => {
@@ -376,28 +371,21 @@ class AccountPermissions extends React.Component {
 						Permissions
 					</Title>
 					<div className="action-buttons">
-						<Button
-							type="primary"
-							ghost={true}
-							css={{
-								color: '#FFC000 !important',
-								borderColor: '#FFC000 !important',
-								borderRadius: '4px',
-								height: '40px',
-								width: '185px',
-								fontSize: '15px',
-								fontWeight: '600',
-							}}
+						<div
 							data-tip={counterpart.translate(
 								'account.perm.create_paperwallet_private_hint'
 							)}
 							onClick={() => {
 								this.onPdfCreate();
 							}}
+							className="papper-wallet-btn"
 						>
+							<span />
+							<span />
+							<span />
+							<span />
 							<Translate content="account.perm.create_paperwallet" />
-						</Button>
-
+						</div>
 						<Button
 							type="primary"
 							css={{
@@ -416,7 +404,6 @@ class AccountPermissions extends React.Component {
 						>
 							<Translate content="account.perm.reset" />
 						</Button>
-
 						<Button
 							type="primary"
 							css={{
