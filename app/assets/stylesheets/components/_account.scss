@@ -1630,6 +1630,15 @@ div.messages {
 					}
 				}
 			}
+
+			.left.right {
+				margin-left: 2%;
+
+				p {
+					padding-left: 15px !important;
+					padding-right: 15px !important;
+				}
+			}
 		}
 	}
 }
@@ -1711,15 +1720,6 @@ div.messages {
 							}
 						}
 					}
-				}
-			}
-
-			.left.right {
-				margin-left: 2%;
-
-				p {
-					padding-left: 15px !important;
-					padding-right: 15px !important;
 				}
 			}
 		}
