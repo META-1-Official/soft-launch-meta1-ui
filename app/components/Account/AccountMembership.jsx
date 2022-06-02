@@ -110,7 +110,11 @@ class AccountMembership extends React.Component {
 				<div className="content-block small-12">
 					<div className="tabs-container generic-bordered-box">
 						<h3>
-							<Translate content="account.member.basic" />
+							{member_status === 'lifetime' ? (
+								<Translate content="account.member.lifetime" />
+							) : (
+								<Translate content="account.member.basic" />
+							)}
 						</h3>
 						{member_status === 'lifetime' ? null : (
 							<div>
@@ -158,11 +162,16 @@ class AccountMembership extends React.Component {
 												<h4>
 													<Translate content="account.member.referral_link" />
 												</h4>
-												<Translate
-													content="account.member.referral_text"
-													wallet_name={getWalletName()}
-												/>
-												:<h5>{getWalletURL() + `/?r=${account.name}`}</h5>
+												<p>
+													<Translate
+														content="account.member.referral_text"
+														wallet_name={getWalletName()}
+													/>
+													:
+													<a href={getWalletURL() + `/?r=${account.name}`}>
+														{getWalletURL() + `/?r=${account.name}`}{' '}
+													</a>
+												</p>
 											</div>
 										) : null}
 										<h4>
