@@ -4,12 +4,13 @@ import BindToChainState from '../../Utility/BindToChainState';
 import TranslateWithLinks from '../../Utility/TranslateWithLinks';
 
 export const AccountWhitelist = ({op, fromComponent}) => {
-	let label =
-		op[1].new_listing === listings.no_listing
-			? 'unlisted_by'
-			: op[1].new_listing === listings.white_listed
-			? 'whitelisted_by'
-			: 'blacklisted_by';
+	// let label =
+	// 	op[1].new_listing === listings.no_listing
+	// 		? 'unlisted_by'
+	// 		: op[1].new_listing === listings.white_listed
+	// 		? 'whitelisted_by'
+	// 		: 'blacklisted_by';
+	let label = 'unlisted_by';
 	if (fromComponent === 'proposed_operation') {
 		return (
 			<span>
