@@ -10,7 +10,10 @@ import {Price, Asset} from 'common/MarketClasses';
 const {operations} = ChainTypes;
 import chainIds from 'chain/chainIds';
 
-const ADDRESS_PREFIX = process.env[`${process.env.CURRENT_NET}_PREFIX`];
+const ADDRESS_PREFIX =
+	process.env.CURRENT_NET === 'MAIN_NET'
+		? process.env.MAIN_NET_PREFIX
+		: process.env.TEST_NET_PREFIX;
 
 function estimateFeeAsync(type, options = null, data = {}) {
 	return new Promise((res, rej) => {
