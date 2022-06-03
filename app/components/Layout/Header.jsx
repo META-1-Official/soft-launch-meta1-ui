@@ -670,7 +670,7 @@ class Header extends React.Component {
 				>
 					<Menu.Item className="comment">
 						<Text>
-							/* No hardware wallet support at this time, remove to reduse
+							/* No hardware wallet support at this time, remove to reduce
 							questions */
 						</Text>
 					</Menu.Item>
@@ -682,7 +682,7 @@ class Header extends React.Component {
 					</Menu.Item>
 					<Menu.Item className="comment">
 						<Text>
-							/* End no hardware wallet support at this time, remove to reduse
+							/* End no hardware wallet support at this time, remove to reduce
 							questions */
 						</Text>
 					</Menu.Item>
