@@ -1681,6 +1681,7 @@ div.messages {
 						}
 					}
 				}
+
 				.account-selector-wrapper {
 					padding: 30px;
 					width: 680px;
@@ -1713,6 +1714,7 @@ div.messages {
 								font-weight: 600;
 							}
 						}
+
 						.ant-select-selector {
 							height: 50px;
 							border-radius: 4px;
@@ -1725,6 +1727,72 @@ div.messages {
 							}
 						}
 					}
+				}
+			}
+		}
+	}
+}
+
+.account-vesting {
+	.content-body {
+		padding: 30px;
+
+		.description-search {
+			display: flex;
+			align-items: flex-end;
+			justify-content: space-between;
+			margin-bottom: 30px;
+
+			p {
+				font-size: 16px;
+				color: #cacaca;
+				margin-bottom: 0;
+			}
+
+			.header-selector {
+				margin-left: 50px;
+				margin-bottom: 5px;
+
+				.ant-input-group-wrapper {
+					width: 340px !important;
+					background: #212530;
+					border-radius: 4px;
+
+					.ant-input-wrapper {
+						height: 50px;
+						display: flex;
+						align-items: center;
+					}
+
+					.ant-input-group-addon {
+						background: #212530;
+						margin-left: -40px;
+					}
+				}
+			}
+		}
+
+		.ant-table-wrapper {
+			background: #0a0b0d;
+			border: 1px solid #1c1f27;
+			border-radius: 4px;
+
+			.ant-table {
+				.ant-table-content {
+					background: #15171b;
+
+					.ant-table-thead {
+						.ant-table-cell {
+							font-size: 14px;
+							color: #969ba6;
+							text-transform: uppercase;
+							text-align: center !important;
+						}
+					}
+				}
+
+				.ant-table-footer {
+					display: none;
 				}
 			}
 		}

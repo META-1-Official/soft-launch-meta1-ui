@@ -9,6 +9,7 @@ import {Button} from 'antd';
 import PaginatedList from 'components/Utility/PaginatedList';
 import SearchInput from '../Utility/SearchInput';
 import counterpart from 'counterpart';
+import PageHeader from 'components/PageHeader/PageHeader';
 
 class AccountVesting extends React.Component {
 	constructor(props) {
@@ -328,24 +329,32 @@ class AccountVesting extends React.Component {
 		});
 
 		return (
-			<div className="grid-content vertical">
-				<Translate component="h1" content="account.vesting.title" />
-				<Translate content="account.vesting.explain" component="p" />
-				<div className="header-selector padding">
-					<SearchInput
-						onChange={this.onSearch.bind(this)}
-						value={this.state.searchTerm}
-						autoComplete="off"
-						placeholder={counterpart.translate('exchange.filter')}
-					/>
-					{this.state.error && (
-						<Translate
-							className="header-selector--error"
-							content="errors.loading_from_blockchain"
-						/>
-					)}
-				</div>
+			<div className="account-vesting">
 				<div>
+					<PageHeader
+						title={counterpart.translate('account.vesting.title')}
+						level={2}
+						showDivider
+					/>
+				</div>
+				<div className="content-body">
+					<div className="description-search">
+						<Translate content="account.vesting.explain" component="p" />
+						<div className="header-selector">
+							<SearchInput
+								onChange={this.onSearch.bind(this)}
+								value={this.state.searchTerm}
+								autoComplete="off"
+								placeholder={counterpart.translate('exchange.filter')}
+							/>
+							{this.state.error && (
+								<Translate
+									className="header-selector--error"
+									content="errors.loading_from_blockchain"
+								/>
+							)}
+						</div>
+					</div>
 					<PaginatedList
 						loading={this.state.loading}
 						rows={vb}

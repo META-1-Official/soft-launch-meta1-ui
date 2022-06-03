@@ -1,7 +1,7 @@
 import {getFaucet} from '../branding';
 
 export const xbtsxAPIs = {
-	BASE: 'https://gateway.api.meta1.io/api-gateways',
+	BASE: 'https://gateway.api.meta-vision/api-gateways',
 	COINS_LIST: '/coin',
 };
 
@@ -36,17 +36,17 @@ export const nodeRegions = [
 export const settingsAPIs = {
 	// If you want a location to be translated, add the translation to settings in locale-xx.js
 	// and use an object {translate: key} in WS_NODE_LIST
-	DEFAULT_WS_NODE: 'wss://maia.dev.meta1.io/ws',
+	DEFAULT_WS_NODE: 'wss://maia.dev.meta-exchange.vision/ws',
 	WS_NODE_LIST: [
 		{
-			url: 'wss://maia.dev.meta1.io/ws',
+			url: 'wss://maia.dev.meta-exchange.vision/ws',
 			region: 'MAIA',
 			country: 'Maia',
 			location: 'Western Europe',
 			operator: 'Witness: meta1',
 		},
 		{
-			url: 'wss://api.dev.meta1.io/ws',
+			url: 'wss://api.dev.meta-exchange.vision/ws',
 			region: 'API',
 			country: 'Api',
 			location: 'Northern America',
@@ -59,7 +59,7 @@ export const settingsAPIs = {
 			region: 'Western Europe',
 			country: 'Germany',
 			operator: 'Infrastructure Worker',
-			contact: 'email:info@meta1.io',
+			contact: 'email:info@meta1coin.vision',
 		},
 	],
 	DEFAULT_FAUCET: getFaucet().url,

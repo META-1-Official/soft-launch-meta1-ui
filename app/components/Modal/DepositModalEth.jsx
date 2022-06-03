@@ -121,9 +121,9 @@ export default class DepositModal extends React.Component {
 	}
 
 	getDepositAddress() {
-		fetch('https://gateway.dev.meta1.io/api-gateways/eth')
+		fetch('https://gateway.dev.meta-exchange.vision/api-gateways/eth')
 			.then((response) => {
-				fetch('https://gateway.dev.meta1.io/api/wallet/init/eth', {
+				fetch('https://gateway.dev.meta-exchange.vision/api/wallet/init/eth', {
 					method: 'POST',
 					headers: {
 						Accept: 'application/json, text/plain, */*',
