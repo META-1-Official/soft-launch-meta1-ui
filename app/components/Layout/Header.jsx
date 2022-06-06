@@ -774,7 +774,7 @@ class Header extends React.Component {
 									/>
 									Get help
 								</Text>
-								<div
+								{/* <div
 									css={(theme) => ({
 										[`@media (max-width: ${theme.sizes.lg})`]: {
 											display: 'none',
@@ -803,7 +803,7 @@ class Header extends React.Component {
 									>
 										Send / Receive
 									</StyledButton>
-								</div>
+								</div> */}
 
 								<Dropdown overlay={avatarMenu}>
 									<span>
