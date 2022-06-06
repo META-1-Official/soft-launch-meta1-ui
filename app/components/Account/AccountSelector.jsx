@@ -384,12 +384,21 @@ class AccountSelector extends React.Component {
 		}
 	}
 
+	updateIsContact(isContact) {
+		const {accountIndex} = this.state;
+		const {account} = this.props;
+		const objectIndex = this._getIndex(account.get('name'), accountIndex);
+		accountIndex[objectIndex].data.isContact = isContact;
+	}
+
 	_onAddContact() {
 		AccountActions.addAccountContact(this.props.accountName);
+		this.updateIsContact(true);
 	}
 
 	_onRemoveContact() {
 		AccountActions.removeAccountContact(this.props.accountName);
+		this.updateIsContact(false);
 	}
 
 	onAction(e) {
