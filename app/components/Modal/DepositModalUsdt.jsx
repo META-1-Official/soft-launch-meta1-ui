@@ -65,6 +65,7 @@ class DepositModalContent extends React.Component {
 								fontSize: '0.8rem',
 								fontWeight: 'bold',
 								paddingBottom: '0.3rem',
+								color: 'white',
 							}}
 						>
 							Your deposit address for USDT (ERC20):
@@ -77,6 +78,7 @@ class DepositModalContent extends React.Component {
 									wordBreak: 'break-all',
 									color: '#ff9900',
 									fontWeight: 'bold',
+									color: 'white',
 								}}
 							>
 								{this.props.depositAddress}
@@ -87,6 +89,7 @@ class DepositModalContent extends React.Component {
 								style={{
 									fontSize: '0.9rem',
 									wordBreak: 'break-all',
+									color: 'white',
 								}}
 							>
 								{this.props.depositAddress}
