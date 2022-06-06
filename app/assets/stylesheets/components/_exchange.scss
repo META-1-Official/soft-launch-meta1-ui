@@ -849,6 +849,7 @@ div.bucket-option {
 
 	.limit-order-input {
 		width: 100%;
+
 		.ant-input-group-addon {
 			background-color: transparent;
 			border: none;
@@ -996,27 +997,6 @@ input[type='number']::-webkit-outer-spin-button {
 	//color: yellow;
 }
 
-.mymarkets-base-select {
-	margin: 0;
-	padding: 0;
-	height: inherit;
-	font-size: inherit;
-}
-
-.mymarkets-list {
-	padding: 0;
-	font-size: 0.75rem;
-
-	.table > thead tr th {
-		font-size: 0.75rem;
-	}
-
-	.table > tbody tr td {
-		padding-top: 2px;
-		padding-bottom: 2px;
-	}
-}
-
 table thead tr th.mymarkets-header {
 	padding-bottom: 9px !important;
 }
@@ -1143,21 +1123,6 @@ table thead tr th.mymarkets-header {
 
 	100% {
 		background-color: transparent;
-	}
-}
-
-.mymarkets-tabs {
-	width: 100%;
-	list-style: none;
-	margin: 0;
-	margin-top: 5px;
-
-	> li {
-		padding: 3px;
-		font-size: 12px;
-		display: inline-block;
-		margin: 0 5px;
-		cursor: pointer;
 	}
 }
 
@@ -1401,6 +1366,7 @@ form.hide-container {
 
 			.ant-input-affix-wrapper {
 				background: #21252f;
+
 				input {
 					background: #21252f;
 				}
@@ -1418,6 +1384,7 @@ form.hide-container {
 
 		.ant-tabs {
 			z-index: 10;
+
 			.ant-tabs-nav {
 				height: 60px;
 				background: #15171b;
@@ -1528,6 +1495,76 @@ form.hide-container {
 					}
 				}
 			}
+		}
+	}
+}
+
+.markets {
+	background-color: black;
+
+	.bottom-header {
+		margin-bottom: 10px;
+
+		.mymarkets-header {
+			border-bottom: 1px solid;
+			border-bottom-color: #ffc000;
+			color: #ffc000;
+			text-align: center;
+
+			&.inactive {
+				border-bottom-color: transparent;
+				color: white;
+			}
+		}
+	}
+
+	.mymarkets-tabs {
+		width: 100%;
+		list-style: none;
+		margin: 10px auto;
+
+		> li {
+			font-size: 15px;
+			display: inline-block;
+			margin: 0 5px;
+			cursor: pointer;
+
+			&:hover {
+				color: #ffc000;
+			}
+
+			&.active {
+				color: #ffc000;
+			}
+		}
+	}
+
+	.mymarkets-base-select {
+		margin: 0;
+		padding: 0;
+		height: inherit;
+		font-size: inherit;
+	}
+
+	.mymarkets-list {
+		padding: 0;
+		font-size: 0.75rem;
+
+		.table {
+			border: 1px solid #15171b;
+		}
+
+		.table > thead tr th {
+			font-size: 0.75rem;
+			height: 50px;
+			background-color: #15171b;
+		}
+
+		.table > tbody tr td {
+			padding-top: 10px;
+			padding-bottom: 10px;
+			padding-left: 10px;
+			border-bottom: 1px solid #15171b;
 		}
 	}
 }

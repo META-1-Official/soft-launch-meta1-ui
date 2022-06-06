@@ -983,8 +983,7 @@ class MyMarkets extends React.Component {
 					</div>
 				)}
 
-				<ul className="mymarkets-tabs" style={{marginBottom: 0}}>
-					{/* Quote edit tab */}
+				<ul className="mymarkets-tabs">
 					{myMarketTab && (
 						<li
 							key="quote_edit"
