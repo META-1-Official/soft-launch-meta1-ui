@@ -407,7 +407,7 @@ class WalletDb extends BaseStore {
 				if (!fromWif) {
 					key = this.generateKeyFromPassword(account, role, password);
 				}
-				console.log('!!! validate pass: key in roles', role, key);
+				console.log('!!! validate pass: key in roles - ', role, key);
 
 				let foundRole = false;
 
