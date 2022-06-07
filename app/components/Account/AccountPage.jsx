@@ -24,6 +24,7 @@ import AccountSignedMessages from './AccountSignedMessages';
 import AccountWhitelist from './AccountWhitelist';
 import AccountVoting from './AccountVoting';
 import AccountOverview from './AccountOverview';
+import AccountNotification from './AccountNotification';
 
 class AccountPage extends React.Component {
 	static propTypes = {
@@ -133,6 +134,11 @@ class AccountPage extends React.Component {
 						path={`/account/${account_name}/trade`}
 						exact
 						render={() => <AccountTrade {...passOnProps} />}
+					/>
+					<Route
+						path={`/account/${account_name}/notification`}
+						exact
+						render={() => <AccountNotification {...passOnProps} />}
 					/>
 					<Route
 						path={`/account/${account_name}/member-stats`}

@@ -1798,3 +1798,54 @@ div.messages {
 		}
 	}
 }
+
+// Notification Page
+div.account-notification {
+	.content-body {
+		padding: 30px;
+
+		.list-wrapper {
+			background: #0a0b0d;
+			border: 1px solid #1c1f27;
+			border-radius: 4px;
+
+			.ant-list-items {
+				.ant-list-item {
+					border-bottom: 1px solid #1c1f27;
+
+					.title {
+						font-size: 18px;
+						color: #ffc000;
+					}
+
+					.description {
+						font-size: 15px;
+						color: #cecece;
+					}
+
+					.footer {
+						padding: 0;
+						display: flex;
+						align-items: center;
+						background: #0a0b0d;
+
+						svg {
+							path {
+								fill: #ffc000;
+							}
+							margin-right: 10px;
+						}
+					}
+				}
+
+				.ant-list-item:last-child {
+					border-bottom: 1px solid #1c1f27;
+				}
+			}
+
+			.ant-list-pagination {
+				margin-bottom: 24px;
+			}
+		}
+	}
+}

@@ -689,9 +689,9 @@ class Header extends React.Component {
 					<Menu.Item key="advanced-signed-messages">
 						<Text>Signed Messages</Text>
 					</Menu.Item>
-					<Menu.Item key="advanced-membership-stats">
+					{/* <Menu.Item key="advanced-membership-stats">
 						<Text>Membership Stats</Text>
-					</Menu.Item>
+					</Menu.Item> */}
 					<Menu.Item key="advanced-vesting-balance">
 						<Text>Vesting Balance</Text>
 					</Menu.Item>
@@ -741,7 +741,6 @@ class Header extends React.Component {
 										<Menu.Item key="explorer">
 											<Translate component="span" content="header.explorer" />
 										</Menu.Item>
-										<Menu.Item key="funds">Funds</Menu.Item>
 									</Menu>
 								</Col>
 							</Row>
