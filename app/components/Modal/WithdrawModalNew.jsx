@@ -756,7 +756,6 @@ class WithdrawModalNew extends React.Component {
 		});
 		TransactionConfirmStore.unlisten(this.onTrxIncluded);
 		TransactionConfirmStore.listen(this.onTrxIncluded);
-		console.log('@! - ', args);
 		AccountActions.transfer(...args).then(() => {
 			this.props.hideModal();
 		});

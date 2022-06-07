@@ -23,8 +23,8 @@ import NewsHeadline from 'components/Layout/NewsHeadline';
 import Onramperwallet from 'components/Wallet/Onramperwallet';
 // import LoginSelector from "./components/LoginSelector";
 import Login from './components/Login/Login';
-// import RegistrationSelector from "./components/Registration/RegistrationSelector";
-// import WalletRegistration from "./components/Registration/WalletRegistration";
+import RegistrationSelector from './components/Registration/RegistrationSelector';
+import WalletRegistration from './components/Registration/WalletRegistration';
 import AccountRegistration from './components/Registration/AccountRegistration';
 import {CreateWalletFromBrainkey} from './components/Wallet/WalletCreate';
 // import ShowcaseGrid from "./components/Showcases/ShowcaseGrid";
@@ -439,16 +439,16 @@ class App extends React.Component {
 						<Route path="/login" component={Login} />
 						<Route path="/registration" exact component={AccountRegistration} />
 						<Route path="/auth-proceed" component={AuthRedirect} />
-						{/* <Route
-								path="/registration/local"
-								exact
-								component={WalletRegistration}
-							/>
-							<Route
-								path="/registration/cloud"
-								exact
-								component={AccountRegistration}
-							/> */}
+						<Route
+							path="/registration/local"
+							exact
+							component={WalletRegistration}
+						/>
+						<Route
+							path="/registration/cloud"
+							exact
+							component={AccountRegistration}
+						/>
 						<Route path="/arts" component={Arts} />
 						{/* Explorer routes */}
 						<Route path="/explorer/:tab" component={Explorer} />
