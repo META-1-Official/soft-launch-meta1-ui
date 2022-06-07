@@ -117,6 +117,8 @@ const SideBar = ({collapsed, currentLink, toggle}: ISideBar) => {
 			link = `account/${accountName}/member-stats`;
 		} else if (e.key === 'transaction-history') {
 			link = `account/${accountName}/?currentDisplay=transactionHistory`;
+		} else if (e.key === 'notification') {
+			link = `account/${accountName}/notification`;
 		} else if (e.key === 'paper-wallet') {
 			link = `account/${accountName}/permissions/?currentDisplay=createPaperWallet`;
 		}

@@ -42,6 +42,8 @@ const AppLayout = ({children, location, height}: IAppLayout, others) => {
 				link = 'transaction-history';
 			} else if (pathSnippets.includes('signedmessages')) {
 				link = '';
+			} else if (pathSnippets.includes('notification')) {
+				link = 'notification';
 			} else {
 				link = 'account';
 			}
