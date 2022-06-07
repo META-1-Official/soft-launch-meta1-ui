@@ -5,7 +5,7 @@ class AssetExplorer extends React.Component {
         return (
             <div
                 dangerouslySetInnerHTML={{
-                    __html: `<iframe src="https://api.meta1.io" width="100%" style="height:100vh; border-width:0px; border:none;" height="100%"></iframe>`
+                    __html: `<iframe src="https://api.meta-exchange.vision" width="100%" style="height:100vh; border-width:0px; border:none;" height="100%"></iframe>`
                 }}
             />
         );

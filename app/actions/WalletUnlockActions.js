@@ -1,4 +1,8 @@
 import alt from "alt-instance";
+import ls from "common/localStorage";
+
+const STORAGE_KEY = "__meta-ref__";
+const ss = new ls(STORAGE_KEY);
 
 class WalletUnlockActions {
     /** If you get resolved then the wallet is or was just unlocked.  If you get
@@ -26,7 +30,9 @@ class WalletUnlockActions {
             return new Promise(resolve => {
                 dispatch({resolve});
             }).then(was_unlocked => {
-                localStorage.clear();
+                var referred_user = ss.get('referred_user_id', 'null');
+				localStorage.clear();
+				referred_user !== null && referred_user !== 'null' && ss.set('referred_user_id', referred_user);
                 if (was_unlocked) WrappedWalletUnlockActions.change();
             });
         };

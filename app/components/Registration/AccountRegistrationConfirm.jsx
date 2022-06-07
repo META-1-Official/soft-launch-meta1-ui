@@ -20,9 +20,8 @@ import {
 } from "bitshares-ui-style-guide";
 import CopyButton from "../Utility/CopyButton";
 import QRCode from "qrcode.react";
-// import Tap from "@tapfiliate/tapfiliate-js";
 import ls from "common/localStorage";
-
+import {checkCustomer} from 'components/Utility/Tapfiliate';
 const STORAGE_KEY = "__meta-ref__";
 const ss = new ls(STORAGE_KEY);
 
@@ -121,7 +120,7 @@ class AccountRegistrationConfirm extends React.Component {
     }
 
     postWallet(email, accountName) {
-        fetch("https://meta1.io/api/link", {
+        fetch("https://meta1.vision/api/link", {
             method: "POST",
             headers: {
                 Accept: "application/json, text/plain, */*",
@@ -151,10 +150,10 @@ class AccountRegistrationConfirm extends React.Component {
         );
     }
 
-    trackSignup(customerId) {
-        tap("customer", customerId);
-        ss.set("referred_user_id", customerId);
-    }
+	trackSignup(customerId) {
+		checkCustomer(customerId);
+		ss.set('referred_user_id', customerId);
+	}
 
     createAccount(
         name,
@@ -333,8 +332,8 @@ class AccountRegistrationConfirm extends React.Component {
                             <p>Version 1.0</p>
 
                             <p>
-                                The www.meta1.io website located at
-                                https://meta1.io is a copyrighted work belonging
+                                The www.meta1.vision website located at
+                                https://meta1.vision is a copyrighted work belonging
                                 to META1. Certain features of the Site may be
                                 subject to additional guidelines, terms, or
                                 rules, which will be posted on the Site in
@@ -498,7 +497,7 @@ class AccountRegistrationConfirm extends React.Component {
 
                             <p>
                                 <strong>Cookies and Web Beacons.</strong> Like
-                                any other website, www.meta1.io uses ‘cookies’.
+                                any other website, www.meta1.vision uses ‘cookies’.
                                 These cookies are used to store information
                                 including visitors’ preferences, and the pages
                                 on the website that the visitor accessed or
@@ -1036,7 +1035,7 @@ class AccountRegistrationConfirm extends React.Component {
                             <h2>Contact Information</h2>
 
                             <p>Address: Arizona, USA</p>
-                            <p>Email: rostislav@meta1.io</p>
+                            <p>Email: rostislav@meta1.vision</p>
                         </div>
                     </div>
                 </Form.Item>

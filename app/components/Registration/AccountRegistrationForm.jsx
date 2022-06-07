@@ -44,7 +44,7 @@ class AccountRegistrationForm extends React.Component {
             phone: "",
             firstname: "",
             lastname: "",
-            captcha: true // to perform testing on dev server
+            captcha: false,
         };
         this.onSubmit = this.onSubmit.bind(this);
         this.onRegistrarAccountChange = this.onRegistrarAccountChange.bind(
@@ -359,7 +359,7 @@ class AccountRegistrationForm extends React.Component {
                         </div>
                     )}
                     <ReCAPTCHA
-                        sitekey="6LdY-48UAAAAAAX8Y8-UdRtFks70LCRmyvyye0VU"
+                        sitekey="6LcriOkfAAAAAF6nxnLMIXkHXMeyyPH7oZuoNTpB"
                         onChange={this.caChange.bind(this)}
                     />
                     <br></br>
