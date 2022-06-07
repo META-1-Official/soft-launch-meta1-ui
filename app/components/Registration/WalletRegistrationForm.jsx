@@ -95,7 +95,6 @@ class WalletRegistrationForm extends React.Component {
 	}
 
 	onSubmit(e) {
-		e.preventDefault();
 		if (!this.isValid()) {
 			return;
 		}
@@ -264,7 +263,7 @@ class WalletRegistrationForm extends React.Component {
 		};
 
 		return (
-			<Form layout={'vertical'} onSubmit={this.onSubmit}>
+			<Form layout={'vertical'} onFinish={this.onSubmit}>
 				<AccountNameInput
 					cheapNameOnly={!!firstAccount}
 					onChange={(e) => this.onAccountNameChange(e)}

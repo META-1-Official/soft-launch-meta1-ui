@@ -300,7 +300,6 @@ class WalletUnlockModal extends React.Component {
 
 	handleLogin = (e) => {
 		if (e) e.preventDefault();
-
 		const {passwordLogin, backup} = this.props;
 		const {walletSelected, accountName} = this.state;
 		if (this.state.captcha) {
@@ -338,7 +337,7 @@ class WalletUnlockModal extends React.Component {
 		this.props.history.push(path);
 	};
 
-	handleCreateWallet = () => this.closeRedirect('/registration');
+	handleCreateWallet = () => this.closeRedirect('/registration/local');
 
 	handleRestoreOther = () => this.closeRedirect('/settings/restore');
 
