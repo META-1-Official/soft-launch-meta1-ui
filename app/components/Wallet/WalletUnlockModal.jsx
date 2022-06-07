@@ -234,13 +234,9 @@ class WalletUnlockModal extends React.Component {
 			this.setState({passwordError: true});
 		} else {
 			if (!passwordLogin) {
-				this.setState({
-					password: '',
-				});
+				this.setState({password: ''});
 			} else {
-				this.setState({
-					password: '',
-				});
+				this.setState({password: ''});
 				if (cloudMode) AccountActions.setPasswordAccount(account);
 			}
 			WalletUnlockActions.change();

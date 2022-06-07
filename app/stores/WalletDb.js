@@ -362,7 +362,7 @@ class WalletDb extends BaseStore {
 		roles = ['active', 'owner', 'memo'],
 		chainAccount
 	) {
-		console.log('STarting validate');
+		console.log('Starting auth validate');
 		if (account) {
 			let id = 0;
 			function setKey(role, priv, pub) {
@@ -466,6 +466,7 @@ class WalletDb extends BaseStore {
 			return {success: !!_passwordKey, cloudMode: true};
 		} else {
 			let wallet = this.state.wallet;
+			console.log('Validating by using wallet...');
 			try {
 				let password_private = PrivateKey.fromSeed(password);
 				let password_pubkey = password_private
@@ -481,7 +482,7 @@ class WalletDb extends BaseStore {
 				}
 				return {success: true, cloudMode: false};
 			} catch (e) {
-				console.error(e);
+				console.error('Failed to validate by using wallet', e);
 				return {success: false, cloudMode: false};
 			}
 		}

@@ -54,11 +54,10 @@ class CreateNewWallet extends Component {
 		this.setState({brnkey}, this.validate);
 	}
 
-	onSubmit = (e) => {
-		e.preventDefault();
-
+	onSubmit = () => {
 		let {wallet_public_name, valid_password, custom_brainkey, errors} =
 			this.state;
+
 		if (
 			!valid_password ||
 			errors.wallet_public_name ||
@@ -72,10 +71,13 @@ class CreateNewWallet extends Component {
 			valid_password,
 			this.state.brnkey
 		);
-		SettingsActions.changeSetting({
-			setting: 'passwordlessLogin',
-			value: false,
-		});
+
+		/* --- Commented on 2022-06-07 by Jin --- */
+		// SettingsActions.changeSetting({
+		// 	setting: 'passwordlessLogin',
+		// 	value: false,
+		// });
+
 		SettingsActions.changeSetting({
 			setting: 'passwordLogin',
 			value: false,
@@ -140,7 +142,7 @@ class CreateNewWallet extends Component {
 			<div className="wallet-create">
 				<Form
 					style={{maxWidth: '40rem'}}
-					onSubmit={this.onSubmit}
+					onFinish={this.onSubmit}
 					onChange={this.formChange}
 					noValidate
 				>
