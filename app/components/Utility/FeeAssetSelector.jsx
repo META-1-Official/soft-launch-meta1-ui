@@ -25,7 +25,7 @@ class FeeAssetSelector extends React.Component {
 		// assets to choose from
 		assets: PropTypes.any,
 
-		// a translation key for the input label, defaults to "Fee"
+		// a translation key for the input label
 		label: PropTypes.string,
 
 		// handler for changedFee (asset, or amount)
@@ -42,7 +42,6 @@ class FeeAssetSelector extends React.Component {
 	};
 
 	static defaultProps = {
-		label: 'transfer.fee',
 		disabled: false,
 	};
 
@@ -251,7 +250,7 @@ class FeeAssetSelector extends React.Component {
 		const selectableAssets = this._getSelectableAssets();
 
 		return (
-			<div>
+			<>
 				<Form.Item
 					label={label}
 					style={{...this.props.style, margin: '0 0 0 0'}}
@@ -309,7 +308,7 @@ class FeeAssetSelector extends React.Component {
 						}}
 					/>
 				)}
-			</div>
+			</>
 		);
 	}
 

@@ -168,10 +168,6 @@ export default class DepositModal extends React.Component {
 				this.setState({depositAddress: address});
 				this.setState({depositMemo: memo});
 			});
-		// })
-		// .catch(error => {
-		//     this.setState({depositAddress: "Gateway is down"});
-		// });
 	}
 
 	componentDidMount() {

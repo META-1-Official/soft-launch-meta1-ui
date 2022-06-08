@@ -252,11 +252,19 @@ const GlobalStyles = (theme: any) => css`
 			border: none;
  		}
 	}
+	.ant-modal-header {
+		background: transparent;
+		border-bottom: 1px solid #1C1F27;
+
+		.ant-modal-title {
+			font-size: 20px;
+			color: white;
+		}
+	}
 	.ant-modal-content {
 		background: ${theme.colors.black};
 		border: 1px solid ${theme.colors.borderColor};
 		border-radius: 8px;
-		padding: 1rem;
 
 		.ant-modal-close {
 			top: -17px;
@@ -276,7 +284,31 @@ const GlobalStyles = (theme: any) => css`
 		}
 	}
 	.ant-modal-footer {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
 		border-top: none;
+
+		button {
+			width: 47%;
+			height: 56px;
+			border-radius: 4px;
+			font-size: 18px;
+			font-weight: 600;
+			text-transform: uppercase;
+			border: none;
+		}
+
+		button:nth-child(1) {
+			background: #ffc000 !important;
+			color: #330000 !imortant;
+		}
+
+		button:nth-child(2) {
+			background: #FF2929 !important;
+			color: white !important;
+		}
 	}
 	.ant-input:focus, .ant-input-focused {
 		border-color: ${theme.colors.borderColor};
