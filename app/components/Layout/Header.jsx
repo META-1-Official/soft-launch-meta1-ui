@@ -24,13 +24,7 @@ import SettingsActions from 'actions/SettingsActions';
 import ZfApi from 'react-foundation-apps/src/utils/foundation-api';
 import SendModal from '../Modal/SendModal';
 import WithdrawModal from '../Modal/WithdrawModalNew';
-import DepositModalBtc from '../Modal/DepositModalBtc';
-import DepositModalEth from '../Modal/DepositModalEth';
-import DepositModalUsdt from '../Modal/DepositModalUsdt';
-// import DepositModalEos from "../Modal/DepositModalEos";
-// import DepositModalXlm from "../Modal/DepositModalXlm";
-// import DepositModalBnb from "../Modal/DepositModalBnb";
-import DepositModalLtc from '../Modal/DepositModalLtc';
+import DepositModal from '../Modal/DepositModal';
 import Icon from '../Icon/Icon';
 import Translate from 'react-translate-component';
 import counterpart from 'counterpart';
@@ -65,18 +59,11 @@ class Header extends React.Component {
 		this.state = {
 			active: props.location.pathname,
 			accountsListDropdownActive: false,
-			isDepositModalVisibleBnb: false,
-			isDepositModalVisibleBtc: false,
-			isDepositModalVisibleEth: false,
-			isDepositModalVisibleEos: false,
-			isDepositModalVisibleLtc: false,
-			isDepositModalVisibleUsdt: false,
-			isDepositModalVisibleXlm: false,
+			isDepositModalVisible: false,
 			isWithdrawModalVisible: false,
 			hasWithdrawalModalBeenShown: false,
 		};
 
-		console.log('PROPS', this.props);
 		this._accountNotificationActiveKeys = [];
 		this.unlisten = null;
 		this._toggleAccountDropdownMenu =
@@ -86,29 +73,8 @@ class Header extends React.Component {
 		this._closeAccountNotifications =
 			this._closeAccountNotifications.bind(this);
 
-		this.showDepositModalBtc = this.showDepositModalBtc.bind(this);
-		this.hideDepositModalBtc = this.hideDepositModalBtc.bind(this);
-
-		this.showDepositModalEth = this.showDepositModalEth.bind(this);
-		this.hideDepositModalEth = this.hideDepositModalEth.bind(this);
-
-		this.showDepositModalUsdt = this.showDepositModalUsdt.bind(this);
-		this.hideDepositModalUsdt = this.hideDepositModalUsdt.bind(this);
-
-		// this.showDepositModalEos = this.showDepositModalEos.bind(this);
-		// this.hideDepositModalEos = this.hideDepositModalEos.bind(this);
-
-		// this.showDepositModalXlm = this.showDepositModalXlm.bind(this);
-		// this.hideDepositModalXlm = this.hideDepositModalXlm.bind(this);
-
-		// this.showDepositModalBnb = this.showDepositModalBnb.bind(this);
-		// this.hideDepositModalBnb = this.hideDepositModalBnb.bind(this);
-
-		this.showDepositModalLtc = this.showDepositModalLtc.bind(this);
-		this.hideDepositModalLtc = this.hideDepositModalLtc.bind(this);
-
-		// this.showDepositModal = this.showDepositModal.bind(this);
-		// this.hideDepositModal = this.hideDepositModal.bind(this);
+		this.showDepositModal = this.showDepositModal.bind(this);
+		this.hideDepositModal = this.hideDepositModal.bind(this);
 
 		this.showWithdrawModal = this.showWithdrawModal.bind(this);
 		this.hideWithdrawModal = this.hideWithdrawModal.bind(this);
@@ -167,74 +133,14 @@ class Header extends React.Component {
 			this.props.history.push('/settings/general');
 		}
 	}
-	showDepositModalBtc() {
+	showDepositModal() {
 		this.setState({
-			isDepositModalVisibleBtc: true,
+			isDepositModalVisible: true,
 		});
 	}
 
-	showDepositModalEth() {
-		this.setState({
-			isDepositModalVisibleEth: true,
-		});
-	}
-
-	showDepositModalUsdt() {
-		this.setState({
-			isDepositModalVisibleUsdt: true,
-		});
-	}
-
-	showDepositModalEos() {
-		this.setState({
-			isDepositModalVisibleEos: true,
-		});
-	}
-
-	showDepositModalBnb() {
-		this.setState({
-			isDepositModalVisibleBnb: true,
-		});
-	}
-
-	showDepositModalXlm() {
-		this.setState({
-			isDepositModalVisibleXlm: true,
-		});
-	}
-
-	showDepositModalLtc() {
-		this.setState({
-			isDepositModalVisibleLtc: true,
-		});
-	}
-
-	_showDepositBtc() {
-		this.showDepositModalBtc();
-	}
-
-	_showDepositEth() {
-		this.showDepositModalEth();
-	}
-
-	_showDepositUsdt() {
-		this.showDepositModalUsdt();
-	}
-
-	_showDepositEos() {
-		this.showDepositModalEos();
-	}
-
-	_showDepositBnb() {
-		this.showDepositModalBnb();
-	}
-
-	_showDepositXlm() {
-		this.showDepositModalXlm();
-	}
-
-	_showDepositLtc() {
-		this.showDepositModalLtc();
+	_showDeposit() {
+		this.showDepositModal();
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
@@ -264,46 +170,9 @@ class Header extends React.Component {
 		!fromMenu && e.preventDefault();
 		this.showWithdrawModal();
 	}
-
-	hideDepositModalBtc() {
+	hideDepositModal() {
 		this.setState({
-			isDepositModalVisibleBtc: false,
-		});
-	}
-
-	hideDepositModalEth() {
-		this.setState({
-			isDepositModalVisibleEth: false,
-		});
-	}
-
-	hideDepositModalUsdt() {
-		this.setState({
-			isDepositModalVisibleUsdt: false,
-		});
-	}
-
-	hideDepositModalEos() {
-		this.setState({
-			isDepositModalVisibleEos: false,
-		});
-	}
-
-	hideDepositModalBnb() {
-		this.setState({
-			isDepositModalVisibleBnb: false,
-		});
-	}
-
-	hideDepositModalXlm() {
-		this.setState({
-			isDepositModalVisibleXlm: false,
-		});
-	}
-
-	hideDepositModalLtc() {
-		this.setState({
-			isDepositModalVisibleLtc: false,
+			isDepositModalVisible: false,
 		});
 	}
 
@@ -446,14 +315,8 @@ class Header extends React.Component {
 			this._showWithdraw(this, true);
 		} else if (key === 'send') {
 			this._showSend();
-		} else if (key === 'deposit-btc') {
-			this._showDepositBtc();
-		} else if (key === 'deposit-ltc') {
-			this._showDepositLtc();
-		} else if (key === 'deposit-eth') {
-			this._showDepositEth();
-		} else if (key === 'deposit-usdt') {
-			this._showDepositUsdt();
+		} else if (key === 'deposit') {
+			this._showDeposit();
 		} else if (key === 'advanced-trezor') {
 			window.open('https://beta-wallet.trezor.io/next/#/', '_blank');
 		} else if (key === 'advanced-ledger-nano') {
@@ -647,23 +510,9 @@ class Header extends React.Component {
 				<Menu.Item key="withdraw">
 					<Text>Withdraw</Text>
 				</Menu.Item>
-				<Menu.SubMenu
-					popupClassName="deposit-submenu"
-					title={<Text>Deposit</Text>}
-				>
-					<Menu.Item key="deposit-btc">
-						<Text>Depsoit BTC</Text>
-					</Menu.Item>
-					<Menu.Item key="deposit-ltc">
-						<Text>Depsoit LTC</Text>
-					</Menu.Item>
-					<Menu.Item key="deposit-eth">
-						<Text>Depsoit ETH</Text>
-					</Menu.Item>
-					<Menu.Item key="deposit-usdt">
-						<Text>Depsoit USDT</Text>
-					</Menu.Item>
-				</Menu.SubMenu>
+				<Menu.Item key="deposit">
+					<Text>Depsoit</Text>
+				</Menu.Item>
 				<Menu.SubMenu
 					popupClassName="advanced-submenu"
 					title={<Text>Advanced</Text>}
@@ -847,36 +696,12 @@ class Header extends React.Component {
 							backedCoins={this.props.backedCoins}
 						/>
 					)}
-					<DepositModalBtc
-						visibleMeta={this.state.isDepositModalVisibleBtc}
-						hideModalMeta={this.hideDepositModalBtc}
-						showModalMeta={this.showDepositModalBtc}
-						ref="deposit_modal_new1"
-						modalId="deposit_modal_new1"
-						account={currentAccount}
-					/>
-					<DepositModalEth
-						visibleMeta={this.state.isDepositModalVisibleEth}
-						hideModalMeta={this.hideDepositModalEth}
-						showModalMeta={this.showDepositModalEth}
+					<DepositModal
+						visibleMeta={this.state.isDepositModalVisible}
+						hideModalMeta={this.hideDepositModal}
+						showModalMeta={this.showDepositModal}
 						ref="deposit_modal_new11"
 						modalId="deposit_modal_new11"
-						account={currentAccount}
-					/>
-					<DepositModalUsdt
-						visibleMeta={this.state.isDepositModalVisibleUsdt}
-						hideModalMeta={this.hideDepositModalUsdt}
-						showModalMeta={this.showDepositModalUsdt}
-						ref="deposit_modal_new1331"
-						modalId="deposit_modal_new1331"
-						account={currentAccount}
-					/>
-					<DepositModalLtc
-						visibleMeta={this.state.isDepositModalVisibleLtc}
-						hideModalMeta={this.hideDepositModalLtc}
-						showModalMeta={this.showDepositModalLtc}
-						ref="deposit_modal_new112"
-						modalId="deposit_modal_new122"
 						account={currentAccount}
 					/>
 				</AntdHeader>

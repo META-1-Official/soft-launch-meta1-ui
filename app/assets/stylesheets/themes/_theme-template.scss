@@ -2487,26 +2487,23 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 		}
 	}
 	.qr-address-scanner {
+		svg {
+			path {
+				fill: #ffc000;
+			}
+		}
+
 		&-btn {
 			background: #d5ba48;
-
 			height: 2.4rem;
 			border-radius: 0 5px 5px 0;
 			width: 40px;
-			span.icon {
-				background: transparent;
-			}
-			svg {
-				background: transparent;
-			}
 		}
 		&-divider {
 			margin: 24px 0;
 			height: 1px;
 			width: 100%;
 			background: $bg-color;
-		}
-		&-modal {
 		}
 
 		&-input-field {

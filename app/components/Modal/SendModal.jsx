@@ -16,7 +16,7 @@ import utils from 'common/utils';
 import counterpart from 'counterpart';
 import {connect} from 'alt-react';
 import {getWalletName} from 'branding';
-import {Form, Modal, Button, Tooltip, Input, Space} from 'antd';
+import {Form, Modal, Button, Tooltip, Input, Space, Tabs} from 'antd';
 import swal from 'sweetalert';
 import WalletUnlockActions from '../../actions/WalletUnlockActions';
 import ReactTooltip from 'react-tooltip';
@@ -472,6 +472,138 @@ class SendModal extends React.Component {
 
 		let tabIndex = this.props.tabIndex; // Continue tabIndex on props count
 
+		let tabHeaderContainer = (
+			<div
+				className="content-block"
+				style={{textAlign: 'center'}}
+				css={(theme) => ({
+					display: 'flex',
+					justifyContent: 'center',
+					marginBottom: '1rem',
+					color: '#CACACA',
+				})}
+			>
+				<Translate
+					content={
+						propose
+							? 'transfer.header_subheader_propose'
+							: 'transfer.header_subheader'
+					}
+					wallet_name={getWalletName()}
+				/>
+			</div>
+		);
+
+		let formContainer = (
+			<Form
+				css={{paddingTop: '5px !important'}}
+				className="full-width"
+				layout="vertical"
+			>
+				{!!propose && (
+					<div className="account-selector-wrapper">
+						<span className="selector-label">By</span>
+						<AccountSelector
+							accountName={this.props.currentAccount}
+							account={this.props.currentAccount}
+							typeahead={true}
+							tabIndex={tabIndex++}
+							// locked={true}
+							hideImage
+						/>
+					</div>
+				)}
+
+				<div className="account-selector-wrapper">
+					<span className="selector-label">From</span>
+					<AccountSelector
+						accountName={from_name}
+						account={from_account}
+						onChange={this.fromChanged.bind(this)}
+						onAccountChanged={this.onFromAccountChanged.bind(this)}
+						typeahead={true}
+						tabIndex={tabIndex++}
+						// locked={!!propose ? undefined : true}
+						hideImage
+					/>
+				</div>
+
+				<div className="account-selector-wrapper">
+					<span className="selector-label">To</span>
+					<AccountSelector
+						accountName={to_name}
+						account={to_account}
+						onChange={this.toChanged.bind(this)}
+						onAccountChanged={this.onToAccountChanged.bind(this)}
+						typeahead={true}
+						tabIndex={tabIndex++}
+						hideImage
+					/>
+				</div>
+
+				<div className="account-selector-wrapper">
+					<span className="selector-label">Amount</span>
+					<AmountSelector
+						amount={amount}
+						onChange={this.onAmountChanged.bind(this)}
+						asset={
+							asset_types.length > 0 && asset
+								? asset.get('id')
+								: asset_id
+								? asset_id
+								: asset_types[0]
+						}
+						assets={asset_types}
+						display_balance={balance}
+						tabIndex={tabIndex++}
+						allowNaN={true}
+					/>
+				</div>
+
+				<div className="account-selector-wrapper">
+					<Form.Item
+						label={`${counterpart.translate('transfer.memo')} - ${
+							memo?.length ?? 0
+						}`}
+						validateStatus={memo && propose ? 'warning' : ''}
+						help={
+							memo && propose
+								? counterpart.translate('transfer.warn_name_unable_read_memo')
+								: ''
+						}
+					>
+						<Tooltip
+							placement="top"
+							title={counterpart.translate('tooltip.memo_tip')}
+						>
+							<Input.TextArea
+								rows={3}
+								value={memo}
+								tabIndex={tabIndex++}
+								onChange={this.onMemoChanged.bind(this)}
+							/>
+						</Tooltip>
+					</Form.Item>
+				</div>
+				<div className="account-selector-wrapper">
+					<span className="selector-label">Fee</span>
+					<FeeAssetSelector
+						account={from_account}
+						transaction={{
+							type: 'transfer',
+							options: ['price_per_kbyte'],
+							data: {
+								type: 'memo',
+								content: memo,
+							},
+						}}
+						onChange={this.onFeeChanged.bind(this)}
+						tabIndex={tabIndex++}
+					/>
+				</div>
+			</Form>
+		);
+
 		return !this.state.open ? null : (
 			<div
 				id="send_modal_wrapper"
@@ -484,8 +616,7 @@ class SendModal extends React.Component {
 					onCancel={this.hideModal}
 					footer={[
 						<StyledButton
-							buttonType="primary"
-							key={'send'}
+							key={'Ok'}
 							disabled={isSubmitNotValid}
 							onClick={!isSubmitNotValid ? this.onSubmit.bind(this) : null}
 						>
@@ -494,7 +625,6 @@ class SendModal extends React.Component {
 								: counterpart.translate('transfer.send')}
 						</StyledButton>,
 						<StyledButton
-							buttonType="transparent"
 							key="Cancel"
 							tabIndex={tabIndex++}
 							onClick={this.onClose}
@@ -502,161 +632,18 @@ class SendModal extends React.Component {
 							<Translate component="span" content="transfer.cancel" />
 						</StyledButton>,
 					]}
+					className="send-propose-modal"
 				>
-					<div>
-						<div
-							css={(theme) => ({
-								display: 'flex',
-								justifyContent: 'center',
-								marginBottom: '1.5rem',
-							})}
-						>
-							<Space>
-								<StyledButton
-									buttonType={propose ? 'transparent' : 'primary'}
-									onClick={this.onPropose}
-								>
-									<Translate content="transfer.send" />
-								</StyledButton>
-								<StyledButton
-									buttonType={propose ? 'primary' : 'transparent'}
-									onClick={this.onPropose}
-								>
-									<Translate content="propose" />
-								</StyledButton>
-							</Space>
-						</div>
-						<div
-							className="content-block"
-							style={{textAlign: 'center'}}
-							css={(theme) => ({
-								display: 'flex',
-								justifyContent: 'center',
-								marginBottom: '1rem',
-								color: theme.colors.themeOpositeColor,
-							})}
-						>
-							<Translate
-								css={(theme) => ({
-									color: theme.colors.themeOpositeColor,
-								})}
-								content={
-									propose
-										? 'transfer.header_subheader_propose'
-										: 'transfer.header_subheader'
-								}
-								wallet_name={getWalletName()}
-							/>
-						</div>
-						{this.state.open ? (
-							<Form
-								css={{paddingTop: '5px !important'}}
-								className="full-width"
-								layout="vertical"
-							>
-								{!!propose && (
-									<React.Fragment>
-										<AccountSelector
-											label="transfer.by"
-											accountName={this.props.currentAccount}
-											account={this.props.currentAccount}
-											typeahead={true}
-											tabIndex={tabIndex++}
-											locked={true}
-										/>
-										<div className="modal-separator" />
-									</React.Fragment>
-								)}
-
-								<AccountSelector
-									label="transfer.from"
-									accountName={from_name}
-									account={from_account}
-									onChange={this.fromChanged.bind(this)}
-									onAccountChanged={this.onFromAccountChanged.bind(this)}
-									typeahead={true}
-									tabIndex={tabIndex++}
-									locked={!!propose ? undefined : true}
-								/>
-
-								<AccountSelector
-									label="transfer.to"
-									accountName={to_name}
-									account={to_account}
-									onChange={this.toChanged.bind(this)}
-									onAccountChanged={this.onToAccountChanged.bind(this)}
-									typeahead={true}
-									tabIndex={tabIndex++}
-								/>
-
-								<AmountSelector
-									label="transfer.amount"
-									amount={amount}
-									onChange={this.onAmountChanged.bind(this)}
-									asset={
-										asset_types.length > 0 && asset
-											? asset.get('id')
-											: asset_id
-											? asset_id
-											: asset_types[0]
-									}
-									assets={asset_types}
-									display_balance={balance}
-									tabIndex={tabIndex++}
-									allowNaN={true}
-								/>
-								{memo && memo.length ? (
-									<label className="right-label">{memo.length}</label>
-								) : null}
-								<Form.Item
-									label={counterpart.translate('transfer.memo')}
-									validateStatus={memo && propose ? 'warning' : ''}
-									help={
-										memo && propose
-											? counterpart.translate(
-													'transfer.warn_name_unable_read_memo'
-											  )
-											: ''
-									}
-								>
-									<Tooltip
-										placement="top"
-										title={counterpart.translate('tooltip.memo_tip')}
-									>
-										<Input.TextArea
-											rows={3}
-											value={memo}
-											tabIndex={tabIndex++}
-											onChange={this.onMemoChanged.bind(this)}
-											css={(theme) => ({
-												'&&': {
-													backgroundColor: theme.colors.inputBackgroundColor,
-													border: 'none',
-													color: theme.colors.inputTextColor,
-													borderRadius: '6px',
-													marginBottom: 0,
-												},
-											})}
-										/>
-									</Tooltip>
-								</Form.Item>
-								<FeeAssetSelector
-									label="transfer.fee"
-									account={from_account}
-									transaction={{
-										type: 'transfer',
-										options: ['price_per_kbyte'],
-										data: {
-											type: 'memo',
-											content: memo,
-										},
-									}}
-									onChange={this.onFeeChanged.bind(this)}
-									tabIndex={tabIndex++}
-								/>
-							</Form>
-						) : null}
-					</div>
+					<Tabs defaultActiveKey="1" animated={false} onChange={this.onPropose}>
+						<Tabs.TabPane tab="Send" key="send">
+							{tabHeaderContainer}
+							{this.state.open ? formContainer : null}
+						</Tabs.TabPane>
+						<Tabs.TabPane tab="Propose" key="propose">
+							{tabHeaderContainer}
+							{this.state.open ? formContainer : null}
+						</Tabs.TabPane>
+					</Tabs>
 				</Modal>
 			</div>
 		);

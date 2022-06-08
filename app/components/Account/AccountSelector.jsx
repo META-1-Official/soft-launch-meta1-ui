@@ -586,7 +586,7 @@ class AccountSelector extends React.Component {
 					placeholder={
 						this.props.placeholder || counterpart.translate('account.name')
 					}
-					disabled={this.props.disabled ? true : undefined}
+					// disabled={this.props.disabled ? true : undefined}
 					ref="user_input"
 					onChange={this.onInputChanged.bind(this)}
 					onKeyDown={this.onKeyDown.bind(this)}
@@ -595,8 +595,9 @@ class AccountSelector extends React.Component {
 							? -1
 							: this.props.tabIndex
 					}
-					editable={!!editableInput ? editableInput.toString() : undefined}
-					readOnly={!!editableInput ? (!editableInput).toString() : undefined}
+					// editable={!!editableInput ? editableInput.toString() : undefined}
+					editable={true}
+					// readOnly={!!editableInput ? (!editableInput).toString() : undefined}
 				/>
 			);
 		}
@@ -693,7 +694,7 @@ class AccountSelector extends React.Component {
 							{searchInProgress ? (
 								<LoadingOutlined style={{padding: 10}} />
 							) : null}
-							{lockedStateContainer}
+							{/* {lockedStateContainer} */}
 							{this.props.children}
 						</div>
 						{this.props.onAction ? (
