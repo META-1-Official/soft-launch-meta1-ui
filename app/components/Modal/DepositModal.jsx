@@ -1,17 +1,17 @@
 import React, {useState, useEffect} from 'react';
-import utils from 'common/utils';
-import {DecimalChecker} from '../Utility/DecimalChecker';
 import counterpart from 'counterpart';
-import {Modal, Button, Tabs} from 'antd';
+import {Modal, Button, Tabs, Tooltip} from 'antd';
+import {CopyOutlined} from '@ant-design/icons';
 import CopyButton from '../Utility/CopyButton';
 import AccountStore from 'stores/AccountStore';
 import QRCode from 'qrcode.react';
 
 const DepositModalContent = (props) => {
-	const [clipboardText, setClipboardText] = useState('');
 	const [depositAddress, setDepositAddress] = useState(null);
 	const [assetType, setAssetType] = useState('btc');
 	const assets = ['btc', 'ltc', 'eth', 'usdt'];
+	const minDepositValues = {btc: 0.001, ltc: 0.01, eth: 0.01, usdt: 1};
+
 	const api_gateway_url = `https://gateway.dev.meta-exchange.vision/api-gateways/${
 		assetType === 'usdt' ? 'eth' : assetType
 	}`;
@@ -60,89 +60,53 @@ const DepositModalContent = (props) => {
 			});
 	};
 
-	const _copy = (e) => {
-		try {
-			if (depositAddress) e.clipboardData.setData('text/plain', depositAddress);
-			else
-				e.clipboardData.setData(
-					'text/plain',
-					counterpart.translate('gateway.use_copy_button').toUpperCase()
-				);
-			e.preventDefault();
-		} catch (err) {
-			console.error(err);
-		}
-	};
-
-	const toClipboard = (clipboardText) => {
-		try {
-			setClipboardText(clipboardText, () => {
-				document.execCommand('copy');
-			});
-		} catch (err) {
-			console.error(err);
-		}
-	};
-
 	const onChange = (key) => {
 		setAssetType(key);
-		console.log('KEY', key);
 	};
 
 	const renderContent = () => {
 		return (
 			<>
-				<div className="QR" style={{textAlign: 'center'}}>
+				<div className="qr-wrapper">
+					<span>Depoist {assetType}</span>
 					<QRCode value={depositAddress} />
 				</div>
-				<h5>Minimum deposit: 0.001 ETH</h5>
-				<div className="grid-block container-row">
-					<div style={{paddingRight: '1rem'}}>
-						<CopyButton text={depositAddress} className={'copyIcon'} />
-					</div>
-					<div style={{wordBreak: 'break-word'}}>
+				<div className="minimum-deposit">
+					Minimum deposit: {minDepositValues[assetType]}{' '}
+					{assetType.toUpperCase()}
+				</div>
+				<div className="address">
+					{depositAddress == 'Gateway is down' ? (
+						<div className="address-text error">{depositAddress}</div>
+					) : (
+						<div className="address-text">{depositAddress}</div>
+					)}
+					<Tooltip
+						placement="right"
+						title={counterpart.translate('tooltip.copy_tip')}
+					>
 						<div
-							style={{
-								fontSize: '0.8rem',
-								fontWeight: 'bold',
-								paddingBottom: '0.3rem',
-								color: 'white',
-							}}
+							className="copy-btn"
+							onClick={() => navigator.clipboard.writeText(depositAddress)}
 						>
-							Your deposit address for ETH:
+							<div className="btn-text">Copy</div>
+							<CopyOutlined className="copy-icon" />
 						</div>
-						{depositAddress == 'Gateway is down' ? (
-							<div
-								className="modal__highlight"
-								style={{
-									fontSize: '0.9rem',
-									wordBreak: 'break-all',
-									color: '#ff9900',
-									fontWeight: 'bold',
-									color: 'white',
-								}}
-							>
-								{depositAddress}
-							</div>
-						) : (
-							<div
-								className="modal__highlight"
-								style={{
-									fontSize: '0.9rem',
-									wordBreak: 'break-all',
-									color: 'white',
-								}}
-							>
-								{depositAddress}
-							</div>
-						)}
+					</Tooltip>
+				</div>
+				<div className="alert-wrapper">
+					<div className="alert-icon" />
+					<div className="alert-body">
+						<span>important information</span>
+						<div>
+							Send only {assetType.toUpperCase()}{' '}
+							{assetType === 'usdt' ? '(ERC20)' : ''} to this deposit address.
+							Sending less than {minDepositValues[assetType]}{' '}
+							{assetType.toUpperCase()} or any other currency to this address
+							may result in the loss of your deposit.
+						</div>
 					</div>
 				</div>
-				<h6>
-					<b>IMPORTANT:</b> Send only ETH to this deposit address. Sending less
-					than 0.001 ETH or any other currency to this address may result in the
-					loss of your deposit.
-				</h6>
 			</>
 		);
 	};
@@ -151,7 +115,7 @@ const DepositModalContent = (props) => {
 		<Tabs defaultActiveKey="1" animated={false} onChange={onChange}>
 			{assets.map((asset) => {
 				return (
-					<Tabs.TabPane tab={asset} key={asset}>
+					<Tabs.TabPane tab={asset.toUpperCase()} key={asset}>
 						{depositAddress && renderContent()}
 					</Tabs.TabPane>
 				);
@@ -176,15 +140,8 @@ const DepositModal = (props) => {
 
 	return (
 		<Modal
-			title={
-				props.account
-					? counterpart.translate('modal.deposit.header', {
-							account_name: props.account,
-					  })
-					: counterpart.translate('modal.deposit.header_short')
-			}
 			id={props.modalId}
-			className={props.modalId}
+			className="deposit-modal"
 			onCancel={onClose}
 			overlay={true}
 			footer={[
