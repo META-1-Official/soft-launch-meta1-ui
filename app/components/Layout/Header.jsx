@@ -478,16 +478,6 @@ class Header extends React.Component {
 					<Text>Send</Text>
 				</Menu.Item>
 				<Menu.Item
-					key="getHelp"
-					css={(theme) => ({
-						[`@media (min-width: ${theme.sizes.lg})`]: {
-							display: 'none',
-						},
-					})}
-				>
-					<Text>Get help</Text>
-				</Menu.Item>
-				<Menu.Item
 					key="buySell"
 					css={(theme) => ({
 						[`@media (min-width: ${theme.sizes.lg})`]: {
@@ -622,6 +612,25 @@ class Header extends React.Component {
 									/>
 									Get help
 								</Text>
+								<div css={{marginRight: '15px'}}>
+									{this.props.currentAccount == null ? null : (
+										<span
+											onClick={this._toggleLock.bind(this)}
+											style={{cursor: 'pointer'}}
+										>
+											<Icon
+												className="lock-unlock"
+												size="2x"
+												name={this.props.locked ? 'locked' : 'unlocked'}
+												title={
+													this.props.locked
+														? 'icons.locked.common'
+														: 'icons.unlocked.common'
+												}
+											/>
+										</span>
+									)}
+								</div>
 								{/* <div
 									css={(theme) => ({
 										[`@media (max-width: ${theme.sizes.lg})`]: {
