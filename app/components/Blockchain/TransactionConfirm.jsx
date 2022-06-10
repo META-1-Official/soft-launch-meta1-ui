@@ -194,6 +194,13 @@ class TransactionConfirm extends React.Component {
 			];
 		}
 
+		let errorMsg = this.props.error;
+		console.log('@1 - ', errorMsg);
+		if (errorMsg && errorMsg.indexOf('Insufficient Balance:') !== -1) {
+			console.log('@10 - ', errorMsg.indexOf('Insufficient Balance:'));
+			errorMsg = errorMsg.substring(errorMsg.indexOf('Insufficient Balance:'));
+		}
+
 		return (
 			<div ref="transactionConfirm" onKeyUp={this.onKeyUp}>
 				<Modal
@@ -210,7 +217,7 @@ class TransactionConfirm extends React.Component {
 				>
 					<div className="grid-block vertical no-padding no-margin">
 						{this.props.error ? (
-							<Alert type="error" message={this.props.error} />
+							<Alert type="error" message={errorMsg} />
 						) : null}
 
 						{this.props.included ? (
