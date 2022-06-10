@@ -159,6 +159,11 @@ class WalletUnlockModal extends React.Component {
 
 	componentDidMount() {
 		const {modalId} = this.props;
+		SettingsActions.changeSetting({
+			setting: 'passwordLogin',
+			value: true,
+		});
+
 		ZfApi.subscribe(modalId, (name, msg) => {
 			const {isOpen} = this.state;
 
@@ -499,7 +504,7 @@ class WalletUnlockModal extends React.Component {
 					Login with Account name (Cloud wallet) and Key file (Local wallet)
 				</div>
 				<Form className="full-width" layout="vertical">
-					<LoginTypeSelector />
+					<LoginTypeSelector type={passwordLogin} />
 					{passwordLogin ? (
 						<div className="info-form">
 							<DisableChromeAutocomplete />

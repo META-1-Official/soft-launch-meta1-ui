@@ -288,6 +288,31 @@ p.order-table-title {
 		margin-bottom: 10px;
 		display: flex;
 		align-items: center;
+		justify-content: space-around;
+		color: white;
+
+		.ant-form-item-label {
+			label {
+				font-size: 14px;
+				text-transform: uppercase;
+				margin-bottom: 0;
+				text-align: left;
+				width: 100px;
+			}
+
+			label:after {
+				content: '' !important;
+			}
+		}
+
+		.ant-form-item-control {
+			margin-left: 0px;
+
+			.ant-form-item-control-input {
+				width: 100%;
+				text-align: right;
+			}
+		}
 	}
 
 	.ant-input {
@@ -301,24 +326,15 @@ p.order-table-title {
 		color: grey;
 	}
 
-	.ant-form-item-label {
-		label {
-			font-size: 14px;
-			text-transform: uppercase;
-			width: 100px;
-			margin-bottom: 0;
-		}
-
-		label:after {
-			content: '' !important;
-		}
-	}
-
 	.ant-input-group-addon {
 		text-align: left;
 		width: 60% !important;
-		background-color: transparent;
+		background: transparent;
 		border: none;
+		color: rgba(255, 255, 255, 0.5);
+		span {
+			color: rgba(255, 255, 255, 0.5);
+		}
 	}
 
 	.expiration-datetime-picker--hidden {
@@ -367,10 +383,6 @@ p.order-table-title {
 	.my-open-orders-res {
 		display: none;
 	}
-
-	// .exchange--buy-sell-form {
-	// 	max-width: 50% !important;
-	// }
 }
 
 @media screen and (max-width: 880px) {
@@ -525,6 +537,10 @@ p.order-table-title {
 
 	.ant-tabs-tabpane {
 		background: #15171b;
+
+		.ant-form-item-explain {
+			display: none;
+		}
 	}
 }
 
