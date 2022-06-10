@@ -37,57 +37,41 @@
 		.login-type-selector {
 			display: flex;
 			flex-direction: row;
-			justify-content: space-between;
+			justify-content: center;
 			align-items: center;
 			margin-bottom: 40px;
 			margin-top: 20px;
 
-			.cloud-login-btn {
-				height: 50px;
-				background: white;
-				border-radius: 6px;
-				font-size: 15px;
-				color: black;
-				border: none;
-				display: flex;
-				align-items: center;
-				padding-left: 40px;
-				padding-right: 40px;
-				position: relative;
-				cursor: pointer;
-
-				&:hover {
-					opacity: 0.7;
-				}
-
-				&::after {
-					content: '\a';
-					border-style: solid;
-					border-width: 15px 15px 15px 0px;
-					border-color: transparent white transparent transparent;
-					position: absolute;
-					transform: rotate(-90deg);
-					left: 25px;
-					bottom: -19px;
-				}
-			}
-
-			.local-login-btn {
+			.login-btn {
 				height: 50px;
 				background: #232426;
-				border-radius: 6px;
 				color: #ffc000;
+				border-radius: 6px;
+				font-size: 15px;
 				border: none;
 				display: flex;
 				align-items: center;
-				font-size: 15px;
 				padding-left: 40px;
 				padding-right: 40px;
 				position: relative;
 				cursor: pointer;
+				margin-left: 20px;
+				margin-right: 20px;
 
-				&:hover {
-					opacity: 0.7;
+				&.active {
+					background: white;
+					color: black;
+
+					&::after {
+						content: '\a';
+						border-style: solid;
+						border-width: 15px 15px 15px 0px;
+						border-color: transparent white transparent transparent;
+						position: absolute;
+						transform: rotate(-90deg);
+						left: 25px;
+						bottom: -19px;
+					}
 				}
 			}
 		}
