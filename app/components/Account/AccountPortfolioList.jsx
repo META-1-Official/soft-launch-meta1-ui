@@ -888,6 +888,7 @@ class AccountPortfolioList extends React.Component {
 	}
 
 	render() {
+		console.log('@1 - ', this.props.allMarketStats);
 		return (
 			<div className="portfolio-table-wrapper">
 				<CustomTable
