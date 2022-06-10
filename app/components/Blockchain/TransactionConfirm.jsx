@@ -195,9 +195,7 @@ class TransactionConfirm extends React.Component {
 		}
 
 		let errorMsg = this.props.error;
-		console.log('@1 - ', errorMsg);
 		if (errorMsg && errorMsg.indexOf('Insufficient Balance:') !== -1) {
-			console.log('@10 - ', errorMsg.indexOf('Insufficient Balance:'));
 			errorMsg = errorMsg.substring(errorMsg.indexOf('Insufficient Balance:'));
 		}
 
