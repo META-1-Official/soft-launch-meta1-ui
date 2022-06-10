@@ -3,6 +3,7 @@ import React from 'react';
 import App from './App';
 import IntlActions from 'actions/IntlActions';
 import WalletManagerStore from 'stores/WalletManagerStore';
+import AccountStore from 'stores/AccountStore';
 import SettingsStore from 'stores/SettingsStore';
 import IntlStore from 'stores/IntlStore';
 import intlData from './components/Utility/intlData';
@@ -240,7 +241,7 @@ class AppInit extends React.Component {
 
 AppInit = connect(AppInit, {
 	listenTo() {
-		return [IntlStore, WalletManagerStore, SettingsStore];
+		return [IntlStore, WalletManagerStore, SettingsStore, AccountStore];
 	},
 	getProps() {
 		return {
@@ -250,6 +251,7 @@ AppInit = connect(AppInit, {
 				!!WalletManagerStore.getState().current_wallet,
 			theme: SettingsStore.getState().settings.get('themes'),
 			apiServer: SettingsStore.getState().settings.get('activeNode', ''),
+			currentAccount: AccountStore.getState().currentAccount,
 		};
 	},
 });
