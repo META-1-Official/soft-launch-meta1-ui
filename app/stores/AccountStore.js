@@ -603,6 +603,7 @@ class AccountStore extends BaseStore {
 		const passwordAccountKey = this._getStorageKey('passwordAccount');
 		const passwordlessAccountKey = this._getStorageKey('passwordlessAccount');
 		const currentAccountKey = this._getStorageKey('currentAccount');
+
 		if (ss.has(passwordAccountKey)) {
 			const acc = ss.get(passwordAccountKey, null);
 			if (this.state.passwordAccount !== acc) {
