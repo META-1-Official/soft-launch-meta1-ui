@@ -58,7 +58,7 @@ class AssetsPairTabs extends React.Component {
 	componentWillReceiveProps(nextProps) {
 		this._checkAssets(nextProps.assets);
 
-		if (nextProps.assets.size > 0) {
+		if (this.props.assets.size != nextProps.assets.size) {
 			setTimeout(() => {
 				this.onClickAsset(this.state.baseAssetSymbol);
 			}, 500);
@@ -99,7 +99,13 @@ class AssetsPairTabs extends React.Component {
 		if (!isFetchingMarketInfo && this.props.assets.size > 0) {
 			this.setState({isFetchingMarketInfo: true});
 
-			let newBucketSize = 300;
+			let newBucketSize = 15;
+			if (resolution === '5m') newBucketSize = 15;
+			else if (resolution === '30m') newBucketSize = 60;
+			else if (resolution === '1h') newBucketSize = 300;
+			else if (resolution === '24h') newBucketSize = 300;
+			else if (resolution === '3d') newBucketSize = 3600;
+			else if (resolution === '1w') newBucketSize = 3600;
 
 			MarketsActions.changeBucketSize(newBucketSize);
 			const from = moment()
@@ -112,6 +118,72 @@ class AssetsPairTabs extends React.Component {
 				const baseAsset = assetPair.baseAsset;
 
 				const marketName = marketUtils.getMarketName(baseAsset, quoteAsset);
+				MarketsActions.unSubscribeMarket(
+					quoteAsset.get('id'),
+					baseAsset.get('id')
+				)
+					.then(() => {
+						MarketsActions.subscribeMarket(
+							baseAsset,
+							quoteAsset,
+							newBucketSize
+						).then(() => {
+							let bars = MarketsStore.getState().priceData;
+							let quoteAsset1 = MarketsStore.getState().quoteAsset;
+							let baseAsset1 = MarketsStore.getState().baseAsset;
+							// console.log(
+							// 	'@1103 - _getMarketInfo #1',
+							// 	from,
+							// 	to,
+							// 	quoteAsset1.get('id'),
+							// 	baseAsset1.get('id'),
+							// 	bars.length,
+							// 	bars
+							// );
+							// bars = bars.filter((a) => a.time >= from && a.time <= to);
+							// console.log(
+							// 	'@1104 - _getMarketInfo #2',
+							// 	resolution,
+							// 	newBucketSize,
+							// 	quoteAsset.get('id'),
+							// 	baseAsset.get('id'),
+							// 	bars
+							// );
+
+							const marketBarIndex = marketBars.findIndex(
+								(marketBar) =>
+									marketBar['quoteAssetId'] === quoteAsset.get('id') &&
+									marketBar['baseAssetId'] === baseAsset.get('id')
+							);
+							const newMarketBar = {
+								quoteAssetId: quoteAsset.get('id'),
+								baseAssetId: baseAsset.get('id'),
+								bars: bars.slice(-36),
+							};
+
+							if (marketBarIndex > -1) {
+								marketBars[marketBarIndex] = newMarketBar;
+							} else {
+								marketBars.push(newMarketBar);
+							}
+
+							if (
+								index === assetPairs.length - 1 ||
+								index === assetPairs.length - 2
+							) {
+								const that = this;
+								setTimeout(() => {
+									that.setState({isFetchingMarketInfo: false, marketBars});
+								}, 500);
+							} else {
+								this.setState({marketBars});
+							}
+						});
+					})
+					.catch((e) => {
+						console.log('Error: Failed to subscribe market, ', e);
+						this.setState({isFetchingMarketInfo: false, marketBars});
+					});
 
 				this.statsInterval = MarketsActions.getMarketStatsInterval(
 					newBucketSize,
