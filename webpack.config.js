@@ -215,7 +215,7 @@ module.exports = function (env) {
 				patterns: [
 					{
 						from: path.join(root_dir, 'app', 'assets', 'locales', '*.json'),
-						to: path.join(outputPath, '[name].[ext]'),
+						to: path.join(outputPath, '[name][ext]'),
 						toType: 'template',
 					},
 					{
