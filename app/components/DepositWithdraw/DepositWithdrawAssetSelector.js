@@ -98,9 +98,10 @@ class DepositWithdrawAssetSelector extends React.Component {
 
 	_onInputChanged(selectedAsset) {
 		let {onChange} = this.props;
+
 		let asset = this.getSelectedAssetArray(selectedAsset);
 
-		if (onChange) {
+		if (onChange && asset) {
 			onChange(asset.id);
 		}
 	}
@@ -122,7 +123,11 @@ class DepositWithdrawAssetSelector extends React.Component {
 						? 'gateway.asset_search_withdraw'
 						: 'gateway.asset_search_deposit'
 				)}
-				value={this.props.defaultValue}
+				value={
+					this.props.defaultValue.toString() === ''
+						? 'Select a asset'
+						: this.props.defaultValue
+				}
 				optionLabelProp={'value'}
 				showSearch
 				style={{width: '100%'}}

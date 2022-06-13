@@ -182,72 +182,68 @@ function gatewaySelector(args) {
 	});
 
 	return (
-		<div>
-			<div className="no-margin no-padding">
-				<section className="block-list">
-					<label className="left-label">
-						<Translate content="modal.deposit_withdraw.gateway" />
-						{selectedGateway ? (
-							<Link to={supportLink} style={{cursor: 'pointer'}}>
-								&nbsp;
-								<Icon type="question-circle" />
-							</Link>
-						) : null}
-						<span className="floatRight error-msg">
-							{!error &&
-							selectedGateway &&
-							gatewayStatus[selectedGateway] &&
-							!gatewayStatus[selectedGateway].options.enabled ? (
-								<Translate
-									content="modal.deposit_withdraw.disabled"
-									with={{
-										gateway: gatewayStatus[selectedGateway].name,
-									}}
-								/>
-							) : null}
-							{error ? (
-								<Translate content="modal.deposit_withdraw.wallet_error" />
-							) : null}
-							{!selectedGateway && nAvailableGateways == 0 ? (
-								<Translate content="modal.deposit_withdraw.no_gateway_available" />
-							) : null}
-						</span>
-					</label>
+		<>
+			<label className="left-label">
+				<Translate content="modal.deposit_withdraw.gateway" />
+				{selectedGateway ? (
+					<Link to={supportLink} style={{cursor: 'pointer'}}>
+						&nbsp;
+						<Icon type="question-circle" />
+					</Link>
+				) : null}
+				<span className="floatRight error-msg">
+					{!error &&
+					selectedGateway &&
+					gatewayStatus[selectedGateway] &&
+					!gatewayStatus[selectedGateway].options.enabled ? (
+						<Translate
+							content="modal.deposit_withdraw.disabled"
+							with={{
+								gateway: gatewayStatus[selectedGateway].name,
+							}}
+						/>
+					) : null}
+					{error ? (
+						<Translate content="modal.deposit_withdraw.wallet_error" />
+					) : null}
+					{!selectedGateway && nAvailableGateways == 0 ? (
+						<Translate content="modal.deposit_withdraw.no_gateway_available" />
+					) : null}
+				</span>
+			</label>
 
-					<div className="inline-label input-wrapper">
-						<Select
-							optionLabelProp={'value'}
-							onChange={onGatewayChanged}
-							placeholder={counterpart.translate(
-								'modal.deposit_withdraw.select_gateway'
-							)}
-							value={selectedGateway}
-							style={{width: '100%'}}
-						>
-							{gateways.map((g) => {
-								if (g.options.enabled) {
-									return (
-										<Select.Option key={g.name} value={g.id}>
-											{g.name}
-											{balancesByAssetAndGateway &&
-											balancesByAssetAndGateway[selectedAsset] &&
-											balancesByAssetAndGateway[selectedAsset][g.id] ? (
-												<span style={{float: 'right'}}>
-													{utils.format_asset(
-														balancesByAssetAndGateway[selectedAsset][g.id][0],
-														balancesByAssetAndGateway[selectedAsset][g.id][1]
-													)}
-												</span>
-											) : null}
-										</Select.Option>
-									);
-								}
-							})}
-						</Select>
-					</div>
-				</section>
+			<div className="inline-label input-wrapper">
+				<Select
+					optionLabelProp={'value'}
+					onChange={onGatewayChanged}
+					placeholder={counterpart.translate(
+						'modal.deposit_withdraw.select_gateway'
+					)}
+					value={selectedGateway}
+					style={{width: '100%'}}
+				>
+					{gateways.map((g) => {
+						if (g.options.enabled) {
+							return (
+								<Select.Option key={g.name} value={g.id}>
+									{g.name}
+									{balancesByAssetAndGateway &&
+									balancesByAssetAndGateway[selectedAsset] &&
+									balancesByAssetAndGateway[selectedAsset][g.id] ? (
+										<span style={{float: 'right'}}>
+											{utils.format_asset(
+												balancesByAssetAndGateway[selectedAsset][g.id][0],
+												balancesByAssetAndGateway[selectedAsset][g.id][1]
+											)}
+										</span>
+									) : null}
+								</Select.Option>
+							);
+						}
+					})}
+				</Select>
 			</div>
-		</div>
+		</>
 	);
 }
 
