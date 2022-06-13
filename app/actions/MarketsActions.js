@@ -47,8 +47,6 @@ class MarketsActions {
 	}
 
 	getMarketStats(base, quote, refresh = false, errorCallback = null) {
-		console.log('@160 - ');
-		console.trace();
 		const {marketName, first, second} = marketUtils.getMarketName(base, quote);
 		return (dispatch) => {
 			if (base === quote) return;
