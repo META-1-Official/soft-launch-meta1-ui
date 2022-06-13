@@ -43185,41 +43185,44 @@ function(t, e, i) {
                         .fundamentalsOnly
                 }), this._createLayout(t, g, v), this._resizerBridge.width.subscribe(this._onInternalResize.bind(
                     this))), !this._chartWidget.readOnly() && e.enabled("header_undo_redo") && (this._undoRedo = new n(this._$left, this
-                    ._chartWidget)), e.enabled("header_screenshot") && (A = "Alt+S", M = this.createGroup("screenshot", {
-                        single: !0
-                    })
-                    .appendTo(this._$right), E = $('<a class="button getimage"></a>')
-                    .append($(i(1238))
-                        .attr({
-                            class: "icon"
-                        }))
-                    .addClass("apply-common-tooltip")
-                    .attr("title", $.t(
-                        "Take instant snapshot of your chart. No more Paint or other editors to save screenshots – simply click the button and copy the link of the picture."
-                    ) + "\n" + A)
-                    .appendTo(M), M.click(function(t) {
-                        if (!e.enabled("show_dialog_on_snapshot_ready")) {
-                            if (E.hasClass("process")) return;
-                            E.addClass("process"), h.subscribe("onScreenshotReady", function(t) {
-                                E.removeClass("process")
-                            }, null, !0)
-                        }
-                        f
-                            .actions()
-                            .takeScreenshot.callbacks()
-                            .fire(), t.preventDefault()
-                    })), e.enabled("header_saveload") && (V = e.enabled("header_saveload_to_the_right") ?
-                    this._$right : this._$left, y = this.createGroup("save-load", {
-                        single: !0,
-                        showInNarrowView: !0
-                    })
-                    .appendTo(V), D = $("<div>")
-                    .addClass("save-load-buttons")
-                    .appendTo(y), this._saveLoad = new s(D, a, {
-                        popupDirection: "down",
-                        popupReverse: !0
-                    }), this._saveLoad.onTitleSizeChanged
-                    .subscribe(this, this._onInternalResize), TradingView.isOnFeaturePage && this._saveLoad.hideTitle()), e.enabled(
+                    ._chartWidget)), 
+                    // e.enabled("header_screenshot") && (A = "Alt+S", M = this.createGroup("screenshot", {
+                    //     single: !0
+                    // })
+                    // .appendTo(this._$right), E = $('<a class="button getimage"></a>')
+                    // .append($(i(1238))
+                    //     .attr({
+                    //         class: "icon"
+                    //     }))
+                    // .addClass("apply-common-tooltip")
+                    // .attr("title", $.t(
+                    //     "Take instant snapshot of your chart. No more Paint or other editors to save screenshots – simply click the button and copy the link of the picture."
+                    // ) + "\n" + A)
+                    // .appendTo(M), M.click(function(t) {
+                    //     if (!e.enabled("show_dialog_on_snapshot_ready")) {
+                    //         if (E.hasClass("process")) return;
+                    //         E.addClass("process"), h.subscribe("onScreenshotReady", function(t) {
+                    //             E.removeClass("process")
+                    //         }, null, !0)
+                    //     }
+                    //     f
+                    //         .actions()
+                    //         .takeScreenshot.callbacks()
+                    //         .fire(), t.preventDefault()
+                    // })), 
+                    // e.enabled("header_saveload") && (V = e.enabled("header_saveload_to_the_right") ?
+                    // this._$right : this._$left, y = this.createGroup("save-load", {
+                    //     single: !0,
+                    //     showInNarrowView: !0
+                    // })
+                    // .appendTo(V), D = $("<div>")
+                    // .addClass("save-load-buttons")
+                    // .appendTo(y), this._saveLoad = new s(D, a, {
+                    //     popupDirection: "down",
+                    //     popupReverse: !0
+                    // }), this._saveLoad.onTitleSizeChanged
+                    // .subscribe(this, this._onInternalResize), TradingView.isOnFeaturePage && this._saveLoad.hideTitle()),
+                    e.enabled(
                     "header_widget_dom_node") || $(".header-chart-panel")
                 .css("display", "none"), f.withModel(this, r.prototype.bindToModel), this._resizerBridge.availWidth.subscribe(this
                     ._onAvailSizeChange.bind(this)), this._resizerBridge.availHeight.subscribe(this._onAvailSizeChange.bind(this)), this

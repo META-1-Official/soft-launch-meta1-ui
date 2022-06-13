@@ -123,31 +123,31 @@ class TradingViewPriceChart extends React.Component {
 			preset: this.props.mobile ? 'mobile' : '',
 		});
 
-		this.tvWidget.onChartReady(() => {
-			if (__DEV__) console.log('*** Chart Ready ***');
-			if (__DEV__) console.timeEnd('*** Chart load time: ');
-			this.tvWidget
-				.createButton()
-				.attr('title', counterpart.translate('exchange.load_custom_charts'))
-				.addClass('apply-common-tooltip')
-				.on('click', () => {
-					that.setState({showLoadModal: true});
-				})
-				.append(`<span>${counterpart.translate('exchange.chart_load')}</span>`);
-			this.tvWidget
-				.createButton()
-				.attr('title', counterpart.translate('exchange.save_custom_charts'))
-				.addClass('apply-common-tooltip')
-				.on('click', () => {
-					that.setState({showSaveModal: true});
-				})
-				.append(`<span>${counterpart.translate('exchange.chart_save')}</span>`);
+		// this.tvWidget.onChartReady(() => {
+		// 	if (__DEV__) console.log('*** Chart Ready ***');
+		// 	if (__DEV__) console.timeEnd('*** Chart load time: ');
+		// 	this.tvWidget
+		// 		.createButton()
+		// 		.attr('title', counterpart.translate('exchange.load_custom_charts'))
+		// 		.addClass('apply-common-tooltip')
+		// 		.on('click', () => {
+		// 			that.setState({showLoadModal: true});
+		// 		})
+		// 		.append(`<span>${counterpart.translate('exchange.chart_load')}</span>`);
+		// 	this.tvWidget
+		// 		.createButton()
+		// 		.attr('title', counterpart.translate('exchange.save_custom_charts'))
+		// 		.addClass('apply-common-tooltip')
+		// 		.on('click', () => {
+		// 			that.setState({showSaveModal: true});
+		// 		})
+		// 		.append(`<span>${counterpart.translate('exchange.chart_save')}</span>`);
 
-			dataFeed.update({
-				onMarketChange: this._setSymbol.bind(this),
-			});
-			this.loadLastChart();
-		});
+		// 	dataFeed.update({
+		// 		onMarketChange: this._setSymbol.bind(this),
+		// 	});
+		// 	this.loadLastChart();
+		// });
 
 		this._onWheel = this._onWheel.bind(this);
 	}
