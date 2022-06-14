@@ -294,21 +294,21 @@ const AccountActivity = () => {
 						title2="You have authorized these mobile applications."
 						columns={mobileDeviceColumns}
 						dataSource={mobileDeviceDataSource}
-						pagination={false}
+						pagination={true}
 					/>
 					<Subsection
 						title1="Web Sessions"
 						title2="These sessions are currently signed in to your account. Sign out all other sessions"
 						columns={webSessionColumns}
 						dataSource={webSessionDataSource}
-						pagination={false}
+						pagination={true}
 					/>
 					<Subsection
 						title1="Confirmed Devices"
 						title2="These devices are currently allowed to access your account. Remove all other devices"
 						columns={confirmedDevicesColumns}
 						dataSource={confirmedDevicesDataSource}
-						pagination={false}
+						pagination={true}
 					/>
 					<Subsection
 						title1="Account Activity"
