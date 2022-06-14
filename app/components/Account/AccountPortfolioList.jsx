@@ -31,6 +31,7 @@ import TranslateWithLinks from '../Utility/TranslateWithLinks';
 import StyledButton from 'components/Button/Button';
 import {FaQuestionCircle} from 'react-icons/fa';
 import {getAssetIcon, getAssetFullName} from '../utils/asset';
+import DepositModal from '../Modal/DepositModal';
 
 class AccountPortfolioList extends React.Component {
 	constructor(props) {
@@ -308,7 +309,7 @@ class AccountPortfolioList extends React.Component {
 
 	_showDepositModal(asset, e) {
 		e.preventDefault();
-		this.setState({depositAsset: asset}, () => {
+		this.setState({depositAsset: asset.toLowerCase()}, () => {
 			this.showDepositModal();
 		});
 	}
@@ -738,7 +739,7 @@ class AccountPortfolioList extends React.Component {
 				) : null,
 				deposit:
 					this.props.isMyAccount &&
-					['BTC', 'LTC', 'ETH'].indexOf(asset.get('symbol')) > -1 ? (
+					['BTC', 'LTC', 'ETH', 'USDT'].indexOf(asset.get('symbol')) > -1 ? (
 						<StyledButton
 							buttonType="green"
 							onClick={this._showDepositModal.bind(this, asset.get('symbol'))}
@@ -888,6 +889,8 @@ class AccountPortfolioList extends React.Component {
 	}
 
 	render() {
+		const {currentAccount} = this.props;
+
 		return (
 			<div className="portfolio-table-wrapper">
 				<CustomTable
@@ -925,6 +928,16 @@ class AccountPortfolioList extends React.Component {
 							}}
 						/>
 					)}
+
+					<DepositModal
+						visibleMeta={this.state.isDepositModalVisible}
+						hideModalMeta={this.hideDepositModal}
+						showModalMeta={this.showDepositModal}
+						ref="deposit_modal_new11"
+						modalId="deposit_modal_new11"
+						account={currentAccount}
+						assetType={this.state.depositAsset}
+					/>
 				</CustomTable>
 			</div>
 		);
