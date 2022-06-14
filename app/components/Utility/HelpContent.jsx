@@ -131,9 +131,12 @@ class HelpContent extends React.PureComponent {
 
 		if (path.length === 0) return false;
 
-		const newRoute = '/' + path.join('/');
-		this.updateMenu(newRoute);
+		var newRoute = '/' + path.join('/');
 
+		if (pathname.includes('#/help//explorer/fees')) newRoute = '/explorer/fees';
+		if (pathname.includes('#/help//settings')) newRoute = '/settings';
+
+		this.updateMenu(newRoute);
 		this.props.history.push(newRoute);
 		return false;
 	}
