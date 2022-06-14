@@ -5,6 +5,7 @@ import utils from 'common/utils';
 import SettingsActions from 'actions/SettingsActions';
 import AccountRegistrationForm from './AccountRegistrationForm';
 import AccountRegistrationConfirm from './AccountRegistrationConfirm';
+import {ArrowLeftOutlined} from '@ant-design/icons';
 
 class AccountRegistration extends React.Component {
 	constructor() {
@@ -48,30 +49,38 @@ class AccountRegistration extends React.Component {
 
 	render() {
 		return (
-			<div className="no-margin grid-block registration-layout registration">
-				<div
-					className="grid-block horizontal align-center text-center"
-					style={{flexWrap: 'wrap'}}
-				>
-					<div className="create-account-block">
-						<Translate
-							component="h3"
-							className="registration-account-title"
-							content="registration.createByPassword"
-						/>
-						{!this.state.confirmationStep ? (
-							<AccountRegistrationForm continue={this.continue} />
-						) : (
-							<AccountRegistrationConfirm
-								accountName={this.state.accountName}
-								password={this.state.password}
-								toggleConfirmed={this.toggleConfirmed}
-								history={this.props.history}
+			<>
+				{this.state.confirmationStep && (
+					<div
+						className="back-btn"
+						onClick={() => this.setState({confirmationStep: false})}
+					>
+						<ArrowLeftOutlined />
+						<div>Back</div>
+					</div>
+				)}
+				<div className="registration-layout registration">
+					<div>
+						<div className="create-account-block">
+							<Translate
+								component="h3"
+								className="registration-account-title"
+								content="registration.createByPassword"
 							/>
-						)}
+							{!this.state.confirmationStep ? (
+								<AccountRegistrationForm continue={this.continue} />
+							) : (
+								<AccountRegistrationConfirm
+									accountName={this.state.accountName}
+									password={this.state.password}
+									toggleConfirmed={this.toggleConfirmed}
+									history={this.props.history}
+								/>
+							)}
+						</div>
 					</div>
 				</div>
-			</div>
+			</>
 		);
 	}
 }

@@ -17,6 +17,7 @@ import CopyButton from '../Utility/CopyButton';
 import {Form, Input, Button, Tooltip} from 'antd';
 import ReCAPTCHA from 'react-google-recaptcha';
 import WalletUnlockActions from 'actions/WalletUnlockActions';
+import {MailOutlined, UserOutlined, PhoneOutlined} from '@ant-design/icons';
 
 class AccountRegistrationForm extends React.Component {
 	static propTypes = {
@@ -106,30 +107,25 @@ class AccountRegistrationForm extends React.Component {
 
 	onEmailChange(e) {
 		const value = e.currentTarget.value;
-		console.log(value);
 		this.setState({email: value});
 	}
 
 	onPhoneChange(e) {
 		const value = e.currentTarget.value;
-		console.log(value);
 		this.setState({phone: value});
 	}
 
 	onLastnameChange(e) {
 		const value = e.currentTarget.value;
-		console.log(value);
 		this.setState({lastname: value});
 	}
 
 	onFirstnameChange(e) {
 		const value = e.currentTarget.value;
-		console.log(value);
 		this.setState({firstname: value});
 	}
 
 	onSubmit(e) {
-		e.preventDefault();
 		sessionStorage.email = this.state.email;
 		sessionStorage.phone = this.state.phone;
 		sessionStorage.firstname = this.state.firstname;
@@ -187,45 +183,121 @@ class AccountRegistrationForm extends React.Component {
 
 		return (
 			<div className="form-body">
-				<Form onSubmit={this.onSubmit} layout={'vertical'}>
+				<Form
+					onFinish={(e) => this.onSubmit(e)}
+					layout={'vertical'}
+					initialValues={{remember: true}}
+				>
 					<div className="info-form">
 						<div className="form-blocks">
-							<Form.Item label={'First name *'} css={{marginRight: '10px'}}>
+							<Form.Item
+								label={'First name'}
+								css={{marginRight: '10px'}}
+								name="firstname"
+								rules={[
+									{
+										required: true,
+										message: 'The firstname is required.',
+									},
+								]}
+							>
 								<Input
 									id="firstname"
 									required
 									placeholder="John"
 									value={this.state.firstname}
 									onChange={this.onFirstnameChange}
+									prefix={<UserOutlined />}
+									bordered={false}
 								/>
 							</Form.Item>
-							<Form.Item label={'Last name *'} css={{marginLeft: '10px'}}>
+							<Form.Item
+								label={'Last name'}
+								css={{marginLeft: '10px'}}
+								name="lastname"
+								rules={[
+									{
+										required: true,
+										message: 'The lastname is required.',
+									},
+								]}
+							>
 								<Input
 									id="lastname"
 									required
 									placeholder="Doe"
 									value={this.state.lastname}
 									onChange={this.onLastnameChange}
+									bordered={false}
+									prefix={<UserOutlined />}
 								/>
 							</Form.Item>
 						</div>
 						<div className="form-blocks">
-							<Form.Item label={'Email *'} css={{marginRight: '10px'}}>
+							<Form.Item
+								label={'Email'}
+								css={{marginRight: '10px'}}
+								name="email"
+								rules={[
+									{
+										required: true,
+										validator: (_, value) => {
+											if (
+												/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(
+													value
+												)
+											) {
+												return Promise.resolve();
+											} else {
+												var message = '';
+												if (value.length === 0)
+													message = 'The email address is required.';
+												else message = 'Invalidate email address.';
+												return Promise.reject(message);
+											}
+										},
+									},
+								]}
+							>
 								<Input
 									id="email"
 									required
 									placeholder="email@example.com"
 									value={this.state.email}
 									onChange={this.onEmailChange}
+									prefix={<MailOutlined />}
+									bordered={false}
 								/>
 							</Form.Item>
-							<Form.Item label={'Phone number *'} css={{marginLeft: '10px'}}>
+							<Form.Item
+								label={'Phone number'}
+								css={{marginLeft: '10px'}}
+								rules={[
+									{
+										required: true,
+										validator: (_, value) => {
+											if (/^(\+|00)[1-9][0-9 \-\(\)\.]{10,32}$/.test(value)) {
+												return Promise.resolve();
+											} else {
+												var message = '';
+												if (value.length === 0)
+													message = 'The phone number is required.';
+												else message = 'Invalidate phone number.';
+												return Promise.reject(message);
+											}
+										},
+									},
+								]}
+								name="phone"
+							>
 								<Input
 									id="phone"
 									required
 									placeholder="+1XXXXXXXXX"
 									value={this.state.phone}
 									onChange={this.onPhoneChange}
+									prefix={<PhoneOutlined />}
+									bordered={false}
 								/>
 							</Form.Item>
 						</div>
@@ -302,12 +374,7 @@ class AccountRegistrationForm extends React.Component {
 						<Button
 							htmlType="submit"
 							type="primary"
-							disabled={
-								!valid ||
-								// !this.state.passwordConfirmed ||
-								(registrarAccount && !isLTM)
-							}
-							onClick={(e) => this.onSubmit(e)}
+							disabled={!valid || (registrarAccount && !isLTM)}
 							className="continue-btn"
 						>
 							<Translate content="registration.continue" />
