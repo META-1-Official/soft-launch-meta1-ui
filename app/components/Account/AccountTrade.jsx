@@ -209,6 +209,8 @@ class AccountTrade extends React.Component {
 			return;
 		} else if (newBaseAssetSymbol === 'star') {
 			watchPairs.map((watchPair) => {
+				if (!watchPair) return;
+
 				const quoteAssetSymbol = watchPair.split('/')[0];
 				const baseAssetSymbol = watchPair.split('/')[1];
 				let quoteAssetId, baseAssetId;
@@ -235,7 +237,10 @@ class AccountTrade extends React.Component {
 			});
 		}
 
-		this._getMarketInfo(assetPairs, selectedResolution);
+		if (assetPairs.length > 0) {
+			this._getMarketInfo(assetPairs, selectedResolution);
+		}
+
 		this.setState({baseAssetSymbol: newBaseAssetSymbol});
 	}
 
