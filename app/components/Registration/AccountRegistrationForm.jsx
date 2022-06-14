@@ -153,8 +153,8 @@ class AccountRegistrationForm extends React.Component {
 
 	isValid() {
 		const firstAccount = AccountStore.getMyAccounts().length === 0;
-		// let valid = this.state.validAccountName && this.state.captcha; // for testing purpose: commenting out
-		let valid = this.state.validAccountName;
+		let valid = this.state.validAccountName && this.state.captcha;
+
 		if (!WalletDb.getWallet()) {
 			valid = valid;
 		}
