@@ -30,7 +30,6 @@ function split_into_sections(str) {
 }
 
 function adjust_links(str, newRoute) {
-	console.log('@1 - ', newRoute);
 	return str.replace(/\<a\shref\=\"(.+?)\"/gi, (match, text) => {
 		text = sanitize(text, {
 			whiteList: [], // empty, means filter out all tags
