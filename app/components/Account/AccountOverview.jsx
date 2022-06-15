@@ -379,7 +379,9 @@ class AccountOverview extends React.Component {
 								<div className="estimated-balance">
 									<p>Estimateed Balance</p>
 									{preferredUnit === 'USDT' && (
-										<p className="total">$ {portfolioActiveAssetsBalance}</p>
+										<p className="total">
+											$ {portfolioActiveAssetsBalance} {preferredUnit}
+										</p>
 									)}
 									{preferredUnit !== 'USDT' && (
 										<p className="total">
