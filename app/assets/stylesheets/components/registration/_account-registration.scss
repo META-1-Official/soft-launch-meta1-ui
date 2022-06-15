@@ -1,5 +1,6 @@
 div.registration {
 	padding-top: 30px;
+	padding-bottom: 30px;
 	background-color: initial;
 	display: flex;
 	justify-content: center;
@@ -35,7 +36,6 @@ div.registration {
 		background: #0a0b0d;
 		border: 1px solid #262a32;
 		border-radius: 10px;
-		margin-bottom: 50px;
 
 		.registration-account-title {
 			text-align: center;
