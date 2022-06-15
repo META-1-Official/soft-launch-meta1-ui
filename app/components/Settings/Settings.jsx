@@ -287,7 +287,7 @@ class Settings extends React.Component {
 				let reference = defaults[setting][0];
 				if (reference.translate) reference = reference.translate;
 				SettingsActions.changeSetting({
-					setting,
+					setting: 'viewOnlyMode',
 					value: e.target.value === reference,
 				});
 				break;
