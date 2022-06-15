@@ -49,6 +49,8 @@ const AppLayout = ({children, location, height}: IAppLayout, others) => {
 			}
 		} else if (pathSnippets.includes('help')) {
 			link = pathSnippets[0];
+		} else {
+			link = pathSnippets[0];
 		}
 	} else {
 		link = pathSnippets ? pathSnippets[0] : '';
@@ -56,8 +58,10 @@ const AppLayout = ({children, location, height}: IAppLayout, others) => {
 
 	useEffect(() => {
 		setCurrentLink(link);
-		if (link === 'market' && collapsed) {
+		if (link === 'market') {
 			setcollapsed(true);
+		} else {
+			setcollapsed(false);
 		}
 	}, [link]);
 
@@ -68,8 +72,6 @@ const AppLayout = ({children, location, height}: IAppLayout, others) => {
 					position: 'fixed',
 					zIndex: 1,
 					width: '100%',
-					minHeight: '3rem',
-					height: '3rem',
 					display: 'flex',
 					backgroundColor: `${theme.colors.black}`,
 					lineHeight: '3rem',
@@ -77,7 +79,6 @@ const AppLayout = ({children, location, height}: IAppLayout, others) => {
 				},
 				'&& .ant-layout-content': {
 					backgroundColor: `${theme.colors.black}`,
-					paddingBottom: '15px',
 				},
 			})}
 		>
@@ -99,20 +100,7 @@ const AppLayout = ({children, location, height}: IAppLayout, others) => {
 				</Layout>
 			</Content>
 
-			<Footer
-				css={{
-					position: 'fixed',
-					bottom: 0,
-					zIndex: 1,
-					width: '100%',
-					textAlign: 'center',
-					backgroundColor: `${theme.colors.footerBackground} !important`,
-					padding: '12px 50px !important',
-					color: `${theme.colors.footerTextColor} !important`,
-				}}
-			>
-				META1 © 2022
-			</Footer>
+			<Footer>META1 © 2022</Footer>
 		</Layout>
 	);
 };
