@@ -30,6 +30,7 @@ function split_into_sections(str) {
 }
 
 function adjust_links(str, newRoute) {
+	console.log('@1 - ', newRoute);
 	return str.replace(/\<a\shref\=\"(.+?)\"/gi, (match, text) => {
 		text = sanitize(text, {
 			whiteList: [], // empty, means filter out all tags
@@ -49,7 +50,8 @@ function adjust_links(str, newRoute) {
 			page = '/' + page;
 		}
 
-		return `<div style="
+		return endsWith(text, '.md')
+			? `<div style="
 					padding: 6px 0px 6px 2rem; cursor: pointer; display: inline-block; width: 100%;
 					${page === newRoute ? 'border-right: 2px solid yellow;' : ''}
 				"
@@ -62,7 +64,10 @@ function adjust_links(str, newRoute) {
 							? 'color: #ffc000 !important; cursor: pointer;'
 							: 'cursor: pointer;'
 					}"
-					href="${__HASH_HISTORY__ ? '#' : ''}${page}"`;
+					href="${__HASH_HISTORY__ ? '#' : ''}${page}"`
+			: `<a href="${
+					__HASH_HISTORY__ ? '#' : ''
+			  }${page}" onclick="_onClickLink(event)"`;
 	});
 }
 
@@ -305,9 +310,7 @@ class HelpContent extends React.PureComponent {
 									fontSize: '15px',
 								},
 						  }
-						: {
-								height: '100%',
-						  }
+						: {height: '100%'}
 				}
 				dangerouslySetInnerHTML={{
 					__html: this.setVars(value, this.props.hide_issuer),
