@@ -1073,7 +1073,6 @@ class WithdrawModalNew extends React.Component {
 									className="error-msg"
 									style={{
 										position: 'absolute',
-										right: 0,
 										textTransform: 'uppercase',
 										fontSize: 13,
 									}}

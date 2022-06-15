@@ -1849,12 +1849,6 @@ class Exchange extends React.Component {
 
 			baseSymbol = base.get('symbol');
 			quoteSymbol = quote.get('symbol');
-			// if(quoteSymbol === "META1" && baseSymbol === "USDT") {
-			//     var sellPrice = 11;
-			// }
-			// else if (quoteSymbol === "USDT" && baseSymbol === "META1") {
-			//     var buyPrice = 44;
-			// }
 
 			accountBalance = currentAccount.get('balances').toJS();
 
@@ -2330,16 +2324,6 @@ class Exchange extends React.Component {
 			tinyScreen && !this.state.mobileKey.includes('marketHistory') ? null : (
 				<MarketHistory
 					key={`actionCard_${actionCardIndex++}`}
-					className={cnames(
-						panelTabs['history'] == 0
-							? centerContainerWidth > 1200
-								? 'medium-6 large-6 xlarge-4'
-								: centerContainerWidth > 800
-								? 'medium-6'
-								: ''
-							: 'medium-12',
-						'no-padding no-overflow small-12 order-6'
-					)}
 					innerStyle={{
 						paddingBottom: !tinyScreen ? '0' : '0',
 						height: '100%',
@@ -2943,13 +2927,7 @@ class Exchange extends React.Component {
 					className="grid-block left-column shrink no-overflow"
 				>
 					{enableToggleRight ? (
-						<div
-							// style={{
-							//     width: "auto",
-							//     paddingTop: "calc(50vh - 80px)"
-							// }}
-							onClick={this._togglePanel.bind(this, 'right')}
-						/>
+						<div onClick={this._togglePanel.bind(this, 'right')} />
 					) : null}
 					{activePanels.includes('right')
 						? !mirrorPanels
@@ -3181,7 +3159,7 @@ class Exchange extends React.Component {
 								style={{
 									minHeight: '350px',
 									marginTop: '15px',
-									overflowY: 'hidden',
+									overflow: 'hidden',
 								}}
 							>
 								<div

@@ -156,7 +156,6 @@ class SetDefaultFeeAssetModal extends React.Component {
 				</Button>
 				<Button
 					key="submit"
-					type="primary"
 					disabled={!this.state.selectedAssetId}
 					onClick={this.onSubmit.bind(this)}
 				>
@@ -176,6 +175,7 @@ class SetDefaultFeeAssetModal extends React.Component {
 					'explorer.asset.fee_pool.select_fee_asset'
 				)}
 				footer={[footer]}
+				className="select-fee-asset"
 			>
 				<Table
 					columns={this._getColumns(this.props.displayFees)}
@@ -196,6 +196,7 @@ class SetDefaultFeeAssetModal extends React.Component {
 					<Translate
 						component="span"
 						content="explorer.asset.fee_pool.use_asset_as_default_fee"
+						css={{color: 'white'}}
 					/>
 				</Checkbox>
 			</Modal>

@@ -17,10 +17,8 @@ import {Button, Input, Checkbox, Form, Alert} from 'antd';
 import CopyButton from '../Utility/CopyButton';
 import LoadingIndicator from '../LoadingIndicator';
 import ls from '../../lib/common/localStorage';
-
 import voiceItService from '../../services/voice-it.service';
 import kycService from '../../services/kyc.service';
-
 import {checkCustomer} from 'components/Utility/Tapfiliate';
 
 const STORAGE_KEY = '__AuthData__';
