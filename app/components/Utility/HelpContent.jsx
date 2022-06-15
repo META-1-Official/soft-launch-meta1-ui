@@ -245,6 +245,7 @@ class HelpContent extends React.PureComponent {
 								},
 								li: {
 									paddingLeft: '12px',
+									paddingTop: '10px',
 									color: theme.colors.themeOpositeColor,
 									':before': {
 										content: `'\\2022'`,
@@ -252,6 +253,12 @@ class HelpContent extends React.PureComponent {
 										marginLeft: '-2rem',
 										marginRight: '1rem',
 										fontSize: '1rem',
+									},
+									p: {
+										display: 'inline',
+										strong: {
+											color: theme.colors.primaryColor,
+										},
 									},
 								},
 								a: {
