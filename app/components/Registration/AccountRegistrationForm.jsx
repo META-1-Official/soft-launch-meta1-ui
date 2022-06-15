@@ -199,6 +199,13 @@ class AccountRegistrationForm extends React.Component {
 										required: true,
 										message: 'The firstname is required.',
 									},
+									{
+										validator: (_, value) => {
+											if (value.includes(' ')) {
+												return Promise.reject('Whitespace is not allowed');
+											} else return Promise.resolve();
+										},
+									},
 								]}
 							>
 								<Input
@@ -219,6 +226,13 @@ class AccountRegistrationForm extends React.Component {
 									{
 										required: true,
 										message: 'The lastname is required.',
+									},
+									{
+										validator: (_, value) => {
+											if (value.includes(' ')) {
+												return Promise.reject('Whitespace is not allowed');
+											} else return Promise.resolve();
+										},
 									},
 								]}
 							>
