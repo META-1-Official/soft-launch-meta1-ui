@@ -21,7 +21,7 @@ import Icon from 'components/Icon/Icon';
 const AllHistoryViewRow = ({fill, base, quote}) => {
 	const isMarket = fill.id.indexOf('5.0') !== -1 ? true : false;
 	const timestamp = isMarket ? (
-		<td style={{color: 'rgba(255, 255, 255, 0.5)', textAlign: 'right'}}>
+		<td style={{color: 'rgba(255, 255, 255, 0.5)', textAlign: 'center'}}>
 			<Tooltip title={fill.time.toString()} placement="left">
 				<div className="tooltip" style={{whiteSpace: 'nowrap'}}>
 					{counterpart.localize(fill.time, {
@@ -40,15 +40,15 @@ const AllHistoryViewRow = ({fill, base, quote}) => {
 
 	return (
 		<tr style={{background: fill.isBid ? '#091613' : '#1D0D0F'}}>
-			<td style={{color: 'rgba(255, 255, 255, 0.5)', textAlign: 'right'}}>
+			{timestamp}
+			<td
+				style={{color: fill.isBid ? '#009D55' : '#FF2929', textAlign: 'center'}}
+			>
 				<PriceText price={fill.getPrice()} base={base} quote={quote} />
 			</td>
-			<td
-				style={{color: fill.isBid ? '#009D55' : '#FF2929', textAlign: 'right'}}
-			>
+			<td style={{color: 'rgba(255, 255, 255, 0.5)', textAlign: 'center'}}>
 				{fill.amountToReceive()}
 			</td>
-			{timestamp}
 		</tr>
 	);
 };
