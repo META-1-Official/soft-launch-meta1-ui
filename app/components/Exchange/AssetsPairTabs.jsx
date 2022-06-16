@@ -25,6 +25,7 @@ import marketUtils from 'common/market_utils';
 import utils from 'common/utils';
 import ChartjsAreaChart from '../Graph/Graph';
 import ls from '../../lib/common/localStorage';
+import history from 'lib/common/history';
 
 const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
@@ -283,7 +284,12 @@ class AssetsPairTabs extends React.Component {
 							<div style={{marginRight: '5px', width: '30px'}}>
 								<img className="asset-img" src={icon} alt="Asset logo" />
 							</div>
-							<div>
+							<div
+								style={{cursor: 'pointer'}}
+								onClick={() =>
+									history.push(`/market/${quoteAssetSymbol}_${baseAssetSymbol}`)
+								}
+							>
 								<span
 									style={{
 										fontSize: '14px',
