@@ -1937,29 +1937,29 @@ class Exchange extends React.Component {
 		 */
 		let actionCardIndex = 0;
 
-		const buySellTitle = (isBid) => {
-			return (
-				<div className="exchange-content-header">
-					<TranslateWithLinks
-						string="exchange.buysell_formatter"
-						noLink
-						noTip
-						keys={[
-							{
-								type: 'asset',
-								value: this.props.quoteAsset.get('symbol'),
-								arg: 'asset',
-							},
-							{
-								type: 'translate',
-								value: isBid ? 'exchange.buy' : 'exchange.sell',
-								arg: 'direction',
-							},
-						]}
-					/>
-				</div>
-			);
-		};
+		// const buySellTitle = (isBid) => {
+		// 	return (
+		// 		<div className="exchange-content-header">
+		// 			<TranslateWithLinks
+		// 				string="exchange.buysell_formatter"
+		// 				noLink
+		// 				noTip
+		// 				keys={[
+		// 					{
+		// 						type: 'asset',
+		// 						value: this.props.quoteAsset.get('symbol'),
+		// 						arg: 'asset',
+		// 					},
+		// 					{
+		// 						type: 'translate',
+		// 						value: isBid ? 'exchange.buy' : 'exchange.sell',
+		// 						arg: 'direction',
+		// 					},
+		// 				]}
+		// 			/>
+		// 		</div>
+		// 	);
+		// };
 
 		let buyForm = isFrozen ? null : tinyScreen &&
 		  !this.state.mobileKey.includes('buySellTab') ? null : (
@@ -1971,7 +1971,7 @@ class Exchange extends React.Component {
 					minWidth: '290px',
 				}}
 				onChange={this.handleOrderTypeTabChange.bind(this, 'bid')}
-				tabBarExtraContent={<div>{buySellTitle(true)}</div>}
+				// tabBarExtraContent={<div>{buySellTitle(true)}</div>}
 				defaultActiveKey={'limit'}
 				className={cnames(
 					'middle-content',
@@ -1984,6 +1984,91 @@ class Exchange extends React.Component {
 						  } buy-form`
 				)}
 			>
+				<Tabs.TabPane
+					tab={counterpart.translate('exchange.market')}
+					key={'market'}
+				>
+					<BuySell
+						showScaledOrderModal={this.showScaledOrderModal}
+						key={`actionCard_${actionCardIndex++}`}
+						onBorrow={baseIsBitAsset ? this._borrowBase.bind(this) : null}
+						onBuy={this._onBuy.bind(this, 'bid')}
+						onDeposit={this._onDeposit.bind(this, 'bid')}
+						currentAccount={currentAccount}
+						isOpen={this.state.buySellOpen}
+						onToggleOpen={this._toggleOpenBuySell.bind(this)}
+						parentWidth={centerContainerWidth}
+						styles={{
+							padding: 5,
+							paddingRight: mirrorPanels ? 15 : 5,
+						}}
+						type="bid"
+						hideHeader={true}
+						expirationType={expirationType['bid']}
+						expirations={this.EXPIRATIONS}
+						expirationCustomTime={expirationCustomTime['bid']}
+						onExpirationTypeChange={this._handleExpirationChange.bind(
+							this,
+							'bid'
+						)}
+						onExpirationCustomChange={this._handleCustomExpirationChange.bind(
+							this,
+							'bid'
+						)}
+						amount={bid.toReceiveText}
+						price={bid.priceText}
+						total={bid.forSaleText}
+						quote={quote}
+						base={base}
+						amountChange={this._onInputReceive.bind(this, 'bid', true)}
+						priceChange={this._onInputPrice.bind(this, 'bid')}
+						setPrice={this._currentPriceClick.bind(this)}
+						totalChange={this._onInputSell.bind(this, 'bid', false)}
+						clearForm={this._clearForms.bind(this, 'bid')}
+						balance={baseBalance}
+						balanceId={base.get('id')}
+						onSubmit={this._createLimitOrderConfirm.bind(
+							this,
+							quote,
+							base,
+							baseBalance,
+							coreBalance,
+							buyFeeAsset,
+							'buy'
+						)}
+						balancePrecision={base.get('precision')}
+						quotePrecision={quote.get('precision')}
+						totalPrecision={base.get('precision')}
+						currentPrice={lowestAsk.getPrice()}
+						currentPriceObject={lowestAsk}
+						account={currentAccount.get('name')}
+						fee={buyFee}
+						hasFeeBalance={this.state.feeStatus[buyFee.asset_id].hasBalance}
+						feeAssets={buyFeeAssets}
+						feeAsset={buyFeeAsset}
+						onChangeFeeAsset={this.onChangeFeeAsset.bind(this, 'buy')}
+						isPredictionMarket={base.getIn([
+							'bitasset',
+							'is_prediction_market',
+						])}
+						onFlip={!flipBuySell ? this._flipBuySell.bind(this) : null}
+						onTogglePosition={
+							this.state.buySellTop && !verticalOrderBook
+								? this._toggleBuySellPosition.bind(this)
+								: null
+						}
+						moveOrderForm={
+							!smallScreen && (!flipBuySell || verticalOrderForm)
+								? this._moveOrderForm.bind(this)
+								: null
+						}
+						verticalOrderForm={!smallScreen ? verticalOrderForm : false}
+						isPanelActive={isPanelActive}
+						activePanels={activePanels}
+						singleColumnOrderForm={singleColumnOrderForm}
+						hideFunctionButtons={hideFunctionButtons}
+					/>
+				</Tabs.TabPane>
 				<Tabs.TabPane
 					tab={counterpart.translate('exchange.limit')}
 					key={'limit'}
@@ -2104,7 +2189,7 @@ class Exchange extends React.Component {
 				activeKey={this.props.viewSettings.get('order-form-ask') || 'limit'}
 				onChange={this.handleOrderTypeTabChange.bind(this, 'ask')}
 				animated={false}
-				tabBarExtraContent={<div>{buySellTitle(false)}</div>}
+				// tabBarExtraContent={<div>{buySellTitle(false)}</div>}
 				defaultActiveKey={'limit'}
 				style={{
 					flexGrow: 1,
@@ -2121,6 +2206,91 @@ class Exchange extends React.Component {
 						  } sell-form`
 				)}
 			>
+				<Tabs.TabPane
+					tab={counterpart.translate('exchange.market')}
+					key={'market'}
+				>
+					<BuySell
+						showScaledOrderModal={this.showScaledOrderModal}
+						key={`actionCard_${actionCardIndex++}`}
+						onBorrow={quoteIsBitAsset ? this._borrowQuote.bind(this) : null}
+						onBuy={this._onBuy.bind(this, 'ask')}
+						onDeposit={this._onDeposit.bind(this, 'ask')}
+						currentAccount={currentAccount}
+						isOpen={this.state.buySellOpen}
+						onToggleOpen={this._toggleOpenBuySell.bind(this)}
+						parentWidth={centerContainerWidth}
+						styles={{
+							padding: 5,
+							paddingRight: mirrorPanels ? 15 : 5,
+						}}
+						type="ask"
+						hideHeader={true}
+						amount={ask.forSaleText}
+						price={ask.priceText}
+						total={ask.toReceiveText}
+						quote={quote}
+						base={base}
+						expirationType={expirationType['ask']}
+						expirations={this.EXPIRATIONS}
+						expirationCustomTime={expirationCustomTime['ask']}
+						onExpirationTypeChange={this._handleExpirationChange.bind(
+							this,
+							'ask'
+						)}
+						onExpirationCustomChange={this._handleCustomExpirationChange.bind(
+							this,
+							'ask'
+						)}
+						amountChange={this._onInputSell.bind(this, 'ask', false)}
+						priceChange={this._onInputPrice.bind(this, 'ask')}
+						setPrice={this._currentPriceClick.bind(this)}
+						totalChange={this._onInputReceive.bind(this, 'ask', true)}
+						clearForm={this._clearForms.bind(this, 'ask')}
+						balance={quoteBalance}
+						balanceId={quote.get('id')}
+						onSubmit={this._createLimitOrderConfirm.bind(
+							this,
+							base,
+							quote,
+							quoteBalance,
+							coreBalance,
+							sellFeeAsset,
+							'sell'
+						)}
+						balancePrecision={quote.get('precision')}
+						quotePrecision={quote.get('precision')}
+						totalPrecision={base.get('precision')}
+						currentPrice={highestBid.getPrice()}
+						currentPriceObject={highestBid}
+						account={currentAccount.get('name')}
+						fee={sellFee}
+						hasFeeBalance={this.state.feeStatus[sellFee.asset_id].hasBalance}
+						feeAssets={sellFeeAssets}
+						feeAsset={sellFeeAsset}
+						onChangeFeeAsset={this.onChangeFeeAsset.bind(this, 'sell')}
+						isPredictionMarket={quote.getIn([
+							'bitasset',
+							'is_prediction_market',
+						])}
+						onFlip={flipBuySell ? this._flipBuySell.bind(this) : null}
+						onTogglePosition={
+							this.state.buySellTop && !verticalOrderBook
+								? this._toggleBuySellPosition.bind(this)
+								: null
+						}
+						moveOrderForm={
+							!smallScreen && (flipBuySell || verticalOrderForm)
+								? this._moveOrderForm.bind(this)
+								: null
+						}
+						verticalOrderForm={!smallScreen ? verticalOrderForm : false}
+						isPanelActive={isPanelActive}
+						activePanels={activePanels}
+						singleColumnOrderForm={singleColumnOrderForm}
+						hideFunctionButtons={hideFunctionButtons}
+					/>
+				</Tabs.TabPane>
 				<Tabs.TabPane
 					tab={counterpart.translate('exchange.limit')}
 					key={'limit'}
