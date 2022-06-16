@@ -170,7 +170,7 @@ class CreateNewWallet extends Component {
 					{has_wallet ? (
 						<Form.Item label={counterpart.translate('wallet.name')}>
 							<div className="no-overflow">
-								<section>
+								<section style={{height: '100px'}}>
 									<Input
 										tabIndex={3}
 										type="text"
