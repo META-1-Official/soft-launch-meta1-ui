@@ -13,6 +13,7 @@ const PageHeader = ({title, level, showDivider, ...props}: IPageHeader) => {
 		<div
 			css={(theme) => ({
 				padding: `1rem 2rem`,
+				overflowY: 'hidden !important',
 				borderBottom: showDivider
 					? `1px solid ${theme.colors.borderColor}`
 					: 'none',

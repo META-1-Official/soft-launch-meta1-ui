@@ -12,15 +12,7 @@ class Help extends React.Component {
 
 		return (
 			<>
-				<PageHeader
-					title="Help"
-					showDivider
-					level={2}
-					css={() => ({
-						height: '100%',
-						overflowY: 'hidden !important',
-					})}
-				/>
+				<PageHeader title="Help" showDivider level={2} />
 				<div
 					css={() => ({
 						height: '100%',
