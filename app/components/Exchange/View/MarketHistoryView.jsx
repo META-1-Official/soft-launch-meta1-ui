@@ -40,25 +40,26 @@ class MarketHistoryView extends React.Component {
 		const allHistory = (
 			<>
 				<div className="grid-block vertical shrink left-orderbook-header market-right-padding-only">
-					<SectionHeader title="Trading History" />
+					<SectionHeader title="Trade History" />
 					<table className="table table-no-padding order-table text-left fixed-table market-right-padding">
 						<thead>
 							<tr>
-								<th style={{textAlign: 'right'}}>
+								<th style={{textAlign: 'center'}}>
+									<Translate
+										className="header-sub-title"
+										content="explorer.block.time"
+									/>
+								</th>
+								<th style={{textAlign: 'center'}}>
 									<Translate
 										className="header-sub-title"
 										content="exchange.price"
 									/>
 								</th>
-								<th style={{textAlign: 'right'}}>
-									<span className="header-sub-title">
-										<AssetName dataPlace="top" name={quoteSymbol} />
-									</span>
-								</th>
-								<th style={{textAlign: 'right'}}>
+								<th style={{textAlign: 'center'}}>
 									<Translate
 										className="header-sub-title"
-										content="explorer.block.date"
+										content="exchange.volume"
 									/>
 								</th>
 							</tr>
