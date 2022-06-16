@@ -303,6 +303,18 @@ class WalletUnlockModal extends React.Component {
 			});
 	};
 
+	_onNavigate(route, e, fromMenu) {
+		!fromMenu && e.preventDefault();
+
+		// Set Accounts Tab as active tab
+		if (route == '/accounts') {
+			SettingsActions.changeViewSetting({
+				dashboardEntry: 'accounts',
+			});
+		}
+		this.props.history.push(route);
+	}
+
 	handleLogin = (e) => {
 		if (e) e.preventDefault();
 		//DEBUG console.log("Login!");
@@ -338,6 +350,8 @@ class WalletUnlockModal extends React.Component {
 							el.innerText = 'Wrong user or password';
 						}
 						//
+						console.log('handleLogin:' + accountName);
+						this._onNavigate(`/account/${accountName}`, this, true);
 					}
 				});
 			}
