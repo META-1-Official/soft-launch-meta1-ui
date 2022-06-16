@@ -155,7 +155,7 @@ class BalanceValueComponent extends React.Component {
 			<EquivalentValueComponent
 				amount={amount}
 				fromAsset={fromAsset}
-				noDecimals={true}
+				noDecimals={false}
 				{...others}
 			/>
 		);
