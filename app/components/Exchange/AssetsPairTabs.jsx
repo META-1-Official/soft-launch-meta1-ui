@@ -214,7 +214,9 @@ class AssetsPairTabs extends React.Component {
 							</div>
 							<div
 								style={{cursor: 'pointer'}}
-								onClick={() => history.push(`/market/${quoteAssetSymbol}_USDT`)}
+								onClick={() =>
+									history.push(`/market/${quoteAssetSymbol}_${baseAssetSymbol}`)
+								}
 							>
 								<span
 									style={{
