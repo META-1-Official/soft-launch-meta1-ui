@@ -305,6 +305,7 @@ class WalletUnlockModal extends React.Component {
 
 	handleLogin = (e) => {
 		if (e) e.preventDefault();
+		//DEBUG console.log("Login!");
 		const {passwordLogin, backup} = this.props;
 		const {walletSelected, accountName} = this.state;
 		if (this.state.captcha) {
@@ -328,7 +329,15 @@ class WalletUnlockModal extends React.Component {
 							}
 						}
 						const account = passwordLogin ? accountName : null;
+						//DEBUG console.log("account:" + account);
 						this.validate(password, account);
+
+						// If login fails, shows "wrong user or password error"
+						let el = document.querySelector('.ant-form-item-explain-error');
+						if (el !== null) {
+							el.innerText = 'Wrong user or password';
+						}
+						//
 					}
 				});
 			}
