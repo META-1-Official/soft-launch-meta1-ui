@@ -103,12 +103,16 @@ const MarketUtils = {
 		}
 
 		const directStats = marketStats.get(directMarket);
-		if (directStats && directStats.price && directStats.volumeBase !== 0) {
-			if (real)
-				return directStats.price.toReal(
-					toAsset.get('id') !== directStats.price.base.asset_id
-				);
-			return directStats.price;
+		if (directStats && directStats.price) {
+			if (directStats.volumeBase !== 0) {
+				if (real)
+					return directStats.price.toReal(
+						toAsset.get('id') !== directStats.price.base.asset_id
+					);
+				return directStats.price;
+			} else if (directStats.price) {
+				return directStats.price;
+			}
 		}
 
 		let toPrice, fromPrice;
