@@ -2646,12 +2646,13 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 		}
 
 		span.checkbox {
-			border-color: $button-bg-color;
-			background-color: transparentize($button-bg-color, 0.9);
+			border-color: gray;
+			background-color: #ffc000;
 		}
+
 		span.checkbox-active {
-			border-color: $button-bg-color;
-			background-color: $button-bg-color;
+			border-color: gray;
+			background-color: #ffc000;
 
 			svg path {
 				fill: $bg-color;
