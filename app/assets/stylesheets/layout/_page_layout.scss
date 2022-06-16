@@ -36,7 +36,10 @@ $footerTextColor: #566176;
 
 						.grid-frame.vertical {
 							height: 100%;
-							overflow: scroll;
+
+							> div {
+								overflow-y: scroll;
+							}
 						}
 					}
 				}
