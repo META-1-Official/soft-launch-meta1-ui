@@ -584,9 +584,10 @@ class BuySell extends React.Component {
 		let balanceToAdd;
 
 		if (feeAsset.get('symbol') === balanceSymbol) {
-			balanceToAdd = balanceAmount.clone(
-				balanceAmount.getAmount() - fee.getAmount()
-			);
+			balanceToAdd =
+				balanceAmount.getAmount() === 0
+					? 0
+					: balanceAmount.clone(balanceAmount.getAmount() - fee.getAmount());
 		} else {
 			balanceToAdd = balanceAmount;
 		}
