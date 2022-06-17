@@ -31,7 +31,6 @@ class TradingViewPriceChart extends React.Component {
 		const that = this;
 
 		if (!dataFeed) return;
-		// if (!!this.tvWidget) return;
 
 		if (__DEV__)
 			console.log(
