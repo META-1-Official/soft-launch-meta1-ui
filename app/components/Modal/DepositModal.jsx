@@ -12,10 +12,10 @@ const DepositModalContent = (props) => {
 	const assets = ['btc', 'ltc', 'eth', 'usdt'];
 	const minDepositValues = {btc: 0.001, ltc: 0.01, eth: 0.01, usdt: 1};
 
-	const api_gateway_url = `https://gateway.dev.meta-exchange.vision/api-gateways/${
+	const api_gateway_url = `${process.env.GATEWAY_URL}api-gateways/${
 		assetType === 'usdt' ? 'eth' : assetType
 	}`;
-	const wallet_init_url = `https://gateway.dev.meta-exchange.vision/api/wallet/init/${
+	const wallet_init_url = `${process.env.GATEWAY_URL}api/wallet/init/${
 		assetType === 'usdt' ? 'eth' : assetType
 	}`;
 

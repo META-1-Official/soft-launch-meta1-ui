@@ -37,7 +37,7 @@ export function getWalletName() {
  * @returns {string}
  */
 export function getWalletURL() {
-	return 'https://exchange.dev.meta-exchange.vision';
+	return process.env.DEFAULT_WALLET_URL;
 	// return "https://meta-exchange.io";
 }
 
@@ -48,7 +48,7 @@ export function getWalletURL() {
  */
 export function getFaucet() {
 	return {
-		url: 'https://faucet.dev.meta-exchange.vision/faucet',
+		url: process.env.DEFAULT_FAUCET_URL,
 		// url: "https://faucet.meta1.io/faucet",
 		show: true,
 		editable: true,
