@@ -497,7 +497,6 @@ class Settings extends React.Component {
 						<div>
 							<div
 								css={{
-									height: '100%',
 									flex: '1 1 auto',
 								}}
 							>
