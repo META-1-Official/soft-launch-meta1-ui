@@ -206,7 +206,7 @@ function getMeta1DepositAddressJSGateway(symbol) {
 	}
 	return new Promise((resolve, reject) => {
 		fetch(
-			'https://gateway.api.meta-vision/api-gateways/' + symbol.toLowerCase()
+			`${process.env.GATEWAY_META1_JS_URL}/api-gateways/` + symbol.toLowerCase()
 		)
 			.then((response) => {
 				fetch(
@@ -238,7 +238,7 @@ function getMeta1DepositAddressJSGateway(symbol) {
 function getMeta1DepositAddressPyGateway(symbol) {
 	return new Promise((resolve, reject) => {
 		fetch(
-			'https://testgate.meta-exchange.vision/gateway?uia=' +
+			`${process.env.GATEWAY_META1_PY_URL}/gateway?uia=` +
 				symbol.toUpperCase() +
 				'&client_id=' +
 				AccountStore.getState().currentAccount,
@@ -581,10 +581,10 @@ export function nudgeWithdrawal(asset_id, block, trx, op) {
 	FetchChain('getAsset', asset_id).then((asset) => {
 		let url = '';
 		if (asset.get('symbol') === 'USDT')
-			url = 'https://gateway.api.meta-exchange.vision/usdt';
+			url = `${process.env.GATEWAY_META1_JS_URL}usdt`;
 		else
 			url =
-				'https://gateway.api.meta-exchange.vision/api/withdraw/' +
+				`${process.env.GATEWAY_META1_JS_URL}api/withdraw/` +
 				asset.get('symbol');
 		let payload = {
 			account: {

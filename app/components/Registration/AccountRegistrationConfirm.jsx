@@ -118,7 +118,7 @@ class AccountRegistrationConfirm extends React.Component {
 	}
 
 	postWallet(email, accountName) {
-		fetch('https://dev.meta-exchange.vision/api/link', {
+		fetch(`${process.env.WEBSITE_URL}/api/link`, {
 			method: 'POST',
 			headers: {
 				Accept: 'application/json, text/plain, */*',
@@ -340,8 +340,8 @@ class AccountRegistrationConfirm extends React.Component {
 							<p>Version 1.0</p>
 
 							<p>
-								The www.dev.meta1coin.io website located at
-								https://dev.meta1coin.io is a copyrighted work belonging to
+								The {process.env.WEBSITE_LOCATED_LINK} website located at
+								{process.env.WEBSITE_URL} is a copyrighted work belonging to
 								META1. Certain features of the Site may be subject to additional
 								guidelines, terms, or rules, which will be posted on the Site in
 								connection with such features.
@@ -475,12 +475,12 @@ class AccountRegistrationConfirm extends React.Component {
 
 							<p>
 								<strong>Cookies and Web Beacons.</strong> Like any other
-								website, www.dev.meta1coin.io uses ‘cookies’. These cookies are
-								used to store information including visitors’ preferences, and
-								the pages on the website that the visitor accessed or visited.
-								The information is used to optimize the users’ experience by
-								customizing our web page content based on visitors’ browser type
-								and/or other information.
+								website, {process.env.WEBSITE_LOCATED_LINK} uses ‘cookies’.
+								These cookies are used to store information including visitors’
+								preferences, and the pages on the website that the visitor
+								accessed or visited. The information is used to optimize the
+								users’ experience by customizing our web page content based on
+								visitors’ browser type and/or other information.
 							</p>
 
 							<h2>Disclaimers</h2>
@@ -904,7 +904,7 @@ class AccountRegistrationConfirm extends React.Component {
 							<h2>Contact Information</h2>
 
 							<p>Address: Arizona, USA</p>
-							<p>Email: rostislav@meta1coin.io</p>
+							<p>Email: {process.env.CONTACT_INFORMATION_EMAIL}</p>
 						</div>
 					</div>
 				</Form.Item>
