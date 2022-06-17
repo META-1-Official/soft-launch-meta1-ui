@@ -31,7 +31,6 @@ class TradingViewPriceChart extends React.Component {
 		const that = this;
 
 		if (!dataFeed) return;
-		if (!!this.tvWidget) return;
 
 		if (__DEV__)
 			console.log(
@@ -176,6 +175,15 @@ class TradingViewPriceChart extends React.Component {
 		// continue investigating how to disable mouse wheel, here are the containted docs
 		// document.getElementById("tv_chart").children[0].contentWindow
 		// document.getElementById("tv_chart").children[0].contentDocument
+	}
+
+	componentDidUpdate(prevProps) {
+		if (
+			this.props.baseSymbol !== prevProps.baseSymbol ||
+			this.props.quoteSymbol !== prevProps.quoteSymbol
+		) {
+			this.loadTradingView(this.props);
+		}
 	}
 
 	componentWillUnmount() {
