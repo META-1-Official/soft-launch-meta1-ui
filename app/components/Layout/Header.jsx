@@ -352,15 +352,24 @@ class Header extends React.Component {
 		} else if (key === 'advanced-ledger-nano') {
 			window.open('https://shop.ledger.com/pages/ledger-live', '_blank');
 		} else if (key === 'advanced-signed-messages') {
-			this._onNavigate(`/account/${currentAccount}/signedmessages`, this, true);
+			currentAccount &&
+				this._onNavigate(
+					`/account/${currentAccount}/signedmessages`,
+					this,
+					true
+				);
 		} else if (key === 'advanced-membership-stats') {
-			this._onNavigate(`/account/${currentAccount}/member-stats`, this, true);
+			currentAccount &&
+				this._onNavigate(`/account/${currentAccount}/member-stats`, this, true);
 		} else if (key === 'advanced-vesting-balance') {
-			this._onNavigate(`/account/${currentAccount}/vesting`, this, true);
+			currentAccount &&
+				this._onNavigate(`/account/${currentAccount}/vesting`, this, true);
 		} else if (key === 'advanced-whitelist') {
-			this._onNavigate(`/account/${currentAccount}/whitelist`, this, true);
+			currentAccount &&
+				this._onNavigate(`/account/${currentAccount}/whitelist`, this, true);
 		} else if (key === 'advanced-permissions') {
-			this._onNavigate(`/account/${currentAccount}/permissions`, this, true);
+			currentAccount &&
+				this._onNavigate(`/account/${currentAccount}/permissions`, this, true);
 		} else if (key === 'advanced-accounts') {
 			this._onNavigate('/accounts', this, true);
 		}
@@ -537,6 +546,7 @@ class Header extends React.Component {
 					key="submenu"
 					popupClassName="advanced-submenu"
 					title={<Text>Advanced</Text>}
+					disabled={!currentAccount}
 				>
 					<Menu.Item key="comment-menu" className="comment">
 						<Text>
