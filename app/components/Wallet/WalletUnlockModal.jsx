@@ -73,6 +73,7 @@ class WalletUnlockModal extends React.Component {
 			isModalVisible: false,
 			passwordError: null,
 			accountName: passwordAccount,
+			passwordInput: null,
 			walletSelected: !!currentWallet,
 			customError: null,
 			isOpen: false,
@@ -117,6 +118,21 @@ class WalletUnlockModal extends React.Component {
 		this.setState({
 			password: event.target.value,
 		});
+		if (event.target.value.length < 52) {
+			let el = document.querySelectorAll('.ant-form-item-explain')[1];
+			if (el !== null) {
+				let child = el.children[0];
+				child.setAttribute('class', 'ant-form-item-explain-error');
+				child.innerText = 'Invalid password!';
+			}
+		} else {
+			let el = document.querySelectorAll('.ant-form-item-explain')[1];
+			if (el !== null) {
+				let child = el.children[0];
+				child.setAttribute('class', 'ant-form-item-explain-error');
+				child.innerText = '';
+			}
+		}
 	}
 
 	handleModalClose = () => {
@@ -269,10 +285,10 @@ class WalletUnlockModal extends React.Component {
 			} else {
 				const privKey = await openLogin.login();
 				// const data = await openLogin.getUserInfo();
-				console.log('User is logged in. Private key: ' + privKey);
+				//console.log('User is logged in. Private key: ' + privKey);
 			}
 		} catch (error) {
-			console.log('Error in Torus Render', error);
+			//console.log('Error in Torus Render', error);
 		}
 	};
 
@@ -317,7 +333,6 @@ class WalletUnlockModal extends React.Component {
 
 	handleLogin = (e) => {
 		if (e) e.preventDefault();
-		//DEBUG console.log("Login!");
 		const {passwordLogin, backup} = this.props;
 		const {walletSelected, accountName} = this.state;
 		if (this.state.captcha) {
@@ -341,13 +356,24 @@ class WalletUnlockModal extends React.Component {
 							}
 						}
 						const account = passwordLogin ? accountName : null;
-						//DEBUG console.log("account:" + account);
 						this.validate(password, account);
 
-						// If login fails, shows "wrong user or password error"
-						let el = document.querySelector('.ant-form-item-explain-error');
-						if (el !== null) {
-							el.innerText = 'Wrong user or password';
+						// If login fails, shows "wrong password error" under password field
+						let n = document.querySelectorAll(
+							'.ant-form-item-explain-error'
+						).length;
+						if (n > 1) {
+							let el = document.querySelectorAll(
+								'.ant-form-item-explain-error'
+							)[1];
+							if (el !== null) {
+								el.innerText = 'Wrong password';
+							}
+						} else {
+							let el = document.querySelector('.ant-form-item-explain-error');
+							if (el !== null) {
+								el.innerText = 'Wrong password';
+							}
 						}
 						//
 						console.log('handleLogin:' + accountName);
@@ -444,8 +470,9 @@ class WalletUnlockModal extends React.Component {
 		this.setState({eyeChecked: !tg});
 	};
 
-	handleAccountNameChange = (accountName) =>
+	handleAccountNameChange = (accountName) => {
 		this.setState({accountName, error: null});
+	};
 
 	shouldShowBackupWarning = () =>
 		!this.props.passwordLogin &&
@@ -550,6 +577,8 @@ class WalletUnlockModal extends React.Component {
 								<Form.Item
 									label={counterpart.translate('settings.password')}
 									validateStatus={passwordError ? 'error' : ''}
+									onChange={this.handlePasswordChange}
+									onPasswordChanged={() => {}}
 									help={passwordError || ''}
 								>
 									<div className="password-field">
@@ -557,6 +586,7 @@ class WalletUnlockModal extends React.Component {
 											type={this.state.eyeChecked ? 'text' : 'password'}
 											value={this.state.password}
 											onChange={this.handlePasswordChange}
+											onPasswordChanged={() => {}}
 											onPressEnter={this.handleLogin}
 											ref={(input) => {
 												this.password_input = input;
