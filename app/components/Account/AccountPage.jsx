@@ -77,8 +77,9 @@ class AccountPage extends React.Component {
 		} = this.props;
 
 		if (!account) {
-			return <Page404 />;
+			return <Redirect to="/market/META1_USDT" />;
 		}
+
 		let account_name = this.props.account.get('name');
 		let isMyAccount = AccountStore.isMyAccount(account);
 
@@ -98,6 +99,7 @@ class AccountPage extends React.Component {
 			proxy: account.getIn(['options', 'voting_account']),
 			history: this.props.history,
 		};
+
 		return (
 			<div className="no-padding account-page">
 				<Switch>
