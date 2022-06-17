@@ -267,11 +267,6 @@ class AccountTrade extends React.Component {
 					return (
 						<div className="header-text">
 							<Translate component="span" content="account.votes.name" />
-							{!order ? null : order === 'ascend' ? (
-								<ArrowUpOutlined />
-							) : (
-								<ArrowDownOutlined />
-							)}
 						</div>
 					);
 				},
@@ -318,11 +313,6 @@ class AccountTrade extends React.Component {
 					return (
 						<div className="header-text">
 							<Translate component="span" content="exchange.price" />
-							{!order ? null : order === 'ascend' ? (
-								<ArrowUpOutlined />
-							) : (
-								<ArrowDownOutlined />
-							)}
 						</div>
 					);
 				},
@@ -355,11 +345,6 @@ class AccountTrade extends React.Component {
 								{selectedResolution}{' '}
 								<Translate component="span" content="account.change" />
 							</span>
-							{!order ? null : order === 'ascend' ? (
-								<ArrowUpOutlined />
-							) : (
-								<ArrowDownOutlined />
-							)}
 						</div>
 					);
 				},
@@ -453,11 +438,6 @@ class AccountTrade extends React.Component {
 								{selectedResolution}{' '}
 								<Translate component="span" content="account.low" />
 							</span>
-							{!order ? null : order === 'ascend' ? (
-								<ArrowUpOutlined />
-							) : (
-								<ArrowDownOutlined />
-							)}
 						</div>
 					);
 				},
@@ -491,11 +471,6 @@ class AccountTrade extends React.Component {
 					return (
 						<div className="header-text">
 							<Translate component="span" content="account.market_cap" />
-							{!order ? null : order === 'ascend' ? (
-								<ArrowUpOutlined />
-							) : (
-								<ArrowDownOutlined />
-							)}
 						</div>
 					);
 				},
