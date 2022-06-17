@@ -1106,6 +1106,12 @@ class Exchange extends React.Component {
 		);
 	}
 
+	_cancelAllOrders() {
+		const {currentAccount} = this.props;
+		const orderIds = currentAccount.get('orders').toArray();
+		MarketsActions.cancelLimitOrders(currentAccount.get('id'), orderIds);
+	}
+
 	_changeZoomPeriod(size, e) {
 		e.preventDefault();
 		if (size !== this.state.currentPeriod) {
@@ -2823,7 +2829,9 @@ class Exchange extends React.Component {
 							justifyContent: 'center',
 							marginTop: '24px',
 							marginBottom: '38px',
+							cursor: 'pointer',
 						}}
+						onClick={this._cancelAllOrders.bind(this)}
 					>
 						<div
 							style={{
