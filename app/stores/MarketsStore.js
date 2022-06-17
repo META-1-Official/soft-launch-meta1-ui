@@ -208,34 +208,41 @@ class MarketsStore {
 	}
 
 	onClearMarket() {
-		this.activeMarket = null;
+		const subscribedMarketName =
+			this.quoteAsset.get('symbol') + '_' + this.baseAsset.get('symbol');
+		const activeMarketName = window.location.href.split('/').at(-1);
+
+		if (activeMarketName === subscribedMarketName) {
+			this.activeMarketHistory = this.activeMarketHistory.clear();
+			this.activeMarket = null;
+			this.marketData = {
+				bids: [],
+				asks: [],
+				calls: [],
+				combinedBids: [],
+				highestBid: nullPrice,
+				combinedAsks: [],
+				lowestAsk: nullPrice,
+				flatBids: [],
+				flatAsks: [],
+				flatCalls: [],
+				flatSettles: [],
+				groupedBids: [],
+				groupedAsks: [],
+			};
+			this.totals = {
+				bid: 0,
+				ask: 0,
+				call: 0,
+			};
+		}
+
 		this.is_prediction_market = false;
 		this.marketLimitOrders = this.marketLimitOrders.clear();
 		this.marketCallOrders = this.marketCallOrders.clear();
 		this.allCallOrders = [];
 		this.feedPrice = null;
 		this.marketSettleOrders = this.marketSettleOrders.clear();
-		this.activeMarketHistory = this.activeMarketHistory.clear();
-		this.marketData = {
-			bids: [],
-			asks: [],
-			calls: [],
-			combinedBids: [],
-			highestBid: nullPrice,
-			combinedAsks: [],
-			lowestAsk: nullPrice,
-			flatBids: [],
-			flatAsks: [],
-			flatCalls: [],
-			flatSettles: [],
-			groupedBids: [],
-			groupedAsks: [],
-		};
-		this.totals = {
-			bid: 0,
-			ask: 0,
-			call: 0,
-		};
 		this.lowestCallPrice = null;
 		this.pendingCreateLimitOrders = [];
 		this.priceHistory = [];
@@ -279,6 +286,9 @@ class MarketsStore {
 		// Get updated assets every time for updated feed data
 		this.quoteAsset = ChainStore.getAsset(result.quote.get('id'));
 		this.baseAsset = ChainStore.getAsset(result.base.get('id'));
+		const subscribedMarketName =
+			this.quoteAsset.get('symbol') + '_' + this.baseAsset.get('symbol');
+		const activeMarketName = window.location.href.split('/').at(-1);
 
 		const assets = {
 			[this.quoteAsset.get('id')]: {
@@ -404,7 +414,7 @@ class MarketsStore {
 
 		this.updateSettleOrders(result);
 
-		if (result.history) {
+		if (result.history && activeMarketName === subscribedMarketName) {
 			this.activeMarketHistory = this.activeMarketHistory.clear();
 			result.history.forEach((order) => {
 				/* Only include history objects that aren't 'something for nothing' to avoid confusion */
@@ -419,7 +429,7 @@ class MarketsStore {
 			});
 		}
 
-		if (result.fillOrders) {
+		if (result.fillOrders && activeMarketName === subscribedMarketName) {
 			result.fillOrders.forEach((fill) => {
 				this.activeMarketHistory = this.activeMarketHistory.add(
 					new FillOrder(fill[0][1], assets, this.quoteAsset.get('id'))
@@ -455,7 +465,9 @@ class MarketsStore {
 
 		if (callsChanged || limitsChanged) {
 			// Update orderbook
-			this._orderBook(limitsChanged, callsChanged);
+			if (activeMarketName === subscribedMarketName) {
+				this._orderBook(limitsChanged, callsChanged);
+			}
 
 			// Update depth chart data
 			this._depthChart();
@@ -479,8 +491,11 @@ class MarketsStore {
 			result.groupedOrdersAsks.forEach((order, index) => {
 				groupedOrdersAsks.push(new GroupedOrder(order, assets, false));
 			});
+
 			// Update groupedOrderbook
-			this._groupedOrderBook(groupedOrdersBids, groupedOrdersAsks);
+			if (activeMarketName === subscribedMarketName) {
+				this._groupedOrderBook(groupedOrdersBids, groupedOrdersAsks);
+			}
 
 			// Update depth chart data
 			this._depthChart();

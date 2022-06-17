@@ -132,24 +132,6 @@ class AssetsPairTabs extends React.Component {
 							let bars = MarketsStore.getState().priceData;
 							let quoteAsset1 = MarketsStore.getState().quoteAsset;
 							let baseAsset1 = MarketsStore.getState().baseAsset;
-							// console.log(
-							// 	'@1103 - _getMarketInfo #1',
-							// 	from,
-							// 	to,
-							// 	quoteAsset1.get('id'),
-							// 	baseAsset1.get('id'),
-							// 	bars.length,
-							// 	bars
-							// );
-							// bars = bars.filter((a) => a.time >= from && a.time <= to);
-							// console.log(
-							// 	'@1104 - _getMarketInfo #2',
-							// 	resolution,
-							// 	newBucketSize,
-							// 	quoteAsset.get('id'),
-							// 	baseAsset.get('id'),
-							// 	bars
-							// );
 
 							const marketBarIndex = marketBars.findIndex(
 								(marketBar) =>
@@ -185,13 +167,6 @@ class AssetsPairTabs extends React.Component {
 						console.log('Error: Failed to subscribe market, ', e);
 						this.setState({isFetchingMarketInfo: false, marketBars});
 					});
-
-				this.statsInterval = MarketsActions.getMarketStatsInterval(
-					newBucketSize,
-					baseAsset,
-					quoteAsset,
-					true
-				);
 			});
 		}
 	}
