@@ -360,6 +360,28 @@ class GroupedOrderBookRowHorizontal extends React.Component {
 	}
 }
 
+class OrderBookHeader extends React.Component {
+	render() {
+		return (
+			<div className="header">
+				<div className="title">Order Book</div>
+				<div
+					className={!this.props.currentGroupOrderLimit ? 'tap' : 'tap active'}
+					onClick={() => this.props.onChange(1)}
+				>
+					Order Volume
+				</div>
+				<div
+					className={this.props.currentGroupOrderLimit ? 'tap' : 'tap active'}
+					onClick={() => this.props.onChange(0)}
+				>
+					Market Depth
+				</div>
+			</div>
+		);
+	}
+}
+
 class GroupOrderLimitSelector extends React.Component {
 	constructor() {
 		super();
@@ -919,13 +941,17 @@ class OrderBook extends React.Component {
 			let innerClass = this.props.innerClass;
 
 			return (
-				<>
-					<SectionHeader title="Order Book" />
+				<div className="order-book-panel">
+					<OrderBookHeader
+						currentGroupOrderLimit={currentGroupOrderLimit}
+						onChange={this.props.handleGroupOrderLimitChange.bind(this)}
+					/>
 					<div
 						ref="order_book"
 						style={{
 							marginRight: this.props.smallScreen ? 0 : 0,
 							height: '100%',
+							width: '100%',
 							display: 'flex',
 							flexDirection: 'row',
 							justifyContent: 'space-between',
@@ -1021,13 +1047,16 @@ class OrderBook extends React.Component {
 							</div>
 						</div>
 					</div>
-				</>
+				</div>
 			);
 		} else {
 			// Vertical orderbook
 			return (
-				<>
-					<SectionHeader title="Order Book" />
+				<div className="order-book-panel">
+					<OrderBookHeader
+						currentGroupOrderLimit={currentGroupOrderLimit}
+						onChange={this.props.handleGroupOrderLimitChange.bind(this)}
+					/>
 					<div className="order-table-container">
 						<StickyTable
 							stickyColumnCount={0}
@@ -1178,7 +1207,7 @@ class OrderBook extends React.Component {
 							)}
 						</StickyTable>
 					</div>
-				</>
+				</div>
 			);
 		}
 	}
