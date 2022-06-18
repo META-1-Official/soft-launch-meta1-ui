@@ -365,7 +365,11 @@ class AssetsPairTabs extends React.Component {
 				dataIndex: 'price',
 				key: 'price',
 				sorter: (a, b) => {
-					return a.price > b.price ? 1 : a.price < b.price ? -1 : 0;
+					return Number(a.price) > Number(b.price)
+						? 1
+						: Number(a.price) < Number(b.price)
+						? -1
+						: 0;
 				},
 				render: (price) => {
 					return (
