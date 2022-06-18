@@ -237,7 +237,11 @@ class AssetsPairTabs extends React.Component {
 				),
 				key: 'name',
 				sorter: (a, b) => {
-					return a.name > b.name ? 1 : a.name < b.name ? -1 : 0;
+					return a.quoteAssetSymbol > b.quoteAssetSymbol
+						? 1
+						: a.quoteAssetSymbol < b.quoteAssetSymbol
+						? -1
+						: 0;
 				},
 				render: (rowData) => {
 					const quoteAssetSymbol = rowData.quoteAssetSymbol;
@@ -295,9 +299,9 @@ class AssetsPairTabs extends React.Component {
 				dataIndex: 'rateChange',
 				key: 'rateChange',
 				sorter: (a, b) => {
-					return a.rateChange > b.rateChange
+					return Number(a.rateChange) > Number(b.rateChange)
 						? 1
-						: a.rateChange < b.rateChange
+						: Number(a.rateChange) < Number(b.rateChange)
 						? -1
 						: 0;
 				},
@@ -331,7 +335,7 @@ class AssetsPairTabs extends React.Component {
 									<div
 										className={className}
 										style={{fontSize: '14px'}}
-									>{`-${rateChange} %`}</div>
+									>{`${rateChange} %`}</div>
 								</>
 							)}
 							{className === '' && (
