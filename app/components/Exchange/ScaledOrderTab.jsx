@@ -635,7 +635,9 @@ class ScaledOrderForm extends Component {
 				style={{width: '100%'}}
 				placeholder="0"
 				autoComplete="off"
-				addonAfter={counterpart.translate('scaled_orders.order_s')}
+				addonAfter={
+					<span>{counterpart.translate('scaled_orders.order_s')}</span>
+				}
 			/>
 		);
 
@@ -775,7 +777,7 @@ class ScaledOrderForm extends Component {
 						{totalInput()}
 					</Form.Item>
 
-					<Form.Item
+					{/* <Form.Item
 						{...formItemProps}
 						label={counterpart.translate('scaled_orders.fee')}
 						name="feeCurrency"
@@ -797,7 +799,7 @@ class ScaledOrderForm extends Component {
 						>
 							{marketFeeInput}
 						</Form.Item>
-					)}
+					)} */}
 
 					{/* <Form.Item
 						style={{marginBottom: '6px'}}
@@ -836,7 +838,7 @@ class ScaledOrderForm extends Component {
 						</div>
 					</Form.Item> */}
 
-					<Form.Item
+					{/* <Form.Item
 						style={{marginTop: '7px'}}
 						label={lastPriceLabel}
 						{...formItemProps}
@@ -879,7 +881,7 @@ class ScaledOrderForm extends Component {
 								noTip
 							/>
 						</span>
-					</Form.Item>
+					</Form.Item> */}
 
 					<button
 						style={
@@ -906,6 +908,9 @@ class ScaledOrderForm extends Component {
 							{isBid ? 'BUY' : 'SELL'}
 						</div>
 					</button>
+					<div style={{fontSize: 12, marginTop: 10}}>
+						<span style={{color: '#ffc000'}}>Fee:</span> 0.0035 Meta 1
+					</div>
 				</Form>
 			</div>
 		);

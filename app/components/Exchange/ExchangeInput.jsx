@@ -23,6 +23,7 @@ class ExchangeInput extends DecimalChecker {
 				{...other}
 				onPaste={this.props.onPaste || this.onPaste.bind(this)}
 				onKeyPress={this.onKeyPress.bind(this)}
+				disabled={this.props.disabled}
 			/>
 		);
 	}
