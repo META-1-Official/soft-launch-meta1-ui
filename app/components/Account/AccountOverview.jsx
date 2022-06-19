@@ -296,10 +296,9 @@ class AccountOverview extends React.Component {
 		const hiddenSubText = '\u00a0';
 
 		const onNavButtonClick = (selectedDisplay) => {
-			this.setState({
-				currentDisplay: selectedDisplay,
-			});
+			this.setState({currentDisplay: selectedDisplay});
 		};
+
 		const {currentDisplay} = this.state;
 
 		return (
@@ -352,6 +351,18 @@ class AccountOverview extends React.Component {
 							>
 								Transaction History
 							</StyledButton>
+							{account.get('proposals') && account.get('proposals').size ? (
+								<StyledButton
+									buttonType={
+										currentDisplay === 'proposals' ? 'primary' : 'transparent'
+									}
+									onClick={() => {
+										onNavButtonClick('proposals');
+									}}
+								>
+									Proposals
+								</StyledButton>
+							) : null}
 						</Space>
 						<Space align="start">
 							<StyledButton
@@ -423,6 +434,32 @@ class AccountOverview extends React.Component {
 							showFilters={true}
 							dashboard
 						/>
+					)}
+
+					{currentDisplay === 'proposals' && (
+						<div>
+							<div
+								onClick={this._toggleHideProposal.bind(this)}
+								style={{cursor: 'pointer'}}
+							>
+								<Tooltip
+									title={counterpart.translate('tooltip.propose_unhide')}
+									placement="bottom"
+								>
+									<Switch
+										style={{margin: 16}}
+										checked={this.state.hideFishingProposals}
+										onChange={this._toggleHideProposal.bind(this)}
+									/>
+									<Translate content="account.deactivate_suspicious_proposals" />
+								</Tooltip>
+							</div>
+							<Proposals
+								className="dashboard-table"
+								account={account}
+								hideFishingProposals={this.state.hideFishingProposals}
+							/>
+						</div>
 					)}
 				</div>
 
