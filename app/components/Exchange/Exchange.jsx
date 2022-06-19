@@ -526,6 +526,7 @@ class Exchange extends React.Component {
 			}),
 		};
 		bid.price = new Price({base: bid.for_sale, quote: bid.to_receive});
+
 		let ask = {
 			forSaleText: '',
 			toReceiveText: '',
@@ -1660,6 +1661,25 @@ class Exchange extends React.Component {
 		this.forceUpdate();
 	}
 
+	// _onInputDollar(type, e) {
+	// 	let dollar_price = Apis.db.get_published_asset_price('BNB');
+	// 	let current = this.state[type];
+	// 	const isBid = type === 'bid';
+	// 	current.price = new Price({
+	// 		base: current[isBid ? 'for_sale' : 'to_receive'],
+	// 		quote: current[isBid ? 'to_receive' : 'for_sale'],
+	// 		real: parseFloat(e.target.value) || 0,
+	// 	});
+	// 	if (isBid) {
+	// 		this._setForSale(current, isBid) || this._setReceive(current, isBid);
+	// 	} else {
+	// 		this._setReceive(current, isBid) || this._setForSale(current, isBid);
+	// 	}
+
+	// 	current.priceText = e.target.value;
+	// 	this.forceUpdate();
+	// }
+
 	_onInputSell(type, isBid, e) {
 		let current = this.state[type];
 		// const isBid = type === "bid";
@@ -2003,6 +2023,7 @@ class Exchange extends React.Component {
 							paddingRight: mirrorPanels ? 15 : 5,
 						}}
 						type="bid"
+						isMarketOrder={true}
 						hideHeader={true}
 						expirationType={expirationType['bid']}
 						expirations={this.EXPIRATIONS}
@@ -2016,13 +2037,11 @@ class Exchange extends React.Component {
 							'bid'
 						)}
 						amount={bid.toReceiveText}
-						price={bid.priceText}
+						price={latest ? latest.getPrice() : 0.0}
 						total={bid.forSaleText}
 						quote={quote}
 						base={base}
 						amountChange={this._onInputReceive.bind(this, 'bid', true)}
-						priceChange={this._onInputPrice.bind(this, 'bid')}
-						setPrice={this._currentPriceClick.bind(this)}
 						totalChange={this._onInputSell.bind(this, 'bid', false)}
 						clearForm={this._clearForms.bind(this, 'bid')}
 						balance={baseBalance}

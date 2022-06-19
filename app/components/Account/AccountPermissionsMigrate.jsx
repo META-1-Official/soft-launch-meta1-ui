@@ -85,7 +85,7 @@ const AccountPermissionsMigrate = (props) => {
 				<div className="key-name">
 					<Translate content={title_content[type]} />
 				</div>
-				<div>{[props.active, props.owner, props.memo][type]}</div>
+				{/* <div>{[props.active, props.owner, props.memo][type]}</div> */}
 				<Button
 					type="primary"
 					css={{
