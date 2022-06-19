@@ -248,6 +248,7 @@ class AccountSelector extends React.Component {
 					: null;
 		}
 
+		//DEBUG console.log("props:" + JSON.stringify(this.props.account));
 		// Without Typeahead Error Handling
 		if (!typeahead) {
 			if (!account && accountName && inputType !== 'pubkey') {

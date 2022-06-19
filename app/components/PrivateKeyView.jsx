@@ -6,7 +6,8 @@ import PrivateKeyStore from 'stores/PrivateKeyStore';
 import QrcodeModal from './Modal/QrcodeModal';
 import counterpart from 'counterpart';
 import PropTypes from 'prop-types';
-import {Modal, Button} from 'antd';
+import {Modal, Button, Input} from 'antd';
+import CopyButton from './Utility/CopyButton';
 
 export default class PrivateKeyView extends Component {
 	static propTypes = {
@@ -93,7 +94,15 @@ export default class PrivateKeyView extends Component {
 								<label>
 									<Translate content="account.perm.public" />
 								</label>
-								{this.props.pubkey}
+								<div style={{color: 'rgba(255, 255, 255, 0.5)'}}>
+									{this.props.pubkey}
+									<CopyButton
+										text={this.props.pubkey}
+										tip="tooltip.copy_tip"
+										dataPlace="top"
+										className="button"
+									/>
+								</div>
 							</div>
 							<br />
 
@@ -135,9 +144,11 @@ export default class PrivateKeyView extends Component {
 								<label>
 									<Translate content="account.perm.brain" />
 								</label>
-								{key.brainkey_sequence == null
-									? 'Non-deterministic'
-									: key.brainkey_sequence}
+								<div style={{color: 'rgba(255, 255, 255, 0.5)'}}>
+									{key.brainkey_sequence == null
+										? 'Non-deterministic'
+										: key.brainkey_sequence}
+								</div>
 							</div>
 							<br />
 
@@ -146,7 +157,9 @@ export default class PrivateKeyView extends Component {
 									<label>
 										<Translate content="account.perm.from" />
 									</label>
-									{key.import_account_names.join(', ')}
+									<div style={{color: 'rgba(255, 255, 255, 0.5)'}}>
+										{key.import_account_names.join(', ')}
+									</div>
 									<br />
 								</div>
 							) : null}

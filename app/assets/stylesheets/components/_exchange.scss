@@ -1584,3 +1584,38 @@ form.hide-container {
 		}
 	}
 }
+
+// Order Book Panel
+.order-book-panel {
+	.header {
+		background: #1c1f27;
+		font-size: 16px;
+		height: 46px;
+		width: 100%;
+		color: white;
+
+		div {
+			display: inline-block;
+
+			&.title {
+				margin-left: 10px;
+				margin-top: 15px;
+			}
+
+			&.tap {
+				float: right;
+				padding: 15px 20px;
+
+				&.active {
+					background-color: black;
+					border-top: 2px solid #ffc000;
+					color: #ffc000;
+				}
+
+				&:hover {
+					cursor: pointer;
+				}
+			}
+		}
+	}
+}
