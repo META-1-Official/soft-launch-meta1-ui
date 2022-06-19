@@ -58,12 +58,6 @@ class AssetsPairTabs extends React.Component {
 
 	componentWillReceiveProps(nextProps) {
 		this._checkAssets(nextProps.assets);
-
-		if (this.props.assets.size != nextProps.assets.size) {
-			setTimeout(() => {
-				this.onClickAsset(this.state.baseAssetSymbol);
-			}, 500);
-		}
 	}
 
 	componentWillMount() {

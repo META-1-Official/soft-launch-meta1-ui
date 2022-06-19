@@ -20,7 +20,6 @@ import SettleModal from '../Modal/SettleModal';
 import {Button, Select, Popover, Tooltip} from 'antd';
 import ReactTooltip from 'react-tooltip';
 import AccountStore from '../../stores/AccountStore';
-import {Apis} from 'meta1js-ws';
 
 class BuySell extends React.Component {
 	static propTypes = {
@@ -35,7 +34,6 @@ class BuySell extends React.Component {
 
 	static defaultProps = {
 		type: 'bid',
-		isMarketOrder: false,
 	};
 
 	constructor() {
@@ -43,7 +41,6 @@ class BuySell extends React.Component {
 		this.state = {
 			forceReRender: false,
 			isSettleModalVisible: false,
-			usd_price: 0.0,
 		};
 
 		this.showSettleModal = this.showSettleModal.bind(this);
@@ -100,8 +97,7 @@ class BuySell extends React.Component {
 			nextProps.hideFunctionButtons !== this.props.hideFunctionButtons ||
 			nextState.isQuickDepositVisible !== this.state.isQuickDepositVisible ||
 			nextProps.base !== this.props.base ||
-			nextProps.quote !== this.props.quote ||
-			nextState.usd_price !== this.state.usd_price
+			nextProps.quote !== this.props.quote
 		);
 	}
 
@@ -129,23 +125,6 @@ class BuySell extends React.Component {
 		} else {
 			this.props.amountChange({
 				target: {value: balance.getAmount({real: true}).toString()},
-			});
-		}
-	}
-
-	componentWillUpdate() {
-		this._setUsdPrice();
-	}
-
-	async _setUsdPrice() {
-		let symbol =
-			this.props.type === 'bid'
-				? this.props.base.get('symbol')
-				: this.props.quote.get('symbol');
-		if (symbol) {
-			let usd_price_ratio = await Apis.db.get_published_asset_price(symbol);
-			this.setState({
-				usd_price: usd_price_ratio.numerator / usd_price_ratio.denominator,
 			});
 		}
 	}
@@ -209,7 +188,6 @@ class BuySell extends React.Component {
 	render() {
 		let {
 			type,
-			isMarketOrder,
 			quote,
 			base,
 			amountChange,
@@ -241,8 +219,6 @@ class BuySell extends React.Component {
 		if (this.props.amount) amount = this.props.amount;
 		if (this.props.price) price = this.props.price;
 		if (this.props.total) total = this.props.total;
-
-		let usd = parseInt(amount ?? 0) * this.state.usd_price;
 
 		let balanceAmount = new Asset({
 			amount: balance ? balance.get('balance') : 0,
@@ -608,10 +584,9 @@ class BuySell extends React.Component {
 		let balanceToAdd;
 
 		if (feeAsset.get('symbol') === balanceSymbol) {
-			balanceToAdd =
-				balanceAmount.getAmount() === 0
-					? 0
-					: balanceAmount.clone(balanceAmount.getAmount() - fee.getAmount());
+			balanceToAdd = balanceAmount.clone(
+				balanceAmount.getAmount() - fee.getAmount()
+			);
 		} else {
 			balanceToAdd = balanceAmount;
 		}
@@ -643,7 +618,7 @@ class BuySell extends React.Component {
 		if (verticalOrderForm) {
 			formContent = (
 				<div className={containerClass}>
-					<div className="limit-order-split-line" />
+					<div className="limit-order-split-line">AAAA</div>
 					<div className="grid-block no-overflow shrink limit-order-input-wrapper">
 						<Translate
 							className="small-12 buy-sell-label"
@@ -705,7 +680,7 @@ class BuySell extends React.Component {
 							/>
 						</div>
 					</div>
-					<div className="grid-block no-overflow shrink limit-order-input-wrapper">
+					{/* <div className="grid-block no-overflow shrink limit-order-input-wrapper">
 						<Translate
 							className="small-12 buy-sell-label"
 							content="transfer.fee"
@@ -732,8 +707,8 @@ class BuySell extends React.Component {
 								}
 							/>
 						</div>
-					</div>
-					{marketFee}
+					</div> */}
+					{/* {marketFee} */}
 				</div>
 			);
 		} else {
@@ -756,7 +731,6 @@ class BuySell extends React.Component {
 										{base.get('symbol')} / {quote.get('symbol')}
 									</span>
 								}
-								disabled={isMarketOrder}
 							/>
 						</div>
 					</div>
@@ -781,24 +755,6 @@ class BuySell extends React.Component {
 							/>
 						</div>
 					</div>
-					{isMarketOrder && (
-						<div className="grid-block no-overflow shrink limit-order-input-wrapper">
-							<Translate
-								className="small-3 buy-sell-label"
-								content="exchange.usd_price"
-							/>
-							<div className="inputAddon limit-order-input">
-								<ExchangeInput
-									id={`${type}Dollar`}
-									value={usd}
-									autoComplete="off"
-									placeholder="0.0"
-									addonAfter={<span className="limit-order-text">USD</span>}
-									disabled={true}
-								/>
-							</div>
-						</div>
-					)}
 					<div className="grid-block no-overflow shrink limit-order-input-wrapper">
 						<Translate
 							className="small-3 buy-sell-label"
@@ -817,7 +773,7 @@ class BuySell extends React.Component {
 							/>
 						</div>
 					</div>
-					<div className="grid-block no-overflow shrink limit-order-input-wrapper">
+					{/* <div className="grid-block no-overflow shrink limit-order-input-wrapper">
 						<Translate
 							className="small-3 buy-sell-label"
 							content="transfer.fee"
@@ -844,8 +800,8 @@ class BuySell extends React.Component {
 								}
 							/>
 						</div>
-					</div>
-					{marketFee}
+					</div> */}
+					{/* {marketFee} */}
 				</div>
 			) : (
 				<div className={containerClass}>
@@ -962,7 +918,7 @@ class BuySell extends React.Component {
 								/>
 							</div>
 						</div>
-						<div className="small-6">
+						{/* <div className="small-6">
 							<Translate
 								className="small-3 buy-sell-label"
 								content="transfer.fee"
@@ -989,7 +945,7 @@ class BuySell extends React.Component {
 									}
 								/>
 							</div>
-						</div>
+						</div> */}
 					</div>
 				</div>
 			);
@@ -1132,11 +1088,11 @@ class BuySell extends React.Component {
 									</select>
 								</div>
 							</div> */}
-							{!singleColumnForm ? (
+							{/* {!singleColumnForm ? (
 								<div className="small-6">{marketFee}</div>
-							) : null}
+							) : null} */}
 							<div className="small-12 medium-12 xlarge-12">
-								{singleColumnForm && !isMarketOrder ? (
+								{/* {singleColumnForm ? (
 									<div className="grid-block no-overflow shrink">
 										<Translate
 											className="buy-sell-label small-4"
@@ -1198,7 +1154,7 @@ class BuySell extends React.Component {
 											</span>
 										</div>
 									</div>
-								) : null}
+								) : null} */}
 								<div style={{marginTop: 10}}>
 									<div className="short-long-button">
 										<Tooltip
@@ -1231,6 +1187,9 @@ class BuySell extends React.Component {
 												</div>
 											</button>
 										</Tooltip>
+										<div style={{fontSize: 12, marginTop: 10}}>
+											<span style={{color: '#ffc000'}}>Fee:</span> 0.0035 Meta 1
+										</div>
 										{isGloballySettled ? (
 											<Button
 												disabled={
