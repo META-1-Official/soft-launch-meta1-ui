@@ -113,7 +113,14 @@ export default class PrivateKeyView extends Component {
 								<div>
 									{this.state.wif ? (
 										<span>
-											<p style={{fontWeight: 600}}>{this.state.wif}</p>
+											<p
+												style={{
+													color: 'rgba(255, 255, 255, 0.5)',
+													fontSize: '14px',
+												}}
+											>
+												{this.state.wif}
+											</p>
 											<div className="button-group">
 												<div
 													className="button"
