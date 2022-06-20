@@ -459,10 +459,32 @@ class MarketOrders extends React.Component {
 			// );
 
 			let cancelOrderButton = (
-				<div style={{display: 'grid'}}>
-					<Button onClick={this.cancelSelected.bind(this)}>
+				<div
+					style={{
+						width: '96%',
+						marginLeft: '2%',
+						height: '60px',
+						background: '#FF2929',
+						borderRadius: '5px',
+						display: 'flex',
+						alignItems: 'center',
+						justifyContent: 'center',
+						marginTop: '24px',
+						marginBottom: '38px',
+						cursor: 'pointer',
+					}}
+					onClick={this.cancelSelected.bind(this)}
+				>
+					<div
+						style={{
+							textTransform: 'uppercase',
+							fontWeight: 600,
+							fontSize: '18px',
+							color: 'white',
+						}}
+					>
 						<Translate content="exchange.cancel_selected_orders" />
-					</Button>
+					</div>
 				</div>
 			);
 

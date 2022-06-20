@@ -144,7 +144,10 @@ class MarketHistoryView extends React.Component {
 		);
 
 		return (
-			<div className={cnames(className)} style={{height: '100%'}}>
+			<div
+				className={cnames(className)}
+				style={{height: '100%', display: 'flex', flexDirection: 'column'}}
+			>
 				<div className={innerClass} style={innerStyle}>
 					{noHeader ? null : (
 						<div style={headerStyle} className="exchange-content-header">

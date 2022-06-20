@@ -39,6 +39,12 @@ const MarketOrderForm = (props) => {
 		});
 	}, [amount]);
 
+	useEffect(() => {
+		form.setFieldsValue({
+			price: props.price,
+		});
+	}, [props.price]);
+
 	const _setUsdPrice = async () => {
 		let symbol =
 			props.type === 'bid'
@@ -311,8 +317,6 @@ const MarketOrderTab = (props) => {
 
 		const sellAsset = !isBid ? props.quoteAsset : props.baseAsset;
 		const buyAsset = isBid ? props.quoteAsset : props.baseAsset;
-
-		console.log('@1', amount, price);
 
 		orders.push({
 			for_sale: new Asset({
