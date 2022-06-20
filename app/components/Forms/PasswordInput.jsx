@@ -79,6 +79,7 @@ class PasswordInput extends Component {
 		const doesnt_match = this.props.confirmation
 			? confirmation && password !== confirmation
 			: false;
+		const hasSpace = e.target.value.indexOf(' ') !== -1;
 
 		let strength = 0,
 			score;
@@ -101,6 +102,7 @@ class PasswordInput extends Component {
 
 		let state = {
 			valid:
+				!hasSpace &&
 				!this.state.error &&
 				!this.state.wrong &&
 				!(this.props.confirmation && doesnt_match) &&
@@ -109,6 +111,7 @@ class PasswordInput extends Component {
 			value: password,
 			score,
 			doesnt_match,
+			error: hasSpace ? 'Password contains space' : null,
 		};
 		if (this.props.onChange) this.props.onChange(state);
 		this.setState(state);
