@@ -1672,6 +1672,10 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 	.orderHistoryAsk {
 		color: $ask-color;
 		background: #1d0d0f;
+
+		> td {
+			padding-left: 10px;
+		}
 	}
 	.orderHistoryCall {
 		> span.price-integer,

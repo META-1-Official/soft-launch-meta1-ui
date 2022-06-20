@@ -2389,7 +2389,6 @@ class Exchange extends React.Component {
 					)}
 					innerStyle={{
 						paddingBottom: !tinyScreen ? '0' : '0',
-						height: '225px',
 					}}
 					noHeader={panelTabs['my_history'] == 0 ? false : true}
 					history={activeMarketHistory}
@@ -2599,18 +2598,12 @@ class Exchange extends React.Component {
 
 					if (a == 'my_orders') {
 						groupTabs[panelTabs[a]].push(
-							<Tabs.TabPane
-								tab={translator.translate('exchange.my_orders')}
-								key="my_orders"
-							>
+							<Tabs.TabPane tab="Open Orders" key="my_orders">
 								{myOpenOrders}
 							</Tabs.TabPane>
 						);
 						groupTabs[panelTabs[a]].push(
-							<Tabs.TabPane
-								tab={translator.translate('exchange.my_history')}
-								key="my_history"
-							>
+							<Tabs.TabPane tab="My Trade" key="my_trade">
 								{myMarketHistory}
 							</Tabs.TabPane>
 						);
@@ -2657,6 +2650,7 @@ class Exchange extends React.Component {
 						borderRadius: '5px',
 						display: 'flex',
 						flexDirection: 'column',
+						minHeight: 400,
 					}}
 				>
 					<Tabs
@@ -2669,31 +2663,6 @@ class Exchange extends React.Component {
 					>
 						{groupTabs[2]}
 					</Tabs>
-					<div
-						style={{
-							width: '96%',
-							marginLeft: '2%',
-							height: '60px',
-							background: '#FF2929',
-							borderRadius: '5px',
-							display: 'flex',
-							alignItems: 'center',
-							justifyContent: 'center',
-							marginTop: '24px',
-							marginBottom: '38px',
-						}}
-					>
-						<div
-							style={{
-								textTransform: 'uppercase',
-								fontWeight: 600,
-								fontSize: '18px',
-								color: 'white',
-							}}
-						>
-							Cancel All Orders
-						</div>
-					</div>
 				</div>
 			) : null;
 
