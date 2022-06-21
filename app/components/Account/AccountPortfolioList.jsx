@@ -1060,7 +1060,7 @@ class AccountPortfolioList extends React.Component {
 		return (
 			<div className="portfolio-table-wrapper">
 				{this.getTotalChange()}
-				{console.log('balanceList: ' + this.props.balanceList)}
+				{console.log('balanceList: ' + window.balanceList)}
 				<CustomTable
 					className="table dashboard-table table-hover"
 					rows={this._renderBalances(

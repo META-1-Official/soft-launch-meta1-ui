@@ -48,7 +48,8 @@ class AccountOverview extends React.Component {
 			],
 			hideFishingProposals: true,
 			currentDisplay: 'portfolio',
-			hideZeroBalance: false,
+			balanceList: Immutable.List(),
+			hideZeroBalance: true,
 			totalChange: 0,
 			isPositive: false,
 			isZero: true,
@@ -145,16 +146,31 @@ class AccountOverview extends React.Component {
 
 	handleHideZeroBalance = () => {
 		let newHideZeroBalance = !this.state.hideZeroBalance;
-		this.setState({hideZeroBalance: newHideZeroBalance});
+
+		//DEBUG -> hideZeroBalance is not updating, why?
+		//console.log("new: " + newHideZeroBalance);
+		//console.log("state 1: " + this.state.hideZeroBalance);
+
+		this.setState({
+			hideZeroBalance: newHideZeroBalance,
+		});
 		SettingsActions.changeSetting({
 			setting: 'hideZeroBalance',
 			value: newHideZeroBalance,
 		});
+
+		//console.log("new 2: " + newHideZeroBalance);
+		//console.log("state 2: " + this.state.hideZeroBalance);
+
+		// Note: state updating correctly now
+
 		if (newHideZeroBalance) {
-			// hide zero balances
+			// true -> hide zero balances
+			this.props.balanceList = window.balanceList;
 		}
 		if (!newHideZeroBalance) {
-			// show all assets
+			// false -> show all assets
+			this.props.balanceList = window.includedList;
 		}
 		//DEBUG console.log("state:" + this.state.hideZeroBalance);
 	};
@@ -209,7 +225,8 @@ class AccountOverview extends React.Component {
 		let includedPortfolioList, hiddenPortfolioList;
 		let account_balances = account.get('balances');
 		let includedBalancesList = Immutable.List(),
-			hiddenBalancesList = Immutable.List();
+			hiddenBalancesList = Immutable.List(),
+			completeAssetList = Immutable.List();
 		call_orders.forEach((callID) => {
 			let position = ChainStore.getObject(callID);
 			if (position) {
@@ -267,11 +284,21 @@ class AccountOverview extends React.Component {
 					}
 				}
 
+				completeAssetList = completeAssetList.push(a);
+
 				if (hiddenAssets.includes(asset_type) && assetName.includes(filter)) {
 					hiddenBalancesList = hiddenBalancesList.push(a);
 				} else if (assetName.includes(filter)) {
 					includedBalancesList = includedBalancesList.push(a);
 				}
+
+				window.balanceList = completeAssetList;
+				window.includedList = includedBalancesList;
+
+				//DEBUG
+				//console.log("hiddenList: " + hiddenBalancesList);		// blank
+				//console.log("includedList: " + includedBalancesList); // list being shown
+				console.log('completeList: ' + completeAssetList); // same list
 			});
 		}
 
@@ -588,10 +615,9 @@ class AccountOverview extends React.Component {
 									})}
 								>
 									<Tooltip
-										onClick={() =>
-											console.log(
-												'Hide zero balances: ' + this.state.hideZeroBalance
-											)
+										onClick={
+											() => this.handleHideZeroBalance()
+											//console.log('Hide zero balances: ' + this.state.hideZeroBalance)
 										}
 										key="tooltip.hide_zero_balance"
 										title={counterpart.translate('wallet.hide_zero_balance')}
@@ -610,7 +636,7 @@ class AccountOverview extends React.Component {
 												content="wallet.hide_zero_balance"
 											/>
 											<div
-												onClick={this.handleHideZeroBalance.bind(this)}
+												//onClick={this.handleHideZeroBalance.bind(this)}
 												className="hide-zero-balance"
 												css={(theme) => ({
 													display: 'inline-block!important',
