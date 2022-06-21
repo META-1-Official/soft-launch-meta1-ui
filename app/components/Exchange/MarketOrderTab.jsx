@@ -103,6 +103,51 @@ const MarketOrderForm = (props) => {
 		props.onExpirationTypeChange(e);
 	};
 
+	const prepareOrders = (amount) => {
+		const orders = [];
+
+		const price = props.price;
+		const isBid = props.type === 'bid';
+
+		let expirationTime = null;
+		if (props.expirationType === 'SPECIFIC') {
+			expirationTime = props.expirations[props.expirationType].get(props.type);
+		} else {
+			expirationTime = props.expirations[props.expirationType].get(props.type);
+		}
+
+		const sellAsset = !isBid ? props.quoteAsset : props.baseAsset;
+		const buyAsset = isBid ? props.quoteAsset : props.baseAsset;
+
+		orders.push({
+			for_sale: new Asset({
+				asset_id: sellAsset.get('id'),
+				precision: sellAsset.get('precision'),
+				amount: amount * price,
+			}),
+			to_receive: new Asset({
+				asset_id: buyAsset.get('id'),
+				precision: buyAsset.get('precision'),
+				amount: amount * price,
+			}),
+			expirationTime: expirationTime,
+		});
+
+		props
+			.createMarketOrder(orders, ChainStore.getAsset('META1').get('id'))
+			.then((res) => {
+				setAmount(0.0);
+				form.setFieldsValue({
+					amount: 0,
+				});
+			})
+			.catch((err) => {});
+	};
+
+	const handleSubmit = (amount) => {
+		prepareOrders(Number(amount));
+	};
+
 	const onExpirationSelectClick = (e) => {
 		if (e.target.value === 'SPECIFIC') {
 			if (firstClick) {
@@ -278,7 +323,7 @@ const MarketOrderForm = (props) => {
 							: sellButton
 					}
 					disabled={!isFormValid()}
-					onClick={() => props.handleSubmit(amount)}
+					onClick={() => handleSubmit(amount)}
 					type="primary"
 				>
 					<div
@@ -302,43 +347,6 @@ const MarketOrderForm = (props) => {
 };
 
 const MarketOrderTab = (props) => {
-	const prepareOrders = (amount) => {
-		const orders = [];
-
-		const price = props.price;
-		const isBid = props.type === 'bid';
-
-		let expirationTime = null;
-		if (props.expirationType === 'SPECIFIC') {
-			expirationTime = props.expirations[props.expirationType].get(props.type);
-		} else {
-			expirationTime = props.expirations[props.expirationType].get(props.type);
-		}
-
-		const sellAsset = !isBid ? props.quoteAsset : props.baseAsset;
-		const buyAsset = isBid ? props.quoteAsset : props.baseAsset;
-
-		orders.push({
-			for_sale: new Asset({
-				asset_id: sellAsset.get('id'),
-				precision: sellAsset.get('precision'),
-				amount: amount * price,
-			}),
-			to_receive: new Asset({
-				asset_id: buyAsset.get('id'),
-				precision: buyAsset.get('precision'),
-				amount: amount * price,
-			}),
-			expirationTime: expirationTime,
-		});
-
-		props.createMarketOrder(orders, ChainStore.getAsset('META1').get('id'));
-	};
-
-	const handleSubmit = (amount) => {
-		prepareOrders(Number(amount));
-	};
-
 	const handleCancel = () => {
 		props.hideModal();
 	};
@@ -371,7 +379,6 @@ const MarketOrderTab = (props) => {
 			{...props}
 			baseAssetBalance={baseAssetBalance}
 			quoteAssetBalance={quoteAssetBalance}
-			handleSubmit={handleSubmit}
 		/>
 	);
 };
