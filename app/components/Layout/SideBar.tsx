@@ -134,8 +134,6 @@ const SideBar = ({collapsed, currentLink, toggle}: ISideBar) => {
 			css={{
 				'&& .ant-menu': {
 					backgroundColor: 'black',
-					height: 'calc(100% - 38px)',
-					marginTop: '3rem',
 				},
 			}}
 			breakpoint="sm"

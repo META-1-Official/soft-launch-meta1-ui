@@ -123,24 +123,6 @@ class AccountTrade extends React.Component {
 							let bars = MarketsStore.getState().priceData;
 							let quoteAsset1 = MarketsStore.getState().quoteAsset;
 							let baseAsset1 = MarketsStore.getState().baseAsset;
-							// console.log(
-							// 	'@1103 - _getMarketInfo #1',
-							// 	from,
-							// 	to,
-							// 	quoteAsset1.get('id'),
-							// 	baseAsset1.get('id'),
-							// 	bars.length,
-							// 	bars
-							// );
-							// bars = bars.filter((a) => a.time >= from && a.time <= to);
-							// console.log(
-							// 	'@1104 - _getMarketInfo #2',
-							// 	resolution,
-							// 	newBucketSize,
-							// 	quoteAsset.get('id'),
-							// 	baseAsset.get('id'),
-							// 	bars
-							// );
 
 							const marketBarIndex = marketBars.findIndex(
 								(marketBar) =>
@@ -209,6 +191,8 @@ class AccountTrade extends React.Component {
 			return;
 		} else if (newBaseAssetSymbol === 'star') {
 			watchPairs.map((watchPair) => {
+				if (!watchPair) return;
+
 				const quoteAssetSymbol = watchPair.split('/')[0];
 				const baseAssetSymbol = watchPair.split('/')[1];
 				let quoteAssetId, baseAssetId;
@@ -235,7 +219,10 @@ class AccountTrade extends React.Component {
 			});
 		}
 
-		this._getMarketInfo(assetPairs, selectedResolution);
+		if (assetPairs.length > 0) {
+			this._getMarketInfo(assetPairs, selectedResolution);
+		}
+
 		this.setState({baseAssetSymbol: newBaseAssetSymbol});
 	}
 
@@ -280,11 +267,6 @@ class AccountTrade extends React.Component {
 					return (
 						<div className="header-text">
 							<Translate component="span" content="account.votes.name" />
-							{!order ? null : order === 'ascend' ? (
-								<ArrowUpOutlined />
-							) : (
-								<ArrowDownOutlined />
-							)}
 						</div>
 					);
 				},
@@ -331,18 +313,25 @@ class AccountTrade extends React.Component {
 					return (
 						<div className="header-text">
 							<Translate component="span" content="exchange.price" />
-							{!order ? null : order === 'ascend' ? (
-								<ArrowUpOutlined />
-							) : (
-								<ArrowDownOutlined />
-							)}
 						</div>
 					);
 				},
 				dataIndex: 'price',
 				key: 'price',
 				sorter: (a, b) => {
-					return a.price > b.price ? 1 : a.price < b.price ? -1 : 0;
+					let aPrice = a.price;
+					let bPrice = b.price;
+					if (aPrice.includes(',')) {
+						aPrice = aPrice.replaceAll(',', '');
+					}
+					if (bPrice.includes(',')) {
+						bPrice = bPrice.replaceAll(',', '');
+					}
+					return Number(aPrice) > Number(bPrice)
+						? 1
+						: Number(aPrice) < Number(bPrice)
+						? -1
+						: 0;
 				},
 				render: (price) => {
 					return (
@@ -368,20 +357,15 @@ class AccountTrade extends React.Component {
 								{selectedResolution}{' '}
 								<Translate component="span" content="account.change" />
 							</span>
-							{!order ? null : order === 'ascend' ? (
-								<ArrowUpOutlined />
-							) : (
-								<ArrowDownOutlined />
-							)}
 						</div>
 					);
 				},
 				dataIndex: 'rateChange',
 				key: 'rateChange',
 				sorter: (a, b) => {
-					return a.rateChange > b.rateChange
+					return Number(a.rateChange) > Number(b.rateChange)
 						? 1
-						: a.rateChange < b.rateChange
+						: Number(a.rateChange) < Number(b.rateChange)
 						? -1
 						: 0;
 				},
@@ -466,11 +450,6 @@ class AccountTrade extends React.Component {
 								{selectedResolution}{' '}
 								<Translate component="span" content="account.low" />
 							</span>
-							{!order ? null : order === 'ascend' ? (
-								<ArrowUpOutlined />
-							) : (
-								<ArrowDownOutlined />
-							)}
 						</div>
 					);
 				},
@@ -504,20 +483,30 @@ class AccountTrade extends React.Component {
 					return (
 						<div className="header-text">
 							<Translate component="span" content="account.market_cap" />
-							{!order ? null : order === 'ascend' ? (
-								<ArrowUpOutlined />
-							) : (
-								<ArrowDownOutlined />
-							)}
 						</div>
 					);
 				},
 				dataIndex: 'marketCap',
 				key: 'marketCap',
 				sorter: (a, b) => {
-					return a.marketCap > b.marketCap
+					let aMarketCap = a.marketCap;
+					let bMarketCap = b.marketCap;
+
+					if (aMarketCap.includes(',')) {
+						aMarketCap = aMarketCap.replaceAll(',', '');
+					}
+					if (aMarketCap.includes('M')) {
+						aMarketCap = aMarketCap.replaceAll('M', '');
+					}
+					if (bMarketCap.includes(',')) {
+						bMarketCap = bMarketCap.replaceAll(',', '');
+					}
+					if (bMarketCap.includes('M')) {
+						bMarketCap = bMarketCap.replaceAll('M', '');
+					}
+					return Number(aMarketCap) > Number(bMarketCap)
 						? 1
-						: a.marketCap < b.marketCap
+						: Number(aMarketCap) < Number(bMarketCap)
 						? -1
 						: 0;
 				},

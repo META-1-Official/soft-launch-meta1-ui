@@ -271,7 +271,7 @@ class AccountSelector extends React.Component {
 		let {account, accountName, error, typeahead} = this.props;
 
 		let inputType = accountName ? this.getInputType(accountName) : null;
-
+		//DEBUG console.log("props:" + JSON.stringify(this.props.account));
 		if (!typeahead) {
 			if (!account && accountName && inputType !== 'pubkey') {
 				error = counterpart.translate('account.errors.unknown');

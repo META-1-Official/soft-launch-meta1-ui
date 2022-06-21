@@ -876,10 +876,6 @@ div.account-trade {
 						.header-text .anticon {
 							float: right;
 						}
-
-						.ant-table-column-sorter.ant-table-column-sorter-full {
-							display: none;
-						}
 					}
 
 					span {
@@ -1728,6 +1724,10 @@ div.messages {
 								display: flex;
 								align-items: center;
 								color: rgba(255, 255, 255, 0.6);
+							}
+
+							input {
+								height: 50px !important;
 							}
 						}
 					}

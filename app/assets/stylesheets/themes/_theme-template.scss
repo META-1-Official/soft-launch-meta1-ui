@@ -1655,6 +1655,10 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 	.orderHistoryBid {
 		color: $bid-color;
 		background: #091613;
+
+		> td {
+			padding-left: 10px;
+		}
 	}
 	.orderHistoryAsk {
 		> span.price-integer,
@@ -1672,6 +1676,10 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 	.orderHistoryAsk {
 		color: $ask-color;
 		background: #1d0d0f;
+
+		> td {
+			padding-left: 10px;
+		}
 	}
 	.orderHistoryCall {
 		> span.price-integer,
@@ -2646,12 +2654,13 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 		}
 
 		span.checkbox {
-			border-color: $button-bg-color;
-			background-color: transparentize($button-bg-color, 0.9);
+			border-color: gray;
+			background-color: #ffc000;
 		}
+
 		span.checkbox-active {
-			border-color: $button-bg-color;
-			background-color: $button-bg-color;
+			border-color: gray;
+			background-color: #ffc000;
 
 			svg path {
 				fill: $bg-color;
@@ -2941,12 +2950,35 @@ body.darkTheme .walletbtn {
 	}
 }
 
-.onramper-wallet {
-	width: 500px;
-	margin: 0 auto;
-	padding-top: 80px;
+.onramper-wrapper {
+	background: #0a0b0d;
+	height: 100%;
 
-	iframe {
-		width: 100%;
+	.onramper-wallet {
+		width: 500px;
+		margin: 0 auto;
+		margin-top: 60px;
+		border-radius: 4px;
+		border: 1px solid rgba(28, 31, 39, 0.4);
+
+		iframe {
+			width: 100%;
+		}
+	}
+}
+
+.back-btn {
+	display: flex;
+	margin-top: 30px;
+	margin-left: 30px;
+	cursor: pointer;
+	align-items: center;
+
+	&:hover {
+		color: white;
+	}
+
+	> div {
+		margin-left: 8px;
 	}
 }

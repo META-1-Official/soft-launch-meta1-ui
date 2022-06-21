@@ -49,7 +49,8 @@ function adjust_links(str, newRoute) {
 			page = '/' + page;
 		}
 
-		return `<div style="
+		return endsWith(text, '.md')
+			? `<div style="
 					padding: 6px 0px 6px 2rem; cursor: pointer; display: inline-block; width: 100%;
 					${page === newRoute ? 'border-right: 2px solid yellow;' : ''}
 				"
@@ -62,7 +63,10 @@ function adjust_links(str, newRoute) {
 							? 'color: #ffc000 !important; cursor: pointer;'
 							: 'cursor: pointer;'
 					}"
-					href="${__HASH_HISTORY__ ? '#' : ''}${page}"`;
+					href="${__HASH_HISTORY__ ? '#' : ''}${page}"`
+			: `<a href="${
+					__HASH_HISTORY__ ? '#' : ''
+			  }${page}" onclick="_onClickLink(event)"`;
 	});
 }
 
@@ -131,9 +135,12 @@ class HelpContent extends React.PureComponent {
 
 		if (path.length === 0) return false;
 
-		const newRoute = '/' + path.join('/');
-		this.updateMenu(newRoute);
+		var newRoute = '/' + path.join('/');
 
+		if (pathname.includes('#/help//explorer/fees')) newRoute = '/explorer/fees';
+		if (pathname.includes('#/help//settings')) newRoute = '/settings';
+
+		this.updateMenu(newRoute);
 		this.props.history.push(newRoute);
 		return false;
 	}
@@ -241,6 +248,7 @@ class HelpContent extends React.PureComponent {
 								},
 								li: {
 									paddingLeft: '12px',
+									paddingTop: '10px',
 									color: theme.colors.themeOpositeColor,
 									':before': {
 										content: `'\\2022'`,
@@ -248,6 +256,12 @@ class HelpContent extends React.PureComponent {
 										marginLeft: '-2rem',
 										marginRight: '1rem',
 										fontSize: '1rem',
+									},
+									p: {
+										display: 'inline',
+										strong: {
+											color: theme.colors.primaryColor,
+										},
 									},
 								},
 								a: {
@@ -302,9 +316,7 @@ class HelpContent extends React.PureComponent {
 									fontSize: '15px',
 								},
 						  }
-						: {
-								height: '100%',
-						  }
+						: {height: '100%'}
 				}
 				dangerouslySetInnerHTML={{
 					__html: this.setVars(value, this.props.hide_issuer),

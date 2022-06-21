@@ -16,6 +16,7 @@ class Help extends React.Component {
 				<div
 					css={() => ({
 						height: '100%',
+						overflowY: 'hidden !important',
 					})}
 				>
 					<Row

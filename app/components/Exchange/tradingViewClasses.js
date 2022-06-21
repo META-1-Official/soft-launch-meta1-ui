@@ -3,6 +3,7 @@ import {FetchChain} from 'meta1js';
 import moment from 'moment-timezone';
 import MarketsActions from 'actions/MarketsActions';
 import utils from 'common/utils';
+import {ConsoleSqlOutlined} from '@ant-design/icons';
 
 class SymbolInfo {
 	constructor(options) {
@@ -165,25 +166,7 @@ class DataFeed {
 	}
 
 	searchSymbols(userInput, exchange, symbolType, onResultReadyCallback) {
-		console.log('searchSymbols', userInput, exchange, symbolType);
-
 		onResultReadyCallback([]);
-
-		/*
-        [
-            {
-                "symbol": "<short symbol name>",
-                "full_name": "<full symbol name>", // e.g. BTCE:BTCUSD
-                "description": "<symbol description>",
-                "exchange": "<symbol exchange name>",
-                "ticker": "<symbol ticker name, optional>",
-                "type": "stock" // or "futures" or "bitcoin" or "forex" or "index"
-            },
-            {
-                //    .....
-            }
-        ]
-        */
 	}
 
 	resolveSymbol(symbolName, onSymbolResolvedCallback, onResolveErrorCallback) {
@@ -230,7 +213,6 @@ class DataFeed {
 				symbolInfo.quoteAsset.get('id'),
 				symbolInfo.baseAsset.get('id')
 			).then(() => {
-				console.log('@1301 - ', symbolInfo.baseAsset);
 				MarketsActions.subscribeMarket(
 					symbolInfo.baseAsset,
 					symbolInfo.quoteAsset,
@@ -248,16 +230,6 @@ class DataFeed {
 				});
 			});
 		}
-
-		// console.log(
-		//     "getBars",
-		//     symbolInfo.ticker,
-		//     resolution,
-		//     "firstDataRequest",
-		//     firstDataRequest,
-		//     "bars",
-		//     bars
-		// );
 		this.interval = resolution;
 		if (!bars.length) return onHistoryCallback(bars, {noData: true});
 

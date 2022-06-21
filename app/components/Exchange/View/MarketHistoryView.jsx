@@ -40,25 +40,26 @@ class MarketHistoryView extends React.Component {
 		const allHistory = (
 			<>
 				<div className="grid-block vertical shrink left-orderbook-header market-right-padding-only">
-					<SectionHeader title="Trading History" />
+					<SectionHeader title="Trade History" />
 					<table className="table table-no-padding order-table text-left fixed-table market-right-padding">
 						<thead>
 							<tr>
-								<th style={{textAlign: 'right'}}>
+								<th style={{textAlign: 'left'}}>
+									<Translate
+										className="header-sub-title"
+										content="explorer.block.time"
+									/>
+								</th>
+								<th style={{textAlign: 'left'}}>
 									<Translate
 										className="header-sub-title"
 										content="exchange.price"
 									/>
 								</th>
-								<th style={{textAlign: 'right'}}>
-									<span className="header-sub-title">
-										<AssetName dataPlace="top" name={quoteSymbol} />
-									</span>
-								</th>
-								<th style={{textAlign: 'right'}}>
+								<th style={{textAlign: 'left'}} className="table-volume-class">
 									<Translate
 										className="header-sub-title"
-										content="explorer.block.date"
+										content="exchange.volume"
 									/>
 								</th>
 							</tr>
@@ -143,7 +144,10 @@ class MarketHistoryView extends React.Component {
 		);
 
 		return (
-			<div className={cnames(className)} style={{height: '100%'}}>
+			<div
+				className={cnames(className)}
+				style={{height: '100%', display: 'flex', flexDirection: 'column'}}
+			>
 				<div className={innerClass} style={innerStyle}>
 					{noHeader ? null : (
 						<div style={headerStyle} className="exchange-content-header">

@@ -409,9 +409,13 @@ class WalletActions {
 				let p = Promise.all([unlock, account_lookup])
 					.then((results) => {
 						let account = results[1];
+
 						//DEBUG console.log('... account',account)
-						if (account == void 0)
-							return Promise.reject('Unknown account ' + account_name_or_id);
+
+						if (account == void 0) {
+							//console.log('here:' + account_name_or_id);
+							return Promise.reject('Unknown account' + account_name_or_id);
+						}
 
 						let balance_claims = [];
 						let signer_pubkeys = {};

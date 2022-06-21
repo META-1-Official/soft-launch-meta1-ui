@@ -8,14 +8,14 @@ import QRCode from 'qrcode.react';
 
 const DepositModalContent = (props) => {
 	const [depositAddress, setDepositAddress] = useState(null);
-	const [assetType, setAssetType] = useState('btc');
+	const [assetType, setAssetType] = useState(props.assetType || 'btc');
 	const assets = ['btc', 'ltc', 'eth', 'usdt'];
 	const minDepositValues = {btc: 0.001, ltc: 0.01, eth: 0.01, usdt: 1};
 
-	const api_gateway_url = `https://gateway.dev.meta-exchange.vision/api-gateways/${
+	const api_gateway_url = `${process.env.GATEWAY_URL}api-gateways/${
 		assetType === 'usdt' ? 'eth' : assetType
 	}`;
-	const wallet_init_url = `https://gateway.dev.meta-exchange.vision/api/wallet/init/${
+	const wallet_init_url = `${process.env.GATEWAY_URL}api/wallet/init/${
 		assetType === 'usdt' ? 'eth' : assetType
 	}`;
 
@@ -30,6 +30,10 @@ const DepositModalContent = (props) => {
 	useEffect(() => {
 		getDepositAddress();
 	}, [assetType]);
+
+	useEffect(() => {
+		if (props.assetType) setAssetType(props.assetType);
+	}, [props.assetType]);
 
 	const onClose = () => {
 		props.hideModal();
@@ -112,7 +116,12 @@ const DepositModalContent = (props) => {
 	};
 
 	return (
-		<Tabs defaultActiveKey="1" animated={false} onChange={onChange}>
+		<Tabs
+			defaultActiveKey={assetType}
+			activeKey={assetType}
+			animated={false}
+			onChange={onChange}
+		>
 			{assets.map((asset) => {
 				return (
 					<Tabs.TabPane tab={asset.toUpperCase()} key={asset}>
@@ -153,9 +162,9 @@ const DepositModal = (props) => {
 			noCloseBtn
 		>
 			<DepositModalContent
+				{...props}
 				account={props.account}
 				hideModal={props.hideModalMeta}
-				{...props}
 				open={props.visibleMeta}
 			/>
 		</Modal>

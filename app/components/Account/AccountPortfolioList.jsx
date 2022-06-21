@@ -31,6 +31,7 @@ import TranslateWithLinks from '../Utility/TranslateWithLinks';
 import StyledButton from 'components/Button/Button';
 import {FaQuestionCircle} from 'react-icons/fa';
 import {getAssetIcon, getAssetFullName} from '../utils/asset';
+import DepositModal from '../Modal/DepositModal';
 
 class AccountPortfolioList extends React.Component {
 	constructor(props) {
@@ -333,7 +334,7 @@ class AccountPortfolioList extends React.Component {
 
 	_showDepositModal(asset, e) {
 		e.preventDefault();
-		this.setState({depositAsset: asset}, () => {
+		this.setState({depositAsset: asset.toLowerCase()}, () => {
 			this.showDepositModal();
 		});
 	}
@@ -372,11 +373,11 @@ class AccountPortfolioList extends React.Component {
 	toggleSortOrder(pagination, filters, sorter) {
 		SettingsActions.changeViewSetting({
 			portfolioSortDirection: sorter.order,
-			portfolioSort: sorter.columnKey,
+			portfolioSort: sorter.field,
 		});
 		this.setState({
 			portfolioSortDirection: sorter.order,
-			portfolioSort: sorter.columnKey,
+			portfolioSort: sorter.field,
 		});
 	}
 
@@ -394,9 +395,8 @@ class AccountPortfolioList extends React.Component {
 				dataIndex: 'asset',
 				align: 'left',
 				customizable: false,
-				// sorter: this.sortFunctions.alphabetic,
-				// sortOrder: portfolioSort === 'asset' && portfolioSortDirection,
-				sorter: (a, b) => a.key.localeCompare(b.key),
+				sorter: this.sortFunctions.alphabetic,
+				sortOrder: portfolioSort === 'asset' && portfolioSortDirection,
 				render: (item) => {
 					return <span style={{whiteSpace: 'nowrap'}}>{item}</span>;
 				},
@@ -406,9 +406,8 @@ class AccountPortfolioList extends React.Component {
 				dataIndex: 'qty',
 				align: 'right',
 				customizable: false,
-				// sorter: this.sortFunctions.qty,
-				// sortOrder: portfolioSort === 'qty' && portfolioSortDirection,
-				sorter: (a, b) => (a.qty > b.qty ? 1 : a.qty < b.qty ? -1 : 0),
+				sorter: this.sortFunctions.qty,
+				sortOrder: portfolioSort === 'qty' && portfolioSortDirection,
 				render: (item) => {
 					return <span style={{whiteSpace: 'nowrap'}}>{item}</span>;
 				},
@@ -763,7 +762,7 @@ class AccountPortfolioList extends React.Component {
 				) : null,
 				deposit:
 					this.props.isMyAccount &&
-					['BTC', 'LTC', 'ETH'].indexOf(asset.get('symbol')) > -1 ? (
+					['BTC', 'LTC', 'ETH', 'USDT'].indexOf(asset.get('symbol')) > -1 ? (
 						<StyledButton
 							buttonType="green"
 							onClick={this._showDepositModal.bind(this, asset.get('symbol'))}
@@ -1057,6 +1056,8 @@ class AccountPortfolioList extends React.Component {
 	};
 
 	render() {
+		const {currentAccount} = this.props;
+
 		return (
 			<div className="portfolio-table-wrapper">
 				{this.getTotalChange()}
@@ -1096,6 +1097,16 @@ class AccountPortfolioList extends React.Component {
 							}}
 						/>
 					)}
+
+					<DepositModal
+						visibleMeta={this.state.isDepositModalVisible}
+						hideModalMeta={this.hideDepositModal}
+						showModalMeta={this.showDepositModal}
+						ref="deposit_modal_new11"
+						modalId="deposit_modal_new11"
+						account={currentAccount}
+						assetType={this.state.depositAsset}
+					/>
 				</CustomTable>
 			</div>
 		);

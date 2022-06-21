@@ -25,6 +25,7 @@ import marketUtils from 'common/market_utils';
 import utils from 'common/utils';
 import ChartjsAreaChart from '../Graph/Graph';
 import ls from '../../lib/common/localStorage';
+import history from 'lib/common/history';
 
 const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
@@ -58,11 +59,11 @@ class AssetsPairTabs extends React.Component {
 	componentWillReceiveProps(nextProps) {
 		this._checkAssets(nextProps.assets);
 
-		if (nextProps.assets.size > 0) {
-			setTimeout(() => {
-				this.onClickAsset(this.state.baseAssetSymbol);
-			}, 500);
-		}
+		// if (nextProps.assets.size > 0) {
+		// 	setTimeout(() => {
+		// 		this.onClickAsset(this.state.baseAssetSymbol);
+		// 	}, 500);
+		// }
 	}
 
 	componentWillMount() {
@@ -99,7 +100,13 @@ class AssetsPairTabs extends React.Component {
 		if (!isFetchingMarketInfo && this.props.assets.size > 0) {
 			this.setState({isFetchingMarketInfo: true});
 
-			let newBucketSize = 300;
+			let newBucketSize = 15;
+			if (resolution === '5m') newBucketSize = 15;
+			else if (resolution === '30m') newBucketSize = 60;
+			else if (resolution === '1h') newBucketSize = 300;
+			else if (resolution === '24h') newBucketSize = 300;
+			else if (resolution === '3d') newBucketSize = 3600;
+			else if (resolution === '1w') newBucketSize = 3600;
 
 			MarketsActions.changeBucketSize(newBucketSize);
 			const from = moment()
@@ -112,13 +119,54 @@ class AssetsPairTabs extends React.Component {
 				const baseAsset = assetPair.baseAsset;
 
 				const marketName = marketUtils.getMarketName(baseAsset, quoteAsset);
+				MarketsActions.unSubscribeMarket(
+					quoteAsset.get('id'),
+					baseAsset.get('id')
+				)
+					.then(() => {
+						MarketsActions.subscribeMarket(
+							baseAsset,
+							quoteAsset,
+							newBucketSize
+						).then(() => {
+							let bars = MarketsStore.getState().priceData;
+							let quoteAsset1 = MarketsStore.getState().quoteAsset;
+							let baseAsset1 = MarketsStore.getState().baseAsset;
 
-				this.statsInterval = MarketsActions.getMarketStatsInterval(
-					newBucketSize,
-					baseAsset,
-					quoteAsset,
-					true
-				);
+							const marketBarIndex = marketBars.findIndex(
+								(marketBar) =>
+									marketBar['quoteAssetId'] === quoteAsset.get('id') &&
+									marketBar['baseAssetId'] === baseAsset.get('id')
+							);
+							const newMarketBar = {
+								quoteAssetId: quoteAsset.get('id'),
+								baseAssetId: baseAsset.get('id'),
+								bars: bars.slice(-36),
+							};
+
+							if (marketBarIndex > -1) {
+								marketBars[marketBarIndex] = newMarketBar;
+							} else {
+								marketBars.push(newMarketBar);
+							}
+
+							if (
+								index === assetPairs.length - 1 ||
+								index === assetPairs.length - 2
+							) {
+								const that = this;
+								setTimeout(() => {
+									that.setState({isFetchingMarketInfo: false, marketBars});
+								}, 500);
+							} else {
+								this.setState({marketBars});
+							}
+						});
+					})
+					.catch((e) => {
+						console.log('Error: Failed to subscribe market, ', e);
+						this.setState({isFetchingMarketInfo: false, marketBars});
+					});
 			});
 		}
 	}
@@ -144,7 +192,10 @@ class AssetsPairTabs extends React.Component {
 		if (isFetchingMarketInfo) {
 			return;
 		} else if (newBaseAssetSymbol === 'star') {
+			console.log('@1 - ', watchPairs);
 			watchPairs.map((watchPair) => {
+				if (!watchPair) return;
+
 				const quoteAssetSymbol = watchPair.split('/')[0];
 				const baseAssetSymbol = watchPair.split('/')[1];
 				let quoteAssetId, baseAssetId;
@@ -171,7 +222,10 @@ class AssetsPairTabs extends React.Component {
 			});
 		}
 
-		this._getMarketInfo(assetPairs, selectedResolution);
+		if (assetPairs.length > 0) {
+			this._getMarketInfo(assetPairs, selectedResolution);
+		}
+
 		this.setState({baseAssetSymbol: newBaseAssetSymbol});
 	}
 
@@ -189,7 +243,11 @@ class AssetsPairTabs extends React.Component {
 				),
 				key: 'name',
 				sorter: (a, b) => {
-					return a.name > b.name ? 1 : a.name < b.name ? -1 : 0;
+					return a.quoteAssetSymbol > b.quoteAssetSymbol
+						? 1
+						: a.quoteAssetSymbol < b.quoteAssetSymbol
+						? -1
+						: 0;
 				},
 				render: (rowData) => {
 					const quoteAssetSymbol = rowData.quoteAssetSymbol;
@@ -211,7 +269,12 @@ class AssetsPairTabs extends React.Component {
 							<div style={{marginRight: '5px', width: '30px'}}>
 								<img className="asset-img" src={icon} alt="Asset logo" />
 							</div>
-							<div>
+							<div
+								style={{cursor: 'pointer'}}
+								onClick={() =>
+									history.push(`/market/${quoteAssetSymbol}_${baseAssetSymbol}`)
+								}
+							>
 								<span
 									style={{
 										fontSize: '14px',
@@ -242,9 +305,9 @@ class AssetsPairTabs extends React.Component {
 				dataIndex: 'rateChange',
 				key: 'rateChange',
 				sorter: (a, b) => {
-					return a.rateChange > b.rateChange
+					return Number(a.rateChange) > Number(b.rateChange)
 						? 1
-						: a.rateChange < b.rateChange
+						: Number(a.rateChange) < Number(b.rateChange)
 						? -1
 						: 0;
 				},
@@ -278,7 +341,7 @@ class AssetsPairTabs extends React.Component {
 									<div
 										className={className}
 										style={{fontSize: '14px'}}
-									>{`-${rateChange} %`}</div>
+									>{`${rateChange} %`}</div>
 								</>
 							)}
 							{className === '' && (
@@ -308,7 +371,19 @@ class AssetsPairTabs extends React.Component {
 				dataIndex: 'price',
 				key: 'price',
 				sorter: (a, b) => {
-					return a.price > b.price ? 1 : a.price < b.price ? -1 : 0;
+					let aPrice = a.price;
+					let bPrice = b.price;
+					if (aPrice.includes(',')) {
+						aPrice = aPrice.replaceAll(',', '');
+					}
+					if (bPrice.includes(',')) {
+						bPrice = bPrice.replaceAll(',', '');
+					}
+					return Number(aPrice) > Number(bPrice)
+						? 1
+						: Number(aPrice) < Number(bPrice)
+						? -1
+						: 0;
 				},
 				render: (price) => {
 					return (

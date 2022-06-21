@@ -24,6 +24,13 @@ app/test/MarketClasses.js
 !charting_library/package-charting-library.js
 .vs_code
 /.vs
-.env.*
+
+# Enviroments
+.env
+.env.production
+.env.development
+.env.local
+
 build
 yarn.lock
+/build

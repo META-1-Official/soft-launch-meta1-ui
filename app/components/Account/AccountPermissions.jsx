@@ -252,7 +252,7 @@ class AccountPermissions extends React.Component {
 	}
 
 	onRemoveItem(collection, item_value, listSuffix) {
-		console.log('onRemoveItem', collection, item_value, listSuffix);
+		//console.log('onRemoveItem', collection, item_value, listSuffix);
 		let state = {};
 		let list = collection + listSuffix;
 
@@ -372,9 +372,13 @@ class AccountPermissions extends React.Component {
 					</Title>
 					<div className="action-buttons">
 						<div
-							data-tip={counterpart.translate(
-								'account.perm.create_paperwallet_private_hint'
-							)}
+							data-tip={
+								!this.props.account_name
+									? counterpart.translate(
+											'account.perm.create_paperwallet_private_hint'
+									  )
+									: ''
+							}
 							onClick={() => {
 								this.onPdfCreate();
 							}}

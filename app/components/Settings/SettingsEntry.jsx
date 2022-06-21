@@ -22,6 +22,17 @@ export default class SettingsEntry extends React.Component {
 		this.handleNotificationChange = this.handleNotificationChange.bind(this);
 	}
 
+	componentDidUpdate(prevProps) {
+		if (
+			prevProps.settings.get(prevProps.setting) !==
+			this.props.settings.get(this.props.setting)
+		) {
+			if (this.refs.walletLockTimeoutRef) {
+				this.refs.walletLockTimeoutRef.focus();
+			}
+		}
+	}
+
 	_setMessage(key) {
 		this.setState({
 			message: counterpart.translate(key),
@@ -152,6 +163,7 @@ export default class SettingsEntry extends React.Component {
 								borderRadius: '6px',
 							},
 						})}
+						ref="walletLockTimeoutRef"
 						type="text"
 						value={selected}
 						onChange={this.props.onChange.bind(this, setting)}

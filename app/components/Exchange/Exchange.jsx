@@ -18,6 +18,7 @@ import {checkFeeStatusAsync} from 'common/trxHelper';
 import utils from 'common/utils';
 import BuySell from './BuySell';
 import ScaledOrderTab from './ScaledOrderTab';
+import MarketOrderTab from './MarketOrderTab';
 import ExchangeHeader from './ExchangeHeader';
 import {MarketOrders} from './MyOpenOrders';
 import {OrderBook} from './OrderBook';
@@ -969,6 +970,8 @@ class Exchange extends React.Component {
 							}
 						),
 					});
+				} else {
+					this._clearForms(type === 'sell' ? 'ask' : 'bid');
 				}
 			})
 			.catch((e) => {
@@ -1169,7 +1172,7 @@ class Exchange extends React.Component {
 
 		this._setPriceText(bid, true);
 		this._setPriceText(ask, false);
-		// if (bid.for_sale.)
+
 		this.setState(newState);
 	}
 
@@ -1849,12 +1852,6 @@ class Exchange extends React.Component {
 
 			baseSymbol = base.get('symbol');
 			quoteSymbol = quote.get('symbol');
-			// if(quoteSymbol === "META1" && baseSymbol === "USDT") {
-			//     var sellPrice = 11;
-			// }
-			// else if (quoteSymbol === "USDT" && baseSymbol === "META1") {
-			//     var buyPrice = 44;
-			// }
 
 			accountBalance = currentAccount.get('balances').toJS();
 
@@ -1943,30 +1940,6 @@ class Exchange extends React.Component {
 		 */
 		let actionCardIndex = 0;
 
-		const buySellTitle = (isBid) => {
-			return (
-				<div className="exchange-content-header">
-					<TranslateWithLinks
-						string="exchange.buysell_formatter"
-						noLink
-						noTip
-						keys={[
-							{
-								type: 'asset',
-								value: this.props.quoteAsset.get('symbol'),
-								arg: 'asset',
-							},
-							{
-								type: 'translate',
-								value: isBid ? 'exchange.buy' : 'exchange.sell',
-								arg: 'direction',
-							},
-						]}
-					/>
-				</div>
-			);
-		};
-
 		let buyForm = isFrozen ? null : tinyScreen &&
 		  !this.state.mobileKey.includes('buySellTab') ? null : (
 			<Tabs
@@ -1977,7 +1950,6 @@ class Exchange extends React.Component {
 					minWidth: '290px',
 				}}
 				onChange={this.handleOrderTypeTabChange.bind(this, 'bid')}
-				tabBarExtraContent={<div>{buySellTitle(true)}</div>}
 				defaultActiveKey={'limit'}
 				className={cnames(
 					'middle-content',
@@ -1990,6 +1962,32 @@ class Exchange extends React.Component {
 						  } buy-form`
 				)}
 			>
+				<Tabs.TabPane
+					style={{fontSize: '10px'}}
+					tab={counterpart.translate('exchange.market')}
+					key={'market'}
+				>
+					<MarketOrderTab
+						expirationType={expirationType['bid']}
+						expirations={this.EXPIRATIONS}
+						expirationCustomTime={expirationCustomTime['bid']}
+						onExpirationTypeChange={this._handleExpirationChange.bind(
+							this,
+							'bid'
+						)}
+						onExpirationCustomChange={this._handleCustomExpirationChange.bind(
+							this,
+							'bid'
+						)}
+						currentPrice={lowestAsk.getPrice()}
+						currentAccount={currentAccount}
+						createMarketOrder={this._createScaledOrder}
+						type={'bid'}
+						quoteAsset={quote}
+						baseAsset={base}
+						price={latest && latest.getPrice()}
+					/>
+				</Tabs.TabPane>
 				<Tabs.TabPane
 					tab={counterpart.translate('exchange.limit')}
 					key={'limit'}
@@ -2110,7 +2108,6 @@ class Exchange extends React.Component {
 				activeKey={this.props.viewSettings.get('order-form-ask') || 'limit'}
 				onChange={this.handleOrderTypeTabChange.bind(this, 'ask')}
 				animated={false}
-				tabBarExtraContent={<div>{buySellTitle(false)}</div>}
 				defaultActiveKey={'limit'}
 				style={{
 					flexGrow: 1,
@@ -2127,6 +2124,32 @@ class Exchange extends React.Component {
 						  } sell-form`
 				)}
 			>
+				<Tabs.TabPane
+					tab={counterpart.translate('exchange.market')}
+					key={'market'}
+				>
+					<MarketOrderTab
+						expirationType={expirationType['ask']}
+						expirations={this.EXPIRATIONS}
+						expirationCustomTime={expirationCustomTime['ask']}
+						onExpirationTypeChange={this._handleExpirationChange.bind(
+							this,
+							'ask'
+						)}
+						onExpirationCustomChange={this._handleCustomExpirationChange.bind(
+							this,
+							'ask'
+						)}
+						currentPrice={highestBid.getPrice()}
+						lastClickedPrice={this.state.ask && this.state.ask.priceText}
+						currentAccount={currentAccount}
+						createMarketOrder={this._createScaledOrder}
+						type="ask"
+						baseAsset={base}
+						quoteAsset={quote}
+						price={latest && latest.getPrice()}
+					/>
+				</Tabs.TabPane>
 				<Tabs.TabPane
 					tab={counterpart.translate('exchange.limit')}
 					key={'limit'}
@@ -2330,16 +2353,6 @@ class Exchange extends React.Component {
 			tinyScreen && !this.state.mobileKey.includes('marketHistory') ? null : (
 				<MarketHistory
 					key={`actionCard_${actionCardIndex++}`}
-					className={cnames(
-						panelTabs['history'] == 0
-							? centerContainerWidth > 1200
-								? 'medium-6 large-6 xlarge-4'
-								: centerContainerWidth > 800
-								? 'medium-6'
-								: ''
-							: 'medium-12',
-						'no-padding no-overflow small-12 order-6'
-					)}
 					innerStyle={{
 						paddingBottom: !tinyScreen ? '0' : '0',
 						height: '100%',
@@ -2377,7 +2390,6 @@ class Exchange extends React.Component {
 					)}
 					innerStyle={{
 						paddingBottom: !tinyScreen ? '0' : '0',
-						height: '225px',
 					}}
 					noHeader={panelTabs['my_history'] == 0 ? false : true}
 					history={activeMarketHistory}
@@ -2587,18 +2599,12 @@ class Exchange extends React.Component {
 
 					if (a == 'my_orders') {
 						groupTabs[panelTabs[a]].push(
-							<Tabs.TabPane
-								tab={translator.translate('exchange.my_orders')}
-								key="my_orders"
-							>
+							<Tabs.TabPane tab="Open Orders" key="my_orders">
 								{myOpenOrders}
 							</Tabs.TabPane>
 						);
 						groupTabs[panelTabs[a]].push(
-							<Tabs.TabPane
-								tab={translator.translate('exchange.my_history')}
-								key="my_history"
-							>
+							<Tabs.TabPane tab="My Trade" key="my_trade">
 								{myMarketHistory}
 							</Tabs.TabPane>
 						);
@@ -2645,6 +2651,7 @@ class Exchange extends React.Component {
 						borderRadius: '5px',
 						display: 'flex',
 						flexDirection: 'column',
+						minHeight: 400,
 					}}
 				>
 					<Tabs
@@ -2657,31 +2664,6 @@ class Exchange extends React.Component {
 					>
 						{groupTabs[2]}
 					</Tabs>
-					<div
-						style={{
-							width: '96%',
-							marginLeft: '2%',
-							height: '60px',
-							background: '#FF2929',
-							borderRadius: '5px',
-							display: 'flex',
-							alignItems: 'center',
-							justifyContent: 'center',
-							marginTop: '24px',
-							marginBottom: '38px',
-						}}
-					>
-						<div
-							style={{
-								textTransform: 'uppercase',
-								fontWeight: 600,
-								fontSize: '18px',
-								color: 'white',
-							}}
-						>
-							Cancel All Orders
-						</div>
-					</div>
 				</div>
 			) : null;
 
@@ -2943,13 +2925,7 @@ class Exchange extends React.Component {
 					className="grid-block left-column shrink no-overflow"
 				>
 					{enableToggleRight ? (
-						<div
-							// style={{
-							//     width: "auto",
-							//     paddingTop: "calc(50vh - 80px)"
-							// }}
-							onClick={this._togglePanel.bind(this, 'right')}
-						/>
+						<div onClick={this._togglePanel.bind(this, 'right')} />
 					) : null}
 					{activePanels.includes('right')
 						? !mirrorPanels
@@ -3181,7 +3157,7 @@ class Exchange extends React.Component {
 								style={{
 									minHeight: '350px',
 									marginTop: '15px',
-									overflowY: 'hidden',
+									overflow: 'hidden',
 								}}
 							>
 								<div

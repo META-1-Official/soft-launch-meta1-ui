@@ -31,7 +31,6 @@ class TradingViewPriceChart extends React.Component {
 		const that = this;
 
 		if (!dataFeed) return;
-		if (!!this.tvWidget) return;
 
 		if (__DEV__)
 			console.log(
@@ -123,31 +122,31 @@ class TradingViewPriceChart extends React.Component {
 			preset: this.props.mobile ? 'mobile' : '',
 		});
 
-		this.tvWidget.onChartReady(() => {
-			if (__DEV__) console.log('*** Chart Ready ***');
-			if (__DEV__) console.timeEnd('*** Chart load time: ');
-			this.tvWidget
-				.createButton()
-				.attr('title', counterpart.translate('exchange.load_custom_charts'))
-				.addClass('apply-common-tooltip')
-				.on('click', () => {
-					that.setState({showLoadModal: true});
-				})
-				.append(`<span>${counterpart.translate('exchange.chart_load')}</span>`);
-			this.tvWidget
-				.createButton()
-				.attr('title', counterpart.translate('exchange.save_custom_charts'))
-				.addClass('apply-common-tooltip')
-				.on('click', () => {
-					that.setState({showSaveModal: true});
-				})
-				.append(`<span>${counterpart.translate('exchange.chart_save')}</span>`);
+		// this.tvWidget.onChartReady(() => {
+		// 	if (__DEV__) console.log('*** Chart Ready ***');
+		// 	if (__DEV__) console.timeEnd('*** Chart load time: ');
+		// 	this.tvWidget
+		// 		.createButton()
+		// 		.attr('title', counterpart.translate('exchange.load_custom_charts'))
+		// 		.addClass('apply-common-tooltip')
+		// 		.on('click', () => {
+		// 			that.setState({showLoadModal: true});
+		// 		})
+		// 		.append(`<span>${counterpart.translate('exchange.chart_load')}</span>`);
+		// 	this.tvWidget
+		// 		.createButton()
+		// 		.attr('title', counterpart.translate('exchange.save_custom_charts'))
+		// 		.addClass('apply-common-tooltip')
+		// 		.on('click', () => {
+		// 			that.setState({showSaveModal: true});
+		// 		})
+		// 		.append(`<span>${counterpart.translate('exchange.chart_save')}</span>`);
 
-			dataFeed.update({
-				onMarketChange: this._setSymbol.bind(this),
-			});
-			this.loadLastChart();
-		});
+		// 	dataFeed.update({
+		// 		onMarketChange: this._setSymbol.bind(this),
+		// 	});
+		// 	this.loadLastChart();
+		// });
 
 		this._onWheel = this._onWheel.bind(this);
 	}
@@ -176,6 +175,15 @@ class TradingViewPriceChart extends React.Component {
 		// continue investigating how to disable mouse wheel, here are the containted docs
 		// document.getElementById("tv_chart").children[0].contentWindow
 		// document.getElementById("tv_chart").children[0].contentDocument
+	}
+
+	componentDidUpdate(prevProps) {
+		if (
+			this.props.baseSymbol !== prevProps.baseSymbol ||
+			this.props.quoteSymbol !== prevProps.quoteSymbol
+		) {
+			this.loadTradingView(this.props);
+		}
 	}
 
 	componentWillUnmount() {

@@ -292,12 +292,42 @@ class Header extends React.Component {
 		if (!insideAccountDropdown) this._closeAccountsListDropdown();
 	}
 
+	handleRefresh = () => {
+		// by calling this method react re-renders the component
+		console.log('handle refresh');
+		this.setState({});
+	};
+
 	handleHeaderLink = (e) => {
-		const {lastMarket, currentAccount} = this.props;
+		const {lastMarket, currentAccount, passwordLogin} = this.props;
 		const {key} = e;
+		let isLogged = false;
 
 		if (key === 'auth') {
+			//this._toggleLock(this, true);
+			// DEBUG only
+			/*
+			console.log("current user:" + currentAccount);
+			console.log("password login:" + passwordLogin);
+			console.log("1 isLogged:" + isLogged);
+			*/
+
+			if (currentAccount && passwordLogin && !isLogged) {
+				this._toggleLock(this, true);
+				isLogged = true;
+				//console.log("2 isLogged:" + isLogged);
+				this._onNavigate(`/account/${currentAccount}`, this, true);
+			} else {
+				this._toggleLock(this, true);
+				isLogged = false;
+				//console.log("3 isLogged:" + isLogged);
+				this._onNavigate('/account/null', this, true);
+			}
 			this._toggleLock(this, true);
+			//
+			// note: consider changing default redirection to /account, not previous user when logout
+			// but, this depends on Remember Me logic, too
+			//
 		} else if (key === 'dashboard') {
 			this._onNavigate(`/account/${currentAccount}`, this, true);
 		} else if (key === 'createAccount') {
@@ -322,15 +352,24 @@ class Header extends React.Component {
 		} else if (key === 'advanced-ledger-nano') {
 			window.open('https://shop.ledger.com/pages/ledger-live', '_blank');
 		} else if (key === 'advanced-signed-messages') {
-			this._onNavigate(`/account/${currentAccount}/signedmessages`, this, true);
+			currentAccount &&
+				this._onNavigate(
+					`/account/${currentAccount}/signedmessages`,
+					this,
+					true
+				);
 		} else if (key === 'advanced-membership-stats') {
-			this._onNavigate(`/account/${currentAccount}/member-stats`, this, true);
+			currentAccount &&
+				this._onNavigate(`/account/${currentAccount}/member-stats`, this, true);
 		} else if (key === 'advanced-vesting-balance') {
-			this._onNavigate(`/account/${currentAccount}/vesting`, this, true);
+			currentAccount &&
+				this._onNavigate(`/account/${currentAccount}/vesting`, this, true);
 		} else if (key === 'advanced-whitelist') {
-			this._onNavigate(`/account/${currentAccount}/whitelist`, this, true);
+			currentAccount &&
+				this._onNavigate(`/account/${currentAccount}/whitelist`, this, true);
 		} else if (key === 'advanced-permissions') {
-			this._onNavigate(`/account/${currentAccount}/permissions`, this, true);
+			currentAccount &&
+				this._onNavigate(`/account/${currentAccount}/permissions`, this, true);
 		} else if (key === 'advanced-accounts') {
 			this._onNavigate('/accounts', this, true);
 		}
@@ -501,13 +540,15 @@ class Header extends React.Component {
 					<Text>Withdraw</Text>
 				</Menu.Item>
 				<Menu.Item key="deposit">
-					<Text>Depsoit</Text>
+					<Text>Deposit</Text>
 				</Menu.Item>
 				<Menu.SubMenu
+					key="submenu"
 					popupClassName="advanced-submenu"
 					title={<Text>Advanced</Text>}
+					disabled={!currentAccount}
 				>
-					<Menu.Item className="comment">
+					<Menu.Item key="comment-menu" className="comment">
 						<Text>
 							/* No hardware wallet support at this time, remove to reduce
 							questions */
@@ -519,7 +560,10 @@ class Header extends React.Component {
 					<Menu.Item key="advanced-ledger-nano">
 						<Text>Connect with Ledger Nano</Text>
 					</Menu.Item>
-					<Menu.Item className="comment">
+					<Menu.Item
+						key="comment-no-hardware-wallet-support"
+						className="comment"
+					>
 						<Text>
 							/* End no hardware wallet support at this time, remove to reduce
 							questions */
@@ -528,9 +572,11 @@ class Header extends React.Component {
 					<Menu.Item key="advanced-signed-messages">
 						<Text>Signed Messages</Text>
 					</Menu.Item>
+
 					{/* <Menu.Item key="advanced-membership-stats">
 						<Text>Membership Stats</Text>
 					</Menu.Item> */}
+
 					<Menu.Item key="advanced-vesting-balance">
 						<Text>Vesting Balance</Text>
 					</Menu.Item>
@@ -573,7 +619,10 @@ class Header extends React.Component {
 										onClick={this.handleHeaderLink}
 										selectedKeys={[this.props.currentLink]}
 									>
-										<Menu.Item key="dashboard">Dashboard</Menu.Item>
+										{passwordLogin && passwordAccount && (
+											<Menu.Item key="dashboard">Dashboard</Menu.Item>
+										)}
+
 										<Menu.Item key="market">
 											<Translate component="span" content="header.exchange" />
 										</Menu.Item>

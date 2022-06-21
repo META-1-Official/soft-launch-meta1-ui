@@ -680,7 +680,7 @@ class BuySell extends React.Component {
 							/>
 						</div>
 					</div>
-					<div className="grid-block no-overflow shrink limit-order-input-wrapper">
+					{/* <div className="grid-block no-overflow shrink limit-order-input-wrapper">
 						<Translate
 							className="small-12 buy-sell-label"
 							content="transfer.fee"
@@ -707,8 +707,8 @@ class BuySell extends React.Component {
 								}
 							/>
 						</div>
-					</div>
-					{marketFee}
+					</div> */}
+					{/* {marketFee} */}
 				</div>
 			);
 		} else {
@@ -773,7 +773,7 @@ class BuySell extends React.Component {
 							/>
 						</div>
 					</div>
-					<div className="grid-block no-overflow shrink limit-order-input-wrapper">
+					{/* <div className="grid-block no-overflow shrink limit-order-input-wrapper">
 						<Translate
 							className="small-3 buy-sell-label"
 							content="transfer.fee"
@@ -800,8 +800,8 @@ class BuySell extends React.Component {
 								}
 							/>
 						</div>
-					</div>
-					{marketFee}
+					</div> */}
+					{/* {marketFee} */}
 				</div>
 			) : (
 				<div className={containerClass}>
@@ -918,7 +918,7 @@ class BuySell extends React.Component {
 								/>
 							</div>
 						</div>
-						<div className="small-6">
+						{/* <div className="small-6">
 							<Translate
 								className="small-3 buy-sell-label"
 								content="transfer.fee"
@@ -945,7 +945,7 @@ class BuySell extends React.Component {
 									}
 								/>
 							</div>
-						</div>
+						</div> */}
 					</div>
 				</div>
 			);
@@ -1088,11 +1088,11 @@ class BuySell extends React.Component {
 									</select>
 								</div>
 							</div> */}
-							{!singleColumnForm ? (
+							{/* {!singleColumnForm ? (
 								<div className="small-6">{marketFee}</div>
-							) : null}
+							) : null} */}
 							<div className="small-12 medium-12 xlarge-12">
-								{singleColumnForm ? (
+								{/* {singleColumnForm ? (
 									<div className="grid-block no-overflow shrink">
 										<Translate
 											className="buy-sell-label small-4"
@@ -1154,7 +1154,7 @@ class BuySell extends React.Component {
 											</span>
 										</div>
 									</div>
-								) : null}
+								) : null} */}
 								<div style={{marginTop: 10}}>
 									<div className="short-long-button">
 										<Tooltip
@@ -1187,6 +1187,9 @@ class BuySell extends React.Component {
 												</div>
 											</button>
 										</Tooltip>
+										<div style={{fontSize: 12, marginTop: 10}}>
+											<span style={{color: '#ffc000'}}>Fee:</span> 0.0035 Meta 1
+										</div>
 										{isGloballySettled ? (
 											<Button
 												disabled={

@@ -75,10 +75,10 @@ class MarketStatsCheck extends React.Component {
 
 	_startUpdates(props) {
 		/* Only run this every x seconds */
-		if (!!this.updatesTimer) return;
-		this.updatesTimer = setTimeout(() => {
-			this.updatesTimer = null;
-		}, 10 * 1000);
+		// if (!!this.updatesTimer) return;
+		// this.updatesTimer = setTimeout(() => {
+		// 	this.updatesTimer = null;
+		// }, 10 * 1000);
 		let {coreAsset, fromAssets, fromAsset, toAsset} = props;
 		if (!fromAssets && fromAsset) fromAssets = [fromAsset];
 

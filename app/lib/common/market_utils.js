@@ -103,23 +103,31 @@ const MarketUtils = {
 		}
 
 		const directStats = marketStats.get(directMarket);
-		if (directStats && directStats.price && directStats.volumeBase !== 0) {
-			if (real)
-				return directStats.price.toReal(
-					toAsset.get('id') !== directStats.price.base.asset_id
-				);
-			return directStats.price;
+		if (directStats && directStats.price) {
+			if (directStats.volumeBase !== 0) {
+				if (real)
+					return directStats.price.toReal(
+						toAsset.get('id') !== directStats.price.base.asset_id
+					);
+				return directStats.price;
+			} else if (directStats.price) {
+				return directStats.price;
+			}
 		}
 
 		let toPrice, fromPrice;
-
 		const fromStats = marketStats.get(fromMarket);
+		const toStats = marketStats.get(toMarket);
 		if (fromStats && fromStats.price) {
-			if (fromStats.volumeBase === 0 && fromStats.volumeQuote === 0)
+			if (
+				fromStats.volumeBase === 0 &&
+				fromStats.volumeQuote === 0 &&
+				!fromStats.price &&
+				!toStats.price
+			)
 				return null;
 			fromPrice = fromStats.price.clone();
 		}
-		const toStats = marketStats.get(toMarket);
 		if (toStats && toStats.price) {
 			toPrice = toStats.price.clone();
 		}
@@ -134,6 +142,7 @@ const MarketUtils = {
 			finalPrice = fromPrice;
 		}
 		if (!finalPrice) return null;
+
 		const finalId = [finalPrice.base.asset_id, finalPrice.quote.asset_id];
 		if (
 			finalId.indexOf(toAsset.get('id')) === -1 ||
