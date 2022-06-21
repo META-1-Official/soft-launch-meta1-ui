@@ -199,7 +199,7 @@ class Header extends React.Component {
 				AccountStore.tryToSetCurrentAccount();
 			}
 		}
-
+		//DEBUG console.log("props:" + JSON.stringify(this.props));
 		this._closeAccountNotifications();
 	}
 

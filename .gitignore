@@ -26,3 +26,4 @@ app/test/MarketClasses.js
 /.vs
 .env.*
 build
+yarn.lock
