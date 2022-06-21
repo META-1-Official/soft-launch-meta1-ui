@@ -25,6 +25,10 @@
 		text-align: left;
 	}
 
+	.table.order-table > thead > tr > th ~ .table-volume-class {
+		padding: 10px 10px 10px 0 !important;
+	}
+
 	.table.order-table > tbody > tr {
 		border: 1px solid black;
 	}
