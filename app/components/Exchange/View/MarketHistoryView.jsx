@@ -56,7 +56,7 @@ class MarketHistoryView extends React.Component {
 										content="exchange.price"
 									/>
 								</th>
-								<th style={{textAlign: 'left'}}>
+								<th style={{textAlign: 'left'}} className="table-volume-class">
 									<Translate
 										className="header-sub-title"
 										content="exchange.volume"
