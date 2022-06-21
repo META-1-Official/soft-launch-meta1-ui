@@ -58,6 +58,12 @@ class AssetsPairTabs extends React.Component {
 
 	componentWillReceiveProps(nextProps) {
 		this._checkAssets(nextProps.assets);
+
+		// if (nextProps.assets.size > 0) {
+		// 	setTimeout(() => {
+		// 		this.onClickAsset(this.state.baseAssetSymbol);
+		// 	}, 500);
+		// }
 	}
 
 	componentWillMount() {
@@ -186,7 +192,10 @@ class AssetsPairTabs extends React.Component {
 		if (isFetchingMarketInfo) {
 			return;
 		} else if (newBaseAssetSymbol === 'star') {
+			console.log('@1 - ', watchPairs);
 			watchPairs.map((watchPair) => {
+				if (!watchPair) return;
+
 				const quoteAssetSymbol = watchPair.split('/')[0];
 				const baseAssetSymbol = watchPair.split('/')[1];
 				let quoteAssetId, baseAssetId;
@@ -213,7 +222,10 @@ class AssetsPairTabs extends React.Component {
 			});
 		}
 
-		this._getMarketInfo(assetPairs, selectedResolution);
+		if (assetPairs.length > 0) {
+			this._getMarketInfo(assetPairs, selectedResolution);
+		}
+
 		this.setState({baseAssetSymbol: newBaseAssetSymbol});
 	}
 
