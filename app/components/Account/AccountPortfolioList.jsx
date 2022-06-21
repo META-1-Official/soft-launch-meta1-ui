@@ -348,11 +348,11 @@ class AccountPortfolioList extends React.Component {
 	toggleSortOrder(pagination, filters, sorter) {
 		SettingsActions.changeViewSetting({
 			portfolioSortDirection: sorter.order,
-			portfolioSort: sorter.columnKey,
+			portfolioSort: sorter.field,
 		});
 		this.setState({
 			portfolioSortDirection: sorter.order,
-			portfolioSort: sorter.columnKey,
+			portfolioSort: sorter.field,
 		});
 	}
 
@@ -370,9 +370,8 @@ class AccountPortfolioList extends React.Component {
 				dataIndex: 'asset',
 				align: 'left',
 				customizable: false,
-				// sorter: this.sortFunctions.alphabetic,
-				// sortOrder: portfolioSort === 'asset' && portfolioSortDirection,
-				sorter: (a, b) => a.key.localeCompare(b.key),
+				sorter: this.sortFunctions.alphabetic,
+				sortOrder: portfolioSort === 'asset' && portfolioSortDirection,
 				render: (item) => {
 					return <span style={{whiteSpace: 'nowrap'}}>{item}</span>;
 				},
@@ -382,9 +381,8 @@ class AccountPortfolioList extends React.Component {
 				dataIndex: 'qty',
 				align: 'right',
 				customizable: false,
-				// sorter: this.sortFunctions.qty,
-				// sortOrder: portfolioSort === 'qty' && portfolioSortDirection,
-				sorter: (a, b) => (a.qty > b.qty ? 1 : a.qty < b.qty ? -1 : 0),
+				sorter: this.sortFunctions.qty,
+				sortOrder: portfolioSort === 'qty' && portfolioSortDirection,
 				render: (item) => {
 					return <span style={{whiteSpace: 'nowrap'}}>{item}</span>;
 				},
