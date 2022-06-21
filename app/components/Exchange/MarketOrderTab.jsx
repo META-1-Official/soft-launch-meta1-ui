@@ -106,7 +106,7 @@ const MarketOrderForm = (props) => {
 	const prepareOrders = (amount) => {
 		const orders = [];
 
-		const price = props.price;
+		const price = Number(props.price);
 		const isBid = props.type === 'bid';
 
 		let expirationTime = null;
@@ -119,16 +119,34 @@ const MarketOrderForm = (props) => {
 		const sellAsset = !isBid ? props.quoteAsset : props.baseAsset;
 		const buyAsset = isBid ? props.quoteAsset : props.baseAsset;
 
+		const sellAmount = () => {
+			let scaledAmount = amount * price;
+			return isBid
+				? Number(scaledAmount.toPrecision(5)) *
+						Math.pow(10, sellAsset.get('precision'))
+				: Number(amount.toPrecision(5)) *
+						Math.pow(10, sellAsset.get('precision'));
+		};
+
+		const buyAmount = () => {
+			let scaledAmount = amount * price;
+			return !isBid
+				? Number(scaledAmount.toPrecision(5)) *
+						Math.pow(10, buyAsset.get('precision'))
+				: Number(amount.toPrecision(5)) *
+						Math.pow(10, buyAsset.get('precision'));
+		};
+
 		orders.push({
 			for_sale: new Asset({
 				asset_id: sellAsset.get('id'),
 				precision: sellAsset.get('precision'),
-				amount: amount * price,
+				amount: sellAmount(),
 			}),
 			to_receive: new Asset({
 				asset_id: buyAsset.get('id'),
 				precision: buyAsset.get('precision'),
-				amount: amount * price,
+				amount: buyAmount(),
 			}),
 			expirationTime: expirationTime,
 		});
@@ -290,7 +308,7 @@ const MarketOrderForm = (props) => {
 					/>
 				</Form.Item>
 
-				<Form.Item {...formItemProps} label="USD" name="usd">
+				{/* <Form.Item {...formItemProps} label="USD" name="usd">
 					<Input
 						style={{width: '100%'}}
 						autoComplete="off"
@@ -310,7 +328,7 @@ const MarketOrderForm = (props) => {
 						value={total}
 						disabled
 					/>
-				</Form.Item>
+				</Form.Item> */}
 
 				<button
 					style={
@@ -338,7 +356,7 @@ const MarketOrderForm = (props) => {
 					</div>
 				</button>
 				<div style={{fontSize: 12, marginTop: 10}}>
-					<span style={{color: '#ffc000'}}>Fee:</span> 0.0035 Meta 1 | Incl. of
+					<span style={{color: '#ffc000'}}>Fee:</span> 0.00002 Meta 1 | Incl. of
 					all applicable taxes
 				</div>
 			</Form>

@@ -508,7 +508,6 @@ function BindToChainState(Component, options = {}) {
 				var accountObj = new_state['account'];
 
 				const referred_user = ss.get('referred_user_id', 'null');
-				console.log('REF_USER', referred_user);
 
 				if (
 					referred_user === accountObj.get('name') &&

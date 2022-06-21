@@ -93,6 +93,7 @@ class PubKeyInput extends React.Component {
 								onChange={this.onInputChanged.bind(this)}
 								onKeyDown={this.onKeyDown.bind(this)}
 								tabIndex={this.props.tabIndex}
+								disabled
 							/>
 							{this.props.onAction ? (
 								<button

@@ -95,20 +95,20 @@ class MarketHistoryView extends React.Component {
 				<div className="grid-block vertical shrink left-orderbook-header market-right-padding-only">
 					<table className="table table-no-padding order-table text-left fixed-table market-right-padding">
 						<thead>
-							<tr style={{display: 'flex', justifyContent: 'space-between'}}>
+							<tr>
 								{['Pair', 'Amount', 'Price', 'Total'].map((header) => (
 									<th
 										style={{
 											textTransform: 'unset',
 											color: '#FFC000',
 											borderBottom: 'none',
-											textAlign: 'center',
+											textAlign: header === 'Total' ? 'right' : 'center',
 										}}
 									>
 										{header}
 									</th>
 								))}
-								<th
+								{/* <th
 									style={{
 										textTransform: 'unset',
 										color: '#FF2929',
@@ -117,7 +117,7 @@ class MarketHistoryView extends React.Component {
 									}}
 								>
 									Cancel
-								</th>
+								</th> */}
 							</tr>
 						</thead>
 					</table>
