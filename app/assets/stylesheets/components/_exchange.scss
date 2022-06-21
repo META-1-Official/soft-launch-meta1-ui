@@ -1621,3 +1621,11 @@ form.hide-container {
 		}
 	}
 }
+
+@media screen and (max-width: 1440px) {
+	.order-book-panel {
+		.header .tap {
+			padding: 15px 8px !important;
+		}
+	}
+}
