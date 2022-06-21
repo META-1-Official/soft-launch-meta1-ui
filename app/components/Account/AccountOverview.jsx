@@ -607,14 +607,14 @@ class AccountOverview extends React.Component {
 													)}
 												</span>
 
-												<span
+												{/* <span
 													className="pl-3"
 													css={(theme) => ({
 														marginLeft: '3px',
 													})}
 												>
 													{this.state.totalChange.toFixed(2).toString() + ' %'}
-												</span>
+												</span> */}
 											</span>
 										</span>
 									</span>

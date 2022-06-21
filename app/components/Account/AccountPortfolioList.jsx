@@ -161,8 +161,6 @@ class AccountPortfolioList extends React.Component {
 		if (this.state.totalChange !== prevProps.totalChange) {
 			this.setState({totalChange: window.totalChange});
 		}
-
-		//console.log("state:" + this.state.totalChange);
 	}
 
 	showBridgeModal() {
@@ -911,157 +909,77 @@ class AccountPortfolioList extends React.Component {
 		);
 	}
 
-	getTotalChange = () => {
-		// DEBUG
-		//console.log("debug")
-		//console.log("props:" + JSON.stringify(this.props.allMarketStats))
-		//console.log("props:" + Object.keys(this.props.allMarketStats));
-		/********/
-		let pairs = [];
-		let assets = this.props.allMarketStats;
-		console.log('allMarkets: ' + JSON.stringify(assets));
+	// getTotalChange = () => {
+	// 	let pairs = [];
+	// 	let assets = this.props.allMarketStats;
 
-		//console.log("assets: " + JSON.stringify(assets));
-		//console.log("assets: " + typeof(assets));
+	// 	let prod = this.state.prod; // sum of (amount * change) for all assets with balance
+	// 	let changes = this.state.changes; // sum of all the changes of the assets
 
-		let prod = this.state.prod; // sum of (amount * change) for all assets with balance
-		let changes = this.state.changes; // sum of all the changes of the assets
+	// 	let n = assets.size;
+	// 	let assetHasBalance = [];
 
-		/*
-		for(var i in assets){
-			console.log("real n: " + i + " " + assets._root.nodes[i].entry[0]); // alerts key
-			//alert(foo[i]); //alerts key's value
-		  }
-		*/
-		let n = assets.size;
+	// 	for (let j = 0; j <= 15; j++) {
+	// 		if (assets._root.nodes[j]?.entry) {
+	// 			let pair = assets._root.nodes[j].entry[0];
+	// 			let amount = assets._root.nodes[j].entry[1].price._not_samebase_real;
+	// 			if (amount > 0 && amount != 'undefined') {
+	// 				let change = assets._root.nodes[j].entry[1].change * 1.0;
+	// 				prod += amount * change;
+	// 				changes += change;
+	// 			}
+	// 			if (!pairs.includes(pair)) {
+	// 				pairs.push(pair);
+	// 			}
+	// 			if (!assetHasBalance.includes(pair) && amount > 0) {
+	// 				assetHasBalance.push(pair);
+	// 			}
+	// 		} else if (assets._root.nodes[j]?.nodes) {
+	// 			for (var k in assets._root.nodes[j].nodes) {
+	// 				let newPair = JSON.stringify(assets._root.nodes[j].nodes[k].entry);
 
-		//console.log("root.nodes: " + Object.keys(assets._root.nodes));
+	// 				try {
+	// 					let amount =
+	// 						assets._root.nodes[j].nodes.entry[1].price._not_samebase_real;
+	// 					if (amount > 0 && amount !== 'undefined') {
+	// 						let change = assets._root.nodes[j].nodes.entry[1].change * 1.0;
+	// 						prod += amount * change;
+	// 						changes += change;
+	// 					}
 
-		let assetHasBalance = [];
+	// 					if (typeof newPair != 'undefined') {
+	// 						let end = newPair.indexOf(',');
 
-		for (let j = 0; j <= 15; j++) {
-			//console.log("nodes " + j + ": " + JSON.stringify(assets._root.nodes[j]));
-			if (assets._root.nodes[j].entry) {
-				//console.log("entry: " + assets._root.nodes[j].entry[0]);
-				let pair = assets._root.nodes[j].entry[0];
-				let amount = assets._root.nodes[j].entry[1].price._not_samebase_real;
-				if (amount > 0 && amount != 'undefined') {
-					let change = assets._root.nodes[j].entry[1].change * 1.0;
-					prod += amount * change;
-					changes += change;
+	// 						if (!pairs.includes(newPair)) {
+	// 							newPair = newPair.slice(1, end);
+	// 							pairs.push(newPair);
+	// 						}
+	// 					}
+	// 					if (!assetHasBalance.includes(newPair) && amount > 0) {
+	// 						assetHasBalance.push(newPair);
+	// 					}
+	// 				} catch (e) {
+	// 				}
+	// 			}
+	// 		}
+	// 	}
 
-					//console.log(prod);
-					//console.log(change);
-				}
-				if (!pairs.includes(pair)) {
-					pairs.push(pair);
-				}
-				if (!assetHasBalance.includes(pair) && amount > 0) {
-					assetHasBalance.push(pair);
-				}
-			} else if (assets._root.nodes[j].nodes) {
-				for (var k in assets._root.nodes[j].nodes) {
-					//console.log("entry in nodes: " + JSON.stringify(assets._root.nodes[j].nodes[k].entry));
-					let newPair = JSON.stringify(assets._root.nodes[j].nodes[k].entry);
+	// 	let keys = Object.keys(assets);
 
-					try {
-						let amount =
-							assets._root.nodes[j].nodes.entry[1].price._not_samebase_real;
-						if (amount > 0 && amount !== 'undefined') {
-							let change = assets._root.nodes[j].nodes.entry[1].change * 1.0;
-							prod += amount * change;
-							changes += change;
-						}
-						//console.log("test: " + JSON.stringify(assets._root.nodes[j].nodes[k].entry));
-						//console.log("type: " + typeof(test))
-
-						if (typeof newPair != 'undefined') {
-							let end = newPair.indexOf(',');
-
-							if (!pairs.includes(newPair)) {
-								newPair = newPair.slice(1, end);
-								pairs.push(newPair);
-							}
-							/*
-							newPair = newPair.slice(1, end);
-							console.log("newPair: " + newPair)
-							*/
-							//console.log("ticker: " + j + test.slice(1, end))
-							//console.log("asset has Balance: " + test.includes("_not_samebase_real") ? "yes" : "no");
-						}
-						if (!assetHasBalance.includes(newPair) && amount > 0) {
-							assetHasBalance.push(newPair);
-						}
-					} catch (e) {
-						//console.log(e.message);
-					}
-				}
-			}
-		}
-
-		//console.log("here 0:" + assets._root.nodes[0].entry[0])
-		//console.log("here 1:" + JSON.stringify(assets._root.nodes[0].entry[1]))
-
-		//
-		let keys = Object.keys(assets);
-		//console.log("keys:" + JSON.stringify(keys));
-		//console.log("n: " + n);
-		//console.log("0: " + assets.BTC_META1)
-
-		/*
-		for(let i = 0; i < 16; i++){
-			try{
-				//let el = assets[keys[i]].price._not_samebase_real;
-				let el = assets._root.nodes[i].entry;
-				//console.log("el " + i + ": " + el[i]);
-				let amount = el[1].price._not_samebase_real;
-				if(amount > 0){
-					console.log("amount: " + amount)
-					assetHasBalance.push(el[0]);
-				} 
-			} catch(e){
-				//console.log(e.message);
-			}
-		}
-		*/
-
-		//console.log("pairs: " + pairs);
-		//console.log("pairs size: " + pairs.length);
-
-		console.log(
-			JSON.stringify('hasBalance:' + JSON.stringify(assetHasBalance))
-		);
-
-		//let calcTotalChange = prod / changes * 1.0;
-
-		//console.log("prod: " + prod);
-		//console.log("changes: " + changes)
-
-		//calcTotalChange *= 1.0;
-
-		//window.totalProd = prod;
-		//window.totalChange = changes;
-		console.log('prod: ' + prod);
-		console.log('changes: ' + changes);
-
-		var result = prod / changes;
-		if (result != 'undefined') {
-			window.totalChange = result;
-			window.prod = 0;
-			window.changes = 0;
-		}
-
-		//console.log("window " + window.totalChange)
-		//console.log("result: " + result);
-	};
+	// 	var result = prod / changes;
+	// 	if (result != 'undefined') {
+	// 		window.totalChange = result;
+	// 		window.prod = 0;
+	// 		window.changes = 0;
+	// 	}
+	// };
 
 	render() {
 		const {currentAccount} = this.props;
 
 		return (
 			<div className="portfolio-table-wrapper">
-				{this.getTotalChange()}
-				{console.log('balanceList: ' + window.balanceList)}
+				{/* {this.getTotalChange()} */}
 				<CustomTable
 					className="table dashboard-table table-hover"
 					rows={this._renderBalances(
