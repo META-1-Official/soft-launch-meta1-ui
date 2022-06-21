@@ -374,7 +374,7 @@ class RecentTransactions extends React.Component {
 		);
 
 		return (
-			<div className="recent-transactions no-overflow" style={style}>
+			<div className="recent-transactions" style={style}>
 				<div className="generic-bordered-box">
 					{this.props.dashboard ? null : (
 						<div ref="header">
@@ -409,6 +409,7 @@ class RecentTransactions extends React.Component {
 					</div>
 					<PaginatedList
 						withTransition
+						pageSize={20}
 						className={
 							'table table-striped ' +
 							(this.props.dashboard ? ' dashboard-table table-hover' : '')
