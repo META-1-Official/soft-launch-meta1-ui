@@ -447,7 +447,7 @@ table.table.dashboard-table {
 
 	span.value {
 		color: white !important;
-		background: gray;
+		background: gray !important;
 		padding: 5px;
 		border-radius: 5px;
 		font-size: 14px;
@@ -644,11 +644,15 @@ div.tabs-container {
 	color: $alert-color;
 }
 
+/*
 .account-input-style-guide--label {
 }
+*/
 
+/*
 .account-input-style-guide {
 }
+*/
 
 // Open Orders page
 .open-orders {

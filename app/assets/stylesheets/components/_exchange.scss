@@ -3,9 +3,10 @@
 }
 
 .exchange--price-alert {
+	/*
 	.exchange--price-alert--description {
 	}
-
+	*/
 	.exchange--price-alert--items {
 		margin: 16px 0;
 	}
@@ -26,11 +27,15 @@
 			margin-bottom: 0 !important;
 		}
 
+		/*
 		.exchange--price-alert--item--type {
 		}
+		*/
 
+		/*
 		.exchange--price-alert--item--price {
 		}
+		*/
 
 		.exchange--price-alert--item--control {
 			padding: 0 !important;
@@ -628,7 +633,8 @@ p.order-table-title {
 			align-items: center;
 			width: 100%;
 
-			.lock-unlock {
+			.lock-unlock,
+			.settings {
 				margin-left: auto;
 				margin-right: auto;
 			}
