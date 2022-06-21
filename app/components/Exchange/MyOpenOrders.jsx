@@ -443,21 +443,6 @@ class MarketOrders extends React.Component {
 				rows.splice(rowCount, rows.length);
 			}
 
-			// let emptyRow = (
-			//     <tr>
-			//         <td
-			//             style={{
-			//                 textAlign: "center",
-			//                 lineHeight: 4,
-			//                 fontStyle: "italic"
-			//             }}
-			//             colSpan="5"
-			//         >
-			//             <Translate content="account.no_orders" />
-			//         </td>
-			//     </tr>
-			// );
-
 			let cancelOrderButton = (
 				<div
 					style={{

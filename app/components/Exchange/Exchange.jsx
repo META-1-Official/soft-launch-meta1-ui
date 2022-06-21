@@ -970,6 +970,8 @@ class Exchange extends React.Component {
 							}
 						),
 					});
+				} else {
+					this._clearForms(type === 'sell' ? 'ask' : 'bid');
 				}
 			})
 			.catch((e) => {
@@ -1170,7 +1172,7 @@ class Exchange extends React.Component {
 
 		this._setPriceText(bid, true);
 		this._setPriceText(ask, false);
-		// if (bid.for_sale.)
+
 		this.setState(newState);
 	}
 
@@ -2091,11 +2093,10 @@ class Exchange extends React.Component {
 						currentPrice={lowestAsk.getPrice()}
 						lastClickedPrice={this.state.ask && this.state.ask.priceText}
 						currentAccount={currentAccount}
-						createMarketOrder={this._createScaledOrder}
+						createScaledOrder={this._createScaledOrder}
 						type={'bid'}
 						quoteAsset={quote}
 						baseAsset={base}
-						price={latest && latest.getPrice()}
 					/>
 				</Tabs.TabPane>
 			</Tabs>
@@ -2142,7 +2143,7 @@ class Exchange extends React.Component {
 						currentPrice={highestBid.getPrice()}
 						lastClickedPrice={this.state.ask && this.state.ask.priceText}
 						currentAccount={currentAccount}
-						createScaledOrder={this._createScaledOrder}
+						createMarketOrder={this._createScaledOrder}
 						type="ask"
 						baseAsset={base}
 						quoteAsset={quote}

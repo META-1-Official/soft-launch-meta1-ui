@@ -278,6 +278,8 @@ class ScaledOrderForm extends Component {
 		const priceUpper = Number(formValues.priceUpper);
 		const orderCount = Number(formValues.orderCount);
 
+		let total = 0;
+
 		const isCorrect = (value) => !isNaN(value);
 
 		if (
@@ -289,7 +291,7 @@ class ScaledOrderForm extends Component {
 			orderCount <= 0 ||
 			priceLower >= priceUpper
 		)
-			return 0;
+			total = 0;
 
 		const step = preciseDivide(
 			preciseMinus(priceUpper, priceLower),
@@ -298,10 +300,7 @@ class ScaledOrderForm extends Component {
 
 		const amountPerOrder = preciseDivide(amount, orderCount);
 
-		let total = 0;
-
 		for (let i = 0; i < orderCount; i += 1) {
-			// total += amountPerOrder * (priceLower + step * i);
 			total = preciseAdd(
 				total,
 				preciseMultiply(
@@ -311,7 +310,9 @@ class ScaledOrderForm extends Component {
 			);
 		}
 
-		return total;
+		this.formRef?.current?.setFieldsValue({
+			total: total,
+		});
 	}
 
 	_getQuantityFromTotal(total) {
@@ -419,6 +420,90 @@ class ScaledOrderForm extends Component {
 		});
 	}
 
+	prepareOrders(values) {
+		const orders = [];
+
+		const amount = Number(values.amount);
+		const priceLower = Number(values.priceLower);
+		const priceUpper = Number(values.priceUpper);
+		const orderCount = Number(values.orderCount);
+
+		const isBid = this.props.type === 'bid';
+
+		let expirationTime = null;
+		if (this.props.expirationType === 'SPECIFIC') {
+			expirationTime = this.props.expirations[this.props.expirationType].get(
+				this.props.type
+			);
+		} else {
+			expirationTime = this.props.expirations[this.props.expirationType].get(
+				this.props.type
+			);
+		}
+
+		const isCorrect = (value) => !isNaN(value);
+
+		if (
+			!isCorrect(priceLower) ||
+			!isCorrect(priceUpper) ||
+			!isCorrect(amount) ||
+			!isCorrect(orderCount) ||
+			orderCount <= 0 ||
+			priceLower >= priceUpper
+		)
+			return [];
+
+		const step = ((priceUpper - priceLower) / (orderCount - 1)).toPrecision(5);
+		const amountPerOrder = amount / orderCount;
+		const sellAsset = !isBid ? this.props.quoteAsset : this.props.baseAsset;
+		const buyAsset = isBid ? this.props.quoteAsset : this.props.baseAsset;
+
+		const sellAmount = (i) => {
+			let scaledAmount = amountPerOrder * (priceLower + step * i);
+			return isBid
+				? Number(scaledAmount.toPrecision(5)) *
+						Math.pow(10, sellAsset.get('precision'))
+				: Number(amountPerOrder.toPrecision(5)) *
+						Math.pow(10, sellAsset.get('precision'));
+		};
+
+		const buyAmount = (i) => {
+			let scaledAmount = amountPerOrder * (priceLower + step * i);
+			return !isBid
+				? Number(scaledAmount.toPrecision(5)) *
+						Math.pow(10, buyAsset.get('precision'))
+				: Number(amountPerOrder.toPrecision(5)) *
+						Math.pow(10, buyAsset.get('precision'));
+		};
+
+		for (let i = 0; i < orderCount; i += 1) {
+			orders.push({
+				for_sale: new Asset({
+					asset_id: sellAsset.get('id'),
+					precision: sellAsset.get('precision'),
+					amount: sellAmount(i),
+				}),
+				to_receive: new Asset({
+					asset_id: buyAsset.get('id'),
+					precision: buyAsset.get('precision'),
+					amount: buyAmount(i),
+				}),
+				expirationTime: expirationTime,
+			});
+		}
+
+		return this.props.createScaledOrder(
+			orders,
+			ChainStore.getAsset('META1').get('id')
+		);
+	}
+
+	handleSubmit() {
+		if (this.formRef && this.formRef.current) {
+			this.prepareOrders(this._getFormValues());
+		}
+	}
+
 	onExpirationSelectChange = (e) => {
 		if (e.target.value === 'SPECIFIC') {
 			this.datePricker.picker.handleOpenChange(true);
@@ -505,6 +590,7 @@ class ScaledOrderForm extends Component {
 				style={{width: '100%'}}
 				autoComplete="off"
 				addonAfter={priceSymbol}
+				onChange={this._getTotal.bind(this)}
 			/>
 		);
 
@@ -518,6 +604,7 @@ class ScaledOrderForm extends Component {
 				style={{width: '100%'}}
 				autoComplete="off"
 				addonAfter={priceSymbol}
+				onChange={this._getTotal.bind(this)}
 			/>
 		);
 
@@ -581,11 +668,11 @@ class ScaledOrderForm extends Component {
 			if (this.formRef) {
 				return (
 					<Input
+						placeholder="0.0"
 						disabled
 						style={{width: '100%'}}
 						autoComplete="off"
 						addonAfter={totalSymbol}
-						value={this._getTotal()}
 					/>
 				);
 			}
@@ -627,6 +714,7 @@ class ScaledOrderForm extends Component {
 				style={{width: '100%'}}
 				autoComplete="off"
 				addonAfter={quantitySymbol}
+				onChange={this._getTotal.bind(this)}
 			/>
 		);
 
@@ -638,6 +726,7 @@ class ScaledOrderForm extends Component {
 				addonAfter={
 					<span>{counterpart.translate('scaled_orders.order_s')}</span>
 				}
+				onChange={this._getTotal.bind(this)}
 			/>
 		);
 
@@ -773,6 +862,7 @@ class ScaledOrderForm extends Component {
 						help={totalInputHelp}
 						validateStatus={totalInputStatus}
 						label={counterpart.translate('scaled_orders.total')}
+						name="total"
 					>
 						{totalInput()}
 					</Form.Item>
@@ -893,8 +983,7 @@ class ScaledOrderForm extends Component {
 								? sellButtonDisabled
 								: sellButton
 						}
-						disabled={!this.isFormValid()}
-						onClick={this.props.handleSubmit}
+						onClick={this.handleSubmit.bind(this)}
 						type="primary"
 					>
 						<div
@@ -917,148 +1006,15 @@ class ScaledOrderForm extends Component {
 	}
 }
 
-// ScaledOrderForm = Form.create({})(ScaledOrderForm);
-
 class ScaledOrderTab extends Component {
 	constructor(props) {
 		super(props);
 
-		this.saveFormRef = this.saveFormRef.bind(this);
-		this.handleSubmit = this.handleSubmit.bind(this);
 		this.handleCancel = this.handleCancel.bind(this);
-	}
-
-	componentDidUpdate(prevProps) {
-		if (
-			this.props.baseAsset &&
-			prevProps.baseAsset &&
-			this.props.baseAsset.get &&
-			prevProps.baseAsset.get &&
-			this.props.baseAsset.get('id') !== prevProps.baseAsset.get('id') &&
-			this.formRef &&
-			this.formRef.props &&
-			this.formRef.props.form
-		) {
-			this.formRef.props.form.resetFields();
-		}
-
-		if (
-			this.props.lastClickedPrice &&
-			this.props.lastClickedPrice !== prevProps.lastClickedPrice
-		) {
-			if (
-				this.formRef &&
-				this.formRef.props &&
-				this.formRef.props.form &&
-				this.formRef.props.form.setFieldsValue
-			) {
-				this.formRef.props.form.setFieldsValue({
-					priceLower: Number(this.props.lastClickedPrice),
-				});
-			}
-		}
-	}
-
-	prepareOrders(values) {
-		const orders = [];
-
-		const amount = Number(values.amount);
-		const priceLower = Number(values.priceLower);
-		const priceUpper = Number(values.priceUpper);
-		const orderCount = Number(values.orderCount);
-
-		let expirationTime = null;
-		if (this.props.expirationType === 'SPECIFIC') {
-			expirationTime = this.props.expirations[this.props.expirationType].get(
-				this.props.type
-			);
-		} else {
-			expirationTime = this.props.expirations[this.props.expirationType].get(
-				this.props.type
-			);
-		}
-
-		const isCorrect = (value) => !isNaN(value);
-
-		if (
-			!isCorrect(priceLower) ||
-			!isCorrect(priceUpper) ||
-			!isCorrect(amount) ||
-			!isCorrect(orderCount) ||
-			orderCount <= 0 ||
-			priceLower >= priceUpper
-		)
-			return [];
-
-		const step = ((priceUpper - priceLower) / (orderCount - 1)).toPrecision(5);
-
-		const amountPerOrder = amount / orderCount;
-
-		const sellAsset =
-			values.action === SCALED_ORDER_ACTION_TYPES.SELL
-				? this.props.quoteAsset
-				: this.props.baseAsset;
-		const buyAsset =
-			values.action === SCALED_ORDER_ACTION_TYPES.BUY
-				? this.props.quoteAsset
-				: this.props.baseAsset;
-
-		const sellAmount = (i) => {
-			let scaledAmount = amountPerOrder * (priceLower + step * i);
-			return values.action === SCALED_ORDER_ACTION_TYPES.BUY
-				? Number(scaledAmount.toPrecision(5)) *
-						Math.pow(10, sellAsset.get('precision'))
-				: Number(amountPerOrder.toPrecision(5)) *
-						Math.pow(10, sellAsset.get('precision'));
-		};
-
-		const buyAmount = (i) => {
-			let scaledAmount = amountPerOrder * (priceLower + step * i);
-			return values.action === SCALED_ORDER_ACTION_TYPES.SELL
-				? Number(scaledAmount.toPrecision(5)) *
-						Math.pow(10, buyAsset.get('precision'))
-				: Number(amountPerOrder.toPrecision(5)) *
-						Math.pow(10, buyAsset.get('precision'));
-		};
-
-		for (let i = 0; i < orderCount; i += 1) {
-			orders.push({
-				for_sale: new Asset({
-					asset_id: sellAsset.get('id'),
-					precision: sellAsset.get('precision'),
-					amount: sellAmount(i),
-				}),
-				to_receive: new Asset({
-					asset_id: buyAsset.get('id'),
-					precision: buyAsset.get('precision'),
-					amount: buyAmount(i),
-				}),
-				expirationTime: expirationTime,
-			});
-		}
-
-		this.props.createScaledOrder(
-			orders,
-			ChainStore.getAsset(values.feeCurrency).get('id')
-		);
-	}
-
-	handleSubmit() {
-		const form = this.formRef.props.form;
-
-		form.validateFields((err, values) => {
-			if (err) return;
-
-			this.prepareOrders(values);
-		});
 	}
 
 	handleCancel() {
 		this.props.hideModal();
-	}
-
-	saveFormRef(ref) {
-		this.formRef = ref;
 	}
 
 	_getBalanceByAssetId(assetId, precision) {
@@ -1088,10 +1044,8 @@ class ScaledOrderTab extends Component {
 		return (
 			<ScaledOrderForm
 				{...this.props}
-				wrappedComponentRef={this.saveFormRef}
 				baseAssetBalance={baseAssetBalance}
 				quoteAssetBalance={quoteAssetBalance}
-				handleSubmit={this.handleSubmit}
 			/>
 		);
 	}
