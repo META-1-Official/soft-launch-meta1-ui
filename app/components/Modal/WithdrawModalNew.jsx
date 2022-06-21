@@ -1018,16 +1018,23 @@ class WithdrawModalNew extends React.Component {
 									onBlur={onBlur}
 									allowNaN={true}
 									placeholder={counterpart.translate(
-										'gateway.limit_withdraw_asset',
+										'gateway.limit_withdraw_asset_min',
 										{
 											min: !minWithdraw ? 0 : minWithdraw,
-											max: !maxWithdraw
-												? counterpart.translate(
-														'gateway.limit_withdraw_asset_none'
-												  )
-												: maxWithdraw,
+											coin: selectedAsset,
 										}
 									)}
+									// placeholder={counterpart.translate(
+									// 	'gateway.limit_withdraw_asset',
+									// 	{
+									// 		min: !minWithdraw ? 0 : minWithdraw,
+									// 		max: !maxWithdraw
+									// 			? counterpart.translate(
+									// 					'gateway.limit_withdraw_asset_none'
+									// 			  )
+									// 			: maxWithdraw,
+									// 	}
+									// )}
 								/>
 							</div>
 							{canCoverWithdrawal &&
