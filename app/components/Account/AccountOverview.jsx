@@ -22,6 +22,13 @@ import counterpart from 'counterpart';
 import SearchInput from '../Utility/SearchInput';
 import PageHeader from 'components/PageHeader/PageHeader';
 import StyledButton from 'components/Button/Button';
+import {BsGear} from 'react-icons/bs';
+import {BsFillCaretDownSquareFill} from 'react-icons/bs';
+import {
+	AiOutlineArrowUp,
+	AiOutlineArrowDown,
+	AiOutlineArrowRight,
+} from 'react-icons/ai';
 
 class AccountOverview extends React.Component {
 	constructor(props) {
@@ -41,15 +48,44 @@ class AccountOverview extends React.Component {
 			],
 			hideFishingProposals: true,
 			currentDisplay: 'portfolio',
+			balanceList: Immutable.List(),
+			hideZeroBalance: true,
+			totalChange: 0,
+			isPositive: false,
+			isZero: true,
 		};
 
+		//this.totalChange = this.totalChange.bind(this);
 		this._handleFilterInput = this._handleFilterInput.bind(this);
+
+		// DEBUG
+		//console.log("debug")
+		//console.log("props overview:" + JSON.stringify(this.state))
 	}
 
 	_handleFilterInput(e) {
 		this.setState({
 			filterValue: e.target.value,
 		});
+	}
+
+	componentDidUpdate(prevProps) {
+		if (this.state.totalChange !== prevProps.totalChange) {
+			this.setState({totalChange: window.totalChange});
+			if (this.state.totalChange > 0) {
+				this.setState({isPositive: true});
+				this.setState({isZero: false});
+			}
+			if (this.state.totalChange < 0) {
+				this.setState({isPositive: false});
+				this.setState({isZero: false});
+			}
+			if (Math.abs(this.state.totalChange) < 0.01) {
+				this.setState({isPositive: false});
+				this.setState({isZero: true});
+			}
+			console.log('state overview:' + this.state.totalChange);
+		}
 	}
 
 	componentWillMount() {
@@ -71,6 +107,11 @@ class AccountOverview extends React.Component {
 		) {
 			this.setState({currentDisplay: qd['currentDisplay'][0]});
 		}
+		this.state.totalChange = setInterval(this.state.totalChange);
+	}
+
+	componentWillUnmount() {
+		clearInterval(this.state.totalChange);
 	}
 
 	_checkMarginStatus(props = this.props) {
@@ -98,9 +139,41 @@ class AccountOverview extends React.Component {
 			nextProps.hiddenAssets !== this.props.hiddenAssets ||
 			!utils.are_equal_shallow(nextState, this.state) ||
 			this.state.filterValue !== nextState.filterValue ||
-			this.state.enabledColumns !== nextState.enabledColumns
+			this.state.enabledColumns !== nextState.enabledColumns ||
+			this.state.totalChange !== nextState.totalChange
 		);
 	}
+
+	handleHideZeroBalance = () => {
+		let newHideZeroBalance = !this.state.hideZeroBalance;
+
+		//DEBUG -> hideZeroBalance is not updating, why?
+		//console.log("new: " + newHideZeroBalance);
+		//console.log("state 1: " + this.state.hideZeroBalance);
+
+		this.setState({
+			hideZeroBalance: newHideZeroBalance,
+		});
+		SettingsActions.changeSetting({
+			setting: 'hideZeroBalance',
+			value: newHideZeroBalance,
+		});
+
+		//console.log("new 2: " + newHideZeroBalance);
+		//console.log("state 2: " + this.state.hideZeroBalance);
+
+		// Note: state updating correctly now
+
+		if (newHideZeroBalance) {
+			// true -> hide zero balances
+			this.props.balanceList = window.balanceList;
+		}
+		if (!newHideZeroBalance) {
+			// false -> show all assets
+			this.props.balanceList = window.includedList;
+		}
+		//DEBUG console.log("state:" + this.state.hideZeroBalance);
+	};
 
 	_changeShownAssets(shownAssets = 'active') {
 		this.setState({
@@ -115,6 +188,21 @@ class AccountOverview extends React.Component {
 		this.setState({
 			hideFishingProposals: !this.state.hideFishingProposals,
 		});
+	}
+
+	applyStyles(flag) {
+		if (flag) {
+			let el = document.getElementById('total-change');
+			if (el) {
+				el.setAttribute('style', 'background-color: #009d55!important');
+			}
+		}
+		if (!flag) {
+			let el = document.getElementById('total-change');
+			if (el) {
+				el.setAttribute('style', 'background-color: #ff2929!important');
+			}
+		}
 	}
 
 	render() {
@@ -137,7 +225,8 @@ class AccountOverview extends React.Component {
 		let includedPortfolioList, hiddenPortfolioList;
 		let account_balances = account.get('balances');
 		let includedBalancesList = Immutable.List(),
-			hiddenBalancesList = Immutable.List();
+			hiddenBalancesList = Immutable.List(),
+			completeAssetList = Immutable.List();
 		call_orders.forEach((callID) => {
 			let position = ChainStore.getObject(callID);
 			if (position) {
@@ -195,11 +284,21 @@ class AccountOverview extends React.Component {
 					}
 				}
 
+				completeAssetList = completeAssetList.push(a);
+
 				if (hiddenAssets.includes(asset_type) && assetName.includes(filter)) {
 					hiddenBalancesList = hiddenBalancesList.push(a);
 				} else if (assetName.includes(filter)) {
 					includedBalancesList = includedBalancesList.push(a);
 				}
+
+				window.balanceList = completeAssetList;
+				window.includedList = includedBalancesList;
+
+				//DEBUG
+				//console.log("hiddenList: " + hiddenBalancesList);		// blank
+				//console.log("includedList: " + includedBalancesList); // list being shown
+				console.log('completeList: ' + completeAssetList); // same list
 			});
 		}
 
@@ -371,6 +470,51 @@ class AccountOverview extends React.Component {
 							>
 								Fund Accounts
 							</StyledButton>
+							<span
+								onClick={() => console.log('settings!')}
+								align="start"
+								css={{
+									marginTop: '10px',
+									backgroundColor: 'rgba(36,40,52,255)',
+									paddingLeft: '10px',
+									paddingRight: '10px',
+									paddingTop: '2px',
+									paddingBottom: '10px',
+									height: '100%',
+									width: '100%',
+									border: '0px solid white',
+								}}
+							>
+								<BsGear
+									align="center"
+									css={{
+										height: 'auto',
+										width: '25%',
+										paddingRight: '2px',
+										paddingTop: '5px',
+									}}
+								/>
+								<BsFillCaretDownSquareFill
+									align="center"
+									css={{
+										marginLeft: '2px',
+										marginBottom: '0px',
+									}}
+								/>
+							</span>
+							{/*
+							<span>
+								<BsGear
+									css={{
+										color: theme.colors.white, 
+										marginLeft: '10px',
+										marginRight: '0px',
+										marginBottom: '8px',
+									}}
+								>
+								</BsGear>
+							</span>
+							*/}
 						</Space>
 					</div>
 				</div>
@@ -388,12 +532,136 @@ class AccountOverview extends React.Component {
 								})}
 							>
 								<div className="estimated-balance">
-									<p>Estimateed Balance</p>
+									<p>Estimated Balance</p>
 									<p className="total">
 										{portfolioActiveAssetsBalance} {preferredUnit}
 									</p>
+									<span
+										id="total-change"
+										css={(theme) => ({
+											color: 'white !important',
+											background: 'gray',
+											padding: '5px',
+											borderRadius: '5px',
+											fontSize: '14px',
+											marginLeft: '10px',
+											'.total-change-up': {
+												backgroundColor: '#009d55 !important',
+											},
+											'.total-change-down': {
+												backgroundColor: '#ff2929 !important',
+											},
+										})}
+										/*	
+									className={
+										this.state.isPositive && !this.state.isZero ? 
+										'total-change-up' : 
+										'total-change-down'}
+									*/
+
+										// Style not aplying correctly with classes
+										className={
+											this.state.isPositive && !this.state.isZero
+												? this.applyStyles(true)
+												: this.applyStyles(false)
+										}
+
+										/*
+										style={this.state.isPositive ? 
+											'background-color: #009d55 !important;' : 
+											'background-color: #ff2929 !important;'}
+										*/
+									>
+										<span
+											css={(theme) => ({
+												color: 'white !important',
+											})}
+										>
+											<span
+												css={(theme) => ({
+													paddingRight: '3px',
+												})}
+											>
+												<span
+													css={(theme) => ({
+														marginTop: '3px',
+													})}
+												>
+													{/* Total change is 0 */}
+													{this.state.isZero ? (
+														<AiOutlineArrowRight className="mt-2" />
+													) : (
+														''
+													)}
+													{/* Total change is positive */}
+													{this.state.isPositive && !this.state.isZero ? (
+														<AiOutlineArrowUp className="mt-2" />
+													) : (
+														''
+													)}
+													{/* Total change is negative */}
+													{!this.state.isPositive && !this.state.isZero ? (
+														<AiOutlineArrowDown className="mt-2" />
+													) : (
+														''
+													)}
+												</span>
+
+												<span
+													className="pl-3"
+													css={(theme) => ({
+														marginLeft: '3px',
+													})}
+												>
+													{this.state.totalChange.toFixed(2).toString() + ' %'}
+												</span>
+											</span>
+										</span>
+									</span>
 								</div>
-								<div className="filter inline-block">
+								<div
+									className="filter d-inline-block"
+									css={(theme) => ({
+										width: '30%!important;',
+									})}
+								>
+									<Tooltip
+										onClick={
+											() => this.handleHideZeroBalance()
+											//console.log('Hide zero balances: ' + this.state.hideZeroBalance)
+										}
+										key="tooltip.hide_zero_balance"
+										title={counterpart.translate('wallet.hide_zero_balance')}
+									>
+										<div
+											className="d-flex flex-row"
+											css={(theme) => ({
+												marginBottom: '10px',
+											})}
+										>
+											<Translate
+												className="d-inline text-left"
+												css={(theme) => ({
+													width: '50%',
+												})}
+												content="wallet.hide_zero_balance"
+											/>
+											<div
+												//onClick={this.handleHideZeroBalance.bind(this)}
+												className="hide-zero-balance"
+												css={(theme) => ({
+													display: 'inline-block!important',
+													width: '30%',
+												})}
+											>
+												<Switch
+													className="d-inline-block"
+													checked={this.state.hideZeroBalance}
+													onChange={this.handleHideZeroBalance.bind(this)}
+												/>
+											</div>
+										</div>
+									</Tooltip>
 									<SearchInput
 										placeholder={counterpart.translate('icons.zoom')}
 										value={this.state.filterValue}
