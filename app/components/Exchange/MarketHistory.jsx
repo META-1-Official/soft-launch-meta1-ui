@@ -144,19 +144,20 @@ const MarketHistoryViewRow = ({fill, base, quote}) => {
 				</div>
 			</td>
 			<td>
-				<div className="td-content">
+				<div className="td-content" style={{alignItems: 'flex-end'}}>
 					<div
 						style={{
 							color: 'white',
 							fontSize: '15px',
 							fontWeight: 400,
+							textAlign: 'right',
 						}}
 					>
 						{Number(total).toLocaleString('en')}
 					</div>
 				</div>
 			</td>
-			<td>
+			{/* <td>
 				<div className="td-content">
 					<div
 						style={{
@@ -175,7 +176,7 @@ const MarketHistoryViewRow = ({fill, base, quote}) => {
 						<Icon name="times" className="cancel-round-btn" />
 					</div>
 				</div>
-			</td>
+			</td> */}
 		</tr>
 	);
 };

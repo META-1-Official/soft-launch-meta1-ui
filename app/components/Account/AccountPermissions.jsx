@@ -10,7 +10,6 @@ import {PublicKey} from 'meta1js';
 import AccountPermissionsList from './AccountPermissionsList';
 import AccountPermissionsMigrate from './AccountPermissionsMigrate';
 import PubKeyInput from '../Forms/PubKeyInput';
-// import { Tabs, Tab } from '../Utility/Tabs';
 import {Tabs} from 'antd';
 import HelpContent from '../Utility/HelpContent';
 import {RecentTransactions} from './RecentTransactions';
