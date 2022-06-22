@@ -117,22 +117,8 @@ class WalletUnlockModal extends React.Component {
 	handlePasswordChange(event) {
 		this.setState({
 			password: event.target.value,
+			passwordError: null,
 		});
-		if (event.target.value.length < 52) {
-			let el = document.querySelectorAll('.ant-form-item-explain')[1];
-			if (el !== null) {
-				let child = el.children[0];
-				child.setAttribute('class', 'ant-form-item-explain-error');
-				child.innerText = 'Invalid password!';
-			}
-		} else {
-			let el = document.querySelectorAll('.ant-form-item-explain')[1];
-			if (el !== null) {
-				let child = el.children[0];
-				child.setAttribute('class', 'ant-form-item-explain-error');
-				child.innerText = '';
-			}
-		}
 	}
 
 	handleModalClose = () => {
@@ -245,14 +231,14 @@ class WalletUnlockModal extends React.Component {
 		const {passwordLogin, resolve} = this.props;
 		const {stopAskingForBackup} = this.state;
 
-		const {cloudMode} = WalletDb.validatePassword(
+		const {success, cloudMode} = WalletDb.validatePassword(
 			password || '',
 			true, //unlock
 			account
 		);
 
-		if (WalletDb.isLocked()) {
-			this.setState({passwordError: true});
+		if (!success && WalletDb.isLocked()) {
+			this.setState({passwordError: 'Invalid password'});
 		} else {
 			if (!passwordLogin) {
 				this.setState({password: ''});
@@ -357,27 +343,6 @@ class WalletUnlockModal extends React.Component {
 						}
 						const account = passwordLogin ? accountName : null;
 						this.validate(password, account);
-
-						// If login fails, shows "wrong password error" under password field
-						let n = document.querySelectorAll(
-							'.ant-form-item-explain-error'
-						).length;
-						if (n > 1) {
-							let el = document.querySelectorAll(
-								'.ant-form-item-explain-error'
-							)[1];
-							if (el !== null) {
-								el.innerText = 'Wrong password';
-							}
-						} else {
-							let el = document.querySelector('.ant-form-item-explain-error');
-							if (el !== null) {
-								el.innerText = 'Wrong password';
-							}
-						}
-						//
-						console.log('handleLogin:' + accountName);
-						this._onNavigate(`/account/${accountName}`, this, true);
 					}
 				});
 			}
