@@ -304,30 +304,7 @@ class Header extends React.Component {
 		let isLogged = false;
 
 		if (key === 'auth') {
-			//this._toggleLock(this, true);
-			// DEBUG only
-			/*
-			console.log("current user:" + currentAccount);
-			console.log("password login:" + passwordLogin);
-			console.log("1 isLogged:" + isLogged);
-			*/
-
-			if (currentAccount && passwordLogin && !isLogged) {
-				this._toggleLock(this, true);
-				isLogged = true;
-				//console.log("2 isLogged:" + isLogged);
-				this._onNavigate(`/account/${currentAccount}`, this, true);
-			} else {
-				this._toggleLock(this, true);
-				isLogged = false;
-				//console.log("3 isLogged:" + isLogged);
-				this._onNavigate('/account/null', this, true);
-			}
 			this._toggleLock(this, true);
-			//
-			// note: consider changing default redirection to /account, not previous user when logout
-			// but, this depends on Remember Me logic, too
-			//
 		} else if (key === 'dashboard') {
 			this._onNavigate(`/account/${currentAccount}`, this, true);
 		} else if (key === 'createAccount') {

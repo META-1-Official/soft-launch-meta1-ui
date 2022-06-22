@@ -6,7 +6,6 @@ import WalletUnlockStore from 'stores/WalletUnlockStore';
 import SettingsActions from 'actions/SettingsActions';
 
 const LoginTypeSelectorView = ({type}) => {
-	console.log('TYPE', type);
 	return (
 		<div className="login-type-selector">
 			<div
