@@ -29,6 +29,10 @@
 		padding: 10px 10px 10px 0 !important;
 	}
 
+	.table.order-table > tbody > tr > td ~ .table-body-class {
+		text-align: left !important;
+	}
+
 	.table.order-table > tbody > tr {
 		border: 1px solid black;
 	}

@@ -192,6 +192,7 @@ class OrderBookRowHorizontal extends React.Component {
 								color: 'rgba(255, 255, 255, 0.5)',
 								paddingLeft: '10px',
 							}}
+							className="table-body-class"
 						>
 							{value}
 						</td>
@@ -219,6 +220,7 @@ class OrderBookRowHorizontal extends React.Component {
 					>
 						<td
 							style={{color: '#FF2929', textAlign: 'left', paddingLeft: '2px'}}
+							className="table-body-class"
 						>
 							{price}
 						</td>
