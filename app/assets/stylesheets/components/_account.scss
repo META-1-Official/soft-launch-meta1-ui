@@ -516,6 +516,44 @@ div.portfolio {
 	margin-bottom: 25px;
 	border-radius: 5px;
 
+	.estimated-balance {
+		.total {
+			display: flex;
+			align-items: center;
+
+			font-size: 30px;
+			color: white;
+			font-weight: 600;
+
+			.value {
+				border-radius: 3px;
+				font-size: 12px;
+				font-weight: 600;
+				background: gray !important;
+				color: white !important;
+				margin-left: 10px;
+
+				display: flex;
+				align-items: center;
+				justify-content: center;
+
+				padding: 5px;
+
+				&.change-up {
+					background-color: #009d55 !important;
+				}
+
+				&.change-down {
+					background-color: #ff2929 !important;
+				}
+
+				svg {
+					margin-right: 3px;
+				}
+			}
+		}
+	}
+
 	&.header-selector {
 		.estimated-balance {
 			display: inline-block;
