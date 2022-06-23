@@ -1467,6 +1467,7 @@ form.hide-container {
 .backing-asset-detail {
 	width: 80%;
 	margin: 0 auto;
+	overflow-y: unset !important;
 
 	.header-wrapper {
 		padding: 3rem;
