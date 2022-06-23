@@ -12,6 +12,9 @@ import {
 	ArrowUpOutlined,
 	ArrowDownOutlined,
 	StarOutlined,
+	CaretUpFilled,
+	CaretDownFilled,
+	CaretRightFilled,
 } from '@ant-design/icons';
 import AltContainer from 'alt-container';
 import AssetWrapper from '../Utility/AssetWrapper';
@@ -235,17 +238,33 @@ class AssetsPairTabs extends React.Component {
 		return [
 			{
 				title: (
-					<div
-						style={{
-							fontSize: '12px',
-							color: '#979797',
-							textAlign: 'center',
-							padingRight: '0px',
-							marginRight: '10px',
-						}}
-					>
-						Pair
-					</div>
+					<>
+						<span
+							style={{
+								fontSize: '12px',
+								color: '#979797',
+								textAlign: 'center',
+								paddingLeft: '10px',
+								marginLeft: '10px',
+								padingRight: '10px',
+								marginRight: '10px',
+								textAlign: 'left',
+							}}
+						>
+							Pair
+						</span>
+						<span
+							style={{
+								fontSize: '12px',
+								color: '#979797',
+								textAlign: 'right',
+								padingLeft: '10px',
+								marginLeft: '10px',
+							}}
+						>
+							Change
+						</span>
+					</>
 				),
 				colSpan: 1,
 				key: 'name',
@@ -289,7 +308,7 @@ class AssetsPairTabs extends React.Component {
 								>
 									<span
 										style={{
-											fontSize: '12px',
+											fontSize: '14px',
 											color: '#D0D0D0',
 										}}
 									>
@@ -297,8 +316,8 @@ class AssetsPairTabs extends React.Component {
 									</span>
 									<span
 										style={{
-											fontSize: '11px',
-											color: '#8B7474',
+											fontSize: '13px',
+											color: '#715D5C',
 										}}
 									>{` / ${baseAssetSymbol}`}</span>
 								</div>
@@ -327,37 +346,37 @@ class AssetsPairTabs extends React.Component {
 
 										{classNameDiv === 'change-up' && (
 											<>
-												<ArrowUpOutlined
+												<CaretUpFilled
 													className={classNameDiv}
-													style={{fontSize: '14px'}}
+													style={{fontSize: '12px'}}
 												/>
 												<span
 													className={classNameDiv}
-													style={{fontSize: '14px'}}
+													style={{fontSize: '12px'}}
 												>{`+${rateChange.rateChange} %`}</span>
 											</>
 										)}
 										{classNameDiv === 'change-down' && (
 											<>
-												<ArrowDownOutlined
+												<CaretDownFilled
 													className={classNameDiv}
-													style={{fontSize: '14px'}}
+													style={{fontSize: '12px'}}
 												/>
 												<span
 													className={classNameDiv}
-													style={{fontSize: '14px'}}
+													style={{fontSize: '12px'}}
 												>{`${rateChange.rateChange} %`}</span>
 											</>
 										)}
 										{classNameDiv === '' && (
 											<>
-												<ArrowRightOutlined
+												<CaretRightFilled
 													className={classNameDiv}
-													style={{fontSize: '14px'}}
+													style={{fontSize: '12px'}}
 												/>
 												<span
 													className={classNameDiv}
-													style={{fontSize: '14px'}}
+													style={{fontSize: '12px'}}
 												>{`${rateChange.rateChange} %`}</span>
 											</>
 										)}
@@ -382,7 +401,7 @@ class AssetsPairTabs extends React.Component {
 						Change
 					</div>
 				),
-				colSpan: 1,
+				colSpan: 0,
 				dataIndex: 'rateChange',
 				key: 'rateChange',
 				sorter: (a, b) => {
@@ -411,37 +430,37 @@ class AssetsPairTabs extends React.Component {
 						>
 							{className === 'change-up' && (
 								<>
-									<ArrowUpOutlined
+									<CaretUpFilled
 										className={className}
-										style={{fontSize: '14px'}}
+										style={{fontSize: '12px'}}
 									/>
 									<span
 										className={className}
-										style={{fontSize: '14px'}}
+										style={{fontSize: '12px'}}
 									>{`+${rateChange} %`}</span>
 								</>
 							)}
 							{className === 'change-down' && (
 								<>
-									<ArrowDownOutlined
+									<CaretDownFilled
 										className={className}
-										style={{fontSize: '14px'}}
+										style={{fontSize: '12px'}}
 									/>
 									<span
 										className={className}
-										style={{fontSize: '14px'}}
+										style={{fontSize: '12px'}}
 									>{`${rateChange} %`}</span>
 								</>
 							)}
 							{className === '' && (
 								<>
-									<ArrowRightOutlined
+									<CaretRightFilled
 										className={className}
-										style={{fontSize: '14px'}}
+										style={{fontSize: '12px'}}
 									/>
 									<span
 										className={className}
-										style={{fontSize: '14px'}}
+										style={{fontSize: '12px'}}
 									>{`${rateChange} %`}</span>
 								</>
 							)}
@@ -455,8 +474,10 @@ class AssetsPairTabs extends React.Component {
 						style={{
 							fontSize: '12px',
 							color: '#979797',
-							textAlign: 'center',
+							textAlign: 'right',
 							minWidth: '50px',
+							marginLeft: '10px',
+							paddingLeft: '10px',
 						}}
 					>
 						Volume
@@ -485,7 +506,12 @@ class AssetsPairTabs extends React.Component {
 						<div>
 							<div
 								className="price"
-								style={{fontSize: '14px', minWidth: '50px'}}
+								style={{
+									fontSize: '14px',
+									minWidth: '50px',
+									textAlign: 'right',
+									color: '#D0D0D0',
+								}}
 							>{`$${price}`}</div>
 						</div>
 					);
@@ -627,7 +653,7 @@ class AssetsPairTabs extends React.Component {
 		));
 
 		const toggleBoxes = [];
-		assets.map((asset) => {
+		assets.slice(0, 4).map((asset) => {
 			toggleBoxes.push(
 				<div
 					key={asset.symbol}
