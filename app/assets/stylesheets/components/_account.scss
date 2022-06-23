@@ -411,11 +411,16 @@ table.table.dashboard-table {
 .portfolio-table-wrapper {
 	.antd-table {
 		border-radius: 8px;
+		background: #080000;
 
 		th {
 			span {
 				text-transform: uppercase;
 			}
+		}
+
+		.ant-table-footer {
+			display: none;
 		}
 	}
 

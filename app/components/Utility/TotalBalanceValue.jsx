@@ -125,6 +125,7 @@ class TotalValue extends MarketStatsCheck {
 					allMarketStats,
 					coreAsset
 				);
+				console.log('collateral', collateralValue);
 				totalValue += collateralValue;
 				assetValues = this._assetValues(
 					assetValues,
@@ -145,6 +146,7 @@ class TotalValue extends MarketStatsCheck {
 					allMarketStats,
 					coreAsset
 				);
+				console.log('open orders', orderValue);
 				totalValue += orderValue;
 				assetValues = this._assetValues(
 					assetValues,
@@ -165,6 +167,7 @@ class TotalValue extends MarketStatsCheck {
 					allMarketStats,
 					coreAsset
 				);
+				console.log('debt', debtValue);
 				totalValue -= debtValue;
 				assetValues = this._assetValues(
 					assetValues,
@@ -188,6 +191,7 @@ class TotalValue extends MarketStatsCheck {
 								coreAsset
 						  )
 						: balance.amount;
+				console.log('eqval', eqValue);
 				totalValue += eqValue;
 				assetValues = this._assetValues(
 					assetValues,

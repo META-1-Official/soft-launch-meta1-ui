@@ -57,9 +57,6 @@ class AccountPortfolioList extends React.Component {
 			bridgeAsset: null,
 			allRefsAssigned: false,
 			portfolioSort: props.viewSettings.get('portfolioSort', 'value'),
-			prod: 0,
-			changes: 0,
-			totalChange: 0,
 			sortingColumns: {},
 		};
 
@@ -95,16 +92,10 @@ class AccountPortfolioList extends React.Component {
 
 	componentWillMount() {
 		this.refCheckInterval = setInterval(this._checkRefAssignments);
-		this.state.prod = setInterval(this.state.prod);
-		this.state.changes = setInterval(this.state.changes);
-		this.state.totalChange = setInterval(this.state.totalChange);
 	}
 
 	componentWillUnmount() {
 		clearInterval(this.refCheckInterval);
-		clearInterval(this.state.totalChange);
-		clearInterval(this.state.prod);
-		clearInterval(this.state.changes);
 	}
 
 	_checkRefAssignments() {
@@ -143,20 +134,6 @@ class AccountPortfolioList extends React.Component {
 				);
 			}, false)
 		);
-	}
-
-	componentDidUpdate(prevProps) {
-		if (this.state.prod !== prevProps.prod) {
-			this.setState({prod: window.prod});
-		}
-
-		if (this.state.changes !== prevProps.changes) {
-			this.setState({changes: window.changes});
-		}
-
-		if (this.state.totalChange !== prevProps.totalChange) {
-			this.setState({totalChange: window.totalChange});
-		}
 	}
 
 	showBridgeModal() {
@@ -565,6 +542,7 @@ class AccountPortfolioList extends React.Component {
 
 		let balances = [];
 		const emptyCell = '-';
+
 		balanceList.forEach((balance) => {
 			let balanceObject = ChainStore.getObject(balance);
 			if (!balanceObject) return;
@@ -941,77 +919,11 @@ class AccountPortfolioList extends React.Component {
 		);
 	}
 
-	// getTotalChange = () => {
-	// 	let pairs = [];
-	// 	let assets = this.props.allMarketStats;
-
-	// 	let prod = this.state.prod; // sum of (amount * change) for all assets with balance
-	// 	let changes = this.state.changes; // sum of all the changes of the assets
-
-	// 	let n = assets.size;
-	// 	let assetHasBalance = [];
-
-	// 	for (let j = 0; j <= 15; j++) {
-	// 		if (assets._root.nodes[j]?.entry) {
-	// 			let pair = assets._root.nodes[j].entry[0];
-	// 			let amount = assets._root.nodes[j].entry[1].price._not_samebase_real;
-	// 			if (amount > 0 && amount != 'undefined') {
-	// 				let change = assets._root.nodes[j].entry[1].change * 1.0;
-	// 				prod += amount * change;
-	// 				changes += change;
-	// 			}
-	// 			if (!pairs.includes(pair)) {
-	// 				pairs.push(pair);
-	// 			}
-	// 			if (!assetHasBalance.includes(pair) && amount > 0) {
-	// 				assetHasBalance.push(pair);
-	// 			}
-	// 		} else if (assets._root.nodes[j]?.nodes) {
-	// 			for (var k in assets._root.nodes[j].nodes) {
-	// 				let newPair = JSON.stringify(assets._root.nodes[j].nodes[k].entry);
-
-	// 				try {
-	// 					let amount =
-	// 						assets._root.nodes[j].nodes.entry[1].price._not_samebase_real;
-	// 					if (amount > 0 && amount !== 'undefined') {
-	// 						let change = assets._root.nodes[j].nodes.entry[1].change * 1.0;
-	// 						prod += amount * change;
-	// 						changes += change;
-	// 					}
-
-	// 					if (typeof newPair != 'undefined') {
-	// 						let end = newPair.indexOf(',');
-
-	// 						if (!pairs.includes(newPair)) {
-	// 							newPair = newPair.slice(1, end);
-	// 							pairs.push(newPair);
-	// 						}
-	// 					}
-	// 					if (!assetHasBalance.includes(newPair) && amount > 0) {
-	// 						assetHasBalance.push(newPair);
-	// 					}
-	// 				} catch (e) {
-	// 				}
-	// 			}
-	// 		}
-	// 	}
-
-	// 	let keys = Object.keys(assets);
-
-	// 	var result = prod / changes;
-	// 	if (result != 'undefined') {
-	// 		window.totalChange = result;
-	// 		window.prod = 0;
-	// 		window.changes = 0;
-	// 	}
-	// };
-
 	render() {
 		const {currentAccount} = this.props;
 
 		return (
 			<div className="portfolio-table-wrapper">
-				{/* {this.getTotalChange()} */}
 				<CustomTable
 					className="table dashboard-table table-hover"
 					rows={this._renderBalances(
