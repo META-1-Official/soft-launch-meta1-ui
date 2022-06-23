@@ -140,7 +140,8 @@ const SideBar = ({collapsed, currentLink, toggle}: ISideBar) => {
 			onBreakpoint={() => {
 				screens['xs'] === true ? toggle(true) : toggle(false);
 			}}
-			collapsed={collapsed}
+			className={collapsed ? 'none' : null}
+			// collapsed={collapsed}
 		>
 			<Menu
 				css={{
