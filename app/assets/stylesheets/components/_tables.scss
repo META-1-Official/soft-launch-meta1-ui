@@ -25,6 +25,10 @@
 		text-align: left;
 	}
 
+	.table.order-table .time-header-class {
+		padding: 10px 10px 10px 20px !important;
+	}
+
 	.table.order-table > thead > tr > th ~ .table-volume-class {
 		padding: 10px 10px 10px 0 !important;
 	}
@@ -46,6 +50,10 @@
 		padding: 4px 5px 4px 0px;
 		font-size: 12px !important;
 		height: 30px;
+	}
+
+	table.order-table > tbody .time-class {
+		padding: 4px 5px 4px 10px !important;
 	}
 
 	.table.order-table > tbody > tr > td.centric-items {
