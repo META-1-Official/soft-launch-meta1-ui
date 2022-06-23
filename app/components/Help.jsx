@@ -12,7 +12,7 @@ class Help extends React.Component {
 
 		return (
 			<>
-				<PageHeader title="Help" showDivider level={2} />
+				<PageHeader title="Learn" showDivider level={2} />
 				<div
 					css={() => ({
 						height: '100%',
