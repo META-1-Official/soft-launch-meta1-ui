@@ -178,8 +178,6 @@ class AccountOverview extends React.Component {
 				}
 			});
 
-			console.log('BALANCE', account_balances);
-
 			// Separate balances into hidden and included
 			account_balances.forEach((a, asset_type) => {
 				const asset = ChainStore.getAsset(asset_type);
@@ -391,7 +389,7 @@ class AccountOverview extends React.Component {
 								})}
 							>
 								<div className="estimated-balance">
-									<p>Estimateed Balance</p>
+									<p>Estimated Balance</p>
 									<p className="total">
 										{portfolioActiveAssetsBalance} {preferredUnit}
 									</p>

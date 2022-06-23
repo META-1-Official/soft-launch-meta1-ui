@@ -57,10 +57,7 @@ class AccountPortfolioList extends React.Component {
 			bridgeAsset: null,
 			allRefsAssigned: false,
 			portfolioSort: props.viewSettings.get('portfolioSort', 'value'),
-			portfolioSortDirection: props.viewSettings.get(
-				'portfolioSortDirection',
-				'ascend'
-			), // alphabetical A -> B, numbers high to low
+			sortingColumns: {},
 		};
 
 		this.qtyRefs = {};
@@ -130,7 +127,6 @@ class AccountPortfolioList extends React.Component {
 			np.settings !== this.props.settings ||
 			np.hiddenAssets !== this.props.hiddenAssets ||
 			ns.portfolioSort !== this.state.portfolioSort ||
-			ns.portfolioSortDirection !== this.state.portfolioSortDirection ||
 			np.allMarketStats.reduce((a, value, key) => {
 				return (
 					utils.check_market_stats(value, this.props.allMarketStats.get(key)) ||
@@ -225,25 +221,21 @@ class AccountPortfolioList extends React.Component {
 	}
 
 	sortFunctions = {
-		qty: function (a, b, force) {
-			if (Number(this.qtyRefs[a.key]) < Number(this.qtyRefs[b.key]))
-				return this.state.portfolioSortDirection || force ? -1 : 1;
+		qty: function (a, b) {
+			if (Number(this.qtyRefs[a.key]) < Number(this.qtyRefs[b.key])) return 1;
 
-			if (Number(this.qtyRefs[a.key]) > Number(this.qtyRefs[b.key]))
-				return this.state.portfolioSortDirection || force ? 1 : -1;
+			if (Number(this.qtyRefs[a.key]) > Number(this.qtyRefs[b.key])) return -1;
 		},
-		alphabetic: function (a, b, force) {
-			if (a.key > b.key)
-				return this.state.portfolioSortDirection || force ? 1 : -1;
-			if (a.key < b.key)
-				return this.state.portfolioSortDirection || force ? -1 : 1;
+		alphabetic: function (a, b) {
+			if (a.key > b.key) return 1;
+			if (a.key < b.key) return -1;
 			return 0;
 		},
 		priceValue: function (a, b) {
 			let aPrice = this.priceRefs[a.key];
 			let bPrice = this.priceRefs[b.key];
 			if (aPrice && bPrice) {
-				return this.props.sortDirection ? aPrice - bPrice : bPrice - aPrice;
+				return bPrice - aPrice;
 			} else if (aPrice === null && bPrice !== null) {
 				return 1;
 			} else if (aPrice !== null && bPrice === null) {
@@ -256,13 +248,13 @@ class AccountPortfolioList extends React.Component {
 			let aValue = this.valueRefs[a.key];
 			let bValue = this.valueRefs[b.key];
 			if (aValue && bValue) {
-				return this.props.sortDirection ? aValue - bValue : bValue - aValue;
+				return bValue - aValue;
 			} else if (!aValue && bValue) {
 				return 1;
 			} else if (aValue && !bValue) {
 				return -1;
 			} else {
-				return this.sortFunctions.alphabetic(a, b, true);
+				return this.sortFunctions.alphabetic(a, b);
 			}
 		},
 		changeValue: function (a, b) {
@@ -272,12 +264,8 @@ class AccountPortfolioList extends React.Component {
 			if (aValue && bValue) {
 				let aChange = parseFloat(aValue) != 'NaN' ? parseFloat(aValue) : aValue;
 				let bChange = parseFloat(bValue) != 'NaN' ? parseFloat(bValue) : bValue;
-				let direction =
-					typeof this.state.portfolioSortDirection !== 'undefined'
-						? this.state.portfolioSortDirection
-						: true;
 
-				return direction ? aChange - bChange : bChange - aChange;
+				return bChange - aChange;
 			}
 		},
 	};
@@ -346,19 +334,43 @@ class AccountPortfolioList extends React.Component {
 	}
 
 	toggleSortOrder(pagination, filters, sorter) {
+		const columns = {...this.state.sortingColumns};
+
+		if (sorter instanceof Array) {
+			sorter.forEach((elem) => {
+				if (!Object.keys(columns).includes(elem.field)) {
+					columns[elem.field] = elem.order;
+				} else if (
+					Object.keys(columns).includes(elem.field) &&
+					columns[elem.field] !== elem.value
+				) {
+					columns[elem.field] = elem.order;
+				}
+			});
+			const x = Object.keys(columns).filter(
+				(item) => !sorter.map((item) => item.field).includes(item)
+			);
+			x.forEach((item) => {
+				delete columns[item];
+			});
+		} else {
+			columns[sorter.field] = sorter.order;
+		}
+
+		this.setState({
+			sortingColumns: columns,
+		});
 		SettingsActions.changeViewSetting({
-			portfolioSortDirection: sorter.order,
 			portfolioSort: sorter.field,
 		});
 		this.setState({
-			portfolioSortDirection: sorter.order,
 			portfolioSort: sorter.field,
 		});
 	}
 
 	getHeader() {
 		let {settings} = this.props;
-		let {shownAssets, portfolioSortDirection, portfolioSort} = this.state;
+		const {sortingColumns} = this.state;
 
 		const preferredUnit =
 			settings.get('unit') || this.props.core_asset.get('symbol');
@@ -370,8 +382,13 @@ class AccountPortfolioList extends React.Component {
 				dataIndex: 'asset',
 				align: 'left',
 				customizable: false,
-				sorter: this.sortFunctions.alphabetic,
-				sortOrder: portfolioSort === 'asset' && portfolioSortDirection,
+				sorter: {
+					compare: this.sortFunctions.alphabetic,
+					multiple:
+						Object.keys(sortingColumns).indexOf(
+							(column) => column.field === 'asset'
+						) + 1,
+				},
 				render: (item) => {
 					return <span style={{whiteSpace: 'nowrap'}}>{item}</span>;
 				},
@@ -381,8 +398,13 @@ class AccountPortfolioList extends React.Component {
 				dataIndex: 'qty',
 				align: 'right',
 				customizable: false,
-				sorter: this.sortFunctions.qty,
-				sortOrder: portfolioSort === 'qty' && portfolioSortDirection,
+				sorter: {
+					compare: this.sortFunctions.qty,
+					multiple:
+						Object.keys(sortingColumns).indexOf(
+							(column) => column.field === 'qty'
+						) + 1,
+				},
 				render: (item) => {
 					return <span style={{whiteSpace: 'nowrap'}}>{item}</span>;
 				},
@@ -408,8 +430,13 @@ class AccountPortfolioList extends React.Component {
 				dataIndex: 'value',
 				align: 'right',
 				customizable: false,
-				sorter: this.sortFunctions.totalValue,
-				sortOrder: portfolioSort === 'value' && portfolioSortDirection,
+				sorter: {
+					compare: this.sortFunctions.totalValue,
+					multiple:
+						Object.keys(sortingColumns).indexOf(
+							(column) => column.field === 'value'
+						) + 1,
+				},
 				render: (item) => {
 					return <span style={{whiteSpace: 'nowrap'}}>{item}</span>;
 				},
@@ -424,8 +451,13 @@ class AccountPortfolioList extends React.Component {
 				),
 				dataIndex: 'price',
 				align: 'right',
-				sorter: this.sortFunctions.priceValue,
-				sortOrder: portfolioSort === 'price' && portfolioSortDirection,
+				sorter: {
+					compare: this.sortFunctions.priceValue,
+					multiple:
+						Object.keys(sortingColumns).indexOf(
+							(column) => column.field === 'price'
+						) + 1,
+				},
 				render: (item) => {
 					return <span style={{whiteSpace: 'nowrap'}}>{item}</span>;
 				},
