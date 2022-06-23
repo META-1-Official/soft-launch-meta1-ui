@@ -316,8 +316,8 @@ class Header extends React.Component {
 			this._onNavigate(`${tradeUrl}`, this, true);
 		} else if (key === 'explorer') {
 			this._onNavigate('/explorer/blocks', this, true);
-		} else if (key === 'help') {
-			this._onNavigate('/help', this, true);
+		} else if (key === 'get-help') {
+			window.open('https://support.meta1coin.vision');
 		} else if (key === 'withdraw') {
 			this._showWithdraw(this, true);
 		} else if (key === 'send') {
@@ -631,7 +631,7 @@ class Header extends React.Component {
 											display: 'none',
 										},
 									})}
-									onClick={() => this.handleHeaderLink({key: 'help'})}
+									onClick={() => this.handleHeaderLink({key: 'get-help'})}
 								>
 									<QuestionCircleOutlined
 										css={{color: theme.colors.white, marginRight: '10px'}}
