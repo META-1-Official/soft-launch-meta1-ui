@@ -271,12 +271,15 @@ class AccountTrade extends React.Component {
 					);
 				},
 				key: 'name',
-				sorter: (a, b) => {
-					return a.marketName > b.marketName
-						? 1
-						: a.marketName < b.marketName
-						? -1
-						: 0;
+				sorter: {
+					compare: (a, b) => {
+						return a.marketName > b.marketName
+							? 1
+							: a.marketName < b.marketName
+							? -1
+							: 0;
+					},
+					multiple: 0,
 				},
 				render: (rowData) => {
 					const quoteAssetSymbol = rowData.quoteAssetSymbol;
@@ -318,20 +321,23 @@ class AccountTrade extends React.Component {
 				},
 				dataIndex: 'price',
 				key: 'price',
-				sorter: (a, b) => {
-					let aPrice = a.price;
-					let bPrice = b.price;
-					if (aPrice.includes(',')) {
-						aPrice = aPrice.replaceAll(',', '');
-					}
-					if (bPrice.includes(',')) {
-						bPrice = bPrice.replaceAll(',', '');
-					}
-					return Number(aPrice) > Number(bPrice)
-						? 1
-						: Number(aPrice) < Number(bPrice)
-						? -1
-						: 0;
+				sorter: {
+					compare: (a, b) => {
+						let aPrice = a.price;
+						let bPrice = b.price;
+						if (aPrice.includes(',')) {
+							aPrice = aPrice.replaceAll(',', '');
+						}
+						if (bPrice.includes(',')) {
+							bPrice = bPrice.replaceAll(',', '');
+						}
+						return Number(aPrice) > Number(bPrice)
+							? 1
+							: Number(aPrice) < Number(bPrice)
+							? -1
+							: 0;
+					},
+					multiple: 0,
 				},
 				render: (price) => {
 					return (
@@ -362,12 +368,15 @@ class AccountTrade extends React.Component {
 				},
 				dataIndex: 'rateChange',
 				key: 'rateChange',
-				sorter: (a, b) => {
-					return Number(a.rateChange) > Number(b.rateChange)
-						? 1
-						: Number(a.rateChange) < Number(b.rateChange)
-						? -1
-						: 0;
+				sorter: {
+					compare: (a, b) => {
+						return Number(a.rateChange) > Number(b.rateChange)
+							? 1
+							: Number(a.rateChange) < Number(b.rateChange)
+							? -1
+							: 0;
+					},
+					multiple: 0,
 				},
 				render: (rateChange) => {
 					let className =
@@ -455,12 +464,15 @@ class AccountTrade extends React.Component {
 				},
 				dataIndex: 'rateHighLow',
 				key: 'rateHighLow',
-				sorter: (a, b) => {
-					return a.rateHighLow > b.rateHighLow
-						? 1
-						: a.rateHighLow < b.rateHighLow
-						? -1
-						: 0;
+				sorter: {
+					compare: (a, b) => {
+						return a.rateHighLow > b.rateHighLow
+							? 1
+							: a.rateHighLow < b.rateHighLow
+							? -1
+							: 0;
+					},
+					multiple: 0,
 				},
 				render: (rateHighLow) => {
 					return (
@@ -488,27 +500,30 @@ class AccountTrade extends React.Component {
 				},
 				dataIndex: 'marketCap',
 				key: 'marketCap',
-				sorter: (a, b) => {
-					let aMarketCap = a.marketCap;
-					let bMarketCap = b.marketCap;
+				sorter: {
+					compare: (a, b) => {
+						let aMarketCap = a.marketCap;
+						let bMarketCap = b.marketCap;
 
-					if (aMarketCap.includes(',')) {
-						aMarketCap = aMarketCap.replaceAll(',', '');
-					}
-					if (aMarketCap.includes('M')) {
-						aMarketCap = aMarketCap.replaceAll('M', '');
-					}
-					if (bMarketCap.includes(',')) {
-						bMarketCap = bMarketCap.replaceAll(',', '');
-					}
-					if (bMarketCap.includes('M')) {
-						bMarketCap = bMarketCap.replaceAll('M', '');
-					}
-					return Number(aMarketCap) > Number(bMarketCap)
-						? 1
-						: Number(aMarketCap) < Number(bMarketCap)
-						? -1
-						: 0;
+						if (aMarketCap.includes(',')) {
+							aMarketCap = aMarketCap.replaceAll(',', '');
+						}
+						if (aMarketCap.includes('M')) {
+							aMarketCap = aMarketCap.replaceAll('M', '');
+						}
+						if (bMarketCap.includes(',')) {
+							bMarketCap = bMarketCap.replaceAll(',', '');
+						}
+						if (bMarketCap.includes('M')) {
+							bMarketCap = bMarketCap.replaceAll('M', '');
+						}
+						return Number(aMarketCap) > Number(bMarketCap)
+							? 1
+							: Number(aMarketCap) < Number(bMarketCap)
+							? -1
+							: 0;
+					},
+					multiple: 0,
 				},
 				render: (marketCap) => {
 					return (
