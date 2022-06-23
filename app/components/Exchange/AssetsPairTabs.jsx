@@ -243,11 +243,18 @@ class AssetsPairTabs extends React.Component {
 			{
 				title: (
 					<div
-						style={{fontSize: '12px', color: '#979797', textAlign: 'center'}}
+						style={{
+							fontSize: '12px',
+							color: '#979797',
+							textAlign: 'center',
+							padingRight: '0px',
+							marginRight: '10px',
+						}}
 					>
 						Pair
 					</div>
 				),
+				colSpan: 1,
 				key: 'name',
 				sorter: (a, b) => {
 					return a.quoteAssetSymbol > b.quoteAssetSymbol
@@ -256,7 +263,7 @@ class AssetsPairTabs extends React.Component {
 						? -1
 						: 0;
 				},
-				render: (rowData) => {
+				render: (rowData, rateChange) => {
 					const quoteAssetSymbol = rowData.quoteAssetSymbol;
 					const baseAssetSymbol = rowData.baseAssetSymbol;
 					let symbolIcons = {
@@ -271,44 +278,118 @@ class AssetsPairTabs extends React.Component {
 					};
 					let icon = symbolIcons[quoteAssetSymbol] ?? btcIcon;
 
+					let classNameDiv = '';
+
 					return (
-						<div style={{display: 'flex', alignItems: 'center'}}>
-							<div style={{marginRight: '5px', width: '30px'}}>
-								<img className="asset-img" src={icon} alt="Asset logo" />
-							</div>
-							<div
-								style={{cursor: 'pointer'}}
-								onClick={() =>
-									history.push(`/market/${quoteAssetSymbol}_${baseAssetSymbol}`)
-								}
-							>
-								<span
-									style={{
-										fontSize: '14px',
-										color: '#D0D0D0',
-									}}
+						<>
+							<div style={{display: 'flex', alignItems: 'center'}}>
+								<div style={{marginRight: '5px', width: '20px'}}>
+									<img className="asset-img" src={icon} alt="Asset logo" />
+								</div>
+								<div
+									style={{cursor: 'pointer', minWidth: '80px'}}
+									onClick={() =>
+										history.push(
+											`/market/${quoteAssetSymbol}_${baseAssetSymbol}`
+										)
+									}
 								>
-									<strong>{quoteAssetSymbol}</strong>
-								</span>
-								<span
-									style={{
-										fontSize: '12px',
-										color: '#8B7474',
-									}}
-								>{` / ${baseAssetSymbol}`}</span>
+									<span
+										style={{
+											fontSize: '12px',
+											color: '#D0D0D0',
+										}}
+									>
+										<strong>{quoteAssetSymbol}</strong>
+									</span>
+									<span
+										style={{
+											fontSize: '11px',
+											color: '#8B7474',
+										}}
+									>{` / ${baseAssetSymbol}`}</span>
+								</div>
 							</div>
-						</div>
+							<div>
+								{
+									<div
+										className="change"
+										style={{
+											marginTop: '5px',
+											paddingTop: '0px',
+											marginLeft: '-0px',
+											textAlign: 'center',
+										}}
+									>
+										<span style={{display: 'none'}}>
+											{
+												(classNameDiv =
+													rateChange.rateChange === '0.00'
+														? ''
+														: rateChange.rateChange > 0
+														? 'change-up'
+														: 'change-down')
+											}
+										</span>
+
+										{classNameDiv === 'change-up' && (
+											<>
+												<ArrowUpOutlined
+													className={classNameDiv}
+													style={{fontSize: '14px'}}
+												/>
+												<span
+													className={classNameDiv}
+													style={{fontSize: '14px'}}
+												>{`+${rateChange.rateChange} %`}</span>
+											</>
+										)}
+										{classNameDiv === 'change-down' && (
+											<>
+												<ArrowDownOutlined
+													className={classNameDiv}
+													style={{fontSize: '14px'}}
+												/>
+												<span
+													className={classNameDiv}
+													style={{fontSize: '14px'}}
+												>{`${rateChange.rateChange} %`}</span>
+											</>
+										)}
+										{classNameDiv === '' && (
+											<>
+												<ArrowRightOutlined
+													className={classNameDiv}
+													style={{fontSize: '14px'}}
+												/>
+												<span
+													className={classNameDiv}
+													style={{fontSize: '14px'}}
+												>{`${rateChange.rateChange} %`}</span>
+											</>
+										)}
+									</div>
+								}
+							</div>
+						</>
 					);
 				},
 			},
 			{
 				title: (
 					<div
-						style={{fontSize: '12px', color: '#979797', textAlign: 'center'}}
+						style={{
+							fontSize: '12px',
+							color: '#979797',
+							textAlign: 'center',
+							marginLeft: '-0px',
+							paddingLeft: '0px',
+						}}
 					>
 						Change
 					</div>
 				),
+				colSpan: 1,
 				dataIndex: 'rateChange',
 				key: 'rateChange',
 				sorter: (a, b) => {
@@ -326,17 +407,25 @@ class AssetsPairTabs extends React.Component {
 							? 'change-up'
 							: 'change-down';
 					return (
-						<div className="change" style={{minWidth: '60px'}}>
+						<div
+							className="change"
+							style={{
+								marginTop: '25px',
+								paddingTop: '10px',
+								marginLeft: '-0px',
+								display: 'none',
+							}}
+						>
 							{className === 'change-up' && (
 								<>
 									<ArrowUpOutlined
 										className={className}
 										style={{fontSize: '14px'}}
 									/>
-									<div
+									<span
 										className={className}
 										style={{fontSize: '14px'}}
-									>{`+${rateChange} %`}</div>
+									>{`+${rateChange} %`}</span>
 								</>
 							)}
 							{className === 'change-down' && (
@@ -345,10 +434,10 @@ class AssetsPairTabs extends React.Component {
 										className={className}
 										style={{fontSize: '14px'}}
 									/>
-									<div
+									<span
 										className={className}
 										style={{fontSize: '14px'}}
-									>{`${rateChange} %`}</div>
+									>{`${rateChange} %`}</span>
 								</>
 							)}
 							{className === '' && (
@@ -357,10 +446,10 @@ class AssetsPairTabs extends React.Component {
 										className={className}
 										style={{fontSize: '14px'}}
 									/>
-									<div
+									<span
 										className={className}
 										style={{fontSize: '14px'}}
-									>{`${rateChange} %`}</div>
+									>{`${rateChange} %`}</span>
 								</>
 							)}
 						</div>
@@ -370,11 +459,17 @@ class AssetsPairTabs extends React.Component {
 			{
 				title: (
 					<div
-						style={{fontSize: '12px', color: '#979797', textAlign: 'center'}}
+						style={{
+							fontSize: '12px',
+							color: '#979797',
+							textAlign: 'center',
+							minWidth: '50px',
+						}}
 					>
 						Volume
 					</div>
 				),
+				colSpan: 2,
 				dataIndex: 'price',
 				key: 'price',
 				sorter: (a, b) => {
@@ -397,7 +492,7 @@ class AssetsPairTabs extends React.Component {
 						<div>
 							<div
 								className="price"
-								style={{fontSize: '14px'}}
+								style={{fontSize: '14px', minWidth: '50px'}}
 							>{`$${price}`}</div>
 						</div>
 					);
