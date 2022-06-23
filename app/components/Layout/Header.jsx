@@ -596,10 +596,7 @@ class Header extends React.Component {
 										onClick={this.handleHeaderLink}
 										selectedKeys={[this.props.currentLink]}
 									>
-										{passwordLogin && passwordAccount && (
-											<Menu.Item key="dashboard">Dashboard</Menu.Item>
-										)}
-
+										<Menu.Item key="dashboard">Dashboard</Menu.Item>
 										<Menu.Item key="market">
 											<Translate component="span" content="header.exchange" />
 										</Menu.Item>
