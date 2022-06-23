@@ -3,6 +3,7 @@ import {connect} from 'alt-react';
 import moment from 'moment';
 import {ChainStore} from 'meta1js';
 import {Map, List} from 'immutable';
+import SettingsActions from 'actions/SettingsActions';
 import SettingsStore from 'stores/SettingsStore';
 import AssetStore from 'stores/AssetStore';
 import AssetActions from 'actions/AssetActions';
@@ -59,11 +60,14 @@ class AssetsPairTabs extends React.Component {
 	componentWillReceiveProps(nextProps) {
 		this._checkAssets(nextProps.assets);
 
-		// if (nextProps.assets.size > 0) {
-		// 	setTimeout(() => {
-		// 		this.onClickAsset(this.state.baseAssetSymbol);
-		// 	}, 500);
-		// }
+		if (
+			nextProps.assets.size > 0 &&
+			this.props.assets.size != nextProps.assets.size
+		) {
+			setTimeout(() => {
+				this.onClickAsset(this.state.baseAssetSymbol);
+			}, 500);
+		}
 	}
 
 	componentWillMount() {
@@ -185,24 +189,18 @@ class AssetsPairTabs extends React.Component {
 	}
 
 	onClickAsset(newBaseAssetSymbol) {
-		const {assets} = this.props;
-		const {watchPairs, selectedResolution, isFetchingMarketInfo} = this.state;
+		const {assets, starredMarkets} = this.props;
+		const {selectedResolution, isFetchingMarketInfo} = this.state;
 		const assetPairs = [];
 
 		if (isFetchingMarketInfo) {
 			return;
 		} else if (newBaseAssetSymbol === 'star') {
-			console.log('@1 - ', watchPairs);
-			watchPairs.map((watchPair) => {
-				if (!watchPair) return;
-
-				const quoteAssetSymbol = watchPair.split('/')[0];
-				const baseAssetSymbol = watchPair.split('/')[1];
+			starredMarkets.map((starredMarket) => {
 				let quoteAssetId, baseAssetId;
-
 				assets.map((asset) => {
-					if (asset.symbol === quoteAssetSymbol) quoteAssetId = asset.id;
-					if (asset.symbol === baseAssetSymbol) baseAssetId = asset.id;
+					if (asset.symbol === starredMarket.quote) quoteAssetId = asset.id;
+					if (asset.symbol === starredMarket.base) baseAssetId = asset.id;
 				});
 
 				const quoteAsset = ChainStore.getAsset(quoteAssetId);
@@ -229,8 +227,17 @@ class AssetsPairTabs extends React.Component {
 		this.setState({baseAssetSymbol: newBaseAssetSymbol});
 	}
 
+	_addMarket(quoteAssetSymbol, baseAssetSymbol) {
+		let marketID = `${quoteAssetSymbol}_${baseAssetSymbol}`;
+		if (!this.props.starredMarkets.has(marketID)) {
+			SettingsActions.addStarMarket(quoteAssetSymbol, baseAssetSymbol);
+		} else {
+			SettingsActions.removeStarMarket(quoteAssetSymbol, baseAssetSymbol);
+		}
+	}
+
 	_buildColumns() {
-		const {selectedResolution, watchPairs} = this.state;
+		const {selectedResolution} = this.state;
 
 		return [
 			{
@@ -402,8 +409,10 @@ class AssetsPairTabs extends React.Component {
 	_buildDataSource(assets) {
 		if (assets.size === 0) return [];
 
-		const {baseAssetSymbol, selectedAsset, searchTerm, watchPairs} = this.state;
+		const {starredMarkets} = this.props;
+		const {baseAssetSymbol, selectedAsset, searchTerm} = this.state;
 		const _dataSource = [];
+
 		let filteredMarketStats = MarketsStore.getState().allMarketStats.filter(
 			(marketStat) => marketStat.price
 		);
@@ -418,28 +427,17 @@ class AssetsPairTabs extends React.Component {
 			);
 		} else {
 			filteredMarketStats = filteredMarketStats.filter((marketStat) => {
-				let isWatched = false;
+				const base = marketStat.price.base;
+				const quote = marketStat.price.quote;
 
-				watchPairs.map((watchPair) => {
-					const quoteAssetSymbol = watchPair.split('/')[0];
-					const baseAssetSymbol = watchPair.split('/')[1];
-					let quoteAssetId, baseAssetId;
-
-					assets.map((asset) => {
-						if (asset.symbol === quoteAssetSymbol) quoteAssetId = asset.id;
-						if (asset.symbol === baseAssetSymbol) baseAssetId = asset.id;
-					});
-
-					if (
-						!isWatched &&
-						marketStat.price.base.asset_id === baseAssetId &&
-						marketStat.price.quote.asset_id === quoteAssetId
-					) {
-						isWatched = true;
-					}
+				let quoteAssetSymbol, baseAssetSymbol;
+				assets.map((asset) => {
+					if (asset.id === quote.asset_id) quoteAssetSymbol = asset.symbol;
+					else if (asset.id === base.asset_id) baseAssetSymbol = asset.symbol;
 				});
 
-				return isWatched;
+				const marketID = `${quoteAssetSymbol}_${baseAssetSymbol}`;
+				return this.props.starredMarkets.has(marketID);
 			});
 		}
 
@@ -599,7 +597,7 @@ AssetsPairTabs = AssetWrapper(AssetsPairTabs, {
 
 export default connect(AssetsPairTabs, {
 	listenTo() {
-		return [AssetStore];
+		return [AssetStore, MarketsStore];
 	},
 	getProps(props) {
 		let assets = Map(),
@@ -615,6 +613,7 @@ export default connect(AssetsPairTabs, {
 		return {
 			assets,
 			assetsList,
+			starredMarkets: SettingsStore.getState().starredMarkets,
 		};
 	},
 });
