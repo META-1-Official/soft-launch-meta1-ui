@@ -47,7 +47,7 @@ const AppLayout = ({children, location, height}: IAppLayout, others) => {
 			} else {
 				link = 'account';
 			}
-		} else if (pathSnippets.includes('help')) {
+		} else if (pathSnippets.includes('learn')) {
 			link = pathSnippets[0];
 		} else {
 			link = pathSnippets[0];
