@@ -525,7 +525,7 @@ class Header extends React.Component {
 					title={<Text>Advanced</Text>}
 					disabled={!currentAccount}
 				>
-					<Menu.Item key="comment-menu" className="comment">
+					<Menu.Item key="comment-menu" className="comment none">
 						<Text>
 							/* No hardware wallet support at this time, remove to reduce
 							questions */
@@ -539,7 +539,7 @@ class Header extends React.Component {
 					</Menu.Item>
 					<Menu.Item
 						key="comment-no-hardware-wallet-support"
-						className="comment"
+						className="comment none"
 					>
 						<Text>
 							/* End no hardware wallet support at this time, remove to reduce
