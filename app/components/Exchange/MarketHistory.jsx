@@ -23,7 +23,7 @@ const AllHistoryViewRow = ({fill, base, quote}) => {
 	const timestamp = isMarket ? (
 		<td
 			style={{color: 'rgba(255, 255, 255, 0.5)', textAlign: 'left'}}
-			className="table-body-class"
+			className="table-body-class time-class"
 		>
 			<Tooltip title={fill.time.toString()} placement="left">
 				<div
