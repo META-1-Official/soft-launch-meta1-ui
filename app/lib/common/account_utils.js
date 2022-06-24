@@ -1,5 +1,7 @@
 import {ChainStore} from 'meta1js';
 import utils from './utils';
+import MarketUtils from './market_utils';
+import MarketsStore from 'stores/MarketsStore';
 import counterpart from 'counterpart';
 import {estimateFee} from './trxHelper';
 import {
@@ -107,5 +109,48 @@ export default class AccountUtils {
 			scamMessage = counterpart.translate('account.other_scam');
 		}
 		return scamMessage;
+	}
+
+	static getTotalBalanceChange(account, preferredUnit) {
+		let total = 0;
+		let prevTotal = 0;
+
+		let accountBalances = account.get('balances');
+		let allMarketStats = MarketsStore.getState().allMarketStats;
+		let coreAsset = ChainStore.getAsset('1.3.0');
+		let toAsset = ChainStore.getAsset(preferredUnit);
+
+		if (!coreAsset || !toAsset) {
+			return 0;
+		}
+
+		accountBalances.forEach((balanceID, assetID) => {
+			let balanceObject = ChainStore.getObject(balanceID);
+			let balance = balanceObject
+				? parseInt(balanceObject.get('balance'), 10)
+				: 0;
+			let asset = ChainStore.getAsset(assetID);
+
+			if (asset) {
+				let eqBalance = MarketUtils.convertValue(
+					balance,
+					toAsset,
+					asset,
+					allMarketStats,
+					coreAsset
+				);
+
+				total += eqBalance;
+				let changePrice =
+					asset.get('symbol') === preferredUnit
+						? {change: 0}
+						: MarketsStore.getState().allMarketStats.get(
+								asset.get('symbol') + '_' + preferredUnit
+						  );
+				prevTotal += eqBalance * (1 - Number(changePrice.change) / 100);
+			}
+		});
+
+		return (total / prevTotal - 1) * 100;
 	}
 }

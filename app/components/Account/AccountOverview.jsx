@@ -8,6 +8,7 @@ import Proposals from 'components/Account/Proposals';
 import {ChainStore} from 'meta1js';
 import SettingsActions from 'actions/SettingsActions';
 import utils from 'common/utils';
+import accountUtils from 'common/account_utils';
 import {Tabs, Tab} from '../Utility/Tabs';
 import AccountOrders from './AccountOrders';
 import cnames from 'classnames';
@@ -17,11 +18,19 @@ import BalanceWrapper from './BalanceWrapper';
 import AccountTreemap from './AccountTreemap';
 import AssetWrapper from '../Utility/AssetWrapper';
 import AccountPortfolioList from './AccountPortfolioList';
+import {Market24HourChangeComponent} from '../Utility/MarketChangeComponent';
 import {Space, Switch, Tooltip} from 'antd';
 import counterpart from 'counterpart';
 import SearchInput from '../Utility/SearchInput';
 import PageHeader from 'components/PageHeader/PageHeader';
 import StyledButton from 'components/Button/Button';
+
+import {FormattedNumber} from 'react-intl';
+import {
+	ArrowRightOutlined,
+	ArrowUpOutlined,
+	ArrowDownOutlined,
+} from '@ant-design/icons';
 
 class AccountOverview extends React.Component {
 	constructor(props) {
@@ -203,6 +212,33 @@ class AccountOverview extends React.Component {
 				}
 			});
 		}
+
+		let totalChange = parseFloat(
+			accountUtils.getTotalBalanceChange(this.props.account, preferredUnit)
+		);
+		let dayChangeClass =
+			parseFloat(totalChange) === 0
+				? ''
+				: parseFloat(totalChange) < 0
+				? 'change-down'
+				: 'change-up';
+
+		let totalChangeElement = !isNaN(totalChange) ? (
+			<span className={'value ' + dayChangeClass}>
+				{dayChangeClass === 'change-up' && <ArrowUpOutlined />}
+				{dayChangeClass === 'change-down' && <ArrowDownOutlined />}
+				{dayChangeClass === '' && <ArrowRightOutlined />}
+				<FormattedNumber
+					style="decimal"
+					value={Math.abs(totalChange)}
+					minimumFractionDigits={2}
+					maximumFractionDigits={2}
+				/>
+				%
+			</span>
+		) : (
+			<span className={'value ' + dayChangeClass}>-</span>
+		);
 
 		let portfolioHiddenAssetsBalance = (
 			<TotalBalanceValue noTip balances={hiddenBalancesList} hide_asset />
@@ -390,9 +426,10 @@ class AccountOverview extends React.Component {
 							>
 								<div className="estimated-balance">
 									<p>Estimated Balance</p>
-									<p className="total">
-										{portfolioActiveAssetsBalance} {preferredUnit}
-									</p>
+									<div className="total">
+										{portfolioActiveAssetsBalance}&nbsp;{preferredUnit}
+										{totalChangeElement}
+									</div>
 								</div>
 								<div className="filter inline-block">
 									<SearchInput
