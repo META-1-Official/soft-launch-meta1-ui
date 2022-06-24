@@ -506,8 +506,15 @@ class AccountPortfolioList extends React.Component {
 	}
 
 	_renderBalances(balanceList, optionalAssets, visible) {
-		const {coreSymbol, preferredUnit, settings, hiddenAssets, orders} =
-			this.props;
+		const {
+			coreSymbol,
+			preferredUnit,
+			settings,
+			hiddenAssets,
+			orders,
+			hideZeroBalance,
+			filterValue,
+		} = this.props;
 
 		const renderBorrow = (asset, account) => {
 			let isBitAsset = asset && asset.has('bitasset_data_id');
@@ -780,91 +787,72 @@ class AccountPortfolioList extends React.Component {
 					) : null,
 			});
 		});
+
 		if (optionalAssets) {
 			optionalAssets
 				.filter((asset) => {
-					let isAvailable = false;
 					let keep = true;
 					balances.forEach((a) => {
 						if (a.key === asset) keep = false;
 					});
-					return keep && isAvailable;
+					if (
+						filterValue &&
+						!asset?.toLowerCase().includes(filterValue?.toLowerCase())
+					)
+						keep = false;
+					return keep;
 				})
 				.forEach((a) => {
 					let asset = ChainStore.getAsset(a);
-					if (asset && this.props.isMyAccount) {
-						const includeAsset = !hiddenAssets.includes(asset.get('id'));
-						const canDeposit = true;
 
-						const notCore = asset.get('id') !== '1.3.0';
-						let {market} = assetUtils.parseDescription(
-							asset.getIn(['options', 'description'])
-						);
-						if (asset.get('symbol').indexOf('OPEN.') !== -1 && !market)
-							market = 'USDT';
-						let preferredMarket = market ? market : coreSymbol;
+					if (asset && !hideZeroBalance) {
+						let marketId = asset.get('symbol') + '_' + preferredUnit;
 
-						let directMarketLink = notCore ? (
-							<Link to={`/market/${asset.get('symbol')}_${preferredMarket}`}>
-								<div className="portfolio-btn">
-									<Icon
-										name="trade"
-										title="icons.trade.trade"
-										className="icon-14px"
+						balances.push({
+							key: asset.get('symbol'),
+							asset: (
+								<div className="asset-name">
+									<img
+										className="asset-img"
+										src={getAssetIcon(asset.get('symbol'))}
+										alt="Asset logo"
+										width="28px"
+									/>
+									<div>
+										<LinkToAssetById
+											className="asset-name"
+											asset={asset.get('id')}
+										/>
+										<p>{getAssetFullName(asset.get('symbol'))}</p>
+									</div>
+								</div>
+							),
+							qty: <>{0.0}</>,
+							value: <>{0.0}</>,
+							price: (
+								<div>
+									<EquivalentPrice
+										fromAsset={asset.get('id')}
+										pulsate={{reverse: true, fill: 'forwards'}}
+										hide_symbols
+									/>
+									<Market24HourChangeComponent
+										base={asset.get('id')}
+										quote={preferredUnit}
+										marketId={marketId}
+										hide_symbols
 									/>
 								</div>
-							</Link>
-						) : (
-							emptyCell
-						);
-						let {isBitAsset, borrowLink} = renderBorrow(
-							asset,
-							this.props.account
-						);
-						if ((includeAsset && visible) || (!includeAsset && !visible))
-							balances.push({
-								key: asset.get('symbol'),
-								asset: <LinkToAssetById asset={asset.get('id')} />,
-								qty: emptyCell,
-								price: emptyCell,
-								hour24: emptyCell,
-								value: emptyCell,
-								percent: emptyCell,
-								payments: emptyCell,
-								deposit:
-									canDeposit && this.props.isMyAccount ? (
-										<span>
-											<Icon
-												style={{cursor: 'pointer'}}
-												name="deposit"
-												title="icons.deposit.deposit"
-												className="icon-14x"
-												onClick={this._showDepositModal.bind(
-													this,
-													asset.get('symbol')
-												)}
-											/>
-										</span>
-									) : (
-										emptyCell
-									),
-								withdraw: emptyCell,
-								trade: directMarketLink,
-								borrow: isBitAsset ? (
-									<Tooltip
-										placement="bottom"
-										title={counterpart.translate('tooltip.borrow', {
-											asset: asset.get('symbol'),
-										})}
-									>
-										<div className="inline-block">{borrowLink}</div>
-									</Tooltip>
-								) : (
-									emptyCell
-								),
-								settle: emptyCell,
-								burn: emptyCell,
-							});
+							),
+							hour24: null,
+							percent: null,
+							trade: emptyCell,
+							payments: null,
+							borrow: null,
+							settle: null,
+							burn: null,
+							deposit: emptyCell,
+						});
 					}
 				});
 		}

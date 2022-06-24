@@ -111,11 +111,10 @@ export default class AccountUtils {
 		return scamMessage;
 	}
 
-	static getTotalBalanceChange(account, preferredUnit) {
+	static getTotalBalanceChange(balances, preferredUnit) {
 		let total = 0;
 		let prevTotal = 0;
 
-		let accountBalances = account.get('balances');
 		let allMarketStats = MarketsStore.getState().allMarketStats;
 		let coreAsset = ChainStore.getAsset('1.3.0');
 		let toAsset = ChainStore.getAsset(preferredUnit);
@@ -124,12 +123,13 @@ export default class AccountUtils {
 			return 0;
 		}
 
-		accountBalances.forEach((balanceID, assetID) => {
+		balances.forEach((balanceID) => {
 			let balanceObject = ChainStore.getObject(balanceID);
 			let balance = balanceObject
 				? parseInt(balanceObject.get('balance'), 10)
 				: 0;
-			let asset = ChainStore.getAsset(assetID);
+			let assetId = balanceObject.get('asset_type');
+			let asset = ChainStore.getAsset(assetId);
 
 			if (asset) {
 				let eqBalance = MarketUtils.convertValue(
@@ -147,10 +147,72 @@ export default class AccountUtils {
 						: MarketsStore.getState().allMarketStats.get(
 								asset.get('symbol') + '_' + preferredUnit
 						  );
-				prevTotal += eqBalance * (1 - Number(changePrice.change) / 100);
+				prevTotal += eqBalance * (1 - Number(changePrice?.change) / 100);
 			}
 		});
 
 		return (total / prevTotal - 1) * 100;
+	}
+
+	static getTotalBalance(balances, preferredUnit) {
+		let total = 0;
+
+		let allMarketStats = MarketsStore.getState().allMarketStats;
+		let coreAsset = ChainStore.getAsset('1.3.0');
+		let toAsset = ChainStore.getAsset(preferredUnit);
+
+		if (!coreAsset || !toAsset) {
+			return 0;
+		}
+
+		balances.forEach((balanceID) => {
+			let balanceObject = ChainStore.getObject(balanceID);
+			let balance = balanceObject
+				? parseInt(balanceObject.get('balance'), 10)
+				: 0;
+			let assetId = balanceObject.get('asset_type');
+			let asset = ChainStore.getAsset(assetId);
+
+			if (asset) {
+				let eqBalance = MarketUtils.convertValue(
+					balance,
+					toAsset,
+					asset,
+					allMarketStats,
+					coreAsset
+				);
+
+				total += eqBalance;
+			}
+		});
+
+		return total / Math.pow(10, toAsset.get('precision'));
+	}
+
+	static getUsd(amount, fromAssetID) {
+		let fromAsset = ChainStore.getAsset(fromAssetID);
+		let toAsset = ChainStore.getAsset('USDT');
+		let allMarketStats = MarketsStore.getState().allMarketStats;
+		let coreAsset = ChainStore.getAsset('1.3.0');
+
+		if (!coreAsset) {
+			return 0;
+		}
+
+		let usd;
+
+		if (fromAsset && toAsset) {
+			let price = MarketUtils.getFinalPrice(
+				coreAsset,
+				fromAsset,
+				toAsset,
+				allMarketStats,
+				true
+			);
+
+			usd = amount * price;
+		}
+
+		return usd;
 	}
 }
