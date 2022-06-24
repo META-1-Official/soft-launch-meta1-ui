@@ -349,6 +349,8 @@ class Header extends React.Component {
 				this._onNavigate(`/account/${currentAccount}/permissions`, this, true);
 		} else if (key === 'advanced-accounts') {
 			this._onNavigate('/accounts', this, true);
+		} else if (key === 'addContact') {
+			this._onNavigate('/contact/add', this, true);
 		}
 
 		this.setState({headerMenu: key});
