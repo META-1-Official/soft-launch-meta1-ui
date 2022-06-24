@@ -50,7 +50,6 @@ import ls, {
 } from 'lib/common/localStorage';
 import Translate from 'react-translate-component';
 import Icon from '../Icon/Icon';
-// import ReCAPTCHA from "react-google-recaptcha";
 
 const STORAGE_KEY = '__AuthData__';
 
