@@ -20,6 +20,7 @@ import AssetWrapper from '../Utility/AssetWrapper';
 import AccountPortfolioList from './AccountPortfolioList';
 import {Market24HourChangeComponent} from '../Utility/MarketChangeComponent';
 import {Space, Switch, Tooltip, Select} from 'antd';
+const {Option} = Select;
 import counterpart from 'counterpart';
 import SearchInput from '../Utility/SearchInput';
 import PageHeader from 'components/PageHeader/PageHeader';
@@ -30,7 +31,8 @@ import {
 	ArrowRightOutlined,
 	ArrowUpOutlined,
 	ArrowDownOutlined,
-	SettingOutlined,
+	SettingFilled,
+	CaretDownFilled,
 } from '@ant-design/icons';
 import MarketsStore from 'stores/MarketsStore';
 
@@ -345,7 +347,7 @@ class AccountOverview extends React.Component {
 		const {currentDisplay} = this.state;
 
 		return (
-			<>
+			<div className="account-overview">
 				<div
 					css={(theme) => ({
 						borderBottom: `1px solid ${theme.colors.borderColor} `,
@@ -353,17 +355,10 @@ class AccountOverview extends React.Component {
 				>
 					<PageHeader title={'Your Assets'} showDivider={false} level={4} />
 
-					<div
-						css={(theme) => ({
-							display: 'flex',
-							width: '100%',
-							justifyContent: 'space-between',
-							padding: '0rem 2rem 1.5rem 2rem',
-						})}
-					>
+					<div className="tab-controller">
 						<Space wrap>
 							<StyledButton
-								buttonType={
+								className={
 									currentDisplay === 'portfolio' ? 'primary' : 'transparent'
 								}
 								onClick={() => {
@@ -373,7 +368,7 @@ class AccountOverview extends React.Component {
 								<Translate content="account.portfolio" />
 							</StyledButton>
 							<StyledButton
-								buttonType={
+								className={
 									currentDisplay === 'openOrders' ? 'primary' : 'transparent'
 								}
 								onClick={() => {
@@ -383,7 +378,7 @@ class AccountOverview extends React.Component {
 								Open Orders
 							</StyledButton>
 							<StyledButton
-								buttonType={
+								className={
 									currentDisplay === 'transactionHistory'
 										? 'primary'
 										: 'transparent'
@@ -396,7 +391,7 @@ class AccountOverview extends React.Component {
 							</StyledButton>
 							{account.get('proposals') && account.get('proposals').size ? (
 								<StyledButton
-									buttonType={
+									className={
 										currentDisplay === 'proposals' ? 'primary' : 'transparent'
 									}
 									onClick={() => {
@@ -415,10 +410,15 @@ class AccountOverview extends React.Component {
 								Fund Accounts
 							</StyledButton>
 							<Select
-								optionLabelProp={'value'}
 								style={{width: '72px'}}
-								suffixIcon={<SettingOutlined />}
-							></Select>
+								suffixIcon={<CaretDownFilled />}
+								defaultValue="setting"
+								className="overview-settings"
+							>
+								<Option value="setting">
+									<SettingFilled />
+								</Option>
+							</Select>
 						</Space>
 					</div>
 				</div>
@@ -594,7 +594,7 @@ class AccountOverview extends React.Component {
 						</div>
 					</div>
 				</div> */}
-			</>
+			</div>
 		);
 	}
 }

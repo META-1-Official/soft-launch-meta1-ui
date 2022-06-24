@@ -140,7 +140,7 @@ const GlobalStyles = (theme: any) => css`
 			}
 		}
 		td.ant-table-column-sort {
-			background: ${theme.colors.tableColumnHoverColor};
+			background: transparent
 		}
 		tr.ant-table-row:hover > td {
 			background: ${theme.colors.tableColumnHoverColor};

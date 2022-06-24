@@ -98,8 +98,8 @@ function checkFeeStatusAsync({
 				let [coreFee, hasPoolBalance, account, coreAsset, feeAsset] = result;
 				let hasBalance = false;
 				if (feeID === '1.3.0') feeAsset = coreAsset;
-				let coreBalanceID = account.getIn(['balances', '1.3.0']),
-					feeBalanceID = account.getIn(['balances', feeID]);
+				let coreBalanceID = account?.getIn(['balances', '1.3.0']),
+					feeBalanceID = account?.getIn(['balances', feeID]);
 
 				if (feeID === '1.3.0' && !coreBalanceID) {
 					asyncCache[key].queue.forEach((promise) => {
