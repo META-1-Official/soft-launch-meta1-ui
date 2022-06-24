@@ -515,58 +515,56 @@ div.portfolio {
 	padding: 20px;
 	margin-bottom: 25px;
 	border-radius: 5px;
-
-	.estimated-balance {
-		.total {
-			display: flex;
-			align-items: center;
-
-			font-size: 30px;
-			color: white;
-			font-weight: 600;
-
-			.value {
-				border-radius: 3px;
-				font-size: 12px;
-				font-weight: 600;
-				background: gray !important;
-				color: white !important;
-				margin-left: 10px;
-
-				display: flex;
-				align-items: center;
-				justify-content: center;
-
-				padding: 5px;
-
-				&.change-up {
-					background-color: #009d55 !important;
-				}
-
-				&.change-down {
-					background-color: #ff2929 !important;
-				}
-
-				svg {
-					margin-right: 3px;
-				}
-			}
-		}
-	}
+	display: flex;
+	justify-content: space-between;
 
 	&.header-selector {
 		.estimated-balance {
-			display: inline-block;
-
-			p:first-of-type {
-				margin-bottom: 5px;
+			> p {
+				font-size: 16px;
+				color: #cecece;
 			}
 
-			p:last-of-type {
+			.total {
+				display: flex;
+				align-items: center;
+
+				font-size: 30px;
 				color: white;
-				font-size: 28px;
-				font-weight: bolder;
-				margin: 0;
+				font-weight: 600;
+
+				.usd-total {
+					font-size: 20px;
+					color: #ffc000;
+					margin-left: 10px;
+				}
+
+				.value {
+					border-radius: 3px;
+					font-size: 12px;
+					font-weight: 600;
+					background: gray !important;
+					color: white !important;
+					margin-left: 10px;
+
+					display: flex;
+					align-items: center;
+					justify-content: center;
+
+					padding: 8px;
+
+					&.change-up {
+						background-color: #009d55 !important;
+					}
+
+					&.change-down {
+						background-color: #ff2929 !important;
+					}
+
+					svg {
+						margin-right: 3px;
+					}
+				}
 			}
 		}
 
@@ -575,14 +573,31 @@ div.portfolio {
 			width: 20%;
 			text-align: right;
 
+			.hide-switch {
+				display: flex;
+				align-items: center;
+				justify-content: flex-end;
+
+				color: rgba(255, 255, 255, 0.6);
+				font-size: 16px;
+				margin-bottom: 16px;
+			}
+
 			.search-input {
 				width: 100% !important;
+				height: 50px;
 			}
 
 			.ant-input-affix-wrapper,
 			.ant-input,
 			.ant-input-group-addon {
 				background-color: #21252f;
+				height: 50px;
+			}
+
+			.ant-input {
+				border-bottom-left-radius: 5px;
+				border-top-left-radius: 5px;
 			}
 
 			.ant-input-group-addon {

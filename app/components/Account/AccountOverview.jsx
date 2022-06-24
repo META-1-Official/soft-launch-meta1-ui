@@ -19,18 +19,20 @@ import AccountTreemap from './AccountTreemap';
 import AssetWrapper from '../Utility/AssetWrapper';
 import AccountPortfolioList from './AccountPortfolioList';
 import {Market24HourChangeComponent} from '../Utility/MarketChangeComponent';
-import {Space, Switch, Tooltip} from 'antd';
+import {Space, Switch, Tooltip, Select} from 'antd';
 import counterpart from 'counterpart';
 import SearchInput from '../Utility/SearchInput';
 import PageHeader from 'components/PageHeader/PageHeader';
 import StyledButton from 'components/Button/Button';
-
+import AssetStore from 'stores/AssetStore';
 import {FormattedNumber} from 'react-intl';
 import {
 	ArrowRightOutlined,
 	ArrowUpOutlined,
 	ArrowDownOutlined,
+	SettingOutlined,
 } from '@ant-design/icons';
+import MarketsStore from 'stores/MarketsStore';
 
 class AccountOverview extends React.Component {
 	constructor(props) {
@@ -39,17 +41,17 @@ class AccountOverview extends React.Component {
 			shownAssets: props.viewSettings.get('shownAssets', 'active'),
 			alwaysShowAssets: [
 				'META1',
-				// "USDT",
-				// "CNY",
-				// "OPEN.BTC",
-				// "OPEN.USDT",
-				// "OPEN.ETH",
-				// "OPEN.MAID",
-				// "OPEN.STEEM",
-				// "OPEN.DASH"
+				'USDT',
+				'BTC',
+				'BNB',
+				'LTC',
+				'XLM',
+				'EOS',
+				'ETH',
 			],
 			hideFishingProposals: true,
 			currentDisplay: 'portfolio',
+			hideZeroBalance: true,
 		};
 
 		this._handleFilterInput = this._handleFilterInput.bind(this);
@@ -111,20 +113,17 @@ class AccountOverview extends React.Component {
 		);
 	}
 
-	_changeShownAssets(shownAssets = 'active') {
-		this.setState({
-			shownAssets,
-		});
-		SettingsActions.changeViewSetting({
-			shownAssets,
-		});
-	}
-
 	_toggleHideProposal() {
 		this.setState({
 			hideFishingProposals: !this.state.hideFishingProposals,
 		});
 	}
+
+	handleHideZeroBalance = () => {
+		this.setState({
+			hideZeroBalance: !this.state.hideZeroBalance,
+		});
+	};
 
 	render() {
 		let {account, hiddenAssets, settings, orders} = this.props;
@@ -214,7 +213,7 @@ class AccountOverview extends React.Component {
 		}
 
 		let totalChange = parseFloat(
-			accountUtils.getTotalBalanceChange(this.props.account, preferredUnit)
+			accountUtils.getTotalBalanceChange(includedBalancesList, preferredUnit)
 		);
 		let dayChangeClass =
 			parseFloat(totalChange) === 0
@@ -239,6 +238,13 @@ class AccountOverview extends React.Component {
 		) : (
 			<span className={'value ' + dayChangeClass}>-</span>
 		);
+
+		let usdTotal = parseFloat(
+			accountUtils.getUsd(
+				accountUtils.getTotalBalance(includedBalancesList, preferredUnit),
+				preferredUnit
+			)
+		).toFixed(2);
 
 		let portfolioHiddenAssetsBalance = (
 			<TotalBalanceValue noTip balances={hiddenBalancesList} hide_asset />
@@ -292,9 +298,7 @@ class AccountOverview extends React.Component {
 		includedPortfolioList = (
 			<AccountPortfolioList
 				balanceList={includedBalancesList}
-				optionalAssets={
-					!this.state.filterValue ? this.state.alwaysShowAssets : null
-				}
+				optionalAssets={this.state.alwaysShowAssets}
 				visible={true}
 				preferredUnit={preferredUnit}
 				coreAsset={this.props.core_asset}
@@ -305,15 +309,15 @@ class AccountOverview extends React.Component {
 				isMyAccount={this.props.isMyAccount}
 				balances={this.props.balances}
 				viewSettings={this.props.viewSettings}
+				hideZeroBalance={this.state.hideZeroBalance}
+				filterValue={this.state.filterValue}
 			/>
 		);
 
 		hiddenPortfolioList = (
 			<AccountPortfolioList
 				balanceList={hiddenBalancesList}
-				optionalAssets={
-					!this.state.filterValue ? this.state.alwaysShowAsset : null
-				}
+				optionalAssets={this.state.alwaysShowAssets}
 				visible={false}
 				preferredUnit={preferredUnit}
 				coreSymbol={this.props.core_asset.get('symbol')}
@@ -325,6 +329,8 @@ class AccountOverview extends React.Component {
 				balances={this.props.balances}
 				viewSettings={this.props.viewSettings}
 				enabledColumns={this.state.enabledColumns}
+				hideZeroBalance={this.state.hideZeroBalance}
+				filterValue={this.state.filterValue}
 			/>
 		);
 
@@ -408,6 +414,11 @@ class AccountOverview extends React.Component {
 							>
 								Fund Accounts
 							</StyledButton>
+							<Select
+								optionLabelProp={'value'}
+								style={{width: '72px'}}
+								suffixIcon={<SettingOutlined />}
+							></Select>
 						</Space>
 					</div>
 				</div>
@@ -428,10 +439,21 @@ class AccountOverview extends React.Component {
 									<p>Estimated Balance</p>
 									<div className="total">
 										{portfolioActiveAssetsBalance}&nbsp;{preferredUnit}
+										{!isNaN(usdTotal) && (
+											<div className="usd-total">≈ ${usdTotal}</div>
+										)}
 										{totalChangeElement}
 									</div>
 								</div>
 								<div className="filter inline-block">
+									<div className="hide-switch">
+										<div>Hide Zero Balances</div>
+										<Switch
+											style={{marginLeft: 16}}
+											checked={this.state.hideZeroBalance}
+											onChange={this.handleHideZeroBalance.bind(this)}
+										/>
+									</div>
 									<SearchInput
 										placeholder={counterpart.translate('icons.zoom')}
 										value={this.state.filterValue}
