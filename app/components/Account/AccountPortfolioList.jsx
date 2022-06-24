@@ -784,7 +784,9 @@ class AccountPortfolioList extends React.Component {
 						>
 							Deposit
 						</StyledButton>
-					) : null,
+					) : (
+						emptyCell
+					),
 			});
 		});
 
@@ -827,8 +829,8 @@ class AccountPortfolioList extends React.Component {
 									</div>
 								</div>
 							),
-							qty: <>{0.0}</>,
-							value: <>{0.0}</>,
+							qty: <>{(0.0).toFixed(2)}</>,
+							value: <>{(0.0).toFixed(2)}</>,
 							price: (
 								<div>
 									<EquivalentPrice
@@ -847,7 +849,7 @@ class AccountPortfolioList extends React.Component {
 							hour24: null,
 							percent: null,
 							trade: emptyCell,
-							payments: null,
+							payments: emptyCell,
 							borrow: null,
 							settle: null,
 							burn: null,
