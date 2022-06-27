@@ -695,6 +695,53 @@ div.account-overview {
 	}
 }
 
+.recent-transactions.ant-select-selector {
+	border-radius: 4px;
+}
+
+.transaction-span {
+	font-family: 'Poppins';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 12px;
+	text-align: center;
+	color: #ffffff !important;
+	max-width: 104px;
+	min-height: 34px;
+	text-transform: uppercase;
+	justify-content: center;
+	align-items: center;
+	display: flex;
+	white-space: pre-wrap;
+}
+
+.transaction-span-place {
+	background: #856916;
+	border-radius: 5px;
+}
+
+.transaction-span-cancel {
+	background: #823637;
+	border-radius: 5px;
+}
+
+.transaction-span-fill {
+	background: #127655;
+	border-radius: 5px;
+}
+
+.transaction-history-table-title {
+	text-transform: uppercase;
+	padding-left: 11px;
+}
+
+.info-class a {
+	font-style: normal;
+	font-weight: 600;
+	font-size: 15px;
+	line-height: 51px;
+	color: #ffffff !important;
+}
 .shuffle-rev {
 	> a span.icon > svg {
 		-moz-transform: scaleX(-1);
@@ -904,7 +951,14 @@ div.tabs-container {
 			text-transform: uppercase;
 		}
 	}
-
+	.page-title {
+		font-family: 'Poppins';
+		font-style: normal;
+		font-weight: 400;
+		font-size: 24px;
+		line-height: 36px;
+		color: #ffffff;
+	}
 	.header-selector {
 		margin-bottom: 20px;
 	}
@@ -2005,4 +2059,7 @@ div.account-notification {
 			}
 		}
 	}
+}
+.transactions-history-font-class {
+	font-family: 'Poppins';
 }

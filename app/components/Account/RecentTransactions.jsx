@@ -18,7 +18,7 @@ import PaginatedList from '../Utility/PaginatedList';
 const {operations} = grapheneChainTypes;
 import report from 'bitshares-report';
 import LoadingIndicator from '../LoadingIndicator';
-import {Tooltip, Modal, Button, Select, Input} from 'antd';
+import {Tooltip, Modal, Button, Select, Input, Row, Col} from 'antd';
 const ops = Object.keys(operations);
 ops.push(
 	'property_create_operation',
@@ -272,6 +272,7 @@ class RecentTransactions extends React.Component {
 		);
 
 		return {
+			pairData: trxTypes[ops[o.op[0]]],
 			pair: (
 				<div className="pair">
 					<div
@@ -291,7 +292,7 @@ class RecentTransactions extends React.Component {
 			info: (
 				<div>
 					<div>
-						<span>{info.column}</span>
+						<span className="info-class">{info.column}</span>
 					</div>
 					<div style={{fontSize: 14, paddingTop: 5}}>
 						{o.block_num > lastIrreversibleBlockNum ? (
@@ -305,6 +306,7 @@ class RecentTransactions extends React.Component {
 				<BlockTime
 					block_number={o.block_num}
 					fullDate={true}
+					transactionDate={true}
 					type={'datetime'}
 					format={'short'}
 				/>
@@ -374,7 +376,10 @@ class RecentTransactions extends React.Component {
 		);
 
 		return (
-			<div className="recent-transactions" style={style}>
+			<div
+				className="recent-transactions transactions-history-font-class"
+				style={style}
+			>
 				<div className="generic-bordered-box">
 					{this.props.dashboard ? null : (
 						<div ref="header">
@@ -390,17 +395,24 @@ class RecentTransactions extends React.Component {
 						</div>
 					)}
 					<div className="header-selector">
-						<div className="filter inline-block">
-							{this.props.showFilters ? (
-								<Select
-									style={{width: '210px'}}
-									value={this.state.filter}
-									onChange={this._onChangeFilter.bind(this)}
-								>
-									{options}
-								</Select>
-							) : null}
-						</div>
+						<Row>
+							<Col span={18}>
+								<span className="page-title">Transaction History</span>
+							</Col>
+							<Col span={6}>
+								<div className="filter inline-block">
+									{this.props.showFilters ? (
+										<Select
+											style={{width: '210px'}}
+											value={this.state.filter}
+											onChange={this._onChangeFilter.bind(this)}
+										>
+											{options}
+										</Select>
+									) : null}
+								</div>
+							</Col>
+						</Row>
 						{this.state.accountHistoryError && (
 							<div className="has-error" style={{paddingLeft: '0.75rem'}}>
 								<Translate content="account.history_error" />
@@ -416,12 +428,41 @@ class RecentTransactions extends React.Component {
 						}
 						header={[
 							{
-								title: <Translate content="account.user_issued_assets.pair" />,
-								dataIndex: 'pair',
+								title: (
+									<div className="transaction-history-table-title">
+										<Translate content="account.user_issued_assets.operation" />
+									</div>
+								),
+								dataIndex: 'pairData',
 								align: 'left',
+								render: (item) => {
+									return (
+										<div>
+											{item === 'Cancel order' && (
+												<div className="transaction-span transaction-span-cancel">
+													{item}
+												</div>
+											)}
+											{item === 'Place order' && (
+												<div className="transaction-span transaction-span-place">
+													{item}
+												</div>
+											)}
+											{item !== 'Place order' && item !== 'Cancel order' && (
+												<div className="transaction-span transaction-span-fill">
+													{item}
+												</div>
+											)}
+										</div>
+									);
+								},
 							},
 							{
-								title: <Translate content="account.transactions.info" />,
+								title: (
+									<div className="transaction-history-table-title">
+										<Translate content="account.transactions.info" />
+									</div>
+								),
 								dataIndex: 'info',
 								align: 'left',
 								render: (item) => {
@@ -438,7 +479,11 @@ class RecentTransactions extends React.Component {
 							},
 							!hideFee
 								? {
-										title: <Translate content="account.transactions.fee" />,
+										title: (
+											<div className="transaction-history-table-title">
+												<Translate content="account.transactions.fee" />
+											</div>
+										),
 										dataIndex: 'fee',
 										align: 'left',
 										render: (item) => {
@@ -456,10 +501,12 @@ class RecentTransactions extends React.Component {
 								: {},
 							{
 								title: (
-									<Translate
-										style={{whiteSpace: 'nowrap'}}
-										content="account.transactions.time"
-									/>
+									<div className="transaction-history-table-title">
+										<Translate
+											style={{whiteSpace: 'nowrap'}}
+											content="account.transactions.time"
+										/>
+									</div>
 								),
 								dataIndex: 'time',
 								render: (item) => {

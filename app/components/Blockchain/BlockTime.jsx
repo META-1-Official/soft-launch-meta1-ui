@@ -37,16 +37,36 @@ class BlockTime extends React.Component {
 			next_props.blockHeader !== this.props.blockHeader
 		);
 	}
+	formatDate(isDate = false) {
+		if (isDate) {
+			return counterpart.localize(this.props.blockHeader.timestamp, {
+				type: 'date',
+				format: 'short',
+			});
+		} else {
+			return counterpart.localize(this.props.blockHeader.timestamp, {
+				type: 'time',
+				format: 'short',
+			});
+		}
+	}
 
 	render() {
 		return (
 			<span className="time" key={this.props.block_number}>
 				{this.props.blockHeader ? (
 					this.props.fullDate ? (
-						counterpart.localize(this.props.blockHeader.timestamp, {
-							type: this.props.type || 'date',
-							format: this.props.format || 'full',
-						})
+						this.props.transactionDate ? (
+							<div>
+								<span style={{color: '#E5AC00'}}>{this.formatDate(true)}</span>,{' '}
+								{this.formatDate(false)}
+							</div>
+						) : (
+							counterpart.localize(this.props.blockHeader.timestamp, {
+								type: this.props.type || 'date',
+								format: this.props.format || 'full',
+							})
+						)
 					) : (
 						<TimeAgo time={this.props.blockHeader.timestamp} />
 					)
