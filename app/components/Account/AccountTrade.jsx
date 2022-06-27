@@ -55,7 +55,7 @@ class AccountTrade extends React.Component {
 			this.props.assets.size != nextProps.assets.size
 		) {
 			setTimeout(() => {
-				this.onClickAsset(this.state.baseAssetSymbol);
+				this.onClickAsset(this.state.baseAssetSymbol, false);
 			}, 500);
 		}
 	}
@@ -179,13 +179,13 @@ class AccountTrade extends React.Component {
 	_onDropDownChange(option, type) {
 		if (type === 'resolution') {
 			this.setState({selectedResolution: option});
-			this.onClickAsset(this.state.baseAssetSymbol, option);
+			this.onClickAsset(this.state.baseAssetSymbol, true);
 		} else if (type === 'asset-filter') {
 			this.setState({selectedAsset: option});
 		}
 	}
 
-	onClickAsset(newBaseAssetSymbol) {
+	onClickAsset(newBaseAssetSymbol, isResolutionChanged) {
 		const {assets, starredMarkets} = this.props;
 		const {selectedResolution, isFetchingMarketInfo, baseAssetSymbol} =
 			this.state;
@@ -205,7 +205,7 @@ class AccountTrade extends React.Component {
 				const baseAsset = ChainStore.getAsset(baseAssetId);
 				assetPairs.push({quoteAsset, baseAsset});
 			});
-		} else if (baseAssetSymbol === newBaseAssetSymbol) {
+		} else if (baseAssetSymbol === newBaseAssetSymbol && !isResolutionChanged) {
 			assets.map((quoteAsset) => {
 				assets.map((baseAsset) => {
 					assetPairs.push({
@@ -231,7 +231,7 @@ class AccountTrade extends React.Component {
 			this._getMarketInfo(assetPairs, selectedResolution);
 		}
 
-		if (baseAssetSymbol === newBaseAssetSymbol) {
+		if (baseAssetSymbol === newBaseAssetSymbol && !isResolutionChanged) {
 			this.setState({baseAssetSymbol: ''});
 		} else {
 			this.setState({baseAssetSymbol: newBaseAssetSymbol});
@@ -752,7 +752,7 @@ class AccountTrade extends React.Component {
 							? `toggle-box selected ${canChangeBaseAsset}`
 							: `toggle-box ${canChangeBaseAsset}`
 					}
-					onClick={() => this.onClickAsset(asset.symbol)}
+					onClick={() => this.onClickAsset(asset.symbol, false)}
 				>
 					{asset.symbol}
 				</div>
@@ -803,7 +803,7 @@ class AccountTrade extends React.Component {
 									? `toggle-box selected ${canChangeBaseAsset}`
 									: `toggle-box ${canChangeBaseAsset}`
 							}
-							onClick={() => this.onClickAsset('star')}
+							onClick={() => this.onClickAsset('star', false)}
 						>
 							<Icon name="fi-star" className="white-star" />
 						</div>
