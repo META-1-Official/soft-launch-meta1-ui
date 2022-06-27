@@ -59,7 +59,8 @@
 		border-left: 1px solid #1c1f27;
 		border-right: 1px solid #1c1f27;
 		background-color: #16171b !important;
-		display: flex;
+		overflow-x: auto;
+		white-space: nowrap;
 
 		.toggle-box {
 			display: inline-block;
@@ -71,6 +72,12 @@
 			color: #a6a6a6;
 			border: 1px solid #33363d;
 			border-left: none;
+			vertical-align: top;
+
+			&:first-of-type {
+				padding-top: 8px !important;
+				padding-bottom: 8px !important;
+			}
 
 			&.selected {
 				border-top: 1px #dea702 solid;
@@ -79,13 +86,13 @@
 				border-bottom: none;
 			}
 
+			&:hover {
+				cursor: pointer;
+			}
+
 			&.disabled:hover {
 				cursor: not-allowed;
 			}
-		}
-
-		.toggle-box:hover {
-			cursor: pointer;
 		}
 	}
 

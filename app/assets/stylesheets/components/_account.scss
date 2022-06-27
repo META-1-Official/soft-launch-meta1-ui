@@ -977,6 +977,8 @@ div.account-trade {
 		border-left: 1px solid #1c1f27;
 		border-right: 1px solid #1c1f27;
 		background-color: #16171b !important;
+		overflow-x: auto;
+		white-space: nowrap;
 
 		.toggle-box {
 			display: inline-block;
@@ -984,6 +986,11 @@ div.account-trade {
 			text-align: center;
 			padding-top: 10px;
 			padding-bottom: 10px;
+			vertical-align: top;
+
+			&:first-of-type {
+				padding-top: 8px;
+			}
 
 			&.selected {
 				border-top: 2px #dea702 solid;
@@ -991,13 +998,13 @@ div.account-trade {
 				background-color: #0a0b0d;
 			}
 
+			&:hover {
+				cursor: pointer;
+			}
+
 			&.disabled:hover {
 				cursor: not-allowed;
 			}
-		}
-
-		.toggle-box:hover {
-			cursor: pointer;
 		}
 	}
 
