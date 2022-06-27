@@ -31,6 +31,8 @@ import {getAssetIcon, getAssetFullName} from '../utils/asset';
 const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
 
+const SORT_TYPE_MULTIPLE = 'multiple';
+
 class AccountTrade extends React.Component {
 	constructor(props) {
 		super(props);
@@ -46,13 +48,12 @@ class AccountTrade extends React.Component {
 			marketBars: [],
 			header: [],
 			sortingColumns: {},
-			sortType: 'multiple',
+			sortType: 'single',
 		};
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		this._checkAssets(nextProps.assets);
-
 		if (
 			nextProps.assets.size > 0 &&
 			this.props.assets.size != nextProps.assets.size
@@ -63,7 +64,10 @@ class AccountTrade extends React.Component {
 		}
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
+		setTimeout(() => {
+			this.onClickAsset(this.state.baseAssetSymbol, false);
+		}, 500);
 		this._checkAssets(this.props.assets, true);
 		this._buildColumns();
 	}
@@ -806,7 +810,7 @@ class AccountTrade extends React.Component {
 
 	render() {
 		const {account, assets} = this.props;
-		const {header} = this.state;
+		const {header, sortType} = this.state;
 		const {baseAssetSymbol, rowsOnPage, selectedAsset, isFetchingMarketInfo} =
 			this.state;
 		const canChangeBaseAsset = isFetchingMarketInfo ? 'disabled' : '';
@@ -870,7 +874,7 @@ class AccountTrade extends React.Component {
 						<Switch
 							id={'multiple-sort'}
 							style={{width: '45px', marginLeft: '24px'}}
-							defaultChecked
+							defaultChecked={sortType === SORT_TYPE_MULTIPLE}
 							onChange={this._changeSortType.bind(this)}
 						></Switch>
 						<label

@@ -33,6 +33,8 @@ import {FaQuestionCircle} from 'react-icons/fa';
 import {getAssetIcon, getAssetFullName} from '../utils/asset';
 import DepositModal from '../Modal/DepositModal';
 
+const SORT_TYPE_MULTIPLE = 'multiple';
+
 class AccountPortfolioList extends React.Component {
 	constructor(props) {
 		super(props);
@@ -59,7 +61,7 @@ class AccountPortfolioList extends React.Component {
 			portfolioSort: props.viewSettings.get('portfolioSort', 'value'),
 			sortingColumns: {},
 			header: [],
-			sortType: 'multiple',
+			sortType: 'single',
 		};
 
 		this.qtyRefs = {};
@@ -951,7 +953,7 @@ class AccountPortfolioList extends React.Component {
 					<Switch
 						id={'multiple-sort-portfolio'}
 						style={{width: '45px', marginLeft: '5px'}}
-						defaultChecked
+						defaultChecked={sortType === SORT_TYPE_MULTIPLE}
 						onChange={this._changeSortType.bind(this)}
 					/>
 				</div>
