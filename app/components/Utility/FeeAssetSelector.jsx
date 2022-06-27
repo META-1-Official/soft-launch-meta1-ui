@@ -71,7 +71,7 @@ class FeeAssetSelector extends React.Component {
 		try {
 			const {fee, hasPoolBalance} = await checkFeeStatusAsync({
 				...transaction,
-				accountID: account.get('id'),
+				accountID: account?.get('id'),
 				feeID,
 			});
 

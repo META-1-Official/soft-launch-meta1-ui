@@ -96,6 +96,14 @@ const Settings = Loadable({
 	loading: LoadingIndicator,
 });
 
+const AddContact = Loadable({
+	loader: () =>
+		import(
+			/* webpackChunkName: "Add Contact" */ './components/Contact/AddContact'
+		),
+	loading: LoadingIndicator,
+});
+
 const Help = Loadable({
 	loader: () => import(/* webpackChunkName: "help" */ './components/Help'),
 	loading: LoadingIndicator,
@@ -433,6 +441,7 @@ class App extends React.Component {
 						<Route path="/market/:marketID" component={Exchange} />
 						<Route path="/settings/:tab" component={Settings} />
 						<Route path="/settings" component={Settings} />
+						<Route path="/contact/add" component={AddContact} />
 
 						<Route path="/invoice/:data" component={Invoice} />
 						<Route path="/create-account" component={AccountRegistration} />

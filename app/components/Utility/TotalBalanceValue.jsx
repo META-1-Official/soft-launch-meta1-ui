@@ -347,6 +347,7 @@ class TotalBalanceValue extends React.Component {
 		balances.forEach((balance) => {
 			if (balance) {
 				assets = assets.push(balance.get('asset_type'));
+
 				amounts.push({
 					asset_id: balance.get('asset_type'),
 					amount: parseInt(balance.get('balance'), 10),

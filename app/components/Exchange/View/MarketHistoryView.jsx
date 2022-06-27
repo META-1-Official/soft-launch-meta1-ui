@@ -44,7 +44,7 @@ class MarketHistoryView extends React.Component {
 					<table className="table table-no-padding order-table text-left fixed-table market-right-padding">
 						<thead>
 							<tr>
-								<th style={{textAlign: 'left'}}>
+								<th style={{textAlign: 'left'}} className="time-header-class">
 									<Translate
 										className="header-sub-title"
 										content="explorer.block.time"

@@ -57,13 +57,7 @@ class AccountPortfolioList extends React.Component {
 			bridgeAsset: null,
 			allRefsAssigned: false,
 			portfolioSort: props.viewSettings.get('portfolioSort', 'value'),
-			portfolioSortDirection: props.viewSettings.get(
-				'portfolioSortDirection',
-				'ascend'
-			), // alphabetical A -> B, numbers high to low
-			prod: 0,
-			changes: 0,
-			totalChange: 0,
+			sortingColumns: {},
 		};
 
 		this.qtyRefs = {};
@@ -98,16 +92,10 @@ class AccountPortfolioList extends React.Component {
 
 	componentWillMount() {
 		this.refCheckInterval = setInterval(this._checkRefAssignments);
-		this.state.prod = setInterval(this.state.prod);
-		this.state.changes = setInterval(this.state.changes);
-		this.state.totalChange = setInterval(this.state.totalChange);
 	}
 
 	componentWillUnmount() {
 		clearInterval(this.refCheckInterval);
-		clearInterval(this.state.totalChange);
-		clearInterval(this.state.prod);
-		clearInterval(this.state.changes);
 	}
 
 	_checkRefAssignments() {
@@ -139,7 +127,6 @@ class AccountPortfolioList extends React.Component {
 			np.settings !== this.props.settings ||
 			np.hiddenAssets !== this.props.hiddenAssets ||
 			ns.portfolioSort !== this.state.portfolioSort ||
-			ns.portfolioSortDirection !== this.state.portfolioSortDirection ||
 			np.allMarketStats.reduce((a, value, key) => {
 				return (
 					utils.check_market_stats(value, this.props.allMarketStats.get(key)) ||
@@ -147,20 +134,6 @@ class AccountPortfolioList extends React.Component {
 				);
 			}, false)
 		);
-	}
-
-	componentDidUpdate(prevProps) {
-		if (this.state.prod !== prevProps.prod) {
-			this.setState({prod: window.prod});
-		}
-
-		if (this.state.changes !== prevProps.changes) {
-			this.setState({changes: window.changes});
-		}
-
-		if (this.state.totalChange !== prevProps.totalChange) {
-			this.setState({totalChange: window.totalChange});
-		}
 	}
 
 	showBridgeModal() {
@@ -248,25 +221,21 @@ class AccountPortfolioList extends React.Component {
 	}
 
 	sortFunctions = {
-		qty: function (a, b, force) {
-			if (Number(this.qtyRefs[a.key]) < Number(this.qtyRefs[b.key]))
-				return this.state.portfolioSortDirection || force ? -1 : 1;
+		qty: function (a, b) {
+			if (Number(this.qtyRefs[a.key]) < Number(this.qtyRefs[b.key])) return 1;
 
-			if (Number(this.qtyRefs[a.key]) > Number(this.qtyRefs[b.key]))
-				return this.state.portfolioSortDirection || force ? 1 : -1;
+			if (Number(this.qtyRefs[a.key]) > Number(this.qtyRefs[b.key])) return -1;
 		},
-		alphabetic: function (a, b, force) {
-			if (a.key > b.key)
-				return this.state.portfolioSortDirection || force ? 1 : -1;
-			if (a.key < b.key)
-				return this.state.portfolioSortDirection || force ? -1 : 1;
+		alphabetic: function (a, b) {
+			if (a.key > b.key) return 1;
+			if (a.key < b.key) return -1;
 			return 0;
 		},
 		priceValue: function (a, b) {
 			let aPrice = this.priceRefs[a.key];
 			let bPrice = this.priceRefs[b.key];
 			if (aPrice && bPrice) {
-				return this.props.sortDirection ? aPrice - bPrice : bPrice - aPrice;
+				return bPrice - aPrice;
 			} else if (aPrice === null && bPrice !== null) {
 				return 1;
 			} else if (aPrice !== null && bPrice === null) {
@@ -279,13 +248,13 @@ class AccountPortfolioList extends React.Component {
 			let aValue = this.valueRefs[a.key];
 			let bValue = this.valueRefs[b.key];
 			if (aValue && bValue) {
-				return this.props.sortDirection ? aValue - bValue : bValue - aValue;
+				return bValue - aValue;
 			} else if (!aValue && bValue) {
 				return 1;
 			} else if (aValue && !bValue) {
 				return -1;
 			} else {
-				return this.sortFunctions.alphabetic(a, b, true);
+				return this.sortFunctions.alphabetic(a, b);
 			}
 		},
 		changeValue: function (a, b) {
@@ -295,12 +264,8 @@ class AccountPortfolioList extends React.Component {
 			if (aValue && bValue) {
 				let aChange = parseFloat(aValue) != 'NaN' ? parseFloat(aValue) : aValue;
 				let bChange = parseFloat(bValue) != 'NaN' ? parseFloat(bValue) : bValue;
-				let direction =
-					typeof this.state.portfolioSortDirection !== 'undefined'
-						? this.state.portfolioSortDirection
-						: true;
 
-				return direction ? aChange - bChange : bChange - aChange;
+				return bChange - aChange;
 			}
 		},
 	};
@@ -369,19 +334,43 @@ class AccountPortfolioList extends React.Component {
 	}
 
 	toggleSortOrder(pagination, filters, sorter) {
+		const columns = {...this.state.sortingColumns};
+
+		if (sorter instanceof Array) {
+			sorter.forEach((elem) => {
+				if (!Object.keys(columns).includes(elem.field)) {
+					columns[elem.field] = elem.order;
+				} else if (
+					Object.keys(columns).includes(elem.field) &&
+					columns[elem.field] !== elem.value
+				) {
+					columns[elem.field] = elem.order;
+				}
+			});
+			const x = Object.keys(columns).filter(
+				(item) => !sorter.map((item) => item.field).includes(item)
+			);
+			x.forEach((item) => {
+				delete columns[item];
+			});
+		} else {
+			columns[sorter.field] = sorter.order;
+		}
+
+		this.setState({
+			sortingColumns: columns,
+		});
 		SettingsActions.changeViewSetting({
-			portfolioSortDirection: sorter.order,
 			portfolioSort: sorter.field,
 		});
 		this.setState({
-			portfolioSortDirection: sorter.order,
 			portfolioSort: sorter.field,
 		});
 	}
 
 	getHeader() {
 		let {settings} = this.props;
-		let {shownAssets, portfolioSortDirection, portfolioSort} = this.state;
+		const {sortingColumns} = this.state;
 
 		const preferredUnit =
 			settings.get('unit') || this.props.core_asset.get('symbol');
@@ -393,8 +382,13 @@ class AccountPortfolioList extends React.Component {
 				dataIndex: 'asset',
 				align: 'left',
 				customizable: false,
-				sorter: this.sortFunctions.alphabetic,
-				sortOrder: portfolioSort === 'asset' && portfolioSortDirection,
+				sorter: {
+					compare: this.sortFunctions.alphabetic,
+					multiple:
+						Object.keys(sortingColumns).indexOf(
+							(column) => column.field === 'asset'
+						) + 1,
+				},
 				render: (item) => {
 					return <span style={{whiteSpace: 'nowrap'}}>{item}</span>;
 				},
@@ -404,8 +398,13 @@ class AccountPortfolioList extends React.Component {
 				dataIndex: 'qty',
 				align: 'right',
 				customizable: false,
-				sorter: this.sortFunctions.qty,
-				sortOrder: portfolioSort === 'qty' && portfolioSortDirection,
+				sorter: {
+					compare: this.sortFunctions.qty,
+					multiple:
+						Object.keys(sortingColumns).indexOf(
+							(column) => column.field === 'qty'
+						) + 1,
+				},
 				render: (item) => {
 					return <span style={{whiteSpace: 'nowrap'}}>{item}</span>;
 				},
@@ -431,8 +430,13 @@ class AccountPortfolioList extends React.Component {
 				dataIndex: 'value',
 				align: 'right',
 				customizable: false,
-				sorter: this.sortFunctions.totalValue,
-				sortOrder: portfolioSort === 'value' && portfolioSortDirection,
+				sorter: {
+					compare: this.sortFunctions.totalValue,
+					multiple:
+						Object.keys(sortingColumns).indexOf(
+							(column) => column.field === 'value'
+						) + 1,
+				},
 				render: (item) => {
 					return <span style={{whiteSpace: 'nowrap'}}>{item}</span>;
 				},
@@ -447,8 +451,13 @@ class AccountPortfolioList extends React.Component {
 				),
 				dataIndex: 'price',
 				align: 'right',
-				sorter: this.sortFunctions.priceValue,
-				sortOrder: portfolioSort === 'price' && portfolioSortDirection,
+				sorter: {
+					compare: this.sortFunctions.priceValue,
+					multiple:
+						Object.keys(sortingColumns).indexOf(
+							(column) => column.field === 'price'
+						) + 1,
+				},
 				render: (item) => {
 					return <span style={{whiteSpace: 'nowrap'}}>{item}</span>;
 				},
@@ -497,8 +506,15 @@ class AccountPortfolioList extends React.Component {
 	}
 
 	_renderBalances(balanceList, optionalAssets, visible) {
-		const {coreSymbol, preferredUnit, settings, hiddenAssets, orders} =
-			this.props;
+		const {
+			coreSymbol,
+			preferredUnit,
+			settings,
+			hiddenAssets,
+			orders,
+			hideZeroBalance,
+			filterValue,
+		} = this.props;
 
 		const renderBorrow = (asset, account) => {
 			let isBitAsset = asset && asset.has('bitasset_data_id');
@@ -533,6 +549,7 @@ class AccountPortfolioList extends React.Component {
 
 		let balances = [];
 		const emptyCell = '-';
+
 		balanceList.forEach((balance) => {
 			let balanceObject = ChainStore.getObject(balance);
 			if (!balanceObject) return;
@@ -767,94 +784,77 @@ class AccountPortfolioList extends React.Component {
 						>
 							Deposit
 						</StyledButton>
-					) : null,
+					) : (
+						emptyCell
+					),
 			});
 		});
+
 		if (optionalAssets) {
 			optionalAssets
 				.filter((asset) => {
-					let isAvailable = false;
 					let keep = true;
 					balances.forEach((a) => {
 						if (a.key === asset) keep = false;
 					});
-					return keep && isAvailable;
+					if (
+						filterValue &&
+						!asset?.toLowerCase().includes(filterValue?.toLowerCase())
+					)
+						keep = false;
+					return keep;
 				})
 				.forEach((a) => {
 					let asset = ChainStore.getAsset(a);
-					if (asset && this.props.isMyAccount) {
-						const includeAsset = !hiddenAssets.includes(asset.get('id'));
-						const canDeposit = true;
 
-						const notCore = asset.get('id') !== '1.3.0';
-						let {market} = assetUtils.parseDescription(
-							asset.getIn(['options', 'description'])
-						);
-						if (asset.get('symbol').indexOf('OPEN.') !== -1 && !market)
-							market = 'USDT';
-						let preferredMarket = market ? market : coreSymbol;
+					if (asset && !hideZeroBalance) {
+						let marketId = asset.get('symbol') + '_' + preferredUnit;
 
-						let directMarketLink = notCore ? (
-							<Link to={`/market/${asset.get('symbol')}_${preferredMarket}`}>
-								<div className="portfolio-btn">
-									<Icon
-										name="trade"
-										title="icons.trade.trade"
-										className="icon-14px"
+						balances.push({
+							key: asset.get('symbol'),
+							asset: (
+								<div className="asset-name">
+									<img
+										className="asset-img"
+										src={getAssetIcon(asset.get('symbol'))}
+										alt="Asset logo"
+										width="28px"
+									/>
+									<div>
+										<LinkToAssetById
+											className="asset-name"
+											asset={asset.get('id')}
+										/>
+										<p>{getAssetFullName(asset.get('symbol'))}</p>
+									</div>
+								</div>
+							),
+							qty: <>{(0.0).toFixed(2)}</>,
+							value: <>{(0.0).toFixed(2)}</>,
+							price: (
+								<div>
+									<EquivalentPrice
+										fromAsset={asset.get('id')}
+										pulsate={{reverse: true, fill: 'forwards'}}
+										hide_symbols
+									/>
+									<Market24HourChangeComponent
+										base={asset.get('id')}
+										quote={preferredUnit}
+										marketId={marketId}
+										hide_symbols
 									/>
 								</div>
-							</Link>
-						) : (
-							emptyCell
-						);
-						let {isBitAsset, borrowLink} = renderBorrow(
-							asset,
-							this.props.account
-						);
-						if ((includeAsset && visible) || (!includeAsset && !visible))
-							balances.push({
-								key: asset.get('symbol'),
-								asset: <LinkToAssetById asset={asset.get('id')} />,
-								qty: emptyCell,
-								price: emptyCell,
-								hour24: emptyCell,
-								value: emptyCell,
-								percent: emptyCell,
-								payments: emptyCell,
-								deposit:
-									canDeposit && this.props.isMyAccount ? (
-										<span>
-											<Icon
-												style={{cursor: 'pointer'}}
-												name="deposit"
-												title="icons.deposit.deposit"
-												className="icon-14x"
-												onClick={this._showDepositModal.bind(
-													this,
-													asset.get('symbol')
-												)}
-											/>
-										</span>
-									) : (
-										emptyCell
-									),
-								withdraw: emptyCell,
-								trade: directMarketLink,
-								borrow: isBitAsset ? (
-									<Tooltip
-										placement="bottom"
-										title={counterpart.translate('tooltip.borrow', {
-											asset: asset.get('symbol'),
-										})}
-									>
-										<div className="inline-block">{borrowLink}</div>
-									</Tooltip>
-								) : (
-									emptyCell
-								),
-								settle: emptyCell,
-								burn: emptyCell,
-							});
+							),
+							hour24: null,
+							percent: null,
+							trade: emptyCell,
+							payments: emptyCell,
+							borrow: null,
+							settle: null,
+							burn: null,
+							deposit: emptyCell,
+						});
 					}
 				});
 		}
@@ -909,77 +909,11 @@ class AccountPortfolioList extends React.Component {
 		);
 	}
 
-	// getTotalChange = () => {
-	// 	let pairs = [];
-	// 	let assets = this.props.allMarketStats;
-
-	// 	let prod = this.state.prod; // sum of (amount * change) for all assets with balance
-	// 	let changes = this.state.changes; // sum of all the changes of the assets
-
-	// 	let n = assets.size;
-	// 	let assetHasBalance = [];
-
-	// 	for (let j = 0; j <= 15; j++) {
-	// 		if (assets._root.nodes[j]?.entry) {
-	// 			let pair = assets._root.nodes[j].entry[0];
-	// 			let amount = assets._root.nodes[j].entry[1].price._not_samebase_real;
-	// 			if (amount > 0 && amount != 'undefined') {
-	// 				let change = assets._root.nodes[j].entry[1].change * 1.0;
-	// 				prod += amount * change;
-	// 				changes += change;
-	// 			}
-	// 			if (!pairs.includes(pair)) {
-	// 				pairs.push(pair);
-	// 			}
-	// 			if (!assetHasBalance.includes(pair) && amount > 0) {
-	// 				assetHasBalance.push(pair);
-	// 			}
-	// 		} else if (assets._root.nodes[j]?.nodes) {
-	// 			for (var k in assets._root.nodes[j].nodes) {
-	// 				let newPair = JSON.stringify(assets._root.nodes[j].nodes[k].entry);
-
-	// 				try {
-	// 					let amount =
-	// 						assets._root.nodes[j].nodes.entry[1].price._not_samebase_real;
-	// 					if (amount > 0 && amount !== 'undefined') {
-	// 						let change = assets._root.nodes[j].nodes.entry[1].change * 1.0;
-	// 						prod += amount * change;
-	// 						changes += change;
-	// 					}
-
-	// 					if (typeof newPair != 'undefined') {
-	// 						let end = newPair.indexOf(',');
-
-	// 						if (!pairs.includes(newPair)) {
-	// 							newPair = newPair.slice(1, end);
-	// 							pairs.push(newPair);
-	// 						}
-	// 					}
-	// 					if (!assetHasBalance.includes(newPair) && amount > 0) {
-	// 						assetHasBalance.push(newPair);
-	// 					}
-	// 				} catch (e) {
-	// 				}
-	// 			}
-	// 		}
-	// 	}
-
-	// 	let keys = Object.keys(assets);
-
-	// 	var result = prod / changes;
-	// 	if (result != 'undefined') {
-	// 		window.totalChange = result;
-	// 		window.prod = 0;
-	// 		window.changes = 0;
-	// 	}
-	// };
-
 	render() {
 		const {currentAccount} = this.props;
 
 		return (
 			<div className="portfolio-table-wrapper">
-				{/* {this.getTotalChange()} */}
 				<CustomTable
 					className="table dashboard-table table-hover"
 					rows={this._renderBalances(

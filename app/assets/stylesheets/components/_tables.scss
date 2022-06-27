@@ -15,6 +15,10 @@
 	text-align: left;
 }
 .orders-trade-form {
+	.table.order-table .time-header-class {
+		padding: 10px 10px 10px 20px !important;
+	}
+
 	.table.order-table > thead > tr > th {
 		border-bottom: 2px solid #1c1f27 !important;
 		padding: 10px 10px !important;
@@ -27,6 +31,10 @@
 
 	.table.order-table > thead > tr > th ~ .table-volume-class {
 		padding: 10px 10px 10px 0 !important;
+	}
+
+	.table.order-table > tbody > tr > td ~ .table-body-class {
+		text-align: left !important;
 	}
 
 	.table.order-table > tbody > tr {
@@ -42,6 +50,10 @@
 		padding: 4px 5px 4px 0px;
 		font-size: 12px !important;
 		height: 30px;
+	}
+
+	table.order-table > tbody .time-class {
+		padding: 4px 5px 4px 10px !important;
 	}
 
 	.table.order-table > tbody > tr > td.centric-items {

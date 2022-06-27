@@ -13,6 +13,9 @@ import {
 	ArrowUpOutlined,
 	ArrowDownOutlined,
 	StarOutlined,
+	CaretUpFilled,
+	CaretDownFilled,
+	CaretRightFilled,
 } from '@ant-design/icons';
 import AltContainer from 'alt-container';
 import AssetWrapper from '../Utility/AssetWrapper';
@@ -256,12 +259,35 @@ class AssetsPairTabs extends React.Component {
 		return [
 			{
 				title: (
-					<div
-						style={{fontSize: '12px', color: '#979797', textAlign: 'center'}}
-					>
-						Pair
-					</div>
+					<>
+						<span
+							style={{
+								fontSize: '12px',
+								color: '#979797',
+								textAlign: 'center',
+								paddingLeft: '10px',
+								marginLeft: '10px',
+								padingRight: '10px',
+								marginRight: '10px',
+								textAlign: 'left',
+							}}
+						>
+							Pair
+						</span>
+						<span
+							style={{
+								fontSize: '12px',
+								color: '#979797',
+								textAlign: 'right',
+								padingLeft: '10px',
+								marginLeft: '10px',
+							}}
+						>
+							Change
+						</span>
+					</>
 				),
+				colSpan: 1,
 				key: 'name',
 				sorter: (a, b) => {
 					return a.quoteAssetSymbol > b.quoteAssetSymbol
@@ -270,7 +296,7 @@ class AssetsPairTabs extends React.Component {
 						? -1
 						: 0;
 				},
-				render: (rowData) => {
+				render: (rowData, rateChange) => {
 					const quoteAssetSymbol = rowData.quoteAssetSymbol;
 					const baseAssetSymbol = rowData.baseAssetSymbol;
 					let symbolIcons = {
@@ -285,44 +311,118 @@ class AssetsPairTabs extends React.Component {
 					};
 					let icon = symbolIcons[quoteAssetSymbol] ?? btcIcon;
 
+					let classNameDiv = '';
+
 					return (
-						<div style={{display: 'flex', alignItems: 'center'}}>
-							<div style={{marginRight: '5px', width: '30px'}}>
-								<img className="asset-img" src={icon} alt="Asset logo" />
-							</div>
-							<div
-								style={{cursor: 'pointer'}}
-								onClick={() =>
-									history.push(`/market/${quoteAssetSymbol}_${baseAssetSymbol}`)
-								}
-							>
-								<span
-									style={{
-										fontSize: '14px',
-										color: '#D0D0D0',
-									}}
+						<>
+							<div style={{display: 'flex', alignItems: 'center'}}>
+								<div style={{marginRight: '5px', width: '20px'}}>
+									<img className="asset-img" src={icon} alt="Asset logo" />
+								</div>
+								<div
+									style={{cursor: 'pointer', minWidth: '80px'}}
+									onClick={() =>
+										history.push(
+											`/market/${quoteAssetSymbol}_${baseAssetSymbol}`
+										)
+									}
 								>
-									<strong>{quoteAssetSymbol}</strong>
-								</span>
-								<span
-									style={{
-										fontSize: '12px',
-										color: '#8B7474',
-									}}
-								>{` / ${baseAssetSymbol}`}</span>
+									<span
+										style={{
+											fontSize: '14px',
+											color: '#D0D0D0',
+										}}
+									>
+										<strong>{quoteAssetSymbol}</strong>
+									</span>
+									<span
+										style={{
+											fontSize: '13px',
+											color: '#715D5C',
+										}}
+									>{` / ${baseAssetSymbol}`}</span>
+								</div>
 							</div>
-						</div>
+							<div>
+								{
+									<div
+										className="change"
+										style={{
+											marginTop: '5px',
+											paddingTop: '0px',
+											marginLeft: '-0px',
+											textAlign: 'center',
+										}}
+									>
+										<span style={{display: 'none'}}>
+											{
+												(classNameDiv =
+													rateChange.rateChange === '0.00'
+														? ''
+														: rateChange.rateChange > 0
+														? 'change-up'
+														: 'change-down')
+											}
+										</span>
+
+										{classNameDiv === 'change-up' && (
+											<>
+												<CaretUpFilled
+													className={classNameDiv}
+													style={{fontSize: '12px'}}
+												/>
+												<span
+													className={classNameDiv}
+													style={{fontSize: '12px'}}
+												>{`+${rateChange.rateChange} %`}</span>
+											</>
+										)}
+										{classNameDiv === 'change-down' && (
+											<>
+												<CaretDownFilled
+													className={classNameDiv}
+													style={{fontSize: '12px'}}
+												/>
+												<span
+													className={classNameDiv}
+													style={{fontSize: '12px'}}
+												>{`${rateChange.rateChange} %`}</span>
+											</>
+										)}
+										{classNameDiv === '' && (
+											<>
+												<CaretRightFilled
+													className={classNameDiv}
+													style={{fontSize: '12px'}}
+												/>
+												<span
+													className={classNameDiv}
+													style={{fontSize: '12px'}}
+												>{`${rateChange.rateChange} %`}</span>
+											</>
+										)}
+									</div>
+								}
+							</div>
+						</>
 					);
 				},
 			},
 			{
 				title: (
 					<div
-						style={{fontSize: '12px', color: '#979797', textAlign: 'center'}}
+						style={{
+							fontSize: '12px',
+							color: '#979797',
+							textAlign: 'center',
+							marginLeft: '-0px',
+							paddingLeft: '0px',
+						}}
 					>
 						Change
 					</div>
 				),
+				colSpan: 0,
 				dataIndex: 'rateChange',
 				key: 'rateChange',
 				sorter: (a, b) => {
@@ -340,41 +440,49 @@ class AssetsPairTabs extends React.Component {
 							? 'change-up'
 							: 'change-down';
 					return (
-						<div className="change" style={{minWidth: '60px'}}>
+						<div
+							className="change"
+							style={{
+								marginTop: '25px',
+								paddingTop: '10px',
+								marginLeft: '-0px',
+								display: 'none',
+							}}
+						>
 							{className === 'change-up' && (
 								<>
-									<ArrowUpOutlined
+									<CaretUpFilled
 										className={className}
-										style={{fontSize: '14px'}}
+										style={{fontSize: '12px'}}
 									/>
-									<div
+									<span
 										className={className}
-										style={{fontSize: '14px'}}
-									>{`+${rateChange} %`}</div>
+										style={{fontSize: '12px'}}
+									>{`+${rateChange} %`}</span>
 								</>
 							)}
 							{className === 'change-down' && (
 								<>
-									<ArrowDownOutlined
+									<CaretDownFilled
 										className={className}
-										style={{fontSize: '14px'}}
+										style={{fontSize: '12px'}}
 									/>
-									<div
+									<span
 										className={className}
-										style={{fontSize: '14px'}}
-									>{`${rateChange} %`}</div>
+										style={{fontSize: '12px'}}
+									>{`${rateChange} %`}</span>
 								</>
 							)}
 							{className === '' && (
 								<>
-									<ArrowRightOutlined
+									<CaretRightFilled
 										className={className}
-										style={{fontSize: '14px'}}
+										style={{fontSize: '12px'}}
 									/>
-									<div
+									<span
 										className={className}
-										style={{fontSize: '14px'}}
-									>{`${rateChange} %`}</div>
+										style={{fontSize: '12px'}}
+									>{`${rateChange} %`}</span>
 								</>
 							)}
 						</div>
@@ -384,11 +492,19 @@ class AssetsPairTabs extends React.Component {
 			{
 				title: (
 					<div
-						style={{fontSize: '12px', color: '#979797', textAlign: 'center'}}
+						style={{
+							fontSize: '12px',
+							color: '#979797',
+							textAlign: 'right',
+							minWidth: '50px',
+							marginLeft: '10px',
+							paddingLeft: '10px',
+						}}
 					>
 						Volume
 					</div>
 				),
+				colSpan: 2,
 				dataIndex: 'price',
 				key: 'price',
 				sorter: (a, b) => {
@@ -411,7 +527,12 @@ class AssetsPairTabs extends React.Component {
 						<div>
 							<div
 								className="price"
-								style={{fontSize: '14px'}}
+								style={{
+									fontSize: '14px',
+									minWidth: '50px',
+									textAlign: 'right',
+									color: '#D0D0D0',
+								}}
 							>{`$${price}`}</div>
 						</div>
 					);
@@ -546,7 +667,7 @@ class AssetsPairTabs extends React.Component {
 		));
 
 		const toggleBoxes = [];
-		assets.map((asset) => {
+		assets.slice(0, 4).map((asset) => {
 			toggleBoxes.push(
 				<div
 					key={asset.symbol}

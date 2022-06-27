@@ -8,6 +8,7 @@ import Proposals from 'components/Account/Proposals';
 import {ChainStore} from 'meta1js';
 import SettingsActions from 'actions/SettingsActions';
 import utils from 'common/utils';
+import accountUtils from 'common/account_utils';
 import {Tabs, Tab} from '../Utility/Tabs';
 import AccountOrders from './AccountOrders';
 import cnames from 'classnames';
@@ -17,18 +18,23 @@ import BalanceWrapper from './BalanceWrapper';
 import AccountTreemap from './AccountTreemap';
 import AssetWrapper from '../Utility/AssetWrapper';
 import AccountPortfolioList from './AccountPortfolioList';
-import {Space, Switch, Tooltip} from 'antd';
+import {Market24HourChangeComponent} from '../Utility/MarketChangeComponent';
+import {Space, Switch, Tooltip, Select} from 'antd';
+const {Option} = Select;
 import counterpart from 'counterpart';
 import SearchInput from '../Utility/SearchInput';
 import PageHeader from 'components/PageHeader/PageHeader';
 import StyledButton from 'components/Button/Button';
-import {BsGear} from 'react-icons/bs';
-import {BsFillCaretDownSquareFill} from 'react-icons/bs';
+import AssetStore from 'stores/AssetStore';
+import {FormattedNumber} from 'react-intl';
 import {
-	AiOutlineArrowUp,
-	AiOutlineArrowDown,
-	AiOutlineArrowRight,
-} from 'react-icons/ai';
+	ArrowRightOutlined,
+	ArrowUpOutlined,
+	ArrowDownOutlined,
+	SettingFilled,
+	CaretDownFilled,
+} from '@ant-design/icons';
+import MarketsStore from 'stores/MarketsStore';
 
 class AccountOverview extends React.Component {
 	constructor(props) {
@@ -37,55 +43,26 @@ class AccountOverview extends React.Component {
 			shownAssets: props.viewSettings.get('shownAssets', 'active'),
 			alwaysShowAssets: [
 				'META1',
-				// "USDT",
-				// "CNY",
-				// "OPEN.BTC",
-				// "OPEN.USDT",
-				// "OPEN.ETH",
-				// "OPEN.MAID",
-				// "OPEN.STEEM",
-				// "OPEN.DASH"
+				'USDT',
+				'BTC',
+				'BNB',
+				'LTC',
+				'XLM',
+				'EOS',
+				'ETH',
 			],
 			hideFishingProposals: true,
 			currentDisplay: 'portfolio',
-			balanceList: Immutable.List(),
 			hideZeroBalance: true,
-			totalChange: 0,
-			isPositive: false,
-			isZero: true,
 		};
 
-		//this.totalChange = this.totalChange.bind(this);
 		this._handleFilterInput = this._handleFilterInput.bind(this);
-
-		// DEBUG
-		//console.log("debug")
-		//console.log("props overview:" + JSON.stringify(this.state))
 	}
 
 	_handleFilterInput(e) {
 		this.setState({
 			filterValue: e.target.value,
 		});
-	}
-
-	componentDidUpdate(prevProps) {
-		if (this.state.totalChange !== prevProps.totalChange) {
-			this.setState({totalChange: window.totalChange});
-			if (this.state.totalChange > 0) {
-				this.setState({isPositive: true});
-				this.setState({isZero: false});
-			}
-			if (this.state.totalChange < 0) {
-				this.setState({isPositive: false});
-				this.setState({isZero: false});
-			}
-			if (Math.abs(this.state.totalChange) < 0.01) {
-				this.setState({isPositive: false});
-				this.setState({isZero: true});
-			}
-			console.log('state overview:' + this.state.totalChange);
-		}
 	}
 
 	componentWillMount() {
@@ -107,11 +84,6 @@ class AccountOverview extends React.Component {
 		) {
 			this.setState({currentDisplay: qd['currentDisplay'][0]});
 		}
-		this.state.totalChange = setInterval(this.state.totalChange);
-	}
-
-	componentWillUnmount() {
-		clearInterval(this.state.totalChange);
 	}
 
 	_checkMarginStatus(props = this.props) {
@@ -139,49 +111,8 @@ class AccountOverview extends React.Component {
 			nextProps.hiddenAssets !== this.props.hiddenAssets ||
 			!utils.are_equal_shallow(nextState, this.state) ||
 			this.state.filterValue !== nextState.filterValue ||
-			this.state.enabledColumns !== nextState.enabledColumns ||
-			this.state.totalChange !== nextState.totalChange
+			this.state.enabledColumns !== nextState.enabledColumns
 		);
-	}
-
-	handleHideZeroBalance = () => {
-		let newHideZeroBalance = !this.state.hideZeroBalance;
-
-		//DEBUG -> hideZeroBalance is not updating, why?
-		//console.log("new: " + newHideZeroBalance);
-		//console.log("state 1: " + this.state.hideZeroBalance);
-
-		this.setState({
-			hideZeroBalance: newHideZeroBalance,
-		});
-		SettingsActions.changeSetting({
-			setting: 'hideZeroBalance',
-			value: newHideZeroBalance,
-		});
-
-		//console.log("new 2: " + newHideZeroBalance);
-		//console.log("state 2: " + this.state.hideZeroBalance);
-
-		// Note: state updating correctly now
-
-		if (newHideZeroBalance) {
-			// true -> hide zero balances
-			this.props.balanceList = window.balanceList;
-		}
-		if (!newHideZeroBalance) {
-			// false -> show all assets
-			this.props.balanceList = window.includedList;
-		}
-		//DEBUG console.log("state:" + this.state.hideZeroBalance);
-	};
-
-	_changeShownAssets(shownAssets = 'active') {
-		this.setState({
-			shownAssets,
-		});
-		SettingsActions.changeViewSetting({
-			shownAssets,
-		});
 	}
 
 	_toggleHideProposal() {
@@ -190,20 +121,11 @@ class AccountOverview extends React.Component {
 		});
 	}
 
-	applyStyles(flag) {
-		if (flag) {
-			let el = document.getElementById('total-change');
-			if (el) {
-				el.setAttribute('style', 'background-color: #009d55!important');
-			}
-		}
-		if (!flag) {
-			let el = document.getElementById('total-change');
-			if (el) {
-				el.setAttribute('style', 'background-color: #ff2929!important');
-			}
-		}
-	}
+	handleHideZeroBalance = () => {
+		this.setState({
+			hideZeroBalance: !this.state.hideZeroBalance,
+		});
+	};
 
 	render() {
 		let {account, hiddenAssets, settings, orders} = this.props;
@@ -224,9 +146,9 @@ class AccountOverview extends React.Component {
 			call_orders = account.get('call_orders').toJS();
 		let includedPortfolioList, hiddenPortfolioList;
 		let account_balances = account.get('balances');
+
 		let includedBalancesList = Immutable.List(),
-			hiddenBalancesList = Immutable.List(),
-			completeAssetList = Immutable.List();
+			hiddenBalancesList = Immutable.List();
 		call_orders.forEach((callID) => {
 			let position = ChainStore.getObject(callID);
 			if (position) {
@@ -284,23 +206,47 @@ class AccountOverview extends React.Component {
 					}
 				}
 
-				completeAssetList = completeAssetList.push(a);
-
 				if (hiddenAssets.includes(asset_type) && assetName.includes(filter)) {
 					hiddenBalancesList = hiddenBalancesList.push(a);
 				} else if (assetName.includes(filter)) {
 					includedBalancesList = includedBalancesList.push(a);
 				}
-
-				window.balanceList = completeAssetList;
-				window.includedList = includedBalancesList;
-
-				//DEBUG
-				//console.log("hiddenList: " + hiddenBalancesList);		// blank
-				//console.log("includedList: " + includedBalancesList); // list being shown
-				console.log('completeList: ' + completeAssetList); // same list
 			});
 		}
+
+		let totalChange = parseFloat(
+			accountUtils.getTotalBalanceChange(includedBalancesList, preferredUnit)
+		);
+		let dayChangeClass =
+			parseFloat(totalChange) === 0
+				? ''
+				: parseFloat(totalChange) < 0
+				? 'change-down'
+				: 'change-up';
+
+		let totalChangeElement = !isNaN(totalChange) ? (
+			<span className={'value ' + dayChangeClass}>
+				{dayChangeClass === 'change-up' && <ArrowUpOutlined />}
+				{dayChangeClass === 'change-down' && <ArrowDownOutlined />}
+				{dayChangeClass === '' && <ArrowRightOutlined />}
+				<FormattedNumber
+					style="decimal"
+					value={Math.abs(totalChange)}
+					minimumFractionDigits={2}
+					maximumFractionDigits={2}
+				/>
+				%
+			</span>
+		) : (
+			<span className={'value ' + dayChangeClass}>-</span>
+		);
+
+		let usdTotal = parseFloat(
+			accountUtils.getUsd(
+				accountUtils.getTotalBalance(includedBalancesList, preferredUnit),
+				preferredUnit
+			)
+		).toFixed(2);
 
 		let portfolioHiddenAssetsBalance = (
 			<TotalBalanceValue noTip balances={hiddenBalancesList} hide_asset />
@@ -354,9 +300,7 @@ class AccountOverview extends React.Component {
 		includedPortfolioList = (
 			<AccountPortfolioList
 				balanceList={includedBalancesList}
-				optionalAssets={
-					!this.state.filterValue ? this.state.alwaysShowAssets : null
-				}
+				optionalAssets={this.state.alwaysShowAssets}
 				visible={true}
 				preferredUnit={preferredUnit}
 				coreAsset={this.props.core_asset}
@@ -367,15 +311,15 @@ class AccountOverview extends React.Component {
 				isMyAccount={this.props.isMyAccount}
 				balances={this.props.balances}
 				viewSettings={this.props.viewSettings}
+				hideZeroBalance={this.state.hideZeroBalance}
+				filterValue={this.state.filterValue}
 			/>
 		);
 
 		hiddenPortfolioList = (
 			<AccountPortfolioList
 				balanceList={hiddenBalancesList}
-				optionalAssets={
-					!this.state.filterValue ? this.state.alwaysShowAsset : null
-				}
+				optionalAssets={this.state.alwaysShowAssets}
 				visible={false}
 				preferredUnit={preferredUnit}
 				coreSymbol={this.props.core_asset.get('symbol')}
@@ -387,6 +331,8 @@ class AccountOverview extends React.Component {
 				balances={this.props.balances}
 				viewSettings={this.props.viewSettings}
 				enabledColumns={this.state.enabledColumns}
+				hideZeroBalance={this.state.hideZeroBalance}
+				filterValue={this.state.filterValue}
 			/>
 		);
 
@@ -401,7 +347,7 @@ class AccountOverview extends React.Component {
 		const {currentDisplay} = this.state;
 
 		return (
-			<>
+			<div className="account-overview">
 				<div
 					css={(theme) => ({
 						borderBottom: `1px solid ${theme.colors.borderColor} `,
@@ -409,17 +355,10 @@ class AccountOverview extends React.Component {
 				>
 					<PageHeader title={'Your Assets'} showDivider={false} level={4} />
 
-					<div
-						css={(theme) => ({
-							display: 'flex',
-							width: '100%',
-							justifyContent: 'space-between',
-							padding: '0rem 2rem 1.5rem 2rem',
-						})}
-					>
+					<div className="tab-controller">
 						<Space wrap>
 							<StyledButton
-								buttonType={
+								className={
 									currentDisplay === 'portfolio' ? 'primary' : 'transparent'
 								}
 								onClick={() => {
@@ -429,7 +368,7 @@ class AccountOverview extends React.Component {
 								<Translate content="account.portfolio" />
 							</StyledButton>
 							<StyledButton
-								buttonType={
+								className={
 									currentDisplay === 'openOrders' ? 'primary' : 'transparent'
 								}
 								onClick={() => {
@@ -439,7 +378,7 @@ class AccountOverview extends React.Component {
 								Open Orders
 							</StyledButton>
 							<StyledButton
-								buttonType={
+								className={
 									currentDisplay === 'transactionHistory'
 										? 'primary'
 										: 'transparent'
@@ -452,7 +391,7 @@ class AccountOverview extends React.Component {
 							</StyledButton>
 							{account.get('proposals') && account.get('proposals').size ? (
 								<StyledButton
-									buttonType={
+									className={
 										currentDisplay === 'proposals' ? 'primary' : 'transparent'
 									}
 									onClick={() => {
@@ -470,51 +409,16 @@ class AccountOverview extends React.Component {
 							>
 								Fund Accounts
 							</StyledButton>
-							<span
-								onClick={() => console.log('settings!')}
-								align="start"
-								css={{
-									marginTop: '10px',
-									backgroundColor: 'rgba(36,40,52,255)',
-									paddingLeft: '10px',
-									paddingRight: '10px',
-									paddingTop: '2px',
-									paddingBottom: '10px',
-									height: '100%',
-									width: '100%',
-									border: '0px solid white',
-								}}
+							<Select
+								style={{width: '72px'}}
+								suffixIcon={<CaretDownFilled />}
+								defaultValue="setting"
+								className="overview-settings"
 							>
-								<BsGear
-									align="center"
-									css={{
-										height: 'auto',
-										width: '25%',
-										paddingRight: '2px',
-										paddingTop: '5px',
-									}}
-								/>
-								<BsFillCaretDownSquareFill
-									align="center"
-									css={{
-										marginLeft: '2px',
-										marginBottom: '0px',
-									}}
-								/>
-							</span>
-							{/*
-							<span>
-								<BsGear
-									css={{
-										color: theme.colors.white, 
-										marginLeft: '10px',
-										marginRight: '0px',
-										marginBottom: '8px',
-									}}
-								>
-								</BsGear>
-							</span>
-							*/}
+								<Option value="setting">
+									<SettingFilled />
+								</Option>
+							</Select>
 						</Space>
 					</div>
 				</div>
@@ -533,135 +437,23 @@ class AccountOverview extends React.Component {
 							>
 								<div className="estimated-balance">
 									<p>Estimated Balance</p>
-									<p className="total">
-										{portfolioActiveAssetsBalance} {preferredUnit}
-									</p>
-									<span
-										id="total-change"
-										css={(theme) => ({
-											color: 'white !important',
-											background: 'gray',
-											padding: '5px',
-											borderRadius: '5px',
-											fontSize: '14px',
-											marginLeft: '10px',
-											'.total-change-up': {
-												backgroundColor: '#009d55 !important',
-											},
-											'.total-change-down': {
-												backgroundColor: '#ff2929 !important',
-											},
-										})}
-										/*	
-									className={
-										this.state.isPositive && !this.state.isZero ? 
-										'total-change-up' : 
-										'total-change-down'}
-									*/
-
-										// Style not aplying correctly with classes
-										className={
-											this.state.isPositive && !this.state.isZero
-												? this.applyStyles(true)
-												: this.applyStyles(false)
-										}
-
-										/*
-										style={this.state.isPositive ? 
-											'background-color: #009d55 !important;' : 
-											'background-color: #ff2929 !important;'}
-										*/
-									>
-										<span
-											css={(theme) => ({
-												color: 'white !important',
-											})}
-										>
-											<span
-												css={(theme) => ({
-													paddingRight: '3px',
-												})}
-											>
-												<span
-													css={(theme) => ({
-														marginTop: '3px',
-													})}
-												>
-													{/* Total change is 0 */}
-													{this.state.isZero ? (
-														<AiOutlineArrowRight className="mt-2" />
-													) : (
-														''
-													)}
-													{/* Total change is positive */}
-													{this.state.isPositive && !this.state.isZero ? (
-														<AiOutlineArrowUp className="mt-2" />
-													) : (
-														''
-													)}
-													{/* Total change is negative */}
-													{!this.state.isPositive && !this.state.isZero ? (
-														<AiOutlineArrowDown className="mt-2" />
-													) : (
-														''
-													)}
-												</span>
-
-												{/* <span
-													className="pl-3"
-													css={(theme) => ({
-														marginLeft: '3px',
-													})}
-												>
-													{this.state.totalChange.toFixed(2).toString() + ' %'}
-												</span> */}
-											</span>
-										</span>
-									</span>
+									<div className="total">
+										{portfolioActiveAssetsBalance}&nbsp;{preferredUnit}
+										{!isNaN(usdTotal) && (
+											<div className="usd-total">≈ ${usdTotal}</div>
+										)}
+										{totalChangeElement}
+									</div>
 								</div>
-								<div
-									className="filter d-inline-block"
-									css={(theme) => ({
-										width: '30%!important;',
-									})}
-								>
-									<Tooltip
-										onClick={
-											() => this.handleHideZeroBalance()
-											//console.log('Hide zero balances: ' + this.state.hideZeroBalance)
-										}
-										key="tooltip.hide_zero_balance"
-										title={counterpart.translate('wallet.hide_zero_balance')}
-									>
-										<div
-											className="d-flex flex-row"
-											css={(theme) => ({
-												marginBottom: '10px',
-											})}
-										>
-											<Translate
-												className="d-inline text-left"
-												css={(theme) => ({
-													width: '50%',
-												})}
-												content="wallet.hide_zero_balance"
-											/>
-											<div
-												//onClick={this.handleHideZeroBalance.bind(this)}
-												className="hide-zero-balance"
-												css={(theme) => ({
-													display: 'inline-block!important',
-													width: '30%',
-												})}
-											>
-												<Switch
-													className="d-inline-block"
-													checked={this.state.hideZeroBalance}
-													onChange={this.handleHideZeroBalance.bind(this)}
-												/>
-											</div>
-										</div>
-									</Tooltip>
+								<div className="filter inline-block">
+									<div className="hide-switch">
+										<div>Hide Zero Balances</div>
+										<Switch
+											style={{marginLeft: 16}}
+											checked={this.state.hideZeroBalance}
+											onChange={this.handleHideZeroBalance.bind(this)}
+										/>
+									</div>
 									<SearchInput
 										placeholder={counterpart.translate('icons.zoom')}
 										value={this.state.filterValue}
@@ -802,7 +594,7 @@ class AccountOverview extends React.Component {
 						</div>
 					</div>
 				</div> */}
-			</>
+			</div>
 		);
 	}
 }

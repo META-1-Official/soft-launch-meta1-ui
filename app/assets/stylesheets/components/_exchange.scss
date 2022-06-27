@@ -227,6 +227,10 @@ i.anticon.anticon-right.ant-collapse-arrow {
 		text-align: right !important;
 	}
 
+	.table-body-class {
+		text-align: left !important;
+	}
+
 	.sticky-table-container {
 		width: 100%;
 	}
@@ -1474,6 +1478,7 @@ form.hide-container {
 .backing-asset-detail {
 	width: 80%;
 	margin: 0 auto;
+	overflow-y: unset !important;
 
 	.header-wrapper {
 		padding: 3rem;
