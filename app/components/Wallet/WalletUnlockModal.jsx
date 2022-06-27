@@ -15,7 +15,7 @@ import WalletActions from 'actions/WalletActions';
 import BackupActions, {restore, backup} from 'actions/BackupActions';
 import AccountActions from 'actions/AccountActions';
 import SettingsActions from 'actions/SettingsActions';
-import {Apis} from 'meta1js-ws';
+import {Apis} from 'meta1-vision-ws';
 import {
 	Modal,
 	Button,
@@ -29,7 +29,7 @@ import {
 } from 'antd';
 import utils from 'common/utils';
 import AccountSelector from '../Account/AccountSelectorAnt';
-import {PrivateKey} from 'meta1js';
+import {PrivateKey} from 'meta1-vision-js';
 import {saveAs} from 'file-saver';
 import LoginTypeSelector from './LoginTypeSelector';
 import counterpart from 'counterpart';

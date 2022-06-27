@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'alt-react';
-import {PrivateKey} from 'meta1js/es';
+import {PrivateKey} from 'meta1-vision-js/es';
 import WalletManagerStore from 'stores/WalletManagerStore';
 import BackupStore from 'stores/BackupStore';
 import AccountStore from 'stores/AccountStore';

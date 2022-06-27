@@ -1,7 +1,7 @@
 import Immutable from 'immutable';
 import alt from 'alt-instance';
 import BlockchainActions from 'actions/BlockchainActions';
-import {ChainStore} from 'meta1js';
+import {ChainStore} from 'meta1-vision-js';
 // import {Block} from "./tcomb_structs";
 
 class BlockchainStore {

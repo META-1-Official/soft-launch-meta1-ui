@@ -3,7 +3,12 @@ import utils from 'common/utils';
 import {connect} from 'alt-react';
 import AccountStore from 'stores/AccountStore';
 import AccountActions from 'actions/AccountActions';
-import {ChainStore, PublicKey, ChainValidation, FetchChain} from 'meta1js';
+import {
+	ChainStore,
+	PublicKey,
+	ChainValidation,
+	FetchChain,
+} from 'meta1-vision-js';
 import ChainTypes from '../Utility/ChainTypes';
 import BindToChainState from '../Utility/BindToChainState';
 import classnames from 'classnames';

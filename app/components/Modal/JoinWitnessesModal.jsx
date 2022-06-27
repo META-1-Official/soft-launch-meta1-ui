@@ -5,7 +5,7 @@ import AccountActions from 'actions/AccountActions';
 import counterpart from 'counterpart';
 import {Modal, Button, Input, Select, Form} from 'antd';
 import Icon from '../Icon/Icon';
-import {PublicKey} from 'meta1js';
+import {PublicKey} from 'meta1-vision-js';
 import sanitize from 'sanitize';
 
 class JoinWitnessesModal extends React.Component {

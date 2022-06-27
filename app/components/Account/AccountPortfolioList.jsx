@@ -10,7 +10,7 @@ import EquivalentPrice from '../Utility/EquivalentPrice';
 import LinkToAssetById from '../Utility/LinkToAssetById';
 import BorrowModal from '../Modal/BorrowModal';
 import ReactTooltip from 'react-tooltip';
-import {ChainStore} from 'meta1js';
+import {ChainStore} from 'meta1-vision-js';
 import {connect} from 'alt-react';
 import SettingsStore from 'stores/SettingsStore';
 import MarketsStore from 'stores/MarketsStore';

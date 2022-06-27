@@ -3,7 +3,7 @@ import FormattedAsset from '../Utility/FormattedAsset';
 import AccountActions from 'actions/AccountActions';
 import AccountSelector from '../Account/AccountSelector';
 import BalanceComponent from '../Utility/BalanceComponent';
-import {ChainStore, FetchChainObjects} from 'meta1js/es';
+import {ChainStore, FetchChainObjects} from 'meta1-vision-js/es';
 import NotificationActions from 'actions/NotificationActions';
 import TransactionConfirmStore from 'stores/TransactionConfirmStore';
 import {decompress, compress} from 'lzma';

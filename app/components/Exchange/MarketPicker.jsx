@@ -1,5 +1,5 @@
 import {connect} from 'alt-react';
-import {ChainStore, ChainValidation} from 'meta1js';
+import {ChainStore, ChainValidation} from 'meta1-vision-js';
 import counterpart from 'counterpart';
 import {debounce} from 'lodash-es';
 import React, {Component} from 'react';

@@ -1,6 +1,6 @@
 import React from 'react';
 import {curry, flow, reject, clone, toPairs, omit, get, pick} from 'lodash-es';
-import {ChainStore} from 'meta1js';
+import {ChainStore} from 'meta1-vision-js';
 import ChainTypes from './ChainTypes';
 import utils from 'common/utils';
 import {getDisplayName} from 'common/reactUtils';

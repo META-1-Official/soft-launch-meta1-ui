@@ -1,9 +1,9 @@
 import alt from 'alt-instance';
-import {Apis} from 'meta1js-ws';
+import {Apis} from 'meta1-vision-ws';
 import utils from 'common/utils';
 import WalletApi from 'api/WalletApi';
 import WalletDb from 'stores/WalletDb';
-import {ChainStore, hash, FetchChainObjects} from 'meta1js';
+import {ChainStore, hash, FetchChainObjects} from 'meta1-vision-js';
 let inProgress = {};
 
 const calculateHash = (cipher, preimage) => {

@@ -1,4 +1,4 @@
-import {Apis} from 'meta1js-ws';
+import {Apis} from 'meta1-vision-ws';
 import chainIds from 'chain/chainIds';
 
 const CHAINID_SHORT = chainIds[process.env.CURRENT_NET].substr(0, 8);

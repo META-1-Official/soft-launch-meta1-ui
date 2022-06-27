@@ -8,7 +8,7 @@ import ChainTypes from '../Utility/ChainTypes';
 import BindToChainState from '../Utility/BindToChainState';
 import FormattedAsset from '../Utility/FormattedAsset';
 import {EquivalentValueComponent} from '../Utility/EquivalentValueComponent';
-import {ChainStore, ChainTypes as grapheneChainTypes} from 'meta1js';
+import {ChainStore, ChainTypes as grapheneChainTypes} from 'meta1-vision-js';
 import {Card} from 'antd';
 import theme from 'lib/styles/themeDark';
 const {operations} = grapheneChainTypes;

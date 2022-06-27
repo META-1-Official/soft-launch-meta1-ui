@@ -1,5 +1,5 @@
 import utils from './utils';
-import {ChainStore, ChainTypes} from 'meta1js';
+import {ChainStore, ChainTypes} from 'meta1-vision-js';
 let {object_type} = ChainTypes;
 let opTypes = Object.keys(object_type);
 import {Asset} from './MarketClasses';

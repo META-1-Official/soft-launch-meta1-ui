@@ -3,7 +3,7 @@ import {Col, Row, Typography, Progress} from 'antd';
 import {getGoldImage} from 'branding';
 import theme from '../../lib/styles/themeDark';
 import {FaArrowLeft} from 'react-icons/fa';
-import {Apis} from 'meta1js-ws';
+import {Apis} from 'meta1-vision-ws';
 
 const {Text, Title} = Typography;
 

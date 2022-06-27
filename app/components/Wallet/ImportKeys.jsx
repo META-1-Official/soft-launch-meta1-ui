@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {connect} from 'alt-react';
 import cname from 'classnames';
-import {PrivateKey, Aes, PublicKey, FetchChain, hash} from 'meta1js';
+import {PrivateKey, Aes, PublicKey, FetchChain, hash} from 'meta1-vision-js';
 import AccountApi from 'api/accountApi';
-import {ChainConfig} from 'meta1js-ws';
+import {ChainConfig} from 'meta1-vision-ws';
 import PrivateKeyStore from 'stores/PrivateKeyStore';
 import WalletUnlockActions from 'actions/WalletUnlockActions';
 import {WalletCreate} from 'components/Wallet/WalletCreate';

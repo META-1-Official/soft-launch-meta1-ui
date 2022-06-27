@@ -10,7 +10,7 @@ import BalanceComponent from '../Utility/BalanceComponent';
 import AccountStore from 'stores/AccountStore';
 import LoadingIndicator from '../LoadingIndicator';
 import SearchInput from '../Utility/SearchInput';
-import {ChainStore} from 'meta1js';
+import {ChainStore} from 'meta1-vision-js';
 import {FaUserPlus, FaUserAlt, FaUserMinus} from 'react-icons/fa';
 
 class Accounts extends React.Component {

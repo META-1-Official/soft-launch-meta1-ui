@@ -18,7 +18,7 @@ import {debounce} from 'lodash-es';
 import AssetSelector from '../Utility/AssetSelector';
 import counterpart from 'counterpart';
 import LoadingIndicator from '../LoadingIndicator';
-import {ChainValidation} from 'meta1js';
+import {ChainValidation} from 'meta1-vision-js';
 import debounceRender from 'react-debounce-render';
 import QuoteSelectionModal from './QuoteSelectionModal';
 import SearchInput from '../Utility/SearchInput';
