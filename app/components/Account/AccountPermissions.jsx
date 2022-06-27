@@ -6,7 +6,7 @@ import utils from 'common/utils';
 import accountUtils from 'common/account_utils';
 import {createPaperWalletAsPDF} from 'common/paperWallet';
 import ApplicationApi from 'api/ApplicationApi';
-import {PublicKey} from 'meta1js';
+import {PublicKey} from 'meta1-vision-js';
 import AccountPermissionsList from './AccountPermissionsList';
 import AccountPermissionsMigrate from './AccountPermissionsMigrate';
 import PubKeyInput from '../Forms/PubKeyInput';

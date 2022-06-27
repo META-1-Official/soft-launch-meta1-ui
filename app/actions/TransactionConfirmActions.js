@@ -1,5 +1,5 @@
 import alt from 'alt-instance';
-import {ChainConfig} from 'meta1js-ws';
+import {ChainConfig} from 'meta1-vision-ws';
 import counterpart from 'counterpart';
 import ZfApi from 'react-foundation-apps/src/utils/foundation-api';
 

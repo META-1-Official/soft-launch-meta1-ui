@@ -3,14 +3,14 @@ import moment from 'moment';
 import {Input, Form, Select, Radio} from 'antd';
 import AssetNameWrapper from '../Utility/AssetName';
 import {Asset} from '../../lib/common/MarketClasses';
-import ChainStore from 'meta1js/es/chain/src/ChainStore';
+import ChainStore from 'meta1-vision-js/es/chain/src/ChainStore';
 import counterpart from 'counterpart';
 import {Validation} from '../../services/Validation/Validation';
 import assetUtils from '../../lib/common/asset_utils';
 import {checkFeeStatusAsync} from '../../lib/common/trxHelper';
 import AssetName from '../Utility/AssetName';
 import {DatePicker} from 'antd';
-import {Apis} from 'meta1js-ws';
+import {Apis} from 'meta1-vision-ws';
 
 const MarketOrderForm = (props) => {
 	const [feeAssets, setFeeAssets] = useState([]);

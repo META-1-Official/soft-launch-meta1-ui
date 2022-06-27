@@ -11,7 +11,7 @@ import {RingLoader} from 'react-spinners';
 import {css} from '@emotion/core';
 import counterpart from 'counterpart';
 import ReactTooltip from 'react-tooltip';
-import {ChainStore} from 'meta1js/es';
+import {ChainStore} from 'meta1-vision-js/es';
 
 import {getLogo} from 'branding';
 import AccountNameInput from '../Forms/AccountNameInputStyleGuide';

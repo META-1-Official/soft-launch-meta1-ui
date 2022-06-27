@@ -2,7 +2,7 @@ import React from 'react';
 import classnames from 'classnames';
 import Translate from 'react-translate-component';
 import PrivateKeyView from 'components/PrivateKeyView';
-import {PublicKey} from 'meta1js';
+import {PublicKey} from 'meta1-vision-js';
 import Icon from '../Icon/Icon';
 import PrivateKeyStore from 'stores/PrivateKeyStore';
 import PropTypes from 'prop-types';

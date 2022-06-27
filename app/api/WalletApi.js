@@ -2,7 +2,7 @@ import {
 	SerializerValidation,
 	TransactionBuilder,
 	TransactionHelper,
-} from 'meta1js';
+} from 'meta1-vision-js';
 import ApplicationApi from './ApplicationApi';
 
 const WalletApi = {

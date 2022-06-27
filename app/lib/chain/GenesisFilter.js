@@ -1,4 +1,4 @@
-import {hash, key} from 'meta1js';
+import {hash, key} from 'meta1-vision-js';
 
 var bts_genesiskeys_bloom_url = undefined;
 try {

@@ -6,7 +6,7 @@ import AmountSelector from '../Utility/AmountSelectorStyleGuide';
 import counterpart from 'counterpart';
 import {Asset, Price, LimitOrderCreate} from 'common/MarketClasses';
 import MarketsActions from 'actions/MarketsActions';
-import {ChainStore, FetchChain} from 'meta1js';
+import {ChainStore, FetchChain} from 'meta1-vision-js';
 import ExchangeInput from 'components/Exchange/ExchangeInput';
 import ChainTypes from '../Utility/ChainTypes';
 import utils from 'common/utils';

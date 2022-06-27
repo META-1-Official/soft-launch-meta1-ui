@@ -1,6 +1,6 @@
 import alt from 'alt-instance';
 import counterpart from 'counterpart';
-import {Signature, ChainStore, PublicKey} from 'meta1js';
+import {Signature, ChainStore, PublicKey} from 'meta1-vision-js';
 import WalletUnlockActions from 'actions/WalletUnlockActions';
 import WalletDb from 'stores/WalletDb';
 

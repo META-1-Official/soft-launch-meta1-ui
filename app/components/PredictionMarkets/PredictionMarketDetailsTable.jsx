@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import counterpart from 'counterpart';
 import LinkToAccountById from '../Utility/LinkToAccountById';
 import {Button, Tooltip} from 'antd';
-import {ChainStore} from 'meta1js';
+import {ChainStore} from 'meta1-vision-js';
 import PaginatedList from 'components/Utility/PaginatedList';
 import ChainTypes from '../Utility/ChainTypes';
 import FormattedAsset from '../Utility/FormattedAsset';

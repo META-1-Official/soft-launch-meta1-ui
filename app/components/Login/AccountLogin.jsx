@@ -9,7 +9,7 @@ import WalletUnlockActions from 'actions/WalletUnlockActions';
 import AccountActions from 'actions/AccountActions';
 import SettingsActions from 'actions/SettingsActions';
 import utils from 'common/utils';
-import ChainStore from 'meta1js/es/chain/src/ChainStore';
+import ChainStore from 'meta1-vision-js/es/chain/src/ChainStore';
 import AccountInputStyleGuide from '../Account/AccountInputStyleGuide';
 import {Button, Input, Form} from 'antd';
 import counterpart from 'counterpart';

@@ -8,7 +8,7 @@ import {
 	ChainTypes as grapheneChainTypes,
 	FetchChain,
 	ChainStore,
-} from 'meta1js';
+} from 'meta1-vision-js';
 //import ps from "perfect-scrollbar";
 import counterpart from 'counterpart';
 import Icon from '../Icon/Icon';

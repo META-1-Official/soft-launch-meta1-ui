@@ -3,8 +3,8 @@ import WalletManagerStore from 'stores/WalletManagerStore';
 import AccountStore from 'stores/AccountStore';
 import PrivateKeyStore from 'stores/PrivateKeyStore';
 
-import {ChainStore, PrivateKey, PublicKey, Aes, key} from 'meta1js';
-import {Apis, ChainConfig} from 'meta1js-ws';
+import {ChainStore, PrivateKey, PublicKey, Aes, key} from 'meta1-vision-js';
+import {Apis, ChainConfig} from 'meta1-vision-ws';
 import BackupActions from 'actions/BackupActions';
 import WalletActions from 'actions/WalletActions';
 

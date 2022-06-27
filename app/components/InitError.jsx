@@ -5,7 +5,7 @@ import SettingsStore from 'stores/SettingsStore';
 import Translate from 'react-translate-component';
 import WebsocketAddModal from './Settings/WebsocketAddModal';
 import SettingsActions from 'actions/SettingsActions';
-import {Apis} from 'meta1js-ws';
+import {Apis} from 'meta1-vision-ws';
 import {Form, Select, Button, Input} from 'antd';
 import counterpart from 'counterpart';
 

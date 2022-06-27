@@ -4,7 +4,7 @@ import {Carousel} from 'antd';
 import SettingsActions from 'actions/SettingsActions';
 import {connect} from 'alt-react';
 import SettingsStore from 'stores/SettingsStore';
-import {hash} from 'meta1js';
+import {hash} from 'meta1-vision-js';
 import {getNotifications, getGateways} from '../../lib/chain/onChainConfig';
 import {AiOutlineClose} from 'react-icons/ai';
 

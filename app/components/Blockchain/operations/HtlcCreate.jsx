@@ -1,7 +1,7 @@
 import React from 'react';
 import TranslateWithLinks from '../../Utility/TranslateWithLinks';
 import {Tooltip} from 'antd';
-import {ChainStore} from 'meta1js';
+import {ChainStore} from 'meta1-vision-js';
 import utils from 'common/utils';
 import counterpart from 'counterpart';
 

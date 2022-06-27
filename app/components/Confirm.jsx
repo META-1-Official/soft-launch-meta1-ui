@@ -1,7 +1,7 @@
 import React from 'react';
 import {Asset} from '../lib/common/MarketClasses';
 import swal from 'sweetalert';
-import {ChainStore, key} from 'meta1js';
+import {ChainStore, key} from 'meta1-vision-js';
 import WalletUnlockActions from '../actions/WalletUnlockActions';
 import ReactTooltip from 'react-tooltip';
 import PrivateKeyStore from '../stores/PrivateKeyStore';

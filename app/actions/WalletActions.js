@@ -3,8 +3,8 @@ import WalletUnlockActions from 'actions/WalletUnlockActions';
 import CachedPropertyActions from 'actions/CachedPropertyActions';
 import ApplicationApi from 'api/ApplicationApi';
 import axios from 'axios';
-import {TransactionBuilder, FetchChain} from 'meta1js';
-import {Apis, ChainConfig} from 'meta1js-ws';
+import {TransactionBuilder, FetchChain} from 'meta1-vision-js';
+import {Apis, ChainConfig} from 'meta1-vision-ws';
 import alt from 'alt-instance';
 import SettingsStore from 'stores/SettingsStore';
 
