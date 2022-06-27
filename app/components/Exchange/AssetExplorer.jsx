@@ -4,7 +4,7 @@ import PageHeader from 'components/PageHeader/PageHeader';
 import {getBankingAssetsLogo, getGoldImage} from 'branding';
 import theme from '../../lib/styles/themeDark';
 import SearchInput from '../Utility/SearchInput';
-import {Apis} from 'meta1js-ws';
+import {Apis} from 'meta1-vision-ws';
 
 const {Text} = Typography;
 const {TabPane} = Tabs;

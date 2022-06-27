@@ -1,4 +1,4 @@
-import {key} from 'meta1js';
+import {key} from 'meta1-vision-js';
 
 onmessage = function (event) {
 	try {

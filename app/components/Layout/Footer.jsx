@@ -18,7 +18,7 @@ import {routerTransitioner} from '../../routerTransition';
 import LoadingIndicator from '../LoadingIndicator';
 import counterpart from 'counterpart';
 import ChoiceModal from '../Modal/ChoiceModal';
-import {ChainStore} from 'meta1js';
+import {ChainStore} from 'meta1-vision-js';
 import ifvisible from 'ifvisible';
 import {getWalletName} from 'branding';
 import {Tooltip} from 'antd';

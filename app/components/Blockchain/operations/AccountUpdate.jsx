@@ -1,6 +1,6 @@
 import React from 'react';
 import TranslateWithLinks from '../../Utility/TranslateWithLinks';
-import {ChainStore} from 'meta1js';
+import {ChainStore} from 'meta1-vision-js';
 
 const compareKeys = (prev, next) => {
 	let minus = prev.filter((x) => !next.includes(x));

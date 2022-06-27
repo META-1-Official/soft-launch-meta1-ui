@@ -5,7 +5,7 @@ import {Button, Card, Steps, Tooltip} from 'antd';
 import debounceRender from 'react-debounce-render';
 import AssetWrapper from '../Utility/AssetWrapper';
 import {connect} from 'alt-react';
-import {ChainStore} from 'meta1js';
+import {ChainStore} from 'meta1-vision-js';
 import WalletUnlockActions from 'actions/WalletUnlockActions';
 
 import BorrowModal from '../Modal/BorrowModal';

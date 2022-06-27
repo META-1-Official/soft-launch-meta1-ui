@@ -1,4 +1,4 @@
-import {FetchChain} from 'meta1js';
+import {FetchChain} from 'meta1-vision-js';
 import {FeedPrice, Asset} from './MarketClasses';
 import asset_utils from './asset_utils';
 

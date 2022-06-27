@@ -1,5 +1,5 @@
 import alt from 'alt-instance';
-import {Apis} from 'meta1js-ws';
+import {Apis} from 'meta1-vision-ws';
 
 let latestBlocks = {};
 

@@ -1,7 +1,7 @@
 import alt from 'alt-instance';
 import iDB from 'idb-instance';
-import {key} from 'meta1js';
-import {ChainConfig} from 'meta1js-ws';
+import {key} from 'meta1-vision-js';
+import {ChainConfig} from 'meta1-vision-ws';
 import Immutable from 'immutable';
 import BaseStore from 'stores/BaseStore';
 

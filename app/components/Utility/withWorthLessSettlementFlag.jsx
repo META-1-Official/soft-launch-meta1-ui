@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react';
-import {Apis} from 'meta1js-ws';
+import {Apis} from 'meta1-vision-ws';
 
 import AssetWrapper from './AssetWrapper';
 import {Asset, Price} from 'common/MarketClasses';

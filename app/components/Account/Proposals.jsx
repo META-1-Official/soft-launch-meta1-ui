@@ -9,7 +9,7 @@ import ChainTypes from 'components/Utility/ChainTypes';
 import utils from 'common/utils';
 import ProposalModal, {finalRequiredPerms} from '../Modal/ProposalModal';
 import NestedApprovalState from '../Account/NestedApprovalState';
-import {ChainStore, ChainTypes as grapheneChainTypes} from 'meta1js';
+import {ChainStore, ChainTypes as grapheneChainTypes} from 'meta1-vision-js';
 import counterpart from 'counterpart';
 import permission_utils from 'common/permission_utils';
 import LinkToAccountById from '../Utility/LinkToAccountById';

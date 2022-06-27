@@ -1,5 +1,5 @@
-import {Apis, Manager} from 'meta1js-ws';
-import {ChainStore} from 'meta1js';
+import {Apis, Manager} from 'meta1-vision-ws';
+import {ChainStore} from 'meta1-vision-js';
 import hirestime from 'hirestime';
 
 // Stores

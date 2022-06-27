@@ -1,6 +1,6 @@
 import React from 'react';
 import Translate from 'react-translate-component';
-import {ChainStore} from 'meta1js';
+import {ChainStore} from 'meta1-vision-js';
 import FormattedAsset from '../../Utility/FormattedAsset';
 import TranslateWithLinks from '../../Utility/TranslateWithLinks';
 

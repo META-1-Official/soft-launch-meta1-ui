@@ -23,7 +23,7 @@ import AltContainer from 'alt-container';
 import BindToChainState from 'components/Utility/BindToChainState';
 import AccountStore from '../../stores/AccountStore';
 import ChainTypes from '../Utility/ChainTypes';
-import {ChainStore} from 'meta1js';
+import {ChainStore} from 'meta1-vision-js';
 import PropTypes from 'prop-types';
 import AssetNameWrapper from '../Utility/AssetName';
 import assetUtils from 'lib/common/asset_utils';

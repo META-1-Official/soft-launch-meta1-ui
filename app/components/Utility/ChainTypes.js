@@ -1,6 +1,9 @@
 import utils from 'common/utils';
 import Immutable from 'immutable';
-import {ChainTypes as grapheneChainTypes, ChainValidation} from 'meta1js';
+import {
+	ChainTypes as grapheneChainTypes,
+	ChainValidation,
+} from 'meta1-vision-js';
 const {object_type} = grapheneChainTypes;
 
 function createChainableTypeChecker(validate) {

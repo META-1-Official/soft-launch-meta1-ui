@@ -7,7 +7,7 @@ import {Popover} from 'antd';
 import HelpContent from './HelpContent';
 import AssetName from './AssetName';
 import Pulsate from './Pulsate';
-import {ChainStore} from 'meta1js';
+import {ChainStore} from 'meta1-vision-js';
 import AssetWrapper from './AssetWrapper';
 import BindToChainState from './BindToChainState';
 import ChainTypes from './ChainTypes';

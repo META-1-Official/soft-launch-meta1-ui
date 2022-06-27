@@ -5,7 +5,7 @@ import AssetWrapper from './AssetWrapper';
 import counterpart from 'counterpart';
 import PropTypes from 'prop-types';
 import {Popover} from 'antd';
-import {ChainStore, FetchChainObjects} from 'meta1js';
+import {ChainStore, FetchChainObjects} from 'meta1-vision-js';
 
 class AssetName extends React.Component {
 	static propTypes = {

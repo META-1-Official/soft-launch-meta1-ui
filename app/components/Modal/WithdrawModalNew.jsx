@@ -40,7 +40,7 @@ import {
 import FeeAssetSelector from 'components/Utility/FeeAssetSelector';
 import {checkBalance} from 'common/trxHelper';
 import AccountSelector from 'components/Account/AccountSelector';
-import {ChainStore} from 'meta1js';
+import {ChainStore} from 'meta1-vision-js';
 const gatewayBoolCheck = 'withdrawalAllowed';
 
 import {getAssetAndGateway, getIntermediateAccount} from 'common/gatewayUtils';

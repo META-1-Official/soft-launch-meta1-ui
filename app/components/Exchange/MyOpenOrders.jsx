@@ -6,7 +6,7 @@ import MarketsActions from 'actions/MarketsActions';
 import Translate from 'react-translate-component';
 import TransitionWrapper from '../Utility/TransitionWrapper';
 import SettingsActions from 'actions/SettingsActions';
-import {ChainStore} from 'meta1js';
+import {ChainStore} from 'meta1-vision-js';
 import {LimitOrder, CallOrder} from 'common/MarketClasses';
 import ReactTooltip from 'react-tooltip';
 import {Button, Tooltip, Checkbox} from 'antd';

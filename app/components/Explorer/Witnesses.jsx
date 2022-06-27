@@ -3,7 +3,7 @@ import React from 'react';
 import Immutable from 'immutable';
 import ChainTypes from '../Utility/ChainTypes';
 import BindToChainState from '../Utility/BindToChainState';
-import {ChainStore} from 'meta1js';
+import {ChainStore} from 'meta1-vision-js';
 import FormattedAsset from '../Utility/FormattedAsset';
 import TimeAgo from '../Utility/TimeAgo';
 import {connect} from 'alt-react';

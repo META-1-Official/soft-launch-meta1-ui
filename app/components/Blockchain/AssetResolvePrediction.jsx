@@ -6,7 +6,7 @@ import AssetActions from 'actions/AssetActions';
 import counterpart from 'counterpart';
 import {Radio, Tooltip, Button, Form} from 'antd';
 import AmountSelector from '../Utility/AmountSelectorStyleGuide';
-import {ChainStore} from 'meta1js';
+import {ChainStore} from 'meta1-vision-js';
 import {Asset, Price} from '../../lib/common/MarketClasses';
 import assetUtils from '../../lib/common/asset_utils';
 
