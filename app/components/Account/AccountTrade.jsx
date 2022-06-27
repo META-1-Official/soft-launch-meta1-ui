@@ -41,8 +41,8 @@ class AccountTrade extends React.Component {
 			isFetchingMarketInfo: false,
 			selectedResolution: '1h',
 			selectedAsset: 'ALL',
-			baseAssetSymbol: 'USDT',
-			rowsOnPage: '25',
+			baseAssetSymbol: '',
+			rowsOnPage: '10',
 			marketBars: [],
 		};
 	}
@@ -187,7 +187,8 @@ class AccountTrade extends React.Component {
 
 	onClickAsset(newBaseAssetSymbol) {
 		const {assets, starredMarkets} = this.props;
-		const {selectedResolution, isFetchingMarketInfo} = this.state;
+		const {selectedResolution, isFetchingMarketInfo, baseAssetSymbol} =
+			this.state;
 		const assetPairs = [];
 
 		if (isFetchingMarketInfo) {
@@ -203,6 +204,15 @@ class AccountTrade extends React.Component {
 				const quoteAsset = ChainStore.getAsset(quoteAssetId);
 				const baseAsset = ChainStore.getAsset(baseAssetId);
 				assetPairs.push({quoteAsset, baseAsset});
+			});
+		} else if (baseAssetSymbol === newBaseAssetSymbol) {
+			assets.map((quoteAsset) => {
+				assets.map((baseAsset) => {
+					assetPairs.push({
+						quoteAsset: ChainStore.getAsset(quoteAsset.id),
+						baseAsset: ChainStore.getAsset(baseAsset.id),
+					});
+				});
 			});
 		} else {
 			let baseAssetId;
@@ -221,7 +231,11 @@ class AccountTrade extends React.Component {
 			this._getMarketInfo(assetPairs, selectedResolution);
 		}
 
-		this.setState({baseAssetSymbol: newBaseAssetSymbol});
+		if (baseAssetSymbol === newBaseAssetSymbol) {
+			this.setState({baseAssetSymbol: ''});
+		} else {
+			this.setState({baseAssetSymbol: newBaseAssetSymbol});
+		}
 	}
 
 	onClickTrade(name) {
@@ -560,7 +574,9 @@ class AccountTrade extends React.Component {
 			(marketStat) => marketStat.price
 		);
 
-		if (baseAssetSymbol !== 'star') {
+		if (!baseAssetSymbol) {
+			filteredMarketStats = filteredMarketStats;
+		} else if (baseAssetSymbol !== 'star') {
 			let baseAssetId;
 			assets.map((asset) => {
 				if (asset.symbol === baseAssetSymbol) baseAssetId = asset.id;
