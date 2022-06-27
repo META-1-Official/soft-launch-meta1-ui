@@ -667,7 +667,7 @@ class AssetsPairTabs extends React.Component {
 		));
 
 		const toggleBoxes = [];
-		assets.slice(0, 4).map((asset) => {
+		assets.map((asset) => {
 			toggleBoxes.push(
 				<div
 					key={asset.symbol}
