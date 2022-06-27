@@ -51,6 +51,12 @@ class BlockTime extends React.Component {
 		}
 	}
 
+	componentDidUpdate() {
+		if (!this.props.blockHeader) {
+			BlockchainActions.getHeader.defer(this.props.block_number);
+		}
+	}
+
 	render() {
 		return (
 			<span className="time" key={this.props.block_number}>
