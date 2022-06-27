@@ -58,7 +58,6 @@ class BlockchainActions {
 						return false;
 					}
 					result.id = height; // The returned object for some reason does not include the block height..
-
 					dispatch(result);
 				})
 				.catch((error) => {

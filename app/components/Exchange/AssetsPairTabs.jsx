@@ -82,7 +82,6 @@ class AssetsPairTabs extends React.Component {
 	}
 
 	_checkAssets(assets, force) {
-		if (this.props.account.get('assets').size) return;
 		let lastAsset = assets
 			.sort((a, b) => {
 				if (a.symbol > b.symbol) return 1;

@@ -44,6 +44,9 @@ import AccountHistoryExporter, {
 	COINBASE,
 } from '../../services/AccountHistoryExporter';
 import {settingsAPIs} from 'api/apiConfig';
+import BlockchainActions from '../../actions/BlockchainActions';
+import BlockchainStore from '../../stores/BlockchainStore';
+import TrxHash from '../Blockchain/TrxHash';
 
 function compareOps(b, a) {
 	if (a.block_num === b.block_num) {
@@ -141,6 +144,7 @@ class RecentTransactions extends React.Component {
 		if (this.props.maxHeight !== nextProps.maxHeight) return true;
 		if (this.state.headerHeight !== nextState.headerHeight) return true;
 		if (this.state.filter !== nextState.filter) return true;
+		if (this.props.blocks !== nextProps.blocks) return true;
 		if (this.props.customFilter) {
 			if (
 				!utils.are_equal_shallow(
@@ -270,6 +274,7 @@ class RecentTransactions extends React.Component {
 		const lastIrreversibleBlockNum = dynGlobalObject.get(
 			'last_irreversible_block_num'
 		);
+		BlockchainActions.getBlock(o.block_num);
 
 		return {
 			pairData: trxTypes[ops[o.op[0]]],
@@ -299,6 +304,18 @@ class RecentTransactions extends React.Component {
 							<PendingBlock blockNumber={o.block_num} />
 						) : null}
 					</div>
+					<TrxHash
+						trx={
+							this.props.blocks
+								.toArray()
+								.filter((block) => block.id === o.block_num)[0]
+								?.transaction_merkle_root
+						}
+					></TrxHash>
+					{/*<div onClick={this._getTrxId.bind(this, o.block_num)}>*/}
+					{/*	{this.props.blocks.toArray().filter((block) => block.id === o.block_num)[0]}*/}
+					{/*	123*/}
+					{/*</div>*/}
 				</div>
 			),
 			fee: <FormattedAsset amount={fee.amount} asset={fee.asset_id} />,
@@ -312,6 +329,14 @@ class RecentTransactions extends React.Component {
 				/>
 			),
 		};
+	}
+
+	_getTrxId(id) {
+		const [block] = this.props.blocks
+			.toArray()
+			.filter((block) => block.id === id);
+		console.log(block);
+		return block.transaction_merkle_root;
 	}
 
 	_getRowClassName(row) {
@@ -530,11 +555,12 @@ RecentTransactions = BindToChainState(RecentTransactions);
 
 RecentTransactions = connect(RecentTransactions, {
 	listenTo() {
-		return [SettingsStore];
+		return [SettingsStore, BlockchainStore];
 	},
 	getProps() {
 		return {
 			marketDirections: SettingsStore.getState().marketDirections,
+			blocks: BlockchainStore.getState().blocks,
 		};
 	},
 });
