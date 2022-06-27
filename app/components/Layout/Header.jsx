@@ -495,7 +495,7 @@ class Header extends React.Component {
 				<Menu.Item key="send">
 					<Text>Send</Text>
 				</Menu.Item>
-				<Menu.Item
+				{/* <Menu.Item
 					key="buySell"
 					css={(theme) => ({
 						[`@media (min-width: ${theme.sizes.lg})`]: {
@@ -514,7 +514,7 @@ class Header extends React.Component {
 					})}
 				>
 					<Text>Send / Receive</Text>
-				</Menu.Item>
+				</Menu.Item> */}
 				<Menu.Item key="withdraw">
 					<Text>Withdraw</Text>
 				</Menu.Item>
@@ -637,7 +637,41 @@ class Header extends React.Component {
 									/>
 									Get help
 								</Text>
-								<div css={{marginRight: '15px'}}>
+								<div
+									css={(theme) => ({
+										[`@media (max-width: ${theme.sizes.lg})`]: {
+											display: 'none',
+										},
+									})}
+								>
+									<StyledButton
+										buttonType="primary"
+										disabled={!showAccountLinks}
+										style={{marginRight: '15px'}}
+										onClick={() =>
+											this.props.history.push('/market/META1_USDT')
+										}
+									>
+										Buy / Sell
+									</StyledButton>
+								</div>
+
+								<div
+									css={(theme) => ({
+										[`@media (max-width: ${theme.sizes.lg})`]: {
+											display: 'none',
+										},
+									})}
+								>
+									<StyledButton
+										buttonType="transparent"
+										style={{marginRight: '20px'}}
+										onClick={this._showSend.bind(this)}
+									>
+										Send / Receive
+									</StyledButton>
+								</div>
+								<div css={{marginRight: '10px'}}>
 									{this.props.currentAccount == null ? null : (
 										<span
 											onClick={this._toggleLock.bind(this)}
@@ -656,36 +690,6 @@ class Header extends React.Component {
 										</span>
 									)}
 								</div>
-								{/* <div
-									css={(theme) => ({
-										[`@media (max-width: ${theme.sizes.lg})`]: {
-											display: 'none',
-										},
-									})}
-								>
-									<StyledButton
-										buttonType="primary"
-										disabled={!showAccountLinks}
-										style={{marginRight: '15px'}}
-									>
-										Buy / Sell
-									</StyledButton>
-								</div>
-
-								<div
-									css={(theme) => ({
-										[`@media (max-width: ${theme.sizes.lg})`]: {
-											display: 'none',
-										},
-									})}
-								>
-									<StyledButton
-										buttonType="transparent"
-										style={{marginRight: '10px'}}
-									>
-										Send / Receive
-									</StyledButton>
-								</div> */}
 
 								<Dropdown overlay={avatarMenu}>
 									<span>
