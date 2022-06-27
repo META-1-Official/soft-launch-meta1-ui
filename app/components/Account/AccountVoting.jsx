@@ -258,7 +258,6 @@ class AccountVoting extends React.Component {
 	}
 
 	showWitnessModal() {
-		console.log('asdasd');
 		this.setState({
 			showCreateWitnessModal: !this.state.showCreateWitnessModal,
 		});

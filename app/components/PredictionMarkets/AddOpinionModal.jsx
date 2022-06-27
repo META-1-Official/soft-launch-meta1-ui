@@ -310,7 +310,6 @@ export default class AddOpinionModal extends Modal {
 			</Button>,
 		];
 
-		console.log('asd');
 		return (
 			<Modal
 				title={<Translate content="prediction.add_opinion_modal.title" />}
