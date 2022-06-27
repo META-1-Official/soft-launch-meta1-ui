@@ -117,7 +117,7 @@ function getBucketFromResolution(r) {
 	} else if (_r.indexOf('M') !== -1) {
 		return parseInt(_r.replace('M', ''), 10) * 60;
 	} else {
-		return parseInt(_r, 10);
+		return parseInt(_r, 10) * 60;
 	}
 }
 
