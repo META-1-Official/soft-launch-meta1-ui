@@ -738,7 +738,7 @@ export default connect(AssetsPairTabs, {
 	getProps(props) {
 		let assets = Map(),
 			assetsList = List();
-		if (props.account.get('assets', []).size) {
+		if (props.account.get('assets', []).size > 1) {
 			props.account.get('assets', []).forEach((id) => {
 				assetsList = assetsList.push(id);
 			});
