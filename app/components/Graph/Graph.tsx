@@ -4,6 +4,7 @@ import {customTooltips, chartLinearGradient} from './chartUtilities';
 
 const ChartjsAreaChart = (props: any) => {
 	const {labels, datasets, options, width, height, layout, id} = props;
+
 	const data = {
 		labels,
 		datasets,
@@ -174,13 +175,13 @@ ChartjsAreaChart.defaultProps = {
 		scales: {
 			yAxes: [
 				{
-					stacked: true,
+					stacked: false,
 					gridLines: {
 						display: false,
 						color: '#e5e9f2',
 					},
 					ticks: {
-						beginAtZero: true,
+						beginAtZero: false,
 						fontSize: 10,
 						display: false,
 						stepSize: 10,
@@ -189,12 +190,12 @@ ChartjsAreaChart.defaultProps = {
 			],
 			xAxes: [
 				{
-					stacked: true,
+					stacked: false,
 					gridLines: {
 						display: false,
 					},
 					ticks: {
-						beginAtZero: true,
+						beginAtZero: false,
 						fontSize: 13,
 						display: false,
 					},
