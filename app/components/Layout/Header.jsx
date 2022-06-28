@@ -534,10 +534,22 @@ class Header extends React.Component {
 						</Text>
 					</Menu.Item>
 					<Menu.Item key="advanced-trezor">
-						<Text>Connect with Trezor</Text>
+						<Text>
+							<Translate
+								style={{textTransform: 'capitalize'}}
+								component="span"
+								content="explorer.assets.trezor"
+							/>
+						</Text>
 					</Menu.Item>
 					<Menu.Item key="advanced-ledger-nano">
-						<Text>Connect with Ledger Nano</Text>
+						<Text>
+							<Translate
+								style={{textTransform: 'capitalize'}}
+								component="span"
+								content="explorer.assets.ledger"
+							/>
+						</Text>
 					</Menu.Item>
 					<Menu.Item
 						key="comment-no-hardware-wallet-support"
