@@ -502,10 +502,10 @@ class App extends React.Component {
 						<Route exact path="/confirm" component={Confirm} />
 						<Route exact path="/confirm/:confirmCode" component={Confirm} />
 						{/* Help routes */}
-						<Route exact path="/learn" component={Help} />
-						<Route exact path="/learn/:path1" component={Help} />
-						<Route exact path="/learn/:path1/:path2" component={Help} />
-						<Route exact path="/learn/:path1/:path2/:path3" component={Help} />
+						<Route exact path="/help" component={Help} />
+						<Route exact path="/help/:path1" component={Help} />
+						<Route exact path="/help/:path1/:path2" component={Help} />
+						<Route exact path="/help/:path1/:path2/:path3" component={Help} />
 						<Route path="/htlc" component={Htlc} />
 						<Route path="/prediction" component={PredictionMarketsPage} />
 						<Redirect
