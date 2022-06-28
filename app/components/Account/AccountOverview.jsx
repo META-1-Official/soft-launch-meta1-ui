@@ -407,7 +407,7 @@ class AccountOverview extends React.Component {
 								buttonType="primary"
 								onClick={() => this.props.history.push('/onramperwallet')}
 							>
-								Fund Accounts
+								Fund Wallet
 							</StyledButton>
 							<Select
 								style={{width: '72px'}}

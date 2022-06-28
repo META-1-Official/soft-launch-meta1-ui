@@ -86,13 +86,6 @@ class MarketGroup extends React.Component {
 		}
 	}
 
-	// _onSelectBase(e) {
-	//     e.preventDefault();
-	//     e.stopPropagation();
-
-	//     SettingsActions.changeBase(this.props.index, e.target.value);
-	// }
-
 	_onToggle() {
 		if (!this.props.findMarketTab) {
 			let open = !this.state.open;

@@ -308,28 +308,6 @@ const MarketOrderForm = (props) => {
 					/>
 				</Form.Item>
 
-				{/* <Form.Item {...formItemProps} label="USD" name="usd">
-					<Input
-						style={{width: '100%'}}
-						autoComplete="off"
-						addonAfter={<span>USD</span>}
-						value={usdVal}
-						disabled
-					/>
-				</Form.Item>
-
-				<Form.Item {...formItemProps} label="Total" name="total">
-					<Input
-						style={{width: '100%'}}
-						autoComplete="off"
-						addonAfter={
-							<AssetNameWrapper name={props.baseAsset.get('symbol')} />
-						}
-						value={total}
-						disabled
-					/>
-				</Form.Item> */}
-
 				<button
 					style={
 						isBid
