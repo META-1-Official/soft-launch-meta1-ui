@@ -1,5 +1,6 @@
 {
 	"account": {
+		"multiple_sorting": "Multi Sorting",
 		"accounts": "アカウント",
 		"activity": "アクティビティ",
 		"advanced": "高度な設定",

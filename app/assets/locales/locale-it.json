@@ -1,5 +1,6 @@
 {
 	"account": {
+		"multiple_sorting": "Ordinamento multiplo",
 		"accounts": "Account",
 		"activity": "Attività",
 		"advanced": "Avanzate",
