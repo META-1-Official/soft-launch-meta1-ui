@@ -1,20 +1,6 @@
-@mixin font-face($font-family, $file-path, $font-weight, $font-style) {
-	@font-face {
-		font-family: $font-family;
-		src: url('#{$file-path}.ttf') format('woff');
-		font-weight: $font-weight;
-		font-style: $font-style;
-	}
-}
-@include font-face(Poppins-Light, 'vendors/Poppins-Light', 400, normal);
-@mixin PoppinsLight {
-	font-family: 'Poppins', sans-serif;
-	font-weight: lighter;
-	font-style: normal;
-}
 .add-contact {
 	background: black;
-	@include PoppinsLight;
+	font-family: 'Poppins', sans-serif;
 	table {
 		border-collapse: separate;
 		background-color: black;
@@ -33,7 +19,7 @@
 	}
 
 	.page-title {
-		@include PoppinsLight;
+		font-family: 'Poppins', sans-serif;
 		font-style: normal;
 		font-weight: 400;
 		font-size: 24px;
@@ -48,7 +34,7 @@
 	}
 
 	table > thead {
-		@include PoppinsLight;
+		font-family: 'Poppins', sans-serif;
 		font-size: 16px;
 		line-height: 24px;
 		font-weight: 400;
@@ -56,7 +42,7 @@
 	}
 
 	.ant-table-content table tr th {
-		@include PoppinsLight;
+		font-family: 'Poppins', sans-serif;
 		font-style: normal;
 		font-weight: 400;
 		font-size: 16px;
@@ -69,7 +55,7 @@
 	}
 
 	span.span_1 {
-		@include PoppinsLight;
+		font-family: 'Poppins', sans-serif;
 		font-style: normal;
 		font-weight: 400;
 		font-size: 18px;
@@ -78,7 +64,7 @@
 	}
 
 	p.para_1 {
-		@include PoppinsLight;
+		font-family: 'Poppins', sans-serif;
 		font-style: normal;
 		font-weight: 400;
 		font-size: 14px;
@@ -88,7 +74,7 @@
 	}
 
 	.ant-table-content table tr td {
-		@include PoppinsLight;
+		font-family: 'Poppins', sans-serif;
 		font-style: normal;
 		font-weight: 400;
 		font-size: 15px;
@@ -123,7 +109,7 @@
 		background: #ffc000;
 		border: 1px solid #1c1f27;
 		border-radius: 4px;
-		@include PoppinsLight;
+		font-family: 'Poppins', sans-serif;
 		font-style: normal;
 		font-weight: 600;
 		font-size: 15px;
