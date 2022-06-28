@@ -878,10 +878,14 @@ class AccountTrade extends React.Component {
 							onChange={this._changeSortType.bind(this)}
 						></Switch>
 						<label
-							style={{display: 'inline-block', marginLeft: '4px'}}
+							style={{
+								display: 'inline-block',
+								marginLeft: '4px',
+								textTransform: 'capitalize',
+							}}
 							htmlFor={'multiple-sort'}
 						>
-							Multiple sorting
+							<Translate component="span" content="account.multiple_sorting" />
 						</label>
 					</div>
 					<div className="select">

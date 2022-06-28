@@ -1,5 +1,6 @@
 {
 	"account": {
+		"multiple_sorting": "多重排序",
 		"accounts": "账户",
 		"activity": "账户记录",
 		"advanced": "高级",

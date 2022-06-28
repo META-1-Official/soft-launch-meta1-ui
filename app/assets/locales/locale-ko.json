@@ -1,5 +1,6 @@
 {
 	"account": {
+		"multiple_sorting": "Multi Sorting",
 		"accounts": "Accounts",
 		"activity": "Activity",
 		"advanced": "Advanced",
