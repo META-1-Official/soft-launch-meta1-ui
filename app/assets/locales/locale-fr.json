@@ -1,5 +1,6 @@
 {
 	"account": {
+		"multiple_sorting": "Tri multiple",
 		"accounts": "Comptes",
 		"activity": "Activity",
 		"advanced": "Advanced",

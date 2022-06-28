@@ -945,10 +945,10 @@ class AccountPortfolioList extends React.Component {
 				{/* {this.getTotalChange()} */}
 				<div className="switch-container">
 					<label
-						style={{marginBottom: '0'}}
+						style={{marginBottom: '0', textTransform: 'capitalize'}}
 						htmlFor={'multiple-sort-portfolio'}
 					>
-						Multiple sorting
+						<Translate component="span" content="account.multiple_sorting" />
 					</label>
 					<Switch
 						id={'multiple-sort-portfolio'}

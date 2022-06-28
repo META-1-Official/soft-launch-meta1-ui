@@ -151,6 +151,7 @@ const SideBar = ({collapsed, currentLink, toggle}: ISideBar) => {
 						lineHeight: '44px !important',
 						marginBottom: '0px !important',
 						marginTop: '0px !important',
+						textTransform: 'capitalize',
 					},
 					'& .ant-menu-item:first-child': {
 						borderTop: '1px solid #1c1f27',
