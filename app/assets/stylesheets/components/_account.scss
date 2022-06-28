@@ -1,15 +1,3 @@
-@font-face {
-	font-family: 'Open Sans';
-	src: url('vendors/poppins.woff2') format('woff2');
-	font-weight: bold;
-	font-display: swap;
-}
-* {
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	font-family: 'Poppins';
-	font-weight: 400;
-}
 .account-page {
 	height: 100%;
 }
@@ -719,7 +707,7 @@ div.account-overview {
 }
 
 .transaction-span {
-	font-family: 'Poppins', sans-serif;
+	font-family: 'Poppins';
 	font-style: normal;
 	font-weight: 400;
 	font-size: 12px;
@@ -735,25 +723,21 @@ div.account-overview {
 }
 
 .transaction-span-place {
-	font-family: 'Poppins', sans-serif;
 	background: #856916;
 	border-radius: 5px;
 }
 
 .transaction-span-cancel {
-	font-family: 'Poppins', sans-serif;
 	background: #823637;
 	border-radius: 5px;
 }
 
 .transaction-span-fill {
-	font-family: 'Poppins', sans-serif;
 	background: #127655;
 	border-radius: 5px;
 }
 
 .transaction-history-table-title {
-	font-family: 'Poppins', sans-serif;
 	text-transform: uppercase;
 	padding-left: 11px;
 }
@@ -762,8 +746,8 @@ div.account-overview {
 	font-style: normal;
 	font-weight: 600;
 	font-size: 15px;
+	line-height: 51px;
 	color: #ffffff !important;
-	font-family: 'Poppins', sans-serif;
 }
 .shuffle-rev {
 	> a span.icon > svg {
@@ -969,14 +953,13 @@ div.tabs-container {
 .recent-transactions {
 	.iconLinkAndLabel {
 		span {
-			font-family: 'Poppins', sans-serif;
 			font-weight: bold;
 			margin-left: 0.5rem;
 			text-transform: uppercase;
 		}
 	}
 	.page-title {
-		font-family: 'Poppins', sans-serif;
+		font-family: 'Poppins';
 		font-style: normal;
 		font-weight: 400;
 		font-size: 24px;
@@ -990,6 +973,25 @@ div.tabs-container {
 	table {
 		border-collapse: collapse;
 
+		tr {
+			&.success {
+				border-left: 5px solid $success-color;
+			}
+
+			&.info {
+				border-left: 5px solid $info-color;
+			}
+
+			&.warning {
+				border-left: 5px solid $warning-color;
+			}
+
+			&.cancel,
+			&.alert {
+				border-left: 5px solid $alert-color;
+			}
+		}
+
 		.pair {
 			div {
 				background-color: transparent !important;
@@ -1000,7 +1002,6 @@ div.tabs-container {
 				color: #fcab53;
 				padding-top: 14px;
 				padding-left: 5px;
-				font-family: 'Poppins', sans-serif;
 			}
 
 			span {
@@ -1008,7 +1009,6 @@ div.tabs-container {
 				border: none !important;
 				margin-left: 10px;
 				vertical-align: middle;
-				font-family: 'Poppins', sans-serif;
 			}
 		}
 	}
@@ -2068,5 +2068,5 @@ div.account-notification {
 	}
 }
 .transactions-history-font-class {
-	font-family: 'Poppins', sans-serif;
+	font-family: 'Poppins';
 }
