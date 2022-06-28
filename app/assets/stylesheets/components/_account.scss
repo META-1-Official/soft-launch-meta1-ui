@@ -746,7 +746,6 @@ div.account-overview {
 	font-style: normal;
 	font-weight: 600;
 	font-size: 15px;
-	line-height: 51px;
 	color: #ffffff !important;
 }
 .shuffle-rev {
@@ -972,25 +971,6 @@ div.tabs-container {
 
 	table {
 		border-collapse: collapse;
-
-		tr {
-			&.success {
-				border-left: 5px solid $success-color;
-			}
-
-			&.info {
-				border-left: 5px solid $info-color;
-			}
-
-			&.warning {
-				border-left: 5px solid $warning-color;
-			}
-
-			&.cancel,
-			&.alert {
-				border-left: 5px solid $alert-color;
-			}
-		}
 
 		.pair {
 			div {
