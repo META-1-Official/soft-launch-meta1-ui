@@ -4,7 +4,7 @@ import WalletDb from 'stores/WalletDb';
 import Translate from 'react-translate-component';
 import Icon from '../Icon/Icon';
 import counterpart from 'counterpart';
-import {key} from 'meta1js';
+import {key} from 'meta1-vision-js';
 import {Button} from 'antd';
 
 const AccountPermissionsMigrate = (props) => {

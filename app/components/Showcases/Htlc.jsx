@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Input, Card, Col, Row, Button, Table, Tooltip} from 'antd';
 import counterpart from 'counterpart';
-import {ChainStore, FetchChainObjects} from 'meta1js';
+import {ChainStore, FetchChainObjects} from 'meta1-vision-js';
 import utils from 'common/utils';
 import HtlcModal from '../Modal/HtlcModal';
 import LinkToAssetById from '../Utility/LinkToAssetById';

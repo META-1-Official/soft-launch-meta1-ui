@@ -10,7 +10,7 @@ import HelpContent from '../Utility/HelpContent';
 import AddOpinionModal from './AddOpinionModal';
 import CreateMarketModal from './CreateMarketModal';
 import ResolveModal from './ResolveModal';
-import {ChainStore} from 'meta1js';
+import {ChainStore} from 'meta1-vision-js';
 import {Switch, Button, Radio, Tooltip} from 'antd';
 import {Asset, Price} from '../../lib/common/MarketClasses';
 import Translate from 'react-translate-component';

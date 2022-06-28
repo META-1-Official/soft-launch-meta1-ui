@@ -1,5 +1,5 @@
 import MarketsStore from 'stores/MarketsStore';
-import {FetchChain} from 'meta1js';
+import {FetchChain} from 'meta1-vision-js';
 import moment from 'moment-timezone';
 import MarketsActions from 'actions/MarketsActions';
 import utils from 'common/utils';

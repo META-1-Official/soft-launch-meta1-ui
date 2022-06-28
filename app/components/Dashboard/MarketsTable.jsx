@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'alt-react';
-import {ChainStore} from 'meta1js';
+import {ChainStore} from 'meta1-vision-js';
 import Translate from 'react-translate-component';
 import cnames from 'classnames';
 import MarketsStore from 'stores/MarketsStore';

@@ -10,7 +10,7 @@ import EquivalentPrice from '../Utility/EquivalentPrice';
 import LinkToAssetById from '../Utility/LinkToAssetById';
 import BorrowModal from '../Modal/BorrowModal';
 import ReactTooltip from 'react-tooltip';
-import {ChainStore} from 'meta1js';
+import {ChainStore} from 'meta1-vision-js';
 import {connect} from 'alt-react';
 import SettingsStore from 'stores/SettingsStore';
 import MarketsStore from 'stores/MarketsStore';
@@ -24,7 +24,7 @@ import ZfApi from 'react-foundation-apps/src/utils/foundation-api';
 import ReserveAssetModal from '../Modal/ReserveAssetModal';
 import CustomTable from '../Utility/CustomTable';
 import MarketUtils from 'common/market_utils';
-import {Tooltip} from 'antd';
+import {Radio, Switch, Tooltip} from 'antd';
 import Translate from 'react-translate-component';
 import AssetName from '../Utility/AssetName';
 import TranslateWithLinks from '../Utility/TranslateWithLinks';
@@ -58,6 +58,8 @@ class AccountPortfolioList extends React.Component {
 			allRefsAssigned: false,
 			portfolioSort: props.viewSettings.get('portfolioSort', 'value'),
 			sortingColumns: {},
+			header: [],
+			sortType: 'multiple',
 		};
 
 		this.qtyRefs = {};
@@ -92,10 +94,31 @@ class AccountPortfolioList extends React.Component {
 
 	componentWillMount() {
 		this.refCheckInterval = setInterval(this._checkRefAssignments);
+		this.state.prod = setInterval(this.state.prod);
+		this.state.changes = setInterval(this.state.changes);
+		this.state.totalChange = setInterval(this.state.totalChange);
+		this.getHeader();
 	}
 
 	componentWillUnmount() {
 		clearInterval(this.refCheckInterval);
+	}
+
+	_changeSortType(checked) {
+		return new Promise((resolve) => {
+			if (checked) {
+				this.setState({
+					sortType: 'multiple',
+					sortedColumns: {},
+				});
+			} else {
+				this.setState({
+					sortType: 'single',
+					sortedColumns: {},
+				});
+			}
+			resolve();
+		}).then(() => this.getHeader());
 	}
 
 	_checkRefAssignments() {
@@ -366,143 +389,145 @@ class AccountPortfolioList extends React.Component {
 		this.setState({
 			portfolioSort: sorter.field,
 		});
+		this.getHeader();
 	}
 
 	getHeader() {
 		let {settings} = this.props;
-		const {sortingColumns} = this.state;
+		const {sortingColumns, sortType} = this.state;
 
 		const preferredUnit =
 			settings.get('unit') || this.props.core_asset.get('symbol');
 		const showAssetPercent = settings.get('showAssetPercent', false);
-
-		return [
-			{
-				title: <Translate content="account.votes.name" />,
-				dataIndex: 'asset',
-				align: 'left',
-				customizable: false,
-				sorter: {
-					compare: this.sortFunctions.alphabetic,
-					multiple:
-						Object.keys(sortingColumns).indexOf(
-							(column) => column.field === 'asset'
-						) + 1,
+		this.setState({
+			header: [
+				{
+					title: <Translate content="account.votes.name" />,
+					dataIndex: 'asset',
+					align: 'left',
+					customizable: false,
+					sorter: {
+						compare: this.sortFunctions.alphabetic,
+						multiple:
+							sortType === 'multiple'
+								? Object.keys(sortingColumns).indexOf('asset') + 1
+								: false,
+					},
+					render: (item) => {
+						return <span style={{whiteSpace: 'nowrap'}}>{item}</span>;
+					},
 				},
-				render: (item) => {
-					return <span style={{whiteSpace: 'nowrap'}}>{item}</span>;
+				{
+					title: <Translate content="account.qty" />,
+					dataIndex: 'qty',
+					align: 'right',
+					customizable: false,
+					sorter: {
+						compare: this.sortFunctions.qty,
+						multiple:
+							sortType === 'multiple'
+								? Object.keys(sortingColumns).indexOf('qty') + 1
+								: false,
+					},
+					render: (item) => {
+						return <span style={{whiteSpace: 'nowrap'}}>{item}</span>;
+					},
 				},
-			},
-			{
-				title: <Translate content="account.qty" />,
-				dataIndex: 'qty',
-				align: 'right',
-				customizable: false,
-				sorter: {
-					compare: this.sortFunctions.qty,
-					multiple:
-						Object.keys(sortingColumns).indexOf(
-							(column) => column.field === 'qty'
-						) + 1,
+				{
+					className: 'column-hide-small',
+					title: (
+						<span style={{whiteSpace: 'nowrap'}}>
+							<TranslateWithLinks
+								noLink
+								string="account.eq_value_header"
+								keys={[
+									{
+										type: 'asset',
+										value: preferredUnit,
+										arg: 'asset',
+									},
+								]}
+								noTip
+							/>
+						</span>
+					),
+					dataIndex: 'value',
+					align: 'right',
+					customizable: false,
+					sorter: {
+						compare: this.sortFunctions.totalValue,
+						multiple:
+							sortType === 'multiple'
+								? Object.keys(sortingColumns).indexOf('value') + 1
+								: false,
+					},
+					render: (item) => {
+						return <span style={{whiteSpace: 'nowrap'}}>{item}</span>;
+					},
 				},
-				render: (item) => {
-					return <span style={{whiteSpace: 'nowrap'}}>{item}</span>;
+				{
+					className: 'column-hide-small',
+					title: (
+						<span style={{whiteSpace: 'nowrap'}}>
+							<Translate content="exchange.price" /> (
+							<AssetName name={preferredUnit} noTip />)
+						</span>
+					),
+					dataIndex: 'price',
+					align: 'right',
+					sorter: {
+						compare: this.sortFunctions.priceValue,
+						multiple:
+							sortType === 'multiple'
+								? Object.keys(sortingColumns).indexOf('price') + 1
+								: false,
+					},
+					render: (item) => {
+						return <span style={{whiteSpace: 'nowrap'}}>{item}</span>;
+					},
 				},
-			},
-			{
-				className: 'column-hide-small',
-				title: (
-					<span style={{whiteSpace: 'nowrap'}}>
-						<TranslateWithLinks
-							noLink
-							string="account.eq_value_header"
-							keys={[
-								{
-									type: 'asset',
-									value: preferredUnit,
-									arg: 'asset',
-								},
-							]}
-							noTip
+				{
+					title: <Translate content="account.percent" />,
+					dataIndex: 'percent',
+					align: 'right',
+					customizable: {
+						default: showAssetPercent,
+					},
+					render: (item) => {
+						return <span style={{whiteSpace: 'nowrap'}}>{item}</span>;
+					},
+				},
+				{
+					title: (
+						<Translate content="account.trade" style={{whiteSpace: 'nowrap'}} />
+					),
+					dataIndex: 'trade',
+					align: 'center',
+					render: (item) => {
+						return <span style={{whiteSpace: 'nowrap'}}>{item}</span>;
+					},
+				},
+				{
+					title: <Translate content="header.payments" />,
+					dataIndex: 'payments',
+					align: 'center',
+					render: (item) => {
+						return <span style={{whiteSpace: 'nowrap'}}>{item}</span>;
+					},
+				},
+				{
+					title: (
+						<Translate
+							content="exchange.deposit"
+							style={{whiteSpace: 'nowrap'}}
 						/>
-					</span>
-				),
-				dataIndex: 'value',
-				align: 'right',
-				customizable: false,
-				sorter: {
-					compare: this.sortFunctions.totalValue,
-					multiple:
-						Object.keys(sortingColumns).indexOf(
-							(column) => column.field === 'value'
-						) + 1,
+					),
+					dataIndex: 'deposit',
+					align: 'center',
+					render: (item) => <span style={{whiteSpace: 'nowrap'}}>{item}</span>,
 				},
-				render: (item) => {
-					return <span style={{whiteSpace: 'nowrap'}}>{item}</span>;
-				},
-			},
-			{
-				className: 'column-hide-small',
-				title: (
-					<span style={{whiteSpace: 'nowrap'}}>
-						<Translate content="exchange.price" /> (
-						<AssetName name={preferredUnit} noTip />)
-					</span>
-				),
-				dataIndex: 'price',
-				align: 'right',
-				sorter: {
-					compare: this.sortFunctions.priceValue,
-					multiple:
-						Object.keys(sortingColumns).indexOf(
-							(column) => column.field === 'price'
-						) + 1,
-				},
-				render: (item) => {
-					return <span style={{whiteSpace: 'nowrap'}}>{item}</span>;
-				},
-			},
-			{
-				title: <Translate content="account.percent" />,
-				dataIndex: 'percent',
-				align: 'right',
-				customizable: {
-					default: showAssetPercent,
-				},
-				render: (item) => {
-					return <span style={{whiteSpace: 'nowrap'}}>{item}</span>;
-				},
-			},
-			{
-				title: (
-					<Translate content="account.trade" style={{whiteSpace: 'nowrap'}} />
-				),
-				dataIndex: 'trade',
-				align: 'center',
-				render: (item) => {
-					return <span style={{whiteSpace: 'nowrap'}}>{item}</span>;
-				},
-			},
-			{
-				title: <Translate content="header.payments" />,
-				dataIndex: 'payments',
-				align: 'center',
-				render: (item) => {
-					return <span style={{whiteSpace: 'nowrap'}}>{item}</span>;
-				},
-			},
-			{
-				title: (
-					<Translate
-						content="exchange.deposit"
-						style={{whiteSpace: 'nowrap'}}
-					/>
-				),
-				dataIndex: 'deposit',
-				align: 'center',
-				render: (item) => <span style={{whiteSpace: 'nowrap'}}>{item}</span>,
-			},
-		];
+			],
+		});
 	}
 
 	_renderBalances(balanceList, optionalAssets, visible) {
@@ -911,9 +936,25 @@ class AccountPortfolioList extends React.Component {
 
 	render() {
 		const {currentAccount} = this.props;
+		const {header, sortType} = this.state;
 
 		return (
 			<div className="portfolio-table-wrapper">
+				{/* {this.getTotalChange()} */}
+				<div className="switch-container">
+					<label
+						style={{marginBottom: '0'}}
+						htmlFor={'multiple-sort-portfolio'}
+					>
+						Multiple sorting
+					</label>
+					<Switch
+						id={'multiple-sort-portfolio'}
+						style={{width: '45px', marginLeft: '5px'}}
+						defaultChecked
+						onChange={this._changeSortType.bind(this)}
+					/>
+				</div>
 				<CustomTable
 					className="table dashboard-table table-hover"
 					rows={this._renderBalances(
@@ -921,7 +962,7 @@ class AccountPortfolioList extends React.Component {
 						this.props.optionalAssets,
 						this.props.visible
 					)}
-					header={this.getHeader()}
+					header={header}
 					pageSize={20}
 					label="utility.total_x_assets"
 					leftPadding="1.5rem"

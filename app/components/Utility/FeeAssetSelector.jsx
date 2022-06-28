@@ -6,7 +6,7 @@ import AssetWrapper from './AssetWrapper';
 import PropTypes from 'prop-types';
 import {Form, Input, Button, Tooltip} from 'antd';
 import AssetSelect from './AssetSelect';
-import {FetchChain} from 'meta1js';
+import {FetchChain} from 'meta1-vision-js';
 import SetDefaultFeeAssetModal from '../Modal/SetDefaultFeeAssetModal';
 import debounceRender from 'react-debounce-render';
 import {connect} from 'alt-react';

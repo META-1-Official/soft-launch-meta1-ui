@@ -1,4 +1,4 @@
-import {ChainTypes, ChainStore} from 'meta1js';
+import {ChainTypes, ChainStore} from 'meta1-vision-js';
 import counterpart from 'counterpart';
 import utils from 'common/utils';
 import Tap from '@tapfiliate/tapfiliate-js';

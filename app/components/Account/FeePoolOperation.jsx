@@ -7,7 +7,7 @@ import AmountSelector from '../Utility/AmountSelector';
 import FormattedAsset from '../Utility/FormattedAsset';
 import AssetActions from 'actions/AssetActions';
 import AssetWrapper from '../Utility/AssetWrapper';
-import {ChainStore} from 'meta1js';
+import {ChainStore} from 'meta1-vision-js';
 
 const stateSetter =
 	(that, key, transform = (value) => value) =>

@@ -9,7 +9,7 @@ import WalletDb from 'stores/WalletDb';
 import counterpart from 'counterpart';
 import TransactionConfirmStore from 'stores/TransactionConfirmStore';
 import Translate from 'react-translate-component';
-import {FetchChain} from 'meta1js/es';
+import {FetchChain} from 'meta1-vision-js/es';
 import WalletUnlockActions from 'actions/WalletUnlockActions';
 import axios from 'axios';
 import Icon from 'components/Icon/Icon';

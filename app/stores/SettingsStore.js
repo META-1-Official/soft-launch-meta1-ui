@@ -3,7 +3,7 @@ import SettingsActions from 'actions/SettingsActions';
 import IntlActions from 'actions/IntlActions';
 import Immutable, {fromJS} from 'immutable';
 import ls from 'common/localStorage';
-import {Apis} from 'meta1js-ws';
+import {Apis} from 'meta1-vision-ws';
 import {settingsAPIs} from 'api/apiConfig';
 import {
 	getDefaultTheme,

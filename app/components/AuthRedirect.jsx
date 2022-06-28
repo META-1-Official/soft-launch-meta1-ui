@@ -1,8 +1,8 @@
 import React from 'react';
 // import {withRouter} from "react-router-dom";
 import {connect} from 'alt-react';
-import {ChainStore} from 'meta1js';
-import {PrivateKey, FetchChain} from 'meta1js/es';
+import {ChainStore} from 'meta1-vision-js';
+import {PrivateKey, FetchChain} from 'meta1-vision-js/es';
 import qs from 'qs';
 import axios from 'axios';
 import {Helmet} from 'react-helmet';

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Input, Form} from 'antd';
 import counterpart from 'counterpart';
-import ChainStore from 'meta1js/es/chain/src/ChainStore';
+import ChainStore from 'meta1-vision-js/es/chain/src/ChainStore';
 import accountUtils from '../../lib/common/account_utils';
 
 class AccountInputStyleGuide extends Component {

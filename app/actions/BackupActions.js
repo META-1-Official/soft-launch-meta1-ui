@@ -1,7 +1,7 @@
 import alt from 'alt-instance';
 import iDB from 'idb-instance';
 import {compress, decompress} from 'lzma';
-import {PrivateKey, PublicKey, Aes, key} from 'meta1js';
+import {PrivateKey, PublicKey, Aes, key} from 'meta1-vision-js';
 import WalletActions from 'actions/WalletActions';
 
 class BackupActions {

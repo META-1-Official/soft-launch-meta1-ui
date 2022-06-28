@@ -1,5 +1,5 @@
 import alt from 'alt-instance';
-import {Apis} from 'meta1js-ws';
+import {Apis} from 'meta1-vision-ws';
 
 let latestBlocks = {};
 
@@ -58,7 +58,6 @@ class BlockchainActions {
 						return false;
 					}
 					result.id = height; // The returned object for some reason does not include the block height..
-
 					dispatch(result);
 				})
 				.catch((error) => {

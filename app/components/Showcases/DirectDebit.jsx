@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import {Apis} from 'meta1js-ws';
+import {Apis} from 'meta1-vision-ws';
 import {Input, Card, Col, Row, Button, Table} from 'antd';
 import counterpart from 'counterpart';
-import {ChainStore} from 'meta1js';
+import {ChainStore} from 'meta1-vision-js';
 import utils from 'common/utils';
 import DirectDebitModal from '../Modal/DirectDebitModal';
 import DirectDebitClaimModal from '../Modal/DirectDebitClaimModal';

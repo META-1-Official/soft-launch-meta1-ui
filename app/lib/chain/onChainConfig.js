@@ -1,4 +1,4 @@
-import {FetchChain} from 'meta1js';
+import {FetchChain} from 'meta1-vision-js';
 import {getConfigurationAsset} from 'branding';
 import asset_utils from 'common/asset_utils';
 

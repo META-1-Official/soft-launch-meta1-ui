@@ -8,7 +8,7 @@ import {
 	ChainTypes as grapheneChainTypes,
 	FetchChain,
 	ChainStore,
-} from 'meta1js';
+} from 'meta1-vision-js';
 //import ps from "perfect-scrollbar";
 import counterpart from 'counterpart';
 import Icon from '../Icon/Icon';
@@ -18,7 +18,7 @@ import PaginatedList from '../Utility/PaginatedList';
 const {operations} = grapheneChainTypes;
 import report from 'bitshares-report';
 import LoadingIndicator from '../LoadingIndicator';
-import {Tooltip, Modal, Button, Select, Input} from 'antd';
+import {Tooltip, Modal, Button, Select, Input, Row, Col} from 'antd';
 const ops = Object.keys(operations);
 ops.push(
 	'property_create_operation',
@@ -44,6 +44,9 @@ import AccountHistoryExporter, {
 	COINBASE,
 } from '../../services/AccountHistoryExporter';
 import {settingsAPIs} from 'api/apiConfig';
+import BlockchainActions from '../../actions/BlockchainActions';
+import BlockchainStore from '../../stores/BlockchainStore';
+import TrxHash from '../Blockchain/TrxHash';
 
 function compareOps(b, a) {
 	if (a.block_num === b.block_num) {
@@ -141,6 +144,7 @@ class RecentTransactions extends React.Component {
 		if (this.props.maxHeight !== nextProps.maxHeight) return true;
 		if (this.state.headerHeight !== nextState.headerHeight) return true;
 		if (this.state.filter !== nextState.filter) return true;
+		if (this.props.blocks !== nextProps.blocks) return true;
 		if (this.props.customFilter) {
 			if (
 				!utils.are_equal_shallow(
@@ -270,8 +274,10 @@ class RecentTransactions extends React.Component {
 		const lastIrreversibleBlockNum = dynGlobalObject.get(
 			'last_irreversible_block_num'
 		);
+		BlockchainActions.getBlock(o.block_num);
 
 		return {
+			pairData: trxTypes[ops[o.op[0]]],
 			pair: (
 				<div className="pair">
 					<div
@@ -291,13 +297,25 @@ class RecentTransactions extends React.Component {
 			info: (
 				<div>
 					<div>
-						<span>{info.column}</span>
+						<span className="info-class">{info.column}</span>
 					</div>
 					<div style={{fontSize: 14, paddingTop: 5}}>
 						{o.block_num > lastIrreversibleBlockNum ? (
 							<PendingBlock blockNumber={o.block_num} />
 						) : null}
 					</div>
+					<TrxHash
+						trx={
+							this.props.blocks
+								.toArray()
+								.filter((block) => block.id === o.block_num)[0]
+								?.transaction_merkle_root
+						}
+					></TrxHash>
+					{/*<div onClick={this._getTrxId.bind(this, o.block_num)}>*/}
+					{/*	{this.props.blocks.toArray().filter((block) => block.id === o.block_num)[0]}*/}
+					{/*	123*/}
+					{/*</div>*/}
 				</div>
 			),
 			fee: <FormattedAsset amount={fee.amount} asset={fee.asset_id} />,
@@ -305,11 +323,20 @@ class RecentTransactions extends React.Component {
 				<BlockTime
 					block_number={o.block_num}
 					fullDate={true}
+					transactionDate={true}
 					type={'datetime'}
 					format={'short'}
 				/>
 			),
 		};
+	}
+
+	_getTrxId(id) {
+		const [block] = this.props.blocks
+			.toArray()
+			.filter((block) => block.id === id);
+		console.log(block);
+		return block.transaction_merkle_root;
 	}
 
 	_getRowClassName(row) {
@@ -374,7 +401,10 @@ class RecentTransactions extends React.Component {
 		);
 
 		return (
-			<div className="recent-transactions" style={style}>
+			<div
+				className="recent-transactions transactions-history-font-class"
+				style={style}
+			>
 				<div className="generic-bordered-box">
 					{this.props.dashboard ? null : (
 						<div ref="header">
@@ -390,17 +420,24 @@ class RecentTransactions extends React.Component {
 						</div>
 					)}
 					<div className="header-selector">
-						<div className="filter inline-block">
-							{this.props.showFilters ? (
-								<Select
-									style={{width: '210px'}}
-									value={this.state.filter}
-									onChange={this._onChangeFilter.bind(this)}
-								>
-									{options}
-								</Select>
-							) : null}
-						</div>
+						<Row>
+							<Col span={18}>
+								<span className="page-title">Transaction History</span>
+							</Col>
+							<Col span={6}>
+								<div className="filter inline-block">
+									{this.props.showFilters ? (
+										<Select
+											style={{width: '210px'}}
+											value={this.state.filter}
+											onChange={this._onChangeFilter.bind(this)}
+										>
+											{options}
+										</Select>
+									) : null}
+								</div>
+							</Col>
+						</Row>
 						{this.state.accountHistoryError && (
 							<div className="has-error" style={{paddingLeft: '0.75rem'}}>
 								<Translate content="account.history_error" />
@@ -416,12 +453,41 @@ class RecentTransactions extends React.Component {
 						}
 						header={[
 							{
-								title: <Translate content="account.user_issued_assets.pair" />,
-								dataIndex: 'pair',
+								title: (
+									<div className="transaction-history-table-title">
+										<Translate content="account.user_issued_assets.operation" />
+									</div>
+								),
+								dataIndex: 'pairData',
 								align: 'left',
+								render: (item) => {
+									return (
+										<div>
+											{item === 'Cancel order' && (
+												<div className="transaction-span transaction-span-cancel">
+													{item}
+												</div>
+											)}
+											{item === 'Place order' && (
+												<div className="transaction-span transaction-span-place">
+													{item}
+												</div>
+											)}
+											{item !== 'Place order' && item !== 'Cancel order' && (
+												<div className="transaction-span transaction-span-fill">
+													{item}
+												</div>
+											)}
+										</div>
+									);
+								},
 							},
 							{
-								title: <Translate content="account.transactions.info" />,
+								title: (
+									<div className="transaction-history-table-title">
+										<Translate content="account.transactions.info" />
+									</div>
+								),
 								dataIndex: 'info',
 								align: 'left',
 								render: (item) => {
@@ -438,7 +504,11 @@ class RecentTransactions extends React.Component {
 							},
 							!hideFee
 								? {
-										title: <Translate content="account.transactions.fee" />,
+										title: (
+											<div className="transaction-history-table-title">
+												<Translate content="account.transactions.fee" />
+											</div>
+										),
 										dataIndex: 'fee',
 										align: 'left',
 										render: (item) => {
@@ -456,10 +526,12 @@ class RecentTransactions extends React.Component {
 								: {},
 							{
 								title: (
-									<Translate
-										style={{whiteSpace: 'nowrap'}}
-										content="account.transactions.time"
-									/>
+									<div className="transaction-history-table-title">
+										<Translate
+											style={{whiteSpace: 'nowrap'}}
+											content="account.transactions.time"
+										/>
+									</div>
 								),
 								dataIndex: 'time',
 								render: (item) => {
@@ -483,11 +555,12 @@ RecentTransactions = BindToChainState(RecentTransactions);
 
 RecentTransactions = connect(RecentTransactions, {
 	listenTo() {
-		return [SettingsStore];
+		return [SettingsStore, BlockchainStore];
 	},
 	getProps() {
 		return {
 			marketDirections: SettingsStore.getState().marketDirections,
+			blocks: BlockchainStore.getState().blocks,
 		};
 	},
 });

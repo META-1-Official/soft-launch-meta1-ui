@@ -4,7 +4,7 @@ import counterpart from 'counterpart';
 import LinkToAssetById from '../Utility/LinkToAssetById';
 import LinkToAccountById from '../Utility/LinkToAccountById';
 import {Table, Button} from 'antd';
-import {ChainStore} from 'meta1js';
+import {ChainStore} from 'meta1-vision-js';
 import PaginatedList from 'components/Utility/PaginatedList';
 import ChainTypes from '../Utility/ChainTypes';
 import MarketsActions from '../../actions/MarketsActions';

@@ -2,7 +2,7 @@ import React from 'react';
 import counterpart from 'counterpart';
 import {connect} from 'alt-react';
 import SettingsStore from '../../stores/SettingsStore';
-import {ChainStore} from 'meta1js';
+import {ChainStore} from 'meta1-vision-js';
 import Translate from 'react-translate-component';
 import AssetName from '../Utility/AssetName';
 import SetDefaultFeeAssetModal from '../Modal/SetDefaultFeeAssetModal';

@@ -7,7 +7,7 @@ import counterpart from 'counterpart';
 import AssetActions from 'actions/AssetActions';
 import assetUtils from 'common/asset_utils';
 import assetConstants from 'chain/asset_constants';
-import {ChainStore} from 'meta1js';
+import {ChainStore} from 'meta1-vision-js';
 import moment from 'moment';
 import {AiOutlineQuestionCircle, AiFillQuestionCircle} from 'react-icons/ai';
 

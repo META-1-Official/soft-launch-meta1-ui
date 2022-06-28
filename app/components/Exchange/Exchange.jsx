@@ -1,5 +1,5 @@
-import {Apis} from 'meta1js-ws';
-import {ChainStore, FetchChain} from 'meta1js';
+import {Apis} from 'meta1-vision-ws';
+import {ChainStore, FetchChain} from 'meta1-vision-js';
 import {Tabs} from 'antd';
 import {Collapse, Tooltip, notification} from 'antd';
 import cnames from 'classnames';

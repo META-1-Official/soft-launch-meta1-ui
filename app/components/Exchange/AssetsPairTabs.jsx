@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'alt-react';
 import moment from 'moment';
-import {ChainStore} from 'meta1js';
+import {ChainStore} from 'meta1-vision-js';
 import {Map, List} from 'immutable';
 import SettingsActions from 'actions/SettingsActions';
 import SettingsStore from 'stores/SettingsStore';
@@ -82,7 +82,6 @@ class AssetsPairTabs extends React.Component {
 	}
 
 	_checkAssets(assets, force) {
-		if (this.props.account.get('assets').size) return;
 		let lastAsset = assets
 			.sort((a, b) => {
 				if (a.symbol > b.symbol) return 1;

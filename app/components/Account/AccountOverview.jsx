@@ -5,7 +5,7 @@ import TotalBalanceValue from '../Utility/TotalBalanceValue';
 import MarginPositionsTable from './MarginPositionsTable';
 import {RecentTransactions} from './RecentTransactions';
 import Proposals from 'components/Account/Proposals';
-import {ChainStore} from 'meta1js';
+import {ChainStore} from 'meta1-vision-js';
 import SettingsActions from 'actions/SettingsActions';
 import utils from 'common/utils';
 import accountUtils from 'common/account_utils';

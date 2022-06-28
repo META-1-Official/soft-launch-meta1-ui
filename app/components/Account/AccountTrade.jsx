@@ -1,13 +1,13 @@
 import React from 'react';
 import {connect} from 'alt-react';
 import moment from 'moment';
-import {ChainStore} from 'meta1js';
+import {ChainStore} from 'meta1-vision-js';
 import {Map, List} from 'immutable';
 import SettingsActions from 'actions/SettingsActions';
 import SettingsStore from 'stores/SettingsStore';
 import AssetStore from 'stores/AssetStore';
 import AssetActions from 'actions/AssetActions';
-import {Table, Select} from 'antd';
+import {Table, Select, Switch} from 'antd';
 import {
 	ArrowRightOutlined,
 	ArrowUpOutlined,
@@ -44,6 +44,9 @@ class AccountTrade extends React.Component {
 			baseAssetSymbol: '',
 			rowsOnPage: '10',
 			marketBars: [],
+			header: [],
+			sortingColumns: {},
+			sortType: 'multiple',
 		};
 	}
 
@@ -62,10 +65,28 @@ class AccountTrade extends React.Component {
 
 	componentWillMount() {
 		this._checkAssets(this.props.assets, true);
+		this._buildColumns();
 	}
 
 	componentWillUnmount() {
 		if (this.statsInterval) this.statsInterval();
+	}
+
+	_changeSortType(checked) {
+		return new Promise((resolve) => {
+			if (checked) {
+				this.setState({
+					sortType: 'multiple',
+					sortedColumns: {},
+				});
+			} else {
+				this.setState({
+					sortType: 'single',
+					sortedColumns: {},
+				});
+			}
+			resolve();
+		}).then(() => this._buildColumns());
 	}
 
 	_checkAssets(assets, force) {
@@ -255,327 +276,347 @@ class AccountTrade extends React.Component {
 	}
 
 	_buildColumns() {
-		const {selectedResolution} = this.state;
+		const {selectedResolution, sortingColumns, sortType} = this.state;
+		this.setState({
+			header: [
+				{
+					title: (sortOrder) => {
+						let order = null;
 
-		return [
-			{
-				title: (sortOrder) => {
-					let order = null;
+						if (
+							sortOrder['sortColumn'] &&
+							sortOrder['sortColumn']['key'] === 'name'
+						)
+							order = sortOrder['sortOrder'];
 
-					if (
-						sortOrder['sortColumn'] &&
-						sortOrder['sortColumn']['key'] === 'name'
-					)
-						order = sortOrder['sortOrder'];
-
-					return (
-						<div className="header-text">
-							<Translate component="span" content="account.votes.name" />
-						</div>
-					);
-				},
-				key: 'name',
-				sorter: {
-					compare: (a, b) => {
-						return a.marketName > b.marketName
-							? 1
-							: a.marketName < b.marketName
-							? -1
-							: 0;
-					},
-					multiple: 0,
-				},
-				render: (rowData) => {
-					const quoteAssetSymbol = rowData.quoteAssetSymbol;
-					const baseAssetSymbol = rowData.baseAssetSymbol;
-
-					return (
-						<div>
-							<img
-								className="asset-img"
-								src={getAssetIcon(quoteAssetSymbol)}
-								alt="Asset logo"
-								width="28px"
-							/>
-							<div className="asset-name">
-								<span className="quote">
-									<strong>{quoteAssetSymbol}</strong>
-								</span>
-								<span className="base">{` / ${baseAssetSymbol}`}</span>
+						return (
+							<div className="header-text">
+								<Translate component="span" content="account.votes.name" />
 							</div>
-						</div>
-					);
-				},
-			},
-			{
-				title: (sortOrder) => {
-					let order = null;
-
-					if (
-						sortOrder['sortColumn'] &&
-						sortOrder['sortColumn']['key'] === 'price'
-					)
-						order = sortOrder['sortOrder'];
-
-					return (
-						<div className="header-text">
-							<Translate component="span" content="exchange.price" />
-						</div>
-					);
-				},
-				dataIndex: 'price',
-				key: 'price',
-				sorter: {
-					compare: (a, b) => {
-						let aPrice = a.price;
-						let bPrice = b.price;
-						if (aPrice.includes(',')) {
-							aPrice = aPrice.replaceAll(',', '');
-						}
-						if (bPrice.includes(',')) {
-							bPrice = bPrice.replaceAll(',', '');
-						}
-						return Number(aPrice) > Number(bPrice)
-							? 1
-							: Number(aPrice) < Number(bPrice)
-							? -1
-							: 0;
+						);
 					},
-					multiple: 0,
-				},
-				render: (price) => {
-					return (
-						<div>
-							<div className="price">{`$${price}`}</div>
-						</div>
-					);
-				},
-			},
-			{
-				title: (sortOrder) => {
-					let order = null;
-
-					if (
-						sortOrder['sortColumn'] &&
-						sortOrder['sortColumn']['key'] === 'rateChange'
-					)
-						order = sortOrder['sortOrder'];
-
-					return (
-						<div className="header-text">
-							<span>
-								{selectedResolution}{' '}
-								<Translate component="span" content="account.change" />
-							</span>
-						</div>
-					);
-				},
-				dataIndex: 'rateChange',
-				key: 'rateChange',
-				sorter: {
-					compare: (a, b) => {
-						return Number(a.rateChange) > Number(b.rateChange)
-							? 1
-							: Number(a.rateChange) < Number(b.rateChange)
-							? -1
-							: 0;
-					},
-					multiple: 0,
-				},
-				render: (rateChange) => {
-					let className =
-						rateChange === '0.00'
-							? ''
-							: rateChange > 0
-							? 'change-up'
-							: 'change-down';
-					return (
-						<div className="change">
-							{className === 'change-up' && (
-								<ArrowUpOutlined className={className} />
-							)}
-							{className === 'change-down' && (
-								<ArrowDownOutlined className={className} />
-							)}
-							{className === '' && <ArrowRightOutlined className={className} />}
-							<div className={className}>{`${rateChange} %`}</div>
-						</div>
-					);
-				},
-			},
-			{
-				title: '',
-				key: 'graph',
-				render: (rowData) => {
-					if (!rowData.marketBar || rowData.marketBar === []) {
-						return <div className="chart">N/A</div>;
-					}
-
-					const labels = [];
-					const data = [];
-					(rowData.marketBar.bars || []).map((iter) => {
-						labels.push(moment(iter.time).format('Do MMM YYYY hh:mm:ss'));
-						data.push(iter.open);
-					});
-
-					let borderColor =
-						rowData.rateChange === '0.00'
-							? '#999999'
-							: rowData.rateChange > 0
-							? '#019d53'
-							: '#ff2929';
-					const datasets = [
-						{
-							data,
-							borderColor,
-							borderWidth: 2,
-							fill: true,
-							pointHoverRadius: 0,
-							pointHoverBorderColor: 'transparent',
+					key: 'name',
+					sorter: {
+						compare: (a, b) => {
+							return a.marketName > b.marketName
+								? 1
+								: a.marketName < b.marketName
+								? -1
+								: 0;
 						},
-					];
-					return (
-						<div className="chart">
-							<ChartjsAreaChart
-								id="engaged"
-								datasets={datasets}
-								labels={labels}
-							/>
-						</div>
-					);
-				},
-			},
-			{
-				title: (sortOrder) => {
-					let order = null;
-
-					if (
-						sortOrder['sortColumn'] &&
-						sortOrder['sortColumn']['key'] === 'rateHighLow'
-					)
-						order = sortOrder['sortOrder'];
-
-					return (
-						<div className="header-text">
-							<span>
-								{selectedResolution}{' '}
-								<Translate component="span" content="account.high" /> /
-								{selectedResolution}{' '}
-								<Translate component="span" content="account.low" />
-							</span>
-						</div>
-					);
-				},
-				dataIndex: 'rateHighLow',
-				key: 'rateHighLow',
-				sorter: {
-					compare: (a, b) => {
-						return a.rateHighLow > b.rateHighLow
-							? 1
-							: a.rateHighLow < b.rateHighLow
-							? -1
-							: 0;
+						multiple:
+							sortType === 'multiple'
+								? Object.keys(sortingColumns).indexOf('name') + 1
+								: false,
 					},
-					multiple: 0,
-				},
-				render: (rateHighLow) => {
-					return (
-						<div>
-							<div>{rateHighLow}</div>
-						</div>
-					);
-				},
-			},
-			{
-				title: (sortOrder) => {
-					let order = null;
+					render: (rowData) => {
+						const quoteAssetSymbol = rowData.quoteAssetSymbol;
+						const baseAssetSymbol = rowData.baseAssetSymbol;
 
-					if (
-						sortOrder['sortColumn'] &&
-						sortOrder['sortColumn']['key'] === 'marketCap'
-					)
-						order = sortOrder['sortOrder'];
-
-					return (
-						<div className="header-text">
-							<Translate component="span" content="account.market_cap" />
-						</div>
-					);
-				},
-				dataIndex: 'marketCap',
-				key: 'marketCap',
-				sorter: {
-					compare: (a, b) => {
-						let aMarketCap = a.marketCap;
-						let bMarketCap = b.marketCap;
-
-						if (aMarketCap.includes(',')) {
-							aMarketCap = aMarketCap.replaceAll(',', '');
-						}
-						if (aMarketCap.includes('M')) {
-							aMarketCap = aMarketCap.replaceAll('M', '');
-						}
-						if (bMarketCap.includes(',')) {
-							bMarketCap = bMarketCap.replaceAll(',', '');
-						}
-						if (bMarketCap.includes('M')) {
-							bMarketCap = bMarketCap.replaceAll('M', '');
-						}
-						return Number(aMarketCap) > Number(bMarketCap)
-							? 1
-							: Number(aMarketCap) < Number(bMarketCap)
-							? -1
-							: 0;
+						return (
+							<div>
+								<img
+									className="asset-img"
+									src={getAssetIcon(quoteAssetSymbol)}
+									alt="Asset logo"
+									width="28px"
+								/>
+								<div className="asset-name">
+									<span className="quote">
+										<strong>{quoteAssetSymbol}</strong>
+									</span>
+									<span className="base">{` / ${baseAssetSymbol}`}</span>
+								</div>
+							</div>
+						);
 					},
-					multiple: 0,
 				},
-				render: (marketCap) => {
-					return (
-						<div>
-							<div>{marketCap}</div>
-						</div>
-					);
+				{
+					title: (sortOrder) => {
+						let order = null;
+
+						if (
+							sortOrder['sortColumn'] &&
+							sortOrder['sortColumn']['key'] === 'price'
+						)
+							order = sortOrder['sortOrder'];
+
+						return (
+							<div className="header-text">
+								<Translate component="span" content="exchange.price" />
+							</div>
+						);
+					},
+					dataIndex: 'price',
+					key: 'price',
+					sorter: {
+						compare: (a, b) => {
+							let aPrice = a.price;
+							let bPrice = b.price;
+							if (aPrice.includes(',')) {
+								aPrice = aPrice.replaceAll(',', '');
+							}
+							if (bPrice.includes(',')) {
+								bPrice = bPrice.replaceAll(',', '');
+							}
+							return Number(aPrice) > Number(bPrice)
+								? 1
+								: Number(aPrice) < Number(bPrice)
+								? -1
+								: 0;
+						},
+						multiple:
+							sortType === 'multiple'
+								? Object.keys(sortingColumns).indexOf('price') + 1
+								: false,
+					},
+					render: (price) => {
+						return (
+							<div>
+								<div className="price">{`$${price}`}</div>
+							</div>
+						);
+					},
 				},
-			},
-			{
-				title: '',
-				key: 'trade',
-				dataIndex: 'marketName',
-				render: (marketName) => {
-					return (
-						<div>
-							<button
-								className="trade"
-								onClick={() => this.onClickTrade(marketName)}
+				{
+					title: (sortOrder) => {
+						let order = null;
+
+						if (
+							sortOrder['sortColumn'] &&
+							sortOrder['sortColumn']['key'] === 'rateChange'
+						)
+							order = sortOrder['sortOrder'];
+
+						return (
+							<div className="header-text">
+								<span>
+									{selectedResolution}{' '}
+									<Translate component="span" content="account.change" />
+								</span>
+							</div>
+						);
+					},
+					dataIndex: 'rateChange',
+					key: 'rateChange',
+					sorter: {
+						compare: (a, b) => {
+							return Number(a.rateChange) > Number(b.rateChange)
+								? 1
+								: Number(a.rateChange) < Number(b.rateChange)
+								? -1
+								: 0;
+						},
+						multiple:
+							sortType === 'multiple'
+								? Object.keys(sortingColumns).indexOf('rateChange') + 1
+								: false,
+					},
+					render: (rateChange) => {
+						let className =
+							rateChange === '0.00'
+								? ''
+								: rateChange > 0
+								? 'change-up'
+								: 'change-down';
+						return (
+							<div className="change">
+								{className === 'change-up' && (
+									<ArrowUpOutlined className={className} />
+								)}
+								{className === 'change-down' && (
+									<ArrowDownOutlined className={className} />
+								)}
+								{className === '' && (
+									<ArrowRightOutlined className={className} />
+								)}
+								<div className={className}>{`${rateChange} %`}</div>
+							</div>
+						);
+					},
+				},
+				{
+					title: '',
+					key: 'graph',
+					render: (rowData) => {
+						if (!rowData.marketBar || rowData.marketBar === []) {
+							return <div className="chart">N/A</div>;
+						}
+
+						const labels = [];
+						const data = [];
+						(rowData.marketBar.bars || []).map((iter) => {
+							labels.push(moment(iter.time).format('Do MMM YYYY hh:mm:ss'));
+							data.push(iter.open);
+						});
+
+						let borderColor =
+							rowData.rateChange === '0.00'
+								? '#999999'
+								: rowData.rateChange > 0
+								? '#019d53'
+								: '#ff2929';
+						const datasets = [
+							{
+								data,
+								borderColor,
+								borderWidth: 2,
+								fill: true,
+								pointHoverRadius: 0,
+								pointHoverBorderColor: 'transparent',
+							},
+						];
+						return (
+							<div className="chart">
+								<ChartjsAreaChart
+									id="engaged"
+									datasets={datasets}
+									labels={labels}
+								/>
+							</div>
+						);
+					},
+				},
+				{
+					title: (sortOrder) => {
+						let order = null;
+
+						if (
+							sortOrder['sortColumn'] &&
+							sortOrder['sortColumn']['key'] === 'rateHighLow'
+						)
+							order = sortOrder['sortOrder'];
+
+						return (
+							<div className="header-text">
+								<span>
+									{selectedResolution}{' '}
+									<Translate component="span" content="account.high" /> /
+									{selectedResolution}{' '}
+									<Translate component="span" content="account.low" />
+								</span>
+							</div>
+						);
+					},
+					dataIndex: 'rateHighLow',
+					key: 'rateHighLow',
+					sorter: {
+						compare: (a, b) => {
+							return a.rateHighLow > b.rateHighLow
+								? 1
+								: a.rateHighLow < b.rateHighLow
+								? -1
+								: 0;
+						},
+						multiple:
+							sortType === 'multiple'
+								? Object.keys(sortingColumns).indexOf('rateHighLow') + 1
+								: false,
+					},
+					render: (rateHighLow) => {
+						return (
+							<div>
+								<div>{rateHighLow}</div>
+							</div>
+						);
+					},
+				},
+				{
+					title: (sortOrder) => {
+						let order = null;
+
+						if (
+							sortOrder['sortColumn'] &&
+							sortOrder['sortColumn']['key'] === 'marketCap'
+						)
+							order = sortOrder['sortOrder'];
+
+						return (
+							<div className="header-text">
+								<Translate component="span" content="account.market_cap" />
+							</div>
+						);
+					},
+					dataIndex: 'marketCap',
+					key: 'marketCap',
+					sorter: {
+						compare: (a, b) => {
+							let aMarketCap = a.marketCap;
+							let bMarketCap = b.marketCap;
+
+							if (aMarketCap.includes(',')) {
+								aMarketCap = aMarketCap.replaceAll(',', '');
+							}
+							if (aMarketCap.includes('M')) {
+								aMarketCap = aMarketCap.replaceAll('M', '');
+							}
+							if (bMarketCap.includes(',')) {
+								bMarketCap = bMarketCap.replaceAll(',', '');
+							}
+							if (bMarketCap.includes('M')) {
+								bMarketCap = bMarketCap.replaceAll('M', '');
+							}
+							return Number(aMarketCap) > Number(bMarketCap)
+								? 1
+								: Number(aMarketCap) < Number(bMarketCap)
+								? -1
+								: 0;
+						},
+						multiple:
+							sortType === 'multiple'
+								? Object.keys(sortingColumns).indexOf('marketCap') + 1
+								: false,
+					},
+					render: (marketCap) => {
+						return (
+							<div>
+								<div>{marketCap}</div>
+							</div>
+						);
+					},
+				},
+				{
+					title: '',
+					key: 'trade',
+					dataIndex: 'marketName',
+					render: (marketName) => {
+						return (
+							<div>
+								<button
+									className="trade"
+									onClick={() => this.onClickTrade(marketName)}
+								>
+									Trade
+								</button>
+							</div>
+						);
+					},
+				},
+				{
+					title: <Translate component="span" content="account.watch" />,
+					key: 'watch',
+					render: (rowData) => {
+						const quoteAssetSymbol = rowData.quoteAssetSymbol;
+						const baseAssetSymbol = rowData.baseAssetSymbol;
+						const marketID = `${quoteAssetSymbol}_${baseAssetSymbol}`;
+						const isStarred = this.props.starredMarkets.has(marketID);
+						return (
+							<div
+								onClick={() =>
+									this._addMarket(quoteAssetSymbol, baseAssetSymbol)
+								}
 							>
-								Trade
-							</button>
-						</div>
-					);
+								{isStarred ? (
+									<Icon name="fi-star" className="white-star" />
+								) : (
+									<StarOutlined />
+								)}
+							</div>
+						);
+					},
 				},
-			},
-			{
-				title: <Translate component="span" content="account.watch" />,
-				key: 'watch',
-				render: (rowData) => {
-					const quoteAssetSymbol = rowData.quoteAssetSymbol;
-					const baseAssetSymbol = rowData.baseAssetSymbol;
-					const marketID = `${quoteAssetSymbol}_${baseAssetSymbol}`;
-					const isStarred = this.props.starredMarkets.has(marketID);
-					return (
-						<div
-							onClick={() => this._addMarket(quoteAssetSymbol, baseAssetSymbol)}
-						>
-							{isStarred ? (
-								<Icon name="fi-star" className="white-star" />
-							) : (
-								<StarOutlined />
-							)}
-						</div>
-					);
-				},
-			},
-		];
+			],
+		});
 	}
 
 	_buildDataSource(assets) {
@@ -732,8 +773,40 @@ class AccountTrade extends React.Component {
 		return _dataSource;
 	}
 
+	toggleSortOrder = (pagination, filters, sorter) => {
+		const columns = {...this.state.sortingColumns};
+
+		if (sorter instanceof Array) {
+			sorter.forEach((elem) => {
+				if (!Object.keys(columns).includes(elem.field)) {
+					columns[elem.field] = elem.order;
+				} else if (
+					Object.keys(columns).includes(elem.field) &&
+					columns[elem.field] !== elem.value
+				) {
+					columns[elem.field] = elem.order;
+				}
+			});
+			const x = Object.keys(columns).filter(
+				(item) => !sorter.map((item) => item.field).includes(item)
+			);
+			x.forEach((item) => {
+				delete columns[item];
+			});
+		} else {
+			columns[sorter.field] = sorter.order;
+		}
+
+		this.setState({
+			sortingColumns: columns,
+		});
+
+		this._buildColumns();
+	};
+
 	render() {
 		const {account, assets} = this.props;
+		const {header} = this.state;
 		const {baseAssetSymbol, rowsOnPage, selectedAsset, isFetchingMarketInfo} =
 			this.state;
 		const canChangeBaseAsset = isFetchingMarketInfo ? 'disabled' : '';
@@ -759,7 +832,6 @@ class AccountTrade extends React.Component {
 			);
 		});
 
-		const columns = this._buildColumns();
 		const dataSource = this._buildDataSource(assets);
 
 		return (
@@ -795,6 +867,18 @@ class AccountTrade extends React.Component {
 							<Select.Option key={'ALL'}>All Assets</Select.Option>
 							{assetOptions}
 						</Select>
+						<Switch
+							id={'multiple-sort'}
+							style={{width: '45px', marginLeft: '24px'}}
+							defaultChecked
+							onChange={this._changeSortType.bind(this)}
+						></Switch>
+						<label
+							style={{display: 'inline-block', marginLeft: '4px'}}
+							htmlFor={'multiple-sort'}
+						>
+							Multiple sorting
+						</label>
 					</div>
 					<div className="select">
 						<div
@@ -813,8 +897,9 @@ class AccountTrade extends React.Component {
 						<Table
 							style={{width: '100%', marginTop: '16px'}}
 							rowKey="name"
-							columns={columns}
+							columns={header}
 							dataSource={dataSource}
+							onChange={this.toggleSortOrder}
 							pagination={{
 								position: 'bottom',
 								pageSize: Number(rowsOnPage),

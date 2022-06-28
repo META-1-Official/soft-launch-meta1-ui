@@ -9,7 +9,7 @@ import WalletDb from 'stores/WalletDb';
 import WalletApi from 'api/WalletApi';
 import NestedApprovalState from '../Account/NestedApprovalState';
 import pu from 'common/permission_utils';
-import {ChainStore} from 'meta1js';
+import {ChainStore} from 'meta1-vision-js';
 import {Modal, Button} from 'antd';
 
 export const finalRequiredPerms = (

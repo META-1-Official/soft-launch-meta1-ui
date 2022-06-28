@@ -1,4 +1,4 @@
-import {ChainStore} from 'meta1js';
+import {ChainStore} from 'meta1-vision-js';
 import Immutable from 'immutable';
 
 let KeyAuth = function (auth) {

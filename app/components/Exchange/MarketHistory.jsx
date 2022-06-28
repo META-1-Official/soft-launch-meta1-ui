@@ -5,7 +5,7 @@ import Ps from 'perfect-scrollbar';
 import SettingsActions from 'actions/SettingsActions';
 import SettingsStore from 'stores/SettingsStore';
 import {connect} from 'alt-react';
-import {ChainTypes as grapheneChainTypes} from 'meta1js';
+import {ChainTypes as grapheneChainTypes} from 'meta1-vision-js';
 const {operations} = grapheneChainTypes;
 import ReactTooltip from 'react-tooltip';
 import {FillOrder} from 'common/MarketClasses';

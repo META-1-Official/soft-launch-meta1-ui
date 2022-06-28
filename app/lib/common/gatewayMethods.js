@@ -1,7 +1,7 @@
 import ls from './localStorage';
 import {availableGateways} from 'common/gateways';
 import AccountStore from '../../stores/AccountStore';
-import {ChainStore, FetchChain} from 'meta1js';
+import {ChainStore, FetchChain} from 'meta1-vision-js';
 const blockTradesStorage = new ls('');
 let oidcStorage = new ls(
 	'oidc.user:https://blocktrades.us/:10ecf048-b982-467b-9965-0b0926330869'
