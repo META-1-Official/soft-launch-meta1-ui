@@ -236,6 +236,7 @@ const MarketOrderForm = (props) => {
 		color: '#330000',
 		opacity: '0.5',
 		borderRadius: '5px',
+		cursor: 'not-allowed',
 	};
 
 	let sellButton = {
@@ -255,6 +256,7 @@ const MarketOrderForm = (props) => {
 		color: 'white',
 		opacity: '0.5',
 		borderRadius: '5px',
+		cursor: 'not-allowed',
 	};
 
 	return (
