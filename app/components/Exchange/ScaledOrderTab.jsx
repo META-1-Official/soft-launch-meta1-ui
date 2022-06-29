@@ -519,10 +519,12 @@ class ScaledOrderForm extends Component {
 			});
 		}
 
-		return this.props.createScaledOrder(
-			orders,
-			ChainStore.getAsset('META1').get('id')
-		);
+		this.props
+			.createScaledOrder(orders, ChainStore.getAsset('META1').get('id'))
+			.then((res) => {
+				this.formRef.current.resetFields();
+			})
+			.catch((err) => {});
 	}
 
 	handleSubmit() {
@@ -567,9 +569,6 @@ class ScaledOrderForm extends Component {
 
 		const quote = quoteAsset;
 		const base = baseAsset;
-
-		// const {getFieldDecorator} = this.formRef.current || {};
-		console.log('**** getFieldDecorator', this.formRef.current);
 
 		const marketFeeSymbol = (
 			<AssetNameWrapper name={this.props.quoteAsset.get('symbol')} />
