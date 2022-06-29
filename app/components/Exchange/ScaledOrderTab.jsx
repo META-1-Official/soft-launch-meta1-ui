@@ -26,11 +26,36 @@ class ScaledOrderForm extends Component {
 		this.state = {
 			orderCount: 1,
 			feeAssets: [],
+			forceReRender: false,
+			total: 0,
 		};
 
 		this.handleClickBalance = this.handleClickBalance.bind(this);
 		this.handleCurrentPriceClick = this.handleCurrentPriceClick.bind(this);
 		this.formRef = React.createRef();
+	}
+
+	_forceRender(np) {
+		if (this.state.forceReRender) {
+			this.setState({
+				forceReRender: false,
+			});
+		}
+
+		if (this.props.parentWidth !== np.parentWidth) {
+			this.setState({
+				forceReRender: true,
+			});
+		}
+	}
+
+	shouldComponentUpdate(nextProps, nextState) {
+		this._forceRender(nextProps, nextState);
+
+		return (
+			nextState.forceReRender !== this.state.forceReRender ||
+			nextState.total !== this.state.total
+		);
 	}
 
 	componentDidMount() {
@@ -90,6 +115,8 @@ class ScaledOrderForm extends Component {
 			Number(formValues.orderCount) <= 1
 		)
 			return false;
+
+		this._forceReRender;
 
 		return true;
 	}
@@ -313,6 +340,8 @@ class ScaledOrderForm extends Component {
 		this.formRef?.current?.setFieldsValue({
 			total: total,
 		});
+
+		this.setState({total});
 	}
 
 	_getQuantityFromTotal(total) {
@@ -342,8 +371,6 @@ class ScaledOrderForm extends Component {
 		let sum = 0;
 
 		for (let i = 0; i < orderCount; i += 1) {
-			// sum + ((priceLower + step * i) / orderCount)
-
 			sum = preciseAdd(
 				sum,
 				Number(
@@ -766,6 +793,7 @@ class ScaledOrderForm extends Component {
 			color: '#330000',
 			opacity: '0.5',
 			borderRadius: '5px',
+			cursor: 'not-allowed',
 		};
 		let sellButton = {
 			backgroundColor: '#FF2929',
@@ -783,6 +811,7 @@ class ScaledOrderForm extends Component {
 			color: 'white',
 			opacity: '0.5',
 			borderRadius: '5px',
+			cursor: 'not-allowed',
 		};
 
 		return (
@@ -985,6 +1014,7 @@ class ScaledOrderForm extends Component {
 						}
 						onClick={this.handleSubmit.bind(this)}
 						type="primary"
+						disabled={!this.isFormValid()}
 					>
 						<div
 							style={{
