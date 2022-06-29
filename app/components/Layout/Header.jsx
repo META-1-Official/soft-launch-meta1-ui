@@ -499,6 +499,7 @@ class Header extends React.Component {
 				<Menu.Item
 					key="send"
 					style={this.props.locked ? {pointerEvents: 'none'} : {}}
+					className={this.props.locked ? 'disable-li-text' : ''}
 				>
 					<Text>Send</Text>
 				</Menu.Item>
@@ -528,6 +529,7 @@ class Header extends React.Component {
 				<Menu.Item
 					key="deposit"
 					style={this.props.locked ? {pointerEvents: 'none'} : {}}
+					className={this.props.locked ? 'disable-li-text' : ''}
 				>
 					<Text>Deposit</Text>
 				</Menu.Item>
