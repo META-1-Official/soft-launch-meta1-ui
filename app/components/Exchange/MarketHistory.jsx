@@ -407,8 +407,6 @@ class MarketHistory extends React.Component {
 			historyRows.splice(rowCount, historyRows.length);
 		}
 
-		console.log('LAST', this.props);
-
 		return (
 			<MarketHistoryView
 				ref="view"
