@@ -948,7 +948,7 @@ class AccountPortfolioList extends React.Component {
 						style={{marginBottom: '0', textTransform: 'capitalize'}}
 						htmlFor={'multiple-sort-portfolio'}
 					>
-						<Translate component="span" content="account.multiple_sorting" />
+						<Translate component="span" content="account.multi_sorting" />
 					</label>
 					<Switch
 						id={'multiple-sort-portfolio'}

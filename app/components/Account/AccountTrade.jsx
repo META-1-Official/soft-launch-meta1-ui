@@ -885,7 +885,7 @@ class AccountTrade extends React.Component {
 							}}
 							htmlFor={'multiple-sort'}
 						>
-							<Translate component="span" content="account.multiple_sorting" />
+							<Translate component="span" content="account.multi_sorting" />
 						</label>
 					</div>
 					<div className="select">
