@@ -138,3 +138,7 @@ $foundation-colors: (
 		padding: $global-padding;
 	}
 }
+
+.disable-li-text span {
+	color: #808080 !important;
+}
