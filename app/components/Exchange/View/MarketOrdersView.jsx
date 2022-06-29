@@ -13,42 +13,27 @@ function MarketOrdersViewTableHeader({
 	return (
 		<thead>
 			<tr>
-				<th style={{width: '6%', textAlign: 'center'}}>
-					{onCancelToggle ? (
-						<Tooltip
-							title={counterpart.translate('exchange.cancel_order_select_all')}
-							placement="left"
-						>
-							<Checkbox
-								className="order-cancel-toggle"
-								checked={selected}
-								onChange={onCancelToggle}
-							/>
-						</Tooltip>
-					) : null}
-				</th>
-				<th style={{textAlign: 'right'}}>
-					<Translate className="header-sub-title" content="exchange.price" />
-				</th>
-				<th style={{textAlign: 'right'}}>
-					{baseSymbol ? (
-						<span className="header-sub-title">
-							<AssetName dataPlace="top" name={quoteSymbol} />
-						</span>
-					) : null}
-				</th>
-				<th style={{textAlign: 'right'}}>
-					{baseSymbol ? (
-						<span className="header-sub-title">
-							<AssetName dataPlace="top" name={baseSymbol} />
-						</span>
-					) : null}
-				</th>
-				<th style={{textAlign: 'right'}}>
-					<Translate
-						className="header-sub-title"
-						content="transaction.expiration"
-					/>
+				{['Pair', 'Amount', 'Price', 'Total'].map((header) => (
+					<th
+						style={{
+							textTransform: 'unset',
+							color: '#FFC000',
+							borderBottom: 'none',
+							textAlign: header === 'Total' ? 'right' : 'center',
+						}}
+					>
+						{header}
+					</th>
+				))}
+				<th
+					style={{
+						textTransform: 'unset',
+						color: '#FF2929',
+						borderBottom: 'none',
+						textAlign: 'center',
+					}}
+				>
+					Cancel
 				</th>
 			</tr>
 		</thead>
