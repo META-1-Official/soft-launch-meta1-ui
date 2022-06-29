@@ -9,7 +9,6 @@ import {
 	FetchChain,
 	ChainStore,
 } from 'meta1-vision-js';
-//import ps from "perfect-scrollbar";
 import counterpart from 'counterpart';
 import Icon from '../Icon/Icon';
 import cnames from 'classnames';
@@ -35,6 +34,7 @@ import SettingsStore from 'stores/SettingsStore';
 import {connect} from 'alt-react';
 import PendingBlock from '../Utility/PendingBlock';
 import {AiOutlineFileSearch} from 'react-icons/ai';
+import {CaretDownFilled} from '@ant-design/icons';
 
 const operation = new OperationAnt();
 
@@ -420,24 +420,21 @@ class RecentTransactions extends React.Component {
 						</div>
 					)}
 					<div className="header-selector">
-						<Row>
-							<Col span={18}>
-								<span className="page-title">Transaction History</span>
-							</Col>
-							<Col span={6}>
-								<div className="filter inline-block">
-									{this.props.showFilters ? (
-										<Select
-											style={{width: '210px'}}
-											value={this.state.filter}
-											onChange={this._onChangeFilter.bind(this)}
-										>
-											{options}
-										</Select>
-									) : null}
-								</div>
-							</Col>
-						</Row>
+						<div className="header-selector-body">
+							<span className="page-title">Transaction History</span>
+							<div className="filter inline-block">
+								{this.props.showFilters ? (
+									<Select
+										className="filter-selector"
+										value={this.state.filter}
+										onChange={this._onChangeFilter.bind(this)}
+										suffixIcon={<CaretDownFilled />}
+									>
+										{options}
+									</Select>
+								) : null}
+							</div>
+						</div>
 						{this.state.accountHistoryError && (
 							<div className="has-error" style={{paddingLeft: '0.75rem'}}>
 								<Translate content="account.history_error" />
