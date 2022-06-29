@@ -19,7 +19,16 @@ import AccountTreemap from './AccountTreemap';
 import AssetWrapper from '../Utility/AssetWrapper';
 import AccountPortfolioList from './AccountPortfolioList';
 import {Market24HourChangeComponent} from '../Utility/MarketChangeComponent';
-import {Space, Switch, Tooltip, Select} from 'antd';
+import {
+	Space,
+	Switch,
+	Tooltip,
+	Select,
+	Menu,
+	Checkbox,
+	CheckboxGroup,
+	Dropdown,
+} from 'antd';
 const {Option} = Select;
 import counterpart from 'counterpart';
 import SearchInput from '../Utility/SearchInput';
@@ -33,6 +42,7 @@ import {
 	ArrowDownOutlined,
 	SettingFilled,
 	CaretDownFilled,
+	CaretUpOutlined,
 } from '@ant-design/icons';
 import MarketsStore from 'stores/MarketsStore';
 
@@ -54,6 +64,22 @@ class AccountOverview extends React.Component {
 			hideFishingProposals: true,
 			currentDisplay: 'portfolio',
 			hideZeroBalance: true,
+			portfolioCheckbox: [
+				'Qty',
+				'Price',
+				props.settings.get('unit'),
+				'Trade',
+				'Payments',
+				'Deposit',
+			],
+			openOrderCheckbox: [
+				'Buy / Sell',
+				'From / To',
+				'price',
+				'Market Price',
+				'Expiry Date',
+				'Action',
+			],
 		};
 
 		this._handleFilterInput = this._handleFilterInput.bind(this);
@@ -127,7 +153,20 @@ class AccountOverview extends React.Component {
 		});
 	};
 
+	portfolioCheckboxHandler(data) {
+		this.setState({
+			portfolioCheckbox: [...data],
+		});
+	}
+
+	openOrderCheckboxHandler(data) {
+		this.setState({
+			openOrderCheckbox: [...data],
+		});
+	}
+
 	render() {
+		console.log('keyyyyyy portfolioCheckbox', this.state.portfolioCheckbox);
 		let {account, hiddenAssets, settings, orders} = this.props;
 		let {shownAssets} = this.state;
 
@@ -310,6 +349,7 @@ class AccountOverview extends React.Component {
 				account={this.props.account}
 				isMyAccount={this.props.isMyAccount}
 				balances={this.props.balances}
+				portfolioCheckbox={this.state.portfolioCheckbox}
 				viewSettings={this.props.viewSettings}
 				hideZeroBalance={this.state.hideZeroBalance}
 				filterValue={this.state.filterValue}
@@ -345,6 +385,45 @@ class AccountOverview extends React.Component {
 		};
 
 		const {currentDisplay} = this.state;
+		const CheckboxGroup = Checkbox.Group;
+		const portfolioOption = [
+			'Qty',
+			'Price',
+			this.props.settings.get('unit'),
+			'Trade',
+			'Payments',
+			'Deposit',
+		];
+		const openOrdersOption = [
+			'Buy / Sell',
+			'From / To',
+			'price',
+			'Market Price',
+			'Expiry Date',
+			'Action',
+		];
+		const menuPortFolio = (
+			<div className="portfolio-checkbox-class">
+				<CaretUpOutlined />
+				<h3>Customize the Columns</h3>
+				<CheckboxGroup
+					options={portfolioOption}
+					value={this.state.portfolioCheckbox}
+					onChange={this.portfolioCheckboxHandler.bind(this)}
+				/>
+			</div>
+		);
+
+		const menuOpenorders = (
+			<div className="openOrder-checkbox-class">
+				<h3>openOrder</h3>
+				<CheckboxGroup
+					options={openOrdersOption}
+					value={this.state.openOrderCheckbox}
+					onChange={this.openOrderCheckboxHandler.bind(this)}
+				/>
+			</div>
+		);
 
 		return (
 			<div className="account-overview">
@@ -409,16 +488,47 @@ class AccountOverview extends React.Component {
 							>
 								Fund Wallet
 							</StyledButton>
-							<Select
+
+							{currentDisplay === 'portfolio' && (
+								<div
+									style={{
+										width: '72px',
+										height: '44px',
+										background: '#000000',
+										borderRadius: '4px',
+									}}
+									className="overview-settings"
+								>
+									<SettingFilled />
+									<Dropdown
+										class="testttttttttttttttttt"
+										overlay={menuPortFolio}
+									>
+										<CaretDownFilled />
+									</Dropdown>
+								</div>
+							)}
+							{currentDisplay === 'openOrders' && (
+								<Dropdown overlay={menuOpenorders}>
+									<SettingFilled />
+								</Dropdown>
+							)}
+							{/* {currentDisplay === 'portfolio' && <Dropdown overlay={menuPortFolio} ><SettingFilled /></Dropdown>} */}
+
+							{/* {currentDisplay === 'portfolio' && <Select
 								style={{width: '72px'}}
 								suffixIcon={<CaretDownFilled />}
 								defaultValue="setting"
 								className="overview-settings"
 							>
-								<Option value="setting">
-									<SettingFilled />
-								</Option>
-							</Select>
+								<Option value="name">Name</Option>
+								<Option value="qty">Qty</Option>
+								<Option value="valueKey">value</Option>
+								<Option value="price">Price</Option>
+								<Option value="trade">Trade</Option>
+								<Option value="send">Send</Option>
+								<Option value="deposit">Deposit</Option>
+							</Select> } */}
 						</Space>
 					</div>
 				</div>
