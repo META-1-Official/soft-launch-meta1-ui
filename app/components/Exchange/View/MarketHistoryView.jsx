@@ -149,13 +149,6 @@ class MarketHistoryView extends React.Component {
 				style={{height: '100%', display: 'flex', flexDirection: 'column'}}
 			>
 				<div className={innerClass} style={innerStyle}>
-					{noHeader ? null : (
-						<div style={headerStyle} className="exchange-content-header">
-							{activeTab === 'history' ? (
-								<Translate content="exchange.history" />
-							) : null}
-						</div>
-					)}
 					{activeTab === 'history' ? allHistory : myOrders}
 				</div>
 			</div>
