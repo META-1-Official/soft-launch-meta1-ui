@@ -515,10 +515,11 @@ class WalletUnlockModal extends React.Component {
 			>
 				<Title className="header-title1">META 1 Account Login</Title>
 				<div className="header-title2">
-					Login with Account name (Cloud wallet) and Key file (Local wallet)
+					{/*Login with Account name (Cloud wallet) and Key file (Local wallet)*/}
+					Login with Account name (Cloud wallet)
 				</div>
 				<Form className="full-width" layout="vertical">
-					<LoginTypeSelector type={passwordLogin} />
+					{/*<LoginTypeSelector type={passwordLogin} />*/}
 					{passwordLogin ? (
 						<div className="info-form">
 							<DisableChromeAutocomplete />
