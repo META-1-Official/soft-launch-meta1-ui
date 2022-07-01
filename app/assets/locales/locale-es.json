@@ -531,7 +531,7 @@
 		"buysell_formatter": "{direction} {asset}",
 		"call": "Precio de Rescate (Precio de la llamada)",
 		"cancel_order_select_all": "Select all orders",
-		"cancel_selected_orders": "Cancel selected order(s)",
+		"cancel_all_orders": "Cancel all orders",
 		"change": "cambio",
 		"chart_error": "Chart already exist",
 		"chart_height": "Altura de la gráficos (píxeles)",
