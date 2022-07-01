@@ -264,10 +264,8 @@ class AssetsPairTabs extends React.Component {
 								fontSize: '12px',
 								color: '#979797',
 								textAlign: 'center',
-								paddingLeft: '10px',
-								marginLeft: '10px',
-								padingRight: '10px',
-								marginRight: '10px',
+								marginLeft: '5px',
+								padingLeft: '5px',
 								textAlign: 'left',
 							}}
 						>
@@ -278,8 +276,8 @@ class AssetsPairTabs extends React.Component {
 								fontSize: '12px',
 								color: '#979797',
 								textAlign: 'right',
-								padingLeft: '10px',
-								marginLeft: '10px',
+								padingLeft: '20px',
+								marginLeft: '20px',
 							}}
 						>
 							Change
@@ -407,6 +405,9 @@ class AssetsPairTabs extends React.Component {
 					);
 				},
 			},
+			// Commented this column to solve distortion on table on 100% zoom
+			// Change data moved to first column -> need to implement multisorting
+			/*
 			{
 				title: (
 					<div
@@ -446,6 +447,7 @@ class AssetsPairTabs extends React.Component {
 								paddingTop: '10px',
 								marginLeft: '-0px',
 								display: 'none',
+								width: '0px',
 							}}
 						>
 							{className === 'change-up' && (
@@ -488,6 +490,7 @@ class AssetsPairTabs extends React.Component {
 					);
 				},
 			},
+			*/
 			{
 				title: (
 					<div
@@ -496,8 +499,10 @@ class AssetsPairTabs extends React.Component {
 							color: '#979797',
 							textAlign: 'right',
 							minWidth: '50px',
-							marginLeft: '10px',
-							paddingLeft: '10px',
+							marginLeft: '-15px',
+							paddingLeft: '-15px',
+							marginRight: '5px',
+							paddingRight: '5px',
 						}}
 					>
 						Volume
@@ -528,8 +533,11 @@ class AssetsPairTabs extends React.Component {
 								className="price"
 								style={{
 									fontSize: '14px',
-									minWidth: '50px',
+									minWidth: '30px',
+									maxWidth: '50px!important',
 									textAlign: 'right',
+									paddingLeft: '-17px',
+									marginLeft: '-17px',
 									color: '#D0D0D0',
 								}}
 							>{`$${price}`}</div>
@@ -710,7 +718,7 @@ class AssetsPairTabs extends React.Component {
 				</div>
 				<div className="table">
 					<Table
-						style={{width: '100%', marginTop: '16px'}}
+						style={{minWidth: '250px', width: '100%', marginTop: '16px'}}
 						rowKey="name"
 						columns={columns}
 						dataSource={dataSource}
