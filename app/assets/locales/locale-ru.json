@@ -531,7 +531,7 @@
 		"buysell_formatter": "{direction} {asset}",
 		"call": "Цена досрочного погашения",
 		"cancel_order_select_all": "Select all orders",
-		"cancel_selected_orders": "Отменить выбранный ордер(а)",
+		"cancel_selected_orders": "отменить все заказы",
 		"change": "Изменить",
 		"chart_error": "Chart already exist",
 		"chart_height": "Высота графика (в пикселях)",

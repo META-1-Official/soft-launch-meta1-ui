@@ -1,49 +1,7 @@
 import React from 'react';
-import counterpart from 'counterpart';
 import Translate from 'react-translate-component';
-import AssetName from '../../Utility/AssetName';
-import {Tooltip, Checkbox} from 'antd';
-
-function MarketOrdersViewTableHeader({
-	baseSymbol,
-	quoteSymbol,
-	selected,
-	onCancelToggle,
-}) {
-	return (
-		<thead>
-			<tr>
-				{['Pair', 'Amount', 'Price', 'Total'].map((header) => (
-					<th
-						style={{
-							textTransform: 'unset',
-							color: '#FFC000',
-							borderBottom: 'none',
-							textAlign: header === 'Total' ? 'right' : 'center',
-						}}
-					>
-						{header}
-					</th>
-				))}
-				<th
-					style={{
-						textTransform: 'unset',
-						color: '#FF2929',
-						borderBottom: 'none',
-						textAlign: 'center',
-					}}
-				>
-					Cancel
-				</th>
-			</tr>
-		</thead>
-	);
-}
-
-MarketOrdersViewTableHeader.defaultProps = {
-	quoteSymbol: null,
-	baseSymbol: null,
-};
+import {Table} from 'antd';
+import Icon from '../../Icon/Icon';
 
 class MarketsOrderView extends React.Component {
 	render() {
@@ -57,20 +15,12 @@ class MarketsOrderView extends React.Component {
 
 			// Bools
 			noHeader,
-			isSelected,
-			tinyScreen,
-
 			// Strings
 			activeTab,
-			baseSymbol,
-			quoteSymbol,
-
-			// Containers
-			contentContainer,
+			data,
+			tinyScreen,
 			footerContainer,
-
-			// Functions
-			onCancelToggle,
+			cancelOrder,
 		} = this.props;
 
 		return (
@@ -86,32 +36,167 @@ class MarketsOrderView extends React.Component {
 							) : null}
 						</div>
 					)}
-					<div className="grid-block shrink left-orderbook-header market-right-padding-only">
-						<table className="table order-table text-right fixed-table market-right-padding">
-							<MarketOrdersViewTableHeader
-								baseSymbol={baseSymbol}
-								quoteSymbol={quoteSymbol}
-								selected={isSelected}
-								onCancelToggle={
-									activeTab == 'my_orders' ? onCancelToggle : null
-								}
-							/>
-						</table>
-					</div>
 
 					<div
-						className="table-container grid-block market-right-padding-only no-overflow"
+						className="market-order-table-container grid-block market-right-padding-only no-overflow"
 						ref="container"
 						style={{
 							overflow: 'hidden',
 							minHeight: tinyScreen ? 260 : 0,
-							maxHeight: 190,
+							maxHeight: 370,
 							lineHeight: '13px',
 						}}
 					>
-						<table className="table order-table table-highlight-hover table-hover no-stripes text-right fixed-table market-right-padding">
-							{contentContainer}
-						</table>
+						<Table dataSource={data} pagination={{pageSize: 5}}>
+							<Table.Column
+								dataIndex="pair"
+								title={
+									<div className="market-order-table-text-header">Pair</div>
+								}
+								render={(row) => {
+									return (
+										<div
+											className="td-content"
+											style={{
+												borderLeftColor: row.isBid ? '#0F923A' : '#FF2929',
+												borderLeftStyle: 'solid',
+												borderLeftWidth: '8px',
+												paddingLeft: '15px',
+											}}
+										>
+											<div
+												style={{
+													fontSize: '15px',
+													fontWeight: 400,
+													color: 'white',
+													textAlign: 'center',
+												}}
+											>
+												{row.baseSymbol}
+											</div>
+											<div
+												style={{
+													borderBottom: '1px solid #566176',
+													width: '100%',
+													height: '0px',
+													marginTop: 5,
+													marginBottom: 5,
+												}}
+											></div>
+											<div
+												style={{
+													fontSize: '12px',
+													color: '#715C5C',
+													textAlign: 'center',
+												}}
+											>
+												{row.quoteSymbol}
+											</div>
+										</div>
+									);
+								}}
+							/>
+							<Table.Column
+								dataIndex="amount"
+								title={
+									<div className="market-order-table-text-header">Amount</div>
+								}
+								render={(row) => {
+									return (
+										<div>
+											<div
+												style={{
+													fontSize: '15px',
+													fontWeight: 400,
+													color: 'white',
+													textAlign: 'center',
+												}}
+											>
+												{row.receiveAmount}
+											</div>
+											<div
+												style={{
+													borderBottom: '1px solid #566176',
+													width: '100%',
+													height: '0px',
+													marginTop: 5,
+													marginBottom: 5,
+												}}
+											></div>
+											<div
+												style={{
+													fontSize: '12px',
+													color: '#715C5C',
+													textAlign: 'center',
+												}}
+											>
+												{row.payAmount}
+											</div>
+										</div>
+									);
+								}}
+							/>
+							<Table.Column
+								dataIndex="price"
+								title={
+									<div className="market-order-table-text-header">Price</div>
+								}
+								render={(row) => {
+									return (
+										<div className="td-content">
+											<div style={{color: '#715C5C', textAlign: 'center'}}>
+												{row}
+											</div>
+										</div>
+									);
+								}}
+							/>
+							<Table.Column
+								dataIndex="total"
+								title={
+									<div className="market-order-table-text-header">Total</div>
+								}
+								render={(row) => {
+									return (
+										<div className="td-content">
+											<div
+												style={{
+													color: 'white',
+													fontSize: '15px',
+													fontWeight: 400,
+													textAlign: 'center',
+												}}
+											>
+												{Number(row).toLocaleString('en')}
+											</div>
+										</div>
+									);
+								}}
+							/>
+
+							<Table.Column
+								dataIndex="orderId"
+								title={
+									<div className="market-order-table-action-header">Cancel</div>
+								}
+								render={(row) => {
+									return (
+										<button
+											className="market-order-table-cancel-button"
+											onClick={() => cancelOrder(row)}
+										>
+											<Icon
+												name="times"
+												title="icons.times"
+												theme="filled"
+												size="1x"
+												style={{fill: '#ff2929'}}
+											/>
+										</button>
+									);
+								}}
+							/>
+						</Table>
 					</div>
 					{footerContainer}
 				</div>

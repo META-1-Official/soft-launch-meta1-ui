@@ -548,7 +548,7 @@
 		"buysell_formatter": "{direction} {asset}",
 		"call": "Call Price",
 		"cancel_order_select_all": "Select all orders",
-		"cancel_selected_orders": "Cancel selected order(s)",
+		"cancel_all_orders": "Cancel all orders",
 		"change": "Change",
 		"chart_error": "Chart already exist",
 		"chart_height": "Chart height (pixels)",
