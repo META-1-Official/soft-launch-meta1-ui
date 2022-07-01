@@ -176,6 +176,12 @@ class RecentTransactions extends React.Component {
 		if (this.state.esNode !== nextState.esNode) return true;
 		if (this.state.esNodeCustom !== nextState.esNodeCustom) return true;
 		if (this.state.visibleId !== nextState.visibleId) return true;
+		if (
+			this.props.transactionHistoryCheckbox.length !==
+			nextProps.transactionHistoryCheckbox.length
+		) {
+			return true;
+		}
 		return false;
 	}
 
@@ -455,6 +461,8 @@ class RecentTransactions extends React.Component {
 										<Translate content="account.user_issued_assets.operation" />
 									</div>
 								),
+								isShow:
+									this.props.transactionHistoryCheckbox.includes('Operation'),
 								dataIndex: 'pairData',
 								align: 'left',
 								render: (item) => {
@@ -485,6 +493,7 @@ class RecentTransactions extends React.Component {
 										<Translate content="account.transactions.info" />
 									</div>
 								),
+								isShow: this.props.transactionHistoryCheckbox.includes('Info'),
 								dataIndex: 'info',
 								align: 'left',
 								render: (item) => {
@@ -508,6 +517,8 @@ class RecentTransactions extends React.Component {
 										),
 										dataIndex: 'fee',
 										align: 'left',
+										isShow:
+											this.props.transactionHistoryCheckbox.includes('Fee'),
 										render: (item) => {
 											return (
 												<span
@@ -530,12 +541,15 @@ class RecentTransactions extends React.Component {
 										/>
 									</div>
 								),
+								isShow: this.props.transactionHistoryCheckbox.includes('Time'),
 								dataIndex: 'time',
 								render: (item) => {
 									return <span style={{whiteSpace: 'nowrap'}}>{item}</span>;
 								},
 							},
-						]}
+						].filter((ele) => {
+							if (ele.isShow) return ele;
+						})}
 						rows={display_history}
 						label="utility.total_x_operations"
 						extraRow={action}
