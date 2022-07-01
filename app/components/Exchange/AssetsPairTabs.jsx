@@ -659,13 +659,13 @@ class AssetsPairTabs extends React.Component {
 		//DEBUG console.log("height: " + window.innerHeight);
 
 		let rows = this.state.rowsOnPage;
-		if (windowHeight > 1050) {
+		if (windowHeight >= 1050) {
 			rows = '11';
 		}
-		if (windowHeight > 732 && windowHeight < 1050) {
+		if (windowHeight >= 738 && windowHeight < 1050) {
 			rows = '8';
 		}
-		if (windowHeight <= 732) {
+		if (windowHeight < 737) {
 			rows = '5';
 		}
 
