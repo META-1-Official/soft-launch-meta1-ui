@@ -461,22 +461,27 @@ p.order-table-title {
 }
 
 .my-open-orders-res {
-	.ant-tabs-nav-list {
-		width: unset !important;
+	.ant-tabs-nav {
+		padding-left: 16px;
+		margin: 0 !important;
 
-		.ant-tabs-tab {
-			text-align: center;
-			display: flex;
-			justify-content: center;
-			border-bottom: none !important;
-		}
+		.ant-tabs-nav-list {
+			width: unset !important;
 
-		.ant-tabs-ink-bar {
-			display: none;
-		}
+			.ant-tabs-tab {
+				text-align: center;
+				display: flex;
+				justify-content: center;
+				border-bottom: none !important;
+			}
 
-		.ant-tabs-tab.ant-tabs-tab-active {
-			border-bottom: none !important;
+			.ant-tabs-ink-bar {
+				display: none;
+			}
+
+			.ant-tabs-tab.ant-tabs-tab-active {
+				border-bottom: none !important;
+			}
 		}
 	}
 }
@@ -1295,6 +1300,8 @@ form.hide-container {
 }
 
 .market-order-table-container {
+	border-top: 1px solid rgb(28, 31, 39);
+
 	.ant-table-wrapper {
 		width: 100% !important;
 

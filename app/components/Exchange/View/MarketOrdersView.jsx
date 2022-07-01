@@ -43,15 +43,11 @@ class MarketsOrderView extends React.Component {
 						style={{
 							overflow: 'hidden',
 							minHeight: tinyScreen ? 260 : 0,
-							maxHeight: 355,
+							maxHeight: 370,
 							lineHeight: '13px',
 						}}
 					>
-						<Table
-							dataSource={data}
-							className="market-order-table"
-							pagination={{pageSize: 5}}
-						>
+						<Table dataSource={data} pagination={{pageSize: 5}}>
 							<Table.Column
 								dataIndex="pair"
 								title={
