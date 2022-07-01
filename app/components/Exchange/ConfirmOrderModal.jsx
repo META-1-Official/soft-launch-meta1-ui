@@ -47,7 +47,7 @@ export default class ConfirmModal extends React.Component {
 				onCancel={this.cancel}
 				title={counterpart.translate('transaction.confirm')}
 			>
-				<div className="grid-block vertical">
+				<div style={{color: '#CACACA', fontSize: '15px'}}>
 					{!hasOrders ? (
 						<Translate content={'exchange.confirm_no_orders_' + type} />
 					) : (

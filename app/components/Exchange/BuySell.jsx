@@ -1183,7 +1183,8 @@ class BuySell extends React.Component {
 														color: isBid ? '#330000' : 'white',
 													}}
 												>
-													{isBid ? 'BUY' : 'SELL'}
+													{isBid ? 'BUY' : 'SELL'}&nbsp;
+													{this.props.quote.get('symbol')}
 												</div>
 											</button>
 										</Tooltip>

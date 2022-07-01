@@ -452,7 +452,7 @@ class RecentTransactions extends React.Component {
 									</div>
 								),
 								isShow:
-									this.props.transactionHistoryCheckbox.includes('Operation'),
+									this.props.transactionHistoryCheckbox?.includes('Operation'),
 								dataIndex: 'pairData',
 								align: 'left',
 								render: (item) => {
@@ -483,7 +483,7 @@ class RecentTransactions extends React.Component {
 										<Translate content="account.transactions.info" />
 									</div>
 								),
-								isShow: this.props.transactionHistoryCheckbox.includes('Info'),
+								isShow: this.props.transactionHistoryCheckbox?.includes('Info'),
 								dataIndex: 'info',
 								align: 'left',
 								render: (item) => {
@@ -522,7 +522,7 @@ class RecentTransactions extends React.Component {
 										dataIndex: 'fee',
 										align: 'left',
 										isShow:
-											this.props.transactionHistoryCheckbox.includes('Fee'),
+											this.props.transactionHistoryCheckbox?.includes('Fee'),
 										render: (item) => {
 											return (
 												<span
@@ -545,7 +545,7 @@ class RecentTransactions extends React.Component {
 										/>
 									</div>
 								),
-								isShow: this.props.transactionHistoryCheckbox.includes('Time'),
+								isShow: this.props.transactionHistoryCheckbox?.includes('Time'),
 								dataIndex: 'time',
 								render: (item) => {
 									return <span style={{whiteSpace: 'nowrap'}}>{item}</span>;
