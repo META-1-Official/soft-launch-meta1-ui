@@ -66,20 +66,21 @@ class AccountOverview extends React.Component {
 			hideZeroBalance: true,
 			portfolioCheckbox: [
 				'Qty',
-				'Price',
-				props.settings.get('unit'),
+				`Price (${props.settings.get('unit')})`,
+				`Value (${props.settings.get('unit')})`,
 				'Trade',
-				'Payments',
+				'Send',
 				'Deposit',
 			],
 			openOrderCheckbox: [
 				'Buy / Sell',
 				'From / To',
-				'price',
+				'Price',
 				'Market Price',
 				'Expiry Date',
 				'Action',
 			],
+			transactionHistoryCheckbox: ['Operation', 'Info', 'Fee', 'Time'],
 		};
 
 		this._handleFilterInput = this._handleFilterInput.bind(this);
@@ -165,8 +166,13 @@ class AccountOverview extends React.Component {
 		});
 	}
 
+	transactionHistoryCheckboxHandler(data) {
+		this.setState({
+			transactionHistoryCheckbox: [...data],
+		});
+	}
+
 	render() {
-		console.log('keyyyyyy portfolioCheckbox', this.state.portfolioCheckbox);
 		let {account, hiddenAssets, settings, orders} = this.props;
 		let {shownAssets} = this.state;
 
@@ -387,21 +393,22 @@ class AccountOverview extends React.Component {
 		const {currentDisplay} = this.state;
 		const CheckboxGroup = Checkbox.Group;
 		const portfolioOption = [
+			`Price (${this.props.settings.get('unit')})`,
 			'Qty',
-			'Price',
-			this.props.settings.get('unit'),
+			`Value (${this.props.settings.get('unit')})`,
+			'Send',
 			'Trade',
-			'Payments',
 			'Deposit',
 		];
 		const openOrdersOption = [
 			'Buy / Sell',
 			'From / To',
-			'price',
+			'Price',
 			'Market Price',
 			'Expiry Date',
 			'Action',
 		];
+		const transactionHistoryOption = ['Operation', 'Info', 'Fee', 'Time'];
 		const menuPortFolio = (
 			<div className="portfolio-checkbox-class">
 				<CaretUpOutlined />
@@ -415,12 +422,25 @@ class AccountOverview extends React.Component {
 		);
 
 		const menuOpenorders = (
-			<div className="openOrder-checkbox-class">
-				<h3>openOrder</h3>
+			<div className="portfolio-checkbox-class">
+				<CaretUpOutlined />
+				<h3>Customize the Columns</h3>
 				<CheckboxGroup
 					options={openOrdersOption}
 					value={this.state.openOrderCheckbox}
 					onChange={this.openOrderCheckboxHandler.bind(this)}
+				/>
+			</div>
+		);
+
+		const menuTransactionHistory = (
+			<div className="portfolio-checkbox-class">
+				<CaretUpOutlined />
+				<h3>Customize the Columns</h3>
+				<CheckboxGroup
+					options={transactionHistoryOption}
+					value={this.state.transactionHistoryCheckbox}
+					onChange={this.transactionHistoryCheckboxHandler.bind(this)}
 				/>
 			</div>
 		);
@@ -490,28 +510,43 @@ class AccountOverview extends React.Component {
 							</StyledButton>
 
 							{currentDisplay === 'portfolio' && (
-								<div
-									style={{
-										width: '72px',
-										height: '44px',
-										background: '#000000',
-										borderRadius: '4px',
-									}}
-									className="overview-settings"
-								>
-									<SettingFilled />
+								<div className="overview-settings dropdown-btn-class">
 									<Dropdown
-										class="testttttttttttttttttt"
 										overlay={menuPortFolio}
+										overlayClassName="custom-dropdown-class"
 									>
-										<CaretDownFilled />
+										<div className="icon-class">
+											<SettingFilled />
+											<CaretDownFilled />
+										</div>
 									</Dropdown>
 								</div>
 							)}
 							{currentDisplay === 'openOrders' && (
-								<Dropdown overlay={menuOpenorders}>
-									<SettingFilled />
-								</Dropdown>
+								<div className="overview-settings dropdown-btn-class">
+									<Dropdown
+										overlay={menuOpenorders}
+										overlayClassName="custom-dropdown-class"
+									>
+										<div className="icon-class">
+											<SettingFilled />
+											<CaretDownFilled />
+										</div>
+									</Dropdown>
+								</div>
+							)}
+							{currentDisplay === 'transactionHistory' && (
+								<div className="overview-settings dropdown-btn-class">
+									<Dropdown
+										overlay={menuTransactionHistory}
+										overlayClassName="custom-dropdown-class"
+									>
+										<div className="icon-class">
+											<SettingFilled />
+											<CaretDownFilled />
+										</div>
+									</Dropdown>
+								</div>
 							)}
 							{/* {currentDisplay === 'portfolio' && <Dropdown overlay={menuPortFolio} ><SettingFilled /></Dropdown>} */}
 
@@ -586,7 +621,10 @@ class AccountOverview extends React.Component {
 					)}
 
 					{currentDisplay === 'openOrders' && (
-						<AccountOrders {...this.props}>
+						<AccountOrders
+							{...this.props}
+							openOrderCheckbox={this.state.openOrderCheckbox}
+						>
 							<div className="total-value">
 								<span className="text">{totalValueText}</span>
 								<span className="value">{ordersValue}</span>
@@ -603,6 +641,7 @@ class AccountOverview extends React.Component {
 							limit={100}
 							showFilters={true}
 							dashboard
+							transactionHistoryCheckbox={this.state.transactionHistoryCheckbox}
 						/>
 					)}
 

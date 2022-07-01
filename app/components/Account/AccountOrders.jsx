@@ -316,6 +316,7 @@ class AccountOrders extends React.Component {
 						<Translate content="exchange.sell" />
 					</div>
 				),
+				isShow: this.props.openOrderCheckbox.includes('Buy / Sell'),
 				render: (dataItem) => {
 					const color = dataItem.isBid ? 'success' : 'danger';
 					return (
@@ -345,6 +346,7 @@ class AccountOrders extends React.Component {
 						<Translate content="showcases.htlc.to" />
 					</div>
 				),
+				isShow: this.props.openOrderCheckbox.includes('From / To'),
 				render: (dataItem) =>
 					!isSettle ? (
 						<AccountOrderRowDescription {...dataItem} />
@@ -372,6 +374,7 @@ class AccountOrders extends React.Component {
 			},
 			{
 				key: 'price',
+				isShow: this.props.openOrderCheckbox.includes('Price'),
 				title: areAssetsGrouped ? (
 					<div>
 						<Translate content="account.average_price" />
@@ -396,6 +399,7 @@ class AccountOrders extends React.Component {
 			},
 			{
 				key: 'marketPrice',
+				isShow: this.props.openOrderCheckbox.includes('Market Price'),
 				title: areAssetsGrouped ? (
 					<div>
 						<Translate content="exchange.price_market" />
@@ -412,6 +416,7 @@ class AccountOrders extends React.Component {
 			},
 			{
 				key: 'expiryDate',
+				isShow: this.props.openOrderCheckbox.includes('Expiry Date'),
 				title: (
 					<div>
 						<Translate content="account.expiry" />{' '}
@@ -426,6 +431,7 @@ class AccountOrders extends React.Component {
 			},
 			{
 				key: 'Cancel',
+				isShow: this.props.openOrderCheckbox.includes('Action'),
 				title: <Translate content="account.member.action" />,
 				render: (dataItem) => (
 					<Button
@@ -437,7 +443,7 @@ class AccountOrders extends React.Component {
 					</Button>
 				),
 			},
-		];
+		].filter((data) => data.isShow);
 	}
 
 	_renderOrdersTable() {

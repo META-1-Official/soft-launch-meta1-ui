@@ -414,7 +414,7 @@ class AccountPortfolioList extends React.Component {
 					dataIndex: 'asset',
 					align: 'left',
 					customizable: false,
-					isHidden: true,
+					isShow: true,
 					sorter: {
 						compare: this.sortFunctions.alphabetic,
 						multiple:
@@ -431,7 +431,7 @@ class AccountPortfolioList extends React.Component {
 					dataIndex: 'qty',
 					align: 'right',
 					customizable: false,
-					isHidden: this.props.portfolioCheckbox.includes('Qty'),
+					isShow: this.props.portfolioCheckbox.includes('Qty'),
 					sorter: {
 						compare: this.sortFunctions.qty,
 						multiple:
@@ -462,7 +462,9 @@ class AccountPortfolioList extends React.Component {
 						</span>
 					),
 					dataIndex: 'value',
-					isHidden: this.props.portfolioCheckbox.includes(preferredUnit),
+					isShow: this.props.portfolioCheckbox.includes(
+						`Value (${preferredUnit})`
+					),
 					align: 'right',
 					customizable: false,
 					sorter: {
@@ -484,7 +486,9 @@ class AccountPortfolioList extends React.Component {
 							<AssetName name={preferredUnit} noTip />)
 						</span>
 					),
-					isHidden: this.props.portfolioCheckbox.includes('Price'),
+					isShow: this.props.portfolioCheckbox.includes(
+						`Price (${preferredUnit})`
+					),
 					dataIndex: 'price',
 					align: 'right',
 					sorter: {
@@ -501,7 +505,7 @@ class AccountPortfolioList extends React.Component {
 				{
 					title: <Translate content="account.percent" />,
 					dataIndex: 'percent',
-					isHidden: this.props.portfolioCheckbox.includes('Percent'),
+					isShow: this.props.portfolioCheckbox.includes('Percent'),
 					align: 'right',
 					customizable: {
 						default: showAssetPercent,
@@ -515,7 +519,7 @@ class AccountPortfolioList extends React.Component {
 						<Translate content="account.trade" style={{whiteSpace: 'nowrap'}} />
 					),
 					dataIndex: 'trade',
-					isHidden: this.props.portfolioCheckbox.includes('Trade'),
+					isShow: this.props.portfolioCheckbox.includes('Trade'),
 					align: 'center',
 					render: (item) => {
 						return <span style={{whiteSpace: 'nowrap'}}>{item}</span>;
@@ -524,8 +528,7 @@ class AccountPortfolioList extends React.Component {
 				{
 					title: <Translate content="header.payments" />,
 					dataIndex: 'payments',
-					isHidden: true,
-					isHidden: this.props.portfolioCheckbox.includes('Payments'),
+					isShow: this.props.portfolioCheckbox.includes('Send'),
 					align: 'center',
 					render: (item) => {
 						return <span style={{whiteSpace: 'nowrap'}}>{item}</span>;
@@ -539,12 +542,12 @@ class AccountPortfolioList extends React.Component {
 						/>
 					),
 					dataIndex: 'deposit',
-					isHidden: this.props.portfolioCheckbox.includes('Deposit'),
+					isShow: this.props.portfolioCheckbox.includes('Deposit'),
 					align: 'center',
 					render: (item) => <span style={{whiteSpace: 'nowrap'}}>{item}</span>,
 				},
 			].filter((data) => {
-				if (data.isHidden) return data;
+				if (data.isShow) return data;
 			}),
 		});
 	}
