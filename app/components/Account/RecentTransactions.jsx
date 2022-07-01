@@ -310,19 +310,17 @@ class RecentTransactions extends React.Component {
 							<PendingBlock blockNumber={o.block_num} />
 						) : null}
 					</div>
-					<TrxHash
-						trx={
-							this.props.blocks
-								.toArray()
-								.filter((block) => block.id === o.block_num)[0]
-								?.transaction_merkle_root
-						}
-					></TrxHash>
-					{/*<div onClick={this._getTrxId.bind(this, o.block_num)}>*/}
-					{/*	{this.props.blocks.toArray().filter((block) => block.id === o.block_num)[0]}*/}
-					{/*	123*/}
-					{/*</div>*/}
 				</div>
+			),
+			transaction: (
+				<TrxHash
+					trx={
+						this.props.blocks
+							.toArray()
+							.filter((block) => block.id === o.block_num)[0]
+							?.transaction_merkle_root
+					}
+				/>
 			),
 			fee: <FormattedAsset amount={fee.amount} asset={fee.asset_id} />,
 			time: (
@@ -335,14 +333,6 @@ class RecentTransactions extends React.Component {
 				/>
 			),
 		};
-	}
-
-	_getTrxId(id) {
-		const [block] = this.props.blocks
-			.toArray()
-			.filter((block) => block.id === id);
-		console.log(block);
-		return block.transaction_merkle_root;
 	}
 
 	_getRowClassName(row) {
@@ -506,6 +496,20 @@ class RecentTransactions extends React.Component {
 											{item}
 										</span>
 									);
+								},
+							},
+							{
+								title: (
+									<div className="transaction-history-table-title">
+										<Translate
+											style={{whiteSpace: 'nowrap'}}
+											content="account.transactions.id"
+										/>
+									</div>
+								),
+								dataIndex: 'transaction',
+								render: (item) => {
+									return item;
 								},
 							},
 							!hideFee

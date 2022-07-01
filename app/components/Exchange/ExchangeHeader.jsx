@@ -336,7 +336,7 @@ export default class ExchangeHeader extends React.Component {
 									<Translate
 										component="div"
 										className="stat-text"
-										content="account.hour_24"
+										content="exchange.hour_24"
 									/>
 								</li>
 

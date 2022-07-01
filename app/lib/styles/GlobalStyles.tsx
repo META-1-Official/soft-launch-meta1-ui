@@ -326,10 +326,18 @@ const GlobalStyles = (theme: any) => css`
 	}
 	.ant-select-item-option-content {
 		color: ${theme.colors.inputTextColor};
-		&: hover{
-			background: ${theme.colors.black}  ;
+		&:hover{
+			background: ${theme.colors.black};
 		}
 	}
+
+  .ant-select-item-option-selected.customOption {
+    background: white !important;
+    & > .ant-select-item-option-content {
+      background: white !important
+    }
+  }
+  
 	.ant-select-disabled.ant-select:not(.ant-select-customize-input) .ant-select-selector {
 		background-color: ${theme.colors.dropdownBackgroundColor};
 		color: ${theme.colors.themeOpositeColor};
