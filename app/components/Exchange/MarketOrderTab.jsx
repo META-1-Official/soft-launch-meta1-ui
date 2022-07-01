@@ -332,7 +332,7 @@ const MarketOrderForm = (props) => {
 							color: isBid ? '#330000' : 'white',
 						}}
 					>
-						{isBid ? 'BUY' : 'SELL'}
+						{isBid ? 'BUY' : 'SELL'}&nbsp;{props.quoteAsset.get('symbol')}
 					</div>
 				</button>
 				<div style={{fontSize: 12, marginTop: 10}}>
