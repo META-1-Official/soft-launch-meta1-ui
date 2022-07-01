@@ -124,6 +124,14 @@ class AccountOverview extends React.Component {
 	}
 
 	componentWillReceiveProps(np) {
+		const currentDisplay = np.history.location.search.replace(
+			'?currentDisplay=',
+			''
+		);
+		if (currentDisplay != this.state.currentDisplay && currentDisplay != '') {
+			this.setState({currentDisplay});
+		}
+
 		if (np.account !== this.props.account) {
 			this._checkMarginStatus(np);
 		}

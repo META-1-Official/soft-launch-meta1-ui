@@ -72,7 +72,7 @@ const DepositModalContent = (props) => {
 		return (
 			<>
 				<div className="qr-wrapper">
-					<span>Depoist {assetType}</span>
+					<span>Deposit {assetType}</span>
 					<QRCode value={depositAddress} />
 				</div>
 				<div className="minimum-deposit">

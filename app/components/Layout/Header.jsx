@@ -321,9 +321,13 @@ class Header extends React.Component {
 		} else if (key === 'withdraw') {
 			this._showWithdraw(this, true);
 		} else if (key === 'send') {
-			this._showSend();
+			if (!this.props.locked) {
+				this._showSend();
+			}
 		} else if (key === 'deposit') {
-			this._showDeposit();
+			if (!this.props.locked) {
+				this._showDeposit();
+			}
 		} else if (key === 'advanced-trezor') {
 			window.open('https://beta-wallet.trezor.io/next/#/', '_blank');
 		} else if (key === 'advanced-ledger-nano') {
@@ -492,7 +496,11 @@ class Header extends React.Component {
 				<Menu.Item key="addContact" className="level-2">
 					<Text>Add Contact</Text>
 				</Menu.Item>
-				<Menu.Item key="send">
+				<Menu.Item
+					key="send"
+					style={this.props.locked ? {cursor: 'not-allowed'} : {}}
+					className={this.props.locked ? 'disable-li-text' : ''}
+				>
 					<Text>Send</Text>
 				</Menu.Item>
 				{/* <Menu.Item
@@ -518,7 +526,11 @@ class Header extends React.Component {
 				<Menu.Item key="withdraw">
 					<Text>Withdraw</Text>
 				</Menu.Item>
-				<Menu.Item key="deposit">
+				<Menu.Item
+					key="deposit"
+					style={this.props.locked ? {cursor: 'not-allowed'} : {}}
+					className={this.props.locked ? 'disable-li-text' : ''}
+				>
 					<Text>Deposit</Text>
 				</Menu.Item>
 				<Menu.SubMenu

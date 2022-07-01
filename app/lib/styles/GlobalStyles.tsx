@@ -156,6 +156,7 @@ const GlobalStyles = (theme: any) => css`
 	.ant-table-footer {
 		color: ${theme.colors.themeOpositeColor};  
     	background: ${theme.colors.tableColumnColor};
+		display: none;
 	}
 
 	.ant-table-placeholder {

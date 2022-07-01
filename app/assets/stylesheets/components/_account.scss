@@ -418,10 +418,6 @@ table.table.dashboard-table {
 				text-transform: uppercase;
 			}
 		}
-
-		.ant-table-footer {
-			display: none;
-		}
 	}
 
 	.customizable-column--selector {
@@ -701,17 +697,13 @@ div.account-overview {
 
 				.ant-table-thead {
 					.ant-table-cell {
-						span {
+						span:not(.anticon) {
 							text-transform: uppercase;
 							font-size: 14px;
 							color: #969ba6;
 							font-family: 'Poppins', sans-serif;
 						}
 					}
-				}
-
-				.ant-table-footer {
-					display: none;
 				}
 			}
 		}
@@ -723,7 +715,7 @@ div.account-overview {
 }
 
 .transaction-span {
-	font-family: 'Poppins';
+	font-family: 'Poppins' sans-serif;
 	font-style: normal;
 	font-weight: 400;
 	font-size: 12px;
@@ -756,6 +748,8 @@ div.account-overview {
 .transaction-history-table-title {
 	text-transform: uppercase;
 	padding-left: 11px;
+	color: #969ba6;
+	font-family: 'Poppins', sans-serif;
 }
 
 .info-class a {
@@ -857,16 +851,6 @@ div.tabs-container {
 .account-input-style-guide--account-status--scammer {
 	color: $alert-color;
 }
-
-/*
-.account-input-style-guide--label {
-}
-*/
-
-/*
-.account-input-style-guide {
-}
-*/
 
 // Open Orders page
 .open-orders {
@@ -974,37 +958,60 @@ div.tabs-container {
 		}
 	}
 	.page-title {
-		font-family: 'Poppins';
+		font-family: 'Poppins', sans-serif;
 		font-style: normal;
 		font-weight: 400;
 		font-size: 24px;
 		line-height: 36px;
 		color: #ffffff;
 	}
+
 	.header-selector {
 		margin-bottom: 20px;
+
+		.header-selector-body {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+
+			.filter-selector {
+				min-width: 160px;
+
+				.ant-select-selector {
+					height: 50px;
+					border-radius: 4px;
+					display: flex;
+					align-items: center;
+					font-size: 16px;
+					text-transform: capitalize;
+				}
+
+				.ant-select-arrow {
+					svg {
+						width: 15px;
+						height: 15px;
+
+						path {
+							fill: rgba(255, 255, 255, 0.5);
+						}
+					}
+				}
+			}
+		}
 	}
 
-	table {
-		border-collapse: collapse;
+	.ant-table {
+		background: black;
 
-		.pair {
-			div {
-				background-color: transparent !important;
-				border-width: 3px;
-				border-radius: 50%;
-				height: 45px;
-				width: 45px;
-				color: #fcab53;
-				padding-top: 14px;
-				padding-left: 5px;
-			}
+		.ant-table-container {
+			.ant-table-content {
+				border: 1px solid #1c1f27;
+				border-radius: 4px;
 
-			span {
-				background: none !important;
-				border: none !important;
-				margin-left: 10px;
-				vertical-align: middle;
+				.ant-table-thead {
+					height: 50px;
+					font-size: 14px;
+				}
 			}
 		}
 	}
@@ -1685,10 +1692,6 @@ div.account-permissions {
 
 				.ant-table-empty {
 					background: #0a0b0d;
-
-					.ant-table-footer {
-						display: none;
-					}
 				}
 			}
 		}
@@ -2002,10 +2005,6 @@ div.messages {
 							text-align: center !important;
 						}
 					}
-				}
-
-				.ant-table-footer {
-					display: none;
 				}
 			}
 		}

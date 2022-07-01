@@ -39,7 +39,7 @@ export const settingsAPIs = {
 	DEFAULT_WS_NODE: process.env.DEFAULT_WS_NODE,
 	WS_NODE_LIST: [
 		{
-			url: process.env.DEFAULT_WS_API,
+			url: process.env.DEFAULT_WS_NODE,
 			region: 'MAIA',
 			country: 'Maia',
 			location: 'Western Europe',
