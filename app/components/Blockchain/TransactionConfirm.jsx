@@ -24,9 +24,7 @@ class TransactionConfirm extends React.Component {
 		};
 
 		this.onCloseClick = this.onCloseClick.bind(this);
-
 		this.onConfirmClick = this.onConfirmClick.bind(this);
-
 		this.onKeyUp = this.onKeyUp.bind(this);
 	}
 
