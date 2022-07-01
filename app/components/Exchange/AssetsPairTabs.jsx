@@ -54,7 +54,7 @@ class AssetsPairTabs extends React.Component {
 			selectedResolution: '1h',
 			selectedAsset: 'ALL',
 			baseAssetSymbol: '',
-			rowsOnPage: '10',
+			rowsOnPage: '5',
 			marketBars: [],
 			watchPairs: ss.get('watch_pairs', '').split(', '),
 		};
@@ -264,8 +264,10 @@ class AssetsPairTabs extends React.Component {
 								fontSize: '12px',
 								color: '#979797',
 								textAlign: 'center',
-								marginLeft: '5px',
-								padingLeft: '5px',
+								paddingLeft: '10px',
+								marginLeft: '10px',
+								padingRight: '10px',
+								marginRight: '10px',
 								textAlign: 'left',
 							}}
 						>
@@ -276,8 +278,8 @@ class AssetsPairTabs extends React.Component {
 								fontSize: '12px',
 								color: '#979797',
 								textAlign: 'right',
-								padingLeft: '20px',
-								marginLeft: '20px',
+								padingLeft: '10px',
+								marginLeft: '10px',
 							}}
 						>
 							Change
@@ -405,9 +407,6 @@ class AssetsPairTabs extends React.Component {
 					);
 				},
 			},
-			// Commented this column to solve distortion on table on 100% zoom
-			// Change data moved to first column -> need to implement multisorting
-			/*
 			{
 				title: (
 					<div
@@ -447,7 +446,6 @@ class AssetsPairTabs extends React.Component {
 								paddingTop: '10px',
 								marginLeft: '-0px',
 								display: 'none',
-								width: '0px',
 							}}
 						>
 							{className === 'change-up' && (
@@ -490,7 +488,6 @@ class AssetsPairTabs extends React.Component {
 					);
 				},
 			},
-			*/
 			{
 				title: (
 					<div
@@ -499,10 +496,8 @@ class AssetsPairTabs extends React.Component {
 							color: '#979797',
 							textAlign: 'right',
 							minWidth: '50px',
-							marginLeft: '-15px',
-							paddingLeft: '-15px',
-							marginRight: '5px',
-							paddingRight: '5px',
+							marginLeft: '10px',
+							paddingLeft: '10px',
 						}}
 					>
 						Volume
@@ -533,11 +528,8 @@ class AssetsPairTabs extends React.Component {
 								className="price"
 								style={{
 									fontSize: '14px',
-									minWidth: '30px',
-									maxWidth: '50px!important',
+									minWidth: '50px',
 									textAlign: 'right',
-									paddingLeft: '-17px',
-									marginLeft: '-17px',
 									color: '#D0D0D0',
 								}}
 							>{`$${price}`}</div>
@@ -663,10 +655,26 @@ class AssetsPairTabs extends React.Component {
 		return _dataSource;
 	}
 
+	handleWindowChange(windowHeight) {
+		//DEBUG console.log("height: " + window.innerHeight);
+
+		let rows = this.state.rowsOnPage;
+		if (windowHeight >= 1050) {
+			rows = '11';
+		}
+		if (windowHeight >= 738 && windowHeight < 1050) {
+			rows = '8';
+		}
+		if (windowHeight < 737) {
+			rows = '5';
+		}
+
+		return rows;
+	}
+
 	render() {
 		const {account, assets} = this.props;
-		const {baseAssetSymbol, rowsOnPage, selectedAsset, isFetchingMarketInfo} =
-			this.state;
+		const {baseAssetSymbol, selectedAsset, isFetchingMarketInfo} = this.state;
 		const canChangeBaseAsset = isFetchingMarketInfo ? 'disabled' : '';
 
 		const assetOptions = assets.map((asset) => (
@@ -718,13 +726,13 @@ class AssetsPairTabs extends React.Component {
 				</div>
 				<div className="table">
 					<Table
-						style={{minWidth: '250px', width: '100%', marginTop: '16px'}}
+						style={{width: '100%', marginTop: '16px'}}
 						rowKey="name"
 						columns={columns}
 						dataSource={dataSource}
 						pagination={{
 							position: 'bottomCenter',
-							pageSize: Number(rowsOnPage),
+							pageSize: Number(this.handleWindowChange(window.innerHeight)),
 						}}
 					/>
 				</div>

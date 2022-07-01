@@ -72,6 +72,7 @@ class AccountOverview extends React.Component {
 				'Trade',
 				'Send',
 				'Deposit',
+				'Percent of Total Supply',
 			],
 			openOrderCheckbox: [
 				'Buy / Sell',
@@ -398,6 +399,7 @@ class AccountOverview extends React.Component {
 		const onNavButtonClick = (selectedDisplay) => {
 			this.setState({currentDisplay: selectedDisplay});
 		};
+		const showAssetPercent = settings.get('showAssetPercent', false);
 
 		const {currentDisplay} = this.state;
 		const CheckboxGroup = Checkbox.Group;
@@ -410,6 +412,9 @@ class AccountOverview extends React.Component {
 			'Trade',
 			'Deposit',
 		];
+		if (showAssetPercent) {
+			portfolioOption.splice(4, 0, 'Percent of Total Supply');
+		}
 		const openOrdersOption = [
 			'Buy / Sell',
 			'From / To',
