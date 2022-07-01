@@ -67,6 +67,7 @@ class AccountOverview extends React.Component {
 			portfolioCheckbox: [
 				'Qty',
 				`Price (${props.settings.get('unit')})`,
+				'24Hr',
 				`Value (${props.settings.get('unit')})`,
 				'Trade',
 				'Send',
@@ -402,6 +403,7 @@ class AccountOverview extends React.Component {
 		const CheckboxGroup = Checkbox.Group;
 		const portfolioOption = [
 			`Price (${this.props.settings.get('unit')})`,
+			'24Hr',
 			'Qty',
 			`Value (${this.props.settings.get('unit')})`,
 			'Send',

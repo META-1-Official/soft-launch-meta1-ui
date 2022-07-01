@@ -486,9 +486,9 @@ class AccountPortfolioList extends React.Component {
 							<AssetName name={preferredUnit} noTip />)
 						</span>
 					),
-					isShow: this.props.portfolioCheckbox.includes(
-						`Price (${preferredUnit})`
-					),
+					isShow:
+						this.props.portfolioCheckbox.includes(`Price (${preferredUnit})`) ||
+						this.props.portfolioCheckbox.includes('24Hr'),
 					dataIndex: 'price',
 					align: 'right',
 					sorter: {
@@ -751,17 +751,23 @@ class AccountPortfolioList extends React.Component {
 					) : null,
 				price: (
 					<div>
-						<EquivalentPrice
-							fromAsset={asset.get('id')}
-							pulsate={{reverse: true, fill: 'forwards'}}
-							hide_symbols
-						/>
-						<Market24HourChangeComponent
-							base={asset.get('id')}
-							quote={preferredUnit}
-							marketId={marketId}
-							hide_symbols
-						/>
+						{this.props.portfolioCheckbox.includes(
+							`Price (${preferredUnit})`
+						) && (
+							<EquivalentPrice
+								fromAsset={asset.get('id')}
+								pulsate={{reverse: true, fill: 'forwards'}}
+								hide_symbols
+							/>
+						)}
+						{this.props.portfolioCheckbox.includes('24Hr') && (
+							<Market24HourChangeComponent
+								base={asset.get('id')}
+								quote={preferredUnit}
+								marketId={marketId}
+								hide_symbols
+							/>
+						)}
 					</div>
 				),
 				hour24: (
