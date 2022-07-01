@@ -531,7 +531,7 @@
 		"buysell_formatter": "{asset} {direction}",
 		"call": "コール価格",
 		"cancel_order_select_all": "Select all orders",
-		"cancel_selected_orders": "Cancel selected order(s)",
+		"cancel_all_orders": "Cancel all orders",
 		"change": "変化",
 		"chart_error": "Chart already exist",
 		"chart_height": "Chart height (pixels)",

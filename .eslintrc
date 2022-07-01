@@ -9,6 +9,11 @@
 		"node": true,
 		"es6": true
 	},
+	settings: {
+	    react: {
+	        "version": "detect",
+	    },
+	},
 	"parserOptions": {
 		"ecmaVersion":  2018,
 		"sourceType":  "module",

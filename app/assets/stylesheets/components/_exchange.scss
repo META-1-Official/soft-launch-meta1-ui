@@ -1267,6 +1267,72 @@ form.hide-container {
 	}
 }
 
+.market-order-table-text-header {
+	text-transform: unset;
+	color: #ffc000;
+	border-bottom: none;
+	text-align: center;
+	font-size: 14px;
+}
+
+.market-order-table-action-header {
+	text-transform: unset;
+	color: #ff2929;
+	border-bottom: none;
+	text-align: center;
+	font-size: 14px;
+}
+
+.market-order-table-cancel-button {
+	width: 32px;
+	height: 32px;
+	background: #0a0b0d;
+	border: 1px solid #1c1f27;
+	border-radius: 16px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.market-order-table-container {
+	.ant-table-wrapper {
+		width: 100% !important;
+
+		.ant-table-thead tr > th {
+			background: #000 !important;
+			border-radius: 0px !important;
+		}
+		.ant-table-tbody {
+			.ant-table-cell {
+				padding-top: 0 !important;
+				padding-bottom: 0 !important;
+
+				div.td-content {
+					display: flex;
+					flex-direction: column;
+					justify-content: center;
+					align-items: center;
+					text-align: center;
+					height: 64px;
+				}
+
+				&:first-of-type {
+					padding-left: 0px !important;
+				}
+				&:last-child {
+					text-align: -webkit-center;
+					text-align: -moz-center;
+				}
+			}
+			.ant-table-row {
+				background: #15171b;
+				height: 64px;
+				border: 1px solid #1c1f27;
+			}
+		}
+	}
+}
+
 .vertical-panel {
 	.vp__header {
 		border-bottom: 1px solid white;

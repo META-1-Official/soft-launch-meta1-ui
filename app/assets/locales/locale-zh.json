@@ -531,7 +531,7 @@
 		"buysell_formatter": "{direction} {asset}",
 		"call": "强平触发价",
 		"cancel_order_select_all": "Select all orders",
-		"cancel_selected_orders": "撤销挂单(s)",
+		"cancel_all_orders": "撤销挂单",
 		"change": "24H涨跌",
 		"chart_error": "Chart already exist",
 		"chart_height": "图表高度 (pixels)",

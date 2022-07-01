@@ -2599,7 +2599,10 @@ class Exchange extends React.Component {
 
 					if (a == 'my_orders') {
 						groupTabs[panelTabs[a]].push(
-							<Tabs.TabPane tab="Open Orders" key="my_orders">
+							<Tabs.TabPane
+								tab={`Open Orders (${currentAccount.get('orders').size})`}
+								key="my_orders"
+							>
 								{myOpenOrders}
 							</Tabs.TabPane>
 						);
