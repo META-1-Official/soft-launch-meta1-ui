@@ -505,7 +505,9 @@ class AccountPortfolioList extends React.Component {
 				{
 					title: <Translate content="account.percent" />,
 					dataIndex: 'percent',
-					isShow: this.props.portfolioCheckbox.includes('Percent'),
+					isShow: this.props.portfolioCheckbox.includes(
+						'Percent of Total Supply'
+					),
 					align: 'right',
 					customizable: {
 						default: showAssetPercent,
