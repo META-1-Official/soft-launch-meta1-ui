@@ -561,6 +561,7 @@
 		"highest_bid": "매수 호가",
 		"history": "Market trades",
 		"horizontal": "수평시세",
+		"hour_24": "24hr Change",
 		"index": "Index",
 		"invalid_amount": "Invalid amount",
 		"invalid_price": "Invalid price",
