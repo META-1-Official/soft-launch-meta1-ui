@@ -217,7 +217,7 @@ class MarketsTable extends React.Component {
 				},
 			},
 			{
-				title: <Translate content="account.hour_24_short" />,
+				title: <Translate content="exchange.hour_24" />,
 				dataIndex: 'hour_24',
 				align: 'right',
 				sorter: this.sortFunctions.changeValue,
