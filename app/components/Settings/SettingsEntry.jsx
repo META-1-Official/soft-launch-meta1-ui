@@ -72,7 +72,7 @@ export default class SettingsEntry extends React.Component {
 					let value = counterpart.translate(translationKey);
 
 					return (
-						<Option key={entry} value={entry}>
+						<Option className={'customOption'} key={entry} value={entry}>
 							{value}
 						</Option>
 					);
@@ -87,7 +87,7 @@ export default class SettingsEntry extends React.Component {
 					let value = counterpart.translate(translationKey);
 
 					return (
-						<Option key={entry} value={entry}>
+						<Option className={'customOption'} key={entry} value={entry}>
 							{value}
 						</Option>
 					);
@@ -195,6 +195,7 @@ export default class SettingsEntry extends React.Component {
 						let key = entry.translate ? entry.translate : entry;
 						return (
 							<Option
+								className={'customOption'}
 								value={entry.translate ? entry.translate : entry}
 								key={key}
 							>
