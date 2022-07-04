@@ -2415,6 +2415,10 @@
 		"to": "to",
 		"transaction_confirmed": "Transaction confirmed",
 		"trxTypes": {
+			"amount": "Amount",
+			"date": "Date",
+			"time": "Time",
+			"name": "Username",
 			"account_create": "Create account",
 			"account_transfer": "Transfer Account",
 			"account_update": "Update account",
