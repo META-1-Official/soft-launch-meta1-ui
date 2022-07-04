@@ -209,6 +209,14 @@ class RecentTransactions extends React.Component {
 
 		// Filtering
 		let myCustomFilters = ['amount', 'date', 'time', 'name'];
+		const dynGlobalObject = ChainStore.getObject('2.1.0');
+		const lastIrreversibleBlockNum = dynGlobalObject.get(
+			'last_irreversible_block_num'
+		);
+		let current_account_id =
+			accountsList.length === 1 && accountsList[0]
+				? accountsList[0].get('id')
+				: null;
 		if (filterOp) {
 			if (myCustomFilters.includes(filterOp)) {
 				switch (filterOp) {
@@ -224,7 +232,15 @@ class RecentTransactions extends React.Component {
 						history = history.filter((a) => {
 							if (a.op[1].amount) {
 								//console.log("amount: " + a.op[1].amount.amount)
-								return a.op[1].amount.amount > 0;
+								//console.log("last block: " + lastIrreversibleBlockNum);
+								return (
+									a.op[1].amount.amount > 0 &&
+									a.block_num > lastIrreversibleBlockNum - 7 * 19090
+								);
+								// returns last week of data
+								// 19090 is avg txns per day on this blockchain
+								// Note: we can average this amount on each request of the data
+								//but it should not be changing a lot on dev -> but could on prod
 							}
 						});
 						break;
@@ -232,28 +248,29 @@ class RecentTransactions extends React.Component {
 						history = history.filter((a) => {
 							if (a.op[1].amount) {
 								//console.log("amount: " + a.op[1].amount.amount)
-								return a.op[1].amount.amount > 0;
+								return (
+									a.op[1].amount.amount > 0 &&
+									a.block_num > lastIrreversibleBlockNum - 3 * 19090
+								);
+								// Last 73 h of txns with amount greater than > 0
 							}
 						});
 						break;
 					case 'name':
-						history = history
-							.filter((a) => {
-								if (a.op[1].amount) {
-									//console.log("amount: " + a.op[1].amount.amount)
-									return a.op[1].amount.amount > 0;
-								}
-							})
-							.sort()
-							.reduce((obj, key) => {
-								obj[key] = history[key];
-								return obj;
-							}, {});
-						console.log('history & name: ' + JSON.stringify(history));
+						history = history.filter((a, b) => {
+							if (a.op[1].amount) {
+								//console.log("amount: " + a.op[1].amount.amount)
+								return (
+									a.op[1].amount.amount > 0 &&
+									a.op[1].from === current_account_id
+								);
+							}
+						});
+						//console.log('history & name: ' + JSON.stringify(history));
 						break;
 				}
 			} else {
-			/*
+				/*
 			if(filterOp === 'date'){
 				history = history.filter((a) => {
 					return a.op[0] > 0;
@@ -288,6 +305,8 @@ class RecentTransactions extends React.Component {
 		}
 
 		//Sorting
+		// Currently not needed
+		/*
 		if (filterOp === 'amount') {
 			//history = history.sort(amount);
 		}
@@ -301,8 +320,8 @@ class RecentTransactions extends React.Component {
 		if (filterOp === 'name') {
 			console.log('username return');
 		}
-
-		console.log('returned history: ' + JSON.stringify(history));
+		*/
+		//console.log('returned history: ' + JSON.stringify(history));
 		return history;
 	}
 
@@ -339,7 +358,7 @@ class RecentTransactions extends React.Component {
 		this.setState({
 			filter: value,
 		});
-		console.log('value: ' + value);
+		//console.log('value: ' + value);
 	}
 
 	getDataSource(o, current_account_id) {
