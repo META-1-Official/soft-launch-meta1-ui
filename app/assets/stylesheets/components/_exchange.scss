@@ -1305,36 +1305,40 @@ form.hide-container {
 	.ant-table-wrapper {
 		width: 100% !important;
 
-		.ant-table-thead tr > th {
-			background: #000 !important;
-			border-radius: 0px !important;
-		}
-		.ant-table-tbody {
-			.ant-table-cell {
-				padding-top: 0 !important;
-				padding-bottom: 0 !important;
+		table {
+			table-layout: fixed !important;
 
-				div.td-content {
-					display: flex;
-					flex-direction: column;
-					justify-content: center;
-					align-items: center;
-					text-align: center;
-					height: 64px;
-				}
-
-				&:first-of-type {
-					padding-left: 0px !important;
-				}
-				&:last-child {
-					text-align: -webkit-center;
-					text-align: -moz-center;
-				}
+			.ant-table-thead tr > th {
+				background: #000 !important;
+				border-radius: 0px !important;
 			}
-			.ant-table-row {
-				background: #15171b;
-				height: 64px;
-				border: 1px solid #1c1f27;
+			.ant-table-tbody {
+				.ant-table-cell {
+					padding-top: 0 !important;
+					padding-bottom: 0 !important;
+
+					div.td-content {
+						display: flex;
+						flex-direction: column;
+						justify-content: center;
+						align-items: center;
+						text-align: center;
+						height: 64px;
+					}
+
+					&:first-of-type {
+						padding-left: 0px !important;
+					}
+					&:last-child {
+						text-align: -webkit-center;
+						text-align: -moz-center;
+					}
+				}
+				.ant-table-row {
+					background: #15171b;
+					height: 64px;
+					border: 1px solid #1c1f27;
+				}
 			}
 		}
 	}
