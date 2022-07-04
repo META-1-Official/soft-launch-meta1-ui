@@ -398,6 +398,7 @@ class AccountOverview extends React.Component {
 
 		const onNavButtonClick = (selectedDisplay) => {
 			this.setState({currentDisplay: selectedDisplay});
+			this.props.history.replace(`?currentDisplay=${selectedDisplay}`);
 		};
 		const showAssetPercent = settings.get('showAssetPercent', false);
 
