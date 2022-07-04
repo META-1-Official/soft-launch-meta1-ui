@@ -195,42 +195,35 @@ class DataFeed {
 		onErrorCallback,
 		firstDataRequest
 	) {
+		if (!firstDataRequest) return;
+
 		from *= 1000;
 		to *= 1000;
-		let bars = this._getHistory();
-		this.latestBar = bars[bars.length - 1];
-		bars = bars.filter((a) => {
-			return a.time >= from && a.time <= to;
+
+		let newBucketSize = getBucketFromResolution(resolution);
+		MarketsActions.changeBucketSize(newBucketSize);
+
+		return MarketsActions.unSubscribeMarket(
+			symbolInfo.quoteAsset.get('id'),
+			symbolInfo.baseAsset.get('id')
+		).then(() => {
+			MarketsActions.subscribeMarket(
+				symbolInfo.baseAsset,
+				symbolInfo.quoteAsset,
+				newBucketSize
+			).then(() => {
+				let bars = this._getHistory();
+
+				bars = bars.filter((bar) => {
+					return bar.time >= from && bar.time <= to;
+				});
+
+				if (!bars.length) return onHistoryCallback(bars, {noData: true});
+
+				onHistoryCallback(bars);
+			});
 		});
 
-		if (this.interval !== resolution) {
-			if (!firstDataRequest) return;
-
-			let newBucketSize = getBucketFromResolution(resolution);
-			MarketsActions.changeBucketSize(newBucketSize);
-
-			return MarketsActions.unSubscribeMarket(
-				symbolInfo.quoteAsset.get('id'),
-				symbolInfo.baseAsset.get('id')
-			).then(() => {
-				MarketsActions.subscribeMarket(
-					symbolInfo.baseAsset,
-					symbolInfo.quoteAsset,
-					newBucketSize
-				).then(() => {
-					let bars = this._getHistory();
-					console.log('@1302 - ', bars);
-					this.latestBar = bars[bars.length - 1];
-					bars = bars.filter((a) => {
-						return a.time >= from && a.time <= to;
-					});
-					this.interval = resolution;
-					if (!bars.length) return onHistoryCallback(bars, {noData: true});
-					onHistoryCallback(bars);
-				});
-			});
-		}
-		this.interval = resolution;
 		if (!bars.length) return onHistoryCallback(bars, {noData: true});
 
 		onHistoryCallback(bars);
