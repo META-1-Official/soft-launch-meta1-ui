@@ -29,6 +29,7 @@ class SupplyPercentage extends React.Component {
 	render() {
 		let supply = parseInt(this.props.do.get('current_supply'), 10);
 		let percent = utils.format_number((this.props.amount / supply) * 100, 4);
+		this.props.setPercentValueHandler({[this.props.symbol]: percent});
 		return <span className={this.props.colorClass}>{percent}%</span>;
 	}
 }
@@ -44,6 +45,8 @@ class FormattedAsset extends React.Component {
 		hide_amount: PropTypes.bool,
 		asPercentage: PropTypes.bool,
 		assetInfo: PropTypes.node,
+		setPercentValueHandler: PropTypes.func,
+		symbol: PropTypes.string,
 	};
 
 	static defaultProps = {
@@ -103,6 +106,8 @@ class FormattedAsset extends React.Component {
 					amount={amount}
 					colorClass={colorClass}
 					do={asset.dynamic_asset_data_id}
+					setPercentValueHandler={this.props.setPercentValueHandler}
+					symbol={this.props.symbol}
 				/>
 			);
 		}

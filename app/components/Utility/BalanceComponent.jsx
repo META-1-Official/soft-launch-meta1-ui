@@ -15,10 +15,13 @@ class BalanceComponent extends React.Component {
 		balance: ChainTypes.ChainObject.isRequired,
 		assetInfo: PropTypes.node,
 		hide_asset: PropTypes.bool,
+		setPercentValueHandler: PropTypes.func,
+		symbol: PropTypes.string,
 	};
 
 	static defaultProps = {
 		hide_asset: false,
+		asPercentage: false,
 	};
 
 	render() {
@@ -29,16 +32,31 @@ class BalanceComponent extends React.Component {
 			amount = null;
 		}
 		let type = this.props.balance.get('asset_type');
-		return (
-			<FormattedAsset
-				amount={amount}
-				asset={type}
-				asPercentage={this.props.asPercentage}
-				assetInfo={this.props.assetInfo}
-				replace={this.props.replace}
-				hide_asset={this.props.hide_asset}
-			/>
-		);
+		if (this.props.asPercentage) {
+			return (
+				<FormattedAsset
+					amount={amount}
+					asset={type}
+					asPercentage={this.props.asPercentage}
+					assetInfo={this.props.assetInfo}
+					replace={this.props.replace}
+					hide_asset={this.props.hide_asset}
+					setPercentValueHandler={this.props.setPercentValueHandler}
+					symbol={this.props.symbol}
+				/>
+			);
+		} else if (!this.props.asPercentage) {
+			return (
+				<FormattedAsset
+					amount={amount}
+					asset={type}
+					asPercentage={this.props.asPercentage}
+					assetInfo={this.props.assetInfo}
+					replace={this.props.replace}
+					hide_asset={this.props.hide_asset}
+				/>
+			);
+		}
 	}
 }
 
