@@ -62,12 +62,14 @@ class AccountPortfolioList extends React.Component {
 			sortingColumns: {},
 			header: [],
 			sortType: 'single',
+			percentData: {},
 		};
 
 		this.qtyRefs = {};
 		this.priceRefs = {};
 		this.valueRefs = {};
 		this.changeRefs = {};
+		this.percentTotalSupplyRefs = {};
 		for (let key in this.sortFunctions) {
 			this.sortFunctions[key] = this.sortFunctions[key].bind(this);
 		}
@@ -84,6 +86,7 @@ class AccountPortfolioList extends React.Component {
 
 		this.showBorrowModal = this.showBorrowModal.bind(this);
 		this.hideBorrowModal = this.hideBorrowModal.bind(this);
+		this.setPercentValueHandler = this.setPercentValueHandler.bind(this);
 
 		this.showBurnModal = this.showBurnModal.bind(this);
 		this.hideBurnModal = this.hideBurnModal.bind(this);
@@ -129,7 +132,13 @@ class AccountPortfolioList extends React.Component {
 		 * this here and update the state to trigger a rerender
 		 */
 		if (!this.state.allRefsAssigned) {
-			let refKeys = ['qtyRefs', 'priceRefs', 'valueRefs', 'changeRefs'];
+			let refKeys = [
+				'qtyRefs',
+				'priceRefs',
+				'valueRefs',
+				'changeRefs',
+				'percentTotalSupplyRefs',
+			];
 			const allRefsAssigned = refKeys.reduce((a, b) => {
 				if (a === undefined) return !!Object.keys(this[b]).length;
 				return !!Object.keys(this[b]).length && a;
@@ -282,6 +291,19 @@ class AccountPortfolioList extends React.Component {
 				return this.sortFunctions.alphabetic(a, b);
 			}
 		},
+		percentTotalSupply: function (a, b) {
+			let aValue = this.percentTotalSupplyRefs[a.key];
+			let bValue = this.percentTotalSupplyRefs[b.key];
+			if (aValue && bValue) {
+				return bValue - aValue;
+			} else if (!aValue && bValue) {
+				return 1;
+			} else if (aValue && !bValue) {
+				return -1;
+			} else {
+				return this.sortFunctions.alphabetic(a, b);
+			}
+		},
 		changeValue: function (a, b) {
 			let aValue = this.changeRefs[a.key];
 			let bValue = this.changeRefs[b.key];
@@ -354,9 +376,15 @@ class AccountPortfolioList extends React.Component {
 		);
 	}
 
-	componentDidUpdate(prev) {
+	componentDidUpdate(prev, prevState) {
 		if (prev.portfolioCheckbox.length !== this.props.portfolioCheckbox.length) {
 			this.getHeader();
+		}
+		if (
+			Object.keys(prevState.percentData).length !==
+			Object.keys(this.state.percentData).length
+		) {
+			this.percentTotalSupplyRefs = {...this.state.percentData};
 		}
 	}
 
@@ -508,6 +536,13 @@ class AccountPortfolioList extends React.Component {
 					isShow: this.props.portfolioCheckbox.includes(
 						'Percent of Total Supply'
 					),
+					sorter: {
+						compare: this.sortFunctions.percentTotalSupply,
+						multiple:
+							sortType === 'multiple'
+								? Object.keys(sortingColumns).indexOf('percent') + 1
+								: false,
+					},
 					align: 'right',
 					customizable: {
 						default: showAssetPercent,
@@ -551,6 +586,11 @@ class AccountPortfolioList extends React.Component {
 			].filter((data) => {
 				if (data.isShow) return data;
 			}),
+		});
+	}
+	setPercentValueHandler(value) {
+		this.setState((prev) => {
+			return {...prev, percentData: {...prev.percentData, ...value}};
 		});
 	}
 
@@ -781,7 +821,12 @@ class AccountPortfolioList extends React.Component {
 					/>
 				),
 				percent: hasBalance ? (
-					<BalanceComponent balance={balance} asPercentage={true} />
+					<BalanceComponent
+						balance={balance}
+						asPercentage={true}
+						setPercentValueHandler={this.setPercentValueHandler}
+						symbol={asset.get('symbol')}
+					/>
 				) : null,
 				trade: directMarketLink,
 				payments: transferLink,
