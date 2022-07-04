@@ -407,6 +407,8 @@ class AssetsPairTabs extends React.Component {
 					);
 				},
 			},
+			/* These lines are commented to solve layout issues with 
+			// the left side panel Pair Change and Price
 			{
 				title: (
 					<div
@@ -488,6 +490,7 @@ class AssetsPairTabs extends React.Component {
 					);
 				},
 			},
+			*/
 			{
 				title: (
 					<div
@@ -496,11 +499,11 @@ class AssetsPairTabs extends React.Component {
 							color: '#979797',
 							textAlign: 'right',
 							minWidth: '50px',
-							marginLeft: '10px',
-							paddingLeft: '10px',
+							marginLeft: '0px',
+							paddingLeft: '0px',
 						}}
 					>
-						Volume
+						Price
 					</div>
 				),
 				colSpan: 2,
@@ -716,25 +719,30 @@ class AssetsPairTabs extends React.Component {
 					</div>
 					{toggleBoxes}
 				</div>
-				<div className="filter">
-					<SearchInput
-						placeholder={'Search'}
-						value={this.state.searchTerm}
-						style={{width: '30%'}}
-						onChange={this._onSearchChange.bind(this)}
-					/>
+				<div className="asset-select">
+					<div className="filter">
+						<SearchInput
+							placeholder={'Search'}
+							value={this.state.searchTerm}
+							style={{width: '30%'}}
+							onChange={this._onSearchChange.bind(this)}
+						/>
+					</div>
 				</div>
-				<div className="table">
-					<Table
-						style={{width: '100%', marginTop: '16px'}}
-						rowKey="name"
-						columns={columns}
-						dataSource={dataSource}
-						pagination={{
-							position: 'bottomCenter',
-							pageSize: Number(this.handleWindowChange(window.innerHeight)),
-						}}
-					/>
+				<div className="asset-select">
+					<div className="table">
+						<Table
+							style={{width: '100%', marginTop: '16px'}}
+							rowKey="name"
+							columns={columns}
+							dataSource={dataSource}
+							scroll={{x: 150}}
+							pagination={{
+								position: 'bottomCenter',
+								pageSize: Number(this.handleWindowChange(window.innerHeight)),
+							}}
+						/>
+					</div>
 				</div>
 			</>
 		);
