@@ -508,6 +508,7 @@ class RecentTransactions extends React.Component {
 									</div>
 								),
 								dataIndex: 'transaction',
+								isShow: true,
 								render: (item) => {
 									return item;
 								},

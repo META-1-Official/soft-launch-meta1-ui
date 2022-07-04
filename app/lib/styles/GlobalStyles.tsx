@@ -331,7 +331,7 @@ const GlobalStyles = (theme: any) => css`
 		}
 	}
 
-  .ant-select-item-option-selected.customOption {
+  .ant-select-item-option-selected.customOption, .ant-select-item-option-active.customOption  {
     background: white !important;
     & > .ant-select-item-option-content {
       background: white !important
