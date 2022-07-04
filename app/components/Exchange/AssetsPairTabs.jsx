@@ -54,7 +54,7 @@ class AssetsPairTabs extends React.Component {
 			selectedResolution: '1h',
 			selectedAsset: 'ALL',
 			baseAssetSymbol: '',
-			rowsOnPage: '10',
+			rowsOnPage: '5',
 			marketBars: [],
 			watchPairs: ss.get('watch_pairs', '').split(', '),
 		};
@@ -407,6 +407,8 @@ class AssetsPairTabs extends React.Component {
 					);
 				},
 			},
+			/* These lines are commented to solve layout issues with 
+			// the left side panel Pair Change and Price
 			{
 				title: (
 					<div
@@ -488,6 +490,7 @@ class AssetsPairTabs extends React.Component {
 					);
 				},
 			},
+			*/
 			{
 				title: (
 					<div
@@ -496,11 +499,11 @@ class AssetsPairTabs extends React.Component {
 							color: '#979797',
 							textAlign: 'right',
 							minWidth: '50px',
-							marginLeft: '10px',
-							paddingLeft: '10px',
+							marginLeft: '0px',
+							paddingLeft: '0px',
 						}}
 					>
-						Volume
+						Price
 					</div>
 				),
 				colSpan: 2,
@@ -655,10 +658,26 @@ class AssetsPairTabs extends React.Component {
 		return _dataSource;
 	}
 
+	handleWindowChange(windowHeight) {
+		//DEBUG console.log("height: " + window.innerHeight);
+
+		let rows = this.state.rowsOnPage;
+		if (windowHeight >= 1050) {
+			rows = '11';
+		}
+		if (windowHeight >= 738 && windowHeight < 1050) {
+			rows = '8';
+		}
+		if (windowHeight < 737) {
+			rows = '5';
+		}
+
+		return rows;
+	}
+
 	render() {
 		const {account, assets} = this.props;
-		const {baseAssetSymbol, rowsOnPage, selectedAsset, isFetchingMarketInfo} =
-			this.state;
+		const {baseAssetSymbol, selectedAsset, isFetchingMarketInfo} = this.state;
 		const canChangeBaseAsset = isFetchingMarketInfo ? 'disabled' : '';
 
 		const assetOptions = assets.map((asset) => (
@@ -700,25 +719,30 @@ class AssetsPairTabs extends React.Component {
 					</div>
 					{toggleBoxes}
 				</div>
-				<div className="filter">
-					<SearchInput
-						placeholder={'Search'}
-						value={this.state.searchTerm}
-						style={{width: '30%'}}
-						onChange={this._onSearchChange.bind(this)}
-					/>
+				<div className="asset-select">
+					<div className="filter">
+						<SearchInput
+							placeholder={'Search'}
+							value={this.state.searchTerm}
+							style={{width: '30%'}}
+							onChange={this._onSearchChange.bind(this)}
+						/>
+					</div>
 				</div>
-				<div className="table">
-					<Table
-						style={{width: '100%', marginTop: '16px'}}
-						rowKey="name"
-						columns={columns}
-						dataSource={dataSource}
-						pagination={{
-							position: 'bottomCenter',
-							pageSize: Number(rowsOnPage),
-						}}
-					/>
+				<div className="asset-select">
+					<div className="table">
+						<Table
+							style={{width: '100%', marginTop: '16px'}}
+							rowKey="name"
+							columns={columns}
+							dataSource={dataSource}
+							scroll={{x: 150}}
+							pagination={{
+								position: 'bottomCenter',
+								pageSize: Number(this.handleWindowChange(window.innerHeight)),
+							}}
+						/>
+					</div>
 				</div>
 			</>
 		);

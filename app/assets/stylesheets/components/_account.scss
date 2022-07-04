@@ -514,6 +514,7 @@ div.header-selector > div.new-worker-button {
 
 // Portfolio page
 div.account-overview {
+	background-color: #0a0b0d !important;
 	.tab-controller {
 		display: flex;
 		width: 100%;
@@ -571,6 +572,21 @@ div.account-overview {
 					}
 				}
 			}
+			.icon-class span.anticon.anticon-setting {
+				margin-right: 7px;
+				color: #fff;
+				width: 18px;
+				height: 18px;
+			}
+		}
+		.dropdown-btn-class {
+			width: 72px;
+			height: 44px;
+			background: #000000;
+			border-radius: 4px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
 		}
 	}
 
@@ -2044,5 +2060,79 @@ div.account-notification {
 				margin-bottom: 24px;
 			}
 		}
+	}
+}
+.transactions-history-font-class {
+	font-family: 'Poppins' sans-serif;
+}
+
+.custom-dropdown-class {
+	min-width: 200px !important;
+	padding: 0;
+	position: absolute !important;
+	left: auto !important;
+	right: 45px;
+	top: 166px !important;
+	background-color: #15171b;
+	.ant-checkbox-group-item {
+		display: block;
+		margin-right: 0;
+	}
+	label.ant-checkbox-wrapper {
+		display: flex;
+		margin: 0 0 15px 0;
+		// color: #ffc000;
+		color: #fff;
+		align-items: center;
+	}
+	.ant-checkbox-wrapper-checked {
+		color: #ffc000 !important;
+	}
+	.ant-checkbox-checked .ant-checkbox-inner {
+		background-color: #ffc000;
+		border-color: #ffc000;
+		width: 24px;
+		height: 24px;
+	}
+	.portfolio-checkbox-class h3 {
+		background: #ffc900;
+		color: #000 !important;
+		font-size: 20px;
+		text-align: left;
+		margin: 0;
+		padding: 8px 15px;
+		border-top-left-radius: 6px;
+		border-top-right-radius: 6px;
+	}
+	.ant-checkbox-group {
+		padding: 15px;
+	}
+
+	.portfolio-checkbox-class span.anticon.anticon-caret-up {
+		position: absolute;
+		top: -13px;
+		right: 6px;
+		color: #ffc900;
+		font-size: 18px;
+	}
+	.ant-checkbox-inner {
+		width: 24px;
+		height: 24px;
+	}
+	input.ant-checkbox-input {
+		width: 24px;
+		height: 24px;
+	}
+	.ant-checkbox {
+		top: -2px;
+	}
+	.ant-checkbox-inner::after {
+		top: 47%;
+		left: 30.5%;
+	}
+	.ant-checkbox-checked .ant-checkbox-inner::after {
+		border: 2px solid #000;
+		border-top: 0;
+		border-left: 0;
 	}
 }

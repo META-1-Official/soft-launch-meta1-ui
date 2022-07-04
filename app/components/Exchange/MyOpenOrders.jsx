@@ -4,105 +4,12 @@ import Ps from 'perfect-scrollbar';
 import OpenSettleOrders from './OpenSettleOrders';
 import MarketsActions from 'actions/MarketsActions';
 import Translate from 'react-translate-component';
-import TransitionWrapper from '../Utility/TransitionWrapper';
 import SettingsActions from 'actions/SettingsActions';
 import {ChainStore} from 'meta1-vision-js';
 import {LimitOrder, CallOrder} from 'common/MarketClasses';
 import ReactTooltip from 'react-tooltip';
-import {Button, Tooltip, Checkbox} from 'antd';
 import {MarketsOrderView} from './View/MarketOrdersView';
-
-import counterpart from 'counterpart';
 import utils from 'common/utils';
-import PriceText from '../Utility/PriceText';
-
-function MarketOrdersRowView({order, selected, base, quote, onCheckCancel}) {
-	const isBid = order.isBid();
-	const isCall = order.isCall();
-	const tdClass = isCall
-		? 'orderHistoryCall'
-		: isBid
-		? 'orderHistoryBid'
-		: 'orderHistoryAsk';
-
-	return (
-		<tr className={tdClass} key={order.id}>
-			<td className="text-center" style={{width: '6%'}}>
-				{isCall ? null : (
-					<Checkbox
-						className="orderCancel"
-						checked={selected}
-						onChange={onCheckCancel}
-					/>
-				)}
-			</td>
-			<td className={tdClass} style={{paddingLeft: 10}}>
-				<PriceText price={order.getPrice()} base={base} quote={quote} />
-			</td>
-			<td>
-				{utils.format_number(
-					order[!isBid ? 'amountForSale' : 'amountToReceive']().getAmount({
-						real: true,
-					}),
-					quote.get('precision')
-				)}{' '}
-			</td>
-			<td>
-				{utils.format_number(
-					order[!isBid ? 'amountToReceive' : 'amountForSale']().getAmount({
-						real: true,
-					}),
-					base.get('precision')
-				)}{' '}
-			</td>
-			<td>
-				<Tooltip title={order.expiration.toLocaleString()}>
-					<div
-						style={{
-							textAlign: 'right',
-							whiteSpace: 'nowrap',
-						}}
-					>
-						{isCall
-							? null
-							: counterpart.localize(new Date(order.expiration), {
-									type: 'date',
-									format: 'short_custom',
-							  })}
-					</div>
-				</Tooltip>
-			</td>
-		</tr>
-	);
-}
-
-class MarketOrdersRow extends React.Component {
-	shouldComponentUpdate(nextProps) {
-		return (
-			nextProps.order.for_sale !== this.props.order.for_sale ||
-			nextProps.order.id !== this.props.order.id ||
-			nextProps.quote !== this.props.quote ||
-			nextProps.base !== this.props.base ||
-			nextProps.order.market_base !== this.props.order.market_base ||
-			nextProps.selected !== this.props.selected
-		);
-	}
-
-	render() {
-		let {base, quote, order, selected} = this.props;
-
-		return (
-			<MarketOrdersRowView
-				key={order.id}
-				order={order}
-				selected={selected}
-				base={base}
-				quote={quote}
-				onCheckCancel={this.props.onCheckCancel.bind(this)}
-			/>
-		);
-	}
-}
 
 class MarketOrders extends React.Component {
 	constructor(props) {
@@ -129,7 +36,6 @@ class MarketOrders extends React.Component {
 			nextProps.settleOrders !== this.props.settleOrders
 		);
 	}
-
 	componentDidMount() {
 		if (!this.props.hideScrollbars) {
 			this.updateContainer(1);
@@ -222,66 +128,26 @@ class MarketOrders extends React.Component {
 		this.setState({
 			activeTab: tab,
 		});
-
-		// Ensure that focus goes back to top of scrollable container when tab is changed
 		this.updateContainer(3);
-
 		setTimeout(ReactTooltip.rebuild, 1000);
 	}
 
-	onCheckCancel(orderId, evt) {
-		let {selectedOrders} = this.state;
-		let checked = evt.target.checked;
-
-		if (checked) {
-			this.setState({selectedOrders: selectedOrders.concat([orderId])});
-		} else {
-			let index = selectedOrders.indexOf(orderId);
-
-			if (index > -1) {
-				this.setState({
-					selectedOrders: selectedOrders
-						.slice(0, index)
-						.concat(selectedOrders.slice(index + 1)),
-				});
-			}
-		}
-	}
-
-	cancelSelected() {
+	cancelOrders() {
 		this._cancelLimitOrders.call(this);
-	}
-
-	resetSelected() {
-		this.setState({selectedOrders: []});
-	}
-
-	onCancelToggle(evt) {
-		const orders = this._getOrders();
-		let selectedOrders = [];
-
-		orders.forEach((order) => {
-			selectedOrders.push(order.id);
-		});
-
-		if (evt.target.checked) {
-			this.setState({selectedOrders: selectedOrders});
-		} else {
-			this.resetSelected();
-		}
 	}
 
 	_cancelLimitOrders() {
 		MarketsActions.cancelLimitOrders(
 			this.props.currentAccount.get('id'),
-			this.state.selectedOrders
-		)
-			.then(() => {
-				this.resetSelected();
-			})
-			.catch((err) => {
-				console.log('cancel orders error:', err);
-			});
+			this._getOrders().map((order) => order.id)
+		);
+	}
+
+	cancelOrder(orderId) {
+		MarketsActions.cancelLimitOrder(
+			this.props.currentAccount.get('id'),
+			orderId
+		);
 	}
 
 	_getOrders() {
@@ -343,7 +209,7 @@ class MarketOrders extends React.Component {
 
 	render() {
 		let {base, quote, quoteSymbol, baseSymbol, settleOrders} = this.props;
-		let {activeTab, showAll, rowCount, selectedOrders} = this.state;
+		let {activeTab, showAll, rowCount} = this.state;
 
 		if (!base || !quote) return null;
 
@@ -351,25 +217,12 @@ class MarketOrders extends React.Component {
 		let footerContainer;
 
 		/* Users Open Orders Tab (default) */
-		let totalRows = 0;
+		let rows = [];
+		// let totalRows = 0;
 
 		// User Orders
 		if (!activeTab || activeTab == 'my_orders') {
 			const orders = this._getOrders();
-			let emptyRow = (
-				<tr>
-					<td
-						className="centric-items"
-						style={{
-							lineHeight: 4,
-							fontStyle: 'italic',
-						}}
-						colSpan="5"
-					>
-						<Translate content="account.no_orders" />
-					</td>
-				</tr>
-			);
 
 			let bids = orders
 				.filter((a) => {
@@ -377,24 +230,6 @@ class MarketOrders extends React.Component {
 				})
 				.sort((a, b) => {
 					return b.getPrice() - a.getPrice();
-				})
-				.map((order) => {
-					let price = order.getPrice();
-					return (
-						<MarketOrdersRow
-							price={price}
-							key={order.id}
-							order={order}
-							base={base}
-							quote={quote}
-							selected={
-								this.state.selectedOrders.length > 0 &&
-								this.state.selectedOrders.includes(order.id)
-							}
-							onCancel={this.props.onCancel.bind(this, order.id)}
-							onCheckCancel={this.onCheckCancel.bind(this, order.id)}
-						/>
-					);
 				});
 
 			let asks = orders
@@ -403,45 +238,50 @@ class MarketOrders extends React.Component {
 				})
 				.sort((a, b) => {
 					return a.getPrice() - b.getPrice();
-				})
-				.map((order) => {
-					let price = order.getPrice();
-					return (
-						<MarketOrdersRow
-							price={price}
-							key={order.id}
-							order={order}
-							base={base}
-							quote={quote}
-							selected={
-								this.state.selectedOrders.length > 0 &&
-								this.state.selectedOrders.includes(order.id)
-							}
-							onCancel={this.props.onCancel.bind(this, order.id)}
-							onCheckCancel={this.onCheckCancel.bind(this, order.id)}
-						/>
-					);
 				});
-
-			let rows = [];
-
-			if (asks.length) {
-				rows = rows.concat(asks);
-			}
 
 			if (bids.length) {
 				rows = rows.concat(bids);
 			}
 
-			rows.sort((a, b) => {
-				return a.props.price - b.props.price;
-			});
-
-			totalRows = rows.length;
-
-			if (totalRows > 0 && !showAll) {
-				rows.splice(rowCount, rows.length);
+			if (asks.length) {
+				rows = rows.concat(asks);
 			}
+
+			rows = rows.map((order) => {
+				const price = order.getPrice();
+				const isBid = order.isBid();
+
+				const payAmount = utils.format_number(
+					order[!isBid ? 'amountForSale' : 'amountToReceive']().getAmount({
+						real: true,
+					}),
+					quote.get('precision')
+				);
+				const receiveAmount = utils.format_number(
+					order[!isBid ? 'amountToReceive' : 'amountForSale']().getAmount({
+						real: true,
+					}),
+					base.get('precision')
+				);
+
+				const total = payAmount * price;
+
+				return {
+					orderId: order.id,
+					pair: {
+						baseSymbol: base?._root?.entries[1][1],
+						quoteSymbol: quote?._root?.entries[1][1],
+						isBid: isBid,
+					},
+					amount: {
+						payAmount,
+						receiveAmount,
+					},
+					price,
+					total,
+				};
+			});
 
 			let cancelOrderButton = (
 				<div
@@ -458,7 +298,7 @@ class MarketOrders extends React.Component {
 						marginBottom: '38px',
 						cursor: 'pointer',
 					}}
-					onClick={this.cancelSelected.bind(this)}
+					onClick={this.cancelOrders.bind(this)}
 				>
 					<div
 						style={{
@@ -468,75 +308,44 @@ class MarketOrders extends React.Component {
 							color: 'white',
 						}}
 					>
-						<Translate content="exchange.cancel_selected_orders" />
+						<Translate content="exchange.cancel_all_orders" />
 					</div>
 				</div>
 			);
 
-			contentContainer = (
-				<TransitionWrapper
-					ref="contentTransition"
-					component="tbody"
-					transitionName="newrow"
-				>
-					{rows.length ? rows : emptyRow}
-				</TransitionWrapper>
-			);
-
-			footerContainer =
-				totalRows > 11 ? (
-					<React.Fragment>
-						<div className="orderbook-showall">
-							<a onClick={this._onSetShowAll.bind(this)}>
-								<Translate
-									content={
-										showAll ? 'exchange.hide' : 'exchange.show_all_orders'
-									}
-									rowcount={totalRows}
-								/>
-							</a>
-						</div>
-						{selectedOrders.length > 0 ? cancelOrderButton : null}
-					</React.Fragment>
-				) : selectedOrders.length > 0 ? (
-					cancelOrderButton
-				) : null;
+			footerContainer = cancelOrderButton;
 		}
 
 		// Open Settle Orders
-		if (activeTab && activeTab == 'open_settlement') {
-			totalRows = settleOrders.length;
+		// if (activeTab && activeTab == 'open_settlement') {
+		// 	totalRows = settleOrders.length;
 
-			if (totalRows > 0 && !showAll) {
-				settleOrders.splice(rowCount, settleOrders.length);
-			}
+		// 	if (totalRows > 0 && !showAll) {
+		// 		settleOrders.splice(rowCount, settleOrders.length);
+		// 	}
 
-			contentContainer = (
-				<OpenSettleOrders
-					key="settle_orders"
-					orders={settleOrders}
-					base={base}
-					quote={quote}
-					baseSymbol={baseSymbol}
-					quoteSymbol={quoteSymbol}
-				/>
-			);
+		// 	contentContainer = (
+		// 		<OpenSettleOrders
+		// 			key="settle_orders"
+		// 			orders={settleOrders}
+		// 			base={base}
+		// 			quote={quote}
+		// 			baseSymbol={baseSymbol}
+		// 			quoteSymbol={quoteSymbol}
+		// 		/>
+		// 	);
 
-			footerContainer = totalRows > 11 && (
-				<div className="orderbook-showall">
-					<a onClick={this._onSetShowAll.bind(this)}>
-						<Translate
-							content={showAll ? 'exchange.hide' : 'exchange.show_all_orders'}
-							rowcount={totalRows}
-						/>
-					</a>
-				</div>
-			);
-		}
-
-		let isSelected =
-			this.state.selectedOrders.length > 0 &&
-			this.state.selectedOrders.length == totalRows;
+		// 	footerContainer = totalRows > 11 && (
+		// 		<div className="orderbook-showall">
+		// 			<a onClick={this._onSetShowAll.bind(this)}>
+		// 				<Translate
+		// 					content={showAll ? 'exchange.hide' : 'exchange.show_all_orders'}
+		// 					rowcount={totalRows}
+		// 				/>
+		// 			</a>
+		// 		</div>
+		// 	);
+		// }
 
 		return (
 			<MarketsOrderView
@@ -549,7 +358,6 @@ class MarketOrders extends React.Component {
 				headerStyle={this.props.headerStyle}
 				// Bools
 				noHeader={this.props.noHeader}
-				isSelected={isSelected}
 				tinyScreen={this.props.tinyScreen}
 				// Strings
 				activeTab={activeTab}
@@ -558,8 +366,9 @@ class MarketOrders extends React.Component {
 				// Containers
 				contentContainer={contentContainer}
 				footerContainer={footerContainer}
+				data={rows}
 				// Functions
-				onCancelToggle={this.onCancelToggle.bind(this)}
+				cancelOrder={this.cancelOrder.bind(this)}
 			/>
 		);
 	}

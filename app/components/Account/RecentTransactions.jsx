@@ -176,6 +176,12 @@ class RecentTransactions extends React.Component {
 		if (this.state.esNode !== nextState.esNode) return true;
 		if (this.state.esNodeCustom !== nextState.esNodeCustom) return true;
 		if (this.state.visibleId !== nextState.visibleId) return true;
+		if (
+			this.props.transactionHistoryCheckbox.length !==
+			nextProps.transactionHistoryCheckbox.length
+		) {
+			return true;
+		}
 		return false;
 	}
 
@@ -304,19 +310,17 @@ class RecentTransactions extends React.Component {
 							<PendingBlock blockNumber={o.block_num} />
 						) : null}
 					</div>
-					<TrxHash
-						trx={
-							this.props.blocks
-								.toArray()
-								.filter((block) => block.id === o.block_num)[0]
-								?.transaction_merkle_root
-						}
-					></TrxHash>
-					{/*<div onClick={this._getTrxId.bind(this, o.block_num)}>*/}
-					{/*	{this.props.blocks.toArray().filter((block) => block.id === o.block_num)[0]}*/}
-					{/*	123*/}
-					{/*</div>*/}
 				</div>
+			),
+			transaction: (
+				<TrxHash
+					trx={
+						this.props.blocks
+							.toArray()
+							.filter((block) => block.id === o.block_num)[0]
+							?.transaction_merkle_root
+					}
+				/>
 			),
 			fee: <FormattedAsset amount={fee.amount} asset={fee.asset_id} />,
 			time: (
@@ -329,14 +333,6 @@ class RecentTransactions extends React.Component {
 				/>
 			),
 		};
-	}
-
-	_getTrxId(id) {
-		const [block] = this.props.blocks
-			.toArray()
-			.filter((block) => block.id === id);
-		console.log(block);
-		return block.transaction_merkle_root;
 	}
 
 	_getRowClassName(row) {
@@ -455,6 +451,8 @@ class RecentTransactions extends React.Component {
 										<Translate content="account.user_issued_assets.operation" />
 									</div>
 								),
+								isShow:
+									this.props.transactionHistoryCheckbox?.includes('Operation'),
 								dataIndex: 'pairData',
 								align: 'left',
 								render: (item) => {
@@ -485,6 +483,7 @@ class RecentTransactions extends React.Component {
 										<Translate content="account.transactions.info" />
 									</div>
 								),
+								isShow: this.props.transactionHistoryCheckbox?.includes('Info'),
 								dataIndex: 'info',
 								align: 'left',
 								render: (item) => {
@@ -499,6 +498,20 @@ class RecentTransactions extends React.Component {
 									);
 								},
 							},
+							{
+								title: (
+									<div className="transaction-history-table-title">
+										<Translate
+											style={{whiteSpace: 'nowrap'}}
+											content="account.transactions.id"
+										/>
+									</div>
+								),
+								dataIndex: 'transaction',
+								render: (item) => {
+									return item;
+								},
+							},
 							!hideFee
 								? {
 										title: (
@@ -508,6 +521,8 @@ class RecentTransactions extends React.Component {
 										),
 										dataIndex: 'fee',
 										align: 'left',
+										isShow:
+											this.props.transactionHistoryCheckbox?.includes('Fee'),
 										render: (item) => {
 											return (
 												<span
@@ -530,12 +545,15 @@ class RecentTransactions extends React.Component {
 										/>
 									</div>
 								),
+								isShow: this.props.transactionHistoryCheckbox?.includes('Time'),
 								dataIndex: 'time',
 								render: (item) => {
 									return <span style={{whiteSpace: 'nowrap'}}>{item}</span>;
 								},
 							},
-						]}
+						].filter((ele) => {
+							if (ele.isShow) return ele;
+						})}
 						rows={display_history}
 						label="utility.total_x_operations"
 						extraRow={action}
