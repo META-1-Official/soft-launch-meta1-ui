@@ -40,7 +40,6 @@ class AccountTrade extends React.Component {
 		this.state = {
 			searchTerm: '',
 			isLoading: false,
-			isFetchingMarketInfo: false,
 			selectedResolution: '1h',
 			selectedAsset: 'ALL',
 			baseAssetSymbol: '',
@@ -113,15 +112,14 @@ class AccountTrade extends React.Component {
 	}
 
 	_getMarketInfo(assetPairs, resolution) {
-		const {isFetchingMarketInfo} = this.state;
+		const {isLoading} = this.state;
 		const marketBars = this.state.marketBars;
 
-		if (!isFetchingMarketInfo && this.props.assets.size > 0) {
-			this.setState({isFetchingMarketInfo: true});
+		if (!isLoading && this.props.assets.size > 0) {
+			this.setState({isLoading: true});
 
-			let newBucketSize = 15;
-			if (resolution === '5m') newBucketSize = 15;
-			else if (resolution === '30m') newBucketSize = 60;
+			let newBucketSize = 60;
+			if (resolution === '30m') newBucketSize = 60;
 			else if (resolution === '1h') newBucketSize = 300;
 			else if (resolution === '24h') newBucketSize = 300;
 			else if (resolution === '3d') newBucketSize = 3600;
@@ -152,6 +150,17 @@ class AccountTrade extends React.Component {
 							let quoteAsset1 = MarketsStore.getState().quoteAsset;
 							let baseAsset1 = MarketsStore.getState().baseAsset;
 
+							bars = bars.filter((bar) => {
+								return bar.time >= from && bar.time <= to;
+							});
+
+							if (bars.length > 36) {
+								const gap = parseInt(bars.length / 36);
+								const filteredBars = [];
+								for (var i = 0; i < 36; i++) filteredBars.push(bars[i * gap]);
+								bars = filteredBars;
+							}
+
 							const marketBarIndex = marketBars.findIndex(
 								(marketBar) =>
 									marketBar['quoteAssetId'] === quoteAsset.get('id') &&
@@ -160,7 +169,7 @@ class AccountTrade extends React.Component {
 							const newMarketBar = {
 								quoteAssetId: quoteAsset.get('id'),
 								baseAssetId: baseAsset.get('id'),
-								bars: bars.slice(-36),
+								bars: bars,
 							};
 
 							if (marketBarIndex > -1) {
@@ -175,7 +184,7 @@ class AccountTrade extends React.Component {
 							) {
 								const that = this;
 								setTimeout(() => {
-									that.setState({isFetchingMarketInfo: false, marketBars});
+									that.setState({isLoading: false, marketBars});
 								}, 500);
 							} else {
 								this.setState({marketBars});
@@ -184,7 +193,7 @@ class AccountTrade extends React.Component {
 					})
 					.catch((e) => {
 						console.log('Error: Failed to subscribe market, ', e);
-						this.setState({isFetchingMarketInfo: false, marketBars});
+						this.setState({isLoading: false, marketBars});
 					});
 
 				this.statsInterval = MarketsActions.getMarketStatsInterval(
@@ -203,8 +212,14 @@ class AccountTrade extends React.Component {
 
 	_onDropDownChange(option, type) {
 		if (type === 'resolution') {
-			this.setState({selectedResolution: option});
-			this.onClickAsset(this.state.baseAssetSymbol, true);
+			this.setState(
+				{
+					selectedResolution: option,
+				},
+				() => {
+					this.onClickAsset(this.state.baseAssetSymbol, true);
+				}
+			);
 		} else if (type === 'asset-filter') {
 			this.setState({selectedAsset: option});
 		}
@@ -212,11 +227,10 @@ class AccountTrade extends React.Component {
 
 	onClickAsset(newBaseAssetSymbol, isResolutionChanged) {
 		const {assets, starredMarkets} = this.props;
-		const {selectedResolution, isFetchingMarketInfo, baseAssetSymbol} =
-			this.state;
+		const {selectedResolution, isLoading, baseAssetSymbol} = this.state;
 		const assetPairs = [];
 
-		if (isFetchingMarketInfo) {
+		if (isLoading) {
 			return;
 		} else if (newBaseAssetSymbol === 'star') {
 			starredMarkets.map((starredMarket) => {
@@ -230,7 +244,7 @@ class AccountTrade extends React.Component {
 				const baseAsset = ChainStore.getAsset(baseAssetId);
 				assetPairs.push({quoteAsset, baseAsset});
 			});
-		} else if (baseAssetSymbol === newBaseAssetSymbol && !isResolutionChanged) {
+		} else if (baseAssetSymbol === newBaseAssetSymbol) {
 			assets.map((quoteAsset) => {
 				assets.map((baseAsset) => {
 					assetPairs.push({
@@ -810,10 +824,16 @@ class AccountTrade extends React.Component {
 
 	render() {
 		const {account, assets} = this.props;
-		const {header, sortType} = this.state;
-		const {baseAssetSymbol, rowsOnPage, selectedAsset, isFetchingMarketInfo} =
-			this.state;
-		const canChangeBaseAsset = isFetchingMarketInfo ? 'disabled' : '';
+		const {
+			header,
+			sortType,
+			baseAssetSymbol,
+			rowsOnPage,
+			selectedAsset,
+			isLoading,
+			selectedResolution,
+		} = this.state;
+		const canChangeBaseAsset = isLoading ? 'disabled' : '';
 
 		const assetOptions = assets.map((asset) => (
 			<Select.Option key={asset.symbol}>{asset.symbol}</Select.Option>
@@ -853,10 +873,10 @@ class AccountTrade extends React.Component {
 						/>
 						<Select
 							style={{width: '70px', marginLeft: '24px'}}
-							value={this.state.selectedResolution}
+							value={selectedResolution}
 							onChange={(rows) => this._onDropDownChange(rows, 'resolution')}
+							disabled={isLoading}
 						>
-							<Select.Option key={'5m'}>5m</Select.Option>
 							<Select.Option key={'30m'}>30m</Select.Option>
 							<Select.Option key={'1h'}>1h</Select.Option>
 							<Select.Option key={'24h'}>24h</Select.Option>
