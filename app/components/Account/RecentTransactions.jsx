@@ -39,6 +39,9 @@ import {CaretDownFilled} from '@ant-design/icons';
 const operation = new OperationAnt();
 
 const Option = Select.Option;
+
+const OptGroup = Select.OptGroup;
+
 import AccountHistoryExporter, {
 	FULL,
 	COINBASE,
@@ -47,6 +50,7 @@ import {settingsAPIs} from 'api/apiConfig';
 import BlockchainActions from '../../actions/BlockchainActions';
 import BlockchainStore from '../../stores/BlockchainStore';
 import TrxHash from '../Blockchain/TrxHash';
+import {FaWeight} from 'react-icons/fa';
 
 function compareOps(b, a) {
 	if (a.block_num === b.block_num) {
@@ -202,13 +206,20 @@ class RecentTransactions extends React.Component {
 						h.toJS().filter((op) => !seen_ops.has(op.id) && seen_ops.add(op.id))
 					);
 					//console.log("history: " + JSON.stringify(history));
-					//console.log("filterOp: " + filterOp);
 				}
 			}
 		}
 
 		// Filtering
-		let myCustomFilters = ['amount', 'date', 'time', 'name'];
+		let myCustomFilters = [
+			'received',
+			'sent',
+			'last_month',
+			'last_week',
+			'24h',
+			'from',
+			'to',
+		];
 		const dynGlobalObject = ChainStore.getObject('2.1.0');
 		const lastIrreversibleBlockNum = dynGlobalObject.get(
 			'last_irreversible_block_num'
@@ -220,65 +231,86 @@ class RecentTransactions extends React.Component {
 		if (filterOp) {
 			if (myCustomFilters.includes(filterOp)) {
 				switch (filterOp) {
-					case 'amount':
+					// Balances - amount
+					// Txns with positive amount & to current user
+					case 'received':
 						history = history.filter((a) => {
 							if (a.op[1].amount) {
-								//console.log("amount: " + a.op[1].amount.amount)
-								return a.op[1].amount.amount > 0;
-							}
-						});
-						break;
-					case 'date':
-						history = history.filter((a) => {
-							if (a.op[1].amount) {
-								//console.log("amount: " + a.op[1].amount.amount)
-								//console.log("last block: " + lastIrreversibleBlockNum);
 								return (
-									a.op[1].amount.amount > 0 &&
-									a.block_num > lastIrreversibleBlockNum - 7 * 19090
+									a.op[1].amount.amount > 0 && a.op[1].to === current_account_id
 								);
-								// returns last week of data
-								// 19090 is avg txns per day on this blockchain
-								// Note: we can average this amount on each request of the data
-								//but it should not be changing a lot on dev -> but could on prod
 							}
 						});
 						break;
-					case 'time':
+					// Txns with positive amount & from the current user
+					case 'sent':
 						history = history.filter((a) => {
 							if (a.op[1].amount) {
-								//console.log("amount: " + a.op[1].amount.amount)
-								return (
-									a.op[1].amount.amount > 0 &&
-									a.block_num > lastIrreversibleBlockNum - 3 * 19090
-								);
-								// Last 73 h of txns with amount greater than > 0
-							}
-						});
-						break;
-					case 'name':
-						history = history.filter((a, b) => {
-							if (a.op[1].amount) {
-								//console.log("amount: " + a.op[1].amount.amount)
 								return (
 									a.op[1].amount.amount > 0 &&
 									a.op[1].from === current_account_id
 								);
 							}
 						});
-						//console.log('history & name: ' + JSON.stringify(history));
+						break;
+					// Date and Time
+					// Txns of the last month
+					case 'last_month':
+						history = history.filter((a) => {
+							if (a.op[1].amount) {
+								return (
+									a.op[1].amount.amount > 0 &&
+									a.block_num > lastIrreversibleBlockNum - 30 * 20000
+								);
+								// 19090 is and avg txns per day on this blockchain
+								// Note: we can average this amount on each request of the data
+								// but it should not be changing a lot on dev -> but could on prod
+							}
+						});
+						break;
+					// Txns of the last week
+					case 'last_week':
+						history = history.filter((a) => {
+							if (a.op[1].amount) {
+								return (
+									a.op[1].amount.amount > 0 &&
+									a.block_num > lastIrreversibleBlockNum - 7 * 20000
+								);
+							}
+						});
+						break;
+					// Txns of the last 24 h
+					case '24h':
+						history = history.filter((a) => {
+							if (a.op[1].amount) {
+								return (
+									a.op[1].amount.amount > 0 &&
+									a.block_num > lastIrreversibleBlockNum - 1 * 20000
+								);
+							}
+						});
+						break;
+					// Username
+					// All incoming txns to the current user
+					// Txns to the current user
+					case 'from':
+						history = history.filter((a) => {
+							if (a.op[1].amount) {
+								return a.op[1].from === current_account_id;
+							}
+						});
+						break;
+					// All outgoing txns to the current user
+					// Txns to the current user
+					case 'to':
+						history = history.filter((a) => {
+							if (a.op[1].amount) {
+								return a.op[1].to === current_account_id;
+							}
+						});
 						break;
 				}
 			} else {
-				/*
-			if(filterOp === 'date'){
-				history = history.filter((a) => {
-					return a.op[0] > 0;
-				});
-			}
-			if(filterOp === 'time'){}
-			if(filterOp === 'name'){}
-			*/
 				history = history.filter((a) => {
 					return a.op[0] === operations[filterOp];
 				});
@@ -303,25 +335,6 @@ class RecentTransactions extends React.Component {
 				return finalValue;
 			});
 		}
-
-		//Sorting
-		// Currently not needed
-		/*
-		if (filterOp === 'amount') {
-			//history = history.sort(amount);
-		}
-		if (filterOp === 'date') {
-			console.log('date return');
-			//history = history.sort(block_num);
-		}
-		if (filterOp === 'time') {
-			console.log('time return');
-		}
-		if (filterOp === 'name') {
-			console.log('username return');
-		}
-		*/
-		//console.log('returned history: ' + JSON.stringify(history));
 		return history;
 	}
 
@@ -358,7 +371,6 @@ class RecentTransactions extends React.Component {
 		this.setState({
 			filter: value,
 		});
-		//console.log('value: ' + value);
 	}
 
 	getDataSource(o, current_account_id) {
@@ -457,9 +469,14 @@ class RecentTransactions extends React.Component {
 
 		style = style ? style : {width: '100%', height: '100%'};
 
-		let options = null;
+		let defaultOptions = null;
+		let amountOptions = null;
+		let dateTimeOptions = null;
+		let usernamesOptions = null;
+
+		// Default options for filters
 		if (true || this.props.showFilters) {
-			options = [
+			defaultOptions = [
 				'all',
 				'transfer',
 				'limit_order_create',
@@ -470,11 +487,34 @@ class RecentTransactions extends React.Component {
 				'asset_create',
 				'witness_withdraw_pay',
 				'vesting_balance_withdraw',
-				'amount',
-				'date',
-				'time',
-				'name',
 			].map((type) => {
+				return (
+					<Option value={type} key={type}>
+						{counterpart.translate('transaction.trxTypes.' + type)}
+					</Option>
+				);
+			});
+
+			// Amount Options
+			amountOptions = ['received', 'sent'].map((type) => {
+				return (
+					<Option value={type} key={type}>
+						{counterpart.translate('transaction.trxTypes.' + type)}
+					</Option>
+				);
+			});
+
+			// Date and Time
+			dateTimeOptions = ['last_month', 'last_week', '24h'].map((type) => {
+				return (
+					<Option value={type} key={type}>
+						{counterpart.translate('transaction.trxTypes.' + type)}
+					</Option>
+				);
+			});
+
+			// Usernames
+			usernamesOptions = ['from', 'to'].map((type) => {
 				return (
 					<Option value={type} key={type}>
 						{counterpart.translate('transaction.trxTypes.' + type)}
@@ -526,7 +566,10 @@ class RecentTransactions extends React.Component {
 										onChange={this._onChangeFilter.bind(this)}
 										suffixIcon={<CaretDownFilled />}
 									>
-										{options}
+										<OptGroup label="General">{defaultOptions}</OptGroup>
+										<OptGroup label="Balances">{amountOptions}</OptGroup>
+										<OptGroup label="Date and Time">{dateTimeOptions}</OptGroup>
+										<OptGroup label="Username">{usernamesOptions}</OptGroup>
 									</Select>
 								) : null}
 							</div>
