@@ -1,8 +1,6 @@
 import React from 'react';
-import Translate from 'react-translate-component';
 import {Table} from 'antd';
 import {FaArrowRight, FaArrowUp, FaArrowDown} from 'react-icons/fa';
-import Icon from '../../Icon/Icon';
 import {getAssetIcon} from '../../utils/asset';
 
 class MarketTradeView extends React.Component {
@@ -13,7 +11,6 @@ class MarketTradeView extends React.Component {
 			className,
 			innerClass,
 			innerStyle,
-			headerStyle,
 			// Strings
 			data,
 			tinyScreen,
@@ -23,16 +20,20 @@ class MarketTradeView extends React.Component {
 			<div style={style} key="trade" className={className}>
 				<div className={innerClass} style={innerStyle}>
 					<div
-						className="market-order-table-container grid-block market-right-padding-only no-overflow"
+						className="market-order-table-container grid-block no-overflow"
 						ref="container"
 						style={{
 							overflow: 'hidden',
 							minHeight: tinyScreen ? 260 : 0,
-							maxHeight: 370,
 							lineHeight: '13px',
 						}}
 					>
-						<Table dataSource={data} pagination={{pageSize: 5}}>
+						<Table
+							dataSource={data}
+							pagination={false}
+							scroll={{y: 449}}
+							showSorterTooltip={false}
+						>
 							<Table.Column
 								dataIndex="asset"
 								title={
@@ -78,7 +79,9 @@ class MarketTradeView extends React.Component {
 								title={
 									<div className="market-order-table-text-header">Amount</div>
 								}
-								sorter={(a, b) => a.value - b.value}
+								sorter={(a, b) => {
+									return a.value.value - b.value.value;
+								}}
 								sortDirections={['descend', 'ascend']}
 								render={(row) => {
 									return (

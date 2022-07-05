@@ -38,16 +38,21 @@ class MarketsOrderView extends React.Component {
 					)}
 
 					<div
-						className="market-order-table-container grid-block market-right-padding-only no-overflow"
+						className="market-order-table-container grid-block no-overflow"
 						ref="container"
 						style={{
 							overflow: 'hidden',
 							minHeight: tinyScreen ? 260 : 0,
-							maxHeight: 370,
+							maxHeight: 375,
 							lineHeight: '13px',
 						}}
 					>
-						<Table dataSource={data} pagination={{pageSize: 5}}>
+						<Table
+							dataSource={data}
+							pagination={false}
+							scroll={{y: 330}}
+							showSorterTooltip={false}
+						>
 							<Table.Column
 								dataIndex="pair"
 								title={
