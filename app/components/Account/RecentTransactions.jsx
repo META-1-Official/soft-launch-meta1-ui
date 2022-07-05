@@ -646,7 +646,7 @@ class RecentTransactions extends React.Component {
 									<div className="transaction-history-table-title">
 										<Translate
 											style={{whiteSpace: 'nowrap'}}
-											content="account.transactions.id"
+											content="account.transactions.hash"
 										/>
 									</div>
 								),
