@@ -241,6 +241,7 @@
 		"trade": "Trade",
 		"transactions": {
 			"fee": "Fee",
+			"hash": "Transaction Hash",
 			"id": "ID",
 			"info": "Info",
 			"time": "Time",

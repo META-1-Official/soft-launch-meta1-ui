@@ -738,6 +738,7 @@ class AssetsPairTabs extends React.Component {
 							dataSource={dataSource}
 							scroll={{x: 150}}
 							pagination={{
+								size: 'small',
 								position: 'bottomCenter',
 								pageSize: Number(this.handleWindowChange(window.innerHeight)),
 							}}
