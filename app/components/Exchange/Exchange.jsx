@@ -16,6 +16,7 @@ import market_utils from 'common/market_utils';
 import {Asset, Price, LimitOrderCreate} from 'common/MarketClasses';
 import {checkFeeStatusAsync} from 'common/trxHelper';
 import utils from 'common/utils';
+import {LimitOrder, CallOrder} from 'common/MarketClasses';
 import BuySell from './BuySell';
 import ScaledOrderTab from './ScaledOrderTab';
 import MarketOrderTab from './MarketOrderTab';
@@ -1753,6 +1754,66 @@ class Exchange extends React.Component {
 		});
 	}
 
+	_getOrders() {
+		const {currentAccount, baseAsset, quoteAsset, feedPrice} = this.props;
+		const orders = currentAccount.get('orders'),
+			call_orders = currentAccount.get('call_orders');
+
+		const baseID = baseAsset.get('id'),
+			quoteID = quoteAsset.get('id');
+		const assets = {
+			[baseAsset.get('id')]: {precision: baseAsset.get('precision')},
+			[quoteAsset.get('id')]: {precision: quoteAsset.get('precision')},
+		};
+
+		let limitOrders = orders
+			.toArray()
+			.map((order) => {
+				let o = ChainStore.getObject(order);
+				if (!o) return null;
+				let sellBase = o.getIn(['sell_price', 'base', 'asset_id']),
+					sellQuote = o.getIn(['sell_price', 'quote', 'asset_id']);
+
+				if (
+					(sellBase === baseID && sellQuote === quoteID) ||
+					(sellBase === quoteID && sellQuote === baseID)
+				) {
+					return new LimitOrder(o.toJS(), assets, quoteAsset.get('id'));
+				}
+			})
+			.filter((a) => !!a);
+
+		let callOrders = call_orders
+			.toArray()
+			.map((order) => {
+				try {
+					let o = ChainStore.getObject(order);
+					if (!o) return null;
+					let sellBase = o.getIn(['call_price', 'base', 'asset_id']),
+						sellQuote = o.getIn(['call_price', 'quote', 'asset_id']);
+					if (
+						(sellBase === baseID && sellQuote === quoteID) ||
+						(sellBase === quoteID && sellQuote === baseID)
+					) {
+						return feedPrice
+							? new CallOrder(o.toJS(), assets, quoteAsset.get('id'), feedPrice)
+							: null;
+					}
+				} catch (e) {
+					return null;
+				}
+			})
+			.filter((a) => !!a)
+			.filter((a) => {
+				try {
+					return a.isMarginCalled();
+				} catch (err) {
+					return false;
+				}
+			});
+		return limitOrders.concat(callOrders);
+	}
+
 	render() {
 		let {
 			currentAccount,
@@ -2632,7 +2693,7 @@ class Exchange extends React.Component {
 					if (a == 'my_orders') {
 						groupTabs[panelTabs[a]].push(
 							<Tabs.TabPane
-								tab={`Open Orders (${currentAccount.get('orders').size})`}
+								tab={`Open Orders (${this._getOrders().length})`}
 								key="my_orders"
 							>
 								{myOpenOrders}

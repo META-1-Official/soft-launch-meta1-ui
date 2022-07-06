@@ -21,7 +21,6 @@ class MarketTradeView extends React.Component {
 				<div className={innerClass} style={innerStyle}>
 					<div
 						className="market-order-table-container grid-block no-overflow"
-						ref="container"
 						style={{
 							overflow: 'hidden',
 							minHeight: tinyScreen ? 260 : 0,
