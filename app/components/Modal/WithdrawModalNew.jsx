@@ -22,7 +22,7 @@ import ChainTypes from '../Utility/ChainTypes';
 import FormattedAsset from '../Utility/FormattedAsset';
 import BalanceComponent from '../Utility/BalanceComponent';
 import QRScanner from '../QRAddressScanner';
-import {Modal, Button, Select, Input} from 'antd';
+import {Modal, Button, Select, Input, ConfigProvider} from 'antd';
 import counterpart from 'counterpart';
 import {
 	gatewaySelector,
@@ -1111,19 +1111,21 @@ class WithdrawModalNew extends React.Component {
 							</div>
 							<div className="account-selector-wrapper">
 								<span className="selector-label">Address</span>
-								<Select
-									showSearch
-									value={address}
-									onSearch={this.onAddressChanged.bind(this)}
-									onSelect={this.onAddressSelected.bind(this)}
-								>
-									{address && storedAddresses.indexOf(address) == -1 ? (
-										<Select.Option value={address}>{address}</Select.Option>
-									) : null}
-									{storedAddresses.map((address) => (
-										<Select.Option value={address}>{address}</Select.Option>
-									))}
-								</Select>
+								<ConfigProvider renderEmpty={() => 'No address founded'}>
+									<Select
+										showSearch
+										value={address}
+										onSearch={this.onAddressChanged.bind(this)}
+										onSelect={this.onAddressSelected.bind(this)}
+									>
+										{address && storedAddresses.indexOf(address) == -1 ? (
+											<Select.Option value={address}>{address}</Select.Option>
+										) : null}
+										{storedAddresses.map((address) => (
+											<Select.Option value={address}>{address}</Select.Option>
+										))}
+									</Select>
+								</ConfigProvider>
 							</div>
 						</div>
 					) : null}
