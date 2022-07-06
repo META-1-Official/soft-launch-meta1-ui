@@ -4,6 +4,7 @@ import cnames from 'classnames';
 import TransitionWrapper from '../../Utility/TransitionWrapper';
 import AssetName from '../../Utility/AssetName';
 import SectionHeader from 'components/Utility/SectionHeader';
+import {Table} from 'antd';
 
 class MarketHistoryView extends React.Component {
 	render() {
@@ -20,6 +21,7 @@ class MarketHistoryView extends React.Component {
 			totalRows,
 			historyRows,
 			showAll,
+			data,
 		} = this.props;
 
 		const emptyRow = (
@@ -92,54 +94,146 @@ class MarketHistoryView extends React.Component {
 
 		const myOrders = (
 			<>
-				<div className="grid-block vertical shrink left-orderbook-header market-right-padding-only">
-					<table className="table table-no-padding order-table text-left fixed-table market-right-padding">
-						<thead>
-							<tr>
-								{['Pair', 'Amount', 'Price', 'Total'].map((header) => (
-									<th
-										style={{
-											textTransform: 'unset',
-											color: '#FFC000',
-											borderBottom: 'none',
-											textAlign: header === 'Total' ? 'right' : 'center',
-										}}
-									>
-										{header}
-									</th>
-								))}
-								{/* <th
-									style={{
-										textTransform: 'unset',
-										color: '#FF2929',
-										borderBottom: 'none',
-										textAlign: 'center',
-									}}
-								>
-									Cancel
-								</th> */}
-							</tr>
-						</thead>
-					</table>
-				</div>
 				<div
-					className="table-container grid-block no-overflow market-history-rows"
-					ref="history"
+					className="market-order-table-container grid-block no-overflow"
 					style={{
 						overflow: 'hidden',
-						maxHeight: 463,
+						minHeight: tinyScreen ? 260 : 0,
+						lineHeight: '13px',
 					}}
 				>
-					<table className="table order-table no-stripes table-hover fixed-table text-right no-overflow">
-						<TransitionWrapper
-							ref="historyTransition"
-							component="tbody"
-							transitionName="newrow"
-							className="orderbook"
-						>
-							{!!historyRows && historyRows.length > 0 ? historyRows : emptyRow}
-						</TransitionWrapper>
-					</table>
+					<Table
+						dataSource={data}
+						pagination={false}
+						scroll={{y: 452}}
+						showSorterTooltip={false}
+					>
+						<Table.Column
+							dataIndex="pair"
+							title={<div className="market-order-table-text-header">Pair</div>}
+							render={(row) => {
+								return (
+									<div
+										className="td-content"
+										style={{
+											borderLeftColor: row.isBid ? '#0F923A' : '#FF2929',
+											borderLeftStyle: 'solid',
+											borderLeftWidth: '8px',
+											paddingLeft: '15px',
+										}}
+									>
+										<div
+											style={{
+												fontSize: '15px',
+												fontWeight: 400,
+												color: 'white',
+												textAlign: 'center',
+											}}
+										>
+											{row.baseSymbol}
+										</div>
+										<div
+											style={{
+												borderBottom: '1px solid #566176',
+												width: '100%',
+												height: '0px',
+												marginTop: 5,
+												marginBottom: 5,
+											}}
+										></div>
+										<div
+											style={{
+												fontSize: '12px',
+												color: '#715C5C',
+												textAlign: 'center',
+											}}
+										>
+											{row.quoteSymbol}
+										</div>
+									</div>
+								);
+							}}
+						/>
+						<Table.Column
+							dataIndex="amount"
+							title={
+								<div className="market-order-table-text-header">Amount</div>
+							}
+							render={(row) => {
+								return (
+									<div>
+										<div
+											style={{
+												fontSize: '15px',
+												fontWeight: 400,
+												color: 'white',
+												textAlign: 'center',
+											}}
+										>
+											{row.receiveAmount}
+										</div>
+										<div
+											style={{
+												borderBottom: '1px solid #566176',
+												width: '100%',
+												height: '0px',
+												marginTop: 5,
+												marginBottom: 5,
+											}}
+										></div>
+										<div
+											style={{
+												fontSize: '12px',
+												color: '#715C5C',
+												textAlign: 'center',
+											}}
+										>
+											{row.payAmount}
+										</div>
+									</div>
+								);
+							}}
+						/>
+						<Table.Column
+							dataIndex="price"
+							title={
+								<div className="market-order-table-text-header text-left">
+									Price
+								</div>
+							}
+							render={(row) => {
+								return (
+									<div>
+										<div style={{color: 'white', textAlign: 'left'}}>{row}</div>
+									</div>
+								);
+							}}
+						/>
+						<Table.Column
+							dataIndex="total"
+							title={
+								<div className="market-order-table-text-header text-right">
+									Total
+								</div>
+							}
+							render={(row) => {
+								return (
+									<div>
+										<div
+											style={{
+												color: 'white',
+												fontSize: '15px',
+												fontWeight: 400,
+												textAlign: 'right',
+											}}
+										>
+											{Number(row).toLocaleString('en')}
+										</div>
+									</div>
+								);
+							}}
+						/>
+					</Table>
 				</div>
 			</>
 		);
