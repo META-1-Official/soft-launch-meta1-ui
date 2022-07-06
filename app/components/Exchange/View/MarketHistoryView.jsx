@@ -123,10 +123,11 @@ class MarketHistoryView extends React.Component {
 					</table>
 				</div>
 				<div
-					className="table-container grid-block market-right-padding-only no-overflow market-history-rows"
+					className="table-container grid-block no-overflow market-history-rows"
 					ref="history"
 					style={{
 						overflow: 'hidden',
+						maxHeight: 463,
 					}}
 				>
 					<table className="table order-table no-stripes table-hover fixed-table text-right no-overflow">

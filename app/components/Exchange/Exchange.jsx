@@ -24,6 +24,7 @@ import {MarketOrders} from './MyOpenOrders';
 import {OrderBook} from './OrderBook';
 import MyMarkets from './MyMarkets';
 import MarketHistory from './MarketHistory';
+import MyTrade from './MyTrade';
 import Personalize from './Personalize';
 import MarketPicker from './MarketPicker';
 import ConfirmOrderModal from './ConfirmOrderModal';
@@ -2406,6 +2407,37 @@ class Exchange extends React.Component {
 				/>
 			);
 
+		let myTrade =
+			tinyScreen && !this.state.mobileKey.includes('myTrade') ? null : (
+				<MyTrade
+					key={`actionCard_${actionCardIndex++}`}
+					className={cnames(
+						panelTabs['my_trade'] == 0
+							? centerContainerWidth > 1200
+								? 'medium-6 large-6 xlarge-4'
+								: centerContainerWidth > 800
+								? 'medium-6'
+								: ''
+							: 'medium-12',
+						'no-padding no-overflow small-12',
+						verticalOrderBook || verticalOrderForm ? 'order-4' : 'order-3'
+					)}
+					innerStyle={{
+						paddingBottom: !tinyScreen ? '0' : '0',
+					}}
+					noHeader={panelTabs['my_trade'] == 0 ? false : true}
+					currentAccount={currentAccount}
+					base={base}
+					quote={quote}
+					baseSymbol={baseSymbol}
+					quoteSymbol={quoteSymbol}
+					activeTab={'my_trade'}
+					tinyScreen={tinyScreen}
+					isPanelActive={isPanelActive}
+					hideScrollbars={hideScrollbars}
+				/>
+			);
+
 		let myOpenOrders =
 			tinyScreen && !this.state.mobileKey.includes('myOpenOrders') ? null : (
 				<MarketOrders
@@ -2574,10 +2606,6 @@ class Exchange extends React.Component {
 			.map((a) => {
 				if (panelTabs[a] == 0) {
 					// Handle Standalone Settings
-					if (a == 'my_history') {
-						groupStandalone.push(myMarketHistory);
-					}
-
 					if (a == 'history') {
 						groupStandalone.push(marketHistory);
 					}
@@ -2587,6 +2615,10 @@ class Exchange extends React.Component {
 					}
 					if (a == 'open_settlement' && settlementOrders !== null) {
 						groupStandalone.push(settlementOrders);
+					}
+
+					if (a == 'my_trade') {
+						groupStandalone.push(myTrade);
 					}
 				} else {
 					if (a == 'history') {
@@ -2613,7 +2645,7 @@ class Exchange extends React.Component {
 						);
 						groupTabs[panelTabs[a]].push(
 							<Tabs.TabPane tab="My Trade" key="my_trade">
-								{myMarketHistory}
+								{myTrade}
 							</Tabs.TabPane>
 						);
 					}
