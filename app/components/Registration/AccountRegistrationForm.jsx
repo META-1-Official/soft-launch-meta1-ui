@@ -266,7 +266,7 @@ class AccountRegistrationForm extends React.Component {
 												var message = '';
 												if (value.length === 0)
 													message = 'The email address is required.';
-												else message = 'Invalidate email address.';
+												else message = 'Invalid email address.';
 												return Promise.reject(message);
 											}
 										},
@@ -296,7 +296,7 @@ class AccountRegistrationForm extends React.Component {
 												var message = '';
 												if (value.length === 0)
 													message = 'The phone number is required.';
-												else message = 'Invalidate phone number.';
+												else message = 'Invalid phone number.';
 												return Promise.reject(message);
 											}
 										},
