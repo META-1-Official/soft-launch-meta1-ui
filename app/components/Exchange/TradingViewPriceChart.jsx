@@ -25,6 +25,7 @@ class TradingViewPriceChart extends React.Component {
 		this.resetError = this.resetError.bind(this);
 		this.loadLastChart = this.loadLastChart.bind(this);
 	}
+
 	loadTradingView(props) {
 		const {dataFeed} = props;
 		let themeColors = colors[props.theme];
@@ -233,6 +234,7 @@ class TradingViewPriceChart extends React.Component {
 			this.setState({error});
 		}
 	}
+
 	hideModal() {
 		this.resetError();
 		this.setState({showSaveModal: false, showLoadModal: false});
