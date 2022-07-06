@@ -212,14 +212,10 @@ class AccountTrade extends React.Component {
 
 	_onDropDownChange(option, type) {
 		if (type === 'resolution') {
-			this.setState(
-				{
-					selectedResolution: option,
-				},
-				() => {
-					this.onClickAsset(this.state.baseAssetSymbol, true);
-				}
-			);
+			this.setState({selectedResolution: option}, () => {
+				this._buildColumns();
+				this.onClickAsset(this.state.baseAssetSymbol, true);
+			});
 		} else if (type === 'asset-filter') {
 			this.setState({selectedAsset: option});
 		}
@@ -295,6 +291,7 @@ class AccountTrade extends React.Component {
 
 	_buildColumns() {
 		const {selectedResolution, sortingColumns, sortType} = this.state;
+
 		this.setState({
 			header: [
 				{

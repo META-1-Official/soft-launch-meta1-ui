@@ -195,34 +195,52 @@ class DataFeed {
 		onErrorCallback,
 		firstDataRequest
 	) {
-		if (!firstDataRequest) return;
-
 		from *= 1000;
 		to *= 1000;
 
-		let newBucketSize = getBucketFromResolution(resolution);
-		MarketsActions.changeBucketSize(newBucketSize);
+		let bars = this._getHistory();
+		this.latestBar = bars[bars.length - 1];
+		bars = bars.filter((bar) => bar.time >= from && bar.time <= to);
 
-		return MarketsActions.unSubscribeMarket(
-			symbolInfo.quoteAsset.get('id'),
-			symbolInfo.baseAsset.get('id')
-		).then(() => {
-			MarketsActions.subscribeMarket(
-				symbolInfo.baseAsset,
-				symbolInfo.quoteAsset,
-				newBucketSize
+		const marketName = `${symbolInfo.quoteAsset.get(
+			'symbol'
+		)}_${symbolInfo.baseAsset.get('symbol')}`;
+		if (this.interval !== resolution || marketName !== this.marketName) {
+			if (!firstDataRequest) return;
+
+			let newBucketSize = getBucketFromResolution(resolution);
+			MarketsActions.changeBucketSize(newBucketSize);
+
+			return MarketsActions.unSubscribeMarket(
+				symbolInfo.quoteAsset.get('id'),
+				symbolInfo.baseAsset.get('id')
 			).then(() => {
-				let bars = this._getHistory();
+				MarketsActions.subscribeMarket(
+					symbolInfo.baseAsset,
+					symbolInfo.quoteAsset,
+					newBucketSize
+				).then(() => {
+					let bars = this._getHistory();
 
-				bars = bars.filter((bar) => {
-					return bar.time >= from && bar.time <= to;
+					// Update context info
+					this.latestBar = bars[bars.length - 1];
+					this.interval = resolution;
+					this.marketName = `${symbolInfo.quoteAsset.get(
+						'symbol'
+					)}_${symbolInfo.baseAsset.get('symbol')}`;
+
+					bars = bars.filter((bar) => bar.time >= from && bar.time <= to);
+					if (!bars.length) return onHistoryCallback(bars, {noData: true});
+					onHistoryCallback(bars);
 				});
-
-				if (!bars.length) return onHistoryCallback(bars, {noData: true});
-
-				onHistoryCallback(bars);
 			});
-		});
+		}
+
+		// Update context info
+		this.interval = resolution;
+		this.marketName = `${symbolInfo.quoteAsset.get(
+			'symbol'
+		)}_${symbolInfo.baseAsset.get('symbol')}`;
 
 		if (!bars.length) return onHistoryCallback(bars, {noData: true});
 
