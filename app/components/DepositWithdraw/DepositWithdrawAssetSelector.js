@@ -19,6 +19,12 @@ class DepositWithdrawAssetSelector extends React.Component {
 		this.getAssets();
 	}
 
+	componentDidUpdate(prevProps) {
+		if (prevProps.include.length === 0 && this.props.include.length > 0) {
+			this.getAssets();
+		}
+	}
+
 	getAssets() {
 		let {backedCoins, include, includeBTS} = this.props;
 		let {assets} = this.state;
