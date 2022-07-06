@@ -41,7 +41,7 @@ class MarketsOrderView extends React.Component {
 						className="market-order-table-container grid-block no-overflow"
 						style={{
 							overflow: 'hidden',
-							minHeight: tinyScreen ? 260 : 0,
+							minHeight: tinyScreen ? 228 : 0,
 							maxHeight: 375,
 							lineHeight: '13px',
 						}}

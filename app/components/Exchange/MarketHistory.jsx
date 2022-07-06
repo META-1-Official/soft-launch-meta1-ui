@@ -325,6 +325,7 @@ class MarketHistory extends React.Component {
 		} = this.props;
 		let {rowCount, showAll} = this.state;
 		let historyRows = null;
+		let rows = [];
 
 		if (isNullAccount) {
 			activeTab = 'history';
@@ -342,7 +343,7 @@ class MarketHistory extends React.Component {
 				},
 			};
 
-			historyRows = myHistory
+			rows = myHistory
 				.filter((a) => {
 					let opType = a.getIn(['op', 0]);
 					return opType === operations.fill_order;
@@ -360,23 +361,28 @@ class MarketHistory extends React.Component {
 					return b.get('block_num') - a.get('block_num');
 				})
 				.map((trx) => {
-					let fill = new FillOrder(trx.toJS(), assets, quote.get('id'));
-					AllHistoryViewRow;
-					return activeTab === 'history' ? (
-						<AllHistoryViewRow
-							key={fill.id}
-							fill={fill}
-							base={base}
-							quote={quote}
-						/>
-					) : (
-						<MarketHistoryViewRow
-							key={fill.id}
-							fill={fill}
-							base={base}
-							quote={quote}
-						/>
-					);
+					let order = new FillOrder(trx.toJS(), assets, quote.get('id'));
+
+					const price = order.getPrice();
+					const isBid = order.isBid;
+					const payAmount = order.amountToPay();
+					const receiveAmount = order.amountToReceive();
+					const total = parseFloat(payAmount) * price;
+
+					return {
+						orderId: order.id,
+						pair: {
+							baseSymbol: base?._root?.entries[1][1],
+							quoteSymbol: quote?._root?.entries[1][1],
+							isBid: isBid,
+						},
+						amount: {
+							payAmount,
+							receiveAmount,
+						},
+						price,
+						total,
+					};
 				})
 				.toArray();
 		} else if (history && history.size) {
@@ -384,15 +390,8 @@ class MarketHistory extends React.Component {
 			historyRows = this.props.history
 				.take(100)
 				.map((fill) => {
-					return activeTab === 'history' ? (
+					return (
 						<AllHistoryViewRow
-							key={fill.id}
-							fill={fill}
-							base={base}
-							quote={quote}
-						/>
-					) : (
-						<MarketHistoryViewRow
 							key={fill.id}
 							fill={fill}
 							base={base}
@@ -423,6 +422,7 @@ class MarketHistory extends React.Component {
 				historyRows={historyRows}
 				totalRows={totalRows}
 				showAll={showAll}
+				data={rows}
 				onSetShowAll={this.onSetShowAll.bind(this)}
 			/>
 		);
