@@ -30,7 +30,7 @@ class MarketTradeView extends React.Component {
 						<Table
 							dataSource={data}
 							pagination={false}
-							scroll={{y: 449}}
+							scroll={{y: 449, x: 350}}
 							showSorterTooltip={false}
 						>
 							<Table.Column
@@ -76,10 +76,14 @@ class MarketTradeView extends React.Component {
 							<Table.Column
 								dataIndex="amount"
 								title={
-									<div className="market-order-table-text-header">Amount</div>
+									<div className="market-order-table-text-header">
+										Amount / USDT
+									</div>
 								}
 								sorter={(a, b) => {
-									return a.value.value - b.value.value;
+									return (
+										parseFloat(a.amount.value) - parseFloat(b.amount.value)
+									);
 								}}
 								sortDirections={['descend', 'ascend']}
 								render={(row) => {
@@ -114,6 +118,7 @@ class MarketTradeView extends React.Component {
 												display: 'flex',
 												flexDirection: 'row',
 												alignItems: 'center',
+												marginLeft: '20px',
 											}}
 										>
 											{row.change > 0 && (
