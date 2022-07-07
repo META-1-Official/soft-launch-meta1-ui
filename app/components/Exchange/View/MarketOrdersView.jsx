@@ -49,7 +49,7 @@ class MarketsOrderView extends React.Component {
 						<Table
 							dataSource={data}
 							pagination={false}
-							scroll={{y: 330}}
+							scroll={{y: 330, x: 350}}
 							showSorterTooltip={false}
 						>
 							<Table.Column
@@ -81,7 +81,7 @@ class MarketsOrderView extends React.Component {
 											<div
 												style={{
 													borderBottom: '1px solid #566176',
-													width: '100%',
+													width: '45px',
 													height: '0px',
 													marginTop: 5,
 													marginBottom: 5,
@@ -107,7 +107,7 @@ class MarketsOrderView extends React.Component {
 								}
 								render={(row) => {
 									return (
-										<div>
+										<div className="td-content">
 											<div
 												style={{
 													fontSize: '15px',
@@ -121,7 +121,7 @@ class MarketsOrderView extends React.Component {
 											<div
 												style={{
 													borderBottom: '1px solid #566176',
-													width: '100%',
+													width: '45px',
 													height: '0px',
 													marginTop: 5,
 													marginBottom: 5,

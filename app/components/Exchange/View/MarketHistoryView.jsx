@@ -105,7 +105,7 @@ class MarketHistoryView extends React.Component {
 					<Table
 						dataSource={data}
 						pagination={false}
-						scroll={{y: 452}}
+						scroll={{y: 452, x: 350}}
 						showSorterTooltip={false}
 					>
 						<Table.Column
@@ -119,7 +119,6 @@ class MarketHistoryView extends React.Component {
 											borderLeftColor: row.isBid ? '#0F923A' : '#FF2929',
 											borderLeftStyle: 'solid',
 											borderLeftWidth: '8px',
-											paddingLeft: '15px',
 										}}
 									>
 										<div
@@ -127,7 +126,7 @@ class MarketHistoryView extends React.Component {
 												fontSize: '15px',
 												fontWeight: 400,
 												color: 'white',
-												textAlign: 'center',
+												textAlign: 'left',
 											}}
 										>
 											{row.baseSymbol}
@@ -135,7 +134,7 @@ class MarketHistoryView extends React.Component {
 										<div
 											style={{
 												borderBottom: '1px solid #566176',
-												width: '100%',
+												width: '45px',
 												height: '0px',
 												marginTop: 5,
 												marginBottom: 5,
@@ -161,7 +160,7 @@ class MarketHistoryView extends React.Component {
 							}
 							render={(row) => {
 								return (
-									<div>
+									<div className="td-content">
 										<div
 											style={{
 												fontSize: '15px',
@@ -175,7 +174,7 @@ class MarketHistoryView extends React.Component {
 										<div
 											style={{
 												borderBottom: '1px solid #566176',
-												width: '100%',
+												width: '45px',
 												height: '0px',
 												marginTop: 5,
 												marginBottom: 5,
@@ -204,7 +203,15 @@ class MarketHistoryView extends React.Component {
 							render={(row) => {
 								return (
 									<div>
-										<div style={{color: 'white', textAlign: 'left'}}>{row}</div>
+										<div
+											style={{
+												color: 'white',
+												textAlign: 'left',
+												paddingLeft: '10px',
+											}}
+										>
+											{row}
+										</div>
 									</div>
 								);
 							}}
@@ -225,6 +232,7 @@ class MarketHistoryView extends React.Component {
 												fontSize: '15px',
 												fontWeight: 400,
 												textAlign: 'right',
+												paddingRight: '10px',
 											}}
 										>
 											{Number(row).toLocaleString('en')}
