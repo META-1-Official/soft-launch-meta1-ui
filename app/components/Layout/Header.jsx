@@ -319,7 +319,9 @@ class Header extends React.Component {
 		} else if (key === 'get-help') {
 			window.open('https://support.meta1coin.vision');
 		} else if (key === 'withdraw') {
-			this._showWithdraw(this, true);
+			if (!this.props.locked) {
+				this._showWithdraw(this, true);
+			}
 		} else if (key === 'send') {
 			if (!this.props.locked) {
 				this._showSend();
@@ -523,7 +525,11 @@ class Header extends React.Component {
 				>
 					<Text>Send / Receive</Text>
 				</Menu.Item> */}
-				<Menu.Item key="withdraw">
+				<Menu.Item
+					key="withdraw"
+					style={this.props.locked ? {cursor: 'not-allowed'} : {}}
+					className={this.props.locked ? 'disable-li-text' : ''}
+				>
 					<Text>Withdraw</Text>
 				</Menu.Item>
 				<Menu.Item
