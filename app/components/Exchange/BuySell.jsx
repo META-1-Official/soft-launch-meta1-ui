@@ -961,7 +961,7 @@ class BuySell extends React.Component {
 
 		return (
 			<div className={cnames(this.props.className)} style={this.props.styles}>
-				<div className="buy-sell-container" style={{paddingRight: 5}}>
+				<div className="buy-sell-container">
 					{!hideHeader ? (
 						<div className={'exchange-content-header ' + type}>
 							<span>
