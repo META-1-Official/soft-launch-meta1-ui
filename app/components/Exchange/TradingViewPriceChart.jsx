@@ -56,6 +56,8 @@ class TradingViewPriceChart extends React.Component {
 			'header_symbol_search',
 			'header_compare',
 			'header_saveload',
+			'create_volume_indicator_by_default',
+			'create_volume_indicator_by_default_once',
 		];
 
 		let enabled_features = ['hide_left_toolbar_by_default'];
