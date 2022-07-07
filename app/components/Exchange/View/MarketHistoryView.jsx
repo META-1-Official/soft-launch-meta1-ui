@@ -169,7 +169,7 @@ class MarketHistoryView extends React.Component {
 												textAlign: 'center',
 											}}
 										>
-											{row.receiveAmount}
+											{row.payAmount}
 										</div>
 										<div
 											style={{
@@ -187,7 +187,7 @@ class MarketHistoryView extends React.Component {
 												textAlign: 'center',
 											}}
 										>
-											{row.payAmount}
+											{row.receiveAmount}
 										</div>
 									</div>
 								);
