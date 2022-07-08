@@ -28,7 +28,11 @@ class AccountsSettings extends React.Component {
 			{
 				title: 'ACCOUNT NAME',
 				key: 'acc_name',
-				render: (rowData) => <div>{rowData.account}</div>,
+				render: (rowData) => {
+					let isIgnored = hiddenAccounts.has(rowData.account);
+
+					return <div>{isIgnored ? '••••••••••' : rowData.account}</div>;
+				},
 			},
 			{
 				title: 'KEYS',
@@ -72,10 +76,9 @@ class AccountsSettings extends React.Component {
 
 	render() {
 		let {myAccounts, hiddenAccounts} = this.props;
-		let accounts = hiddenAccounts.toArray().concat(myAccounts).sort();
 
 		const columns = this._buildColumns();
-		const dataSource = this._buildDataSource(accounts);
+		const dataSource = this._buildDataSource(myAccounts.sort());
 
 		return (
 			<div className="account-settings">
