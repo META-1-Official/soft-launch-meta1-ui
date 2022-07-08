@@ -1111,7 +1111,7 @@ class WithdrawModalNew extends React.Component {
 							</div>
 							<div className="account-selector-wrapper">
 								<span className="selector-label">Address</span>
-								<ConfigProvider renderEmpty={() => 'No address founded'}>
+								<ConfigProvider renderEmpty={() => 'No address found'}>
 									<Select
 										showSearch
 										value={address}
