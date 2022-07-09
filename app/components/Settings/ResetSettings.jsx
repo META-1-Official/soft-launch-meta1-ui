@@ -5,6 +5,7 @@ import SettingsActions from 'actions/SettingsActions';
 import {Typography} from 'antd';
 import willTransitionTo from '../../routerTransition';
 import StyledButton from 'components/Button/Button';
+import ResetSettingsModal from '../Modal/ResetSettingsModal';
 
 const {Title} = Typography;
 export default class ResetSettings extends React.Component {
@@ -13,7 +14,12 @@ export default class ResetSettings extends React.Component {
 
 		this.state = {
 			message: null,
+			isResetModalVisible: false,
 		};
+
+		this._showResetModal = this._showResetModal.bind(this);
+		this._hideResetModal = this._hideResetModal.bind(this);
+		this._onReset = this._onReset.bind(this);
 	}
 
 	_setMessage(key) {
@@ -24,6 +30,27 @@ export default class ResetSettings extends React.Component {
 		this.timer = setTimeout(() => {
 			this.setState({message: null});
 		}, 4000);
+	}
+
+	_showResetModal() {
+		this.setState({
+			isResetModalVisible: true,
+		});
+	}
+
+	_hideResetModal() {
+		this.setState({
+			isResetModalVisible: false,
+		});
+	}
+
+	_onReset() {
+		SettingsActions.clearSettings().then(() => {
+			this._setMessage('settings.restore_default_success');
+			setTimeout(() => {
+				willTransitionTo(false);
+			}, 50);
+		});
 	}
 
 	componentWillUnmount() {
@@ -111,12 +138,7 @@ export default class ResetSettings extends React.Component {
 							fontWeight: 600,
 						}}
 						onClick={() => {
-							SettingsActions.clearSettings().then(() => {
-								this._setMessage('settings.restore_default_success');
-								setTimeout(() => {
-									willTransitionTo(false);
-								}, 50);
-							});
+							this._showResetModal();
 						}}
 					>
 						{counterpart.translate('settings.reset')}
@@ -129,6 +151,13 @@ export default class ResetSettings extends React.Component {
 						{this.state.message}
 					</div>
 				</div>
+
+				<ResetSettingsModal
+					showModal={this._showResetModal}
+					hideModal={this._hideResetModal}
+					onReset={this._onReset}
+					visible={this.state.isResetModalVisible}
+				/>
 			</div>
 		);
 	}
