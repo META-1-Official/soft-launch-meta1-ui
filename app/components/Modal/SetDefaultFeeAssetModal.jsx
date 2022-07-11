@@ -92,15 +92,9 @@ class SetDefaultFeeAssetModal extends React.Component {
 
 	_getColumns() {
 		const symbolSorter = (a, b) => {
-			if (a.asset == 'META1' || b.asset == 'META1') {
-				return a.asset == 'META1' ? 1 : -1;
-			} else if (
-				['USDT', 'CNY', 'EUR'].includes(a.asset) !==
-				['USDT', 'CNY', 'EUR'].includes(b.asset)
-			) {
-				return ['USDT', 'CNY', 'EUR'].includes(a.asset) ? 1 : -1;
-			}
-			return a.asset < b.asset;
+			if (a.asset > b.asset) return 1;
+			if (a.asset < b.asset) return -1;
+			return 0;
 		};
 		const columns = [
 			{
