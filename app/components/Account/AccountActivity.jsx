@@ -319,7 +319,7 @@ const AccountActivity = () => {
 				</SectionBlock>
 				<SectionBlock title="Close Account">
 					<div className="close-text">
-						Withdraw funds and close your Meta 1 account{' '}
+						Withdraw funds and close your Meta1 account{' '}
 						<a href="#" className="undone-text">
 							- this cannot be undone
 						</a>

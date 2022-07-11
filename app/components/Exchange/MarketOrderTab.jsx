@@ -336,7 +336,7 @@ const MarketOrderForm = (props) => {
 					</div>
 				</button>
 				<div style={{fontSize: 12, marginTop: 10}}>
-					<span style={{color: '#ffc000'}}>Fee:</span> 0.00002 Meta 1 | Incl. of
+					<span style={{color: '#ffc000'}}>Fee:</span> 0.00002 Meta1 | Incl. of
 					all applicable taxes
 				</div>
 			</Form>

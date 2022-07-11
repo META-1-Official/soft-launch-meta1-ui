@@ -169,7 +169,7 @@ class AddContact extends React.Component {
 				<div className="contact-container">
 					<div style={{width: '70%'}}>
 						<SearchInput
-							placeholder={'Search Meta 1 Users ...'}
+							placeholder={'Search Meta1 Users ...'}
 							value={this.state.searchTerm}
 							className="input-box-search"
 							style={{width: '100%'}}
