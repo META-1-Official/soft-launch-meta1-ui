@@ -14,7 +14,8 @@ class SetDefaultFeeAssetModal extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			useByDefault: props.forceDefault ? true : false,
+			useByDefault: props.current_asset ? true : false,
+			checkboxError: false,
 			selectedAssetId: props.current_asset,
 			balances: {},
 		};
@@ -80,6 +81,10 @@ class SetDefaultFeeAssetModal extends React.Component {
 
 	onSubmit() {
 		const {selectedAssetId, useByDefault} = this.state;
+		if (!useByDefault) {
+			this.setState({checkboxError: true});
+			return;
+		}
 		this.props.onChange(selectedAssetId);
 		if (useByDefault) {
 			SettingsActions.changeSetting({
@@ -193,11 +198,22 @@ class SetDefaultFeeAssetModal extends React.Component {
 						css={{color: 'white'}}
 					/>
 				</Checkbox>
+
+				{this.state.checkboxError && (
+					<div style={{display: 'block'}}>
+						<span style={{color: 'red', fontFamily: 'inherit'}}>
+							Mark select paying fees option
+						</span>
+					</div>
+				)}
 			</Modal>
 		);
 	}
 
 	_setSelectedAssetAsDefault() {
+		if (!this.state.useByDefault) {
+			this.setState({checkboxError: false});
+		}
 		this.setState({useByDefault: !this.state.useByDefault});
 	}
 }

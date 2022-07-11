@@ -49,7 +49,7 @@ class FeeAssetSettings extends React.Component {
 						show={this.state.showModal}
 						current_asset={this.state.current_asset}
 						displayFees={false}
-						forceDefault={true}
+						forceDefault={false}
 						onChange={(value) => {
 							this.setState({current_asset: value});
 						}}
