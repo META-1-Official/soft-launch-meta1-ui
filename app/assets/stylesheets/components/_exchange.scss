@@ -328,8 +328,6 @@ p.order-table-title {
 		}
 
 		.ant-form-item-control {
-			margin-left: 0px;
-
 			.ant-form-item-control-input {
 				width: 100%;
 				text-align: right;
@@ -1737,6 +1735,16 @@ form.hide-container {
 	.order-book-panel {
 		.header .tap {
 			padding: 15px 8px !important;
+		}
+	}
+}
+
+.buy-sell-container {
+	.ant-row {
+		padding: 5px;
+
+		.ant-input-group-addon {
+			padding: 0;
 		}
 	}
 }
