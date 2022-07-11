@@ -28,6 +28,9 @@ import ChartjsAreaChart from '../Graph/Graph';
 import ls from '../../lib/common/localStorage';
 import {getAssetIcon, getAssetFullName} from '../utils/asset';
 
+//import {Route, Link, Redirect} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
+
 const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
 
@@ -49,6 +52,8 @@ class AccountTrade extends React.Component {
 			sortingColumns: {},
 			sortType: 'single',
 		};
+
+		this.onClickTrade = this.onClickTrade.bind(this);
 	}
 
 	UNSAFE_componentWillReceiveProps(nextProps) {
@@ -276,8 +281,8 @@ class AccountTrade extends React.Component {
 	onClickTrade(name) {
 		const quoteAssetSymbol = name.split('/')[0];
 		const baseAssetSymbol = name.split('/')[1];
-
-		window.location.href = `/market/${quoteAssetSymbol}_${baseAssetSymbol}`;
+		let path = `/market/${quoteAssetSymbol}_${baseAssetSymbol}`;
+		this.props.history.push(path);
 	}
 
 	_addMarket(quoteAssetSymbol, baseAssetSymbol) {
@@ -943,25 +948,27 @@ AccountTrade = AssetWrapper(AccountTrade, {
 	withDynamic: true,
 });
 
-export default connect(AccountTrade, {
-	listenTo() {
-		return [AssetStore, MarketsStore];
-	},
-	getProps(props) {
-		let assets = Map(),
-			assetsList = List();
-		if (props.account.get('assets', []).size) {
-			props.account.get('assets', []).forEach((id) => {
-				assetsList = assetsList.push(id);
-			});
-		} else {
-			assets = AssetStore.getState().assets;
-		}
+export default withRouter(
+	connect(AccountTrade, {
+		listenTo() {
+			return [AssetStore, MarketsStore];
+		},
+		getProps(props) {
+			let assets = Map(),
+				assetsList = List();
+			if (props.account.get('assets', []).size) {
+				props.account.get('assets', []).forEach((id) => {
+					assetsList = assetsList.push(id);
+				});
+			} else {
+				assets = AssetStore.getState().assets;
+			}
 
-		return {
-			assets,
-			assetsList,
-			starredMarkets: SettingsStore.getState().starredMarkets,
-		};
-	},
-});
+			return {
+				assets,
+				assetsList,
+				starredMarkets: SettingsStore.getState().starredMarkets,
+			};
+		},
+	})
+);
