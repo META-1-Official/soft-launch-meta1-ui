@@ -47,6 +47,7 @@ import chainIds from 'chain/chainIds';
 import {getLogo} from 'branding';
 import StyledButton from 'components/Button/Button';
 import theme from 'lib/styles/themeDark';
+import PrivateKeyStore from 'stores/PrivateKeyStore';
 
 var logo = getLogo();
 const CHAINID_SHORT = chainIds[process.env.CURRENT_NET].substr(0, 8);
@@ -191,6 +192,7 @@ class Header extends React.Component {
 				.catch(() => {});
 		} else {
 			WalletUnlockActions.lock();
+			PrivateKeyStore.resetPrivateStore();
 			if (!WalletUnlockStore.getState().rememberMe) {
 				if (!isPersistantType()) {
 					setLocalStorageType('persistant');

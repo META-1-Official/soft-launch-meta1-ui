@@ -31,7 +31,8 @@ class PrivateKeyStore extends BaseStore {
 			'getPubkeys_having_PrivateKey',
 			'addPrivateKeys_noindex',
 			'decodeMemo',
-			'setPasswordLoginKey'
+			'setPasswordLoginKey',
+			'resetPrivateStore'
 		);
 	}
 
@@ -43,6 +44,11 @@ class PrivateKeyStore extends BaseStore {
 			privateKeyStorage_error_add_key: null,
 			privateKeyStorage_error_loading: null,
 		};
+	}
+
+	resetPrivateStore() {
+		const resetState = this._getInitialState();
+		this.setState({...resetState});
 	}
 
 	setPasswordLoginKey(key) {
