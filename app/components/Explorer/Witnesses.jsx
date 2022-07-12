@@ -20,6 +20,8 @@ import {AiOutlineLink, AiOutlineKey} from 'react-icons/ai';
 require('./witnesses.scss');
 const volumeIcon = require('assets/explorer/volume.png');
 
+const baseExplorerUrl = 'https://explorer.dev.meta1coin.vision/blocks';
+
 const {Text} = Typography;
 class WitnessRow extends React.Component {
 	static propTypes = {
@@ -105,6 +107,7 @@ class WitnessList extends React.Component {
 		};
 
 		this.handleBlockIdClick = this.handleBlockIdClick.bind(this);
+		this.handleUrlClick = this.handleUrlClick.bind(this);
 	}
 
 	_setSort(field) {
@@ -117,6 +120,15 @@ class WitnessList extends React.Component {
 		});
 	}
 
+	handleUrlClick(blockId) {
+		return () => {
+			window.open(
+				`${baseExplorerUrl}/${blockId}`,
+				'_blank',
+				'noopener,noreferrer'
+			);
+		};
+	}
 	handleBlockIdClick(blockId) {
 		return () => {
 			this.props.history.push(`/block/${blockId}`);
@@ -195,10 +207,15 @@ class WitnessList extends React.Component {
 						rank: ranks[a.get('id')],
 						name: witness.get('name'),
 						signing_key: witness_data.get('signing_key'),
-						url: sanitize(witness_data.get('url'), {
-							whiteList: [], // empty, means filter out all tags
-							stripIgnoreTag: true, // filter out all HTML not in the whilelist
-						}),
+						url: {
+							// Note: now url contains url and block number
+							// as of now, received url is blank so we link to explorer + block number
+							url: sanitize(witness_data.get('url'), {
+								whiteList: [], // empty, means filter out all tags
+								stripIgnoreTag: true, // filter out all HTML not in the whilelist
+							}),
+							block: witness_data.get('last_confirmed_block_num'),
+						},
 						lastConfirmedBlock: {
 							id: witness_data.get('last_confirmed_block_num'),
 							timestamp: last_aslot_time.getTime(),
@@ -237,44 +254,69 @@ class WitnessList extends React.Component {
 				</Popover>
 			);
 		};
+		const linkRender = (item) => {
+			return (
+				<Popover
+					content={
+						<>
+							<div>Click icon to open on Explorer:</div>
+							<div>{item}</div>
+						</>
+					}
+					trigger={'hover'}
+				>
+					<AiOutlineLink />
+				</Popover>
+			);
+		};
 
 		const columns = [
 			{
 				key: '#',
 				title: '#',
 				dataIndex: 'rank',
+				align: 'center',
 				sorter: (a, b) => {
 					return a.rank > b.rank ? 1 : a.rank < b.rank ? -1 : 0;
 				},
 			},
 			{
 				key: 'name',
-				title: 'NAME',
+				title: counterpart.translate('explorer.witnesses.name').toUpperCase(),
 				dataIndex: 'name',
+				align: 'center',
 				sorter: (a, b) => {
 					return a.name > b.name ? 1 : a.name < b.name ? -1 : 0;
 				},
 			},
 			{
 				key: 'url',
-				title: 'URL',
+				title: counterpart.translate('explorer.witnesses.url').toUpperCase(),
 				dataIndex: 'url',
 				align: 'center',
 				render: (item) => (
-					<div style={{width: '100%', textAlign: 'center'}}>
-						{(item && urlValid(item) && urlRender(item)) || null}
+					<div
+						style={{width: '100%', textAlign: 'center'}}
+						onClick={this.handleUrlClick(item.block)}
+					>
+						{/* Note: URL is not received in obj so this is commented as of now for later use
+						//linkRender((item && urlValid(item) && urlRender(item)) || null)
+						*/}
+						{linkRender(`${baseExplorerUrl}/${item.block}`)}
 					</div>
 				),
 			},
 			{
 				key: 'lastConfirmedBlock',
-				title: 'LAST CONFIRMED BLOCK',
+				title: counterpart
+					.translate('explorer.witnesses.last_confirmed_block')
+					.toUpperCase(),
 				dataIndex: 'lastConfirmedBlock',
+				align: 'center',
 				render: (item) => (
 					<span>
 						<a
-							style={{display: 'inline-block', minWidth: '100px'}}
-							href="javascript:void(0)"
+							style={{display: 'inline-block', minWidth: '80px'}}
 							onClick={this.handleBlockIdClick(item.id)}
 						>
 							#{Number(item.id).toLocaleString()}
@@ -292,8 +334,24 @@ class WitnessList extends React.Component {
 			},
 			{
 				key: 'blocksMissed',
-				title: 'BLOCKS MISSED',
+				title: () => {
+					return (
+						<>
+							<div>
+								{counterpart
+									.translate('explorer.witnesses.blocks')
+									.toUpperCase()}
+							</div>
+							<div>
+								{counterpart
+									.translate('explorer.witnesses.missing')
+									.toUpperCase()}
+							</div>
+						</>
+					);
+				},
 				dataIndex: 'blocksMissed',
+				align: 'center',
 				render: (item) => {
 					const blocksMissedClassName = classNames(
 						'txtlabel',
@@ -314,8 +372,9 @@ class WitnessList extends React.Component {
 			},
 			{
 				key: 'votes',
-				title: 'VOTES',
+				title: counterpart.translate('explorer.witnesses.votes').toUpperCase(),
 				dataIndex: 'votes',
+				align: 'center',
 				render: (item) => (
 					<FormattedAsset amount={item} asset="1.3.0" decimalOffset={5} />
 				),
@@ -325,7 +384,7 @@ class WitnessList extends React.Component {
 			},
 			{
 				key: 'key',
-				title: 'KEY',
+				title: counterpart.translate('explorer.witnesses.key').toUpperCase(),
 				dataIndex: 'signing_key',
 				align: 'center',
 				render: (item) => (
