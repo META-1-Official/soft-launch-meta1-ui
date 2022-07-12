@@ -66,11 +66,7 @@ class Dropdown extends React.Component {
 		let insideActionSheet = false;
 
 		do {
-			if (
-				el.classList &&
-				el.classList.contains('dropdown') &&
-				el.id === this.props.id
-			) {
+			if (el.classList && el.classList.contains('dropdown-wrapper')) {
 				insideActionSheet = true;
 				break;
 			}
