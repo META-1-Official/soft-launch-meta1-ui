@@ -152,7 +152,6 @@ class Assets extends React.Component {
 		let columns = [];
 
 		// Default sorting of the ant table is defined through defaultSortOrder prop
-
 		if (activeFilter == 'user') {
 			columns = [
 				{
@@ -193,11 +192,15 @@ class Assets extends React.Component {
 					title: 'Supply',
 					dataIndex: 'currentSupply',
 					sorter: (a, b) => {
-						a.currentSupply = parseFloat(a.currentSupply);
-						b.currentSupply = parseFloat(b.currentSupply);
-						return a.currentSupply > b.currentSupply
+						const currentSupplyA =
+							parseFloat(a.currentSupply) /
+							utils.get_asset_precision(a.precision);
+						const currentSupplyB =
+							parseFloat(b.currentSupply) /
+							utils.get_asset_precision(b.precision);
+						return currentSupplyA > currentSupplyB
 							? 1
-							: a.currentSupply < b.currentSupply
+							: currentSupplyA < currentSupplyB
 							? -1
 							: 0;
 					},
@@ -225,7 +228,6 @@ class Assets extends React.Component {
 					},
 				},
 			];
-
 			assets
 				.filter((a) => {
 					return (
@@ -252,6 +254,7 @@ class Assets extends React.Component {
 						currentSupply: asset.dynamic.current_supply,
 						assetId: asset.id,
 						marketId: marketID,
+						precision: asset.precision,
 					});
 				});
 		}
