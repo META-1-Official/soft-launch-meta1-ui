@@ -946,6 +946,7 @@ class MyMarkets extends React.Component {
 												fontSize: '0.9rem',
 												position: 'relative',
 												top: 1,
+												minWidth: '250px',
 											}}
 											type="text"
 											value={this.state.inputValue}
