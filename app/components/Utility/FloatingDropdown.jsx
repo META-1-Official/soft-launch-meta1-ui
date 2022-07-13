@@ -118,8 +118,17 @@ class Dropdown extends React.Component {
 						className={this.props.upperCase ? 'upper-case' : ''}
 						key={value}
 						onClick={this.onChange.bind(this, this.props.values[value])}
+						style={{
+							backgroundColor: '#15171b',
+						}}
 					>
-						<span>{value}</span>
+						<span
+							style={{
+								color: '#919293',
+							}}
+						>
+							{value}
+						</span>
 					</li>
 				);
 			});

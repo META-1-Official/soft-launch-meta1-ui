@@ -1070,7 +1070,6 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 			color: $secondary-text-color;
 		}
 		ul.dropdown {
-			@include color($light-text-color, $super-light-panel-bg-color);
 			&::after {
 				border-bottom-color: $super-light-panel-bg-color;
 			}
@@ -1079,10 +1078,7 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 			}
 			/* Hover state */
 			li:hover > span {
-				@include color(
-					$light-text-color,
-					lighten($super-light-panel-bg-color, 4%)
-				);
+				@include color($light-text-color, lighten($primary-text-color, 4%));
 				color: $link-text-color;
 			}
 		}

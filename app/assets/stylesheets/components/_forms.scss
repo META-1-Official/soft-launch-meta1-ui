@@ -220,7 +220,7 @@ div.transfer-input {
 	}
 
 	&.active .dropdown {
-		border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+		border-bottom: 1px solid #15171b;
 		max-height: 400px;
 	}
 
@@ -234,9 +234,9 @@ div.transfer-input {
 		margin-left: 0;
 
 		/* Styles */
-		background: #fff;
+		background: #15171b;
 		border-radius: 0 0 5px 5px;
-		border: 1px solid rgba(0, 0, 0, 0.2);
+		border: 1px solid #15171b;
 		border-top: none;
 		border-bottom: none;
 		list-style: none;
