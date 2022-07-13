@@ -674,6 +674,7 @@ class AccountTrade extends React.Component {
 				const marketID = `${quoteAssetSymbol}_${baseAssetSymbol}`;
 				return this.props.starredMarkets.has(marketID);
 			});
+			0;
 		}
 
 		filteredMarketStats.map((stats) => {
