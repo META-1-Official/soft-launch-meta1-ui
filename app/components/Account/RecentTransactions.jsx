@@ -521,7 +521,10 @@ class RecentTransactions extends React.Component {
 
 		history = history.sort(compareOps);
 
-		style = style ? style : {width: '100%', height: '100%'};
+		style = style ? style : {width: '100%'};
+
+		if (history.length == 0) style.height = '100%';
+		else delete style.height;
 
 		let defaultOptions = null;
 		let amountOptions = null;
