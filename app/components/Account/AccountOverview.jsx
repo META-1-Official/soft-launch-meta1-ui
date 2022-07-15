@@ -654,8 +654,8 @@ class AccountOverview extends React.Component {
 							compactView={false}
 							showMore={true}
 							fullHeight={true}
-							limit={100}
 							showFilters={true}
+							showAll={true}
 							dashboard
 							transactionHistoryCheckbox={this.state.transactionHistoryCheckbox}
 						/>
