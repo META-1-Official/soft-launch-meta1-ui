@@ -31,8 +31,7 @@ class PrivateKeyStore extends BaseStore {
 			'getPubkeys_having_PrivateKey',
 			'addPrivateKeys_noindex',
 			'decodeMemo',
-			'setPasswordLoginKey',
-			'resetPrivateStore'
+			'setPasswordLoginKey'
 		);
 	}
 
@@ -46,16 +45,26 @@ class PrivateKeyStore extends BaseStore {
 		};
 	}
 
-	resetPrivateStore() {
-		const resetState = this._getInitialState();
-		this.setState({...resetState});
-	}
-
-	setPasswordLoginKey(key) {
-		let keys = this.state.keys.set(key.pubkey, key);
-		this.setState({
-			keys,
-		});
+	setPasswordLoginKey(key, index) {
+		let isExist = false;
+		if (index === 1) {
+			const keysArr = [...this.state.keys];
+			if (Array.isArray(keysArr) && keysArr.length > 0) {
+				isExist = true;
+				const newData = Immutable.Map();
+				const keys = newData.set(key.pubkey, key);
+				this.setState({
+					keys,
+				});
+				return;
+			}
+		}
+		if (!isExist) {
+			const keys = this.state.keys.set(key.pubkey, key);
+			this.setState({
+				keys,
+			});
+		}
 	}
 
 	/** This method may be called again should the main database change */

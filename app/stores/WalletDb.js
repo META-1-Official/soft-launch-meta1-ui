@@ -371,13 +371,16 @@ class WalletDb extends BaseStore {
 				_passwordKey[pub] = priv;
 
 				id++;
-				PrivateKeyStore.setPasswordLoginKey({
-					pubkey: pub,
-					import_account_names: [account],
-					encrypted_key: null,
-					id,
-					brainkey_sequence: null,
-				});
+				PrivateKeyStore.setPasswordLoginKey(
+					{
+						pubkey: pub,
+						import_account_names: [account],
+						encrypted_key: null,
+						id,
+						brainkey_sequence: null,
+					},
+					id
+				);
 			}
 
 			/* Check if the user tried to login with a private key */
