@@ -46,11 +46,14 @@ import AccountHistoryExporter, {
 	FULL,
 	COINBASE,
 } from '../../services/AccountHistoryExporter';
+
+import {explorerApi} from '../../services/api';
 import {settingsAPIs} from 'api/apiConfig';
 import BlockchainActions from '../../actions/BlockchainActions';
 import BlockchainStore from '../../stores/BlockchainStore';
 import TrxHash from '../Blockchain/TrxHash';
 import {FaWeight} from 'react-icons/fa';
+import axios from 'axios';
 
 function compareOps(b, a) {
 	if (a.block_num === b.block_num) {
@@ -74,10 +77,12 @@ class RecentTransactions extends React.Component {
 		maxHeight: PropTypes.number,
 		fullHeight: PropTypes.bool,
 		showFilters: PropTypes.bool,
+		showAll: PropTypes.bool,
 	};
 
 	static defaultProps = {
 		limit: 25,
+		showAll: false,
 		maxHeight: 500,
 		fullHeight: false,
 		showFilters: false,
@@ -96,6 +101,7 @@ class RecentTransactions extends React.Component {
 			esNodeCustom: false,
 			esNode: settingsAPIs.ES_WRAPPER_LIST[0].url,
 			visibleId: '',
+			history: [],
 		};
 		this.getDataSource = this.getDataSource.bind(this);
 
@@ -109,6 +115,16 @@ class RecentTransactions extends React.Component {
 			let t = this.refs.transactions;
 			this._setHeaderHeight();
 		}
+
+		let {accountsList, customFilter, filter} = this.props;
+
+		this._getHistory(
+			accountsList,
+			this.props.showFilters && this.state.filter !== 'all'
+				? this.state.filter
+				: filter,
+			customFilter
+		);
 	}
 
 	esNodeChange(e) {
@@ -180,6 +196,7 @@ class RecentTransactions extends React.Component {
 		if (this.state.esNode !== nextState.esNode) return true;
 		if (this.state.esNodeCustom !== nextState.esNodeCustom) return true;
 		if (this.state.visibleId !== nextState.visibleId) return true;
+		if (this.state.history.length !== nextState.history.length) return true;
 		if (
 			this.props.transactionHistoryCheckbox.length !==
 			nextProps.transactionHistoryCheckbox.length
@@ -195,17 +212,58 @@ class RecentTransactions extends React.Component {
 		});
 	}
 
-	_getHistory(accountsList, filterOp, customFilter) {
+	async _getHistory(accountsList, filterOp, customFilter) {
 		let history = [];
+
 		let seen_ops = new Set();
 		for (let account of accountsList) {
 			if (account) {
-				let h = account.get('history');
-				if (h) {
-					history = history.concat(
-						h.toJS().filter((op) => !seen_ops.has(op.id) && seen_ops.add(op.id))
-					);
-					//console.log("history: " + JSON.stringify(history));
+				if (!this.props.showAll) {
+					let h = account.get('history');
+					if (h) {
+						history = history.concat(
+							h
+								.toJS()
+								.filter((op) => !seen_ops.has(op.id) && seen_ops.add(op.id))
+						);
+					}
+				} else {
+					const countResponse = await explorerApi.get(`v1/es/account_history`, {
+						params: {
+							account_id: account.get('id'),
+							size: 1,
+							from: 0,
+							type: 'data',
+							sort_by: '-account_history.sequence',
+						},
+					});
+
+					const count = countResponse.data.count;
+
+					const response = await explorerApi.get(`v1/es/account_history`, {
+						params: {
+							account_id: account.get('id'),
+							size: count,
+							from: 0,
+							type: 'data',
+							sort_by: '-account_history.sequence',
+						},
+					});
+
+					if (response.status === 200) {
+						response.data.data.forEach((h) => {
+							history.push({
+								id: h.account_history.operation_id,
+								block_num: h.block_data.block_num,
+								op_in_trx: h.operation_history.op_in_trx,
+								trx_in_block: h.operation_history.trx_in_block,
+								virtual_op: h.operation_history.virtual_op,
+								op: JSON.parse(h.operation_history.op),
+								result: JSON.parse(h.operation_history.operation_result),
+							});
+						});
+						this.setState({limit: count});
+					}
 				}
 			}
 		}
@@ -228,6 +286,7 @@ class RecentTransactions extends React.Component {
 			accountsList.length === 1 && accountsList[0]
 				? accountsList[0].get('id')
 				: null;
+
 		if (filterOp) {
 			if (myCustomFilters.includes(filterOp)) {
 				switch (filterOp) {
@@ -335,7 +394,7 @@ class RecentTransactions extends React.Component {
 				return finalValue;
 			});
 		}
-		return history;
+		this.setState({history});
 	}
 
 	async _generateCSV(exportType) {
@@ -453,19 +512,14 @@ class RecentTransactions extends React.Component {
 
 	render() {
 		let {accountsList, filter, customFilter, style} = this.props;
-		let {limit} = this.state;
+
+		let {limit, history} = this.state;
 		let current_account_id =
 			accountsList.length === 1 && accountsList[0]
 				? accountsList[0].get('id')
 				: null;
-		let history = this._getHistory(
-			accountsList,
-			this.props.showFilters && this.state.filter !== 'all'
-				? this.state.filter
-				: filter,
-			customFilter
-		).sort(compareOps);
-		let historyCount = history.length;
+
+		history = history.sort(compareOps);
 
 		style = style ? style : {width: '100%', height: '100%'};
 

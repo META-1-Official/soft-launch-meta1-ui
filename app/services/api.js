@@ -8,4 +8,8 @@ const kycApi = axios.create({
 	baseURL: `${process.env.VOICEIT_URL}/apiewallet`, // process.env.REACT_APP_KYC_API_URL
 });
 
-export {voiceItApi, kycApi};
+const explorerApi = axios.create({
+	baseURL: `${process.env.EXPLORER_META1_URL}/api`, // process.env.EXPLORER_META1_URL
+});
+
+export {voiceItApi, kycApi, explorerApi};
