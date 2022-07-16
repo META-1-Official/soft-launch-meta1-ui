@@ -585,8 +585,6 @@ class MarketsActions {
 			orders.push(orderOrOrders.toObject());
 		}
 
-		console.log('ORDER', orders);
-
 		orders.forEach((order) => {
 			tr.add_type_operation('limit_order_create', order);
 		});
