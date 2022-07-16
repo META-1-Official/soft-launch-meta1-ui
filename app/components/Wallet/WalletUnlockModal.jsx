@@ -513,10 +513,10 @@ class WalletUnlockModal extends React.Component {
 				footer={null}
 				onCancel={this.handleModalClose}
 			>
-				<Title className="header-title1">META1 Account Login</Title>
+				<Title className="header-title1">META1 Wallet Login</Title>
 				<div className="header-title2">
-					{/*Login with Account name (Cloud wallet) and Key file (Local wallet)*/}
-					Login with Account name (Cloud wallet)
+					{/*Login with Wallet name (Cloud wallet) and Key file (Local wallet)*/}
+					Login with Wallet name (Cloud wallet)
 				</div>
 				<Form className="full-width" layout="vertical">
 					{/*<LoginTypeSelector type={passwordLogin} />*/}
@@ -710,7 +710,7 @@ class WalletUnlockModal extends React.Component {
 						)}
 					</Button>
 					<div className="redirect">
-						Or create your <a href="/registration">account</a>
+						Or create your <a href="/registration">wallet</a>
 					</div>
 				</div>
 			</Modal>
