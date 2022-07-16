@@ -61,7 +61,7 @@ const FaucetSettings = ({
 				</Title>
 			</div>
 
-			<div
+			{/*<div
 				css={{
 					padding: '1rem 1.5rem',
 				}}
@@ -81,7 +81,7 @@ const FaucetSettings = ({
 					defaultValue={defaultValue}
 					onChange={onChange}
 				/>
-			</div>
+			</div>*/}
 		</div>
 	);
 };
