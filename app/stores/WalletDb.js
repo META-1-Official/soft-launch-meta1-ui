@@ -18,6 +18,8 @@ import AddressIndex from 'stores/AddressIndex';
 import SettingsActions from 'actions/SettingsActions';
 import {notification} from 'antd';
 import counterpart from 'counterpart';
+import AccountStore from './AccountStore';
+import Axios from 'axios';
 
 let aes_private = null;
 let _passwordKey = null;
@@ -126,6 +128,7 @@ class WalletDb extends BaseStore {
 	}
 
 	process_transaction(tr, signer_pubkeys, broadcast, extra_keys = []) {
+		tr;
 		const passwordLogin =
 			SettingsStore.getState().settings.get('passwordLogin');
 		const passwordlessLogin =
@@ -204,7 +207,12 @@ class WalletDb extends BaseStore {
 									let p = new Promise((resolve, reject) => {
 										TransactionConfirmActions.confirm(tr, resolve, reject);
 									});
-									return p;
+									return p.then(async () => {
+										await Axios.post(
+											process.env.LITE_WALLET_URL + '/saveBalance',
+											{accountName: AccountStore.getState().currentAccount}
+										);
+									});
 								} else return tr.broadcast();
 							} else return tr.serialize();
 						});
@@ -526,8 +534,8 @@ class WalletDb extends BaseStore {
 	}
 
 	/** @throws "missing brainkey", "wallet locked"
-        @return { private_key, sequence }
-    */
+		@return { private_key, sequence }
+	*/
 	generateNextKey(save = true) {
 		if (this.generatingKey) return;
 		this.generatingKey = true;
