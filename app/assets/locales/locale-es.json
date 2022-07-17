@@ -109,7 +109,7 @@
 		},
 		"mine": "Mi cuenta",
 		"more": "ver más",
-		"name": "Nombre de la Cuenta",
+		"name": "Nombre de la billetera",
 		"name_input": {
 			"name_is_taken": "El nombre de la cuenta ya está tomado.",
 			"not_found": "Cuenta no encontrada.",
@@ -1776,7 +1776,7 @@
 		"continue": "Continuar",
 		"copyPassword": "Copia tu contraseña para guardar.",
 		"createAccountTitle": "Crear cuenta por archivo bin",
-		"createByPassword": "Crear cuenta por nombre y contraseña",
+		"createByPassword": "Crear billetera por nombre y contraseña",
 		"downloadFile": "Descargar archivo",
 		"loginByKey": "Iniciar sesión por",
 		"passwordPlaceholder": "Minimo de 7 caracteres",

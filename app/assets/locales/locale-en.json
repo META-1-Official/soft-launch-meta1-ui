@@ -116,7 +116,7 @@
 		},
 		"mine": "My account",
 		"more": "see more",
-		"name": "Account name",
+		"name": "Wallet name",
 		"name_input": {
 			"name_is_taken": "Account name is already taken.",
 			"not_found": "Account not found.",
@@ -1897,7 +1897,7 @@
 		"continue": "Continue",
 		"copyPassword": "Copy your password to save.",
 		"createAccountTitle": "Create Account by Bin-file",
-		"createByPassword": "Create Account by Name and Password",
+		"createByPassword": "Create Wallet by Name and Password",
 		"downloadFile": "Download file",
 		"loginByKey": "Login by",
 		"passwordPlaceholder": "Minimum 7 characters",
@@ -2315,7 +2315,7 @@
 		"proxy_search": "Search for an account to be used as your proxy for voting. Your account will act as if you would be voting exactly the same as your proxy.",
 		"registration": {
 			"accountModel": "The cloud wallet lets you login to your wallet from anywhere using only your account name and password, but your password is vulnerable to brute-force attacks which means it is important to use a very long password, ideally 20+ characters!",
-			"accountName": "Account name must contain from 4 to 63 characters and must consist of latin letters, dashes, digits.",
+			"accountName": "Wallet name must contain from 4 to 63 characters and must consist of latin letters, dashes, digits.",
 			"password": "Password must contain at least 8 characters. It would be better to use a complicated password containing a combination of numbers, special characters and letters.",
 			"walletModel": "The local wallet has the best security, but is restricted to your current browser and computer. To migrate the wallet to another browser or computer, you may use the backup file or brainkey.",
 			"whyBinFile": ".bin file - is a backup file. File is encrypted with your password, and contains all the private keys for your accounts. This file must be uploaded during the login process."

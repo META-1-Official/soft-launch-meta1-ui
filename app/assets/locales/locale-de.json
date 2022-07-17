@@ -107,7 +107,7 @@
 		},
 		"mine": "Mein Konto",
 		"more": "mehr",
-		"name": "Konto-Name",
+		"name": "Wallet-Name",
 		"name_input": {
 			"name_is_taken": "Kontoname ist bereits vergeben.",
 			"not_found": "Konto nicht gefunden.",
@@ -1762,7 +1762,7 @@
 		"continue": "Continue",
 		"copyPassword": "Copy your password to save.",
 		"createAccountTitle": "Create Account by Bin-file",
-		"createByPassword": "Create Account by Name and Password",
+		"createByPassword": "Create Wallet by Name and Password",
 		"downloadFile": "Download file",
 		"loginByKey": "Login by",
 		"passwordPlaceholder": "Minimum 7 characters",
