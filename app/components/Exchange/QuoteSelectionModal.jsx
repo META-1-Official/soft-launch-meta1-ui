@@ -88,6 +88,7 @@ export default class QuoteSelectionModal extends React.Component {
 						{counterpart.translate('modal.close')}
 					</Button>,
 				]}
+				className="quote_selection"
 			>
 				<section className="no-border-bottom">
 					<table className="table">

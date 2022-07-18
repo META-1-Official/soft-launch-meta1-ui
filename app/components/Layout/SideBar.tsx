@@ -84,7 +84,7 @@ const SideBar = ({collapsed, currentLink, toggle}: ISideBar) => {
 		},
 		{
 			menuId: 'notification',
-			menuName: 'Notification',
+			menuName: 'Notifications',
 			icon: <BellOutlined />,
 			enableNavLinks,
 		},
