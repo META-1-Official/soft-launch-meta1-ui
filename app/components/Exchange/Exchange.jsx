@@ -886,19 +886,18 @@ class Exchange extends React.Component {
 	}
 
 	_createScaledOrder(orders, feeID) {
-		const limitOrders = orders.map(
-			(order) =>
-				new LimitOrderCreate({
-					for_sale: order.for_sale,
-					expiration: new Date(order.expirationTime || false),
-					to_receive: order.to_receive,
-					seller: this.props.currentAccount.get('id'),
-					fee: {
-						asset_id: feeID,
-						amount: 0,
-					},
-				})
-		);
+		const limitOrders = orders.map((order) => {
+			return new LimitOrderCreate({
+				for_sale: order.for_sale,
+				expiration: new Date(order.expirationTime || false),
+				to_receive: order.to_receive,
+				seller: this.props.currentAccount.get('id'),
+				fee: {
+					asset_id: feeID,
+					amount: 0,
+				},
+			});
+		});
 
 		return MarketsActions.createLimitOrder2(limitOrders)
 			.then((result) => {
@@ -1671,12 +1670,13 @@ class Exchange extends React.Component {
 		current.for_sale.setAmount({real: parseFloat(e.target.value) || 0});
 		if (current.price.isValid()) {
 			this._setReceive(current, isBid);
-		} else {
-			this._setPrice(current);
 		}
+		// else {
+		// 	this._setPrice(current);
+		// }
 
 		current.forSaleText = e.target.value;
-		this._setPriceText(current, type === 'bid');
+		// this._setPriceText(current, type === 'bid');
 
 		this.forceUpdate();
 	}
@@ -1688,12 +1688,13 @@ class Exchange extends React.Component {
 
 		if (current.price.isValid()) {
 			this._setForSale(current, isBid);
-		} else {
-			this._setPrice(current);
 		}
+		// else {
+		// 	this._setPrice(current);
+		// }
 
 		current.toReceiveText = e.target.value;
-		this._setPriceText(current, type === 'bid');
+		// this._setPriceText(current, type === 'bid');
 		this.forceUpdate();
 	}
 

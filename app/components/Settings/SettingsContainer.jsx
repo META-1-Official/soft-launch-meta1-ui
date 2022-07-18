@@ -28,7 +28,7 @@ class SettingsContainer extends React.Component {
 					},
 				}}
 			>
-				<PageHeader title="Setting" showDivider level={2} />
+				<PageHeader title="Settings" showDivider level={2} />
 				<Settings {...this.props} />
 				{/* <Footer /> */}
 			</AltContainer>

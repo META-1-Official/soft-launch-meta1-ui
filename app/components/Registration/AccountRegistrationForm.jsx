@@ -196,14 +196,18 @@ class AccountRegistrationForm extends React.Component {
 								name="firstname"
 								rules={[
 									{
-										required: true,
-										message: 'The firstname is required.',
-									},
-									{
 										validator: (_, value) => {
-											if (value.includes(' ')) {
-												return Promise.reject('Whitespace is not allowed');
-											} else return Promise.resolve();
+											if (value.length === 0)
+												return Promise.reject('first name is required.');
+											else if (value.includes(' ')) {
+												return Promise.reject('Whitespace is not allowed.');
+											} else {
+												if (/^[\p{L}'][ \p{L}'-]*[\p{L}]$/u.test(value)) {
+													return Promise.resolve();
+												} else {
+													return Promise.reject('first name is invalid.');
+												}
+											}
 										},
 									},
 								]}
@@ -224,14 +228,18 @@ class AccountRegistrationForm extends React.Component {
 								name="lastname"
 								rules={[
 									{
-										required: true,
-										message: 'The lastname is required.',
-									},
-									{
 										validator: (_, value) => {
-											if (value.includes(' ')) {
-												return Promise.reject('Whitespace is not allowed');
-											} else return Promise.resolve();
+											if (value.length === 0)
+												return Promise.reject('last name is required.');
+											else if (value.includes(' ')) {
+												return Promise.reject('Whitespace is not allowed.');
+											} else {
+												if (/^[\p{L}'][ \p{L}'-]*[\p{L}]$/u.test(value)) {
+													return Promise.resolve();
+												} else {
+													return Promise.reject('last name is invalid.');
+												}
+											}
 										},
 									},
 								]}

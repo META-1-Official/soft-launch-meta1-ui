@@ -353,6 +353,20 @@
 			}
 		}
 	}
+
+	&.quote_selection {
+		table {
+			.text-center {
+				text-align: center;
+
+				svg {
+					path {
+						fill: #ffc000;
+					}
+				}
+			}
+		}
+	}
 }
 
 .modal {
