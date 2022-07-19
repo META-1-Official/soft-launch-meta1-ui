@@ -118,13 +118,7 @@ class RecentTransactions extends React.Component {
 
 		let {accountsList, customFilter, filter} = this.props;
 
-		this._getHistory(
-			accountsList,
-			this.props.showFilters && this.state.filter !== 'all'
-				? this.state.filter
-				: filter,
-			customFilter
-		);
+		this._getHistory(accountsList);
 	}
 
 	esNodeChange(e) {
@@ -197,6 +191,8 @@ class RecentTransactions extends React.Component {
 		if (this.state.esNodeCustom !== nextState.esNodeCustom) return true;
 		if (this.state.visibleId !== nextState.visibleId) return true;
 		if (this.state.history.length !== nextState.history.length) return true;
+		if (!this.props.transactionHistoryCheckbox) return false;
+		if (!nextProps.transactionHistoryCheckbox) return false;
 		if (
 			this.props.transactionHistoryCheckbox.length !==
 			nextProps.transactionHistoryCheckbox.length
@@ -212,7 +208,7 @@ class RecentTransactions extends React.Component {
 		});
 	}
 
-	async _getHistory(accountsList, filterOp, customFilter) {
+	async _getHistory(accountsList) {
 		let history = [];
 
 		let seen_ops = new Set();
@@ -261,12 +257,20 @@ class RecentTransactions extends React.Component {
 								op: JSON.parse(h.operation_history.op),
 								result: JSON.parse(h.operation_history.operation_result),
 							});
+							BlockchainActions.getHeader.defer(h.block_data.block_num);
 						});
+
 						this.setState({limit: count});
 					}
 				}
 			}
 		}
+
+		this.setState({history});
+	}
+
+	_filterHistory(accountsList, filterOp, customFilter) {
+		let {history} = this.state;
 
 		// Filtering
 		let myCustomFilters = [
@@ -394,7 +398,7 @@ class RecentTransactions extends React.Component {
 				return finalValue;
 			});
 		}
-		this.setState({history});
+		return history;
 	}
 
 	async _generateCSV(exportType) {
@@ -513,18 +517,23 @@ class RecentTransactions extends React.Component {
 	render() {
 		let {accountsList, filter, customFilter, style} = this.props;
 
-		let {limit, history} = this.state;
+		let {limit} = this.state;
 		let current_account_id =
 			accountsList.length === 1 && accountsList[0]
 				? accountsList[0].get('id')
 				: null;
 
-		history = history.sort(compareOps);
+		let history = this._filterHistory(
+			accountsList,
+			this.props.showFilters && this.state.filter !== 'all'
+				? this.state.filter
+				: filter,
+			customFilter
+		).sort(compareOps);
 
-		style = style ? style : {width: '100%'};
+		style = style ? style : {width: '100%', height: '100%'};
 
-		if (history.length == 0) style.height = '100%';
-		else delete style.height;
+		if (history.length > 0) delete style.height;
 
 		let defaultOptions = null;
 		let amountOptions = null;
