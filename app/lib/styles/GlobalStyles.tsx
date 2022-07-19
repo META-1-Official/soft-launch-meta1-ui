@@ -331,13 +331,17 @@ const GlobalStyles = (theme: any) => css`
 		}
 	}
 
-  .ant-select-item-option-selected.customOption, .ant-select-item-option-active.customOption  {
-    background: white !important;
-    & > .ant-select-item-option-content {
-      background: white !important
-    }
-  }
-  
+	.ant-select-item-option-active.customOption  {
+		background: white !important;
+		& > .ant-select-item-option-content {
+		  background: transparent !important
+		}
+	}
+
+	.ant-select-item-option-selected.customOption:not(.ant-select-item-option-active) {
+		background: transparent !important;
+	}
+	  
 	.ant-select-disabled.ant-select:not(.ant-select-customize-input) .ant-select-selector {
 		background-color: ${theme.colors.dropdownBackgroundColor};
 		color: ${theme.colors.themeOpositeColor};
