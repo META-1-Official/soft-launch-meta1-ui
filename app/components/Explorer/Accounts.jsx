@@ -197,15 +197,6 @@ class Accounts extends React.Component {
 		if (searchAccounts.size > 0 && searchTerm && searchTerm.length > 0) {
 			searchAccounts
 				.filter((a) => {
-					/*
-					 * This appears to return false negatives, perhaps from
-					 * changed account name rules when moving to graphene?. Either
-					 * way, trying to resolve invalid names fails in the ChainStore,
-					 * which in turn breaks the BindToChainState wrapper
-					 */
-					// if (!ChainValidation.is_account_name(a, true)) {
-					//     return false;
-					// }
 					return a.indexOf(searchTerm) !== -1;
 				})
 				.sort((a, b) => {
@@ -219,19 +210,35 @@ class Accounts extends React.Component {
 				})
 				.map((name, id) => {
 					let currentAccount = ChainStore.getAccount(id.toLowerCase());
-					let balance = currentAccount
-						? currentAccount.getIn(['balances', '1.3.0']) || null
-						: null;
+					if (!currentAccount) {
+						setTimeout(() => {
+							currentAccount = ChainStore.getAccount(id.toLowerCase());
 
-					dataSource.push({
-						accountId: id,
-						accountContacts: AccountStore.getState().accountContacts,
-						accountName: name,
-						accountBalance: balance,
-					});
+							let balance = currentAccount
+								? currentAccount.getIn(['balances', '1.3.0']) || null
+								: null;
+
+							dataSource.push({
+								accountId: id,
+								accountContacts: AccountStore.getState().accountContacts,
+								accountName: name,
+								accountBalance: balance,
+							});
+							this.forceUpdate();
+						}, 1000);
+					} else {
+						let balance = currentAccount
+							? currentAccount.getIn(['balances', '1.3.0']) || null
+							: null;
+						dataSource.push({
+							accountId: id,
+							accountContacts: AccountStore.getState().accountContacts,
+							accountName: name,
+							accountBalance: balance,
+						});
+					}
 				});
 		}
-
 		return (
 			<div className="grid-block vertical">
 				<div className="grid-block vertical">
