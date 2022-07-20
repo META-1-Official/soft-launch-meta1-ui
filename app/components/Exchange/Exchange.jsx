@@ -909,7 +909,6 @@ class Exchange extends React.Component {
 							),
 						});
 				}
-				console.log('order success');
 			})
 			.catch((e) => {
 				console.log('order failed:', e);

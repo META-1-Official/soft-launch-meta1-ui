@@ -121,7 +121,7 @@ const MarketOrderForm = (props) => {
 
 		const sellAmount = () => {
 			let scaledAmount = amount * price;
-			console.log('scaled Amount', scaledAmount.toPrecision(5));
+
 			return isBid
 				? Number(scaledAmount.toPrecision(5)) *
 						Math.pow(10, sellAsset.get('precision'))
@@ -142,12 +142,12 @@ const MarketOrderForm = (props) => {
 			for_sale: new Asset({
 				asset_id: sellAsset.get('id'),
 				precision: sellAsset.get('precision'),
-				real: sellAmount(),
+				amount: sellAmount(),
 			}),
 			to_receive: new Asset({
 				asset_id: buyAsset.get('id'),
 				precision: buyAsset.get('precision'),
-				real: buyAmount(),
+				amount: buyAmount(),
 			}),
 			expirationTime: expirationTime,
 		});

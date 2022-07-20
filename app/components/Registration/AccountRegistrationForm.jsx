@@ -19,6 +19,10 @@ import ReCAPTCHA from 'react-google-recaptcha';
 import WalletUnlockActions from 'actions/WalletUnlockActions';
 import {MailOutlined, UserOutlined, PhoneOutlined} from '@ant-design/icons';
 
+import ls from '../../lib/common/localStorage';
+import {Apis} from 'meta1-vision-ws';
+let ss = new ls('__graphene__');
+
 class AccountRegistrationForm extends React.Component {
 	static propTypes = {
 		continue: PropTypes.func.isRequired,
@@ -56,6 +60,13 @@ class AccountRegistrationForm extends React.Component {
 			setting: 'passwordLogin',
 			value: true,
 		});
+
+		console.log('@!!!');
+		const chainId = Apis.instance().chain_id;
+		let key = 'currentAccount' + (chainId ? `_${chainId.substr(0, 8)}` : '');
+		console.log('key', key);
+		ss.set(key, null);
+		window.localStorage.removeItem('__graphene__' + key);
 	}
 
 	componentDidMount() {
@@ -198,14 +209,18 @@ class AccountRegistrationForm extends React.Component {
 									{
 										validator: (_, value) => {
 											if (value.length === 0)
-												return Promise.reject('first name is required.');
-											else if (value.includes(' ')) {
-												return Promise.reject('Whitespace is not allowed.');
-											} else {
-												if (/^[\p{L}'][ \p{L}'-]*[\p{L}]$/u.test(value)) {
-													return Promise.resolve();
+												return Promise.reject('First Name is required.');
+											else if (value[0] !== value[0].toUpperCase())
+												return Promise.reject(
+													'First Character should be upper case.'
+												);
+											else {
+												if (!/^[A-Za-z]{0,63}$/.test(value)) {
+													return Promise.reject(
+														'Your First Name must not contain special characters'
+													);
 												} else {
-													return Promise.reject('first name is invalid.');
+													return Promise.resolve();
 												}
 											}
 										},
@@ -230,14 +245,18 @@ class AccountRegistrationForm extends React.Component {
 									{
 										validator: (_, value) => {
 											if (value.length === 0)
-												return Promise.reject('last name is required.');
-											else if (value.includes(' ')) {
-												return Promise.reject('Whitespace is not allowed.');
-											} else {
-												if (/^[\p{L}'][ \p{L}'-]*[\p{L}]$/u.test(value)) {
-													return Promise.resolve();
+												return Promise.reject('Last Name is required.');
+											else if (value[0] !== value[0].toUpperCase())
+												return Promise.reject(
+													'First Character should be upper case.'
+												);
+											else {
+												if (!/^[A-Za-z]{0,63}$/.test(value)) {
+													return Promise.reject(
+														'Your Last Name must not contain special characters'
+													);
 												} else {
-													return Promise.reject('last name is invalid.');
+													return Promise.resolve();
 												}
 											}
 										},

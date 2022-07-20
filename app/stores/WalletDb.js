@@ -354,7 +354,6 @@ class WalletDb extends BaseStore {
 		let privKey = PrivateKey.fromSeed(seed);
 		let pubKey = privKey.toPublicKey().toString();
 		const faucetAddress = SettingsStore.getSetting('faucet_address');
-		console.log('Testnet? ', faucetAddress);
 		pubKey = faucetAddress.includes('testnet')
 			? `META1TEST${pubKey.substring(3)}`
 			: pubKey;
@@ -374,7 +373,6 @@ class WalletDb extends BaseStore {
 		if (account) {
 			let id = 0;
 			function setKey(role, priv, pub) {
-				console.log('!!!! key', pub, priv);
 				if (!_passwordKey) _passwordKey = {};
 				_passwordKey[pub] = priv;
 
@@ -398,24 +396,19 @@ class WalletDb extends BaseStore {
 			let acc = chainAccount
 				? chainAccount
 				: ChainStore.getAccount(account, false);
-			console.log('!!! validate pass: acc', acc);
-			console.log('!!! fromWif', fromWif);
 			let key;
 			if (fromWif) {
-				console.log('!!! fromWif --- 1', fromWif);
 				key = {
 					privKey: fromWif,
 					pubKey: fromWif.toPublicKey().toString(),
 				};
 			}
-			console.log('!!! validate pass: key', key);
 
 			/* Test the pubkey for each role against either the wif key, or the password generated keys */
 			roles.forEach((role) => {
 				if (!fromWif) {
 					key = this.generateKeyFromPassword(account, role, password);
 				}
-				console.log('!!! validate pass: key in roles - ', role, key);
 
 				let foundRole = false;
 
@@ -553,7 +546,6 @@ class WalletDb extends BaseStore {
 		const loopMax = !sequence
 			? Math.max(sequence + this.brainkey_look_ahead, 10)
 			: sequence + this.brainkey_look_ahead;
-		// console.log("generateNextKey, save:", save, "sequence:", sequence, "loopMax", loopMax, "brainkey_look_ahead:", this.brainkey_look_ahead);
 
 		for (let i = sequence; i < loopMax; i++) {
 			let private_key = key.get_brainPrivateKey(brainkey, i);
@@ -569,12 +561,6 @@ class WalletDb extends BaseStore {
 			/* If next_key exists, it means the generated private key controls an account, so we need to save it */
 			if (next_key && next_key.size) {
 				used_sequence = i;
-				console.log(
-					'WARN: Private key sequence ' +
-						used_sequence +
-						' in-use. ' +
-						'I am saving the private key and will go onto the next one.'
-				);
 				this.saveKey(private_key, used_sequence);
 				// this.brainkey_look_ahead++;
 			}
@@ -616,7 +602,6 @@ class WalletDb extends BaseStore {
 		let wallet = this.state.wallet;
 		// increment in RAM so this can't be out-of-sync
 		wallet.brainkey_sequence = 0;
-		console.log('reset sequence', wallet.brainkey_sequence);
 		// update last modified
 		return this._updateWallet();
 	}
@@ -673,7 +658,6 @@ class WalletDb extends BaseStore {
 						};
 						enc_private_key_objs.push(private_key_object);
 					}
-					console.log('Saving private keys', new Date().toString());
 					let transaction = _this.transaction_update_keys();
 					let insertKeysPromise = idb_helper.on_transaction_end(transaction);
 					try {
