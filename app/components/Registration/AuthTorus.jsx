@@ -87,7 +87,6 @@ class AccountRegistration extends React.Component {
 			if (openLogin.privKey) {
 				const privKey = openLogin.privKey;
 				const data = await openLogin.getUserInfo();
-
 				this.props.setPrivKey(privKey);
 				this.props.setAuthData(data);
 				this.setState({alreadyAssociatedEmail: data.email});
@@ -99,6 +98,7 @@ class AccountRegistration extends React.Component {
 				}
 				await openLogin.login();
 				const data = await openLogin.getUserInfo();
+				console.log('User is logged in. Private key: ' + data);
 			}
 		} catch (error) {
 			console.log('Error in Torus Render', error);
