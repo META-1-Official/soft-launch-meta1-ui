@@ -184,7 +184,7 @@
 			"save_all": "Save All Changes",
 			"show": "Show",
 			"sign_owner": "Sign as owner",
-			"threshold": "Threshold",
+			"threshold": "Threshold (%)",
 			"type": "Type",
 			"use_text": "Use",
 			"valid_pub": "Valid Public Key",

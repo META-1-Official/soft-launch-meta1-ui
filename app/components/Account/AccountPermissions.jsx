@@ -261,6 +261,7 @@ class AccountPermissions extends React.Component {
 
 	onThresholdChanged(var_name, event) {
 		let value = parseInt(event.target.value.trim());
+		if (value > 100) return;
 		let state = {};
 		state[var_name] = value;
 		this.setState(state);
@@ -510,7 +511,7 @@ class AccountPermissions extends React.Component {
 							<div className="tab-content">
 								<div className="content-wrapper">
 									<form className="threshold">
-										<Translate content="account.perm.threshold" /> &nbsp; &nbsp;
+										<Translate content="account.perm.threshold" />
 										<input
 											type="number"
 											placeholder="0"

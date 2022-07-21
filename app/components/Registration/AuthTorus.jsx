@@ -87,7 +87,6 @@ class AccountRegistration extends React.Component {
 			if (openLogin.privKey) {
 				const privKey = openLogin.privKey;
 				const data = await openLogin.getUserInfo();
-				console.log('User is already logged in. Private key: ' + privKey, data);
 				this.props.setPrivKey(privKey);
 				this.props.setAuthData(data);
 				this.setState({alreadyAssociatedEmail: data.email});
