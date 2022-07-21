@@ -250,6 +250,12 @@ class WalletUnlockModal extends React.Component {
 			else if (this.shouldUseBackupLogin()) this.backup();
 			resolve();
 			WalletUnlockActions.cancel();
+
+			if (
+				this.props.history.location.pathname.split('/')[1] === 'registration'
+			) {
+				this.props.history.push('/explorer/blocks');
+			}
 		}
 	};
 
