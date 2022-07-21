@@ -535,7 +535,9 @@ class AssetsPairTabs extends React.Component {
 									textAlign: 'right',
 									color: '#D0D0D0',
 								}}
-							>{`$${price}`}</div>
+							>
+								{price}
+							</div>
 						</div>
 					);
 				},
