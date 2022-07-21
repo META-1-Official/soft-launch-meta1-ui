@@ -63,7 +63,8 @@ class Asset {
 	}
 
 	setAmount({sats, real}) {
-		if (typeof sats === 'string') sats = parseInt(sats, 10);
+		console.log('SATA', sats);
+		if (typeof sats === 'string') sats = parseFloat(sats, 10);
 		if (typeof real === 'string') real = parseFloat(real);
 
 		if (typeof sats !== 'number' && typeof real !== 'number') {

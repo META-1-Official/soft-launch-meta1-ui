@@ -122,21 +122,24 @@ const MarketOrderForm = (props) => {
 		const sellAmount = () => {
 			let scaledAmount = amount * price;
 
+			console.log(
+				'PRE',
+				scaledAmount,
+				Math.pow(10, sellAsset.get('precision'))
+			);
 			return isBid
-				? Number(scaledAmount.toPrecision(5)) *
-						Math.pow(10, sellAsset.get('precision'))
-				: Number(amount.toPrecision(5)) *
-						Math.pow(10, sellAsset.get('precision'));
+				? Number(scaledAmount) * Math.pow(10, sellAsset.get('precision'))
+				: Number(amount) * Math.pow(10, sellAsset.get('precision'));
 		};
 
 		const buyAmount = () => {
 			let scaledAmount = amount * price;
 			return !isBid
-				? Number(scaledAmount.toPrecision(5)) *
-						Math.pow(10, buyAsset.get('precision'))
-				: Number(amount.toPrecision(5)) *
-						Math.pow(10, buyAsset.get('precision'));
+				? Number(scaledAmount) * Math.pow(10, buyAsset.get('precision'))
+				: Number(amount) * Math.pow(10, buyAsset.get('precision'));
 		};
+
+		console.log('SEL', amount, price, sellAmount());
 
 		orders.push({
 			for_sale: new Asset({
@@ -151,6 +154,8 @@ const MarketOrderForm = (props) => {
 			}),
 			expirationTime: expirationTime,
 		});
+
+		console.log('@@1', orders[0].for_sale, orders[0].to_receive);
 
 		props
 			.createMarketOrder(orders, ChainStore.getAsset('META1').get('id'))

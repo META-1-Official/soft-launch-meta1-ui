@@ -143,6 +143,7 @@ class AccountPermissionsList extends React.Component {
 
 	onWeightChanged(event) {
 		let value = event.target.value.trim();
+		if (value > 100) return;
 		this.setState({weight_input: parseInt(value)});
 	}
 
@@ -253,7 +254,7 @@ class AccountPermissionsList extends React.Component {
 						className="weight-input"
 						type="number"
 						autoComplete="off"
-						placeholder={counterpart.translate('account.perm.weight')}
+						placeholder="Weight (%)"
 						onKeyDown={this.onWeightKeyDown.bind(this)}
 						tabIndex={this.props.tabIndex + 1}
 					/>
