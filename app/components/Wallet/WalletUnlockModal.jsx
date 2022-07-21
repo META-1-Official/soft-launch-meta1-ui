@@ -254,7 +254,7 @@ class WalletUnlockModal extends React.Component {
 			if (
 				this.props.history.location.pathname.split('/')[1] === 'registration'
 			) {
-				this.props.history.push('/explorer/blocks');
+				this.props.history.push(`/account/${account}`);
 			}
 		}
 	};
