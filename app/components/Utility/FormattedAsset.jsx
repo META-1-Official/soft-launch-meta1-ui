@@ -136,13 +136,16 @@ class FormattedAsset extends React.Component {
 		let formattedValue = null;
 		if (!hide_amount) {
 			let value = this.props.exact_amount ? amount : amount / precision;
-			formattedValue = (
-				<FormattedNumber
-					value={value}
-					minimumFractionDigits={Math.max(decimals, 0)}
-					maximumFractionDigits={Math.max(decimals, 0)}
-				/>
-			);
+
+			if (decimals > 0)
+				formattedValue = (
+					<FormattedNumber
+						value={value}
+						minimumFractionDigits={Math.max(decimals, 0)}
+						maximumFractionDigits={Math.max(decimals, 0)}
+					/>
+				);
+			else formattedValue = parseFloat(value.toFixed(5));
 
 			if (pulsate) {
 				if (typeof pulsate !== 'object') pulsate = {};
