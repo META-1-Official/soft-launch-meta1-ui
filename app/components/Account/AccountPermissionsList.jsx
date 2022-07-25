@@ -174,7 +174,6 @@ class AccountPermissionsList extends React.Component {
 		let account_rows = this.props.accounts
 			.filter((i) => {
 				if (!i) return false;
-				//if (this.state.item_name_input) return i.get("name").indexOf(this.state.item_name_input) !== -1;
 				return true;
 			})
 			.sort((a, b) => {
