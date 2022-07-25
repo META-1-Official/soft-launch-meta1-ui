@@ -35,7 +35,7 @@ import {connect} from 'alt-react';
 import PendingBlock from '../Utility/PendingBlock';
 import {AiOutlineFileSearch} from 'react-icons/ai';
 import {CaretDownFilled} from '@ant-design/icons';
-
+import moment from 'moment-timezone';
 const operation = new OperationAnt();
 
 const Option = Select.Option;
@@ -256,8 +256,10 @@ class RecentTransactions extends React.Component {
 								virtual_op: h.operation_history.virtual_op,
 								op: JSON.parse(h.operation_history.op),
 								result: JSON.parse(h.operation_history.operation_result),
+								block_time: {
+									timestamp: moment.utc(h.block_data.block_time).toDate(),
+								},
 							});
-							BlockchainActions.getHeader.defer(h.block_data.block_num);
 						});
 
 						this.setState({limit: count});
@@ -496,6 +498,7 @@ class RecentTransactions extends React.Component {
 			fee: <FormattedAsset amount={fee.amount} asset={fee.asset_id} />,
 			time: (
 				<BlockTime
+					blockHeader={o.block_time}
 					block_number={o.block_num}
 					fullDate={true}
 					transactionDate={true}
