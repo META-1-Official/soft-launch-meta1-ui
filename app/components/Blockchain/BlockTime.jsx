@@ -88,9 +88,9 @@ BlockTime = connect(BlockTime, {
 	},
 	getProps(props) {
 		return {
-			blockHeader: BlockchainStore.getState().blockHeaders.get(
-				props.block_number
-			),
+			blockHeader: props.blockHeader
+				? props.blockHeader
+				: BlockchainStore.getState().blockHeaders.get(props.block_number),
 		};
 	},
 });
