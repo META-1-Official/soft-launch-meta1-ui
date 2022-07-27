@@ -593,6 +593,7 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 
 	.__react_component_tooltip.type-light {
 		@include color($light-text-color, $super-light-panel-bg-color, true);
+		overflow: hidden !important;
 		&.place-bottom:after {
 			border-bottom-color: $super-light-panel-bg-color !important;
 		}

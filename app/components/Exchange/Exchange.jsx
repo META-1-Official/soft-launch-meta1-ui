@@ -450,18 +450,18 @@ class Exchange extends React.Component {
 		return rules.toJS();
 	}
 
-	_handleExpirationChange(type, e) {
+	_handleExpirationChange(type, value) {
 		let expirationType = {
 			...this.state.expirationType,
-			[type]: e.target.value,
+			[type]: value,
 		};
 
-		if (e.target.value !== 'SPECIFIC') {
+		if (value !== 'SPECIFIC') {
 			SettingsActions.setExchangeLastExpiration({
 				...((this.props.exchange.has('lastExpiration') &&
 					this.props.exchange.get('lastExpiration').toJS()) ||
 					{}),
-				[type]: e.target.value,
+				[type]: value,
 			});
 		}
 

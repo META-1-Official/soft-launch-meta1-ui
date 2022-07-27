@@ -520,6 +520,8 @@ class App extends React.Component {
 						ref="tooltip"
 						place="top"
 						type={theme === 'lightTheme' ? 'dark' : 'light'}
+						event="mouseover mouseenter"
+						eventOff="mouseleave mouseout scroll mousewheel blur"
 						effect="solid"
 					/>
 				</div>
