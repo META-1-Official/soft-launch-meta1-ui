@@ -156,14 +156,12 @@ class BuySell extends React.Component {
 		this.props.onBuy();
 	}
 
-	onExpirationSelectChange = (e) => {
-		if (e.target.value === 'SPECIFIC') {
+	onExpirationSelectChange = (value) => {
+		if (value === 'SPECIFIC') {
 			this.datePricker.picker.handleOpenChange(true);
-		} else {
-			this.datePricker.picker.handleOpenChange(false);
 		}
 
-		this.props.onExpirationTypeChange(e);
+		this.props.onExpirationTypeChange(value);
 	};
 
 	onExpirationSelectClick = (e) => {
@@ -603,11 +601,11 @@ class BuySell extends React.Component {
 
 		const expirationsOptionsList = Object.keys(this.props.expirations).map(
 			(key) => (
-				<option value={key} key={key}>
+				<Select.Option value={key} key={key}>
 					{key === 'SPECIFIC' && expirationCustomTime !== 'Specific'
 						? moment(expirationCustomTime).format('Do MMM YYYY hh:mm A')
 						: this.props.expirations[key].title}
-				</option>
+				</Select.Option>
 			)
 		);
 
@@ -773,6 +771,56 @@ class BuySell extends React.Component {
 							/>
 						</div>
 					</div>
+
+					{/*					<div className="grid-block no-overflow shrink limit-order-input-wrapper">
+							<Translate
+								className="small-3 buy-sell-label"
+								content="transaction.expiration"
+							/>
+							<div className="inputAddon limit-order-input" style={{
+								borderLeft: '1px solid rgba(86, 97, 118, 0.3)',
+								height: '80%',
+								padding: '5px'
+							}}>
+								
+								<Select
+									className="cursor-pointer"
+									onChange={this.onExpirationSelectChange}
+									onClick={this.onExpirationSelectClick}
+									onBlur={this.onExpirationSelectBlur}
+									data-tip={
+										expirationTip &&
+										moment(expirationTip).format('Do MMM YYYY hh:mm A')
+									}
+									style={{
+										width: '100%',
+									}}
+									value={this.props.expirationType}
+								>
+									{expirationsOptionsList}
+								</Select>
+
+								<DatePicker
+									ref={this.getDatePickerRef}
+									className="expiration-datetime-picker--hidden"
+									showTime
+									showToday={false}
+									disabledDate={(current) =>
+										current < moment().add(59, 'minutes')
+									}
+									value={
+										expirationCustomTime !== 'Specific'
+											? expirationCustomTime
+											: moment().add(1, 'hour')
+									}
+									style={{
+										width: '100%',
+									}}
+									onChange={this.props.onExpirationCustomChange}
+								/>
+							</div>
+						</div>*/}
+
 					{/* <div className="grid-block no-overflow shrink limit-order-input-wrapper">
 						<Translate
 							className="small-3 buy-sell-label"
@@ -918,6 +966,7 @@ class BuySell extends React.Component {
 								/>
 							</div>
 						</div>
+
 						{/* <div className="small-6">
 							<Translate
 								className="small-3 buy-sell-label"
@@ -1049,7 +1098,7 @@ class BuySell extends React.Component {
 							{formContent}
 						</div>
 
-						<div className="grid-block vertical no-overflow shrink">
+						<div className="grid-block vertical no-overflow shrink ">
 							{/* <div
 								className={singleColumnForm ? 'small-12 grid-block' : 'small-6'}
 							>
@@ -1073,7 +1122,7 @@ class BuySell extends React.Component {
 										}
 										onChange={this.props.onExpirationCustomChange}
 									/>
-									<select
+									<Select
 										className="cursor-pointer"
 										onChange={this.onExpirationSelectChange}
 										onClick={this.onExpirationSelectClick}
@@ -1082,12 +1131,16 @@ class BuySell extends React.Component {
 											expirationTip &&
 											moment(expirationTip).format('Do MMM YYYY hh:mm A')
 										}
+										style={{
+											width: '100%'
+										}}
 										value={this.props.expirationType}
 									>
 										{expirationsOptionsList}
-									</select>
+									</Select>
 								</div>
-							</div> */}
+							</div>*/}
+
 							{/* {!singleColumnForm ? (
 								<div className="small-6">{marketFee}</div>
 							) : null} */}
