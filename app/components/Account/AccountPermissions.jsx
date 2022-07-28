@@ -24,6 +24,7 @@ class AccountPermissions extends React.Component {
 		this.state = {
 			currentTab: 'ActivePermissions',
 			currentDisplay: null,
+			transactionHistoryCheckbox: ['Operation', 'Info', 'Fee', 'Time'],
 		};
 		this.onPublish = this.onPublish.bind(this);
 		this.onReset = this.onReset.bind(this);
@@ -622,6 +623,7 @@ class AccountPermissions extends React.Component {
 							compactView={false}
 							filter="account_update"
 							style={{paddingBottom: '2rem'}}
+							transactionHistoryCheckbox={this.state.transactionHistoryCheckbox}
 						/>
 					</div>
 				</div>
