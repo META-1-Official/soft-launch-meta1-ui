@@ -15,6 +15,8 @@ import {
 import chainIds from 'chain/chainIds';
 
 const CORE_ASSET = 'META1'; // Setting this to META1 to prevent loading issues when used with META1 chain which is the most usual case currently
+const CHAINID_SHORT = chainIds[process.env.CURRENT_NET].substr(0, 8);
+const TEST_CHAINID_SHORT = chainIds[process.env.TEST_NET].substr(0, 8);
 
 const STORAGE_KEY = '__graphene__';
 let ss = new ls(STORAGE_KEY);
@@ -420,27 +422,25 @@ class SettingsStore {
 			this.marketsKey = this._getChainKey('userMarkets');
 			this.basesKey = this._getChainKey('preferredBases');
 			// Default markets setup
-			let topMarkets = {
-				markets_22a8d817: getMyMarketsQuotes(),
-				markets_39f5e2ed: [
-					// TESTNET
-					'PEG.FAKEUSD',
-					'BTWTY',
-				],
-			};
+			let topMarkets = {};
+			topMarkets[`markets_${CHAINID_SHORT}`] = getMyMarketsQuotes();
+			topMarkets[`markets_${TEST_CHAINID_SHORT}`] = [
+				// TESTNET
+				'PEG.FAKEUSD',
+				'BTWTY',
+			];
 
-			let bases = {
-				markets_22a8d817: getMyMarketsBases(),
-				markets_39f5e2ed: [
-					// TESTNET
-					'TEST',
-				],
-			};
+			let bases = {};
+			base[`markets_${CHAINID_SHORT}`] = getMyMarketsBases();
+			base[`markets_${TEST_CHAINID_SHORT}`] = [
+				// TESTNET
+				'TEST',
+			];
 
-			let coreAssets = {
-				markets_22a8d817: 'META1',
-				markets_39f5e2ed: 'TEST',
-			};
+			let coreAssets = {};
+			coreAssets[`markets_${CHAINID_SHORT}`] = 'META1';
+			coreAssets[`markets_${TEST_CHAINID_SHORT}`] = 'TEST';
+
 			let coreAsset = coreAssets[this.starredKey] || 'META1';
 			/*
 			 * Update units depending on the chain, also make sure the 0 index
@@ -449,7 +449,8 @@ class SettingsStore {
 			this.onUpdateUnits();
 			this.defaults.unit[0] = coreAsset;
 
-			let defaultBases = bases[this.starredKey] || bases.markets_22a8d817;
+			let defaultBases =
+				bases[this.starredKey] || bases[`markets_${CHAINID_SHORT}`];
 			let storedBases = ss.get(this.basesKey, []);
 			this.preferredBases = Immutable.List(
 				storedBases.length ? storedBases : defaultBases
