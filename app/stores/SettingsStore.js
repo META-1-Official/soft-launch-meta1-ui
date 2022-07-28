@@ -431,8 +431,8 @@ class SettingsStore {
 			];
 
 			let bases = {};
-			base[`markets_${CHAINID_SHORT}`] = getMyMarketsBases();
-			base[`markets_${TEST_CHAINID_SHORT}`] = [
+			bases[`markets_${CHAINID_SHORT}`] = getMyMarketsBases();
+			bases[`markets_${TEST_CHAINID_SHORT}`] = [
 				// TESTNET
 				'TEST',
 			];
