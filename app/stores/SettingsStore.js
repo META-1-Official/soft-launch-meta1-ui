@@ -16,7 +16,7 @@ import chainIds from 'chain/chainIds';
 
 const CORE_ASSET = 'META1'; // Setting this to META1 to prevent loading issues when used with META1 chain which is the most usual case currently
 const CHAINID_SHORT = chainIds[process.env.CURRENT_NET].substr(0, 8);
-const TEST_CHAINID_SHORT = chainIds[process.env.TEST_NET].substr(0, 8);
+const TEST_CHAINID_SHORT = chainIds['TEST_NET'].substr(0, 8);
 
 const STORAGE_KEY = '__graphene__';
 let ss = new ls(STORAGE_KEY);
