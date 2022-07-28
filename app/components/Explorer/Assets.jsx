@@ -20,6 +20,7 @@ import {List, Row, Col, Typography} from 'antd';
 import SearchInput from '../Utility/SearchInput';
 import ExploreCard from 'components/ExploreCard/ExploreCard';
 import {FaChartBar} from 'react-icons/fa';
+import chainIds from 'chain/chainIds';
 
 let accountStorage = new ls('__graphene__');
 const {Text} = Typography;
@@ -28,13 +29,15 @@ const marketCapIcon = require('assets/explorer/marketCap.png');
 const marketCapBTCIcon = require('assets/explorer/marketCapBTC.png');
 const marketCapUSDTIcon = require('assets/explorer/marketCapUSDT.png');
 
+const CHAINID_SHORT = chainIds[process.env.CURRENT_NET].substr(0, 8);
+
 class Assets extends React.Component {
 	constructor(props) {
 		super();
 
 		let chainID = Apis.instance().chain_id;
 		if (chainID) chainID = chainID.substr(0, 8);
-		else chainID = '9e40bec4';
+		else chainID = CHAINID_SHORT;
 
 		this.state = {
 			chainID,
@@ -44,7 +47,7 @@ class Assets extends React.Component {
 			totalAssets:
 				typeof accountStorage.get(`totalAssets_${chainID}`) != 'object'
 					? accountStorage.get(`totalAssets_${chainID}`)
-					: chainID && chainID === '9e40bec4'
+					: chainID && chainID === CHAINID_SHORT
 					? 3000
 					: 50, // mainnet has 3000+ assets, other chains may not have that many
 			assetsFetched: 0,
