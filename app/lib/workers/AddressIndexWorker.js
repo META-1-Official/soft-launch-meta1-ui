@@ -1,16 +1,16 @@
-import {key} from "meta1js";
+import {key} from 'meta1-vision-js';
 
-onmessage = function(event) {
-    try {
-        console.log("AddressIndexWorker start");
-        let {pubkeys, address_prefix} = event.data;
-        let results = [];
-        for (let pubkey of pubkeys) {
-            results.push(key.addresses(pubkey, address_prefix));
-        }
-        postMessage(results);
-        console.log("AddressIndexWorker done");
-    } catch (e) {
-        console.error("AddressIndexWorker", e);
-    }
+onmessage = function (event) {
+	try {
+		console.log('AddressIndexWorker start');
+		let {pubkeys, address_prefix} = event.data;
+		let results = [];
+		for (let pubkey of pubkeys) {
+			results.push(key.addresses(pubkey, address_prefix));
+		}
+		postMessage(results);
+		console.log('AddressIndexWorker done');
+	} catch (e) {
+		console.error('AddressIndexWorker', e);
+	}
 };

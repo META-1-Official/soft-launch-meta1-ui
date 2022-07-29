@@ -1,24 +1,24 @@
-import alt from "alt-instance";
-import BaseStore from "stores/BaseStore";
+import alt from 'alt-instance';
+import BaseStore from 'stores/BaseStore';
 
 class ImportKeysStore extends BaseStore {
-    constructor() {
-        super();
-        this.state = this._getInitialState();
-        this._export("importing");
-    }
+	constructor() {
+		super();
+		this.state = this._getInitialState();
+		this._export('importing');
+	}
 
-    _getInitialState() {
-        return {importing: false};
-    }
+	_getInitialState() {
+		return {importing: false};
+	}
 
-    importing(importing) {
-        this.setState({importing});
-    }
+	importing(importing) {
+		this.setState({importing});
+	}
 }
 
 export var ImportKeysStoreWrapped = alt.createStore(
-    ImportKeysStore,
-    "ImportKeysStore"
+	ImportKeysStore,
+	'ImportKeysStore'
 );
 export default ImportKeysStoreWrapped;

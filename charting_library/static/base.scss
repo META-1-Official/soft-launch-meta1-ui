@@ -1,6 +1,6 @@
 // main colors
 
-$primary-background: #383838 !default;
+$primary-background: black !default;
 $primary-border-color: #535353 !default;
 $primary-background-active: $primary-border-color !default;
 
@@ -132,7 +132,7 @@ input.symbol-edit,
 
       .button, .apply-common-tooltip {
         border: 1px solid $layout-top-button-border-color !important;
-        background-color: black;
+        background-color: $primary-btn-background;
       }
 
       // template button border

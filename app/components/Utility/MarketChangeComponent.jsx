@@ -1,9 +1,14 @@
-import React from "react";
-import {FormattedNumber} from "react-intl";
-import AssetWrapper from "./AssetWrapper";
-import {connect} from "alt-react";
-import MarketsStore from "stores/MarketsStore";
-import {MarketStats} from "../Utility/MarketPrice";
+import React from 'react';
+import {FormattedNumber} from 'react-intl';
+import AssetWrapper from './AssetWrapper';
+import {connect} from 'alt-react';
+import MarketsStore from 'stores/MarketsStore';
+import {MarketStats} from '../Utility/MarketPrice';
+import {
+	ArrowRightOutlined,
+	ArrowUpOutlined,
+	ArrowDownOutlined,
+} from '@ant-design/icons';
 
 /**
  *  Displays change in market value for an asset
@@ -14,82 +19,82 @@ import {MarketStats} from "../Utility/MarketPrice";
  */
 
 class MarketChangeComponent extends MarketStats {
-    static defaultProps = {
-        fullPrecision: false,
-        noDecimals: false,
-        hide_asset: false
-    };
+	static defaultProps = {
+		fullPrecision: false,
+		noDecimals: false,
+		hide_asset: false,
+	};
 
-    constructor(props) {
-        super(props);
-    }
+	constructor(props) {
+		super(props);
+	}
 
-    shouldComponentUpdate(np) {
-        return super.shouldComponentUpdate(np) || np.base !== this.props.base;
-    }
+	shouldComponentUpdate(np) {
+		return super.shouldComponentUpdate(np) || np.base !== this.props.base;
+	}
 
-    getValue() {
-        let {marketStats} = this.props;
-        return marketStats && marketStats.change ? marketStats.change : 0;
-    }
+	getValue() {
+		let {marketStats} = this.props;
+		return marketStats && marketStats.change ? marketStats.change : 0;
+	}
 
-    render() {
-        let marketChangeValue = this.getValue();
-        let dayChangeClass =
-            parseFloat(marketChangeValue) === 0
-                ? ""
-                : parseFloat(marketChangeValue) < 0
-                    ? "change-down"
-                    : "change-up";
-        let marketChangeFormattedValue = (
-            <FormattedNumber
-                style="decimal"
-                value={marketChangeValue}
-                minimumFractionDigits={2}
-                maximumFractionDigits={2}
-            />
-        );
+	render() {
+		let marketChangeValue = this.getValue();
+		if (this.props.marketId === 'LTC_META1') marketChangeValue = '1.0';
+		if (this.props.marketId === 'EOS_META1') marketChangeValue = '-1.0';
+		let dayChangeClass =
+			parseFloat(marketChangeValue) === 0
+				? ''
+				: parseFloat(marketChangeValue) < 0
+				? 'change-down'
+				: 'change-up';
+		let marketChangeFormattedValue = (
+			<FormattedNumber
+				style="decimal"
+				value={Math.abs(marketChangeValue)}
+				minimumFractionDigits={2}
+				maximumFractionDigits={2}
+			/>
+		);
 
-        // this is treating a sympton when MarketStore does not provide a proper value! #2511
-        if (!isNaN(parseFloat(marketChangeValue))) {
-            return (
-                <span className={"value " + dayChangeClass}>
-                    {marketChangeFormattedValue}%
-                </span>
-            );
-        } else {
-            return <span className={"value " + dayChangeClass}>-</span>;
-        }
-    }
+		// this is treating a sympton when MarketStore does not provide a proper value! #2511
+		if (!isNaN(parseFloat(marketChangeValue))) {
+			return (
+				<span className={'value ' + dayChangeClass}>
+					{dayChangeClass === 'change-up' && <ArrowUpOutlined />}
+					{dayChangeClass === 'change-down' && <ArrowDownOutlined />}
+					{dayChangeClass === '' && <ArrowRightOutlined />}
+					{marketChangeFormattedValue}%
+				</span>
+			);
+		} else {
+			return <span className={'value ' + dayChangeClass}>-</span>;
+		}
+	}
 }
 MarketChangeComponent = AssetWrapper(MarketChangeComponent, {
-    propNames: ["quote", "base"],
-    defaultProps: {quote: "1.3.0"}
+	propNames: ['quote', 'base'],
+	defaultProps: {quote: '1.3.0'},
 });
 
 class Market24HourChangeComponent extends React.Component {
-    render() {
-        let {refCallback, ...others} = this.props;
+	render() {
+		let {refCallback, ...others} = this.props;
 
-        return <MarketChangeComponent {...others} ref={refCallback} />;
-    }
+		return <MarketChangeComponent {...others} ref={refCallback} />;
+	}
 }
 
-Market24HourChangeComponent = connect(
-    Market24HourChangeComponent,
-    {
-        listenTo() {
-            return [MarketsStore];
-        },
-        getProps(props) {
-            return {
-                marketStats: MarketsStore.getState().allMarketStats.get(
-                    props.marketId
-                ),
-                allMarketStats: MarketsStore.getState().allMarketStats
-            };
-        }
-    }
-);
+Market24HourChangeComponent = connect(Market24HourChangeComponent, {
+	listenTo() {
+		return [MarketsStore];
+	},
+	getProps(props) {
+		return {
+			marketStats: MarketsStore.getState().allMarketStats.get(props.marketId),
+			allMarketStats: MarketsStore.getState().allMarketStats,
+		};
+	},
+});
 
 export {Market24HourChangeComponent};
