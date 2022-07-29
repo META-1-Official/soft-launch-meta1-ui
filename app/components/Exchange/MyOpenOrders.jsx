@@ -6,7 +6,7 @@ import MarketsActions from 'actions/MarketsActions';
 import Translate from 'react-translate-component';
 import SettingsActions from 'actions/SettingsActions';
 import {ChainStore} from 'meta1-vision-js';
-import {LimitOrder, CallOrder} from 'common/MarketClasses';
+import {LimitOrder, CallOrder, FillOrder} from 'common/MarketClasses';
 import ReactTooltip from 'react-tooltip';
 import {MarketsOrderView} from './View/MarketOrdersView';
 import utils from 'common/utils';

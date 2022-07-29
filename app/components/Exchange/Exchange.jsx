@@ -2432,6 +2432,7 @@ class Exchange extends React.Component {
 					tinyScreen={tinyScreen}
 					isPanelActive={isPanelActive}
 					hideScrollbars={hideScrollbars}
+					feedPrice={this.props.feedPrice}
 				/>
 			);
 

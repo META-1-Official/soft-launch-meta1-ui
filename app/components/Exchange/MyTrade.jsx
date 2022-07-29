@@ -152,6 +152,7 @@ class MyTrade extends React.Component {
 
 	_getOrders() {
 		const {currentAccount, base, quote, feedPrice} = this.props;
+		console.log('currentAccount', Object.fromEntries(currentAccount));
 		const orders = currentAccount.get('orders'),
 			call_orders = currentAccount.get('call_orders');
 		const baseID = base.get('id'),

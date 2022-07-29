@@ -8,15 +8,16 @@ import {connect} from 'alt-react';
 import {ChainTypes as grapheneChainTypes} from 'meta1-vision-js';
 const {operations} = grapheneChainTypes;
 import ReactTooltip from 'react-tooltip';
-import {FillOrder} from 'common/MarketClasses';
+import {FillOrder, LimitOrder} from 'common/MarketClasses';
 import {MarketHistoryView} from './View/MarketHistoryView';
-
+import {ChainStore} from 'meta1-vision-js';
 import counterpart from 'counterpart';
 import BlockDate from '../Utility/BlockDate';
 import PriceText from '../Utility/PriceText';
 import {Tooltip} from 'antd';
 import getLocale from 'browser-locale';
 import Icon from 'components/Icon/Icon';
+import utils from 'common/utils';
 
 const AllHistoryViewRow = ({fill, base, quote}) => {
 	const isMarket = fill.id.indexOf('5.0') !== -1 ? true : false;
@@ -209,7 +210,8 @@ class MarketHistory extends React.Component {
 			nextState.showAll !== this.state.showAll ||
 			nextProps.currentAccount !== this.props.currentAccount ||
 			nextProps.isPanelActive !== this.props.isPanelActive ||
-			nextProps.hideScrollbars !== this.props.hideScrollbars
+			nextProps.hideScrollbars !== this.props.hideScrollbars ||
+			nextProps.feedPrice !== this.props.feedPrice
 		);
 	}
 
@@ -312,6 +314,100 @@ class MarketHistory extends React.Component {
 		setTimeout(ReactTooltip.rebuild, 1000);
 	}
 
+	_getOrders() {
+		const {currentAccount, base, quote, feedPrice} = this.props;
+		const orders = currentAccount.get('orders'),
+			call_orders = currentAccount.get('call_orders');
+		const baseID = base.get('id'),
+			quoteID = quote.get('id');
+		const assets = {
+			[base.get('id')]: {precision: base.get('precision')},
+			[quote.get('id')]: {precision: quote.get('precision')},
+		};
+		let limitOrders = orders
+			.toArray()
+			.map((order) => {
+				let o = ChainStore.getObject(order);
+				if (!o) return null;
+				let sellBase = o.getIn(['sell_price', 'base', 'asset_id']),
+					sellQuote = o.getIn(['sell_price', 'quote', 'asset_id']);
+				if (
+					(sellBase === baseID && sellQuote === quoteID) ||
+					(sellBase === quoteID && sellQuote === baseID)
+				) {
+					return new LimitOrder(o.toJS(), assets, quote.get('id'));
+				}
+			})
+			.filter((a) => !!a);
+
+		let callOrders = call_orders
+			.toArray()
+			.map((order) => {
+				try {
+					let o = ChainStore.getObject(order);
+					if (!o) return null;
+					let sellBase = o.getIn(['call_price', 'base', 'asset_id']),
+						sellQuote = o.getIn(['call_price', 'quote', 'asset_id']);
+					if (
+						(sellBase === baseID && sellQuote === quoteID) ||
+						(sellBase === quoteID && sellQuote === baseID)
+					) {
+						return feedPrice
+							? new CallOrder(o.toJS(), assets, quote.get('id'), feedPrice)
+							: null;
+					}
+				} catch (e) {
+					return null;
+				}
+			})
+			.filter((a) => !!a)
+			.filter((a) => {
+				try {
+					return a.isMarginCalled();
+				} catch (err) {
+					return false;
+				}
+			});
+		const response = limitOrders.concat(callOrders).map((order) => {
+			const price = order.getPrice();
+			const isBid = order.isBid();
+
+			const payAmount = utils.format_number(
+				order[!isBid ? 'amountForSale' : 'amountToReceive']().getAmount({
+					real: true,
+				}),
+				quote.get('precision')
+			);
+			const receiveAmount = utils.format_number(
+				order[!isBid ? 'amountToReceive' : 'amountForSale']().getAmount({
+					real: true,
+				}),
+				base.get('precision')
+			);
+
+			const total = payAmount * price;
+			const change =
+				(Math.round(Math.random()) ? 1 : -1) * Math.random().toFixed(1);
+
+			return {
+				orderId: order.id,
+				pair: {
+					baseSymbol: base?._root?.entries[1][1],
+					quoteSymbol: quote?._root?.entries[1][1],
+					isBid: isBid,
+				},
+				amount: {
+					payAmount,
+					receiveAmount,
+				},
+				price,
+				total,
+			};
+		});
+
+		return response;
+	}
+
 	render() {
 		let {
 			history,
@@ -322,9 +418,11 @@ class MarketHistory extends React.Component {
 			quoteSymbol,
 			isNullAccount,
 			activeTab,
+			currentAccount,
+			feedPrice,
 		} = this.props;
 		let {rowCount, showAll} = this.state;
-		let historyRows = null;
+		let historyRows = [];
 		let rows = [];
 
 		if (isNullAccount) {
@@ -333,7 +431,6 @@ class MarketHistory extends React.Component {
 
 		if (activeTab === 'my_history' && myHistory && myHistory.size) {
 			// User History
-
 			const assets = {
 				[quote.get('id')]: {
 					precision: quote.get('precision'),
@@ -387,7 +484,7 @@ class MarketHistory extends React.Component {
 				.toArray();
 		} else if (history && history.size) {
 			// Market History
-			historyRows = this.props.history
+			rows = this.props.history
 				.take(100)
 				.map((fill) => {
 					return (
@@ -401,9 +498,14 @@ class MarketHistory extends React.Component {
 				})
 				.toArray();
 		}
-		let totalRows = historyRows ? historyRows.length : null;
-		if (!showAll && historyRows) {
-			historyRows.splice(rowCount, historyRows.length);
+
+		if (rows.length > 0 && rows[0].orderId) {
+			rows = this._getOrders().concat(rows);
+		}
+
+		let totalRows = rows ? rows.length : null;
+		if (!showAll && rows) {
+			rows.splice(rowCount, rows.length);
 		}
 
 		return (
