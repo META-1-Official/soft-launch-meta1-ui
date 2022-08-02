@@ -816,7 +816,7 @@
 			},
 			"not_found": "El activo %(name)s no existe",
 			"permissions": {
-				"accounts_in_whitelist_market_fee_sharing": "Accounts included in Market fee sharing whitelist",
+				"accounts_in_whitelist_market_fee_sharing": "Wallets included in Market fee sharing whitelist",
 				"blacklist_authorities": "Autoridades de la lista negra",
 				"blacklist_markets": "Mercados de la lista negra",
 				"max_market_fee": "Comisión de mercado máxima",
@@ -1383,7 +1383,7 @@
 		"print_receipt": "Print receipt",
 		"receipt_total": "Receipt Total",
 		"recipient_name": "Recipient Name",
-		"tooltip_payment_proof": "Your account history has been searched for a match of sender, recipient and asset. This is an educated guess, but there is no direct link between this transfer and the shown invoice written on-chain.",
+		"tooltip_payment_proof": "Your wallet history has been searched for a match of sender, recipient and asset. This is an educated guess, but there is no direct link between this transfer and the shown invoice written on-chain.",
 		"total": "Total",
 		"transaction": "Transaction",
 		"unit": "Unit"
@@ -1579,7 +1579,7 @@
 			"text": "After being voted in as an active witness you are added in the rotation of block producers and expected to produce blocks signed by your signing key and you are rewarded in META1 per produced block. Common criteria that help make your case are <ul><li>implementation of fallbacks (e.g. running a hot swap backup server) and appropriate server specifications to ensure a low number of missed blocks (e.g. high connectivity)</li><li>participation in block production and rolling releases of the testnet</li><li>provision of a public node for the community</li><li>publication of price feeds for the BitAssets</li></ul> Submit a link to your website or forum post explaining why you would be a exemplary member to attract enough votes to become active.",
 			"url": "URL",
 			"web_example": "Enter link to your witness proposal post",
-			"witness_account": "Witness Account"
+			"witness_account": "Witness Wallet"
 		}
 	},
 	"news": {
@@ -1775,13 +1775,13 @@
 		"checkboxUploaded": "Entiendo que el archivo .bin debe cargarse durante el proceso de inicio de sesión y sin el archivo .bin perderé el acceso a mis fondos.",
 		"continue": "Continuar",
 		"copyPassword": "Copia tu contraseña para guardar.",
-		"createAccountTitle": "Crear cuenta por archivo bin",
+		"createWalletTitle": "Crear cuenta por archivo bin",
 		"createByPassword": "Crear billetera por nombre y contraseña",
 		"downloadFile": "Descargar archivo",
 		"loginByKey": "Iniciar sesión por",
 		"passwordPlaceholder": "Minimo de 7 caracteres",
 		"recommended": "recomendar",
-		"securityAccountModel": "Medio",
+		"securityWalletModel": "Medio",
 		"securityKey": "Seguridad",
 		"securityWalletModel": "Alta",
 		"select": "Elige",
@@ -2630,7 +2630,7 @@
 		"password_crucial": "En caso de que aún no lo haya hecho, es crucial que se tome el tiempo de escribir su contraseña ahora, ya sea en papel, un administrador de contraseñas o en otro lugar. Si pierde u olvida esta contraseña, se perderá su cuenta, <strong> no podemos ayudarlo a recuperarla </strong>.",
 		"password_lose_warning": "<strong>IMPORTANTE: Si olvida su contraseña, no podrá acceder a su cuenta. ¡No podemos restablecer ni restaurar su contraseña! ¡Asegúrate de memorizar o escribir tu contraseña!</strong>",
 		"password_model": "Billetera de Nbes",
-		"password_model_1": "Il portafoglio cloud utilizza una passkey in combinazione con il nome dell'account per generare al volo le tue chiavi private. Ti limita ad accedere solo con un account alla volta, in cambio di facilità d'uso e convenienza.",
+		"password_model_1": "Il portafoglio cloud utilizza una passkey in combinazione con il nome dell'wallet per generare al volo le tue chiavi private. Ti limita ad accedere solo con un wallet alla volta, in cambio di facilità d'uso e convenienza.",
 		"password_model_2": "La billetera en la nube le permite acceder a su billetera desde cualquier lugar utilizando solo el nombre de cuenta y la contraseña, pero <strong> su contraseña es vulnerable a los ataques de fuerza bruta, lo que significa que es importante usar una contraseña muy larga. , ¡idealmente más de 20 personajes!</strong>",
 		"password_model_3": "<li>Cuenta única</li><li>Easy login</li><li>Seguridad moderada</li>",
 		"password_show": "muéstrame la contraseña",
