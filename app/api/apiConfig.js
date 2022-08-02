@@ -1,7 +1,7 @@
 import {getFaucet} from '../branding';
 
 export const xbtsxAPIs = {
-	BASE: `${process.env.GATEWAY_META1_JS_URL}api-gateways`,
+	BASE: `${process.env.GATEWAY_META1_JS_URL}/api-gateways`,
 	COINS_LIST: '/coin',
 };
 
