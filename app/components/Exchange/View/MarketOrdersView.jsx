@@ -191,7 +191,6 @@ class MarketsOrderView extends React.Component {
 										>
 											<Icon
 												name="times"
-												title="icons.times"
 												theme="filled"
 												size="1x"
 												style={{fill: '#ff2929'}}

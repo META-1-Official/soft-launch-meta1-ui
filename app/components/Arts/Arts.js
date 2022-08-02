@@ -9,7 +9,7 @@ class Arts extends React.Component {
 	render() {
 		return (
 			<Iframe
-				url={`${process.env.DEFAULT_ASSET_URL}explorer-backing-assets`}
+				url={`${process.env.DEFAULT_ASSET_URL}/explorer-backing-assets`}
 				display="initial"
 				position="relative"
 				allowFullScreen

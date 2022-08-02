@@ -419,7 +419,7 @@ class AccountRegistrationForm extends React.Component {
 						</Button>
 					)}
 					<div className="redirect">
-						Or if you have an account then{' '}
+						Or if you have an wallet then{' '}
 						<div className="btn" onClick={() => WalletUnlockActions.unlock()}>
 							login
 						</div>

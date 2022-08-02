@@ -321,6 +321,8 @@ class AccountWhitelist extends React.Component {
 										action_label="account.perm.confirm_add"
 										white={false}
 										typeahead={true}
+										loginAccount={this.props.account_name}
+										resultFrom="whitelist"
 									/>
 								</div>
 							</div>
@@ -350,6 +352,8 @@ class AccountWhitelist extends React.Component {
 										onAction={this._onAdd.bind(this, 'black_listed')}
 										action_label="account.perm.confirm_add"
 										typeahead={true}
+										loginAccount={this.props.account_name}
+										resultFrom="blacklist"
 									/>
 								</div>
 							</div>
