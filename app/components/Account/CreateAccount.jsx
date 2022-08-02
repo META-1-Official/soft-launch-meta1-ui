@@ -282,7 +282,6 @@ class CreateAccount extends React.Component {
 					/>
 				)}
 				<div className="divider" />
-				{/* <ReCAPTCHA sitekey="6LdY-48UAAAAAAX8Y8-UdRtFks70LCRmyvyye0VU" /> */}
 				{/* Submit button */}
 				{this.state.loading ? (
 					<LoadingIndicator type="three-bounce" />

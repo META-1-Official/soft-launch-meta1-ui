@@ -403,10 +403,6 @@ class CreateAccountPassword extends React.Component {
 							) : null}
 						</div>
 					)}
-					{/* <ReCAPTCHA
-                        sitekey="6LdY-48UAAAAAAX8Y8-UdRtFks70LCRmyvyye0VU"
-                        onChange={this.caChange.bind(this)}
-                    /> */}
 					<br />
 					{/* Submit button */}
 					{this.state.loading ? (

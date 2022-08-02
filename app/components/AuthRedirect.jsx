@@ -2,7 +2,7 @@ import React from 'react';
 // import {withRouter} from "react-router-dom";
 import {connect} from 'alt-react';
 import {ChainStore} from 'meta1-vision-js';
-import {PrivateKey, FetchChain} from 'meta1-vision-js/es';
+import {PrivateKey, FetchChain, key} from 'meta1-vision-js/es';
 import qs from 'qs';
 import axios from 'axios';
 import {Helmet} from 'react-helmet';
@@ -16,12 +16,13 @@ import AccountActions from '../actions/AccountActions';
 import WalletUnlockActions from '../actions/WalletUnlockActions';
 import LoadingIndicator from './LoadingIndicator';
 import ls from '../lib/common/localStorage';
-import voiceItService from '../services/voice-it.service';
-import kycService from '../services/kyc.service';
+import faceKIService from '../services/face-ki.service';
+import Webcam from 'react-webcam';
+import {Form, Input, Button, Tooltip} from 'antd';
 
 const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
-let voiceItClient;
+
 class AuthRedirect extends React.Component {
 	constructor() {
 		super();
@@ -32,24 +33,22 @@ class AuthRedirect extends React.Component {
 		this.state = {
 			skipCreationFlow: false,
 			passwordError: false,
-			redirectFromVoiceItEnrollment: '',
-			redirectFromVoiceItVerification: '',
 			redirectFromESign: false,
-			insertVoiceIt: false,
-			voiceItClientHasInitialized: false,
-			voiceItPhrases: [],
+			login: false,
+			faceKISuccess: false,
 		};
 		this.skipFreshCreationAndProceed =
 			this.skipFreshCreationAndProceed.bind(this);
 		this.validateLogin = this.validateLogin.bind(this);
-		this.proceedVoiceItRedirect = this.proceedVoiceItRedirect.bind(this);
 		this.proceedESignRedirect = this.proceedESignRedirect.bind(this);
+		this.verify = this.verify.bind(this);
+		this.continueLogin = this.continueLogin.bind(this);
+		this.webcamRef = React.createRef();
 	}
 
 	componentDidMount() {
 		const {openLogin, privKey, authData, setOpenLoginInstance} = this.props;
-		console.log('Location Data', this.props, this.props.location);
-		// debugger;
+
 		if (this.props.location && this.props.location.search) {
 			const param = qs.parse(this.props.location.search, {
 				ignoreQueryPrefix: true,
@@ -60,7 +59,6 @@ class AuthRedirect extends React.Component {
 			const eSignSuccess = qs.parse(this.props.location.search, {
 				ignoreQueryPrefix: true,
 			}).signature;
-			// debugger;
 			if (
 				param === 'existingEmailCreation' &&
 				openLogin &&
@@ -68,34 +66,24 @@ class AuthRedirect extends React.Component {
 				authData
 			) {
 				this.skipFreshCreationAndProceed();
-			} else if (jwt) {
-				this.proceedVoiceItRedirect(jwt);
 			} else if (eSignSuccess === 'success') {
 				this.proceedESignRedirect();
 			} else {
 				this.props.history.push('/registration');
 			}
 		}
-		// if (openLogin && (!privKey || !authData)) {
-		//     this.generateAuthData();
-		// }
 		if (!openLogin) {
 			setOpenLoginInstance();
 		}
 		if (openLogin && !privKey) {
 			this.generateAuthData();
 		}
-		// if (privKey && authData) {
-		//     debugger;
-		//     this.authProceed();
-		// }
 	}
 
 	componentDidUpdate(prevProps, prevState) {
 		const {openLogin, privKey, authData} = this.props;
-		const {skipCreationFlow, voiceItClientHasInitialized} = this.state;
+		const {skipCreationFlow} = this.state;
 		if (openLogin && !prevProps.openLogin && !skipCreationFlow) {
-			// debugger;
 			this.generateAuthData();
 		}
 		if (
@@ -104,36 +92,70 @@ class AuthRedirect extends React.Component {
 			!skipCreationFlow &&
 			((privKey && !prevProps.privKey) || (authData && !prevProps.authData))
 		) {
-			// debugger;
 			this.authProceed();
 		}
 		if (!prevState.passwordError && this.state.passwordError) {
 			this.props.history.push('/registration');
 		}
-		if (voiceItClientHasInitialized && !prevState.voiceItClientHasInitialized) {
-			this.startVerification();
+	}
+
+	dataURLtoFile(dataurl, filename) {
+		var arr = dataurl.split(','),
+			mime = arr[0].match(/:(.*?);/)[1],
+			bstr = atob(arr[1]),
+			n = bstr.length,
+			u8arr = new Uint8Array(n);
+		while (n--) {
+			u8arr[n] = bstr.charCodeAt(n);
+		}
+		return new File([u8arr], filename, {type: mime});
+	}
+
+	async verify() {
+		const {privKey, authData} = this.props;
+
+		const imageSrc = this.webcamRef.current.getScreenshot();
+
+		if (!imageSrc) {
+			alert('Check your camera');
+			return;
+		}
+
+		var file = this.dataURLtoFile(imageSrc, 'a.jpg');
+		const response = await faceKIService.liveLinessCheck(file);
+
+		if (response.data.liveness === 'Spoof') alert('try again');
+		else {
+			const response_verify = await faceKIService.verify(file);
+			if (
+				response_verify.status === 'Verify OK' &&
+				response_verify.name === authData.email
+			) {
+				console.log('you verified');
+				this.setState({faceKISuccess: true});
+			}
+		}
+	}
+
+	continueLogin() {
+		const {privKey} = this.props;
+		const accountName = ss.get('account_login_name', '');
+		let password;
+		if (!accountName || !privKey) {
+			return;
+		}
+		password = this.genKey(`${accountName}${privKey}`);
+
+		if (this.state.faceKISuccess === true) {
+			this.validateLogin(password, accountName);
+		} else {
+			alert('first verify');
 		}
 	}
 
 	skipFreshCreationAndProceed() {
 		this.setState({skipCreationFlow: true});
 		this.authProceed();
-	}
-
-	proceedVoiceItRedirect(jwt) {
-		// if jwt is from enrollment
-		const logInUserName = ss.get('account_login_name', '');
-		const regUserName = ss.get('account_registration_name', '');
-		if (logInUserName) {
-			this.setState({redirectFromVoiceItVerification: jwt});
-			this.props.setOpenLoginInstance();
-		} else if (regUserName) {
-			this.setState({redirectFromVoiceItEnrollment: jwt});
-			this.props.setOpenLoginInstance();
-		}
-
-		// if jwt is from verification
-		// this.setState({ redirectFromVoiceItVerification: jwt });
 	}
 
 	proceedESignRedirect() {
@@ -144,7 +166,6 @@ class AuthRedirect extends React.Component {
 
 	async generateAuthData() {
 		const {openLogin, setPrivKey, setAuthData} = this.props;
-		// debugger;
 		try {
 			await openLogin.init();
 			if (openLogin.privKey) {
@@ -152,7 +173,6 @@ class AuthRedirect extends React.Component {
 				const data = await openLogin.getUserInfo();
 				setPrivKey(privKey);
 				setAuthData(data);
-				// debugger;
 			} else {
 				this.props.history.push('/registration');
 			}
@@ -163,88 +183,24 @@ class AuthRedirect extends React.Component {
 
 	async authProceed() {
 		const {privKey, authData} = this.props;
-		const {
-			redirectFromVoiceItEnrollment,
-			redirectFromVoiceItVerification,
-			redirectFromESign,
-		} = this.state;
+		const {redirectFromESign} = this.state;
 		const regUserName = ss.get('account_registration_name', '');
 		const logInUserName = ss.get('account_login_name', '');
 		if (regUserName) {
-			// debugger;
-			if (redirectFromVoiceItEnrollment) {
-				this.props.history.push(
-					`/registration?voiceItToken=${encodeURI(
-						redirectFromVoiceItEnrollment
-					)}`
-				);
-			} else if (redirectFromESign) {
+			if (redirectFromESign) {
 				this.props.history.push('/registration?eSignStatus=success');
 			} else {
 				this.props.history.push('/registration?mode=proceedRegistration');
 			}
-		} else if (logInUserName && redirectFromVoiceItVerification) {
-			// Old logic with redirection of VoiceIT service
-			try {
-				const response = await axios({
-					url: process.env.VOICEIT_URL + '/apiewallet/video-verifications',
-					method: 'get',
-					headers: {
-						Accept: 'application/json',
-						Authorization: redirectFromVoiceItVerification,
-					},
-					params: {email: authData.email},
-				});
-				console.log('Response after jwt validation', response);
-				if (response && response.data) {
-					console.log('&&&& response data', response.data);
-					// debugger;
-					if (
-						response.data.email === authData.email &&
-						response.data.status === 'success'
-					) {
-						const password = this.genKey(`${logInUserName}${privKey}`);
-						this.validateLogin(password, logInUserName);
-					}
-				}
-			} catch (err) {
-				console.log('Error proceeding auth after voiceit', err);
-			}
 		} else if (logInUserName) {
-			// temp: disabling VoiceIT
-			// this.setState({insertVoiceIt: true});
-			const password = this.genKey(`${logInUserName}${privKey}`);
-			this.validateLogin(password, logInUserName);
-			// window.location.href = `${
-			//     process.env.VOICEIT_URL
-			// }/video-verification?email=${encodeURIComponent(
-			//     authData.email
-			// )}&redirectUrl=${window.location.origin}/auth-proceed`;
+			this.setState({login: true});
 		} else {
 			this.props.history.push('/registration');
 		}
 	}
 
 	genKey(seed) {
-		const key = `P${PrivateKey.fromSeed(seed).toWif()}`;
-		return key;
-	}
-
-	async unlockAccount(name, password) {
-		let chainAccount = ChainStore.getAccount(account);
-		while (chainAccount === undefined) {
-			chainAccount = ChainStore.getAccount(account);
-			console.log('Chain Account', chainAccount);
-			await this.timer(1000);
-		}
-		WalletDb.validatePassword(
-			password,
-			true,
-			name,
-			['active', 'owner', 'memo'],
-			chainAccount
-		);
-		WalletUnlockActions.checkLock.defer();
+		return `P${PrivateKey.fromSeed(key.normalize_brainKey(seed)).toWif()}`;
 	}
 
 	onFinishConfirm(confirmStoreState) {
@@ -282,43 +238,21 @@ class AuthRedirect extends React.Component {
 			password
 		)
 			.then(() => {
-				// debugger;
 				AccountActions.setPasswordAccount(name);
 				if (registrarAccount) {
 					FetchChain('getAccount', name).then(() => {
-						this.unlockAccount(name, password);
+						this.validateLogin(name, password);
 					});
 					TransactionConfirmStore.listen(this.onFinishConfirm);
 				} else {
 					FetchChain('getAccount', name).then((data) => {
-						// debugger;
 						console.log('Data in Fetch chain', data);
 					});
-					this.unlockAccount(name, password);
-					this.props.history.push('/market/META1_USDT');
+					this.validateLogin(name, password);
 				}
-				// if (email) {
-				//     this.postWallet(email, name);
-				// }
 			})
 			.catch((error) => {
 				console.log('ERROR AccountActions.createAccount ARC', error);
-				// let errorMsg =
-				//     error.base && error.base.length && error.base.length > 0
-				//         ? error.base[0]
-				//         : "unknown error";
-				// if (error.remote_ip) {
-				//     [errorMsg] = error.remote_ip;
-				// }
-				// notification.error({
-				//     message: counterpart.translate(
-				//         "notifications.account_create_failure",
-				//         {
-				//             account_name: name,
-				//             error_msg: errorMsg
-				//         }
-				//     )
-				// });
 			});
 	}
 
@@ -326,205 +260,96 @@ class AuthRedirect extends React.Component {
 
 	async validateLogin(password, account) {
 		const {resolve} = this.props;
+
 		let chainAccount = ChainStore.getAccount(account);
 		while (chainAccount === undefined) {
 			chainAccount = ChainStore.getAccount(account);
 			console.log('Chain Account', chainAccount);
 			await this.timer(1000);
 		}
-		const {cloudMode} = WalletDb.validatePassword(
+
+		const {success, cloudMode} = WalletDb.validatePassword(
 			password || '',
-			true, //unlock
+			true,
 			account,
 			['active', 'owner', 'memo'],
 			chainAccount
 		);
-		// debugger;
-		if (WalletDb.isLocked()) {
+
+		if (!success && WalletDb.isLocked()) {
 			this.setState({passwordError: true});
+			alert('Password Or Account is wrong');
 		} else {
+			this.setState({password: ''});
 			if (cloudMode) AccountActions.setPasswordAccount(account);
 			WalletUnlockActions.change();
-			// if (stopAskingForBackup) WalletActions.setBackupDate();
-			// else if (this.shouldUseBackupLogin()) this.backup();
 			if (resolve) resolve();
 			WalletUnlockActions.cancel();
 			ss.remove('account_login_name');
-			this.props.history.push('/market/META1_USDT');
+			this.props.history.push(`/account/${account}`);
 		}
 	}
-
-	/* VoiceIt verification/enrollment related functions start */
-	verifyVoiceIT = async (jwt, email, enrollment) => {
-		const {privKey} = this.props;
-		const logInUserName = ss.get('account_login_name', '');
-		let service = kycService.getVerificationData;
-		if (enrollment) {
-			service = kycService.getEnrollmentData;
-		}
-		const data = await service(jwt, email);
-		if (data) {
-			// debugger;
-			if (data.email === email && data.status === 'success') {
-				const password = this.genKey(`${logInUserName}${privKey}`);
-				this.validateLogin(password, logInUserName);
-			}
-		}
-	};
-
-	updateStatusAndProceed = async (enrollemnt) => {
-		try {
-			const {authData} = this.props;
-			let service = kycService.postVoiceItVerification;
-			if (enrollemnt) {
-				service = kycService.postVoiceItEnrollment;
-			}
-			const data = await service(authData.email, 'success');
-			const jwt = data.authorization;
-			await this.verifyVoiceIT(jwt, authData.email, enrollemnt);
-		} catch (err) {
-			console.log('Err in Verifying Enrollment', err);
-		}
-	};
-
-	startEnrollment = () => {
-		const {voiceItPhrases} = this.state;
-		if (!voiceItPhrases) {
-			console.log('Issue with VoiceIT initialization');
-		}
-		voiceItClient.encapsulatedVideoEnrollment({
-			contentLanguage: process.env.VOICEIT_LANG,
-			phrase: voiceItPhrases[0].text,
-			completionCallback: async (success, jsonResponse) => {
-				console.log('Status', success, jsonResponse);
-				if (success) {
-					console.log('video enrolled successfully', jsonResponse);
-					this.updateStatusAndProceed(true);
-					// window.location.reload();
-				} else {
-					console.log('Voice Enrollments Cancelled or Failed!');
-				}
-			},
-		});
-	};
-
-	startVerification = () => {
-		const {voiceItPhrases} = this.state;
-		if (!voiceItPhrases) {
-			console.log('Issue with VoiceIT initialization');
-		}
-		voiceItClient.encapsulatedVideoVerification({
-			doLiveness: true,
-			contentLanguage: process.env.VOICEIT_LANG,
-			phrase: voiceItPhrases[0].text,
-			needEnrollmentsCallback: () => {
-				alert('A minimum of three enrollments are needed');
-				this.startEnrollment();
-			},
-			completionCallback: async (success, jsonResponse) => {
-				console.log('Status', success, jsonResponse);
-				if (success) {
-					console.log('video enrolled successfully', jsonResponse);
-					this.updateStatusAndProceed();
-					// window.location.reload();
-				} else {
-					console.log('Voice Enrollments Cancelled or Failed!');
-				}
-			},
-		});
-	};
-
-	initiateVoiceItUser = async () => {
-		try {
-			const {authData} = this.props;
-			const email = encodeURI(authData.email);
-			const data = await kycService.getUserKycProfile(email);
-			// console.log("$$$$ data", data);
-			if (data && data.status && data.status.voiceitID) {
-				await this.generateVoiceItUserToken(data.status.voiceitID);
-			} else {
-				const voiceItCreateData = await voiceItService.createVoiceItUser();
-				if (voiceItCreateData.userId) {
-					const kycProfileUpdate = await kycService.postUserKycProfile(
-						authData.email,
-						voiceItCreateData.userId
-					);
-					if (!kycProfileUpdate.result) {
-						throw new Error('Error in KYC Profile update');
-					}
-					await this.generateVoiceItUserToken(voiceItCreateData.userId);
-				}
-			}
-		} catch (err) {
-			console.error('Error in initiateVoiceItUser', err);
-		}
-	};
-
-	generateVoiceItUserToken = async (voiceItUserId) => {
-		const voiceItUserToken = await voiceItService.generateVoiceItUserToken(
-			voiceItUserId
-		);
-		if (!voiceItUserToken) {
-			throw new Error('Error generating VoiceIT Token');
-		}
-
-		voiceItClient.setSecureToken(voiceItUserToken);
-		this.setState({voiceItClientHasInitialized: true});
-	};
-
-	// TODO: notify the project that voiceit script is loaded
-	// https://github.com/voiceittech/VoiceIt2-WebSDK#front
-	onLoadVoiceItLibrary = async (_) => {
-		try {
-			// console.log('%%%% sdk', window.VoiceIt2, document.VoiceIt2);
-			const voiceItPhrases = await voiceItService.getVoiceItPhrases(
-				process.env.VOICEIT_LANG
-			);
-			// console.log("voiceItPhrases: ", voiceItPhrases);
-			this.setState({voiceItPhrases});
-
-			voiceItClient = new window.VoiceIt2.initialize(
-				`${process.env.VOICEIT_URL}/api/init`,
-				process.env.VOICEIT_LANG
-			);
-
-			voiceItClient.setThemeColor('#0000FF');
-
-			this.initiateVoiceItUser();
-		} catch (err) {
-			console.log('Error initializing VoiceIT', err);
-		}
-	};
-
-	// TODO: remove event listener inside componentWillUnmount
-	onInjectScript({scriptTags}) {
-		if (scriptTags) {
-			const scriptTag = scriptTags[0];
-			scriptTag.onload = this.onLoadVoiceItLibrary;
-		}
-	}
-
-	/* VoiceIt Verification functions end */
 
 	render() {
-		const {insertVoiceIt} = this.state;
 		return (
 			<React.Fragment>
-				{insertVoiceIt && (
-					<Helmet
-						script={[{src: '../../../voiceit_library/voiceit2.min.js'}]}
-						onChangeClientState={(_, addedTags) =>
-							this.onInjectScript(addedTags)
-						}
-					/>
+				{this.state.login && (
+					<div
+						style={{
+							display: 'flex',
+							flexDirection: 'column',
+							alignItems: 'center',
+							justifyContent: 'center',
+						}}
+					>
+						<h5>
+							We will setup your Biometric two factor authentication, to ensure
+							the security of your wallet
+						</h5>
+						<br />
+						<Webcam
+							audio={false}
+							ref={this.webcamRef}
+							screenshotFormat="image/jpeg"
+							videoConstraints={{
+								facingMode: 'user',
+								width: 500,
+								height: 500,
+							}}
+							width={500}
+							height={500}
+							mirrored
+						/>
+						<div
+							style={{
+								display: 'flex',
+								justifyContent: 'center',
+								marginTop: '10px',
+							}}
+						>
+							<Button
+								onClick={this.verify}
+								style={{background: '#ffcc00', border: 'none'}}
+							>
+								Verify
+							</Button>
+							<Button
+								onClick={this.continueLogin}
+								style={{
+									background: '#ffcc00',
+									border: 'none',
+									marginLeft: '10px',
+								}}
+							>
+								Continue Login
+							</Button>
+						</div>
+					</div>
 				)}
-				<LoadingIndicator />
 			</React.Fragment>
 		);
 	}
 }
-
-// AuthRedirect = withRouter(AuthRedirect);
 
 export default connect(AuthRedirect, {
 	listenTo() {

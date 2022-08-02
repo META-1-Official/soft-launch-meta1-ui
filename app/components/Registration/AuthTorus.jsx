@@ -86,6 +86,7 @@ class AccountRegistration extends React.Component {
 			await openLogin.init();
 			if (openLogin.privKey) {
 				const privKey = openLogin.privKey;
+
 				const data = await openLogin.getUserInfo();
 				this.props.setPrivKey(privKey);
 				this.props.setAuthData(data);

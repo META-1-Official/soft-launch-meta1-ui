@@ -53,20 +53,17 @@ class AuthStore extends BaseStore {
 	}
 
 	setOpenLoginInstance() {
-		console.log(
-			'TORUS Data',
-			process.env.TORUS_PROJECT_ID,
-			process.env.TORUS_NETWORK,
-			window.location.origin
-		);
 		try {
 			const openLogin = new OpenLogin({
 				clientId: process.env.TORUS_PROJECT_ID,
 				network: process.env.TORUS_NETWORK,
 				uxMode: 'redirect',
 				redirectUrl: window.location.origin + '/auth-proceed',
+				whiteLabel: {
+					name: 'META1',
+					dark: true,
+				},
 			});
-			console.log('%%%%% OpenLogin', openLogin);
 			this.setState({openLogin, isLoading: false, error: ''});
 		} catch (error) {
 			this.setState({

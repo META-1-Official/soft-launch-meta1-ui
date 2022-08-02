@@ -23,7 +23,7 @@ const postVoiceItEnrollment = async (email, status) => {
 
 const getEnrollmentData = async (jwt, email) => {
 	const {data} = await kycApi.get(
-		process.env.VOICEIT_URL + '/apiewallet/video-enrollments',
+		process.env.ESIGNATURE_URL + '/apiewallet/video-enrollments',
 		{
 			headers: {
 				Accept: 'application/json',
@@ -45,7 +45,7 @@ const postVoiceItVerification = async (email, status) => {
 
 const getVerificationData = async (jwt, email) => {
 	const {data} = await kycApi.get(
-		process.env.VOICEIT_URL + '/apiewallet/video-verifications',
+		process.env.ESIGNATURE_URL + '/apiewallet/video-verifications',
 		{
 			headers: {
 				Accept: 'application/json',

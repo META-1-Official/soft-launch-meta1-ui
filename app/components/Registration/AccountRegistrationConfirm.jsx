@@ -17,14 +17,12 @@ import {Button, Input, Checkbox, Form, Alert} from 'antd';
 import CopyButton from '../Utility/CopyButton';
 import LoadingIndicator from '../LoadingIndicator';
 import ls from '../../lib/common/localStorage';
-import voiceItService from '../../services/voice-it.service';
-import kycService from '../../services/kyc.service';
+
+import faceKIService from 'services/face-ki.service';
 import {checkCustomer} from 'components/Utility/Tapfiliate';
 
 const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
-
-let voiceItClient;
 
 class AccountRegistrationConfirm extends React.Component {
 	static propTypes = {
@@ -45,6 +43,7 @@ class AccountRegistrationConfirm extends React.Component {
 			confirmedTerms: false,
 			confirmedTerms2: false,
 			confirmedTerms3: false,
+			confirmedTerms4: false,
 			isErrored: false,
 		};
 		this.onFinishConfirm = this.onFinishConfirm.bind(this);
@@ -52,9 +51,12 @@ class AccountRegistrationConfirm extends React.Component {
 		this.toggleConfirmedTerms = this.toggleConfirmedTerms.bind(this);
 		this.toggleConfirmedTerms2 = this.toggleConfirmedTerms2.bind(this);
 		this.toggleConfirmedTerms3 = this.toggleConfirmedTerms3.bind(this);
+		this.toggleConfirmedTerms4 = this.toggleConfirmedTerms4.bind(this);
+		this.verifyESign = this.verifyESign.bind(this);
 		this.createAccount = this.createAccount.bind(this);
 		this.onCreateAccount = this.onCreateAccount.bind(this);
 		this.trackSignup = this.trackSignup.bind(this);
+		this.validateLogin = this.validateLogin.bind(this);
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
@@ -62,45 +64,60 @@ class AccountRegistrationConfirm extends React.Component {
 			nextState.confirmed !== this.state.confirmed ||
 			nextState.confirmedTerms !== this.state.confirmedTerms ||
 			nextState.confirmedTerms2 !== this.state.confirmedTerms2 ||
-			nextState.confirmedTerms3 !== this.state.confirmedTerms3
+			nextState.confirmedTerms3 !== this.state.confirmedTerms3 ||
+			nextState.confirmedTerms4 !== this.state.confirmedTerms4
 		);
 	}
 
-	// componentDidMount() {
-	//     // Get the modal
-	//     var modal = document.getElementById("myModal");
-
-	//     // Get the button that opens the modal
-	//     // var btn = document.getElementById("myBtn");
-
-	//     // // Get the <span> element that closes the modal
-	//     // var span = document.getElementsByClassName("close")[0];
-
-	//     // // When the user clicks the button, open the modal
-	//     // btn.onclick = function() {
-	//     //     modal.style.display = "block";
-	//     // };
-
-	//     // When the user clicks on <span> (x), close the modal
-	//     span.onclick = function() {
-	//         modal.style.display = "none";
-	//     };
-
-	//     // When the user clicks anywhere outside of the modal, close it
-	//     window.onclick = function(event) {
-	//         if (event.target == modal) {
-	//             modal.style.display = "none";
-	//         }
-	//     };
-	// }
-
 	componentWillMount() {
 		this.setState({
-			email: sessionStorage.getItem('email'),
-			phone: sessionStorage.getItem('phone'),
-			firstname: sessionStorage.getItem('firstname'),
-			lastname: sessionStorage.getItem('lastname'),
+			email: ss.get('email'),
+			phone: ss.get('phone'),
+			firstname: ss.get('firstname'),
+			lastname: ss.get('lastname'),
+			confirmed: ss.get('confirmed'),
+			confirmedTerms: ss.get('confirmedTerms'),
+			confirmedTerms2: ss.get('confirmedTerms2'),
 		});
+	}
+
+	componentDidMount() {
+		const jwt = ss.get('confirmedTerms3Token', '');
+		const email = ss.get('email', '');
+		const eSign = ss.get('confirmedTerms4Token', '');
+		if (!email) {
+			this.props.history.push('/registration');
+		}
+		if (eSign) {
+			this.verifyESign(email);
+		}
+	}
+
+	async verifyESign(email) {
+		try {
+			const response = null;
+			console.log('Response after esign validation', response);
+			if (response && response.data) {
+				console.log('*** response data from eSign', response.data);
+				debugger;
+				if (
+					response.data.email === email &&
+					response.data.status &&
+					response.data.status.isSign === true &&
+					response.data.status.isPayed === true
+				) {
+					this.setState({confirmedTerms4: true});
+					ss.remove('confirmedTerms4Token');
+					ss.remove('confirmedTerms3Token');
+					ss.remove('confirmed');
+					ss.remove('confirmedTerms');
+					ss.remove('confirmedTerms2');
+					ss.remove('account_registration_name');
+				}
+			}
+		} catch (err) {
+			console.log('Error proceeding auth after faceki', err);
+		}
 	}
 
 	onFinishConfirm(confirmStoreState) {
@@ -131,12 +148,14 @@ class AccountRegistrationConfirm extends React.Component {
 			}),
 		}).then((response) => {
 			alert('You have successfully created your wallet account.');
-			//console.log(response);
 		});
 	}
 
 	onCreateAccount(e) {
 		e.preventDefault();
+		if (!this.state.email || !this.props.password || !this.props.accountName) {
+			this.props.history.push('/registration');
+		}
 		this.createAccount(
 			this.props.accountName,
 			this.props.password,
@@ -163,12 +182,12 @@ class AccountRegistrationConfirm extends React.Component {
 		private_key
 	) {
 		console.log('phone_number: ', phone_number);
-		const origEmail = sessionStorage.getItem('email');
+		const origEmail = ss.get('email');
 		const {referralAccount} = AccountStore.getState();
-		sessionStorage.removeItem('email');
-		sessionStorage.removeItem('phone');
-		sessionStorage.removeItem('firstname');
-		sessionStorage.removeItem('lastname');
+		ss.remove('email');
+		ss.remove('phone');
+		ss.remove('firstname');
+		ss.remove('lastname');
 		AccountActions.createAccountWithPassword(
 			name,
 			password,
@@ -187,65 +206,130 @@ class AccountRegistrationConfirm extends React.Component {
 				this.trackSignup(res);
 				if (this.state.registrarAccount) {
 					FetchChain('getAccount', name).then(() => {
-						this.unlockAccount(name, password);
+						this.validateLogin(name, password);
 					});
 					TransactionConfirmStore.listen(this.onFinishConfirm);
 				} else {
 					FetchChain('getAccount', name).then(() => {});
-					this.unlockAccount(name, password);
-					this.props.history.push('/market/META1_USDT');
+					this.validateLogin(name, password);
 				}
-				if (origEmail) {
-					this.postWallet(origEmail, name);
-				}
+				// if (origEmail) {
+				// 	this.postWallet(origEmail, name);
+				// }
 			})
 			.catch((error) => {
 				console.log('ERROR AccountActions.createAccount', error);
-				// let errorMsg =
-				//     error.base && error.base.length && error.base.length > 0
-				//         ? error.base[0]
-				//         : "unknown error";
-				// if (error.remote_ip) {
-				//     [errorMsg] = error.remote_ip;
-				// }
-				// Notification.error({
-				//     message: counterpart.translate(
-				//         "notifications.account_create_failure",
-				//         {
-				//             account_name: name,
-				//             error_msg: errorMsg
-				//         }
-				//     )
-				// });
 			});
 	}
 
-	unlockAccount(name, password) {
-		WalletDb.validatePassword(password, true, name);
-		WalletUnlockActions.checkLock.defer();
+	timer = (ms) => new Promise((res) => setTimeout(res, ms));
+	async validateLogin(password, account) {
+		const {resolve} = this.props;
+
+		let chainAccount = ChainStore.getAccount(account);
+		while (chainAccount === undefined) {
+			chainAccount = ChainStore.getAccount(account);
+			console.log('Chain Account', chainAccount);
+			await this.timer(1000);
+		}
+
+		const {success, cloudMode} = WalletDb.validatePassword(
+			password || '',
+			true,
+			account,
+			['active', 'owner', 'memo'],
+			chainAccount
+		);
+
+		if (!success && WalletDb.isLocked()) {
+			this.setState({passwordError: 'Invalid password'});
+			alert('Password Or Account is wrong');
+		} else {
+			this.setState({password: ''});
+			if (cloudMode) AccountActions.setPasswordAccount(account);
+			WalletUnlockActions.change();
+			if (resolve) resolve();
+			WalletUnlockActions.cancel();
+			ss.remove('account_login_name');
+			this.props.history.push(`/account/${account}`);
+		}
 	}
 
 	toggleConfirmed(e) {
-		this.setState({
-			confirmed: e.target.checked,
-		});
+		this.setState(
+			{
+				confirmed: e.target.checked,
+			},
+			() => {
+				ss.set('confirmed', e.target.checked);
+			}
+		);
 	}
 
 	toggleConfirmedTerms(e) {
-		this.setState({
-			confirmedTerms: e.target.checked,
-		});
+		this.setState(
+			{
+				confirmedTerms: e.target.checked,
+			},
+			() => {
+				ss.set('confirmedTerms', e.target.checked);
+			}
+		);
 	}
 
 	toggleConfirmedTerms2(e) {
-		this.setState({
-			confirmedTerms2: e.target.checked,
-		});
+		this.setState(
+			{
+				confirmedTerms2: e.target.checked,
+			},
+			() => {
+				ss.set('confirmedTerms2', e.target.checked);
+			}
+		);
 	}
 
 	toggleConfirmedTerms3(e) {
+		this.setState(
+			{
+				confirmedTerms3: e.target.checked,
+			},
+			() => {
+				ss.set('confirmedTerms3', e.target.checked);
+			}
+		);
+	}
+
+	async toggleConfirmedTerms4(e) {
+		// if (e.target.checked) {
+		// 	const { email, phone, firstname, lastname } = this.state;
+		// 	let token;
+		// 	try {
+		// 		// const response = await axios({
+		// 		// 	url: process.env.ESIGNATURE_URL + "/apiewallet/sign/token",
+		// 		// 	method: "get",
+		// 		// 	headers: {
+		// 		// 		Accept: "application/json"
+		// 		// 	},
+		// 		// 	params: { email }
+		// 		// });
+		// 		const response = null;
+
+		// 		if (response && response.headers) {
+		// 			if (response.headers.authorization) {
+		// 				token = response.headers.authorization;
+		// 			}
+		// 		}
+		// 	} catch (err) {
+		// 		console.log("Error in e-sign token generation");
+		// 	}
+		// 	window.location.href = `${process.env.ESIGNATURE_URL
+		// 		}/e-sign?email=${encodeURIComponent(
+		// 			email
+		// 		)}&firstName=${firstname}&lastName=${lastname}&phoneNumber=${phone}&token=${token}&redirectUrl=${window.location.origin
+		// 		}/auth-proceed`;
+		// }
 		this.setState({
-			confirmedTerms3: e.target.checked,
+			confirmedTerms4: e.target.checked,
 		});
 	}
 
@@ -330,6 +414,16 @@ class AccountRegistrationConfirm extends React.Component {
 							}`}
 						>
 							I am a living man or woman hence a living being
+						</button>
+					</Checkbox>
+					<br />
+					<Checkbox
+						checked={this.state.confirmedTerms4}
+						onChange={this.toggleConfirmedTerms4}
+					>
+						&nbsp;&nbsp;&nbsp;
+						<button className="reset-this terms">
+							Sign Membership Agreement
 						</button>
 					</Checkbox>
 					<div id="myModal" class="custom-modal">
@@ -517,7 +611,7 @@ class AccountRegistrationConfirm extends React.Component {
 								products, or any indirect, consequential, exemplary, incidental,
 								special or punitive damages arising from or relating to these
 								terms or your use of, or incapability to use the site even if
-								company has been advised of the possibility of such damages. 
+								company has been advised of the possibility of such damages.
 								Access to and use of the site is at your own discretion and
 								risk, and you will be solely responsible for any damage to your
 								device or computer system, or loss of data resulting therefrom.
@@ -544,7 +638,7 @@ class AccountRegistrationConfirm extends React.Component {
 								these Terms will remain in full force and effect while you use
 								the Site.  We may suspend or terminate your rights to use the
 								Site at any time for any reason at our sole discretion,
-								including for any use of the Site in violation of these Terms. 
+								including for any use of the Site in violation of these Terms.
 								Upon termination of your rights under these Terms, your Account
 								and right to access and use the Site will terminate
 								immediately.  You understand that any termination of your
@@ -681,7 +775,7 @@ class AccountRegistrationConfirm extends React.Component {
 								rules are in conflict with the Terms.  The AAA Consumer
 								Arbitration Rules governing the arbitration are available online
 								at adr.org or by calling the AAA at 1-800-778-7879.  The
-								arbitration shall be conducted by a single, neutral arbitrator. 
+								arbitration shall be conducted by a single, neutral arbitrator.
 								Any claims or disputes where the total amount of the award
 								sought is less than Ten Thousand U.S. Dollars (US $10,000.00)
 								may be resolved through binding non-appearance-based
