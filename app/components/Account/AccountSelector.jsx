@@ -188,9 +188,19 @@ class AccountSelector extends React.Component {
 
 							let result = this._populateAccountIndex(account);
 
-							if (result) {
-								accountIndex[objectIndex] = result;
-								search_array.splice(account.get('name'));
+							if (
+								this.props.resultFrom === 'whitelist' ||
+								this.props.resultFrom === 'blacklist'
+							) {
+								if (result && result.name !== this.props.loginAccount) {
+									accountIndex[objectIndex] = result;
+									search_array.splice(account.get('name'));
+								}
+							} else {
+								if (result) {
+									accountIndex[objectIndex] = result;
+									search_array.splice(account.get('name'));
+								}
 							}
 						}
 					});
