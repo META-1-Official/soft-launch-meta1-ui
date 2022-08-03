@@ -484,7 +484,7 @@ class AccountOverview extends React.Component {
 								<a
 									target="_blank"
 									rel="noopener noreferrer"
-									href={`${process.env.SUPPORT_META1_URL}how-to-deposit-into-your-meta-lite-wallet`}
+									href={`${process.env.META1_SUPPORT_URL}how-to-deposit-into-your-meta-lite-wallet`}
 								>
 									Fund Wallet With Cryptocurrency
 								</a>
