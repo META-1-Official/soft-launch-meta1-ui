@@ -2512,7 +2512,8 @@
 		"withdraw_permission_delete": "Deleted withdrawal permissions for wallet",
 		"withdraw_permission_update": "Updated withdrawal permission for wallet",
 		"view_json": "Show raw json",
-		"operations": "Operations"
+		"operations": "Operations",
+		"disallow_same_account_whitelist_blacklist": "Same account in whitelist and blacklist are not permitted"
 	},
 	"transfer": {
 		"2fa": "2FA",

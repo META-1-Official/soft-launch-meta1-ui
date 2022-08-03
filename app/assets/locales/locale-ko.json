@@ -2372,7 +2372,8 @@
 		"withdraw_permission_claim": "다음 계정에 출금 권한을 요청",
 		"withdraw_permission_create": "다음 계정에 출금 권한을 부여",
 		"withdraw_permission_delete": "다음 계정에 출금 권한을 삭제",
-		"withdraw_permission_update": "다음 계정의 출금 권한을 업데이트"
+		"withdraw_permission_update": "다음 계정의 출금 권한을 업데이트",
+		"disallow_same_account_whitelist_blacklist": "Same account in whitelist and blacklist are not permitted"
 	},
 	"transfer": {
 		"again": "추가 거래",

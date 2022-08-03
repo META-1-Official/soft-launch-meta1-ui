@@ -2372,7 +2372,8 @@
 		"withdraw_permission_claim": "Çekme izni onaylandı.",
 		"withdraw_permission_create": "Hesaptan çekme izni verildi.",
 		"withdraw_permission_delete": "Hesaptan çekme izni silindi.",
-		"withdraw_permission_update": "Hesaptan çekme iznini güncellendi."
+		"withdraw_permission_update": "Hesaptan çekme iznini güncellendi.",
+		"disallow_same_account_whitelist_blacklist": "Beyaz listede ve kara listede aynı hesaba izin verilmez"
 	},
 	"transfer": {
 		"again": "BAŞKA BİR TRANSFER GERÇEKLEŞTİR",

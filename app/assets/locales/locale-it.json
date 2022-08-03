@@ -2372,7 +2372,8 @@
 		"withdraw_permission_claim": "Ha richiesto il permesso di prelevare per l'account",
 		"withdraw_permission_create": "Ha dato il permesso di prelevare per l'account",
 		"withdraw_permission_delete": "Ha rimosso il permesso di prelevare per l'account",
-		"withdraw_permission_update": "Ha aggiornato il permesso di prelevare per l'account"
+		"withdraw_permission_update": "Ha aggiornato il permesso di prelevare per l'account",
+		"disallow_same_account_whitelist_blacklist": "Lo stesso account nella whitelist e nella blacklist non è consentito"
 	},
 	"transfer": {
 		"again": "EFFETTUA UN ALTRO TRASFERIMENTO",
