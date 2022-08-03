@@ -19,6 +19,7 @@ import AccountTreemap from './AccountTreemap';
 import AssetWrapper from '../Utility/AssetWrapper';
 import AccountPortfolioList from './AccountPortfolioList';
 import {Market24HourChangeComponent} from '../Utility/MarketChangeComponent';
+import {Link} from 'react-router-dom';
 import {
 	Space,
 	Switch,
@@ -26,6 +27,7 @@ import {
 	Select,
 	Menu,
 	Checkbox,
+	Button,
 	CheckboxGroup,
 	Dropdown,
 } from 'antd';
@@ -461,6 +463,49 @@ class AccountOverview extends React.Component {
 			</div>
 		);
 
+		const menu = (
+			<div>
+				<Menu
+					items={[
+						{
+							key: '1',
+							label: (
+								<Link
+									to="#"
+									onClick={() => this.props.history.push('/onramperwallet')}
+								>
+									Fund Wallet With Credit/Debit Card
+								</Link>
+							),
+						},
+						{
+							key: '2',
+							label: (
+								<a
+									target="_blank"
+									rel="noopener noreferrer"
+									href={`${process.env.META1_SUPPORT_URL}how-to-deposit-into-your-meta-lite-wallet`}
+								>
+									Fund Wallet With Cryptocurrency
+								</a>
+							),
+						},
+						{
+							key: '3',
+							label: (
+								<a
+									target="_blank"
+									rel="noopener noreferrer"
+									href={`${process.env.META1_VISION_URL}private-digital-currency/meta-1-coin`}
+								>
+									Fund Wallet with Wire or Check
+								</a>
+							),
+						},
+					]}
+				/>
+			</div>
+		);
 		return (
 			<div className="account-overview">
 				<div
@@ -518,12 +563,17 @@ class AccountOverview extends React.Component {
 							) : null}
 						</Space>
 						<Space align="start">
-							<StyledButton
+							<Dropdown
+								overlayClassName="dropdown-menu-sec"
+								overlay={menu}
+								placement="bottomRight"
 								buttonType="primary"
-								onClick={() => this.props.history.push('/onramperwallet')}
 							>
-								Fund Wallet
-							</StyledButton>
+								<StyledButton buttonType="primary">
+									Fund Wallet
+									<CaretDownFilled />
+								</StyledButton>
+							</Dropdown>
 
 							{currentDisplay === 'portfolio' && (
 								<div className="overview-settings dropdown-btn-class">
