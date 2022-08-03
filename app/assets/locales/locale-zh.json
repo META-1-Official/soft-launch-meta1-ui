@@ -2376,7 +2376,8 @@
 		"withdraw_permission_claim": "行使提款授权，从",
 		"withdraw_permission_create": "授权提款，从",
 		"withdraw_permission_delete": "删除提款授权，从",
-		"withdraw_permission_update": "更新提款授权，从"
+		"withdraw_permission_update": "更新提款授权，从",
+		"disallow_same_account_whitelist_blacklist": "不允许在白名单和黑名单中使用相同的帐户"
 	},
 	"transfer": {
 		"again": "发起新的转账",

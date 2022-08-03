@@ -81,32 +81,23 @@ class TransactionConfirm extends React.Component {
 				);
 			});
 		} else {
-			console.log(
-				'new_listing',
-				this.props.transaction.serialize().operations[0][1].new_listing
-			);
-			if (
-				ops[this.props.transaction.serialize().operations[0][0]] ==
-				'account_whitelist'
-			) {
-				if (
-					this.props.transaction.serialize().operations[0][1].new_listing <= 2
-				)
+			const op = this.props.transaction.serialize().operations[0];
+			if (ops[op[0]] == 'account_whitelist') {
+				if (op[1].new_listing <= 2)
 					TransactionConfirmActions.broadcast(
 						this.props.transaction,
 						this.props.resolve,
 						this.props.reject
 					);
 				else {
-					if (
-						this.props.transaction.serialize().operations[0][1].new_listing == 3
-					) {
+					if (op[1].new_listing == 3) {
 						notify.addNotification.defer({
 							children: (
 								<div>
 									<p>
 										<Translate content="transaction.broadcast_fail" />
-										&nbsp;&nbsp;
+										<br />
+										<Translate content="transaction.disallow_same_account_whitelist_blacklist" />
 									</p>
 								</div>
 							),

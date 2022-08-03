@@ -2377,7 +2377,8 @@
 		"withdraw_permission_claim": "Ha reclamado permisos de retiro para la cuenta",
 		"withdraw_permission_create": "Ha otorgado permisos de retiro para la cuenta",
 		"withdraw_permission_delete": "Ha eliminado los permisos de retiro para la cuenta",
-		"withdraw_permission_update": "Ha actualizado los permisos de retiro para la cuenta"
+		"withdraw_permission_update": "Ha actualizado los permisos de retiro para la cuenta",
+		"disallow_same_account_whitelist_blacklist": "No se permite la misma cuenta en la lista blanca y en la lista negra"
 	},
 	"transfer": {
 		"again": "HACER OTRA TRANSFERENCIA",
