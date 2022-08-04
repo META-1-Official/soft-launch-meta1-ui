@@ -622,6 +622,7 @@ class AccountPermissions extends React.Component {
 							limit={25}
 							compactView={false}
 							filter="account_update"
+							showAll={true}
 							style={{paddingBottom: '2rem'}}
 							transactionHistoryCheckbox={this.state.transactionHistoryCheckbox}
 						/>
