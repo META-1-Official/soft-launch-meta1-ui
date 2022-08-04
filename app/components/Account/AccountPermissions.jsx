@@ -244,8 +244,20 @@ class AccountPermissions extends React.Component {
 
 	onAddItem(collection, item_value, weight) {
 		let state = {};
+
 		let list =
 			collection + (utils.is_object_id(item_value) ? '_accounts' : '_keys');
+
+		if (
+			utils.is_object_id(item_value) &&
+			this.state[list].indexOf(item_value) > -1
+		) {
+			this.state[list] = this.state[list].splice(
+				this.state[list].indexOf(item_value),
+				1
+			);
+		}
+
 		state[list] = this.state[list].push(item_value);
 		this.state[collection + '_weights'][item_value] = weight;
 		this.setState(state);
