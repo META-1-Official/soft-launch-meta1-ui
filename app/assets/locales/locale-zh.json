@@ -1658,7 +1658,7 @@
 		"override_transfer": "{issuer} 从 {from} 将 {amount} 转账给 {to}",
 		"pending": " %(blocks)s 个区块待定",
 		"proposal_create": "{account} 创建了交易提议",
-		"proposal_delete": "{account} 删除了交易提议",
+		"proposal_delete": "{account} 删除了交易提议 {proposal}",
 		"proposal_update": "{account} 更新了交易提议",
 		"publish_feed": "{account} 发布了喂价 {price}",
 		"reg_account": "{registrar} 注册了账户 {new_account}",

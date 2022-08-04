@@ -1693,7 +1693,7 @@
 		"override_transfer": "{issuer} transferred {amount} from {from} to {to}",
 		"pending": "pending %(blocks)s blocks",
 		"proposal_create": "{account} created a proposal",
-		"proposal_delete": "{account} deleted a proposal",
+		"proposal_delete": "{account} deleted a proposal {proposal}",
 		"proposal_update": "{account} updated a proposal",
 		"publish_feed": "{account} published feed price of {price}",
 		"reg_account": "{registrar} registered the wallet {new_account}",

@@ -1659,7 +1659,7 @@
 		"override_transfer": "{issuer} transferido {amount} da {from} a {to}",
 		"pending": "%(blocks)s bloques pendientes",
 		"proposal_create": "{account} transacción propuesta creada",
-		"proposal_delete": "{account} transacción propuesta eliminada",
+		"proposal_delete": "{account} transacción propuesta eliminada {proposal}",
 		"proposal_update": "{account} transacción propuesta creada",
 		"publish_feed": "{account} publicò precio de suministro de {price}",
 		"reg_account": "{registrar} Cuenta registrada {new_account}",
