@@ -1654,7 +1654,7 @@
 		"override_transfer": "{issuer} ha trasferito {amount} da {from} a {to}",
 		"pending": "in attesa da %(blocks)s blocchi",
 		"proposal_create": "{account} ha creato una proposta di transazione",
-		"proposal_delete": "{account} ha rimosso una proposta di transazione",
+		"proposal_delete": "{account} ha rimosso una proposta di transazione {proposal}",
 		"proposal_update": "{account} ha aggiornato una proposta di transazione",
 		"publish_feed": "{account} ha pubblicato un feed price di {price}",
 		"reg_account": "{registrar} ha registrato l'account {new_account}",

@@ -1658,7 +1658,7 @@
 		"override_transfer": "{issuer} перевел {amount} с {from} на {to}",
 		"pending": "обрабатывается ещё %(blocks)s блоков",
 		"proposal_create": "{account} создал предложение",
-		"proposal_delete": "{account} удалил предложение",
+		"proposal_delete": "{account} удалил предложение {proposal}",
 		"proposal_update": "{account} обновил предложение",
 		"publish_feed": "{account} опубликовал котировки {price}",
 		"reg_account": "{registrar} зарегистрировал аккаунт {new_account}",

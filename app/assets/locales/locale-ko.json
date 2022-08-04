@@ -1654,7 +1654,7 @@
 		"override_transfer": "{issuer} transferred {amount} from {from} to {to}",
 		"pending": "승인대기 중... %(blocks)s 블록",
 		"proposal_create": "{account} created a proposed transaction",
-		"proposal_delete": "{account} deleted a proposed transaction",
+		"proposal_delete": "{account} deleted a proposed transaction {proposal}",
 		"proposal_update": "{account} updated a proposed transaction",
 		"publish_feed": "{account} published feed price of {price}",
 		"reg_account": "{registrar} registered the wallet {new_account}",
