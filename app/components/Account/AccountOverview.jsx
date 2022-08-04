@@ -81,6 +81,7 @@ class AccountOverview extends React.Component {
 				'From / To',
 				'Price',
 				'Market Price',
+				'Orders Date',
 				'Expiry Date',
 				'Action',
 			],
@@ -423,6 +424,7 @@ class AccountOverview extends React.Component {
 			'From / To',
 			'Price',
 			'Market Price',
+			'Orders Date',
 			'Expiry Date',
 			'Action',
 		];

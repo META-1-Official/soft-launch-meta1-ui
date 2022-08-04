@@ -415,6 +415,23 @@ class AccountOrders extends React.Component {
 				className: 'clickable',
 			},
 			{
+				key: 'date',
+				isShow: this.props.openOrderCheckbox.includes('Orders Date'),
+				title: (
+					<div>
+						<Translate content="account.orders" />{' '}
+						<Translate content="explorer.block.date" />
+					</div>
+				),
+				render: (dataItem) => (
+					<span>
+						{moment(dataItem.order.expiration)
+							.add(-1, 'years')
+							.format('MMM DD, YYYY hh:mm')}
+					</span>
+				),
+			},
+			{
 				key: 'expiryDate',
 				isShow: this.props.openOrderCheckbox.includes('Expiry Date'),
 				title: (
