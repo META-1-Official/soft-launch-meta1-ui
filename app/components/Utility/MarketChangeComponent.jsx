@@ -40,8 +40,6 @@ class MarketChangeComponent extends MarketStats {
 
 	render() {
 		let marketChangeValue = this.getValue();
-		if (this.props.marketId === 'LTC_META1') marketChangeValue = '1.0';
-		if (this.props.marketId === 'EOS_META1') marketChangeValue = '-1.0';
 		let dayChangeClass =
 			parseFloat(marketChangeValue) === 0
 				? ''
