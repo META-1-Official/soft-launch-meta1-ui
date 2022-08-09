@@ -1,11 +1,11 @@
 # Permissions
 
-In META1, each account is separated into
+In META1, each wallet is separated into
 
 * **Active Permission**: control over its funds and
-* **Owner Permission**: control over the account.
+* **Owner Permission**: control over the wallet.
 
-Both can be defined in the `Permissions` tab of your account using so called
+Both can be defined in the `Permissions` tab of your wallet using so called
 *authorities* (see below) together with a so called *threshold* that has to be
 exceeded in order for a transaction to be valid.
 
@@ -14,7 +14,7 @@ exceeded in order for a transaction to be valid.
 In META1 an *authority* consists of one or many entities that authorize an
 action, such as transfers or trades.
 
-An authority consists of one or several pairs of an account name with a
+An authority consists of one or several pairs of an wallet name with a
 *weight*.
 
 In order to obtain a valid transaction, the sum of the weights from signing
@@ -23,7 +23,7 @@ the parties has to exceed the threshold as defined in the permissions.
 # Examples
 
 Let's discuss some examples to shed some light on the used terminology and the
-use-cases. We assume that a new account is created with it's active permissions
+use-cases. We assume that a new wallet is created with it's active permissions
 set as described below. Note that the same scheme also works for the owner
 permissions!
 
@@ -75,7 +75,7 @@ three friends together.
 
 ## Multi-Hierarchical Flexible Multi-Signature
 
-Let's take a look at a simple multi-hierarchical corporate account setup.  We
+Let's take a look at a simple multi-hierarchical corporate wallet setup.  We
 are looking at a company that has a Chief of Financial Officer (CFO) and a some
 departments working for him, such as the Treasurer, Controller, Tax Manager,
 Accounting, etc. The company also has a CEO that wants to have spending
@@ -89,7 +89,7 @@ privileges. Hence we construct an authority for the funds according to:
 | Threshold: | 51%    |
 
 whereas CEO.COMPANY and CFO.COMPANY have their own authorities. For instance,
-the CFO.COMPANY account could look like:
+the CFO.COMPANY wallet could look like:
 
 | CFO.COMPANY         | Weight |
 | ------------------- | ------ |

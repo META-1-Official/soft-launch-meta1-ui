@@ -596,7 +596,7 @@ class Header extends React.Component {
 						<Text>Permissions</Text>
 					</Menu.Item>
 					<Menu.Item key="advanced-accounts">
-						<Text>Accounts</Text>
+						<Text>Wallets</Text>
 					</Menu.Item>
 				</Menu.SubMenu>
 			</Menu>
