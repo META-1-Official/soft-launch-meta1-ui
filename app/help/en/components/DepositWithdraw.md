@@ -1,6 +1,6 @@
 [# receive]
 ### Receiving META1
-In order to receive META1 from another person or from an exchange, simply give them your account name: **{account}**
+In order to receive META1 from another person or from an exchange, simply give them your wallet name: **{account}**
 
 [# deposit-short]
 ### Depositing or withdrawing coins
