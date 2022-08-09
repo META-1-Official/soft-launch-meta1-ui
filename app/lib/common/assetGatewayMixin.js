@@ -221,6 +221,7 @@ function gatewaySelector(args) {
 					)}
 					value={selectedGateway}
 					style={{width: '100%'}}
+					getPopupContainer={(triggerNode) => triggerNode.parentNode}
 				>
 					{gateways.map((g) => {
 						if (g.options.enabled) {

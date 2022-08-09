@@ -301,6 +301,7 @@ class ChangeActiveWallet extends Component {
 										className="settings--select"
 										value={this.state.current_wallet}
 										onChange={this.onChange.bind(this)}
+										getPopupContainer={(triggerNode) => triggerNode.parentNode}
 									>
 										{options}
 									</Select>
@@ -433,6 +434,7 @@ class WalletDelete extends Component {
 									value={this.state.selected_wallet || ''}
 									style={{margin: '0 auto'}}
 									onChange={this.onChange.bind(this)}
+									getPopupContainer={(triggerNode) => triggerNode.parentNode}
 								>
 									{options}
 								</Select>

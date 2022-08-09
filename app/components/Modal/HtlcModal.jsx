@@ -222,6 +222,7 @@ class Preimage extends React.Component {
 						style={{width: '19.5%'}}
 						onChange={this.onInputChanged.bind(this)}
 						value={this.props.preimage_cipher}
+						getPopupContainer={(triggerNode) => triggerNode.parentNode}
 					>
 						{this.state.ciphers.map((cipher) => (
 							<Select.Option key={cipher} value={cipher}>

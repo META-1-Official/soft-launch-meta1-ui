@@ -578,6 +578,7 @@ class AccountSelector extends React.Component {
 					notFoundContent={counterpart.translate('global.not_found')}
 					value={selectedAccount ? selectedAccount.name : null}
 					disabled={disabledInput ? true : undefined}
+					getPopupContainer={(triggerNode) => triggerNode.parentNode}
 				>
 					{optionsContainer}
 				</Select>
