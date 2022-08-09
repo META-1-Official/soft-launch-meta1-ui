@@ -2513,7 +2513,8 @@
 		"withdraw_permission_update": "Updated withdrawal permission for wallet",
 		"view_json": "Show raw json",
 		"operations": "Operations",
-		"disallow_same_account_whitelist_blacklist": "Same account in whitelist and blacklist are not permitted"
+		"disallow_same_account_whitelist_blacklist": "Same account in whitelist and blacklist are not permitted",
+		"account_exist_in_blacklist": "Same account already exist in blacklist"
 	},
 	"transfer": {
 		"2fa": "2FA",

@@ -90,14 +90,20 @@ class TransactionConfirm extends React.Component {
 						this.props.reject
 					);
 				else {
-					if (op[1].new_listing == 3) {
+					if (op[1].new_listing >= 3) {
 						notify.addNotification.defer({
 							children: (
 								<div>
 									<p>
 										<Translate content="transaction.broadcast_fail" />
 										<br />
-										<Translate content="transaction.disallow_same_account_whitelist_blacklist" />
+										<Translate
+											content={
+												op[1].new_listing >= 4
+													? 'transaction.account_exist_in_blacklist'
+													: 'transaction.disallow_same_account_whitelist_blacklist'
+											}
+										/>
 									</p>
 								</div>
 							),
