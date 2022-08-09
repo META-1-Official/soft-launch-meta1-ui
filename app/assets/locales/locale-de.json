@@ -2364,7 +2364,8 @@
 		"withdraw_permission_create": "Einzugsermächtigung wurde verliehen an Konto.",
 		"withdraw_permission_delete": "Einzugsermächtigung wurde aufgehoben für Konto.",
 		"withdraw_permission_update": "Einzugsermächtigung wurde aktualisiert für Konto.",
-		"disallow_same_account_whitelist_blacklist": "Dasselbe Konto in Whitelist und Blacklist ist nicht zulässig"
+		"disallow_same_account_whitelist_blacklist": "Dasselbe Konto in Whitelist und Blacklist ist nicht zulässig",
+		"account_exist_in_blacklist": "Dasselbe Konto existiert bereits in der schwarzen Liste"
 	},
 	"transfer": {
 		"again": "WEITERE ÜBERWEISUNG",

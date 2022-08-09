@@ -2377,7 +2377,8 @@
 		"withdraw_permission_create": "Дал право доступа к выводу средств аккаунту",
 		"withdraw_permission_delete": "Удалил право доступа к выводу средств для аккаунта",
 		"withdraw_permission_update": "Обновил право доступа к выводу средств для аккаунта",
-		"disallow_same_account_whitelist_blacklist": "Одна и та же учетная запись в белом и черном списках не допускается."
+		"disallow_same_account_whitelist_blacklist": "Одна и та же учетная запись в белом и черном списках не допускается.",
+		"account_exist_in_blacklist": "Такой же аккаунт уже есть в черном списке"
 	},
 	"transfer": {
 		"again": "СДЕЛАТЬ НОВЫЙ ПЕРЕВОД",

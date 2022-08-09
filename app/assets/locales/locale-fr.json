@@ -2373,7 +2373,8 @@
 		"withdraw_permission_create": "A donné une permission de retrait du compte",
 		"withdraw_permission_delete": "A supprimé les permissions de retrait du compte",
 		"withdraw_permission_update": "A mis à jour les permissions de retrait du compte",
-		"disallow_same_account_whitelist_blacklist": "Le même compte dans la liste blanche et la liste noire n'est pas autorisé"
+		"disallow_same_account_whitelist_blacklist": "Le même compte dans la liste blanche et la liste noire n'est pas autorisé",
+		"account_exist_in_blacklist": "Le même compte existe déjà dans la liste noire"
 	},
 	"transfer": {
 		"again": "FAIRE UN AUTRE TRANSFERT",
