@@ -645,6 +645,7 @@ class ScaledOrderForm extends Component {
 					ChainStore.getAsset('1.3.0').get &&
 					ChainStore.getAsset('1.3.0').get('symbol')
 				}
+				getPopupContainer={(triggerNode) => triggerNode.parentNode}
 			>
 				{this.state.feeAssets &&
 					this.state.feeAssets.map &&

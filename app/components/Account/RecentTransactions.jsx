@@ -637,6 +637,7 @@ class RecentTransactions extends React.Component {
 										value={this.state.filter}
 										onChange={this._onChangeFilter.bind(this)}
 										suffixIcon={<CaretDownFilled />}
+										getPopupContainer={(triggerNode) => triggerNode.parentNode}
 									>
 										<OptGroup label="General">{defaultOptions}</OptGroup>
 										<OptGroup label="Balances">{amountOptions}</OptGroup>

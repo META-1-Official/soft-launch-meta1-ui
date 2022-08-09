@@ -125,6 +125,7 @@ class CustomTable extends React.Component {
 					css={(theme) => ({
 						background: theme.colors.greyColorContrast,
 					})}
+					getPopupContainer={(triggerNode) => triggerNode.parentNode}
 				>
 					<Option
 						className="customizable-column--selector--option"

@@ -594,6 +594,7 @@ class Assets extends React.Component {
 										style={{width: '150px', marginLeft: '24px'}}
 										value={this.state.rowsOnPage}
 										onChange={this.handleRowsChange}
+										getPopupContainer={(triggerNode) => triggerNode.parentNode}
 									>
 										<Select.Option key={'10'}>10 rows</Select.Option>
 										<Select.Option key={'25'}>25 rows</Select.Option>

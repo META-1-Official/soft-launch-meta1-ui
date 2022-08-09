@@ -14,6 +14,7 @@ const StyledSelect = ({children, ...rest}: IStyledSelect) => {
 			dropdownStyle={{
 				backgroundColor: theme.colors.dropdownOptionsColor,
 			}}
+			getPopupContainer={(triggerNode) => triggerNode.parentNode}
 			css={{
 				'&&& .ant-select-selector': {
 					backgroundColor: theme.colors.inputBackgroundColor,

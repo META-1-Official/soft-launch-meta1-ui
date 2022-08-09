@@ -879,6 +879,7 @@ class AccountTrade extends React.Component {
 							value={selectedResolution}
 							onChange={(rows) => this._onDropDownChange(rows, 'resolution')}
 							disabled={isLoading}
+							getPopupContainer={(triggerNode) => triggerNode.parentNode}
 						>
 							<Select.Option key={'30m'}>30m</Select.Option>
 							<Select.Option key={'1h'}>1h</Select.Option>
@@ -890,6 +891,7 @@ class AccountTrade extends React.Component {
 							style={{width: '150px', marginLeft: '24px'}}
 							value={this.state.selectedAsset}
 							onChange={(rows) => this._onDropDownChange(rows, 'asset-filter')}
+							getPopupContainer={(triggerNode) => triggerNode.parentNode}
 						>
 							<Select.Option key={'ALL'}>All Assets</Select.Option>
 							{assetOptions}
