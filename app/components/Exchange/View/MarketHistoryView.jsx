@@ -235,7 +235,7 @@ class MarketHistoryView extends React.Component {
 												paddingRight: '10px',
 											}}
 										>
-											{Number(row).toLocaleString('en')}
+											{Number(row).toFixed(8)}
 										</div>
 									</div>
 								);
