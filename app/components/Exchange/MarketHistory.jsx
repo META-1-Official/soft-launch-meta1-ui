@@ -503,6 +503,40 @@ class MarketHistory extends React.Component {
 			rows = this._getOrders().concat(rows);
 		}
 
+		let canceledOrders = myHistory
+			.filter((a) => {
+				let opType = a.getIn(['op', 0]);
+				if (opType === operations.limit_order_cancel) {
+					let amount = a.getIn(['result', 1, 'amount']);
+				}
+				return opType === operations.limit_order_cancel;
+			})
+			.map((a) => {
+				let orderId = a.getIn(['op', 1, 'order']);
+				let amount = a.getIn(['result', 1, 'amount']);
+
+				const receiveAmount = utils.format_number(
+					amount,
+					base.get('precision')
+				);
+				return {
+					orderId: orderId,
+					pair: {
+						baseSymbol: base?._root?.entries[1][1],
+						quoteSymbol: quote?._root?.entries[1][1],
+						isBid: false,
+					},
+					amount: {
+						payAmount: amount,
+						receiveAmount: amount,
+					},
+					price: amount,
+					total: amount,
+				};
+			})
+			.toArray();
+		rows = rows.concat(canceledOrders);
+
 		let totalRows = rows ? rows.length : null;
 		if (!showAll && rows) {
 			rows.splice(rowCount, rows.length);
