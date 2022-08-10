@@ -62,12 +62,16 @@ class AccountPermissionRow extends React.Component {
 			suffix = '_addresses';
 			has_private = keys.has(pubKey);
 		}
-
 		return (
 			<tr key={name}>
 				<td>
 					{this.props.account ? (
-						<AccountImage size={{height: 30, width: 30}} account={name} />
+						<div className="account-image">
+							<AccountImage size={{height: 30, width: 30}} account={name} />
+							<div style={{marginLeft: 10}} className={'my-key pub-key'}>
+								{name}
+							</div>
+						</div>
 					) : pubKey ? (
 						<div className="account-image">
 							<PrivateKeyView pubkey={pubKey}>

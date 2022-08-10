@@ -1382,7 +1382,7 @@
 		"print_receipt": "Print receipt",
 		"receipt_total": "Receipt Total",
 		"recipient_name": "Recipient Name",
-		"tooltip_payment_proof": "Your account history has been searched for a match of sender, recipient and asset. This is an educated guess, but there is no direct link between this transfer and the shown invoice written on-chain.",
+		"tooltip_payment_proof": "Your wallet history has been searched for a match of sender, recipient and asset. This is an educated guess, but there is no direct link between this transfer and the shown invoice written on-chain.",
 		"total": "Total",
 		"transaction": "Transaction",
 		"unit": "Unit"
@@ -1658,7 +1658,7 @@
 		"override_transfer": "{issuer} 从 {from} 将 {amount} 转账给 {to}",
 		"pending": " %(blocks)s 个区块待定",
 		"proposal_create": "{account} 创建了交易提议",
-		"proposal_delete": "{account} 删除了交易提议",
+		"proposal_delete": "{account} 删除了交易提议 {proposal}",
 		"proposal_update": "{account} 更新了交易提议",
 		"publish_feed": "{account} 发布了喂价 {price}",
 		"reg_account": "{registrar} 注册了账户 {new_account}",
@@ -1774,13 +1774,13 @@
 		"checkboxUploaded": "我已清楚登录解锁过程中 .bin文件必须上载，没有.bin文件我将无法获得我的资产。",
 		"continue": "继续",
 		"copyPassword": "复制密码并保存",
-		"createAccountTitle": "使用Bin-文件创建账户",
+		"createWalletTitle": "使用Bin-文件创建账户",
 		"createByPassword": "使用账户名及密码创建账户",
 		"downloadFile": "下载文件",
 		"loginByKey": "登录方式",
 		"passwordPlaceholder": "最少7个字符",
 		"recommended": "建议",
-		"securityAccountModel": "中等",
+		"securityWalletModel": "中等",
 		"securityKey": "安全",
 		"securityWalletModel": "高",
 		"select": "选择",
@@ -2376,7 +2376,8 @@
 		"withdraw_permission_claim": "行使提款授权，从",
 		"withdraw_permission_create": "授权提款，从",
 		"withdraw_permission_delete": "删除提款授权，从",
-		"withdraw_permission_update": "更新提款授权，从"
+		"withdraw_permission_update": "更新提款授权，从",
+		"disallow_same_account_whitelist_blacklist": "不允许在白名单和黑名单中使用相同的帐户"
 	},
 	"transfer": {
 		"again": "发起新的转账",

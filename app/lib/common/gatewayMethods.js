@@ -210,7 +210,7 @@ function getMeta1DepositAddressJSGateway(symbol) {
 		)
 			.then((response) => {
 				fetch(
-					'https://gateway.api.meta-exchange.vision/api/wallet/init/' +
+					`${process.env.GATEWAY_META1_JS_URL}/api/wallet/init/` +
 						symbol.toLowerCase(),
 					{
 						method: 'POST',
@@ -581,10 +581,10 @@ export function nudgeWithdrawal(asset_id, block, trx, op) {
 	FetchChain('getAsset', asset_id).then((asset) => {
 		let url = '';
 		if (asset.get('symbol') === 'USDT')
-			url = `${process.env.GATEWAY_META1_JS_URL}usdt`;
+			url = `${process.env.GATEWAY_META1_JS_URL}/usdt`;
 		else
 			url =
-				`${process.env.GATEWAY_META1_JS_URL}api/withdraw/` +
+				`${process.env.GATEWAY_META1_JS_URL}/api/withdraw/` +
 				asset.get('symbol');
 		let payload = {
 			account: {

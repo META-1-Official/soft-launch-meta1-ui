@@ -137,6 +137,7 @@ class DepositWithdrawAssetSelector extends React.Component {
 				optionLabelProp={'value'}
 				showSearch
 				style={{width: '100%'}}
+				getPopupContainer={(triggerNode) => triggerNode.parentNode}
 			>
 				{/*
                     NOTE

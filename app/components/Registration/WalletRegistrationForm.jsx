@@ -202,6 +202,7 @@ class WalletRegistrationForm extends React.Component {
 					style={{width: '100%'}}
 					value={this.state.registrarAccount}
 					onChange={this.onRegistrarAccountChange}
+					getPopupContainer={(triggerNode) => triggerNode.parentNode}
 				>
 					{myAccounts.map((accountName) => (
 						<Select.Option key={accountName} value={accountName}>

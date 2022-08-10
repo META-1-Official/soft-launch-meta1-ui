@@ -674,11 +674,13 @@ class Transaction extends React.Component {
 									content="explorer.block.new_listing"
 								/>
 							</td>
-							<td>
-								<Translate
-									content={`transaction.whitelist_states.${listing}`}
-								/>
-							</td>
+							{listing && (
+								<td>
+									<Translate
+										content={`transaction.whitelist_states.${listing}`}
+									/>
+								</td>
+							)}
 						</tr>
 					);
 

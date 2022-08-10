@@ -246,6 +246,9 @@ class PriceAlert extends React.Component {
 												value={rule.type}
 												style={{width: '200px'}}
 												onChange={this.handleTypeChange(key)}
+												getPopupContainer={(triggerNode) =>
+													triggerNode.parentNode
+												}
 											>
 												<Select.Option
 													value={PRICE_ALERT_TYPES.HIGHER_THAN}

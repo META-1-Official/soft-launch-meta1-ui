@@ -7,15 +7,15 @@ import AccountStore from 'stores/AccountStore';
 import QRCode from 'qrcode.react';
 
 const DepositModalContent = (props) => {
-	const [depositAddress, setDepositAddress] = useState(null);
+	const [depositAddress, setDepositAddress] = useState('');
 	const [assetType, setAssetType] = useState(props.assetType || 'btc');
 	const assets = ['btc', 'ltc', 'eth', 'usdt'];
 	const minDepositValues = {btc: 0.001, ltc: 0.01, eth: 0.01, usdt: 1};
 
-	const api_gateway_url = `${process.env.GATEWAY_URL}api-gateways/${
+	const api_gateway_url = `${process.env.GATEWAY_URL}/api-gateways/${
 		assetType === 'usdt' ? 'eth' : assetType
 	}`;
-	const wallet_init_url = `${process.env.GATEWAY_URL}api/wallet/init/${
+	const wallet_init_url = `${process.env.GATEWAY_URL}/api/wallet/init/${
 		assetType === 'usdt' ? 'eth' : assetType
 	}`;
 
@@ -40,6 +40,7 @@ const DepositModalContent = (props) => {
 	};
 
 	const getDepositAddress = () => {
+		setDepositAddress('');
 		fetch(api_gateway_url)
 			.then((response) => {
 				fetch(wallet_init_url, {
@@ -73,7 +74,11 @@ const DepositModalContent = (props) => {
 			<>
 				<div className="qr-wrapper">
 					<span>Deposit {assetType}</span>
-					<QRCode value={depositAddress} />
+					{depositAddress && depositAddress != '' ? (
+						<QRCode value={depositAddress} />
+					) : (
+						<div style={{height: '200px'}} />
+					)}
 				</div>
 				<div className="minimum-deposit">
 					Minimum deposit: {minDepositValues[assetType]}{' '}
@@ -125,7 +130,7 @@ const DepositModalContent = (props) => {
 			{assets.map((asset) => {
 				return (
 					<Tabs.TabPane tab={asset.toUpperCase()} key={asset}>
-						{depositAddress && renderContent()}
+						{renderContent()}
 					</Tabs.TabPane>
 				);
 			})}

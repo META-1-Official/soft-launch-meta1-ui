@@ -76,6 +76,7 @@ export default class AccountSelect extends React.Component {
 				onChange={this._onAccountChange.bind(this)}
 				style={this.props.center ? {margin: '0 auto'} : null}
 				tabIndex={this.props.tabIndex}
+				getPopupContainer={(triggerNode) => triggerNode.parentNode}
 			>
 				{placeholder}
 				{account_names.sort().map((account_name) => {
