@@ -188,16 +188,29 @@ class WalletDb extends BaseStore {
 							return tr
 								.get_required_signatures(my_pubkeys)
 								.then((required_pubkeys) => {
+									let signed = false;
 									for (let pubkey_string of required_pubkeys) {
 										if (signer_pubkeys_added[pubkey_string]) continue;
 										let private_key = this.getPrivateKey(pubkey_string);
-										if (!private_key)
-											// This should not happen, get_required_signatures will only
-											// returned keys from my_pubkeys
-											throw new Error(
-												'Missing signing key for ' + pubkey_string
-											);
-										tr.add_signer(private_key, pubkey_string);
+
+										if (private_key) {
+											tr.add_signer(private_key, pubkey_string);
+											signed = true;
+										}
+									}
+
+									if (!signed) {
+										const owner_keys = my_pubkeys.filter(
+											(n) => !required_pubkeys.includes(n)
+										);
+										for (let pubkey_string of owner_keys) {
+											if (signer_pubkeys_added[pubkey_string]) continue;
+											let private_key = this.getPrivateKey(pubkey_string);
+
+											if (private_key) {
+												tr.add_signer(private_key, pubkey_string);
+											}
+										}
 									}
 								});
 						})

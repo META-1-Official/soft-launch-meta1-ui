@@ -1127,6 +1127,7 @@ class WithdrawModalNew extends React.Component {
 										value={address}
 										onSearch={this.onAddressChanged.bind(this)}
 										onSelect={this.onAddressSelected.bind(this)}
+										getPopupContainer={(triggerNode) => triggerNode.parentNode}
 									>
 										{address && storedAddresses.indexOf(address) == -1 ? (
 											<Select.Option value={address}>{address}</Select.Option>

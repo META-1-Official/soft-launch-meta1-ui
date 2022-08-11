@@ -754,22 +754,24 @@ class Operation {
 
 			case 'proposal_delete':
 				column = (
-					<span>
-						<TranslateWithLinks
-							string="operation.proposal_delete"
-							keys={[
-								{
-									type: 'account',
-									value: op[1].fee_paying_account,
-									arg: 'account',
-								},
-								{
-									value: <ShortObjectId objectId={op[1].proposal} />,
-									arg: 'proposal',
-								},
-							]}
-						/>
-					</span>
+					<div>
+						<span>
+							<TranslateWithLinks
+								string="operation.proposal_delete"
+								keys={[
+									{
+										type: 'account',
+										value: op[1].fee_paying_account,
+										arg: 'account',
+									},
+									{
+										value: <ShortObjectId objectId={op[1].proposal} />,
+										arg: 'proposal',
+									},
+								]}
+							/>
+						</span>
+					</div>
 				);
 				break;
 

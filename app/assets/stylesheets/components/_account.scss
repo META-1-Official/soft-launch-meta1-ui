@@ -2136,3 +2136,29 @@ div.account-notification {
 		border-left: 0;
 	}
 }
+
+// Fund wallet dropdown
+.dropdown-menu-sec {
+	.ant-dropdown-menu {
+		background-color: #15171b;
+		max-width: 260px;
+		border-radius: 8px;
+		.ant-dropdown-menu-item-only-child {
+			margin: 8px 0px;
+			.ant-dropdown-menu-title-content {
+				a {
+					color: #ffc900;
+				}
+				a:hover {
+					color: #fff;
+				}
+			}
+		}
+		.ant-dropdown-menu-item-only-child:hover {
+			background-color: #15171b;
+		}
+	}
+	.ant-dropdown-menu-item.ant-dropdown-menu-item-active {
+		background: #15171b;
+	}
+}

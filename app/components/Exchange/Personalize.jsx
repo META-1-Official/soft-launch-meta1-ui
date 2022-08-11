@@ -55,6 +55,7 @@ class Personalize extends React.Component {
 				style={{width: '100%'}}
 				onChange={this.props.onSetPanelTabs.bind(this, selectKey)}
 				value={this.props.panelTabs[selectKey]}
+				getPopupContainer={(triggerNode) => triggerNode.parentNode}
 			>
 				<Select.Option value={0}>
 					<Translate content="exchange.settings.options.grouping_standalone" />
@@ -123,6 +124,7 @@ class Personalize extends React.Component {
 									style={{width: '100%'}}
 									value={chartType}
 									onChange={this.props.onToggleChart.bind(this)}
+									getPopupContainer={(triggerNode) => triggerNode.parentNode}
 								>
 									<Select.Option value="market_depth">
 										{counterpart.translate('exchange.order_depth')}
@@ -315,6 +317,7 @@ class Personalize extends React.Component {
 									style={{width: '100%'}}
 									value={this.props.verticalOrderBook.toString()}
 									onSelect={this.props.onMoveOrderBook.bind(this)}
+									getPopupContainer={(triggerNode) => triggerNode.parentNode}
 								>
 									<Select.Option value={'true'}>
 										<Translate content="exchange.settings.options.vertical" />
@@ -355,6 +358,7 @@ class Personalize extends React.Component {
 									style={{width: '100%'}}
 									value={this.props.flipBuySell.toString()}
 									onSelect={this.props.onFlipBuySell.bind(this)}
+									getPopupContainer={(triggerNode) => triggerNode.parentNode}
 								>
 									<Select.Option value={'false'}>
 										<Translate content="exchange.settings.options.position_order_form_opt1" />
@@ -395,6 +399,7 @@ class Personalize extends React.Component {
 									style={{width: '100%'}}
 									value={this.props.flipOrderBook.toString()}
 									onSelect={this.props.onFlipOrderBook.bind(this)}
+									getPopupContainer={(triggerNode) => triggerNode.parentNode}
 								>
 									<Select.Option value={'false'}>
 										<Translate content="exchange.settings.options.position_order_orders_opt1" />
@@ -435,6 +440,7 @@ class Personalize extends React.Component {
 									style={{width: '100%'}}
 									value={this.props.buySellTop.toString()}
 									onSelect={this.props.onToggleBuySellPosition.bind(this)}
+									getPopupContainer={(triggerNode) => triggerNode.parentNode}
 								>
 									<Select.Option value={'false'}>
 										<Translate content="exchange.settings.options.position_order_asset_opt1" />
@@ -631,6 +637,7 @@ class Personalize extends React.Component {
 									style={{width: '100%'}}
 									value={this.props.mirrorPanels.toString()}
 									onSelect={this.props.onMirrorPanels.bind(this)}
+									getPopupContainer={(triggerNode) => triggerNode.parentNode}
 								>
 									<Select.Option value={'false'}>
 										<Translate content="settings.left" />

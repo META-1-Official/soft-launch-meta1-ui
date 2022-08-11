@@ -58,6 +58,7 @@ export default class BackupSettings extends React.Component {
 					className="bts-select"
 					value={types[restoreType]}
 					style={{marginBottom: '16px'}}
+					getPopupContainer={(triggerNode) => triggerNode.parentNode}
 				>
 					{options}
 				</Select>

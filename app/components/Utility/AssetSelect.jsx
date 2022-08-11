@@ -43,6 +43,7 @@ const AssetSelectView = ({
 			}
 			disabled={disableSelect}
 			notFoundContent={counterpart.translate('global.not_found')}
+			getPopupContainer={(triggerNode) => triggerNode.parentNode}
 		>
 			{assets.filter(Map.isMap).map((asset) => {
 				const {name: replacedName, prefix} = utils.replaceName(asset);
