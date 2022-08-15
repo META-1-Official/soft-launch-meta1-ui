@@ -153,7 +153,6 @@ class MyTrade extends React.Component {
 
 	_getOrders() {
 		const {currentAccount, base, quote, feedPrice} = this.props;
-		console.log('currentAccount', Object.fromEntries(currentAccount));
 		const orders = currentAccount.get('orders'),
 			call_orders = currentAccount.get('call_orders');
 		const baseID = base.get('id'),
@@ -225,70 +224,6 @@ class MyTrade extends React.Component {
 
 		// User Orders
 		if (activeTab === 'my_trade' && myHistory && myHistory.size) {
-			const orders = this._getOrders();
-
-			let bids = orders
-				.filter((a) => {
-					return a.isBid();
-				})
-				.sort((a, b) => {
-					return b.getPrice() - a.getPrice();
-				});
-
-			let asks = orders
-				.filter((a) => {
-					return !a.isBid();
-				})
-				.sort((a, b) => {
-					return a.getPrice() - b.getPrice();
-				});
-
-			if (bids.length) {
-				rows = rows.concat(bids);
-			}
-
-			if (asks.length) {
-				rows = rows.concat(asks);
-			}
-
-			rows = rows.map((order) => {
-				const price = order.getPrice();
-				const isBid = order.isBid();
-
-				const payAmount = utils.format_number(
-					order[!isBid ? 'amountForSale' : 'amountToReceive']().getAmount({
-						real: true,
-					}),
-					quote.get('precision')
-				);
-				const receiveAmount = utils.format_number(
-					order[!isBid ? 'amountToReceive' : 'amountForSale']().getAmount({
-						real: true,
-					}),
-					base.get('precision')
-				);
-
-				const total = payAmount * price;
-				const change =
-					(Math.round(Math.random()) ? 1 : -1) * Math.random().toFixed(1);
-
-				return {
-					orderId: order.id,
-					asset: {
-						symbol: quote?._root?.entries[1][1],
-						isBid: isBid,
-					},
-					amount: {
-						value: receiveAmount,
-						change: change,
-					},
-					value: {
-						value: price,
-						symbol: quote?._root?.entries[1][1],
-					},
-				};
-			});
-
 			const assets = {
 				[base.get('id')]: {precision: base.get('precision')},
 				[quote.get('id')]: {precision: quote.get('precision')},
@@ -313,6 +248,7 @@ class MyTrade extends React.Component {
 				})
 				.map((trx) => {
 					const order = new FillOrder(trx.toJS(), assets, quote.get('id'));
+					console.log('order', order);
 					const price = order.getPrice();
 					const isBid = order.isBid;
 					const payAmount = order.amountToPay();
