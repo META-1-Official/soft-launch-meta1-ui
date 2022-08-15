@@ -2497,6 +2497,7 @@ class Exchange extends React.Component {
 					tinyScreen={tinyScreen}
 					isPanelActive={isPanelActive}
 					hideScrollbars={hideScrollbars}
+					myHistory={currentAccount.get('history')}
 				/>
 			);
 

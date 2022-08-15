@@ -5,8 +5,9 @@ import OpenSettleOrders from './OpenSettleOrders';
 import MarketsActions from 'actions/MarketsActions';
 import Translate from 'react-translate-component';
 import SettingsActions from 'actions/SettingsActions';
-import {ChainStore} from 'meta1-vision-js';
-import {LimitOrder, CallOrder} from 'common/MarketClasses';
+import {ChainStore, ChainTypes as grapheneChainTypes} from 'meta1-vision-js';
+const {operations} = grapheneChainTypes;
+import {LimitOrder, CallOrder, FillOrder} from 'common/MarketClasses';
 import ReactTooltip from 'react-tooltip';
 import {MarketTradeView} from './View/MarketTradeView';
 import utils from 'common/utils';
@@ -209,7 +210,8 @@ class MyTrade extends React.Component {
 	}
 
 	render() {
-		let {base, quote, quoteSymbol, baseSymbol, settleOrders} = this.props;
+		let {base, quote, quoteSymbol, baseSymbol, settleOrders, myHistory} =
+			this.props;
 		let {activeTab, showAll, rowCount} = this.state;
 
 		if (!base || !quote) return null;
@@ -222,7 +224,7 @@ class MyTrade extends React.Component {
 		// let totalRows = 0;
 
 		// User Orders
-		if (!activeTab || activeTab == 'my_trade') {
+		if (activeTab === 'my_trade' && myHistory && myHistory.size) {
 			const orders = this._getOrders();
 
 			let bids = orders
@@ -286,9 +288,58 @@ class MyTrade extends React.Component {
 					},
 				};
 			});
-		}
 
-		console.log('rows', rows);
+			const assets = {
+				[base.get('id')]: {precision: base.get('precision')},
+				[quote.get('id')]: {precision: quote.get('precision')},
+			};
+
+			rows = myHistory
+				.filter((a) => {
+					let opType = a.getIn(['op', 0]);
+					return opType === operations.fill_order;
+				})
+				.filter((a) => {
+					let quoteID = quote.get('id');
+					let baseID = base.get('id');
+					let pays = a.getIn(['op', 1, 'pays', 'asset_id']);
+					let receives = a.getIn(['op', 1, 'receives', 'asset_id']);
+					let hasQuote = quoteID === pays || quoteID === receives;
+					let hasBase = baseID === pays || baseID === receives;
+					return hasQuote && hasBase;
+				})
+				.sort((a, b) => {
+					return b.get('block_num') - a.get('block_num');
+				})
+				.map((trx) => {
+					const order = new FillOrder(trx.toJS(), assets, quote.get('id'));
+					const price = order.getPrice();
+					const isBid = order.isBid;
+					const payAmount = order.amountToPay();
+					const receiveAmount = order.amountToReceive();
+					const total = parseFloat(payAmount) * price;
+
+					const change =
+						(Math.round(Math.random()) ? 1 : -1) * Math.random().toFixed(1);
+
+					return {
+						orderId: order.id,
+						asset: {
+							symbol: quote?._root?.entries[1][1],
+							isBid: isBid,
+						},
+						amount: {
+							change: change,
+							value: receiveAmount,
+						},
+						value: {
+							value: price,
+							symbol: quote?._root?.entries[1][1],
+						},
+					};
+				})
+				.toArray();
+		}
 
 		return (
 			<MarketTradeView
