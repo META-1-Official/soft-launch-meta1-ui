@@ -219,7 +219,7 @@ class MyTrade extends React.Component {
 			settings,
 		} = this.props;
 		let {activeTab, showAll, rowCount} = this.state;
-		console.log('settings', settings);
+
 		if (!base || !quote) return null;
 
 		let contentContainer;
@@ -261,22 +261,19 @@ class MyTrade extends React.Component {
 					const receiveAmount = order.amountToReceive();
 					const total = parseFloat(payAmount) * price;
 
-					const change =
-						(Math.round(Math.random()) ? 1 : -1) * Math.random().toFixed(1);
-
 					let marketId =
-						quote?._root?.entries[1][1] + '_' + settings.get('unit');
+						base?._root?.entries[1][1] + '_' + settings.get('unit');
 
 					return {
-						marketId: marketId,
 						orderId: order.id,
 						asset: {
 							symbol: quote?._root?.entries[1][1],
 							isBid: isBid,
 						},
 						amount: {
-							change: change,
+							change: 0,
 							value: receiveAmount,
+							marketId: marketId,
 						},
 						value: {
 							value: price,
