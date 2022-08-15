@@ -209,10 +209,17 @@ class MyTrade extends React.Component {
 	}
 
 	render() {
-		let {base, quote, quoteSymbol, baseSymbol, settleOrders, myHistory} =
-			this.props;
+		let {
+			base,
+			quote,
+			quoteSymbol,
+			baseSymbol,
+			settleOrders,
+			myHistory,
+			settings,
+		} = this.props;
 		let {activeTab, showAll, rowCount} = this.state;
-
+		console.log('settings', settings);
 		if (!base || !quote) return null;
 
 		let contentContainer;
@@ -248,7 +255,6 @@ class MyTrade extends React.Component {
 				})
 				.map((trx) => {
 					const order = new FillOrder(trx.toJS(), assets, quote.get('id'));
-					console.log('order', order);
 					const price = order.getPrice();
 					const isBid = order.isBid;
 					const payAmount = order.amountToPay();
@@ -258,7 +264,11 @@ class MyTrade extends React.Component {
 					const change =
 						(Math.round(Math.random()) ? 1 : -1) * Math.random().toFixed(1);
 
+					let marketId =
+						quote?._root?.entries[1][1] + '_' + settings.get('unit');
+
 					return {
+						marketId: marketId,
 						orderId: order.id,
 						asset: {
 							symbol: quote?._root?.entries[1][1],
