@@ -535,7 +535,7 @@ class MarketHistory extends React.Component {
 				};
 			})
 			.toArray();
-		rows = rows.concat(canceledOrders);
+		// rows = rows.concat(canceledOrders);
 
 		let totalRows = rows ? rows.length : null;
 		if (!showAll && rows) {
