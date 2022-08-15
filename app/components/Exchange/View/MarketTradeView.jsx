@@ -147,7 +147,7 @@ class MarketTradeView extends React.Component {
 												<FaArrowRight
 													css={() => ({
 														marginRight: '10px',
-														color: white,
+														color: 'white',
 														width: '8px',
 														height: '8px',
 													})}
@@ -162,7 +162,7 @@ class MarketTradeView extends React.Component {
 															? '#009D55'
 															: row.change < 0
 															? '#FF2929'
-															: white,
+															: 'white',
 													textAlign: 'left',
 													lineHeight: '18px',
 												}}
