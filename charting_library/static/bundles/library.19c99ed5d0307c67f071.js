@@ -37886,8 +37886,8 @@ function(t, e, i) {
                     s = void 0 === n ? "" : n,
                     a = e.model,
                     c = e.onReadyCallback;
-                r(this, t), this._model = a, this._logo = null, this._logoReady = !1, this._showLogo = !1, this._logoWidth = 28, this._logoHeight =
-                    19, this.show = !0, this.width = 100, this.height = 20, this._layout = o, this._symbol = s, this._strokeColor = b.color
+                r(this, t), this._model = a, this._logo = null, this._logoReady = !1, this._showLogo = !1, this._logoWidth = 19, this._logoHeight =
+                    28, this.show = !0, this.width = 100, this.height = 20, this._layout = o, this._symbol = s, this._strokeColor = b.color
                     .black255, this._fillСolor = b.color.brand, this._colorOldBlue = b.color.brandDown, this._colorOldGray = b.color.black30, this
                     ._strokeOpacity = .6, this._strokeWidth = 2, this._fontSize = 14, this._font = 'px "Trebuchet MS", Tahoma, Arial, sans-serif',
                     this._txt = "TradingView", this._onReadyCallback = c, this._upscaleRatio = 2, this._strokeCanv = null, this._fillCanv = null,
