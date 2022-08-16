@@ -88,6 +88,12 @@ const AccountPage = Loadable({
 	loading: LoadingIndicator,
 });
 
+const StripePage = Loadable({
+	loader: () =>
+		import(/* webpackChunkName: "account" */ './components/stripe/Stripe'),
+	loading: LoadingIndicator,
+});
+
 const Settings = Loadable({
 	loader: () =>
 		import(
@@ -508,6 +514,7 @@ class App extends React.Component {
 						<Route exact path="/help/:path1/:path2/:path3" component={Help} />
 						<Route path="/htlc" component={Htlc} />
 						<Route path="/prediction" component={PredictionMarketsPage} />
+						<Route path="/stripe" component={StripePage} />
 						<Redirect
 							path={'/voting'}
 							to={{
