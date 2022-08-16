@@ -267,7 +267,7 @@ class MyTrade extends React.Component {
 					return {
 						orderId: order.id,
 						asset: {
-							symbol: quote?._root?.entries[1][1],
+							symbol: base?._root?.entries[1][1],
 							isBid: isBid,
 						},
 						amount: {

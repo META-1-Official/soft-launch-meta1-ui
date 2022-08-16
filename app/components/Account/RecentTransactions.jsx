@@ -453,7 +453,6 @@ class RecentTransactions extends React.Component {
 		const lastIrreversibleBlockNum = dynGlobalObject.get(
 			'last_irreversible_block_num'
 		);
-		BlockchainActions.getBlock(o.block_num);
 
 		return {
 			pairData: trxTypes[ops[o.op[0]]],
@@ -518,7 +517,7 @@ class RecentTransactions extends React.Component {
 	}
 
 	render() {
-		let {accountsList, filter, customFilter, style} = this.props;
+		let {accountsList, filter, customFilter, style, blocks} = this.props;
 
 		let {limit} = this.state;
 		let current_account_id =
@@ -602,6 +601,18 @@ class RecentTransactions extends React.Component {
 					return this.getDataSource(o, current_account_id);
 			  })
 			: [];
+
+		let block_nums = history.map((h) => {
+			return h.block_num;
+		});
+
+		block_nums = [...new Set(block_nums)];
+
+		if (blocks.size == 0 && block_nums.length > 0)
+			setTimeout(() => {
+				for (let block_num of block_nums) BlockchainActions.getBlock(block_num);
+			}, 100);
+
 		let action = (
 			<div className="total-value" key="total_value">
 				<span style={{textAlign: 'center'}}>&nbsp;</span>
