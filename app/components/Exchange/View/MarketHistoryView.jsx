@@ -85,7 +85,7 @@ class MarketHistoryView extends React.Component {
 							transitionName="newrow"
 							className="orderbook"
 						>
-							{!!historyRows && historyRows.length > 0 ? historyRows : emptyRow}
+							{!!data && data.length > 0 ? data : emptyRow}
 						</TransitionWrapper>
 					</table>
 				</div>
@@ -169,7 +169,7 @@ class MarketHistoryView extends React.Component {
 												textAlign: 'center',
 											}}
 										>
-											{row.payAmount}
+											{row.receiveAmount}
 										</div>
 										<div
 											style={{
@@ -187,7 +187,7 @@ class MarketHistoryView extends React.Component {
 												textAlign: 'center',
 											}}
 										>
-											{row.receiveAmount}
+											{row.payAmount}
 										</div>
 									</div>
 								);

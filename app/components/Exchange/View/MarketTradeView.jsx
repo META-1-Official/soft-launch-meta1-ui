@@ -2,6 +2,8 @@ import React from 'react';
 import {Table} from 'antd';
 import {FaArrowRight, FaArrowUp, FaArrowDown} from 'react-icons/fa';
 import {getAssetIcon} from '../../utils/asset';
+import {connect} from 'alt-react';
+import MarketsStore from 'stores/MarketsStore';
 
 class MarketTradeView extends React.Component {
 	render() {
@@ -14,6 +16,8 @@ class MarketTradeView extends React.Component {
 			// Strings
 			data,
 			tinyScreen,
+			marketStats,
+			allMarketStats,
 		} = this.props;
 
 		return (
@@ -96,7 +100,7 @@ class MarketTradeView extends React.Component {
 														? '#009D55'
 														: row.change < 0
 														? '#FF2929'
-														: white,
+														: 'white',
 												textAlign: 'right',
 												lineHeight: '16px',
 											}}
@@ -112,6 +116,13 @@ class MarketTradeView extends React.Component {
 									<div className="market-order-table-text-header">Change</div>
 								}
 								render={(row) => {
+									let currentMarketStats = this.props.allMarketStats.get(
+										row.marketId
+									);
+
+									if (currentMarketStats)
+										row.change = currentMarketStats.change;
+
 									return (
 										<div
 											style={{
@@ -147,7 +158,7 @@ class MarketTradeView extends React.Component {
 												<FaArrowRight
 													css={() => ({
 														marginRight: '10px',
-														color: white,
+														color: 'white',
 														width: '8px',
 														height: '8px',
 													})}
@@ -162,7 +173,7 @@ class MarketTradeView extends React.Component {
 															? '#009D55'
 															: row.change < 0
 															? '#FF2929'
-															: white,
+															: 'white',
 													textAlign: 'left',
 													lineHeight: '18px',
 												}}
@@ -203,5 +214,16 @@ class MarketTradeView extends React.Component {
 		);
 	}
 }
+
+MarketTradeView = connect(MarketTradeView, {
+	listenTo() {
+		return [MarketsStore];
+	},
+	getProps(props) {
+		return {
+			allMarketStats: MarketsStore.getState().allMarketStats,
+		};
+	},
+});
 
 export {MarketTradeView};
