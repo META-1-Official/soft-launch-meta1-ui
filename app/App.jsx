@@ -94,6 +94,12 @@ const StripePage = Loadable({
 	loading: LoadingIndicator,
 });
 
+const PlisioPage = Loadable({
+	loader: () =>
+		import(/* webpackChunkName: "account" */ './components/plisio/PlisioForm'),
+	loading: LoadingIndicator,
+});
+
 const Settings = Loadable({
 	loader: () =>
 		import(
@@ -515,6 +521,8 @@ class App extends React.Component {
 						<Route path="/htlc" component={Htlc} />
 						<Route path="/prediction" component={PredictionMarketsPage} />
 						<Route path="/stripe" component={StripePage} />
+						<Route path="/plisio" component={PlisioPage} />
+
 						<Redirect
 							path={'/voting'}
 							to={{

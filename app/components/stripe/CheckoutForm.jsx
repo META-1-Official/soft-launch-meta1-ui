@@ -25,6 +25,8 @@ const CheckoutForm = () => {
 	const [errorMsg, setErrorMsg] = useState('');
 	const [isAmountTouched, setIsAmountTouched] = useState(false);
 	const [fiatCurrency, setFiatCurrency] = useState('USD');
+	const [paymentFailError, setPaymentFailError] = useState(false);
+	const [output, setOutput] = useState(null);
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 		if (!enterAmount) {
@@ -39,6 +41,27 @@ const CheckoutForm = () => {
 		if (!error) {
 			setErrorMsg('');
 			console.log('token generated!', paymentMethod);
+			try {
+				const response = await fetch('http://localhost:8000/stripeGateway', {
+					method: 'POST',
+					body: JSON.stringify({
+						amount: enterAmount * 100,
+						id: paymentMethod.id,
+					}),
+					headers: {
+						'Content-Type': 'application/json',
+					},
+				});
+				const result = await response.json();
+				if (result?.success) {
+					setOutput(result.data);
+				} else {
+					setPaymentFailError(true);
+				}
+				console.log('result', result);
+			} catch (err) {
+				console.log('result errr', err);
+			}
 		} else {
 			setErrorMsg(error.message);
 		}
@@ -49,28 +72,41 @@ const CheckoutForm = () => {
 	};
 
 	return (
-		<form onSubmit={handleSubmit} className="custom-form-stripe">
-			<Select
-				defaultValue={fiatCurrency}
-				className="fiat-currency-select"
-				onChange={handleChange}
-			>
-				<Option value="USD">USD</Option>
-				<Option value="JPY">JPY</Option>
-				<Option value="EUR">EUR</Option>
-				<Option value="GBP">GBP</Option>
-				<Option value="AUD">AUD</Option>
-			</Select>
-			<CardElement
-				options={{
-					style: {
-						base: inputStyle,
-					},
-				}}
-			/>
-			{errorMsg && <p className="error-msg">{errorMsg}</p>}
-			<button className="pay-btn">$1 Pay Now</button>
-		</form>
+		<>
+			<form onSubmit={handleSubmit} className="custom-form-stripe">
+				<Select
+					defaultValue={fiatCurrency}
+					className="fiat-currency-select"
+					onChange={handleChange}
+				>
+					<Option value="USD">USD</Option>
+					<Option value="JPY">JPY</Option>
+					<Option value="EUR">EUR</Option>
+					<Option value="GBP">GBP</Option>
+					<Option value="AUD">AUD</Option>
+				</Select>
+				<CardElement
+					options={{
+						style: {
+							base: inputStyle,
+						},
+					}}
+				/>
+				{errorMsg && <p className="error-msg">{errorMsg}</p>}
+				<button className="pay-btn">$1 Pay Now</button>
+			</form>
+			{output && (
+				<div>
+					<h5>Message = {output.msg}</h5>
+					<h5>payment Id = {output.paymentId}</h5>
+				</div>
+			)}
+			{paymentFailError && (
+				<div>
+					<h5>Message = Payment Failed</h5>
+				</div>
+			)}
+		</>
 	);
 };
 export default CheckoutForm;
