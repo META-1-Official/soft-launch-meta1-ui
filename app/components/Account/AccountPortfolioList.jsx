@@ -160,6 +160,7 @@ class AccountPortfolioList extends React.Component {
 			np.visible !== this.props.visible ||
 			np.settings !== this.props.settings ||
 			np.hiddenAssets !== this.props.hiddenAssets ||
+			np.hideZeroBalance !== this.props.hideZeroBalance ||
 			ns.portfolioSort !== this.state.portfolioSort ||
 			np.allMarketStats.reduce((a, value, key) => {
 				return (
