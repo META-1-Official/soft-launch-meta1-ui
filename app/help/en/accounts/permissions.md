@@ -38,7 +38,7 @@ Let's assume, Alice, Bob, Charlie and Dennis have common funds. We want to be
 able to construct a valid transaction if only two of those agree. Hence a
 **2-of-4** (N-of-M) scheme can look as follows:
 
-| Account    | Weight | 
+| Wallet    | Weight | 
 | ---------- | ------ | 
 | Alice      | 33%    | 
 | Bob        | 33%    | 
@@ -61,7 +61,7 @@ weights for different people. Let's assume Alice wants to secure here funds
 against theft by a multi-signature scheme but she does not want to hand over too
 much control to her friends. Hence, we create an authority similar to:
 
-| Account    | Weight | 
+| Wallet    | Weight | 
 | ---------- | ------ | 
 | Alice      | 49%    |
 | Bob        | 25%    |
@@ -81,7 +81,7 @@ departments working for him, such as the Treasurer, Controller, Tax Manager,
 Accounting, etc. The company also has a CEO that wants to have spending
 privileges. Hence we construct an authority for the funds according to:
 
-| Account    | Weight | 
+| Wallet    | Weight | 
 | ---------- | ------ | 
 | CEO.COMPANY| 51%    |
 | CFO.COMPANY| 51%    |
