@@ -37957,7 +37957,7 @@ function(t, e, i) {
                             this._txt = $.t("powered by ");
                             break;
                         case B:
-                            this._showLogo = !0, this._txt = $.t("Charts by Meta1 Exchange");
+                            this._showLogo = !0, this._txt = $.t("Charts by Meta Exchange");
                             break;
                         case R:
                             this._txt = $.t("powered by TradingView")
