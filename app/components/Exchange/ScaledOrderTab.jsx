@@ -300,10 +300,10 @@ class ScaledOrderForm extends Component {
 	_getTotal() {
 		const formValues = this._getFormValues() || {};
 
-		const amount = Number(formValues.amount);
-		const priceLower = Number(formValues.priceLower);
-		const priceUpper = Number(formValues.priceUpper);
-		const orderCount = Number(formValues.orderCount);
+		const amount = Number(formValues.amount) || 0;
+		const priceLower = Number(formValues.priceLower) || 0;
+		const priceUpper = Number(formValues.priceUpper) || 0;
+		const orderCount = Number(formValues.orderCount) || 0;
 
 		let total = 0;
 
