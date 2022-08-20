@@ -551,7 +551,7 @@ class AccountOverview extends React.Component {
 							>
 								Transaction History
 							</StyledButton>
-							{account.get('proposals') && account.get('proposals').size ? (
+							{/*{account.get('proposals') && account.get('proposals').size ? (
 								<StyledButton
 									className={
 										currentDisplay === 'proposals' ? 'primary' : 'transparent'
@@ -562,7 +562,7 @@ class AccountOverview extends React.Component {
 								>
 									Proposals
 								</StyledButton>
-							) : null}
+							) : null}*/}
 						</Space>
 						<Space align="start">
 							<Dropdown
@@ -713,7 +713,7 @@ class AccountOverview extends React.Component {
 						/>
 					)}
 
-					{currentDisplay === 'proposals' && (
+					{/*{currentDisplay === 'proposals' && (
 						<div>
 							<div
 								onClick={this._toggleHideProposal.bind(this)}
@@ -737,7 +737,7 @@ class AccountOverview extends React.Component {
 								hideFishingProposals={this.state.hideFishingProposals}
 							/>
 						</div>
-					)}
+					)}*/}
 				</div>
 
 				{/* <div className="grid-content app-tables no-padding" ref="appTables">
