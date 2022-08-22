@@ -1654,7 +1654,7 @@
 		"override_transfer": "{issuer} transferred {amount} from {from} to {to}",
 		"pending": "승인대기 중... %(blocks)s 블록",
 		"proposal_create": "{account} created a proposed transaction",
-		"proposal_delete": "{account} deleted a proposed transaction",
+		"proposal_delete": "{account} deleted a proposed transaction {proposal}",
 		"proposal_update": "{account} updated a proposed transaction",
 		"publish_feed": "{account} published feed price of {price}",
 		"reg_account": "{registrar} registered the wallet {new_account}",
@@ -2372,7 +2372,9 @@
 		"withdraw_permission_claim": "다음 계정에 출금 권한을 요청",
 		"withdraw_permission_create": "다음 계정에 출금 권한을 부여",
 		"withdraw_permission_delete": "다음 계정에 출금 권한을 삭제",
-		"withdraw_permission_update": "다음 계정의 출금 권한을 업데이트"
+		"withdraw_permission_update": "다음 계정의 출금 권한을 업데이트",
+		"disallow_same_account_whitelist_blacklist": "Same account in whitelist and blacklist are not permitted",
+		"account_exist_in_blacklist": "Same account already exist in blacklist"
 	},
 	"transfer": {
 		"again": "추가 거래",

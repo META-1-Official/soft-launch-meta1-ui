@@ -26,7 +26,7 @@ class AccountsSettings extends React.Component {
 
 		return [
 			{
-				title: 'ACCOUNT NAME',
+				title: 'WALLET NAME',
 				key: 'acc_name',
 				render: (rowData) => {
 					let isIgnored = hiddenAccounts.has(rowData.account);

@@ -1654,7 +1654,7 @@
 		"override_transfer": "{issuer} ha trasferito {amount} da {from} a {to}",
 		"pending": "in attesa da %(blocks)s blocchi",
 		"proposal_create": "{account} ha creato una proposta di transazione",
-		"proposal_delete": "{account} ha rimosso una proposta di transazione",
+		"proposal_delete": "{account} ha rimosso una proposta di transazione {proposal}",
 		"proposal_update": "{account} ha aggiornato una proposta di transazione",
 		"publish_feed": "{account} ha pubblicato un feed price di {price}",
 		"reg_account": "{registrar} ha registrato l'account {new_account}",
@@ -2372,7 +2372,9 @@
 		"withdraw_permission_claim": "Ha richiesto il permesso di prelevare per l'account",
 		"withdraw_permission_create": "Ha dato il permesso di prelevare per l'account",
 		"withdraw_permission_delete": "Ha rimosso il permesso di prelevare per l'account",
-		"withdraw_permission_update": "Ha aggiornato il permesso di prelevare per l'account"
+		"withdraw_permission_update": "Ha aggiornato il permesso di prelevare per l'account",
+		"disallow_same_account_whitelist_blacklist": "Lo stesso account nella whitelist e nella blacklist non è consentito",
+		"account_exist_in_blacklist": "Lo stesso account esiste già nella lista nera"
 	},
 	"transfer": {
 		"again": "EFFETTUA UN ALTRO TRASFERIMENTO",

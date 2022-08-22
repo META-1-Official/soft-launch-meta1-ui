@@ -29,6 +29,7 @@ export default class PaginatedList extends React.Component {
 			(item) => item < rows.length
 		);
 		pageSizeOptions.push(rows.length);
+		if (rows.length < 20) pageSizeOptions.push(20);
 		return (
 			<div className="paginated-list" style={this.props.style}>
 				<Table

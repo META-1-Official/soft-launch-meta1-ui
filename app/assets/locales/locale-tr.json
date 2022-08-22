@@ -1654,7 +1654,7 @@
 		"override_transfer": "{issuer}, {amount} miktarda dijital varlığı {from} adresinden {to} adresine aktardı.",
 		"pending": "%(blocks)s blok sonra tam onaylı.",
 		"proposal_create": "{account} bir işlem teklifi oluşturdu",
-		"proposal_delete": "{account} bir işlem teklifi sildi",
+		"proposal_delete": "{account} bir işlem teklifi sildi {proposal}",
 		"proposal_update": "{account} bir teklif işlemi güncelledi",
 		"publish_feed": "{account} fiyat duyurdu: {price}",
 		"reg_account": "{registrar} kayıt yaptırdı - Hesap adı: {new_account}",
@@ -2372,7 +2372,9 @@
 		"withdraw_permission_claim": "Çekme izni onaylandı.",
 		"withdraw_permission_create": "Hesaptan çekme izni verildi.",
 		"withdraw_permission_delete": "Hesaptan çekme izni silindi.",
-		"withdraw_permission_update": "Hesaptan çekme iznini güncellendi."
+		"withdraw_permission_update": "Hesaptan çekme iznini güncellendi.",
+		"disallow_same_account_whitelist_blacklist": "Beyaz listede ve kara listede aynı hesaba izin verilmez",
+		"account_exist_in_blacklist": "Aynı hesap zaten kara listede var"
 	},
 	"transfer": {
 		"again": "BAŞKA BİR TRANSFER GERÇEKLEŞTİR",

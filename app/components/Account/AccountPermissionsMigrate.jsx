@@ -46,6 +46,9 @@ const AccountPermissionsMigrate = (props) => {
 	};
 
 	const _onUseKey = (role, remove = false) => {
+		if (WalletDb.isLocked()) {
+			return;
+		}
 		if (remove) {
 			props[role === 'active' ? 'onRemoveActive' : 'onRemoveOwner'](
 				props[role],

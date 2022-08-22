@@ -99,6 +99,7 @@ class LoginSelector extends React.Component {
 				value={this.state.currentLocale}
 				onChange={this.handleLanguageSelect}
 				style={{width: '123px', marginBottom: '16px'}}
+				getPopupContainer={(triggerNode) => triggerNode.parentNode}
 			>
 				{this.state.locales.map((locale) => (
 					<Select.Option

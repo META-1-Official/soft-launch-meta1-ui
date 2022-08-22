@@ -418,6 +418,7 @@ class GroupOrderLimitSelector extends React.Component {
 					value={this.props.currentGroupOrderLimit}
 					disabled={noGroupsAvailable}
 					onChange={this.props.handleGroupOrderLimitChange.bind(this)}
+					getPopupContainer={(triggerNode) => triggerNode.parentNode}
 				>
 					{noGroupsAvailable ? (
 						<Select.Option value={0}>

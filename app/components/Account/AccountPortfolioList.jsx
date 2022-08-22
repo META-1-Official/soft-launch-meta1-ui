@@ -160,6 +160,7 @@ class AccountPortfolioList extends React.Component {
 			np.visible !== this.props.visible ||
 			np.settings !== this.props.settings ||
 			np.hiddenAssets !== this.props.hiddenAssets ||
+			np.hideZeroBalance !== this.props.hideZeroBalance ||
 			ns.portfolioSort !== this.state.portfolioSort ||
 			np.allMarketStats.reduce((a, value, key) => {
 				return (
@@ -953,7 +954,22 @@ class AccountPortfolioList extends React.Component {
 							borrow: null,
 							settle: null,
 							burn: null,
-							deposit: emptyCell,
+							deposit:
+								this.props.isMyAccount &&
+								['BTC', 'LTC', 'ETH', 'USDT'].indexOf(asset.get('symbol')) >
+									-1 ? (
+									<StyledButton
+										buttonType="green"
+										onClick={this._showDepositModal.bind(
+											this,
+											asset.get('symbol')
+										)}
+									>
+										Deposit
+									</StyledButton>
+								) : (
+									emptyCell
+								),
 						});
 					}
 				});

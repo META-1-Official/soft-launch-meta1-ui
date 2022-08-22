@@ -15,6 +15,10 @@ import Operation from 'components/Blockchain/Operation';
 import notify from 'actions/NotificationActions';
 import {Modal, Button, Alert, Switch} from 'antd';
 import {LoadingOutlined} from '@ant-design/icons';
+import {ChainTypes} from 'meta1-vision-js';
+let {operations} = ChainTypes;
+let ops = Object.keys(operations);
+
 class TransactionConfirm extends React.Component {
 	constructor(props) {
 		super(props);
@@ -77,11 +81,44 @@ class TransactionConfirm extends React.Component {
 				);
 			});
 		} else {
-			TransactionConfirmActions.broadcast(
-				this.props.transaction,
-				this.props.resolve,
-				this.props.reject
-			);
+			const op = this.props.transaction.serialize().operations[0];
+			if (ops[op[0]] == 'account_whitelist') {
+				if (op[1].new_listing <= 2)
+					TransactionConfirmActions.broadcast(
+						this.props.transaction,
+						this.props.resolve,
+						this.props.reject
+					);
+				else {
+					if (op[1].new_listing >= 3) {
+						notify.addNotification.defer({
+							children: (
+								<div>
+									<p>
+										<Translate content="transaction.broadcast_fail" />
+										<br />
+										<Translate
+											content={
+												op[1].new_listing >= 4
+													? 'transaction.account_exist_in_blacklist'
+													: 'transaction.disallow_same_account_whitelist_blacklist'
+											}
+										/>
+									</p>
+								</div>
+							),
+							level: 'warning',
+							autoDismiss: 3,
+						});
+					}
+				}
+			} else {
+				TransactionConfirmActions.broadcast(
+					this.props.transaction,
+					this.props.resolve,
+					this.props.reject
+				);
+			}
 		}
 	}
 
@@ -196,7 +233,6 @@ class TransactionConfirm extends React.Component {
 		if (errorMsg && errorMsg.indexOf('Insufficient Balance:') !== -1) {
 			errorMsg = errorMsg.substring(errorMsg.indexOf('Insufficient Balance:'));
 		}
-
 		return (
 			<div ref="transactionConfirm" onKeyUp={this.onKeyUp}>
 				<Modal

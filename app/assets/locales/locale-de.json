@@ -1645,7 +1645,7 @@
 		"override_transfer": "{issuer} hat {amount} von {from} nach {to} überwiesen.",
 		"pending": "schwebend %(blocks)s Blöcke",
 		"proposal_create": "{account} hat Transaktion vorgeschlagen.",
-		"proposal_delete": "{account} hat Transaktionsvorschlag gelöscht.",
+		"proposal_delete": "{account} hat Transaktionsvorschlag gelöscht. {proposal}",
 		"proposal_update": "{account} hat Transaktionsvorschlag geändert.",
 		"publish_feed": "{account} hat eine Preisangabe von {price} veröffentlicht.",
 		"reg_account": "{registrar} hat das Konto {newaccount} registriert.",
@@ -2363,7 +2363,9 @@
 		"withdraw_permission_claim": "Einzugsermächtigung wurde eingefordert für Konto.",
 		"withdraw_permission_create": "Einzugsermächtigung wurde verliehen an Konto.",
 		"withdraw_permission_delete": "Einzugsermächtigung wurde aufgehoben für Konto.",
-		"withdraw_permission_update": "Einzugsermächtigung wurde aktualisiert für Konto."
+		"withdraw_permission_update": "Einzugsermächtigung wurde aktualisiert für Konto.",
+		"disallow_same_account_whitelist_blacklist": "Dasselbe Konto in Whitelist und Blacklist ist nicht zulässig",
+		"account_exist_in_blacklist": "Dasselbe Konto existiert bereits in der schwarzen Liste"
 	},
 	"transfer": {
 		"again": "WEITERE ÜBERWEISUNG",

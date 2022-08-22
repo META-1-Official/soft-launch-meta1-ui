@@ -639,10 +639,10 @@ class SendModal extends React.Component {
 							{tabHeaderContainer}
 							{this.state.open ? formContainer : null}
 						</Tabs.TabPane>
-						<Tabs.TabPane tab="Propose" key="propose">
+						{/*	<Tabs.TabPane tab="Propose" key="propose">
 							{tabHeaderContainer}
 							{this.state.open ? formContainer : null}
-						</Tabs.TabPane>
+						</Tabs.TabPane>*/}
 					</Tabs>
 				</Modal>
 			</div>

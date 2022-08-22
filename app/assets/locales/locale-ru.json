@@ -1658,7 +1658,7 @@
 		"override_transfer": "{issuer} перевел {amount} с {from} на {to}",
 		"pending": "обрабатывается ещё %(blocks)s блоков",
 		"proposal_create": "{account} создал предложение",
-		"proposal_delete": "{account} удалил предложение",
+		"proposal_delete": "{account} удалил предложение {proposal}",
 		"proposal_update": "{account} обновил предложение",
 		"publish_feed": "{account} опубликовал котировки {price}",
 		"reg_account": "{registrar} зарегистрировал аккаунт {new_account}",
@@ -2376,7 +2376,9 @@
 		"withdraw_permission_claim": "Востребовал право доступа к выводу средств для аккаунта",
 		"withdraw_permission_create": "Дал право доступа к выводу средств аккаунту",
 		"withdraw_permission_delete": "Удалил право доступа к выводу средств для аккаунта",
-		"withdraw_permission_update": "Обновил право доступа к выводу средств для аккаунта"
+		"withdraw_permission_update": "Обновил право доступа к выводу средств для аккаунта",
+		"disallow_same_account_whitelist_blacklist": "Одна и та же учетная запись в белом и черном списках не допускается.",
+		"account_exist_in_blacklist": "Такой же аккаунт уже есть в черном списке"
 	},
 	"transfer": {
 		"again": "СДЕЛАТЬ НОВЫЙ ПЕРЕВОД",

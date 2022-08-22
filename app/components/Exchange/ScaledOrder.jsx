@@ -371,6 +371,7 @@ class ScaledOrderForm extends Component {
 				showSearch
 				dropdownMatchSelectWidth={false}
 				style={{minWidth: '80px', maxWidth: '120px'}}
+				getPopupContainer={(triggerNode) => triggerNode.parentNode}
 			>
 				{this.state.feeAssets &&
 					this.state.feeAssets.map &&
