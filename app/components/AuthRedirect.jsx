@@ -264,7 +264,6 @@ class AuthRedirect extends React.Component {
 		let chainAccount = ChainStore.getAccount(account);
 		while (chainAccount === undefined) {
 			chainAccount = ChainStore.getAccount(account);
-			console.log('Chain Account', chainAccount);
 			await this.timer(1000);
 		}
 
@@ -278,7 +277,7 @@ class AuthRedirect extends React.Component {
 
 		if (!success && WalletDb.isLocked()) {
 			this.setState({passwordError: true});
-			alert('Password Or Account is wrong');
+			// alert('Password Or Account is wrong');
 		} else {
 			this.setState({password: ''});
 			if (cloudMode) AccountActions.setPasswordAccount(account);
@@ -288,6 +287,8 @@ class AuthRedirect extends React.Component {
 			ss.remove('account_login_name');
 			this.props.history.push(`/account/${account}`);
 		}
+
+		alert('Success');
 	}
 
 	render() {

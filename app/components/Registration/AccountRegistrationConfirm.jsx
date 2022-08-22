@@ -9,7 +9,7 @@ import WalletDb from 'stores/WalletDb';
 import counterpart from 'counterpart';
 import TransactionConfirmStore from 'stores/TransactionConfirmStore';
 import Translate from 'react-translate-component';
-import {FetchChain} from 'meta1-vision-js/es';
+import {FetchChain, ChainStore} from 'meta1-vision-js/es';
 import WalletUnlockActions from 'actions/WalletUnlockActions';
 import axios from 'axios';
 import Icon from 'components/Icon/Icon';
@@ -78,6 +78,7 @@ class AccountRegistrationConfirm extends React.Component {
 			confirmed: ss.get('confirmed'),
 			confirmedTerms: ss.get('confirmedTerms'),
 			confirmedTerms2: ss.get('confirmedTerms2'),
+			confirmedTerms3: ss.get('confirmedTerms3'),
 		});
 	}
 
@@ -95,11 +96,17 @@ class AccountRegistrationConfirm extends React.Component {
 
 	async verifyESign(email) {
 		try {
-			const response = null;
+			const response = await axios({
+				url: process.env.ESIGNATURE_URL + '/apiewallet/users',
+				method: 'get',
+				headers: {
+					Accept: 'application/json',
+				},
+				params: {email},
+			});
 			console.log('Response after esign validation', response);
 			if (response && response.data) {
 				console.log('*** response data from eSign', response.data);
-				debugger;
 				if (
 					response.data.email === email &&
 					response.data.status &&
@@ -204,6 +211,7 @@ class AccountRegistrationConfirm extends React.Component {
 			.then((res) => {
 				AccountActions.setPasswordAccount(name);
 				this.trackSignup(res);
+
 				if (this.state.registrarAccount) {
 					FetchChain('getAccount', name).then(() => {
 						this.validateLogin(name, password);
@@ -223,13 +231,12 @@ class AccountRegistrationConfirm extends React.Component {
 	}
 
 	timer = (ms) => new Promise((res) => setTimeout(res, ms));
-	async validateLogin(password, account) {
+	async validateLogin(account, password) {
 		const {resolve} = this.props;
 
 		let chainAccount = ChainStore.getAccount(account);
 		while (chainAccount === undefined) {
 			chainAccount = ChainStore.getAccount(account);
-			console.log('Chain Account', chainAccount);
 			await this.timer(1000);
 		}
 
@@ -243,7 +250,7 @@ class AccountRegistrationConfirm extends React.Component {
 
 		if (!success && WalletDb.isLocked()) {
 			this.setState({passwordError: 'Invalid password'});
-			alert('Password Or Account is wrong');
+			// alert('Password Or Account is wrong');
 		} else {
 			this.setState({password: ''});
 			if (cloudMode) AccountActions.setPasswordAccount(account);
@@ -253,6 +260,8 @@ class AccountRegistrationConfirm extends React.Component {
 			ss.remove('account_login_name');
 			this.props.history.push(`/account/${account}`);
 		}
+
+		alert('Success');
 	}
 
 	toggleConfirmed(e) {
@@ -300,37 +309,35 @@ class AccountRegistrationConfirm extends React.Component {
 	}
 
 	async toggleConfirmedTerms4(e) {
-		// if (e.target.checked) {
-		// 	const { email, phone, firstname, lastname } = this.state;
-		// 	let token;
-		// 	try {
-		// 		// const response = await axios({
-		// 		// 	url: process.env.ESIGNATURE_URL + "/apiewallet/sign/token",
-		// 		// 	method: "get",
-		// 		// 	headers: {
-		// 		// 		Accept: "application/json"
-		// 		// 	},
-		// 		// 	params: { email }
-		// 		// });
-		// 		const response = null;
+		if (e.target.checked) {
+			const {email, phone, firstname, lastname} = this.state;
+			let token;
+			try {
+				const response = await axios({
+					url: process.env.ESIGNATURE_URL + '/apiewallet/sign/token',
+					method: 'get',
+					headers: {
+						Accept: 'application/json',
+					},
+					params: {email},
+				});
 
-		// 		if (response && response.headers) {
-		// 			if (response.headers.authorization) {
-		// 				token = response.headers.authorization;
-		// 			}
-		// 		}
-		// 	} catch (err) {
-		// 		console.log("Error in e-sign token generation");
-		// 	}
-		// 	window.location.href = `${process.env.ESIGNATURE_URL
-		// 		}/e-sign?email=${encodeURIComponent(
-		// 			email
-		// 		)}&firstName=${firstname}&lastName=${lastname}&phoneNumber=${phone}&token=${token}&redirectUrl=${window.location.origin
-		// 		}/auth-proceed`;
-		// }
-		this.setState({
-			confirmedTerms4: e.target.checked,
-		});
+				if (response && response.headers) {
+					if (response.headers.authorization) {
+						token = response.headers.authorization;
+					}
+				}
+			} catch (err) {
+				console.log('Error in e-sign token generation');
+			}
+			window.location.href = `${
+				process.env.ESIGNATURE_URL
+			}/e-sign?email=${encodeURIComponent(
+				email
+			)}&firstName=${firstname}&lastName=${lastname}&phoneNumber=${phone}&token=${token}&redirectUrl=${
+				window.location.origin
+			}/auth-proceed`;
+		}
 	}
 
 	render() {
@@ -422,7 +429,11 @@ class AccountRegistrationConfirm extends React.Component {
 						onChange={this.toggleConfirmedTerms4}
 					>
 						&nbsp;&nbsp;&nbsp;
-						<button className="reset-this terms">
+						<button
+							className={`reset-this terms ${
+								this.state.confirmedTerms4 ? 'active' : ''
+							}`}
+						>
 							Sign Membership Agreement
 						</button>
 					</Checkbox>
