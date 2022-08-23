@@ -322,7 +322,7 @@ class ScaledOrderForm extends Component {
 
 		const step = preciseDivide(
 			preciseMinus(priceUpper, priceLower),
-			preciseMinus(orderCount, 1)
+			Math.max(preciseMinus(orderCount, 1), 1)
 		);
 
 		const amountPerOrder = preciseDivide(amount, orderCount);
