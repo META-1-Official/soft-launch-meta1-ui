@@ -292,8 +292,7 @@ class TransactionConfirm extends React.Component {
 							</div>
 						) : null}
 
-						<div className="grid-block shrink" style={{paddingTop: '1rem'}}>
-							{/* P R O P O S E   T O G G L E */}
+						{/*<div className="grid-block shrink" style={{paddingTop: '1rem'}}>
 							{!this.props.transaction.has_proposed_operation() &&
 							!(broadcast || broadcasting || this.props.error) ? (
 								<div className="align-right grid-block propose-toggle">
@@ -310,7 +309,7 @@ class TransactionConfirm extends React.Component {
 									/>
 								</div>
 							) : null}
-						</div>
+						</div>*/}
 					</div>
 				</Modal>
 			</div>
