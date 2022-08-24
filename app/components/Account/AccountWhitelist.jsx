@@ -224,6 +224,7 @@ class AccountWhitelist extends React.Component {
 
 		if (accountToList) {
 			let tr = WalletApi.new_transaction();
+			const newState = currentState + constants.account_listing[listing];
 			tr.add_type_operation('account_whitelist', {
 				fee: {
 					amount: 0,
@@ -231,7 +232,8 @@ class AccountWhitelist extends React.Component {
 				},
 				authorizing_account: account.get('id'),
 				account_to_list: accountToList,
-				new_listing: currentState + constants.account_listing[listing],
+				new_listing:
+					currentState == 0 || newState == 3 ? newState : currentState,
 			});
 			WalletDb.process_transaction(tr, null, true);
 		}
