@@ -220,6 +220,7 @@
         "react-router-dom": "4",
         "react-scroll": "^1.7.9",
         "react-spinners": "^0.5.13",
+        "react-toastify": "^9.0.8",
         "react-tooltip": "^4.2.21",
         "react-transition-group": "^1.2.0",
         "react-translate-component": "^0.15.1",

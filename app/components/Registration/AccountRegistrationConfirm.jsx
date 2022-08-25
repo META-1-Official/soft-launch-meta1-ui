@@ -20,6 +20,7 @@ import ls from '../../lib/common/localStorage';
 
 import faceKIService from 'services/face-ki.service';
 import {checkCustomer} from 'components/Utility/Tapfiliate';
+import {toast} from 'react-toastify';
 
 const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
@@ -154,7 +155,7 @@ class AccountRegistrationConfirm extends React.Component {
 				walletId: accountName,
 			}),
 		}).then((response) => {
-			alert('You have successfully created your wallet account.');
+			toast('You have successfully created your wallet account.');
 		});
 	}
 
@@ -261,7 +262,7 @@ class AccountRegistrationConfirm extends React.Component {
 			this.props.history.push(`/account/${account}`);
 		}
 
-		alert('Success');
+		toast('Successfully created');
 	}
 
 	toggleConfirmed(e) {

@@ -19,6 +19,7 @@ import ls from '../lib/common/localStorage';
 import faceKIService from '../services/face-ki.service';
 import Webcam from 'react-webcam';
 import {Form, Input, Button, Tooltip} from 'antd';
+import {toast} from 'react-toastify';
 
 const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
@@ -288,7 +289,7 @@ class AuthRedirect extends React.Component {
 			this.props.history.push(`/account/${account}`);
 		}
 
-		alert('Success');
+		toast('Successfully created.');
 	}
 
 	render() {

@@ -15,6 +15,8 @@ import {Form, Input, Button, Tooltip} from 'antd';
 import Webcam from 'react-webcam';
 import faceKIService from 'services/face-ki.service';
 
+import {toast} from 'react-toastify';
+
 const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
 
@@ -61,14 +63,15 @@ class AccountRegistration extends React.Component {
 		const imageSrc = this.webcamRef.current.getScreenshot();
 
 		if (!imageSrc) {
-			alert('Check your camera');
+			// alert('Check your camera');
+			toast('Check your camera');
 			return;
 		}
 
 		var file = this.dataURLtoFile(imageSrc, 'a.jpg');
 		const response = await faceKIService.liveLinessCheck(file);
 
-		if (response.data.liveness === 'Spoof') alert('try again');
+		if (response.data.liveness === 'Spoof') toast('try again!');
 		else {
 			const response_verify = await faceKIService.verify(file);
 			if (
@@ -76,6 +79,7 @@ class AccountRegistration extends React.Component {
 				response_verify.name === authData.email
 			) {
 				console.log('you already enrolled');
+				toast('You already enrolled');
 				this.setState({faceKISuccess: true});
 			} else {
 				const response_enroll = await faceKIService.enroll(
@@ -84,7 +88,27 @@ class AccountRegistration extends React.Component {
 				);
 				if (response_enroll.status === 'Enroll OK') {
 					console.log('Successfully enrolled');
+					toast('Successfully enrolled');
 					this.setState({faceKISuccess: true});
+
+					// try {
+					// 	const response_adduser = await axios({
+					// 		url: process.env.ESIGNATURE_URL + '/apiewallet/users',
+					// 		method: 'get',
+					// 		headers: {
+					// 			Accept: 'application/json',
+					// 		},
+					// 		params: {email},
+					// 	});
+
+					// 	if (response && response.headers) {
+					// 		if (response.headers.authorization) {
+					// 			token = response.headers.authorization;
+					// 		}
+					// 	}
+					// } catch (err) {
+					// 	console.log('Error in e-sign token generation');
+					// }
 				}
 			}
 		}
@@ -109,7 +133,8 @@ class AccountRegistration extends React.Component {
 				fromStep: false,
 			});
 		} else {
-			alert('first enroll');
+			// alert('first enroll');
+			toast('first enroll');
 		}
 	}
 
