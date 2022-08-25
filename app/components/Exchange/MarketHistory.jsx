@@ -482,7 +482,7 @@ class MarketHistory extends React.Component {
 					};
 				})
 				.toArray();
-		} else if (history && history.size) {
+		} else if (activeTab === 'history' && history && history.size) {
 			// Market History
 			rows = this.props.history
 				.take(100)

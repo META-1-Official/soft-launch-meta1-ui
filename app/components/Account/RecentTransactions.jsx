@@ -322,37 +322,22 @@ class RecentTransactions extends React.Component {
 					// Txns of the last month
 					case 'last_month':
 						history = history.filter((a) => {
-							if (a.op[1].amount) {
-								return (
-									a.op[1].amount.amount > 0 &&
-									a.block_num > lastIrreversibleBlockNum - 30 * 20000
-								);
-								// 19090 is and avg txns per day on this blockchain
-								// Note: we can average this amount on each request of the data
-								// but it should not be changing a lot on dev -> but could on prod
-							}
+							return a.block_num > lastIrreversibleBlockNum - 30 * 20000;
+							// 19090 is and avg txns per day on this blockchain
+							// Note: we can average this amount on each request of the data
+							// but it should not be changing a lot on dev -> but could on prod
 						});
 						break;
 					// Txns of the last week
 					case 'last_week':
 						history = history.filter((a) => {
-							if (a.op[1].amount) {
-								return (
-									a.op[1].amount.amount > 0 &&
-									a.block_num > lastIrreversibleBlockNum - 7 * 20000
-								);
-							}
+							return a.block_num > lastIrreversibleBlockNum - 7 * 20000;
 						});
 						break;
 					// Txns of the last 24 h
 					case '24h':
 						history = history.filter((a) => {
-							if (a.op[1].amount) {
-								return (
-									a.op[1].amount.amount > 0 &&
-									a.block_num > lastIrreversibleBlockNum - 1 * 20000
-								);
-							}
+							return a.block_num > lastIrreversibleBlockNum - 1 * 20000;
 						});
 						break;
 					// Username
@@ -547,9 +532,9 @@ class RecentTransactions extends React.Component {
 			defaultOptions = [
 				'all',
 				'transfer',
-				'proposal_create',
-				'proposal_update',
-				'proposal_delete',
+				// 'proposal_create',
+				// 'proposal_update',
+				// 'proposal_delete',
 				'limit_order_create',
 				'limit_order_cancel',
 				'fill_order',
