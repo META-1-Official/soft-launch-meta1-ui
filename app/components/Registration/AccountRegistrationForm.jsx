@@ -400,8 +400,8 @@ class AccountRegistrationForm extends React.Component {
 						</div>
 					)}
 					<ReCAPTCHA
-						// sitekey="6LcriOkfAAAAAF6nxnLMIXkHXMeyyPH7oZuoNTpB"
-						sitekey="6LdY-48UAAAAAAX8Y8-UdRtFks70LCRmyvyye0VU"
+						sitekey="6LcriOkfAAAAAF6nxnLMIXkHXMeyyPH7oZuoNTpB"
+						// sitekey="6LdY-48UAAAAAAX8Y8-UdRtFks70LCRmyvyye0VU"
 						// sitekey=process.env.RECAPTCHA_SITE_KEY
 						onChange={this.caChange.bind(this)}
 					/>
