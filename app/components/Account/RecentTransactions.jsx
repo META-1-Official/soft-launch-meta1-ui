@@ -532,9 +532,9 @@ class RecentTransactions extends React.Component {
 			defaultOptions = [
 				'all',
 				'transfer',
-				'proposal_create',
-				'proposal_update',
-				'proposal_delete',
+				// 'proposal_create',
+				// 'proposal_update',
+				// 'proposal_delete',
 				'limit_order_create',
 				'limit_order_cancel',
 				'fill_order',
