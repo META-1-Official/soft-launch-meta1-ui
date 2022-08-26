@@ -178,6 +178,13 @@ class AccountOrders extends React.Component {
 			return a.marketDirection ? 1 : -1;
 		});
 
+		dataSource.sort((a, b) => {
+			return (
+				moment(b.order.expiration).valueOf() -
+				moment(a.order.expiration).valueOf()
+			);
+		});
+
 		return dataSource;
 	}
 
