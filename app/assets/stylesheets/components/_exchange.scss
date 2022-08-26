@@ -1079,7 +1079,8 @@ table thead tr th.mymarkets-header {
 }
 
 .grey-star > svg > path,
-.grey-shuffle > svg > path {
+.grey-shuffle > svg > path,
+.shuffle > svg > path {
 	fill: #878787 !important;
 }
 
@@ -1091,10 +1092,7 @@ table thead tr th.mymarkets-header {
 	fill: lighten(#cc9f00, 10%) !important;
 }
 
-.shuffle:hover > svg > path {
-	fill: lighten(#878787, 20%) !important;
-}
-
+.shuffle:hover > svg > path,
 .grey-star:hover > svg > path {
 	fill: #cc9f00 !important;
 }
