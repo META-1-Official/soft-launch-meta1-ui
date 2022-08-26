@@ -261,8 +261,10 @@ class AccountRegistrationConfirm extends React.Component {
 			ss.remove('account_login_name');
 			this.props.history.push(`/account/${account}`);
 		}
-
-		toast('Successfully created');
+		this.props.history.push(
+			`/account/${account}/permissions/?currentDisplay=createPaperWallet`
+		);
+		toast('Success');
 	}
 
 	toggleConfirmed(e) {

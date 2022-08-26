@@ -289,7 +289,7 @@ class AuthRedirect extends React.Component {
 			this.props.history.push(`/account/${account}`);
 		}
 
-		toast('Successfully created.');
+		toast('Success');
 	}
 
 	render() {
