@@ -23,6 +23,7 @@ import FormattedAsset from '../Utility/FormattedAsset';
 import BalanceComponent from '../Utility/BalanceComponent';
 import QRScanner from '../QRAddressScanner';
 import {Modal, Button, Select, Input, ConfigProvider} from 'antd';
+import CAValidator from 'multicoin-address-validator';
 import counterpart from 'counterpart';
 import {
 	gatewaySelector,
@@ -41,10 +42,10 @@ import FeeAssetSelector from 'components/Utility/FeeAssetSelector';
 import {checkBalance} from 'common/trxHelper';
 import AccountSelector from 'components/Account/AccountSelector';
 import {ChainStore} from 'meta1-vision-js';
-const gatewayBoolCheck = 'withdrawalAllowed';
-
 import {getAssetAndGateway, getIntermediateAccount} from 'common/gatewayUtils';
 import TransactionConfirmStore from '../../stores/TransactionConfirmStore';
+
+const gatewayBoolCheck = 'withdrawalAllowed';
 
 class WithdrawModalNew extends React.Component {
 	constructor(props) {
@@ -545,31 +546,40 @@ class WithdrawModalNew extends React.Component {
 		// Get Backing Asset Details for Gateway
 		let backingAsset = this._getBackingAssetProps();
 
-		blocktradesValidateAddress({
-			url: gatewayStatus[selectedGateway].baseAPI.BASE,
-			walletType: backingAsset.walletType,
-			newAddress: address,
-			output_coin_type: gatewayStatus[selectedGateway].addressValidatorAsset
-				? this.state.selectedGateway.toLowerCase() +
-				  '.' +
-				  this.state.selectedAsset.toLowerCase()
-				: null,
-			method: gatewayStatus[selectedGateway].addressValidatorMethod || null,
-		}).then((json) => {
-			if (typeof json === 'undefined') {
-				json = {isValid: false};
-			}
+		let valid = false;
+		if (process.env.MAIN_NET_PREFIX === 'DEV11') {
+			valid = CAValidator.validate(address, backingAsset.walletType, 'testnet');
+		} else {
+			valid = CAValidator.validate(address, backingAsset.walletType);
+		}
 
-			this.setState({addressError: json.isValid ? false : true});
-			this.setState({
-				withdraw_publicKey: json.hasOwnProperty('publicKey')
-					? json.publicKey
-					: '',
-				withdraw_publicKey_not_empty: json.hasOwnProperty('publicKey')
-					? true
-					: false,
-			});
-		});
+		this.setState({addressError: !valid});
+
+		// blocktradesValidateAddress({
+		// 	url: gatewayStatus[selectedGateway].baseAPI.BASE,
+		// 	walletType: backingAsset.walletType,
+		// 	newAddress: address,
+		// 	output_coin_type: gatewayStatus[selectedGateway].addressValidatorAsset
+		// 		? this.state.selectedGateway.toLowerCase() +
+		// 		  '.' +
+		// 		  this.state.selectedAsset.toLowerCase()
+		// 		: null,
+		// 	method: gatewayStatus[selectedGateway].addressValidatorMethod || null,
+		// }).then((json) => {
+		// 	if (typeof json === 'undefined') {
+		// 		json = {isValid: false};
+		// 	}
+
+		// 	this.setState({addressError: json.isValid ? false : true});
+		// 	this.setState({
+		// 		withdraw_publicKey: json.hasOwnProperty('publicKey')
+		// 			? json.publicKey
+		// 			: '',
+		// 		withdraw_publicKey_not_empty: json.hasOwnProperty('publicKey')
+		// 			? true
+		// 			: false,
+		// 	});
+		// });
 	}
 
 	onSelectedAddressChanged(address) {
