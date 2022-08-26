@@ -190,6 +190,26 @@ class GatewayActions {
 				gateFee: '35',
 				type: 'token',
 			},
+			{
+				name: 'XLM',
+				description: 'XLM',
+				backingCoin: 'XLM',
+				symbol: 'XLM',
+				depositAllowed: true,
+				withdrawalAllowed: true,
+				memoSupport: false,
+				precision: 6,
+				issuer: account_constants.issuer_name,
+				issuerId: account_constants.issuer_name,
+				assetId: '1.3.6',
+				walletType: 'xlm',
+				minAmount: 200000,
+				withdrawFee: 100000,
+				depositFee: 0,
+				coinPriora: 0,
+				gateFee: '0.01',
+				type: 'token',
+			},
 		];
 	}
 

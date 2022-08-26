@@ -197,6 +197,7 @@ class WithdrawModalNew extends React.Component {
 			(selectedAsset === 'BTC' ||
 				selectedAsset === 'LTC' ||
 				selectedAsset === 'ETH' ||
+				selectedAsset === 'XLM' ||
 				selectedAsset === 'EOS' ||
 				selectedAsset === 'USDT')
 		)
