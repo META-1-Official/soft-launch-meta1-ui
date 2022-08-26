@@ -649,10 +649,10 @@ class AccountPortfolioList extends React.Component {
 
 			let directMarketLink, settleLink, transferLink;
 			let symbol = '';
-
 			const assetName = asset.get('symbol');
 			const notCore = asset.get('id') !== '1.3.0';
 			const notCorePrefUnit = preferredUnit !== coreSymbol;
+			const isPreferred = assetName === preferredUnit;
 
 			let {market} = assetUtils.parseDescription(
 				asset.getIn(['options', 'description'])
@@ -664,7 +664,9 @@ class AccountPortfolioList extends React.Component {
 			if (notCore && preferredMarket === symbol) preferredMarket = coreSymbol;
 
 			/* Table content */
-			directMarketLink = notCore ? (
+			directMarketLink = isPreferred ? (
+				emptyCell
+			) : notCore ? (
 				<Link to={`/market/${asset.get('symbol')}_${preferredMarket}`}>
 					<StyledButton buttonType="white">Trade</StyledButton>
 				</Link>
