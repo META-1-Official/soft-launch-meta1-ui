@@ -2373,7 +2373,8 @@
 		"withdraw_permission_delete": "残高引き出し権限を削除",
 		"withdraw_permission_update": "残高引き出し権限を更新",
 		"disallow_same_account_whitelist_blacklist": "ホワイトリストとブラックリストに同じアカウントは許可されていません",
-		"account_exist_in_blacklist": "ブラックリストに同じアカウントが既に存在する"
+		"account_exist_in_blacklist": "ブラックリストに同じアカウントが既に存在する",
+		"account_exist_in_whitelist": "同じアカウントがホワイトリストに既に存在します"
 	},
 	"transfer": {
 		"again": "他の転送をする",
