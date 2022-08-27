@@ -2374,7 +2374,8 @@
 		"withdraw_permission_delete": "Hesaptan çekme izni silindi.",
 		"withdraw_permission_update": "Hesaptan çekme iznini güncellendi.",
 		"disallow_same_account_whitelist_blacklist": "Beyaz listede ve kara listede aynı hesaba izin verilmez",
-		"account_exist_in_blacklist": "Aynı hesap zaten kara listede var"
+		"account_exist_in_blacklist": "Aynı hesap zaten kara listede var",
+		"account_exist_in_whitelist": "Aynı hesap zaten beyaz listede var"
 	},
 	"transfer": {
 		"again": "BAŞKA BİR TRANSFER GERÇEKLEŞTİR",
