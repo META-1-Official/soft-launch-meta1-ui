@@ -63,7 +63,16 @@ const MarketOrderForm = (props) => {
 	};
 
 	const isFormValid = () => {
-		if (!props.price || isNaN(Number(props.price)) || Number(props.price) <= 0)
+		let hasBalance = isBid
+			? props.baseAssetBalance >= parseFloat(total)
+			: props.quoteAssetBalance >= parseFloat(amount);
+
+		if (
+			!props.price ||
+			isNaN(Number(props.price)) ||
+			Number(props.price) <= 0 ||
+			!hasBalance
+		)
 			return false;
 
 		if (!amount || isNaN(Number(amount)) || Number(amount) <= 0) return false;

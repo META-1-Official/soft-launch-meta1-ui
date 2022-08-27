@@ -116,6 +116,13 @@ class ScaledOrderForm extends Component {
 		)
 			return false;
 
+		const isBid = this.props.type === 'bid';
+		let hasBalance = isBid
+			? this.props.baseAssetBalance >= parseFloat(this.state.total)
+			: this.props.quoteAssetBalance >= parseFloat(formValues.amount);
+
+		if (!hasBalance) return false;
+
 		this._forceReRender;
 
 		return true;
