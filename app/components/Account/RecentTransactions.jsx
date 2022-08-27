@@ -35,6 +35,7 @@ import {connect} from 'alt-react';
 import PendingBlock from '../Utility/PendingBlock';
 import {AiOutlineFileSearch} from 'react-icons/ai';
 import {CaretDownFilled} from '@ant-design/icons';
+import DatePicker from 'react-datepicker2';
 import moment from 'moment-timezone';
 const operation = new OperationAnt();
 
@@ -102,6 +103,7 @@ class RecentTransactions extends React.Component {
 			esNode: settingsAPIs.ES_WRAPPER_LIST[0].url,
 			visibleId: '',
 			history: [],
+			value: moment(),
 		};
 		this.getDataSource = this.getDataSource.bind(this);
 
@@ -625,7 +627,16 @@ class RecentTransactions extends React.Component {
 					)}
 					<div className="header-selector">
 						<div className="header-selector-body">
-							<span className="page-title">Transaction History</span>
+							<div style={{display: 'flex', justifyContent: 'center'}}>
+								<span className="page-title" style={{marginRight: '20px'}}>
+									Transaction History
+								</span>
+								<DatePicker
+									onChange={(value) => this.setState({value})}
+									value={this.state.value}
+								/>
+							</div>
+
 							<div className="filter inline-block">
 								{this.props.showFilters ? (
 									<Select
