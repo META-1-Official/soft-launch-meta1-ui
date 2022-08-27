@@ -91,7 +91,6 @@ class AccountOrders extends React.Component {
 					base.getIn(['bitasset', 'options', 'short_backing_asset'])
 				);
 			}
-
 			if (base && quote) {
 				let assets = {
 					[base.get('id')]: {precision: base.get('precision')},
@@ -122,7 +121,7 @@ class AccountOrders extends React.Component {
 				}
 
 				let limitOrder = !isSettle
-					? new LimitOrder(order, assets, marketQuoteId)
+					? new LimitOrder(order, assets, marketBaseId)
 					: new SettleOrder(
 							order,
 							assets,
@@ -155,7 +154,6 @@ class AccountOrders extends React.Component {
 						settlement_date: order.settlement_date,
 						feed_price,
 					};
-				console.log('order', order);
 				dataSource.push(dataItem);
 			}
 		});
