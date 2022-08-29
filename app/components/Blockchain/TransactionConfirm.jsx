@@ -246,6 +246,7 @@ class TransactionConfirm extends React.Component {
 					onCancel={this.onCloseClick}
 					overlayClose={!broadcasting}
 					noCloseBtn={true}
+					maskClosable={false}
 				>
 					<div className="grid-block vertical no-padding no-margin">
 						{this.props.error ? (
