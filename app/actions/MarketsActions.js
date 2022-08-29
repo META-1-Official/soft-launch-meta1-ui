@@ -336,151 +336,144 @@ class MarketsActions {
 				}
 			};
 
-			if (
-				!subs[subID] ||
-				currentBucketSize !== bucketSize ||
-				currentGroupLimit !== groupedOrderLimit
-			) {
-				dispatch({switchMarket: true});
-				currentBucketSize = bucketSize;
-				currentGroupLimit = groupedOrderLimit;
-				let callPromise = null,
-					settlePromise = null;
+			dispatch({switchMarket: true});
+			currentBucketSize = bucketSize;
+			currentGroupLimit = groupedOrderLimit;
+			let callPromise = null,
+				settlePromise = null;
 
-				if (isMarketAsset) {
-					callPromise = Apis.instance()
-						.db_api()
-						.exec('get_call_orders', [marketAsset.id, 300]);
-					settlePromise = Apis.instance()
-						.db_api()
-						.exec('get_settle_orders', [marketAsset.id, 300]);
-				}
-
-				let groupedOrdersBidsPromise = [];
-				let groupedOrdersAsksPromise = [];
-				if (currentGroupLimit !== 0) {
-					groupedOrdersBidsPromise = Apis.instance()
-						.orders_api()
-						.exec('get_grouped_limit_orders', [
-							base.get('id'),
-							quote.get('id'),
-							currentGroupLimit, // group
-							null, // price start
-							100, // limit must not exceed 101
-						]);
-					groupedOrdersAsksPromise = Apis.instance()
-						.orders_api()
-						.exec('get_grouped_limit_orders', [
-							quote.get('id'),
-							base.get('id'),
-							currentGroupLimit, // group
-							null, // price start
-							100, // limit must not exceed 101
-						]);
-				}
-
-				let startDate = new Date();
-				let startDate2 = new Date();
-				let startDate3 = new Date();
-				let endDate = new Date();
-				startDate = new Date(
-					startDate.getTime() - bucketSize * bucketCount * 1000
-				);
-				startDate2 = new Date(
-					startDate2.getTime() - bucketSize * bucketCount * 2000
-				);
-				startDate3 = new Date(
-					startDate3.getTime() - bucketSize * bucketCount * 3000
-				);
-				endDate.setDate(endDate.getDate() + 1);
-				if (__DEV__) console.time('Fetch market data');
-
-				return new Promise((resolve, reject) => {
-					Promise.all([
-						Apis.instance()
-							.db_api()
-							.exec('subscribe_to_market', [
-								subscription.bind(this, base.get('id') + '_' + quote.get('id')),
-								base.get('id'),
-								quote.get('id'),
-							]),
-						Apis.instance()
-							.db_api()
-							.exec('get_limit_orders', [base.get('id'), quote.get('id'), 300]),
-						callPromise,
-						settlePromise,
-						Apis.instance()
-							.history_api()
-							.exec('get_market_history', [
-								base.get('id'),
-								quote.get('id'),
-								bucketSize,
-								startDate.toISOString().slice(0, -5),
-								endDate.toISOString().slice(0, -5),
-							]),
-						Apis.instance()
-							.history_api()
-							.exec('get_market_history_buckets', []),
-						Apis.instance()
-							.history_api()
-							.exec('get_fill_order_history', [
-								base.get('id'),
-								quote.get('id'),
-								200,
-							]),
-						Apis.instance()
-							.history_api()
-							.exec('get_market_history', [
-								base.get('id'),
-								quote.get('id'),
-								bucketSize,
-								startDate2.toISOString().slice(0, -5),
-								startDate.toISOString().slice(0, -5),
-							]),
-						Apis.instance()
-							.history_api()
-							.exec('get_market_history', [
-								base.get('id'),
-								quote.get('id'),
-								bucketSize,
-								startDate3.toISOString().slice(0, -5),
-								startDate2.toISOString().slice(0, -5),
-							]),
-						Apis.instance()
-							.db_api()
-							.exec('get_ticker', [base.get('id'), quote.get('id')]),
-						groupedOrdersBidsPromise,
-						groupedOrdersAsksPromise,
-					])
-						.then((results) => {
-							const data1 = results[8] || [];
-							const data2 = results[7] || [];
-							subs[subID] = subscription;
-							if (__DEV__) console.timeEnd('Fetch market data');
-							dispatch({
-								limits: results[1],
-								calls: results[2],
-								settles: results[3],
-								price: data1.concat(data2.concat(results[4])),
-								buckets: results[5],
-								history: results[6],
-								market: subID,
-								base: base,
-								quote: quote,
-								inverted: inverted,
-								ticker: results[9],
-								init: true,
-								resolve,
-								groupedOrdersBids: results[10],
-								groupedOrdersAsks: results[11],
-							});
-						})
-						.catch((error) => {
-							console.log('Error in MarketsActions.subscribeMarket: ', error);
-							reject(error);
-						});
-				});
+			if (isMarketAsset) {
+				callPromise = Apis.instance()
+					.db_api()
+					.exec('get_call_orders', [marketAsset.id, 300]);
+				settlePromise = Apis.instance()
+					.db_api()
+					.exec('get_settle_orders', [marketAsset.id, 300]);
 			}
+
+			let groupedOrdersBidsPromise = [];
+			let groupedOrdersAsksPromise = [];
+			if (currentGroupLimit !== 0) {
+				groupedOrdersBidsPromise = Apis.instance()
+					.orders_api()
+					.exec('get_grouped_limit_orders', [
+						base.get('id'),
+						quote.get('id'),
+						currentGroupLimit, // group
+						null, // price start
+						100, // limit must not exceed 101
+					]);
+				groupedOrdersAsksPromise = Apis.instance()
+					.orders_api()
+					.exec('get_grouped_limit_orders', [
+						quote.get('id'),
+						base.get('id'),
+						currentGroupLimit, // group
+						null, // price start
+						100, // limit must not exceed 101
+					]);
+			}
+
+			let startDate = new Date();
+			let startDate2 = new Date();
+			let startDate3 = new Date();
+			let endDate = new Date();
+			startDate = new Date(
+				startDate.getTime() - bucketSize * bucketCount * 1000
+			);
+			startDate2 = new Date(
+				startDate2.getTime() - bucketSize * bucketCount * 2000
+			);
+			startDate3 = new Date(
+				startDate3.getTime() - bucketSize * bucketCount * 3000
+			);
+			endDate.setDate(endDate.getDate() + 1);
+			if (__DEV__) console.time('Fetch market data');
+
+			return new Promise((resolve, reject) => {
+				Promise.all([
+					Apis.instance()
+						.db_api()
+						.exec('subscribe_to_market', [
+							subscription.bind(this, base.get('id') + '_' + quote.get('id')),
+							base.get('id'),
+							quote.get('id'),
+						]),
+					Apis.instance()
+						.db_api()
+						.exec('get_limit_orders', [base.get('id'), quote.get('id'), 300]),
+					callPromise,
+					settlePromise,
+					Apis.instance()
+						.history_api()
+						.exec('get_market_history', [
+							base.get('id'),
+							quote.get('id'),
+							bucketSize,
+							startDate.toISOString().slice(0, -5),
+							endDate.toISOString().slice(0, -5),
+						]),
+					Apis.instance().history_api().exec('get_market_history_buckets', []),
+					Apis.instance()
+						.history_api()
+						.exec('get_fill_order_history', [
+							base.get('id'),
+							quote.get('id'),
+							200,
+						]),
+					Apis.instance()
+						.history_api()
+						.exec('get_market_history', [
+							base.get('id'),
+							quote.get('id'),
+							bucketSize,
+							startDate2.toISOString().slice(0, -5),
+							startDate.toISOString().slice(0, -5),
+						]),
+					Apis.instance()
+						.history_api()
+						.exec('get_market_history', [
+							base.get('id'),
+							quote.get('id'),
+							bucketSize,
+							startDate3.toISOString().slice(0, -5),
+							startDate2.toISOString().slice(0, -5),
+						]),
+					Apis.instance()
+						.db_api()
+						.exec('get_ticker', [base.get('id'), quote.get('id')]),
+					groupedOrdersBidsPromise,
+					groupedOrdersAsksPromise,
+				])
+					.then((results) => {
+						const data1 = results[8] || [];
+						const data2 = results[7] || [];
+						subs[subID] = subscription;
+						if (__DEV__) console.timeEnd('Fetch market data');
+						dispatch({
+							limits: results[1],
+							calls: results[2],
+							settles: results[3],
+							price: data1.concat(data2.concat(results[4])),
+							buckets: results[5],
+							history: results[6],
+							market: subID,
+							base: base,
+							quote: quote,
+							inverted: inverted,
+							ticker: results[9],
+							init: true,
+							resolve,
+							groupedOrdersBids: results[10],
+							groupedOrdersAsks: results[11],
+						});
+					})
+					.catch((error) => {
+						console.log('Error in MarketsActions.subscribeMarket: ', error);
+						reject(error);
+					});
+			});
+
 			return Promise.resolve(true);
 		};
 	}
