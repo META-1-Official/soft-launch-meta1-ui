@@ -2430,8 +2430,8 @@
 			"name": "Username",
 			"received": "Received",
 			"sent": "Sent",
-			"last_month": "Last month",
-			"last_week": "Last week",
+			"last_month": "Lastest month",
+			"last_week": "Lastest week",
 			"24h": "24 hours",
 			"from": "From",
 			"to": "To",
@@ -2514,7 +2514,8 @@
 		"view_json": "Show raw json",
 		"operations": "Operations",
 		"disallow_same_account_whitelist_blacklist": "Same account in whitelist and blacklist are not permitted",
-		"account_exist_in_blacklist": "Same account already exist in blacklist"
+		"account_exist_in_blacklist": "Same account already exist in blacklist",
+		"account_exist_in_whitelist": "Same account already exist in whitelist"
 	},
 	"transfer": {
 		"2fa": "2FA",

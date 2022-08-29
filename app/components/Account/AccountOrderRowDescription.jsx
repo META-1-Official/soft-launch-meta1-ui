@@ -15,6 +15,7 @@ class AccountOrderRowDescription extends React.Component {
 			? 'value negative base-asset'
 			: 'value positive base-asset';
 
+		console.log('base', base, quote);
 		return (
 			<Translate
 				content={

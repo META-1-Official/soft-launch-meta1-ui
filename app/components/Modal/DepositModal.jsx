@@ -9,8 +9,14 @@ import QRCode from 'qrcode.react';
 const DepositModalContent = (props) => {
 	const [depositAddress, setDepositAddress] = useState('');
 	const [assetType, setAssetType] = useState(props.assetType || 'btc');
-	const assets = ['btc', 'ltc', 'eth', 'usdt'];
-	const minDepositValues = {btc: 0.001, ltc: 0.01, eth: 0.01, usdt: 1};
+	const assets = ['btc', 'ltc', 'eth', 'usdt', 'xlm'];
+	const minDepositValues = {
+		btc: 0.001,
+		ltc: 0.01,
+		eth: 0.01,
+		usdt: 1,
+		xlm: 0.01,
+	};
 
 	const api_gateway_url = `${process.env.GATEWAY_URL}/api-gateways/${
 		assetType === 'usdt' ? 'eth' : assetType
