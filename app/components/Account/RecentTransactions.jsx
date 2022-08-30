@@ -326,22 +326,22 @@ class RecentTransactions extends React.Component {
 					// Txns of the last month
 					case 'last_month':
 						history = history.filter((a) => {
-							return a.block_num > lastIrreversibleBlockNum - 30 * 20000;
-							// 19090 is and avg txns per day on this blockchain
-							// Note: we can average this amount on each request of the data
-							// but it should not be changing a lot on dev -> but could on prod
+							const timestamp = moment(a.block_time.timestamp).valueOf();
+							return timestamp >= moment().startOf('month').valueOf();
 						});
 						break;
 					// Txns of the last week
 					case 'last_week':
 						history = history.filter((a) => {
-							return a.block_num > lastIrreversibleBlockNum - 7 * 20000;
+							const timestamp = moment(a.block_time.timestamp).valueOf();
+							return timestamp >= moment().subtract(1, 'w').valueOf();
 						});
 						break;
 					// Txns of the last 24 h
 					case '24h':
 						history = history.filter((a) => {
-							return a.block_num > lastIrreversibleBlockNum - 1 * 20000;
+							const timestamp = moment(a.block_time.timestamp).valueOf();
+							return timestamp >= moment().subtract(1, 'd').valueOf();
 						});
 						break;
 					// Username
