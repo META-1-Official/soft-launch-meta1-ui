@@ -103,13 +103,16 @@ class RecentTransactions extends React.Component {
 			esNode: settingsAPIs.ES_WRAPPER_LIST[0].url,
 			visibleId: '',
 			history: [],
-			value: moment(),
+			dateFrom: moment.unix(0),
+			dateTo: moment(),
 		};
 		this.getDataSource = this.getDataSource.bind(this);
 
 		this.useCustom = counterpart.translate('account.export_modal.use_custom');
 		this.esNodeChange = this.esNodeChange.bind(this);
 		this._generateCSV = this._generateCSV.bind(this);
+		this.onDateFromChange = this.onDateFromChange.bind(this);
+		this.onDateToChange = this.onDateToChange.bind(this);
 	}
 
 	componentDidMount() {
@@ -275,7 +278,6 @@ class RecentTransactions extends React.Component {
 
 	_filterHistory(accountsList, filterOp, customFilter) {
 		let {history} = this.state;
-
 		// Filtering
 		let myCustomFilters = [
 			'received',
@@ -387,6 +389,7 @@ class RecentTransactions extends React.Component {
 				return finalValue;
 			});
 		}
+
 		return history;
 	}
 
@@ -503,10 +506,23 @@ class RecentTransactions extends React.Component {
 			.substr(0, labelStrIndex - 4);
 	}
 
+	onDateFromChange(dateFrom) {
+		this.setState({dateFrom}, () => {
+			this.forceUpdate();
+		});
+	}
+
+	onDateToChange(dateTo) {
+		this.setState({dateTo}, () => {
+			this.forceUpdate();
+		});
+	}
+
 	render() {
 		let {accountsList, filter, customFilter, style, blocks} = this.props;
 
-		let {limit} = this.state;
+		let {limit, dateFrom, dateTo} = this.state;
+
 		let current_account_id =
 			accountsList.length === 1 && accountsList[0]
 				? accountsList[0].get('id')
@@ -523,6 +539,10 @@ class RecentTransactions extends React.Component {
 		style = style ? style : {width: '100%', height: '100%'};
 
 		if (history.length > 0) delete style.height;
+		history = history.filter((a) => {
+			const timestamp = moment(a.block_time.timestamp).valueOf();
+			return timestamp >= dateFrom.valueOf() && timestamp <= dateTo.valueOf();
+		});
 
 		let defaultOptions = null;
 		let amountOptions = null;
@@ -628,12 +648,16 @@ class RecentTransactions extends React.Component {
 					<div className="header-selector">
 						<div className="header-selector-body">
 							<div style={{display: 'flex', justifyContent: 'center'}}>
-								<span className="page-title" style={{marginRight: '20px'}}>
-									Transaction History
+								<span className="page-title">Transaction History</span>
+								<span style={{marginLeft: '20px', marginRight: '20px'}}>
+									<DatePicker
+										onChange={(dateFrom) => this.onDateFromChange(dateFrom)}
+										value={this.state.dateFrom}
+									/>
 								</span>
 								<DatePicker
-									onChange={(value) => this.setState({value})}
-									value={this.state.value}
+									onChange={(dateTo) => this.onDateToChange(dateTo)}
+									value={this.state.dateTo}
 								/>
 							</div>
 
