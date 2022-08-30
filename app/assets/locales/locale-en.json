@@ -2050,7 +2050,7 @@
 		"viewOnlyMode": "View only mode",
 		"view_keys": "View keys",
 		"wallet": "Local Wallet",
-		"walletLockTimeout": "Wallet auto-lock time (in seconds, 0 to disable)",
+		"walletLockTimeout": "Wallet auto-lock time (in seconds, 0 to disable, max: 3600)",
 		"walletLockTimeoutTooltip": "Click to adjust the time before the wallet auto-locks",
 		"wallet_required": "Local wallet required",
 		"wallet_required_text": "In order to restore a backup you will need to switch to a local wallet first, do so by clicking the button below",
