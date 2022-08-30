@@ -87,6 +87,7 @@ class WithdrawModalNew extends React.Component {
 
 		this.handleQrScanSuccess = this.handleQrScanSuccess.bind(this);
 		this.onTrxIncluded = this.onTrxIncluded.bind(this);
+		this.onClose = this.onClose.bind(this);
 	}
 
 	componentWillMount() {
@@ -638,6 +639,10 @@ class WithdrawModalNew extends React.Component {
 			);
 			TransactionConfirmStore.unlisten(this.onTrxIncluded);
 		}
+		if (confirm_store_state.closed)
+			this.setState({
+				submitted: false,
+			});
 	}
 
 	onSubmit() {
@@ -820,6 +825,13 @@ class WithdrawModalNew extends React.Component {
 		this.onAddressSelected(data.address);
 	}
 
+	onClose() {
+		this.props.hideModal();
+		this.setState({
+			submitted: false,
+		});
+	}
+
 	render() {
 		const {state, props} = this;
 		let {preferredCurrency, assets, balances} = props;
@@ -918,7 +930,7 @@ class WithdrawModalNew extends React.Component {
 				visible={this.props.visible}
 				closeable={false}
 				wrapClassName={this.props.modalId}
-				onCancel={this.props.hideModal}
+				onCancel={this.onClose}
 				id={this.props.modalId}
 				footer={[
 					<Button
@@ -930,7 +942,7 @@ class WithdrawModalNew extends React.Component {
 							? 'Please wait ...'
 							: counterpart.translate('modal.withdraw.withdraw')}
 					</Button>,
-					<Button key={'cancel'} onClick={this.props.close}>
+					<Button key={'cancel'} onClick={this.onClose}>
 						{counterpart.translate('modal.withdraw.cancel')}
 					</Button>,
 				]}
@@ -1348,7 +1360,6 @@ export default class WithdrawModal extends React.Component {
 			<ConnectedWrapper
 				{...this.props}
 				id={this.props.modalId}
-				close={this.props.hideModal}
 				withdrawAssets={withdrawAssets}
 				intermediateAccounts={intermediateAccounts}
 			/>
