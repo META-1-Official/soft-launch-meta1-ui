@@ -108,7 +108,7 @@ class SettingsStore {
 			fee_asset: CORE_ASSET,
 			showSettles: false,
 			showAssetPercent: false,
-			walletLockTimeout: 60 * 10,
+			walletLockTimeout: 90 * 10,
 			themes: getDefaultTheme(),
 			passwordLogin: getDefaultLogin() == 'password',
 			browser_notifications: {
