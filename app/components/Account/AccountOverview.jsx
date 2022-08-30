@@ -551,6 +551,7 @@ class AccountOverview extends React.Component {
 							>
 								Transaction History
 							</StyledButton>
+
 							{/*{account.get('proposals') && account.get('proposals').size ? (
 								<StyledButton
 									className={
