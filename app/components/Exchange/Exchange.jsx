@@ -1663,6 +1663,24 @@ class Exchange extends React.Component {
 		this.forceUpdate();
 	}
 
+	_onInputPricePercent(type, value) {
+		let current = this.state[type];
+		const isBid = type === 'bid';
+		current.price = new Price({
+			base: current[isBid ? 'for_sale' : 'to_receive'],
+			quote: current[isBid ? 'to_receive' : 'for_sale'],
+			real: parseFloat(value) || 0,
+		});
+		if (isBid) {
+			this._setForSale(current, isBid) || this._setReceive(current, isBid);
+		} else {
+			this._setReceive(current, isBid) || this._setForSale(current, isBid);
+		}
+
+		current.priceText = value;
+		this.forceUpdate();
+	}
+
 	_onInputSell(type, isBid, e) {
 		let current = this.state[type];
 		// const isBid = type === "bid";
@@ -1680,6 +1698,16 @@ class Exchange extends React.Component {
 		this.forceUpdate();
 	}
 
+	_onInputSellPercent(type, isBid, value) {
+		let current = this.state[type];
+		current.for_sale.setAmount({real: parseFloat(value) || 0});
+		if (current.price.isValid()) {
+			this._setReceive(current, isBid);
+		}
+		current.forSaleText = value;
+		this.forceUpdate();
+	}
+
 	_onInputReceive(type, isBid, e) {
 		let current = this.state[type];
 		// const isBid = type === "bid";
@@ -1694,6 +1722,16 @@ class Exchange extends React.Component {
 
 		current.toReceiveText = e.target.value;
 		// this._setPriceText(current, type === 'bid');
+		this.forceUpdate();
+	}
+
+	_onInputReceivePercent(type, isBid, value) {
+		let current = this.state[type];
+		current.to_receive.setAmount({real: parseFloat(value) || 0});
+		if (current.price.isValid()) {
+			this._setForSale(current, isBid);
+		}
+		current.toReceiveText = value;
 		this.forceUpdate();
 	}
 
@@ -2087,7 +2125,9 @@ class Exchange extends React.Component {
 						quote={quote}
 						base={base}
 						amountChange={this._onInputReceive.bind(this, 'bid', true)}
+						amountChangePercent={this._onInputReceivePercent.bind(this)}
 						priceChange={this._onInputPrice.bind(this, 'bid')}
+						priceChangePercent={this._onInputPricePercent.bind(this)}
 						setPrice={this._currentPriceClick.bind(this)}
 						totalChange={this._onInputSell.bind(this, 'bid', false)}
 						clearForm={this._clearForms.bind(this, 'bid')}
@@ -2133,6 +2173,8 @@ class Exchange extends React.Component {
 						activePanels={activePanels}
 						singleColumnOrderForm={singleColumnOrderForm}
 						hideFunctionButtons={hideFunctionButtons}
+						historyUrl={this.props.history.location}
+						marketPrice={latest && latest.getPrice()}
 					/>
 				</Tabs.TabPane>
 				<Tabs.TabPane
@@ -2249,7 +2291,9 @@ class Exchange extends React.Component {
 							'ask'
 						)}
 						amountChange={this._onInputSell.bind(this, 'ask', false)}
+						amountChangePercent={this._onInputSellPercent.bind(this)}
 						priceChange={this._onInputPrice.bind(this, 'ask')}
+						priceChangePercent={this._onInputPricePercent.bind(this)}
 						setPrice={this._currentPriceClick.bind(this)}
 						totalChange={this._onInputReceive.bind(this, 'ask', true)}
 						clearForm={this._clearForms.bind(this, 'ask')}
@@ -2295,6 +2339,8 @@ class Exchange extends React.Component {
 						activePanels={activePanels}
 						singleColumnOrderForm={singleColumnOrderForm}
 						hideFunctionButtons={hideFunctionButtons}
+						historyUrl={this.props.history.location}
+						marketPrice={latest && latest.getPrice()}
 					/>
 				</Tabs.TabPane>
 

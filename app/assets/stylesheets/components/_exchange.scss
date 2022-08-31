@@ -920,6 +920,12 @@ div.bucket-option {
 	}
 }
 
+// buy_sell total border radius 0
+.border-bottom-class {
+	border-bottom-left-radius: 0 !important;
+	border-bottom-right-radius: 0 !important;
+}
+
 .buy-sell-label {
 	font-size: 14px;
 	text-transform: uppercase;
@@ -1738,6 +1744,56 @@ form.hide-container {
 				}
 			}
 		}
+	}
+}
+
+// Buy_Sell wallet icon section css
+.amount_footer {
+	display: flex;
+	background: #21252f;
+	border-radius: 4px;
+	margin: -15px 0 0 0;
+	display: flex;
+	justify-content: space-between;
+	padding: 5px 15px;
+	border-top: 1px solid rgba(86, 97, 118, 0.3);
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	margin-top: -10px;
+
+	.left_footer_sec {
+		display: flex;
+		align-items: center;
+
+		span {
+			font-size: 12px;
+			text-align: right;
+			text-transform: uppercase;
+			color: rgba(255, 255, 255, 0.5);
+			border-right: 1px solid rgba(86, 97, 118, 0.3);
+			padding-right: 10px;
+			// width: 50%;
+		}
+	}
+
+	.right_footer_sec span {
+		font-size: 14px;
+		text-align: right;
+		text-transform: uppercase;
+		color: rgba(255, 255, 255, 0.5);
+		display: inline-block;
+		margin: 0 0 0 8px;
+	}
+
+	.wallet_img {
+		max-width: 15px;
+		margin-right: 6px;
+	}
+	.per_item {
+		cursor: pointer;
+	}
+	.active_item {
+		color: #fff !important;
 	}
 }
 
