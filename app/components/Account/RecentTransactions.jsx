@@ -566,7 +566,6 @@ class RecentTransactions extends React.Component {
 				: filter,
 			customFilter
 		).sort(compareOps);
-		console.log('history.length', history.length, limit, startIndex, endIndex);
 		style = style ? style : {width: '100%', height: '100%'};
 
 		if (history.length > 0) delete style.height;
