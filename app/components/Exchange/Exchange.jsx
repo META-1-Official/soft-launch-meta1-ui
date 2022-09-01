@@ -2545,6 +2545,7 @@ class Exchange extends React.Component {
 					hideScrollbars={hideScrollbars}
 					myHistory={currentAccount.get('history')}
 					settings={this.props.settings}
+					history={this.props.history}
 				/>
 			);
 
