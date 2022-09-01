@@ -8,7 +8,7 @@ import {connect} from 'alt-react';
 import {ChainTypes as grapheneChainTypes} from 'meta1-vision-js';
 const {operations} = grapheneChainTypes;
 import ReactTooltip from 'react-tooltip';
-import {FillOrder, LimitOrder} from 'common/MarketClasses';
+import {FillOrder, LimitOrder, LimitOrderCreate} from 'common/MarketClasses';
 import {MarketHistoryView} from './View/MarketHistoryView';
 import {ChainStore} from 'meta1-vision-js';
 import counterpart from 'counterpart';
@@ -339,7 +339,8 @@ class MarketHistory extends React.Component {
 				}
 			})
 			.filter((a) => !!a);
-
+		console.log('currentAccount', currentAccount);
+		console.log('limitOrders', limitOrders);
 		let callOrders = call_orders
 			.toArray()
 			.map((order) => {
@@ -368,6 +369,7 @@ class MarketHistory extends React.Component {
 					return false;
 				}
 			});
+		console.log('callOrders', callOrders);
 		const response = limitOrders.concat(callOrders).map((order) => {
 			const price = order.getPrice();
 			const isBid = order.isBid();
@@ -439,13 +441,14 @@ class MarketHistory extends React.Component {
 					precision: base.get('precision'),
 				},
 			};
-
+			console.log('myHistory', myHistory);
 			rows = myHistory
 				.filter((a) => {
 					let opType = a.getIn(['op', 0]);
 					return opType === operations.fill_order;
 				})
 				.filter((a) => {
+					console.log('fill_order', a.toObject());
 					let quoteID = quote.get('id');
 					let baseID = base.get('id');
 					let pays = a.getIn(['op', 1, 'pays', 'asset_id']);
@@ -482,7 +485,65 @@ class MarketHistory extends React.Component {
 					};
 				})
 				.toArray();
-		} else if (history && history.size) {
+
+			let rows1 = myHistory
+				.filter((a) => {
+					let opType = a.getIn(['op', 0]);
+					return opType === operations.limit_order_create;
+				})
+				.filter((a) => {
+					console.log('limit_order_create', a.toObject());
+					let quoteID = quote.get('id');
+					let baseID = base.get('id');
+					let pays = a.getIn(['op', 1, 'amount_to_sell', 'asset_id']);
+					let receives = a.getIn(['op', 1, 'min_to_receive', 'asset_id']);
+					let hasQuote = quoteID === pays || quoteID === receives;
+					let hasBase = baseID === pays || baseID === receives;
+					return hasQuote && hasBase;
+				})
+				.sort((a, b) => {
+					return b.get('block_num') - a.get('block_num');
+				})
+				.map((a) => {
+					let for_sale = a.getIn(['op', 1, 'amount_to_sell']).toObject();
+					let to_receive = a.getIn(['op', 1, 'min_to_receive']).toObject();
+					let seller = a.getIn(['op', 1, 'seller']);
+					let fee = a.getIn(['op', 1, 'fee']).toObject();
+
+					let order = new LimitOrderCreate({for_sale, to_receive, seller, fee});
+					console.log('for_sale', order);
+					// const price = order.getPrice();
+					// const isBid = order.isBid;
+					// const payAmount = order.amountToPay();
+					// const receiveAmount = order.amountToReceive();
+					// const total = parseFloat(payAmount) * price;
+
+					// return {
+					// 	orderId: order.id,
+					// 	pair: {
+					// 		baseSymbol: base?._root?.entries[1][1],
+					// 		quoteSymbol: quote?._root?.entries[1][1],
+					// 		isBid: isBid,
+					// 	},
+					// 	amount: {
+					// 		payAmount,
+					// 		receiveAmount,
+					// 	},
+					// 	price,
+					// 	total,
+					// };
+				})
+				.toArray();
+
+			console.log('rows', rows1);
+			console.log(
+				'####',
+				myHistory.filter((a) => {
+					let opType = a.getIn(['op', 0]);
+					return opType === operations.limit_order_create;
+				})
+			);
+		} else if (activeTab === 'history' && history && history.size) {
 			// Market History
 			rows = this.props.history
 				.take(100)
