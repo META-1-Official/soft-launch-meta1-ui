@@ -261,8 +261,7 @@ class MyTrade extends React.Component {
 					const receiveAmount = order.amountToReceive();
 					const total = parseFloat(payAmount) * price;
 
-					let marketId =
-						base?._root?.entries[1][1] + '_' + settings.get('unit');
+					let marketId = this.props.history?.location?.pathname.split('/')[2];
 
 					return {
 						orderId: order.id,
