@@ -14,6 +14,7 @@ export default class PaginatedList extends React.Component {
 	static defaultProps = {
 		rows: [],
 		pageSize: 20,
+		total: 0,
 		label: 'utility.total_x_items',
 		className: 'table',
 		extraRow: null,
