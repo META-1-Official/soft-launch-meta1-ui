@@ -46,13 +46,18 @@ class BuySell extends React.Component {
 		this.state = {
 			forceReRender: false,
 			isSettleModalVisible: false,
-			totalPercent: '',
+			totalPercent: 100,
 			currencyBalance: '',
+			globalCurrencyBalance: '',
 			currencyPrice: '',
+			forceUpdateAmount: false,
 		};
 
 		this.showSettleModal = this.showSettleModal.bind(this);
 		this.hideSettleModal = this.hideSettleModal.bind(this);
+	}
+	componentDidMount() {
+		this.props.priceChangePercent(this.props.type, this.props.marketPrice);
 	}
 
 	/*
@@ -257,7 +262,9 @@ class BuySell extends React.Component {
 				.split('_')[0];
 			tradeSymbol.id = account_balances.get(
 				symbolType.get(
-					this.props.historyUrl.pathname.split('/')[2].split('_')[0]
+					this.props.type === 'bid'
+						? this.props.historyUrl.pathname.split('/')[2].split('_')[1]
+						: this.props.historyUrl.pathname.split('/')[2].split('_')[0]
 				)
 			);
 		}
@@ -284,6 +291,7 @@ class BuySell extends React.Component {
 				priceHandler={(data) => {
 					this.setState({
 						currencyPrice: data,
+						globalCurrencyBalance: data,
 					});
 				}}
 				fromExchange={true}
@@ -758,7 +766,9 @@ class BuySell extends React.Component {
 							<ExchangeInput
 								id={`${type}Total`}
 								value={total}
-								onChange={totalChange}
+								onChange={(e) => {
+									totalChange(e);
+								}}
 								autoComplete="off"
 								placeholder="0.0"
 								addonAfter={
@@ -808,17 +818,22 @@ class BuySell extends React.Component {
 							className="small-3 buy-sell-label"
 							content="exchange.price"
 						/>
-						{/* // working */}
 						<div className="inputAddon limit-order-input">
 							<ExchangeInput
 								id={`${type}Price`}
 								value={price}
 								onChange={(e) => {
 									priceChange(e);
+									const obj = {
+										totalPercent: 100,
+									};
+									if (this.props.type !== 'bid') {
+										obj.currencyBalance = !amount
+											? this.state.globalCurrencyBalance
+											: Number(e.target.value) * Number(amount);
+									}
 									if (this.state.totalPercent) {
-										this.setState({
-											totalPercent: '',
-										});
+										this.setState({...obj});
 									}
 								}}
 								autoComplete="off"
@@ -843,10 +858,16 @@ class BuySell extends React.Component {
 								value={amount}
 								onChange={(e) => {
 									amountChange(e);
+									const obj = {
+										totalPercent: 100,
+									};
+									if (this.props.type !== 'bid') {
+										obj.currencyBalance = !amount
+											? this.state.globalCurrencyBalance
+											: Number(e.target.value) * Number(price);
+									}
 									if (this.state.totalPercent) {
-										this.setState({
-											totalPercent: '',
-										});
+										this.setState({...obj});
 									}
 								}}
 								autoComplete="off"
@@ -871,9 +892,16 @@ class BuySell extends React.Component {
 								onChange={(e) => {
 									totalChange(e);
 									if (this.state.totalPercent) {
-										this.setState({
-											totalPercent: '',
-										});
+										const obj = {
+											totalPercent: 100,
+										};
+										if (this.props.type !== 'bid' && e.target.value) {
+											obj.currencyBalance =
+												!amount && !price
+													? this.state.globalCurrencyBalance
+													: Number(e.target.value);
+										}
+										this.setState({...obj});
 									}
 								}}
 								autoComplete="off"
@@ -888,8 +916,10 @@ class BuySell extends React.Component {
 						<div className="left_footer_sec">
 							<img className="wallet_img" src={walletIcon} alt="img" />
 							<span>
-								{Number(this.state.currencyBalance) *
-									(this.state.totalPercent / 100)}{' '}
+								{Number(
+									Number(this.state.currencyBalance) *
+										(this.state.totalPercent / 100)
+								).toFixed(6)}{' '}
 								{base.get('symbol')}
 							</span>
 						</div>
