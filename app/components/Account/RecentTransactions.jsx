@@ -82,7 +82,7 @@ class RecentTransactions extends React.Component {
 	};
 
 	static defaultProps = {
-		limit: 25,
+		limit: 0,
 		showAll: false,
 		maxHeight: 500,
 		fullHeight: false,
@@ -94,6 +94,8 @@ class RecentTransactions extends React.Component {
 
 		this.state = {
 			limit: props.limit,
+			total: 0,
+			pageSize: 20,
 			fetchingAccountHistory: false,
 			headerHeight: 85,
 			filter: 'all',
@@ -105,6 +107,8 @@ class RecentTransactions extends React.Component {
 			history: [],
 			dateFrom: moment.unix(0),
 			dateTo: moment(),
+			startIndex: 0,
+			endIndex: 20,
 		};
 		this.getDataSource = this.getDataSource.bind(this);
 
@@ -113,6 +117,7 @@ class RecentTransactions extends React.Component {
 		this._generateCSV = this._generateCSV.bind(this);
 		this.onDateFromChange = this.onDateFromChange.bind(this);
 		this.onDateToChange = this.onDateToChange.bind(this);
+		this.onChangePage = this.onChangePage.bind(this);
 	}
 
 	componentDidMount() {
@@ -267,7 +272,7 @@ class RecentTransactions extends React.Component {
 							});
 						});
 
-						this.setState({limit: count});
+						this.setState({limit: count, total: count});
 					}
 				}
 			}
@@ -387,6 +392,19 @@ class RecentTransactions extends React.Component {
 					}
 				}, true);
 				return finalValue;
+			});
+			this.setState({limit: history.length});
+		}
+
+		if (!filterOp) this.setState({limit: this.state.total});
+		else this.setState({limit: history.length});
+
+		if (this.state.startIndex > history.length) {
+			this.setState({
+				startIndex:
+					Math.floor(history.length / this.state.pageSize) *
+					this.state.pageSize,
+				endIndex: history.length,
 			});
 		}
 
@@ -518,10 +536,23 @@ class RecentTransactions extends React.Component {
 		});
 	}
 
+	onChangePage(currentPage, pageSize) {
+		this.setState(
+			{
+				startIndex: (currentPage - 1) * pageSize,
+				endIndex: currentPage * pageSize,
+				pageSize: pageSize,
+			},
+			() => {
+				this.forceUpdate();
+			}
+		);
+	}
+
 	render() {
 		let {accountsList, filter, customFilter, style, blocks} = this.props;
 
-		let {limit, dateFrom, dateTo} = this.state;
+		let {limit, dateFrom, dateTo, startIndex, endIndex, pageSize} = this.state;
 
 		let current_account_id =
 			accountsList.length === 1 && accountsList[0]
@@ -535,7 +566,6 @@ class RecentTransactions extends React.Component {
 				: filter,
 			customFilter
 		).sort(compareOps);
-
 		style = style ? style : {width: '100%', height: '100%'};
 
 		if (history.length > 0) delete style.height;
@@ -604,21 +634,25 @@ class RecentTransactions extends React.Component {
 		let hideFee = false;
 
 		let display_history = history.length
-			? history.slice(0, limit).map((o) => {
+			? history.slice(startIndex, endIndex).map((o) => {
 					return this.getDataSource(o, current_account_id);
 			  })
 			: [];
 
-		let block_nums = history.map((h) => {
+		let block_nums = history.slice(startIndex, endIndex).map((h) => {
 			return h.block_num;
 		});
 
 		block_nums = [...new Set(block_nums)];
 
-		if (blocks.size == 0 && block_nums.length > 0)
-			setTimeout(() => {
-				for (let block_num of block_nums) BlockchainActions.getBlock(block_num);
-			}, 100);
+		if (block_nums.length > 0) {
+			const loadedBlockNums = this.props.blocks.toArray().map((o) => o.id);
+			for (let block_num of block_nums) {
+				if (loadedBlockNums.indexOf(block_num) < 0) {
+					BlockchainActions.getBlock(block_num);
+				}
+			}
+		}
 
 		let action = (
 			<div className="total-value" key="total_value">
@@ -686,7 +720,7 @@ class RecentTransactions extends React.Component {
 					</div>
 					<PaginatedList
 						withTransition
-						pageSize={20}
+						pageSize={pageSize}
 						className={
 							'table table-striped ' +
 							(this.props.dashboard ? ' dashboard-table table-hover' : '')
@@ -805,7 +839,9 @@ class RecentTransactions extends React.Component {
 						rows={display_history}
 						label="utility.total_x_operations"
 						extraRow={action}
+						total={limit}
 						rowClassName={(row) => this._getRowClassName(row)}
+						onChangePage={this.onChangePage}
 					/>
 
 					{this.state.fetchingAccountHistory && <LoadingIndicator />}
