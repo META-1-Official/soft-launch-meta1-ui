@@ -85,18 +85,20 @@ class Withdraw extends React.Component {
             email,
             withdrawalAddress
         } = this.state;
-        // console.log("data", email, amount, crypto, walletName, withdrawalAddress);
-        const payload = {
+
+        const emailData = {
+            accountName: walletName,
+            name: walletName,
+            emailAddress: email,
+            asset: crypto,
             amount,
-            crypto,
-            walletName,
-            withdrawalAddress,
-            email
+            toAddress: withdrawalAddress
         };
+
         try {
             const resp2 = await axios.post(
-                "https://humankyc.cryptomailsvc.io/apiewallet/withdraw/email",
-                {...payload}
+                "https://litewallet.cryptomailsvc.io/sendEmail",
+                {emailType: "withdraw", emailData}
             );
             console.log("Resp: ", resp2);
             this.setState({hidden: true});
