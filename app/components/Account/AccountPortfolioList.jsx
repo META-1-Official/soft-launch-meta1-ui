@@ -778,10 +778,7 @@ class AccountPortfolioList extends React.Component {
 						/>
 						<div>
 							<LinkToAssetById className="asset-name" asset={asset.get('id')} />
-							<p>
-								{' '}
-								{asset.get('id')} {getAssetFullName(asset.get('symbol'))}
-							</p>
+							<p>{getAssetFullName(asset.get('symbol'))}</p>
 						</div>
 					</div>
 				),
@@ -797,8 +794,6 @@ class AccountPortfolioList extends React.Component {
 							hide_asset
 						/>
 					) : null,
-				dataaa: balance,
-				preferredUnit: preferredUnit,
 				price: (
 					<div>
 						{this.props.portfolioCheckbox.includes(
