@@ -199,6 +199,7 @@
         "react-chartjs-2": "^2.11.2",
         "react-clipboard.js": "^1.0.1",
         "react-copy-to-clipboard": "^5.0.1",
+        "react-datepicker": "^4.8.0",
         "react-datepicker2": "git+https://github.com/bitshares/react-datepicker2.git#9d4c2c28a23c970badcf765c35c5493d5a49afde",
         "react-debounce-render": "^4.0.2",
         "react-dom": "^17.0.2",
