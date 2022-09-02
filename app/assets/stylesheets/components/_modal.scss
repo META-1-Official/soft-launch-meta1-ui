@@ -493,6 +493,14 @@
 		.ant-select {
 			width: 100%;
 		}
+
+		.ant-select-single {
+			width: calc(100% - 100px) !important;
+
+			.ant-select-selector {
+				padding-right: 40px !important;
+			}
+		}
 	}
 
 	.ant-input {
