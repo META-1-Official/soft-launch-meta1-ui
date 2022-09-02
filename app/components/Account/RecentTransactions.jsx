@@ -35,11 +35,11 @@ import {connect} from 'alt-react';
 import PendingBlock from '../Utility/PendingBlock';
 import {AiOutlineFileSearch} from 'react-icons/ai';
 import {CaretDownFilled} from '@ant-design/icons';
-import DatePicker from 'react-datepicker2';
 import moment from 'moment-timezone';
 const operation = new OperationAnt();
-
+import DatePicker from 'react-datepicker';
 const Option = Select.Option;
+import 'react-datepicker/dist/react-datepicker.css';
 
 const OptGroup = Select.OptGroup;
 
@@ -105,8 +105,8 @@ class RecentTransactions extends React.Component {
 			esNode: settingsAPIs.ES_WRAPPER_LIST[0].url,
 			visibleId: '',
 			history: [],
-			dateFrom: moment.unix(0),
-			dateTo: moment(),
+			dateFrom: new Date().setFullYear(new Date().getFullYear(), 0, 1),
+			dateTo: new Date(),
 			startIndex: 0,
 			endIndex: 20,
 		};
@@ -282,7 +282,7 @@ class RecentTransactions extends React.Component {
 	}
 
 	_filterHistory(accountsList, filterOp, customFilter) {
-		let {history} = this.state;
+		let {history, dateFrom, dateTo} = this.state;
 		// Filtering
 		let myCustomFilters = [
 			'received',
@@ -396,8 +396,13 @@ class RecentTransactions extends React.Component {
 			this.setState({limit: history.length});
 		}
 
-		if (!filterOp) this.setState({limit: this.state.total});
-		else this.setState({limit: history.length});
+		history = history.filter((a) => {
+			const timestamp = moment(a.block_time.timestamp).valueOf();
+			return (
+				timestamp >= moment(dateFrom).valueOf() &&
+				timestamp <= moment(dateTo).valueOf()
+			);
+		});
 
 		if (this.state.startIndex > history.length) {
 			this.setState({
@@ -407,6 +412,13 @@ class RecentTransactions extends React.Component {
 				endIndex: history.length,
 			});
 		}
+
+		// if ( this.state.limit != history.length) {
+		// 	this.setState({startIndex: 0, endIndex: this.state.pageSize, limit: history.length});
+		// }
+		this.setState({
+			limit: history.length,
+		});
 
 		return history;
 	}
@@ -571,7 +583,10 @@ class RecentTransactions extends React.Component {
 		if (history.length > 0) delete style.height;
 		history = history.filter((a) => {
 			const timestamp = moment(a.block_time.timestamp).valueOf();
-			return timestamp >= dateFrom.valueOf() && timestamp <= dateTo.valueOf();
+			return (
+				timestamp >= moment(dateFrom).valueOf() &&
+				timestamp <= moment(dateTo).valueOf()
+			);
 		});
 
 		let defaultOptions = null;
@@ -659,7 +674,6 @@ class RecentTransactions extends React.Component {
 				<span style={{textAlign: 'center'}}>&nbsp;</span>
 			</div>
 		);
-
 		return (
 			<div
 				className="recent-transactions transactions-history-font-class"
@@ -683,16 +697,24 @@ class RecentTransactions extends React.Component {
 						<div className="header-selector-body">
 							<div style={{display: 'flex', justifyContent: 'center'}}>
 								<span className="page-title">Transaction History</span>
-								<span style={{marginLeft: '20px', marginRight: '20px'}}>
+								<div style={{marginLeft: '20px', marginRight: '10px'}}>
 									<DatePicker
 										onChange={(dateFrom) => this.onDateFromChange(dateFrom)}
-										value={this.state.dateFrom}
+										selected={this.state.dateFrom}
+										dateFormat="MM/dd/yyyy h:mm aa"
+										showTimeInput
+										timeInputLabel=""
 									/>
-								</span>
-								<DatePicker
-									onChange={(dateTo) => this.onDateToChange(dateTo)}
-									value={this.state.dateTo}
-								/>
+								</div>
+								<div style={{marginLeft: '10px'}}>
+									<DatePicker
+										onChange={(dateTo) => this.onDateToChange(dateTo)}
+										selected={this.state.dateTo}
+										dateFormat="MM/dd/yyyy h:mm aa"
+										showTimeInput
+										timeInputLabel=""
+									/>
+								</div>
 							</div>
 
 							<div className="filter inline-block">
