@@ -561,6 +561,22 @@ class RecentTransactions extends React.Component {
 		);
 	}
 
+	dateFromFilter(date) {
+		return moment(date).isSameOrBefore(this.state.dateTo);
+	}
+
+	dateToFilter(date) {
+		return moment(date).isSameOrAfter(this.state.dateFrom);
+	}
+
+	timeFromFilter(date) {
+		return moment(date).isSameOrBefore(this.state.dateTo);
+	}
+
+	timeToFilter(date) {
+		return moment(date).isSameOrAfter(this.state.dateFrom);
+	}
+
 	render() {
 		let {accountsList, filter, customFilter, style, blocks} = this.props;
 
@@ -701,8 +717,10 @@ class RecentTransactions extends React.Component {
 									<DatePicker
 										onChange={(dateFrom) => this.onDateFromChange(dateFrom)}
 										selected={this.state.dateFrom}
+										filterDate={this.dateFromFilter.bind(this)}
+										filterTime={this.timeFromFilter.bind(this)}
 										dateFormat="MM/dd/yyyy h:mm aa"
-										showTimeInput
+										showTimeSelect
 										timeInputLabel=""
 									/>
 								</div>
@@ -710,8 +728,10 @@ class RecentTransactions extends React.Component {
 									<DatePicker
 										onChange={(dateTo) => this.onDateToChange(dateTo)}
 										selected={this.state.dateTo}
+										filterDate={this.dateToFilter.bind(this)}
+										filterTime={this.timeToFilter.bind(this)}
 										dateFormat="MM/dd/yyyy h:mm aa"
-										showTimeInput
+										showTimeSelect
 										timeInputLabel=""
 									/>
 								</div>
