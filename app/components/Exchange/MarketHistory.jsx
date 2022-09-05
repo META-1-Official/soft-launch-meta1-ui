@@ -339,8 +339,7 @@ class MarketHistory extends React.Component {
 				}
 			})
 			.filter((a) => !!a);
-		console.log('currentAccount', currentAccount);
-		console.log('limitOrders', limitOrders);
+
 		let callOrders = call_orders
 			.toArray()
 			.map((order) => {
@@ -369,7 +368,6 @@ class MarketHistory extends React.Component {
 					return false;
 				}
 			});
-		console.log('callOrders', callOrders);
 		const response = limitOrders.concat(callOrders).map((order) => {
 			const price = order.getPrice();
 			const isBid = order.isBid();
@@ -441,14 +439,12 @@ class MarketHistory extends React.Component {
 					precision: base.get('precision'),
 				},
 			};
-			console.log('myHistory', myHistory);
 			rows = myHistory
 				.filter((a) => {
 					let opType = a.getIn(['op', 0]);
 					return opType === operations.fill_order;
 				})
 				.filter((a) => {
-					console.log('fill_order', a.toObject());
 					let quoteID = quote.get('id');
 					let baseID = base.get('id');
 					let pays = a.getIn(['op', 1, 'pays', 'asset_id']);
@@ -462,12 +458,11 @@ class MarketHistory extends React.Component {
 				})
 				.map((trx) => {
 					let order = new FillOrder(trx.toJS(), assets, quote.get('id'));
-
 					const price = order.getPrice();
 					const isBid = order.isBid;
-					const payAmount = order.amountToPay();
-					const receiveAmount = order.amountToReceive();
-					const total = parseFloat(payAmount) * price;
+					const payAmount = order.amountToReceive();
+					const receiveAmount = order.amountToPay();
+					const total = parseFloat(receiveAmount) * price;
 
 					return {
 						orderId: order.id,
@@ -486,13 +481,12 @@ class MarketHistory extends React.Component {
 				})
 				.toArray();
 
-			let rows1 = myHistory
+			let limitOrderCreates = myHistory
 				.filter((a) => {
 					let opType = a.getIn(['op', 0]);
 					return opType === operations.limit_order_create;
 				})
 				.filter((a) => {
-					console.log('limit_order_create', a.toObject());
 					let quoteID = quote.get('id');
 					let baseID = base.get('id');
 					let pays = a.getIn(['op', 1, 'amount_to_sell', 'asset_id']);
@@ -511,38 +505,37 @@ class MarketHistory extends React.Component {
 					let fee = a.getIn(['op', 1, 'fee']).toObject();
 
 					let order = new LimitOrderCreate({for_sale, to_receive, seller, fee});
-					console.log('for_sale', order);
-					// const price = order.getPrice();
-					// const isBid = order.isBid;
-					// const payAmount = order.amountToPay();
-					// const receiveAmount = order.amountToReceive();
-					// const total = parseFloat(payAmount) * price;
 
-					// return {
-					// 	orderId: order.id,
-					// 	pair: {
-					// 		baseSymbol: base?._root?.entries[1][1],
-					// 		quoteSymbol: quote?._root?.entries[1][1],
-					// 		isBid: isBid,
-					// 	},
-					// 	amount: {
-					// 		payAmount,
-					// 		receiveAmount,
-					// 	},
-					// 	price,
-					// 	total,
-					// };
+					const isBid = to_receive.asset_id === quote.get('id');
+
+					const receiveAmount =
+						((isBid ? for_sale.amount : to_receive.amount) * 1) /
+						Math.pow(10, base.toObject().precision);
+
+					const payAmount =
+						((!isBid ? for_sale.amount : to_receive.amount) * 1) /
+						Math.pow(10, quote.toObject().precision);
+
+					const price = (receiveAmount / payAmount).toFixed(8);
+					const total = (parseFloat(receiveAmount) * price).toFixed(8);
+
+					return {
+						orderId: a.toObject().id,
+						pair: {
+							baseSymbol: base?._root?.entries[1][1],
+							quoteSymbol: quote?._root?.entries[1][1],
+							isBid: isBid,
+						},
+						amount: {
+							payAmount,
+							receiveAmount,
+						},
+						price,
+						total,
+					};
 				})
 				.toArray();
-
-			console.log('rows', rows1);
-			console.log(
-				'####',
-				myHistory.filter((a) => {
-					let opType = a.getIn(['op', 0]);
-					return opType === operations.limit_order_create;
-				})
-			);
+			rows = rows.concat(limitOrderCreates);
 		} else if (activeTab === 'history' && history && history.size) {
 			// Market History
 			rows = this.props.history
