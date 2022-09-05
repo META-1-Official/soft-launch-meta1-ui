@@ -2703,7 +2703,7 @@ class Exchange extends React.Component {
 							</Tabs.TabPane>
 						);
 						groupTabs[panelTabs[a]].push(
-							<Tabs.TabPane tab="Order History" key="order_history">
+							<Tabs.TabPane tab="Execution History" key="execution_history">
 								{myMarketHistory}
 							</Tabs.TabPane>
 						);
