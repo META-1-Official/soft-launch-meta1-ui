@@ -153,8 +153,6 @@ const MarketOrderForm = (props) => {
 				: Number(amount) * Math.pow(10, buyAsset.get('precision'));
 		};
 
-		console.log('SEL', amount, price, sellAmount());
-
 		orders.push({
 			for_sale: new Asset({
 				asset_id: sellAsset.get('id'),
@@ -168,8 +166,6 @@ const MarketOrderForm = (props) => {
 			}),
 			expirationTime: expirationTime,
 		});
-
-		console.log('@@1', orders[0].for_sale, orders[0].to_receive);
 
 		props
 			.createMarketOrder(orders, ChainStore.getAsset('META1').get('id'))
