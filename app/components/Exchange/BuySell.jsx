@@ -206,7 +206,8 @@ class BuySell extends React.Component {
 			this.props.type,
 			false,
 			(Number(this.state.currencyBalance) * (percent / 100)) /
-				Number(marketPrice)
+				Number(marketPrice),
+			percent === 100
 		);
 		this.setState({
 			totalPercent: percent,

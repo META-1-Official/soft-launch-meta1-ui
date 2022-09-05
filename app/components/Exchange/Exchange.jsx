@@ -1602,19 +1602,33 @@ class Exchange extends React.Component {
 		});
 	}
 
-	_setReceive(state, isBid) {
+	_setReceive(state, isBid, value, isPercent100 = false) {
 		if (state.price.isValid() && state.for_sale.hasAmount()) {
 			state.to_receive = state.for_sale.times(state.price);
-			state.toReceiveText = state.to_receive.getAmount({real: true}).toString();
+			if (isPercent100) {
+				state.toReceiveText = Number(
+					Number(value) * this.state.ask.priceText
+				).toFixed(6);
+			} else {
+				state.toReceiveText = state.to_receive
+					.getAmount({real: true})
+					.toString();
+			}
 			return true;
 		}
 		return false;
 	}
 
-	_setForSale(state, isBid) {
+	_setForSale(state, isBid, value, isPercent100 = false) {
 		if (state.price.isValid() && state.to_receive.hasAmount()) {
 			state.for_sale = state.to_receive.times(state.price, true);
-			state.forSaleText = state.for_sale.getAmount({real: true}).toString();
+			if (isPercent100) {
+				state.forSaleText = Number(
+					Number(value) * this.state.bid.priceText
+				).toFixed(6);
+			} else {
+				state.forSaleText = state.for_sale.getAmount({real: true}).toString();
+			}
 			return true;
 		}
 		return false;
@@ -1698,11 +1712,11 @@ class Exchange extends React.Component {
 		this.forceUpdate();
 	}
 
-	_onInputSellPercent(type, isBid, value) {
+	_onInputSellPercent(type, isBid, value, isPercent100) {
 		let current = this.state[type];
 		current.for_sale.setAmount({real: parseFloat(value) || 0});
 		if (current.price.isValid()) {
-			this._setReceive(current, isBid);
+			this._setReceive(current, isBid, value, isPercent100);
 		}
 		current.forSaleText = value;
 		this.forceUpdate();
@@ -1725,11 +1739,11 @@ class Exchange extends React.Component {
 		this.forceUpdate();
 	}
 
-	_onInputReceivePercent(type, isBid, value) {
+	_onInputReceivePercent(type, isBid, value, isPercent100 = false) {
 		let current = this.state[type];
 		current.to_receive.setAmount({real: parseFloat(value) || 0});
 		if (current.price.isValid()) {
-			this._setForSale(current, isBid);
+			this._setForSale(current, isBid, value, isPercent100);
 		}
 		current.toReceiveText = value;
 		this.forceUpdate();
