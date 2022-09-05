@@ -917,10 +917,7 @@ class BuySell extends React.Component {
 						<div className="left_footer_sec">
 							<img className="wallet_img" src={walletIcon} alt="img" />
 							<span>
-								{Number(
-									Number(this.state.currencyBalance) *
-										(this.state.totalPercent / 100)
-								).toFixed(6)}{' '}
+								{Number(this.state.currencyBalance).toFixed(6)}{' '}
 								{base.get('symbol')}
 							</span>
 						</div>
