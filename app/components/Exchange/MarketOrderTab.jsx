@@ -361,12 +361,9 @@ const MarketOrderForm = (props) => {
 						<img className="wallet_img" src={walletIcon} alt="img" />
 						<span>
 							{Number(
-								Number(
-									props.type === 'bid'
-										? props.baseAssetBalance
-										: Number(props.quoteAssetBalance) * Number(props.price)
-								) *
-									(totalPercent / 100)
+								props.type === 'bid'
+									? props.baseAssetBalance
+									: Number(props.quoteAssetBalance) * Number(props.price)
 							).toFixed(6)}{' '}
 							{props.baseAsset.get('symbol')}
 						</span>
