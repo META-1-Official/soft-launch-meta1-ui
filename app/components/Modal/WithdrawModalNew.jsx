@@ -639,10 +639,6 @@ class WithdrawModalNew extends React.Component {
 			);
 			TransactionConfirmStore.unlisten(this.onTrxIncluded);
 		}
-		if (confirm_store_state.closed)
-			this.setState({
-				submitted: false,
-			});
 	}
 
 	onSubmit() {
@@ -759,9 +755,11 @@ class WithdrawModalNew extends React.Component {
 		this.setState({
 			submitted: true,
 		});
+
 		TransactionConfirmStore.unlisten(this.onTrxIncluded);
 		TransactionConfirmStore.listen(this.onTrxIncluded);
 		AccountActions.transfer(...args).then(() => {
+			this.setState({submitted: false});
 			this.props.hideModal();
 		});
 	}
