@@ -509,11 +509,11 @@ class MarketHistory extends React.Component {
 					const isBid = to_receive.asset_id === quote.get('id');
 
 					const receiveAmount =
-						((isBid ? for_sale.amount : to_receive.amount) * 1) /
+						(isBid ? for_sale.amount : to_receive.amount) /
 						Math.pow(10, base.toObject().precision);
 
 					const payAmount =
-						((!isBid ? for_sale.amount : to_receive.amount) * 1) /
+						(!isBid ? for_sale.amount : to_receive.amount) /
 						Math.pow(10, quote.toObject().precision);
 
 					const price = (receiveAmount / payAmount).toFixed(8);
