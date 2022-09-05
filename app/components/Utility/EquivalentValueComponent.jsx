@@ -151,12 +151,18 @@ class BalanceValueComponent extends React.Component {
 			? balance.getIn(['balance', 'asset_id'])
 			: balance.get('asset_type');
 		if (isNaN(amount)) return <span>--</span>;
+		const passProps = {};
+		if (this.props.fromExchange) {
+			passProps.fromExchange = this.props.fromExchange;
+			passProps.balanceHandler = this.props.balanceHandler;
+		}
 		return (
 			<EquivalentValueComponent
 				amount={amount}
 				fromAsset={fromAsset}
 				noDecimals={false}
 				{...others}
+				{...passProps}
 			/>
 		);
 	}

@@ -17,8 +17,7 @@ of this application.
  * [Workers](introduction/workers.md)
  * [Committe Members](introduction/committee.md)
 
-## Accounts
- * [Introduction](accounts/general.md)
+## Wallets
  * [Permissions](accounts/permissions.md)
  * [Memberships](accounts/membership.md)
 

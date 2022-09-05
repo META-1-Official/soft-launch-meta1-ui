@@ -35,6 +35,7 @@ class TransactionConfirmActions {
 						included: true,
 						trx_id: res[0].id,
 						trx_block_num: res[0].block_num,
+						trx_in_block: res[0].trx_num,
 						broadcasted_transaction: true,
 					});
 					if (resolve) resolve();

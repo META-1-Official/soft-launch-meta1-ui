@@ -54,7 +54,9 @@ class ScaledOrderForm extends Component {
 
 		return (
 			nextState.forceReRender !== this.state.forceReRender ||
-			nextState.total !== this.state.total
+			nextState.total !== this.state.total ||
+			nextProps.baseAsset !== this.props.baseAsset ||
+			nextProps.quoteAsset !== this.props.quoteAsset
 		);
 	}
 
@@ -115,6 +117,13 @@ class ScaledOrderForm extends Component {
 			Number(formValues.orderCount) <= 1
 		)
 			return false;
+
+		const isBid = this.props.type === 'bid';
+		let hasBalance = isBid
+			? this.props.baseAssetBalance >= parseFloat(this.state.total)
+			: this.props.quoteAssetBalance >= parseFloat(formValues.amount);
+
+		if (!hasBalance) return false;
 
 		this._forceReRender;
 
@@ -300,10 +309,10 @@ class ScaledOrderForm extends Component {
 	_getTotal() {
 		const formValues = this._getFormValues() || {};
 
-		const amount = Number(formValues.amount);
-		const priceLower = Number(formValues.priceLower);
-		const priceUpper = Number(formValues.priceUpper);
-		const orderCount = Number(formValues.orderCount);
+		const amount = Number(formValues.amount) || 0;
+		const priceLower = Number(formValues.priceLower) || 0;
+		const priceUpper = Number(formValues.priceUpper) || 0;
+		const orderCount = Number(formValues.orderCount) || 0;
 
 		let total = 0;
 
@@ -322,7 +331,7 @@ class ScaledOrderForm extends Component {
 
 		const step = preciseDivide(
 			preciseMinus(priceUpper, priceLower),
-			preciseMinus(orderCount, 1)
+			Math.max(preciseMinus(orderCount, 1), 1)
 		);
 
 		const amountPerOrder = preciseDivide(amount, orderCount);
@@ -481,39 +490,65 @@ class ScaledOrderForm extends Component {
 			return [];
 
 		const step = ((priceUpper - priceLower) / (orderCount - 1)).toPrecision(5);
-		const amountPerOrder = amount / orderCount;
+
 		const sellAsset = !isBid ? this.props.quoteAsset : this.props.baseAsset;
 		const buyAsset = isBid ? this.props.quoteAsset : this.props.baseAsset;
 
-		const sellAmount = (i) => {
-			let scaledAmount = amountPerOrder * (priceLower + step * i);
+		const sellAmount = (i, scaledAmount, amountPerOrder) => {
 			return isBid
-				? Number(scaledAmount.toPrecision(5)) *
-						Math.pow(10, sellAsset.get('precision'))
+				? Number(
+						scaledAmount.toPrecision(5) *
+							Math.pow(10, sellAsset.get('precision'))
+				  ).toPrecision(5)
 				: Number(amountPerOrder.toPrecision(5)) *
 						Math.pow(10, sellAsset.get('precision'));
 		};
 
-		const buyAmount = (i) => {
-			let scaledAmount = amountPerOrder * (priceLower + step * i);
+		const buyAmount = (i, scaledAmount, amountPerOrder) => {
 			return !isBid
-				? Number(scaledAmount.toPrecision(5)) *
-						Math.pow(10, buyAsset.get('precision'))
+				? Number(
+						scaledAmount.toPrecision(5) *
+							Math.pow(10, buyAsset.get('precision'))
+				  ).toPrecision(5)
 				: Number(amountPerOrder.toPrecision(5)) *
 						Math.pow(10, buyAsset.get('precision'));
 		};
 
+		Number.prototype.countDecimals = function () {
+			if (Math.floor(this.valueOf()) === this.valueOf()) return 0;
+			return this.toString().split('.')[1].length || 0;
+		};
+
+		let amountPerOrder = amount / orderCount;
+
+		const minMaxDivider = Math.pow(
+			10,
+			Math.max(Math.floor(Math.log10(orderCount)), 1)
+		);
+		const minAssetPrecision = Math.min(
+			buyAsset.get('precision'),
+			sellAsset.get('precision')
+		);
 		for (let i = 0; i < orderCount; i += 1) {
+			if ((amount / orderCount).countDecimals() > minAssetPrecision) {
+				amountPerOrder = ((2 / minMaxDivider) * amount) / (orderCount - 2);
+				if (i == 0 || i == orderCount - 1) {
+					amountPerOrder = (1 / minMaxDivider) * amount;
+				}
+			}
+
+			const scaledAmount = amountPerOrder * (priceLower + step * i);
+
 			orders.push({
 				for_sale: new Asset({
 					asset_id: sellAsset.get('id'),
 					precision: sellAsset.get('precision'),
-					amount: sellAmount(i),
+					amount: sellAmount(i, scaledAmount, amountPerOrder),
 				}),
 				to_receive: new Asset({
 					asset_id: buyAsset.get('id'),
 					precision: buyAsset.get('precision'),
-					amount: buyAmount(i),
+					amount: buyAmount(i, scaledAmount, amountPerOrder),
 				}),
 				expirationTime: expirationTime,
 			});

@@ -298,28 +298,28 @@ const AccountActivity = () => {
 					/>
 					<Subsection
 						title1="Web Sessions"
-						title2="These sessions are currently signed in to your account. Sign out all other sessions"
+						title2="These sessions are currently signed in to your wallet. Sign out all other sessions"
 						columns={webSessionColumns}
 						dataSource={webSessionDataSource}
 						pagination={true}
 					/>
 					<Subsection
 						title1="Confirmed Devices"
-						title2="These devices are currently allowed to access your account. Remove all other devices"
+						title2="These devices are currently allowed to access your wallet. Remove all other devices"
 						columns={confirmedDevicesColumns}
 						dataSource={confirmedDevicesDataSource}
 						pagination={true}
 					/>
 					<Subsection
-						title1="Account Activity"
-						title2="Recent activity on your account."
+						title1="Wallet Activity"
+						title2="Recent activity on your wallet."
 						columns={accountActivityColumns}
 						dataSource={accountActivityDataSource}
 					/>
 				</SectionBlock>
-				<SectionBlock title="Close Account">
+				<SectionBlock title="Close Wallet">
 					<div className="close-text">
-						Withdraw funds and close your Meta1 account{' '}
+						Withdraw funds and close your Meta1 wallet{' '}
 						<a href="#" className="undone-text">
 							- this cannot be undone
 						</a>
@@ -338,7 +338,7 @@ const AccountActivity = () => {
 							marginBottom: '48px',
 						}}
 					>
-						Close Account
+						Close Wallet
 					</Button>
 				</SectionBlock>
 			</div>

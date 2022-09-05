@@ -13,6 +13,7 @@ import LinkToAccountById from '../Utility/LinkToAccountById';
 import WalletApi from 'api/WalletApi';
 import WalletDb from 'stores/WalletDb.js';
 import PageHeader from 'components/PageHeader/PageHeader';
+import notify from 'actions/NotificationActions';
 
 class AccountRow extends React.Component {
 	static propTypes = {
@@ -224,6 +225,39 @@ class AccountWhitelist extends React.Component {
 
 		if (accountToList) {
 			let tr = WalletApi.new_transaction();
+			const newState = currentState + constants.account_listing[listing];
+
+			let errMessage = '';
+
+			if (
+				listing === 'black_listed' &&
+				currentState === constants.account_listing.black_listed
+			) {
+				errMessage = 'transaction.account_exist_in_blacklist';
+			} else if (
+				listing === 'white_listed' &&
+				currentState === constants.account_listing.white_listed
+			) {
+				errMessage = 'transaction.account_exist_in_whitelist';
+			}
+
+			if (errMessage != '') {
+				notify.addNotification.defer({
+					children: (
+						<div>
+							<p>
+								<Translate content="transaction.broadcast_fail" />
+								<br />
+								<Translate content={errMessage} />
+							</p>
+						</div>
+					),
+					level: 'warning',
+					autoDismiss: 3,
+				});
+				return;
+			}
+
 			tr.add_type_operation('account_whitelist', {
 				fee: {
 					amount: 0,
@@ -231,7 +265,8 @@ class AccountWhitelist extends React.Component {
 				},
 				authorizing_account: account.get('id'),
 				account_to_list: accountToList,
-				new_listing: currentState + constants.account_listing[listing],
+				new_listing:
+					currentState == 0 || newState == 3 ? newState : currentState,
 			});
 			WalletDb.process_transaction(tr, null, true);
 		}

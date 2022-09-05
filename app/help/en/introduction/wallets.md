@@ -9,8 +9,8 @@ serves as a gateway to the rest of the ecosystem.
 If you registered with a username and password, you have a cloud wallet. Although
 nothing is technically stored in the cloud, we use the term Cloud Wallet because
 you can use these credentials (username and password) from any web browser at any 
-time to gain access to your account. The cloud wallet only allows for a single 
-account to be accessed at a time. This is generally the correct choice for new users. 
+time to gain access to your wallet. The cloud wallet only allows for a single 
+wallet to be accessed at a time. This is generally the correct choice for new users. 
 While it is possible to change the auto-generated password, we do not recommend
 doing so at this time. The team is working on a responsible way to manage the
 password change that requires no technical knowledge. We will make an announcement
@@ -35,5 +35,5 @@ something happens to your computer or browser.
 ## Management
 
 The user interface is capable of carrying and accessing several
-separated wallets each containing possible several accounts and corresponding
+separated wallets each containing possible several wallets and corresponding
 funds. You can create, backup, and switch existing wallets in `Settings->Wallets`.

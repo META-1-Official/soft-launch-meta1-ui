@@ -32,6 +32,7 @@ export function hasGatewayPrefix(name) {
 		name === 'LTC' ||
 		name === 'ETH' ||
 		name === 'EOS' ||
+		name === 'XLM' ||
 		name === 'USDT'
 	) {
 		prefix = 'META1';
@@ -99,6 +100,7 @@ export function getAssetAndGateway(symbol) {
 			symbol === 'LTC' ||
 			symbol === 'ETH' ||
 			symbol === 'EOS' ||
+			symbol === 'XLM' ||
 			symbol === 'USDT'
 		) {
 			selectedGateway = 'META1';

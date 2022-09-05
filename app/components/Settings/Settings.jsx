@@ -257,6 +257,7 @@ class Settings extends React.Component {
 			case 'walletLockTimeout':
 				let newValue = parseInt(e.target.value, 10);
 				if (isNaN(newValue)) newValue = 0;
+				if (newValue > 3600) return;
 				if (!isNaN(newValue) && typeof newValue === 'number') {
 					SettingsActions.changeSetting({
 						setting: 'walletLockTimeout',

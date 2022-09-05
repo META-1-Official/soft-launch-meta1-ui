@@ -1929,7 +1929,7 @@
 		"viewOnlyMode": "View only mode",
 		"view_keys": "Ver claves",
 		"wallet": "Billetera local",
-		"walletLockTimeout": "Tiempo de bloqueo automático de Wallet (seconds, 0 to disable)",
+		"walletLockTimeout": "Tiempo de bloqueo automático de Wallet (seconds, 0 to disable, max: 3600s)",
 		"walletLockTimeoutTooltip": "Haga clic para ajustar el tiempo antes de que la cartera se cierre automáticamente.",
 		"wallet_required": "Se requiere billetera local",
 		"wallet_required_text": "Para restaurar una copia de seguridad, primero deberá cambiar a una billetera local, haga clic en el botón de abajo",
@@ -2378,7 +2378,9 @@
 		"withdraw_permission_create": "Ha otorgado permisos de retiro para la cuenta",
 		"withdraw_permission_delete": "Ha eliminado los permisos de retiro para la cuenta",
 		"withdraw_permission_update": "Ha actualizado los permisos de retiro para la cuenta",
-		"disallow_same_account_whitelist_blacklist": "No se permite la misma cuenta en la lista blanca y en la lista negra"
+		"disallow_same_account_whitelist_blacklist": "No se permite la misma cuenta en la lista blanca y en la lista negra",
+		"account_exist_in_blacklist": "La misma cuenta ya existe en la lista negra",
+		"account_exist_in_whitelist": "La misma cuenta ya existe en la lista blanca"
 	},
 	"transfer": {
 		"again": "HACER OTRA TRANSFERENCIA",

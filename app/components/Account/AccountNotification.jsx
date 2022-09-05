@@ -33,8 +33,8 @@ const AccountNotification = () => {
 			time: 'June 6',
 		},
 		{
-			title: 'Account activity',
-			description: 'You received Bitcoin from an external account',
+			title: 'Wallet activity',
+			description: 'You received Bitcoin from an external wallet',
 			time: 'June 1',
 		},
 		{

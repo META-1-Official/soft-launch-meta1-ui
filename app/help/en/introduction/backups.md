@@ -17,12 +17,12 @@ You can create a backup from [Settings -> Backup](/settings).
 
 ### Brainkey
 
-> If you never manually imported an account key into your wallet, you can
-alternatively backup your accounts and their funds by exporting the *brainkey*,
+> If you never manually imported an wallet key into your wallet, you can
+alternatively backup your wallets and their funds by exporting the *brainkey*,
 a string of words from which your keys are derived deterministically.
 
 Remark: Hierarchical Authorities (advanced uses ONLY)
 
-> If you are using hierarchical authorities (account and/or active permissions),
+> If you are using hierarchical authorities (wallet and/or active permissions),
 backing up your keys alone may not be sufficient to regain access to your funds!
 Please revise the documentations about hierarchical authorities.

@@ -130,7 +130,7 @@ class AddContact extends React.Component {
 				},
 			},
 			{
-				title: <span>ACCOUNT CREATED</span>,
+				title: <span>WALLET CREATED</span>,
 				colSpan: 1,
 				className: 'col-acc',
 				key: 'createdDate',

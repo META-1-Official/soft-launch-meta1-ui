@@ -775,7 +775,7 @@ class AccountTrade extends React.Component {
 
 				const rateHigh = high.toFixed(2);
 				const rateLow = low.toFixed(2);
-				rateHighLow = `$${rateLow} / $${rateHigh}`;
+				rateHighLow = `$${rateHigh} / $${rateLow}`;
 			}
 
 			_dataSource.push({
