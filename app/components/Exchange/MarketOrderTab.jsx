@@ -12,12 +12,16 @@ import AssetName from '../Utility/AssetName';
 import {DatePicker} from 'antd';
 import {Apis} from 'meta1-vision-ws';
 import walletIcon from '../../assets/icons/walleticon.png';
+import Immutable from 'immutable';
+import {BalanceValueComponent} from 'components/Utility/EquivalentValueComponent';
 
 const MarketOrderForm = (props) => {
 	const [feeAssets, setFeeAssets] = useState([]);
 	const [usdPrice, setUsdPrice] = useState(0.0);
 	const [amount, setAmount] = useState(0.0);
 	const [totalPercent, setTotalPercent] = useState(100);
+	const [sellBalance, setSellBalance] = useState(null);
+	const [balanceData, setBalanceData] = useState(null);
 
 	const total = Number(amount) * Number(props.price);
 	const usdVal = Number(amount) * Number(usdPrice);
@@ -50,6 +54,51 @@ const MarketOrderForm = (props) => {
 		});
 	}, [props.price]);
 
+	useEffect(() => {
+		if (props.type === 'ask') {
+			let account_balances = props.currentAccount.get('balances');
+
+			let includedBalancesList = Immutable.List(),
+				hiddenBalancesList = Immutable.List();
+			var symbolType = new Map();
+
+			symbolType.set('META1', '1.3.0');
+			symbolType.set('USDT', '1.3.1');
+			symbolType.set('BTC', '1.3.2');
+			symbolType.set('ETH', '1.3.3');
+			symbolType.set('EOS', '1.3.5');
+			symbolType.set('XLM', '1.3.6');
+			symbolType.set('BNB', '1.3.7');
+
+			const tradeSymbol = {};
+			if (props.historyUrl) {
+				tradeSymbol.currencyId = symbolType.get(
+					props.historyUrl.pathname.split('/')[2].split('_')[0]
+				);
+				tradeSymbol.symbol = props.historyUrl.pathname
+					.split('/')[2]
+					.split('_')[0];
+				tradeSymbol.id = account_balances.get(
+					symbolType.get(
+						props.type === 'bid'
+							? props.historyUrl.pathname.split('/')[2].split('_')[1]
+							: props.historyUrl.pathname.split('/')[2].split('_')[0]
+					)
+				);
+			}
+			setBalanceData(
+				<BalanceValueComponent
+					balance={tradeSymbol?.id}
+					toAsset={props.historyUrl.pathname.split('/')[2].split('_')[1]}
+					balanceHandler={(data) => {
+						setSellBalance(data);
+					}}
+					hide_asset
+					fromExchange={true}
+				/>
+			);
+		}
+	}, [props.quoteAssetBalance]);
 	const _setUsdPrice = async () => {
 		let symbol =
 			props.type === 'bid'
@@ -207,7 +256,9 @@ const MarketOrderForm = (props) => {
 				(Number(
 					props.type === 'bid'
 						? Number(props.baseAssetBalance)
-						: Number(props.quoteAssetBalance) * Number(props.price)
+						: sellBalance
+						? Number(sellBalance)
+						: 0
 				) /
 					Number(props.price))
 		);
@@ -290,6 +341,7 @@ const MarketOrderForm = (props) => {
 
 	return (
 		<div className="buy-sell-container" style={{padding: '5px'}}>
+			<div style={{display: 'none'}}>{balanceData}</div>
 			<Form
 				className="order-form"
 				layout="horizontal"
@@ -363,7 +415,9 @@ const MarketOrderForm = (props) => {
 							{Number(
 								props.type === 'bid'
 									? props.baseAssetBalance
-									: Number(props.quoteAssetBalance) * Number(props.price)
+									: sellBalance
+									? sellBalance
+									: ''
 							).toFixed(6)}{' '}
 							{props.baseAsset.get('symbol')}
 						</span>

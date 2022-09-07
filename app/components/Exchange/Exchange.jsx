@@ -2265,6 +2265,7 @@ class Exchange extends React.Component {
 						type="ask"
 						baseAsset={base}
 						quoteAsset={quote}
+						historyUrl={this.props.history.location}
 						price={latest && latest.getPrice()}
 					/>
 				</Tabs.TabPane>

@@ -82,6 +82,14 @@ class BuySell extends React.Component {
 		}
 	}
 
+	componentDidUpdate(prevProps) {
+		if (prevProps?.historyUrl?.pathname !== this.props?.historyUrl?.pathname) {
+			this.setState({
+				forceReRender: true,
+			});
+		}
+	}
+
 	shouldComponentUpdate(nextProps, nextState) {
 		this._forceRender(nextProps, nextState);
 
