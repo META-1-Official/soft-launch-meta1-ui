@@ -423,6 +423,7 @@ class WithdrawModalNew extends React.Component {
 				gateFee: asset.gateFee,
 				address,
 				isMeta1: false,
+				quantity: '',
 			},
 			() => {
 				this.setState(this._getAssetPairVariables(), this.updateFee);
