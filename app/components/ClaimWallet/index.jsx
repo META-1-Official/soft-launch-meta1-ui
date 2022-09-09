@@ -18,21 +18,16 @@ export async function buildSignature(accountName, password) {
 		publicKey = signerPkey.toPublicKey().toString();
 		signature = Signature.sign(accountName, signerPkey).toHex();
 	} catch (err) {
-		await Meta1.connect(process.env.DEFAULT_WS_NODE);
-		const loginResult = await Meta1.login(accountName, password);
-
-		if (loginResult) {
-			const account = await Login.generateKeys(
-				accountName,
-				password,
-				['owner'],
-				'DEV11'
-			);
-			const ownerPrivateKey = account.privKeys.owner.toWif();
-			publicKey = account.pubKeys.owner;
-			const signerPkey = PrivateKey.fromWif(ownerPrivateKey);
-			signature = Signature.sign(accountName, signerPkey).toHex();
-		}
+		const account = await Login.generateKeys(
+			accountName,
+			password,
+			['owner'],
+			'DEV11'
+		);
+		const ownerPrivateKey = account.privKeys.owner.toWif();
+		publicKey = account.pubKeys.owner;
+		const signerPkey = PrivateKey.fromWif(ownerPrivateKey);
+		signature = Signature.sign(accountName, signerPkey).toHex();
 	}
 
 	return {accountName, publicKey, signature};
