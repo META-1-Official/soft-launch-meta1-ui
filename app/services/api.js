@@ -12,4 +12,8 @@ const explorerApi = axios.create({
 	baseURL: `${process.env.EXPLORER_META1_URL}/api`, // process.env.EXPLORER_META1_URL
 });
 
-export {voiceItApi, kycApi, explorerApi};
+const backUrlApi = axios.create({
+	baseURL: `https://${process.env.BACK_URL}`, // process.env.BACK_URL
+});
+
+export {voiceItApi, kycApi, explorerApi, backUrlApi};

@@ -60,6 +60,12 @@ const Exchange = Loadable({
 	loading: LoadingIndicator,
 });
 
+const ClaimWallet = Loadable({
+	loader: () =>
+		import(/* webpackChunkName: "ClaimWallet" */ './components/ClaimWallet/'),
+	loading: LoadingIndicator,
+});
+
 const Explorer = Loadable({
 	loader: () =>
 		import(/* webpackChunkName: "explorer" */ './components/Explorer/Explorer'),
@@ -508,6 +514,7 @@ class App extends React.Component {
 						<Route exact path="/help/:path1/:path2/:path3" component={Help} />
 						<Route path="/htlc" component={Htlc} />
 						<Route path="/prediction" component={PredictionMarketsPage} />
+						<Route path="/claimWallet" component={ClaimWallet} />
 						<Redirect
 							path={'/voting'}
 							to={{
