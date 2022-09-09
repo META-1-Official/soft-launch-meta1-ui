@@ -179,6 +179,7 @@
         "jspdf-autotable": "^3.1.1",
         "lodash-es": "^4.17.10",
         "lzma": "2.1.6",
+        "meta1-vision-dex": "^0.6.27-d",
         "meta1-vision-js": "3.3.11-d",
         "meta1-vision-ws": "3.1.7-d",
         "moment": "^2.22.2",
