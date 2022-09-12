@@ -54,7 +54,9 @@ class ScaledOrderForm extends Component {
 
 		return (
 			nextState.forceReRender !== this.state.forceReRender ||
-			nextState.total !== this.state.total
+			nextState.total !== this.state.total ||
+			nextProps.baseAsset !== this.props.baseAsset ||
+			nextProps.quoteAsset !== this.props.quoteAsset
 		);
 	}
 

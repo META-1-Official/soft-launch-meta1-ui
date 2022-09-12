@@ -203,7 +203,7 @@ class Header extends React.Component {
 		this._closeAccountNotifications();
 	}
 
-	_onNavigate(route, e, fromMenu) {
+	_onNavigate(route, e, fromMenu, claimWalletFlag = false) {
 		!fromMenu && e.preventDefault();
 
 		// Set Accounts Tab as active tab
@@ -212,7 +212,14 @@ class Header extends React.Component {
 				dashboardEntry: 'accounts',
 			});
 		}
-		this.props.history.push(route);
+		if (claimWalletFlag) {
+			this.props.history.push({
+				pathname: route,
+				state: {passwordAccount: this.props.passwordAccount},
+			});
+		} else {
+			this.props.history.push(route);
+		}
 	}
 
 	_closeAccountsListDropdown() {
@@ -321,6 +328,10 @@ class Header extends React.Component {
 		} else if (key === 'withdraw') {
 			if (!this.props.locked) {
 				this._showWithdraw(this, true);
+			}
+		} else if (key === 'claimWallet') {
+			if (!this.props.locked) {
+				this._onNavigate('/claimWallet', this, true, true);
 			}
 		} else if (key === 'send') {
 			if (!this.props.locked) {
@@ -497,6 +508,15 @@ class Header extends React.Component {
 				</Menu.Item>
 				<Menu.Item key="addContact" className="level-2">
 					<Text>Add Contact</Text>
+				</Menu.Item>
+				<Menu.Item
+					key="claimWallet"
+					style={this.props.locked ? {cursor: 'not-allowed'} : {}}
+					className={
+						this.props.locked ? 'disable-li-text' : 'claim-wallet-background'
+					}
+				>
+					<Text>Claim META Wallet</Text>
 				</Menu.Item>
 				<Menu.Item
 					key="send"

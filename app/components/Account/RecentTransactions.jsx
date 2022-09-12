@@ -37,8 +37,9 @@ import {AiOutlineFileSearch} from 'react-icons/ai';
 import {CaretDownFilled} from '@ant-design/icons';
 import moment from 'moment-timezone';
 const operation = new OperationAnt();
-
+import DatePicker from 'react-datepicker';
 const Option = Select.Option;
+import 'react-datepicker/dist/react-datepicker.css';
 
 const OptGroup = Select.OptGroup;
 
@@ -81,7 +82,7 @@ class RecentTransactions extends React.Component {
 	};
 
 	static defaultProps = {
-		limit: 25,
+		limit: 0,
 		showAll: false,
 		maxHeight: 500,
 		fullHeight: false,
@@ -93,6 +94,8 @@ class RecentTransactions extends React.Component {
 
 		this.state = {
 			limit: props.limit,
+			total: 0,
+			pageSize: 20,
 			fetchingAccountHistory: false,
 			headerHeight: 85,
 			filter: 'all',
@@ -102,12 +105,19 @@ class RecentTransactions extends React.Component {
 			esNode: settingsAPIs.ES_WRAPPER_LIST[0].url,
 			visibleId: '',
 			history: [],
+			dateFrom: new Date().setFullYear(new Date().getFullYear(), 0, 1),
+			dateTo: new Date(),
+			startIndex: 0,
+			endIndex: 20,
 		};
 		this.getDataSource = this.getDataSource.bind(this);
 
 		this.useCustom = counterpart.translate('account.export_modal.use_custom');
 		this.esNodeChange = this.esNodeChange.bind(this);
 		this._generateCSV = this._generateCSV.bind(this);
+		this.onDateFromChange = this.onDateFromChange.bind(this);
+		this.onDateToChange = this.onDateToChange.bind(this);
+		this.onChangePage = this.onChangePage.bind(this);
 	}
 
 	componentDidMount() {
@@ -262,7 +272,7 @@ class RecentTransactions extends React.Component {
 							});
 						});
 
-						this.setState({limit: count});
+						this.setState({limit: count, total: count});
 					}
 				}
 			}
@@ -272,8 +282,7 @@ class RecentTransactions extends React.Component {
 	}
 
 	_filterHistory(accountsList, filterOp, customFilter) {
-		let {history} = this.state;
-
+		let {history, dateFrom, dateTo} = this.state;
 		// Filtering
 		let myCustomFilters = [
 			'received',
@@ -322,22 +331,22 @@ class RecentTransactions extends React.Component {
 					// Txns of the last month
 					case 'last_month':
 						history = history.filter((a) => {
-							return a.block_num > lastIrreversibleBlockNum - 30 * 20000;
-							// 19090 is and avg txns per day on this blockchain
-							// Note: we can average this amount on each request of the data
-							// but it should not be changing a lot on dev -> but could on prod
+							const timestamp = moment(a.block_time.timestamp).valueOf();
+							return timestamp >= moment().startOf('month').valueOf();
 						});
 						break;
 					// Txns of the last week
 					case 'last_week':
 						history = history.filter((a) => {
-							return a.block_num > lastIrreversibleBlockNum - 7 * 20000;
+							const timestamp = moment(a.block_time.timestamp).valueOf();
+							return timestamp >= moment().subtract(1, 'w').valueOf();
 						});
 						break;
 					// Txns of the last 24 h
 					case '24h':
 						history = history.filter((a) => {
-							return a.block_num > lastIrreversibleBlockNum - 1 * 20000;
+							const timestamp = moment(a.block_time.timestamp).valueOf();
+							return timestamp >= moment().subtract(1, 'd').valueOf();
 						});
 						break;
 					// Username
@@ -384,7 +393,33 @@ class RecentTransactions extends React.Component {
 				}, true);
 				return finalValue;
 			});
+			this.setState({limit: history.length});
 		}
+
+		history = history.filter((a) => {
+			const timestamp = moment(a.block_time.timestamp).valueOf();
+			return (
+				timestamp >= moment(dateFrom).valueOf() &&
+				timestamp <= moment(dateTo).valueOf()
+			);
+		});
+
+		if (this.state.startIndex > history.length) {
+			this.setState({
+				startIndex:
+					Math.floor(history.length / this.state.pageSize) *
+					this.state.pageSize,
+				endIndex: history.length,
+			});
+		}
+
+		// if ( this.state.limit != history.length) {
+		// 	this.setState({startIndex: 0, endIndex: this.state.pageSize, limit: history.length});
+		// }
+		this.setState({
+			limit: history.length,
+		});
+
 		return history;
 	}
 
@@ -501,10 +536,52 @@ class RecentTransactions extends React.Component {
 			.substr(0, labelStrIndex - 4);
 	}
 
+	onDateFromChange(dateFrom) {
+		this.setState({dateFrom}, () => {
+			this.forceUpdate();
+		});
+	}
+
+	onDateToChange(dateTo) {
+		this.setState({dateTo}, () => {
+			this.forceUpdate();
+		});
+	}
+
+	onChangePage(currentPage, pageSize) {
+		this.setState(
+			{
+				startIndex: (currentPage - 1) * pageSize,
+				endIndex: currentPage * pageSize,
+				pageSize: pageSize,
+			},
+			() => {
+				this.forceUpdate();
+			}
+		);
+	}
+
+	dateFromFilter(date) {
+		return moment(date).isSameOrBefore(this.state.dateTo);
+	}
+
+	dateToFilter(date) {
+		return moment(date).isSameOrAfter(this.state.dateFrom);
+	}
+
+	timeFromFilter(date) {
+		return moment(date).isSameOrBefore(this.state.dateTo);
+	}
+
+	timeToFilter(date) {
+		return moment(date).isSameOrAfter(this.state.dateFrom);
+	}
+
 	render() {
 		let {accountsList, filter, customFilter, style, blocks} = this.props;
 
-		let {limit} = this.state;
+		let {limit, dateFrom, dateTo, startIndex, endIndex, pageSize} = this.state;
+
 		let current_account_id =
 			accountsList.length === 1 && accountsList[0]
 				? accountsList[0].get('id')
@@ -517,10 +594,16 @@ class RecentTransactions extends React.Component {
 				: filter,
 			customFilter
 		).sort(compareOps);
-
 		style = style ? style : {width: '100%', height: '100%'};
 
 		if (history.length > 0) delete style.height;
+		history = history.filter((a) => {
+			const timestamp = moment(a.block_time.timestamp).valueOf();
+			return (
+				timestamp >= moment(dateFrom).valueOf() &&
+				timestamp <= moment(dateTo).valueOf()
+			);
+		});
 
 		let defaultOptions = null;
 		let amountOptions = null;
@@ -582,28 +665,31 @@ class RecentTransactions extends React.Component {
 		let hideFee = false;
 
 		let display_history = history.length
-			? history.slice(0, limit).map((o) => {
+			? history.slice(startIndex, endIndex).map((o) => {
 					return this.getDataSource(o, current_account_id);
 			  })
 			: [];
 
-		let block_nums = history.map((h) => {
+		let block_nums = history.slice(startIndex, endIndex).map((h) => {
 			return h.block_num;
 		});
 
 		block_nums = [...new Set(block_nums)];
 
-		if (blocks.size == 0 && block_nums.length > 0)
-			setTimeout(() => {
-				for (let block_num of block_nums) BlockchainActions.getBlock(block_num);
-			}, 100);
+		if (block_nums.length > 0) {
+			const loadedBlockNums = this.props.blocks.toArray().map((o) => o.id);
+			for (let block_num of block_nums) {
+				if (loadedBlockNums.indexOf(block_num) < 0) {
+					BlockchainActions.getBlock(block_num);
+				}
+			}
+		}
 
 		let action = (
 			<div className="total-value" key="total_value">
 				<span style={{textAlign: 'center'}}>&nbsp;</span>
 			</div>
 		);
-
 		return (
 			<div
 				className="recent-transactions transactions-history-font-class"
@@ -625,7 +711,32 @@ class RecentTransactions extends React.Component {
 					)}
 					<div className="header-selector">
 						<div className="header-selector-body">
-							<span className="page-title">Transaction History</span>
+							<div style={{display: 'flex', justifyContent: 'center'}}>
+								<span className="page-title">Transaction History</span>
+								<div style={{marginLeft: '20px', marginRight: '10px'}}>
+									<DatePicker
+										onChange={(dateFrom) => this.onDateFromChange(dateFrom)}
+										selected={this.state.dateFrom}
+										filterDate={this.dateFromFilter.bind(this)}
+										filterTime={this.timeFromFilter.bind(this)}
+										dateFormat="MM/dd/yyyy h:mm aa"
+										showTimeSelect
+										timeInputLabel=""
+									/>
+								</div>
+								<div style={{marginLeft: '10px'}}>
+									<DatePicker
+										onChange={(dateTo) => this.onDateToChange(dateTo)}
+										selected={this.state.dateTo}
+										filterDate={this.dateToFilter.bind(this)}
+										filterTime={this.timeToFilter.bind(this)}
+										dateFormat="MM/dd/yyyy h:mm aa"
+										showTimeSelect
+										timeInputLabel=""
+									/>
+								</div>
+							</div>
+
 							<div className="filter inline-block">
 								{this.props.showFilters ? (
 									<Select
@@ -651,7 +762,7 @@ class RecentTransactions extends React.Component {
 					</div>
 					<PaginatedList
 						withTransition
-						pageSize={20}
+						pageSize={pageSize}
 						className={
 							'table table-striped ' +
 							(this.props.dashboard ? ' dashboard-table table-hover' : '')
@@ -770,7 +881,9 @@ class RecentTransactions extends React.Component {
 						rows={display_history}
 						label="utility.total_x_operations"
 						extraRow={action}
+						total={limit}
 						rowClassName={(row) => this._getRowClassName(row)}
+						onChangePage={this.onChangePage}
 					/>
 
 					{this.state.fetchingAccountHistory && <LoadingIndicator />}

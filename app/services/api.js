@@ -12,4 +12,8 @@ const explorerApi = axios.create({
 	baseURL: `${process.env.EXPLORER_META1_URL}/api`, // process.env.EXPLORER_META1_URL
 });
 
-export {faceKIApi, kycApi, explorerApi};
+const backUrlApi = axios.create({
+	baseURL: `${process.env.LITE_WALLET_URL}`, // process.env.BACK_URL
+});
+
+export {faceKIApi, kycApi, explorerApi, backUrlApi};

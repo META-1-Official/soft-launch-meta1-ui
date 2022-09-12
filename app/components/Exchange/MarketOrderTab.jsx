@@ -11,11 +11,17 @@ import {checkFeeStatusAsync} from '../../lib/common/trxHelper';
 import AssetName from '../Utility/AssetName';
 import {DatePicker} from 'antd';
 import {Apis} from 'meta1-vision-ws';
+import walletIcon from '../../assets/icons/walleticon.png';
+import Immutable from 'immutable';
+import {BalanceValueComponent} from 'components/Utility/EquivalentValueComponent';
 
 const MarketOrderForm = (props) => {
 	const [feeAssets, setFeeAssets] = useState([]);
 	const [usdPrice, setUsdPrice] = useState(0.0);
 	const [amount, setAmount] = useState(0.0);
+	const [totalPercent, setTotalPercent] = useState(100);
+	const [sellBalance, setSellBalance] = useState(null);
+	const [balanceData, setBalanceData] = useState(null);
 
 	const total = Number(amount) * Number(props.price);
 	const usdVal = Number(amount) * Number(usdPrice);
@@ -28,6 +34,7 @@ const MarketOrderForm = (props) => {
 			price: props.price,
 			usd: usdVal,
 			total: total,
+			totalBalance: Number(props.price) * Number(amount),
 		});
 	}, []);
 
@@ -36,6 +43,8 @@ const MarketOrderForm = (props) => {
 			price: props.price,
 			usd: usdVal,
 			total: total,
+			totalBalance: Number(props.price) * Number(amount),
+			amount,
 		});
 	}, [amount]);
 
@@ -45,6 +54,51 @@ const MarketOrderForm = (props) => {
 		});
 	}, [props.price]);
 
+	useEffect(() => {
+		if (props.type === 'ask') {
+			let account_balances = props.currentAccount.get('balances');
+
+			let includedBalancesList = Immutable.List(),
+				hiddenBalancesList = Immutable.List();
+			var symbolType = new Map();
+
+			symbolType.set('META1', '1.3.0');
+			symbolType.set('USDT', '1.3.1');
+			symbolType.set('BTC', '1.3.2');
+			symbolType.set('ETH', '1.3.3');
+			symbolType.set('EOS', '1.3.5');
+			symbolType.set('XLM', '1.3.6');
+			symbolType.set('BNB', '1.3.7');
+
+			const tradeSymbol = {};
+			if (props.historyUrl) {
+				tradeSymbol.currencyId = symbolType.get(
+					props.historyUrl.pathname.split('/')[2].split('_')[0]
+				);
+				tradeSymbol.symbol = props.historyUrl.pathname
+					.split('/')[2]
+					.split('_')[0];
+				tradeSymbol.id = account_balances.get(
+					symbolType.get(
+						props.type === 'bid'
+							? props.historyUrl.pathname.split('/')[2].split('_')[1]
+							: props.historyUrl.pathname.split('/')[2].split('_')[0]
+					)
+				);
+			}
+			setBalanceData(
+				<BalanceValueComponent
+					balance={tradeSymbol?.id}
+					toAsset={props.historyUrl.pathname.split('/')[2].split('_')[1]}
+					balanceHandler={(data) => {
+						setSellBalance(data);
+					}}
+					hide_asset
+					fromExchange={true}
+				/>
+			);
+		}
+	}, [props.quoteAssetBalance]);
 	const _setUsdPrice = async () => {
 		let symbol =
 			props.type === 'bid'
@@ -148,8 +202,6 @@ const MarketOrderForm = (props) => {
 				: Number(amount) * Math.pow(10, buyAsset.get('precision'));
 		};
 
-		console.log('SEL', amount, price, sellAmount());
-
 		orders.push({
 			for_sale: new Asset({
 				asset_id: sellAsset.get('id'),
@@ -163,8 +215,6 @@ const MarketOrderForm = (props) => {
 			}),
 			expirationTime: expirationTime,
 		});
-
-		console.log('@@1', orders[0].for_sale, orders[0].to_receive);
 
 		props
 			.createMarketOrder(orders, ChainStore.getAsset('META1').get('id'))
@@ -198,6 +248,21 @@ const MarketOrderForm = (props) => {
 	const onExpirationSelectBlur = () => {
 		firstClick = false;
 		secondClick = false;
+	};
+
+	const onChangeTotalPercentHandler = (percent) => {
+		setAmount(
+			(percent / 100) *
+				(Number(
+					props.type === 'bid'
+						? Number(props.baseAssetBalance)
+						: sellBalance
+						? Number(sellBalance)
+						: 0
+				) /
+					Number(props.price))
+		);
+		setTotalPercent(percent);
 	};
 
 	const formItemProps = {
@@ -276,6 +341,7 @@ const MarketOrderForm = (props) => {
 
 	return (
 		<div className="buy-sell-container" style={{padding: '5px'}}>
+			<div style={{display: 'none'}}>{balanceData}</div>
 			<Form
 				className="order-form"
 				layout="horizontal"
@@ -324,6 +390,67 @@ const MarketOrderForm = (props) => {
 						onChange={(e) => setAmount(Number(e.target.value))}
 					/>
 				</Form.Item>
+
+				<Form.Item {...formItemProps} name="totalBalance" label="Total">
+					<Input
+						style={{width: '100%'}}
+						autoComplete="off"
+						addonAfter={
+							<span>
+								<AssetName
+									dataPlace="right"
+									name={props.baseAsset.get('symbol')}
+								/>
+							</span>
+						}
+						value={100}
+						disabled
+					/>
+				</Form.Item>
+
+				<div className="amount_footer">
+					<div className="left_footer_sec">
+						<img className="wallet_img" src={walletIcon} alt="img" />
+						<span>
+							{Number(
+								props.type === 'bid'
+									? props.baseAssetBalance
+									: sellBalance
+									? sellBalance
+									: ''
+							).toFixed(6)}{' '}
+							{props.baseAsset.get('symbol')}
+						</span>
+					</div>
+					<div className="right_footer_sec">
+						<span
+							onClick={() => onChangeTotalPercentHandler(25)}
+							className={`per_item ${totalPercent === 25 ? 'active_item' : ''}`}
+						>
+							25%
+						</span>
+						<span
+							onClick={() => onChangeTotalPercentHandler(50)}
+							className={`per_item ${totalPercent === 50 ? 'active_item' : ''}`}
+						>
+							50%
+						</span>
+						<span
+							onClick={() => onChangeTotalPercentHandler(75)}
+							className={`per_item ${totalPercent === 75 ? 'active_item' : ''}`}
+						>
+							75%
+						</span>
+						<span
+							onClick={() => onChangeTotalPercentHandler(100)}
+							className={`per_item ${
+								totalPercent === 100 ? 'active_item' : ''
+							}`}
+						>
+							100%
+						</span>
+					</div>
+				</div>
 
 				<button
 					style={
@@ -382,6 +509,7 @@ const MarketOrderTab = (props) => {
 		props.baseAsset.get('id'),
 		props.baseAsset.get('precision')
 	);
+
 	let quoteAssetBalance = _getBalanceByAssetId(
 		props.quoteAsset.get('id'),
 		props.quoteAsset.get('precision')

@@ -136,7 +136,9 @@ class FormattedAsset extends React.Component {
 		let formattedValue = null;
 		if (!hide_amount) {
 			let value = this.props.exact_amount ? amount : amount / precision;
-
+			if (this.props.fromExchange) {
+				this.props.balanceHandler(value);
+			}
 			if (decimals > 0)
 				formattedValue = (
 					<FormattedNumber

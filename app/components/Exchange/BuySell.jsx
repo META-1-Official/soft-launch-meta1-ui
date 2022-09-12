@@ -20,7 +20,11 @@ import SettleModal from '../Modal/SettleModal';
 import {Button, Select, Popover, Tooltip} from 'antd';
 import ReactTooltip from 'react-tooltip';
 import AccountStore from '../../stores/AccountStore';
-
+import walletIcon from '../../assets/icons/walleticon.png';
+import Immutable from 'immutable';
+import {ChainStore} from 'meta1-vision-js';
+import {BalanceValueComponent} from '../Utility/EquivalentValueComponent';
+import EquivalentPrice from '../Utility/EquivalentPrice';
 class BuySell extends React.Component {
 	static propTypes = {
 		balance: ChainTypes.ChainObject,
@@ -30,21 +34,30 @@ class BuySell extends React.Component {
 		onSubmit: PropTypes.func.isRequired,
 		onExpirationTypeChange: PropTypes.func.isRequired,
 		onExpirationCustomChange: PropTypes.func.isRequired,
+		account: ChainTypes.ChainAccount.isRequired,
 	};
 
 	static defaultProps = {
 		type: 'bid',
 	};
 
-	constructor() {
+	constructor(props) {
 		super();
 		this.state = {
 			forceReRender: false,
 			isSettleModalVisible: false,
+			totalPercent: 100,
+			currencyBalance: '',
+			globalCurrencyBalance: '',
+			currencyPrice: '',
+			forceUpdateAmount: false,
 		};
 
 		this.showSettleModal = this.showSettleModal.bind(this);
 		this.hideSettleModal = this.hideSettleModal.bind(this);
+	}
+	componentDidMount() {
+		this.props.priceChangePercent(this.props.type, this.props.marketPrice);
 	}
 
 	/*
@@ -63,6 +76,14 @@ class BuySell extends React.Component {
 		}
 
 		if (this.props.parentWidth !== np.parentWidth) {
+			this.setState({
+				forceReRender: true,
+			});
+		}
+	}
+
+	componentDidUpdate(prevProps) {
+		if (prevProps?.historyUrl?.pathname !== this.props?.historyUrl?.pathname) {
 			this.setState({
 				forceReRender: true,
 			});
@@ -183,6 +204,25 @@ class BuySell extends React.Component {
 		this.secondClick = false;
 	};
 
+	onChangeTotalPercentHandler(percent) {
+		let marketPrice = this.props.price;
+		if (this.props.price === '') {
+			marketPrice = this.props.marketPrice;
+		}
+		this.props.priceChangePercent(this.props.type, marketPrice);
+		this.props.amountChangePercent(
+			this.props.type,
+			false,
+			(Number(this.state.currencyBalance) * (percent / 100)) /
+				Number(marketPrice),
+			percent === 100
+		);
+		this.setState({
+			totalPercent: percent,
+			forceReRender: true,
+		});
+	}
+
 	render() {
 		let {
 			type,
@@ -203,9 +243,69 @@ class BuySell extends React.Component {
 			hasFeeBalance,
 			hideHeader,
 			verticalOrderForm,
+			account,
 		} = this.props;
 		const {expirationCustomTime} = this.props;
 
+		let account_balances = this.props.account.get('balances');
+
+		let includedBalancesList = Immutable.List(),
+			hiddenBalancesList = Immutable.List();
+		var symbolType = new Map();
+
+		symbolType.set('META1', '1.3.0');
+		symbolType.set('USDT', '1.3.1');
+		symbolType.set('BTC', '1.3.2');
+		symbolType.set('ETH', '1.3.3');
+		symbolType.set('EOS', '1.3.5');
+		symbolType.set('XLM', '1.3.6');
+		symbolType.set('BNB', '1.3.7');
+
+		const tradeSymbol = {};
+		if (this.props.historyUrl) {
+			tradeSymbol.currencyId = symbolType.get(
+				this.props.historyUrl.pathname.split('/')[2].split('_')[0]
+			);
+			tradeSymbol.symbol = this.props.historyUrl.pathname
+				.split('/')[2]
+				.split('_')[0];
+			tradeSymbol.id = account_balances.get(
+				symbolType.get(
+					this.props.type === 'bid'
+						? this.props.historyUrl.pathname.split('/')[2].split('_')[1]
+						: this.props.historyUrl.pathname.split('/')[2].split('_')[0]
+				)
+			);
+		}
+
+		const balanceData = (
+			<BalanceValueComponent
+				balance={tradeSymbol?.id}
+				toAsset={this.props.historyUrl.pathname.split('/')[2].split('_')[1]}
+				balanceHandler={(data) => {
+					this.setState({
+						currencyBalance: data,
+					});
+				}}
+				hide_asset
+				fromExchange={true}
+			/>
+		);
+
+		const priceData = (
+			<EquivalentPrice
+				fromAsset={this.props.historyUrl.pathname.split('/')[2].split('_')[0]}
+				pulsate={{reverse: true, fill: 'forwards'}}
+				hide_symbols
+				priceHandler={(data) => {
+					this.setState({
+						currencyPrice: data,
+						globalCurrencyBalance: data,
+					});
+				}}
+				fromExchange={true}
+			/>
+		);
 		let clientWidth = this.refs.order_form
 			? this.refs.order_form.clientWidth
 			: 0;
@@ -622,11 +722,19 @@ class BuySell extends React.Component {
 							className="small-12 buy-sell-label"
 							content="exchange.price"
 						/>
+						{/* working */}
 						<div className="inputAddon limit-order-input">
 							<ExchangeInput
 								id={`${type}Price`}
 								value={price}
-								onChange={priceChange}
+								onChange={(e) => {
+									priceChange(e);
+									if (this.state.totalPercent) {
+										this.setState({
+											totalPercent: '',
+										});
+									}
+								}}
 								autoComplete="off"
 								placeholder="0.0"
 								addonAfter={
@@ -667,7 +775,9 @@ class BuySell extends React.Component {
 							<ExchangeInput
 								id={`${type}Total`}
 								value={total}
-								onChange={totalChange}
+								onChange={(e) => {
+									totalChange(e);
+								}}
 								autoComplete="off"
 								placeholder="0.0"
 								addonAfter={
@@ -721,7 +831,20 @@ class BuySell extends React.Component {
 							<ExchangeInput
 								id={`${type}Price`}
 								value={price}
-								onChange={priceChange}
+								onChange={(e) => {
+									priceChange(e);
+									const obj = {
+										totalPercent: 100,
+									};
+									if (this.props.type !== 'bid') {
+										obj.currencyBalance = !amount
+											? this.state.globalCurrencyBalance
+											: Number(e.target.value) * Number(amount);
+									}
+									if (this.state.totalPercent) {
+										this.setState({...obj});
+									}
+								}}
 								autoComplete="off"
 								placeholder="0.0"
 								addonAfter={
@@ -742,7 +865,20 @@ class BuySell extends React.Component {
 							<ExchangeInput
 								id={`${type}Amount`}
 								value={amount}
-								onChange={amountChange}
+								onChange={(e) => {
+									amountChange(e);
+									const obj = {
+										totalPercent: 100,
+									};
+									if (this.props.type !== 'bid') {
+										obj.currencyBalance = !amount
+											? this.state.globalCurrencyBalance
+											: Number(e.target.value) * Number(price);
+									}
+									if (this.state.totalPercent) {
+										this.setState({...obj});
+									}
+								}}
 								autoComplete="off"
 								placeholder="0.0"
 								addonAfter={
@@ -762,13 +898,70 @@ class BuySell extends React.Component {
 							<ExchangeInput
 								id={`${type}Total`}
 								value={total}
-								onChange={totalChange}
+								onChange={(e) => {
+									totalChange(e);
+									if (this.state.totalPercent) {
+										const obj = {
+											totalPercent: 100,
+										};
+										if (this.props.type !== 'bid' && e.target.value) {
+											obj.currencyBalance =
+												!amount && !price
+													? this.state.globalCurrencyBalance
+													: Number(e.target.value);
+										}
+										this.setState({...obj});
+									}
+								}}
 								autoComplete="off"
 								placeholder="0.0"
 								addonAfter={
 									<span className="limit-order-text">{base.get('symbol')}</span>
 								}
 							/>
+						</div>
+					</div>
+					<div className="amount_footer">
+						<div className="left_footer_sec">
+							<img className="wallet_img" src={walletIcon} alt="img" />
+							<span>
+								{Number(this.state.currencyBalance).toFixed(6)}{' '}
+								{base.get('symbol')}
+							</span>
+						</div>
+						<div className="right_footer_sec">
+							<span
+								onClick={this.onChangeTotalPercentHandler.bind(this, 25)}
+								className={`per_item ${
+									this.state.totalPercent === 25 ? 'active_item' : ''
+								}`}
+							>
+								25%
+							</span>
+							<span
+								onClick={this.onChangeTotalPercentHandler.bind(this, 50)}
+								className={`per_item ${
+									this.state.totalPercent === 50 ? 'active_item' : ''
+								}`}
+							>
+								50%
+							</span>
+							<span
+								onClick={this.onChangeTotalPercentHandler.bind(this, 75)}
+								className={`per_item ${
+									this.state.totalPercent === 75 ? 'active_item' : ''
+								}`}
+							>
+								75%
+							</span>
+							<span
+								onClick={this.onChangeTotalPercentHandler.bind(this, 100)}
+								className={`per_item ${
+									this.state.totalPercent === 100 ? 'active_item' : ''
+								}`}
+							>
+								100%
+							</span>
 						</div>
 					</div>
 
@@ -1010,6 +1203,7 @@ class BuySell extends React.Component {
 
 		return (
 			<div className={cnames(this.props.className)} style={this.props.styles}>
+				<div style={{display: 'none'}}>{balanceData}</div>
 				<div className="buy-sell-container">
 					{!hideHeader ? (
 						<div className={'exchange-content-header ' + type}>
