@@ -294,6 +294,9 @@ class RecentTransactions extends React.Component {
 			'to',
 		];
 		const dynGlobalObject = ChainStore.getObject('2.1.0');
+
+		if (!dynGlobalObject) return history;
+
 		const lastIrreversibleBlockNum = dynGlobalObject.get(
 			'last_irreversible_block_num'
 		);
@@ -395,13 +398,14 @@ class RecentTransactions extends React.Component {
 			});
 			this.setState({limit: history.length});
 		}
-
 		history = history.filter((a) => {
-			const timestamp = moment(a.block_time.timestamp).valueOf();
-			return (
-				timestamp >= moment(dateFrom).valueOf() &&
-				timestamp <= moment(dateTo).valueOf()
-			);
+			if (a.block_time) {
+				const timestamp = moment(a.block_time.timestamp).valueOf();
+				return (
+					timestamp >= moment(dateFrom).valueOf() &&
+					timestamp <= moment(dateTo).valueOf()
+				);
+			} else return true;
 		});
 
 		if (this.state.startIndex > history.length) {
@@ -597,12 +601,15 @@ class RecentTransactions extends React.Component {
 		style = style ? style : {width: '100%', height: '100%'};
 
 		if (history.length > 0) delete style.height;
+
 		history = history.filter((a) => {
-			const timestamp = moment(a.block_time.timestamp).valueOf();
-			return (
-				timestamp >= moment(dateFrom).valueOf() &&
-				timestamp <= moment(dateTo).valueOf()
-			);
+			if (a.block_time) {
+				const timestamp = moment(a.block_time.timestamp).valueOf();
+				return (
+					timestamp >= moment(dateFrom).valueOf() &&
+					timestamp <= moment(dateTo).valueOf()
+				);
+			} else return true;
 		});
 
 		let defaultOptions = null;
