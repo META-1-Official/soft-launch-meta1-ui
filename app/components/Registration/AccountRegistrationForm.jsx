@@ -199,10 +199,6 @@ class AccountRegistrationForm extends React.Component {
 										validator: (_, value) => {
 											if (value.length === 0)
 												return Promise.reject('First Name is required.');
-											else if (value[0] !== value[0].toUpperCase())
-												return Promise.reject(
-													'First Character should be upper case.'
-												);
 											else {
 												if (!/^[A-Za-z]{0,63}$/.test(value)) {
 													if (value.includes(' '))
@@ -242,10 +238,6 @@ class AccountRegistrationForm extends React.Component {
 										validator: (_, value) => {
 											if (value.length === 0)
 												return Promise.reject('Last Name is required.');
-											else if (value[0] !== value[0].toUpperCase())
-												return Promise.reject(
-													'First Character should be upper case.'
-												);
 											else {
 												if (!/^[A-Za-z]{0,63}$/.test(value)) {
 													if (value.includes(' '))
