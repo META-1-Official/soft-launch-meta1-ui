@@ -23,7 +23,7 @@ const MarketOrderForm = (props) => {
 	const [sellBalance, setSellBalance] = useState(null);
 	const [balanceData, setBalanceData] = useState(null);
 
-	const total = Number(amount) * Number(props.price);
+	const total = (Number(amount) * Number(props.price)).toFixed(2);
 	const usdVal = Number(amount) * Number(usdPrice);
 	const isBid = props.type === 'bid';
 	const [form] = Form.useForm();
@@ -34,7 +34,7 @@ const MarketOrderForm = (props) => {
 			price: props.price,
 			usd: usdVal,
 			total: total,
-			totalBalance: Number(props.price) * Number(amount),
+			totalBalance: total,
 		});
 	}, []);
 
@@ -43,7 +43,7 @@ const MarketOrderForm = (props) => {
 			price: props.price,
 			usd: usdVal,
 			total: total,
-			totalBalance: Number(props.price) * Number(amount),
+			totalBalance: total,
 			amount,
 		});
 	}, [amount]);
