@@ -59,6 +59,16 @@ const MarketOrderForm = (props) => {
 	}, [props.price]);
 
 	useEffect(() => {
+		form.setFieldsValue({
+			price: props.price,
+			usd: 0,
+			total: 0,
+			totalBalance: 0,
+			amount: 0,
+		});
+	}, [props.quoteAsset.get('symbol')]);
+
+	useEffect(() => {
 		if (props.type === 'ask') {
 			let account_balances = props.currentAccount.get('balances');
 

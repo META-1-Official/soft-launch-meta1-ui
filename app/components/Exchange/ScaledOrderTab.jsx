@@ -49,6 +49,22 @@ class ScaledOrderForm extends Component {
 		}
 	}
 
+	componentWillReceiveProps(nextProps) {
+		if (
+			nextProps.quoteAsset.get('symbol') !==
+				this.props.quoteAsset.get('symbol') ||
+			nextProps.baseAsset.get('symbol') !== this.props.baseAsset.get('symbol')
+		) {
+			this.formRef.current?.setFieldsValue({
+				priceLower: 0,
+				priceUpper: 0,
+				amount: 0,
+				orderCount: 1,
+				total: 0,
+			});
+		}
+	}
+
 	shouldComponentUpdate(nextProps, nextState) {
 		this._forceRender(nextProps, nextState);
 
