@@ -210,6 +210,26 @@ class GatewayActions {
 				gateFee: '0.01',
 				type: 'token',
 			},
+			{
+				name: 'BNB',
+				description: 'BNB',
+				backingCoin: 'BNB',
+				symbol: 'BNB',
+				depositAllowed: true,
+				withdrawalAllowed: true,
+				memoSupport: false,
+				precision: 8,
+				issuer: account_constants.issuer_name,
+				issuerId: account_constants.issuer_name,
+				assetId: '1.3.7',
+				walletType: 'bnb',
+				minAmount: 200000,
+				withdrawFee: 100000,
+				depositFee: 0,
+				coinPriora: 0,
+				gateFee: '0.01',
+				type: 'token',
+			},
 		];
 	}
 
