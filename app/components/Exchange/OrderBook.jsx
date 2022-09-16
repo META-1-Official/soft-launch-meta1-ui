@@ -367,12 +367,7 @@ class OrderBookHeader extends React.Component {
 		return (
 			<div className="header">
 				<div className="title">Order Book</div>
-				<div
-					className={!this.props.currentGroupOrderLimit ? 'tap' : 'tap active'}
-					onClick={() => this.props.onChange(1)}
-				>
-					Order Volume
-				</div>
+
 				<div
 					className={this.props.currentGroupOrderLimit ? 'tap' : 'tap active'}
 					onClick={() => this.props.onChange(0)}
