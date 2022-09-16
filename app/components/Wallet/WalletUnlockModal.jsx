@@ -504,7 +504,6 @@ class WalletUnlockModal extends React.Component {
 		const errorMessage = passwordError
 			? counterpart.translate('wallet.pass_incorrect')
 			: customError;
-
 		return (
 			<Modal
 				visible={this.state.isModalVisible}
@@ -709,6 +708,12 @@ class WalletUnlockModal extends React.Component {
 						type="primary"
 						onClick={this.handleLogin}
 						className="login-btn"
+						disabled={
+							!this.state.accountName ||
+							!this.state.password ||
+							this.state.accountName === '' ||
+							this.state.password === ''
+						}
 					>
 						{counterpart.translate(
 							this.shouldUseBackupLogin()
