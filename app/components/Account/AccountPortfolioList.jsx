@@ -880,8 +880,9 @@ class AccountPortfolioList extends React.Component {
 				) : null,
 				deposit:
 					this.props.isMyAccount &&
-					['BTC', 'LTC', 'ETH', 'USDT', 'XLM'].indexOf(asset.get('symbol')) >
-						-1 ? (
+					['BTC', 'LTC', 'ETH', 'USDT', 'XLM', 'BNB'].indexOf(
+						asset.get('symbol')
+					) > -1 ? (
 						<StyledButton
 							buttonType="green"
 							onClick={this._showDepositModal.bind(this, asset.get('symbol'))}
@@ -959,8 +960,9 @@ class AccountPortfolioList extends React.Component {
 							burn: null,
 							deposit:
 								this.props.isMyAccount &&
-								['BTC', 'LTC', 'ETH', 'USDT'].indexOf(asset.get('symbol')) >
-									-1 ? (
+								['BTC', 'LTC', 'ETH', 'USDT', 'XLM', 'BNB'].indexOf(
+									asset.get('symbol')
+								) > -1 ? (
 									<StyledButton
 										buttonType="green"
 										onClick={this._showDepositModal.bind(
