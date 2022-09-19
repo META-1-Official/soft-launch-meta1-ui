@@ -59,7 +59,7 @@ class ScaledOrderForm extends Component {
 				priceLower: 0,
 				priceUpper: 0,
 				amount: 0,
-				orderCount: 1,
+				orderCount: 0,
 				total: 0,
 			});
 		}
