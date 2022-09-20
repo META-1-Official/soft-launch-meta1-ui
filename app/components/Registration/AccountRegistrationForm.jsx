@@ -430,7 +430,9 @@ class AccountRegistrationForm extends React.Component {
 													{data?.iso2}{' '}
 													<img
 														className="countryFlag-img"
-														src={`https://flagcdn.com/24x18/${data?.iso2.toLowerCase()}.png`}
+														src={`${
+															process.env.FLAG_ICON_CDN
+														}/${data?.iso2.toLowerCase()}.png`}
 														alt="flag"
 													/>
 												</Option>
