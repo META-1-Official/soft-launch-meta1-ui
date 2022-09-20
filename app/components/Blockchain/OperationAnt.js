@@ -886,8 +886,8 @@ class Operation {
 
 								// const paySymbol = base.get("symbol");
 								// const receiveSymbol = quote.get("symbol");
-								let priceBase = isBid ? o.receives : o.pays;
-								let priceQuote = isBid ? o.pays : o.receives;
+								let priceBase = isBid ? o.fill_price.base : o.fill_price.quote;
+								let priceQuote = isBid ? o.fill_price.quote : o.fill_price.base;
 								let amount = isBid ? o.receives : o.pays;
 								let receivedAmount =
 									o.fee.asset_id === amount.asset_id
