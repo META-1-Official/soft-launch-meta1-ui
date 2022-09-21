@@ -544,7 +544,7 @@ class Witnesses extends React.Component {
 						<Col xs={24} sm={12} md={8} lg={6}>
 							<ExploreCard
 								icon={volumeIcon}
-								textContent="explorer.witnesses.pay"
+								textContent="explorer.witnesses.budget"
 								witnessCard={true}
 							>
 								<div>
@@ -564,7 +564,7 @@ class Witnesses extends React.Component {
 						<Col xs={24} sm={12} md={8} lg={6}>
 							<ExploreCard
 								icon={volumeIcon}
-								textContent="explorer.witnesses.pay"
+								textContent="explorer.witnesses.next_vote"
 								witnessCard={true}
 							>
 								<div>
