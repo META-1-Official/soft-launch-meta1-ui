@@ -121,7 +121,6 @@ class WalletActions {
 				return create_account();
 			} else {
 				// using faucet
-
 				console.log('$$$$$$ facucet address', faucetAddress);
 				if (
 					window &&

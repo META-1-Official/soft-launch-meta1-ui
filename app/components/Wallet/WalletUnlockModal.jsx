@@ -251,6 +251,19 @@ class WalletUnlockModal extends React.Component {
 			resolve();
 			WalletUnlockActions.cancel();
 
+			let newValue = parseInt(
+				SettingsStore.getState().settings.get('walletLockTimeout'),
+				10
+			);
+			if (isNaN(newValue)) newValue = 0;
+			if (newValue > 3600) return;
+			if (!isNaN(newValue) && typeof newValue === 'number') {
+				SettingsActions.changeSetting({
+					setting: 'walletLockTimeout',
+					value: newValue,
+				});
+			}
+
 			if (
 				this.props.history.location.pathname.split('/')[1] === 'registration'
 			) {
@@ -467,6 +480,7 @@ class WalletUnlockModal extends React.Component {
 			captcha: true,
 		});
 	};
+
 	handleWalletAutoLock = (val) => {
 		let newValue = parseInt(val, 10);
 		if (isNaN(newValue)) newValue = 0;
@@ -649,7 +663,7 @@ class WalletUnlockModal extends React.Component {
 						/>
 					)}
 				</Form>
-				{passwordLogin && (
+				{`passwordLogin` && (
 					<div className="control-wrapper">
 						<Tooltip
 							key="wallet.remember_me_explanation"

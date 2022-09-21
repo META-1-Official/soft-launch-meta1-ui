@@ -184,6 +184,7 @@ class AccountRegistrationConfirm extends React.Component {
 		)
 			.then((res) => {
 				AccountActions.setPasswordAccount(name);
+
 				this.trackSignup(res);
 				if (this.state.registrarAccount) {
 					FetchChain('getAccount', name).then(() => {
