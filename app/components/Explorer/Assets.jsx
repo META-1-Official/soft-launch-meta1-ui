@@ -251,14 +251,15 @@ class Assets extends React.Component {
 							? coreAsset.get('symbol')
 							: 'META1');
 
-					dataSource.push({
-						symbol: asset.symbol,
-						issuer: asset.issuer,
-						currentSupply: asset.dynamic.current_supply,
-						assetId: asset.id,
-						marketId: marketID,
-						precision: asset.precision,
-					});
+					if (asset.id != '1.3.0')
+						dataSource.push({
+							symbol: asset.symbol,
+							issuer: asset.issuer,
+							currentSupply: asset.dynamic.current_supply,
+							assetId: asset.id,
+							marketId: marketID,
+							precision: asset.precision,
+						});
 				});
 		}
 
