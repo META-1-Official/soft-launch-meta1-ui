@@ -89,7 +89,7 @@ const SideBar = ({collapsed, currentLink, toggle}: ISideBar) => {
 			enableNavLinks,
 		},
 		{
-			menuId: 'help',
+			menuId: 'learn',
 			menuName: 'Learn',
 			icon: <QuestionCircleOutlined />,
 			enableNavLinks: true,
