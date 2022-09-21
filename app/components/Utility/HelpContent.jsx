@@ -43,9 +43,9 @@ function adjust_links(str, newRoute) {
 			return `<a href="${text}" rel="noopener noreferrer" class="external-link" target="_blank"`;
 
 		let page = endsWith(text, '.md') ? text.substr(0, text.length - 3) : text;
-		if (!page.startsWith('/help')) {
-			page = '/help/' + page;
-		} else if (page.startsWith('help')) {
+		if (!page.startsWith('/learn')) {
+			page = '/learn/' + page;
+		} else if (page.startsWith('learn')) {
 			page = '/' + page;
 		}
 
@@ -137,8 +137,9 @@ class HelpContent extends React.PureComponent {
 
 		var newRoute = '/' + path.join('/');
 
-		if (pathname.includes('#/help//explorer/fees')) newRoute = '/explorer/fees';
-		if (pathname.includes('#/help//settings')) newRoute = '/settings';
+		if (pathname.includes('#/learn//explorer/fees'))
+			newRoute = '/explorer/fees';
+		if (pathname.includes('#/learn//settings')) newRoute = '/settings';
 
 		this.updateMenu(newRoute);
 		this.props.history.push(newRoute);
