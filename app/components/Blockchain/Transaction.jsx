@@ -2029,7 +2029,7 @@ class Transaction extends React.Component {
 
 			info.push(
 				<OperationTable
-					txIndex={this.props.index}
+					txIndex={opIndex}
 					key={opIndex}
 					opCount={opCount}
 					index={opIndex}

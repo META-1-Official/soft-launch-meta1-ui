@@ -14,10 +14,11 @@ import AccountSelect from '../Forms/AccountSelect';
 import LoadingIndicator from '../LoadingIndicator';
 import Icon from '../Icon/Icon';
 import CopyButton from '../Utility/CopyButton';
-import {Form, Input, Button, Tooltip} from 'antd';
+import {Form, Input, Button, Tooltip, Select} from 'antd';
 import ReCAPTCHA from 'react-google-recaptcha';
 import WalletUnlockActions from 'actions/WalletUnlockActions';
 import {MailOutlined, UserOutlined, PhoneOutlined} from '@ant-design/icons';
+import countryCodes from '../Utility/countryCode.json';
 
 class AccountRegistrationForm extends React.Component {
 	static propTypes = {
@@ -38,6 +39,15 @@ class AccountRegistrationForm extends React.Component {
 			firstname: '',
 			lastname: '',
 			captcha: false,
+			country: 227,
+			selectedCountryObj: {
+				id: 227,
+				iso2: 'US',
+				defaultName: 'USA',
+				countryCode: '1',
+				patterns: ['XXX XXX XXXX'],
+			},
+			phoneFormat: '',
 		};
 		this.onSubmit = this.onSubmit.bind(this);
 		this.populateData = this.populateData.bind(this);
@@ -48,6 +58,8 @@ class AccountRegistrationForm extends React.Component {
 		this.onPhoneChange = this.onPhoneChange.bind(this);
 		this.onLastnameChange = this.onLastnameChange.bind(this);
 		this.onFirstnameChange = this.onFirstnameChange.bind(this);
+		this.phoneNumberSpacingHandler = this.phoneNumberSpacingHandler.bind(this);
+		this.phoneNumberChangeHandler = this.phoneNumberChangeHandler.bind(this);
 		this.accountNameInput = null;
 	}
 
@@ -61,6 +73,60 @@ class AccountRegistrationForm extends React.Component {
 	componentDidMount() {
 		ReactTooltip.rebuild();
 		this.populateData();
+	}
+
+	componentDidUpdate(prevProps, prevState) {
+		if (
+			prevState.phoneFormat !== this.state.phoneFormat ||
+			prevState.selectedCountryObj !== this.state.selectedCountryObj
+		) {
+			this.setState({
+				phone: `+${
+					this.state.selectedCountryObj.countryCode
+				}${this.state.phoneFormat.replaceAll(' ', '')}`,
+			});
+		}
+	}
+
+	phoneNumberChangeHandler(event) {
+		if (!isNaN(event.target.value.replaceAll(' ', ''))) {
+			if (event.target.value !== '0' && !event.target.value.includes('.')) {
+				if (!this.state.selectedCountryObj?.patterns) {
+					this.setState({
+						phoneFormat: event.target.value,
+					});
+				} else {
+					const spacingArr = this.phoneNumberSpacingHandler();
+					if (
+						event.nativeEvent.inputType !== 'deleteContentBackward' &&
+						spacingArr.includes(event.target.value.length)
+					) {
+						this.setState({
+							phoneFormat: event.target.value + ' ',
+						});
+					} else {
+						this.setState({
+							phoneFormat: event.target.value,
+						});
+					}
+				}
+			}
+		}
+	}
+	phoneNumberSpacingHandler() {
+		let pattern = '';
+		if (Array.isArray(this.state.selectedCountryObj?.patterns)) {
+			pattern = this.state.selectedCountryObj.patterns[0];
+		}
+		let spaceArr = [];
+		let count = 0;
+		for (let data of pattern) {
+			if (data === ' ') {
+				spaceArr.push(count);
+			}
+			count++;
+		}
+		return spaceArr;
 	}
 
 	populateData() {
@@ -312,29 +378,106 @@ class AccountRegistrationForm extends React.Component {
 									{
 										required: true,
 										validator: (_, value) => {
-											if (/^(\+|00)[1-9][0-9 \-\(\)\.]{10,32}$/.test(value)) {
-												return Promise.resolve();
+											var message = '';
+											if (value.length === 0)
+												message = 'The phone number is required.';
+											else if (
+												this.state.selectedCountryObj?.patterns &&
+												Array.isArray(
+													this.state.selectedCountryObj?.patterns
+												) &&
+												this.state.phoneFormat.length !==
+													this.state.selectedCountryObj?.patterns[0].length
+											) {
+												message = `Phone number should be ${
+													this.state.selectedCountryObj.patterns[0].replaceAll(
+														' ',
+														''
+													).length
+												} digits long`;
 											} else {
-												var message = '';
-												if (value.length === 0)
-													message = 'The phone number is required.';
-												else message = 'Invalid phone number.';
-												return Promise.reject(message);
+												return Promise.resolve();
 											}
+											return Promise.reject(message);
 										},
 									},
 								]}
 								name="phone"
 							>
-								<Input
-									id="phone"
-									required
-									placeholder="+1XXXXXXXXX"
-									value={this.state.phone}
-									onChange={this.onPhoneChange}
-									prefix={<PhoneOutlined />}
-									bordered={false}
-								/>
+								<div className="phone-display-flex">
+									<Select
+										showSearch
+										filterOption={(input, option) => {
+											return option.children[0]
+												.toLowerCase()
+												.includes(input.toLowerCase());
+										}}
+										defaultValue={this.state.country}
+										onChange={(value) => {
+											const obj = countryCodes.find(
+												(data) => data.id === Number(value)
+											);
+											this.setState({
+												country: value,
+												selectedCountryObj: {...obj},
+												phoneFormat: '',
+											});
+										}}
+									>
+										{countryCodes?.map((data, index) => {
+											return (
+												<Option key={index} value={data?.id}>
+													{data?.iso2}{' '}
+													<img
+														className="countryFlag-img"
+														src={`${
+															process.env.FLAG_ICON_CDN
+														}/${data?.iso2.toLowerCase()}.png`}
+														alt="flag"
+													/>
+												</Option>
+											);
+										})}
+									</Select>
+									<span className="phone-number-code">
+										+
+										{this.state.selectedCountryObj?.countryCode
+											? this.state.selectedCountryObj?.countryCode
+											: ''}
+									</span>
+									<Input
+										id="phone"
+										required
+										placeholder={
+											Array.isArray(this.state.selectedCountryObj?.patterns) &&
+											this.state.selectedCountryObj?.patterns.length > 0 &&
+											this.state.selectedCountryObj?.patterns[0]
+												? this.state.selectedCountryObj?.patterns[0]
+												: ''
+										}
+										value={this.state.phoneFormat}
+										onKeyDown={(event) => {
+											if (
+												event.key !== 'Backspace' &&
+												!this.state.selectedCountryObj.patterns &&
+												this.state.phoneFormat.length === 15
+											) {
+												event.preventDefault();
+											} else if (
+												event.key !== 'Backspace' &&
+												this.state.selectedCountryObj?.patterns &&
+												this.state.phoneFormat.length ===
+													this.state.selectedCountryObj.patterns[0].length
+											) {
+												event.preventDefault();
+											} else if (event.key === ' ') {
+												event.preventDefault();
+											}
+										}}
+										onChange={this.phoneNumberChangeHandler}
+										bordered={false}
+									/>
+								</div>
 							</Form.Item>
 						</div>
 					</div>
