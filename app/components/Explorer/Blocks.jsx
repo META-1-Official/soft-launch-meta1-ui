@@ -326,7 +326,7 @@ class Blocks extends React.Component {
 						padding: '2rem 1rem',
 					})}
 				>
-					<Row justify="center" gutter={[16, 16]}>
+					<Row gutter={[16, 16]}>
 						<Col xs={24} sm={12} md={8} lg={8} xl={6}>
 							<ExploreCard
 								icon={blockNumberIcon}
@@ -451,25 +451,6 @@ class Blocks extends React.Component {
 								</div>
 							</ExploreCard>
 						</Col>
-						<Col xs={24} sm={12} md={8} lg={8} xl={6}>
-							<ExploreCard
-								icon={blockNumberIcon}
-								textContent="explorer.blocks.trx_per_block"
-							>
-								<div>
-									<Text
-										css={() => ({
-											fontSize: '1.2rem',
-											color: 'white',
-											fontWeight: 700,
-										})}
-									>
-										{utils.format_number(trxCount / blockCount || 0, 2)}{' '}
-									</Text>
-								</div>
-							</ExploreCard>
-						</Col>
-
 						<Col xs={24} sm={12} md={8} lg={8} xl={6}>
 							<ExploreCard
 								icon={blockNumberIcon}
