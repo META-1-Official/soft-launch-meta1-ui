@@ -222,12 +222,14 @@ class Assets extends React.Component {
 					title: '',
 					dataIndex: 'marketId',
 					render: (item) => {
-						return (
-							<Link to={`/market/${item}`}>
-								{/* <Icon type={'line-chart'} />{' '} */}
-								<Translate content="header.exchange" />
-							</Link>
-						);
+						if (item === 'META1_META1') return null;
+						else
+							return (
+								<Link to={`/market/${item}`}>
+									{/* <Icon type={'line-chart'} />{' '} */}
+									<Translate content="header.exchange" />
+								</Link>
+							);
 					},
 				},
 			];
@@ -251,15 +253,14 @@ class Assets extends React.Component {
 							? coreAsset.get('symbol')
 							: 'META1');
 
-					if (asset.id != '1.3.0')
-						dataSource.push({
-							symbol: asset.symbol,
-							issuer: asset.issuer,
-							currentSupply: asset.dynamic.current_supply,
-							assetId: asset.id,
-							marketId: marketID,
-							precision: asset.precision,
-						});
+					dataSource.push({
+						symbol: asset.symbol,
+						issuer: asset.issuer,
+						currentSupply: asset.dynamic.current_supply,
+						assetId: asset.id,
+						marketId: marketID,
+						precision: asset.precision,
+					});
 				});
 		}
 
