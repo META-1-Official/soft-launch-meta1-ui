@@ -1033,6 +1033,11 @@ class AccountPortfolioList extends React.Component {
 	render() {
 		const {currentAccount} = this.props;
 		const {header, sortType} = this.state;
+		const totalBalances = this._renderBalances(
+			this.props.balanceList,
+			this.props.optionalAssets,
+			this.props.visible
+		);
 
 		return (
 			<div className="portfolio-table-wrapper">
@@ -1053,11 +1058,8 @@ class AccountPortfolioList extends React.Component {
 				</div>
 				<CustomTable
 					className="table dashboard-table table-hover"
-					rows={this._renderBalances(
-						this.props.balanceList,
-						this.props.optionalAssets,
-						this.props.visible
-					)}
+					rows={totalBalances}
+					total={totalBalances ? totalBalances.length : 0}
 					header={header}
 					pageSize={20}
 					label="utility.total_x_assets"
