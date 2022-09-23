@@ -23,7 +23,7 @@ export default class PaginatedList extends React.Component {
 	};
 
 	onChangePage(e) {
-		this.props.onChangePage(e.current, e.pageSize);
+		if (this.props.onChangePage) this.props.onChangePage(e.current, e.pageSize);
 	}
 
 	render() {
@@ -32,8 +32,10 @@ export default class PaginatedList extends React.Component {
 		const pageSizeOptions = [10, 20, 30, 40, 50, 100].filter(
 			(item) => item < total
 		);
-		pageSizeOptions.push(total);
-		if (rows.length < 20) pageSizeOptions.push(20);
+		if (total > 0) pageSizeOptions.push(total);
+		if (rows.length < 20) {
+			pageSizeOptions.push(20);
+		}
 		return (
 			<div className="paginated-list" style={this.props.style}>
 				<Table
