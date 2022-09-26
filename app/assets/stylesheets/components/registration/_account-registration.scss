@@ -378,7 +378,21 @@ div.registration {
 	.phone-display-flex {
 		display: flex;
 		align-items: center;
-
+		.phone-number-before-select {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 14px 30px;
+			padding-left: 10px !important;
+			border-radius: 4px;
+			margin-right: 6px;
+			color: #bfbfbf;
+			background: #21252f !important;
+			cursor: pointer;
+			span {
+				padding-left: 10px;
+			}
+		}
 		.phone-number-code {
 			color: #fff;
 			font-size: 15px;
@@ -509,5 +523,32 @@ div.registration {
 				margin: 10px auto;
 			}
 		}
+	}
+}
+.option-header-register {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	.select-country-code {
+		margin-left: 5px !important;
+	}
+	.countryFlag-img {
+		margin-right: 5px;
+	}
+}
+.option-header-register:hover {
+	color: #fff !important;
+}
+.select-box-country {
+	background-color: #000;
+	.ant-select-item-option-selected {
+		background-color: #ffc000;
+	}
+	.ant-select-item:hover {
+		background-color: #ffc000;
+	}
+	.option-header-register:hover {
+		background-color: #ffc000;
+		color: #fff !important;
 	}
 }
