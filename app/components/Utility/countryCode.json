@@ -59,7 +59,8 @@
 		"id": 9,
 		"iso2": "AR",
 		"defaultName": "Argentina",
-		"countryCode": "54"
+		"countryCode": "54",
+		"patterns": ["XXXXX XXXXX"]
 	},
 	{
 		"id": 10,
@@ -142,7 +143,8 @@
 		"id": 21,
 		"iso2": "BZ",
 		"defaultName": "Belize",
-		"countryCode": "501"
+		"countryCode": "501",
+		"patterns": ["XXXXX XXXXX"]
 	},
 	{
 		"id": 22,
@@ -176,7 +178,8 @@
 		"id": 26,
 		"iso2": "BQ",
 		"defaultName": "Bonaire, Sint Eustatius & Saba",
-		"countryCode": "599"
+		"countryCode": "599",
+		"patterns": ["XXXXX XXXXX"]
 	},
 	{
 		"id": 27,
@@ -217,7 +220,8 @@
 		"id": 32,
 		"iso2": "BG",
 		"defaultName": "Bulgaria",
-		"countryCode": "359"
+		"countryCode": "359",
+		"patterns": ["XXXXX XXXXX"]
 	},
 	{
 		"id": 33,
@@ -370,7 +374,8 @@
 		"id": 48,
 		"iso2": "CK",
 		"defaultName": "Cook Islands",
-		"countryCode": "682"
+		"countryCode": "682",
+		"patterns": ["XXXXX XXXXX"]
 	},
 	{
 		"id": 49,
@@ -405,7 +410,8 @@
 		"iso2": "CW",
 		"defaultName": "Curaçao",
 		"countryCode": "599",
-		"prefixes": ["9"]
+		"prefixes": ["9"],
+		"patterns": ["XXXXX XXXXX"]
 	},
 	{
 		"id": 54,
@@ -530,7 +536,8 @@
 		"id": 71,
 		"iso2": "FK",
 		"defaultName": "Falkland Islands",
-		"countryCode": "500"
+		"countryCode": "500",
+		"patterns": ["XXXXX XXXXX"]
 	},
 	{
 		"id": 72,
@@ -550,7 +557,8 @@
 		"id": 74,
 		"iso2": "FI",
 		"defaultName": "Finland",
-		"countryCode": "358"
+		"countryCode": "358",
+		"patterns": ["XXXXX XXXXX"]
 	},
 	{
 		"id": 75,
@@ -563,13 +571,15 @@
 		"id": 76,
 		"iso2": "GF",
 		"defaultName": "French Guiana",
-		"countryCode": "594"
+		"countryCode": "594",
+		"patterns": ["XXXXX XXXXX"]
 	},
 	{
 		"id": 77,
 		"iso2": "PF",
 		"defaultName": "French Polynesia",
-		"countryCode": "689"
+		"countryCode": "689",
+		"patterns": ["XXXXX XXXXX"]
 	},
 	{
 		"id": 78,
@@ -596,7 +606,8 @@
 		"id": 81,
 		"iso2": "DE",
 		"defaultName": "Germany",
-		"countryCode": "49"
+		"countryCode": "49",
+		"patterns": ["XXXXX XXXXX"]
 	},
 	{
 		"id": 82,
@@ -673,7 +684,7 @@
 		"iso2": "GY",
 		"defaultName": "Guyana",
 		"countryCode": "592",
-		"patterns": ["XXXXXXXXXX"]
+		"patterns": ["5926XXXXXX"]
 	},
 	{
 		"id": 93,
@@ -841,7 +852,8 @@
 		"id": 116,
 		"iso2": "LB",
 		"defaultName": "Lebanon",
-		"countryCode": "961"
+		"countryCode": "961",
+		"patterns": ["XXXXX XXXXX"]
 	},
 	{
 		"id": 117,
@@ -910,7 +922,8 @@
 		"id": 126,
 		"iso2": "MY",
 		"defaultName": "Malaysia",
-		"countryCode": "60"
+		"countryCode": "60",
+		"patterns": ["XXXXX XXXXX"]
 	},
 	{
 		"id": 127,
@@ -937,13 +950,15 @@
 		"id": 130,
 		"iso2": "MH",
 		"defaultName": "Marshall Islands",
-		"countryCode": "692"
+		"countryCode": "692",
+		"patterns": ["XXXXX XXXXX"]
 	},
 	{
 		"id": 131,
 		"iso2": "MQ",
 		"defaultName": "Martinique",
-		"countryCode": "596"
+		"countryCode": "596",
+		"patterns": ["XXXXX XXXXX"]
 	},
 	{
 		"id": 132,
@@ -963,13 +978,15 @@
 		"id": 134,
 		"iso2": "MX",
 		"defaultName": "Mexico",
-		"countryCode": "52"
+		"countryCode": "52",
+		"patterns": ["XXXXX XXXXX"]
 	},
 	{
 		"id": 135,
 		"iso2": "FM",
 		"defaultName": "Micronesia",
-		"countryCode": "691"
+		"countryCode": "691",
+		"patterns": ["XXXXX XXXXX"]
 	},
 	{
 		"id": 136,
@@ -996,7 +1013,8 @@
 		"id": 139,
 		"iso2": "ME",
 		"defaultName": "Montenegro",
-		"countryCode": "382"
+		"countryCode": "382",
+		"patterns": ["XXXXX XXXXX"]
 	},
 	{
 		"id": 140,
@@ -1023,7 +1041,8 @@
 		"id": 143,
 		"iso2": "MM",
 		"defaultName": "Myanmar",
-		"countryCode": "95"
+		"countryCode": "95",
+		"patterns": ["XXXXX XXXXX"]
 	},
 	{
 		"id": 144,
@@ -1036,7 +1055,8 @@
 		"id": 145,
 		"iso2": "NR",
 		"defaultName": "Nauru",
-		"countryCode": "674"
+		"countryCode": "674",
+		"patterns": ["XXXXX XXXXX"]
 	},
 	{
 		"id": 146,
@@ -1056,7 +1076,8 @@
 		"id": 148,
 		"iso2": "NC",
 		"defaultName": "New Caledonia",
-		"countryCode": "687"
+		"countryCode": "687",
+		"patterns": ["XXXXX XXXXX"]
 	},
 	{
 		"id": 149,
@@ -1090,19 +1111,22 @@
 		"id": 153,
 		"iso2": "NU",
 		"defaultName": "Niue",
-		"countryCode": "683"
+		"countryCode": "683",
+		"patterns": ["XXXXX XXXXX"]
 	},
 	{
 		"id": 154,
 		"iso2": "NF",
 		"defaultName": "Norfolk Island",
-		"countryCode": "672"
+		"countryCode": "672",
+		"patterns": ["XXXXX XXXXX"]
 	},
 	{
 		"id": 155,
 		"iso2": "KP",
 		"defaultName": "North Korea",
-		"countryCode": "850"
+		"countryCode": "850",
+		"patterns": ["XXXXX XXXXX"]
 	},
 	{
 		"id": 156,
@@ -1143,7 +1167,8 @@
 		"id": 161,
 		"iso2": "PW",
 		"defaultName": "Palau",
-		"countryCode": "680"
+		"countryCode": "680",
+		"patterns": ["XXXXX XXXXX"]
 	},
 	{
 		"id": 162,
@@ -1163,7 +1188,8 @@
 		"id": 164,
 		"iso2": "PG",
 		"defaultName": "Papua New Guinea",
-		"countryCode": "675"
+		"countryCode": "675",
+		"patterns": ["XXXXX XXXXX"]
 	},
 	{
 		"id": 165,
@@ -1253,7 +1279,8 @@
 		"id": 177,
 		"iso2": "SH",
 		"defaultName": "Saint Helena",
-		"countryCode": "247"
+		"countryCode": "247",
+		"patterns": ["XXXXX XXXXX"]
 	},
 	{
 		"id": 178,
@@ -1280,7 +1307,8 @@
 		"id": 181,
 		"iso2": "PM",
 		"defaultName": "Saint Pierre & Miquelon",
-		"countryCode": "508"
+		"countryCode": "508",
+		"patterns": ["XXXXX XXXXX"]
 	},
 	{
 		"id": 182,
@@ -1293,13 +1321,15 @@
 		"id": 183,
 		"iso2": "WS",
 		"defaultName": "Samoa",
-		"countryCode": "685"
+		"countryCode": "685",
+		"patterns": ["XXXXX XXXXX"]
 	},
 	{
 		"id": 184,
 		"iso2": "SM",
 		"defaultName": "San Marino",
-		"countryCode": "378"
+		"countryCode": "378",
+		"patterns": ["XXXXX XXXXX"]
 	},
 	{
 		"id": 185,
@@ -1375,7 +1405,8 @@
 		"id": 195,
 		"iso2": "SB",
 		"defaultName": "Solomon Islands",
-		"countryCode": "677"
+		"countryCode": "677",
+		"patterns": ["XXXXX XXXXX"]
 	},
 	{
 		"id": 196,
@@ -1486,7 +1517,8 @@
 		"id": 211,
 		"iso2": "TL",
 		"defaultName": "Timor-Leste",
-		"countryCode": "670"
+		"countryCode": "670",
+		"patterns": ["XXXXX XXXXX"]
 	},
 	{
 		"id": 212,
@@ -1499,13 +1531,15 @@
 		"id": 213,
 		"iso2": "TK",
 		"defaultName": "Tokelau",
-		"countryCode": "690"
+		"countryCode": "690",
+		"patterns": ["XXXXX XXXXX"]
 	},
 	{
 		"id": 214,
 		"iso2": "TO",
 		"defaultName": "Tonga",
-		"countryCode": "676"
+		"countryCode": "676",
+		"patterns": ["XXXXX XXXXX"]
 	},
 	{
 		"id": 215,
@@ -1546,7 +1580,8 @@
 		"id": 220,
 		"iso2": "TV",
 		"defaultName": "Tuvalu",
-		"countryCode": "688"
+		"countryCode": "688",
+		"patterns": ["XXXXX XXXXX"]
 	},
 	{
 		"id": 221,
@@ -1608,7 +1643,8 @@
 		"id": 229,
 		"iso2": "VU",
 		"defaultName": "Vanuatu",
-		"countryCode": "678"
+		"countryCode": "678",
+		"patterns": ["XXXXX XXXXX"]
 	},
 	{
 		"id": 230,
@@ -1621,13 +1657,15 @@
 		"id": 231,
 		"iso2": "VN",
 		"defaultName": "Vietnam",
-		"countryCode": "84"
+		"countryCode": "84",
+		"patterns": ["XXXXX XXXXX"]
 	},
 	{
 		"id": 232,
 		"iso2": "WF",
 		"defaultName": "Wallis & Futuna",
-		"countryCode": "681"
+		"countryCode": "681",
+		"patterns": ["XXXXX XXXXX"]
 	},
 	{
 		"id": 233,
