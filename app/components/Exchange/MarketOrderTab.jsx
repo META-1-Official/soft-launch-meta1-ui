@@ -23,8 +23,12 @@ const MarketOrderForm = (props) => {
 	const [sellBalance, setSellBalance] = useState(null);
 	const [balanceData, setBalanceData] = useState(null);
 
-	const total = Number(amount) * Number(props.price);
-	const usdVal = Number(amount) * Number(usdPrice);
+	const total =
+		props.baseAsset.get('symbol') === 'USDT'
+			? (Number(amount) * Number(usdPrice)).toFixed(2)
+			: Number(amount) * Number(props.price);
+
+	const usdVal = (Number(amount) * Number(usdPrice)).toFixed(2);
 	const isBid = props.type === 'bid';
 	const [form] = Form.useForm();
 
@@ -34,7 +38,7 @@ const MarketOrderForm = (props) => {
 			price: props.price,
 			usd: usdVal,
 			total: total,
-			totalBalance: Number(props.price) * Number(amount),
+			totalBalance: total,
 		});
 	}, []);
 
@@ -43,7 +47,7 @@ const MarketOrderForm = (props) => {
 			price: props.price,
 			usd: usdVal,
 			total: total,
-			totalBalance: Number(props.price) * Number(amount),
+			totalBalance: total,
 			amount,
 		});
 	}, [amount]);
@@ -53,6 +57,16 @@ const MarketOrderForm = (props) => {
 			price: props.price,
 		});
 	}, [props.price]);
+
+	useEffect(() => {
+		form.setFieldsValue({
+			price: props.price,
+			usd: 0,
+			total: 0,
+			totalBalance: 0,
+			amount: 0,
+		});
+	}, [props.quoteAsset.get('symbol')]);
 
 	useEffect(() => {
 		if (props.type === 'ask') {

@@ -57,6 +57,7 @@ class AccountSelector extends React.Component {
 		super(props);
 		this.state = {
 			inputChanged: false,
+			unknownAccount: false,
 		};
 	}
 
@@ -113,7 +114,6 @@ class AccountSelector extends React.Component {
 		let {onChange, onAccountChanged, accountName} = this.props;
 
 		let _accountName = this.getVerifiedAccountName(e);
-
 		if (_accountName === accountName) {
 			// nothing has changed, don't notify
 			return;
@@ -239,6 +239,9 @@ class AccountSelector extends React.Component {
 		// Selected Account
 		let displayText;
 		if (account) {
+			if (this.state.unknownAccount) {
+				this.setState({unknownAccount: false});
+			}
 			account.isKnownScammer = accountUtils.isKnownScammer(account.get('name'));
 			account.accountType = this.getInputType(account.get('name'));
 			account.accountStatus = ChainStore.getAccountMemberStatus(account);
@@ -251,23 +254,37 @@ class AccountSelector extends React.Component {
 					: account.accountType === 'id'
 					? account.get('name')
 					: null;
+		} else {
+			if (this.state.unknownAccount) {
+				error = counterpart.translate('account.errors.unknown');
+			}
 		}
 
 		//DEBUG console.log("props:" + JSON.stringify(this.props.account));
 		// Without Typeahead Error Handling
 		if (!typeahead) {
-			if (!account && accountName && inputType !== 'pubkey') {
-				error = counterpart.translate('account.errors.unknown');
-			}
+			setTimeout(() => {
+				if (!account && accountName && inputType !== 'pubkey') {
+					if (!this.state.unknownAccount) {
+						this.setState({unknownAccount: true});
+					}
+				}
+			}, 500);
 		} else {
-			if (
-				!(allowPubKey && inputType === 'pubkey') &&
-				!error &&
-				accountName &&
-				!account
-			)
-				error = counterpart.translate('account.errors.unknown');
+			setTimeout(() => {
+				if (
+					!(allowPubKey && inputType === 'pubkey') &&
+					!error &&
+					accountName &&
+					!account
+				) {
+					if (!this.state.unknownAccount) {
+						this.setState({unknownAccount: true});
+					}
+				}
+			}, 500);
 		}
+
 		if (allowPubKey && inputType === 'pubkey') displayText = 'Public Key';
 
 		if (account && linkedAccounts)

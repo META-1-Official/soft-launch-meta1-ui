@@ -1436,8 +1436,7 @@ class BuySell extends React.Component {
 											</button>
 										</Tooltip>
 										<div style={{fontSize: 12, marginTop: 10}}>
-											<span style={{color: '#ffc000'}}>Fee:</span> 0.00002 Meta
-											1
+											<span style={{color: '#ffc000'}}>Fee:</span> 0.00002 Meta1
 										</div>
 										{isGloballySettled ? (
 											<Button

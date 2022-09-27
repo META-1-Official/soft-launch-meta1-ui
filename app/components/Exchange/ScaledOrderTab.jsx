@@ -49,12 +49,29 @@ class ScaledOrderForm extends Component {
 		}
 	}
 
+	componentWillReceiveProps(nextProps) {
+		if (
+			nextProps.quoteAsset.get('symbol') !==
+				this.props.quoteAsset.get('symbol') ||
+			nextProps.baseAsset.get('symbol') !== this.props.baseAsset.get('symbol')
+		) {
+			this.formRef.current?.setFieldsValue({
+				priceLower: 0,
+				priceUpper: 0,
+				amount: 0,
+				orderCount: 0,
+				total: 0,
+			});
+		}
+	}
+
 	shouldComponentUpdate(nextProps, nextState) {
 		this._forceRender(nextProps, nextState);
 
 		return (
 			nextState.forceReRender !== this.state.forceReRender ||
 			nextState.total !== this.state.total ||
+			nextState.orderCount !== this.state.orderCount ||
 			nextProps.baseAsset !== this.props.baseAsset ||
 			nextProps.quoteAsset !== this.props.quoteAsset
 		);
@@ -62,26 +79,6 @@ class ScaledOrderForm extends Component {
 
 	componentDidMount() {
 		this._checkFeeAssets();
-	}
-
-	componentDidUpdate() {
-		const orderCount = Number(this._getFormValues().orderCount || 1);
-		const stateOrderCount = Number(this.state.orderCount);
-
-		if (
-			!isNaN(stateOrderCount) &&
-			!isNaN(orderCount) &&
-			Number(this.state.orderCount) !== orderCount
-		) {
-			this.setState(
-				{
-					orderCount: orderCount,
-				},
-				() => {
-					this._checkFeeAssets();
-				}
-			);
-		}
 	}
 
 	isFormValid() {
@@ -349,8 +346,11 @@ class ScaledOrderForm extends Component {
 		this.formRef?.current?.setFieldsValue({
 			total: total,
 		});
-
 		this.setState({total});
+
+		if (this.state.orderCount != orderCount) {
+			this.setState({orderCount});
+		}
 	}
 
 	_getQuantityFromTotal(total) {
@@ -1064,7 +1064,13 @@ class ScaledOrderForm extends Component {
 						</div>
 					</button>
 					<div style={{fontSize: 12, marginTop: 10}}>
-						<span style={{color: '#ffc000'}}>Fee:</span> 0.00002 Meta1
+						<span style={{color: '#ffc000'}}>Fee:</span>
+						&nbsp;
+						{Math.max(
+							0.00002,
+							(0.00002 * this.state.orderCount).toFixed(6)
+						)}{' '}
+						Meta1
 					</div>
 				</Form>
 			</div>

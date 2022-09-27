@@ -99,6 +99,7 @@ class AccountNameInput extends React.Component {
 				? 'Please enter valid wallet name'
 				: ChainValidation.is_account_name_error(value);
 
+		this.state.error = this.state.error.replace('Account', 'Wallet');
 		this.state.warning = null;
 		if (this.props.cheapNameOnly) {
 			if (!this.state.error && !ChainValidation.is_cheap_name(value))

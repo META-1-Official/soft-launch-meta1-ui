@@ -222,12 +222,14 @@ class Assets extends React.Component {
 					title: '',
 					dataIndex: 'marketId',
 					render: (item) => {
-						return (
-							<Link to={`/market/${item}`}>
-								{/* <Icon type={'line-chart'} />{' '} */}
-								<Translate content="header.exchange" />
-							</Link>
-						);
+						if (item === 'META1_META1') return null;
+						else
+							return (
+								<Link to={`/market/${item}`}>
+									{/* <Icon type={'line-chart'} />{' '} */}
+									<Translate content="header.exchange" />
+								</Link>
+							);
 					},
 				},
 			];
