@@ -30,6 +30,7 @@ class AccountRegistrationForm extends React.Component {
 
 	constructor() {
 		super();
+		this.phoneRef = React.createRef();
 		this.state = {
 			validAccountName: false,
 			accountName: '',
@@ -49,6 +50,7 @@ class AccountRegistrationForm extends React.Component {
 				patterns: ['XXX XXX XXXX'],
 			},
 			phoneFormat: '',
+			isCountrySelected: false,
 		};
 		this.onSubmit = this.onSubmit.bind(this);
 		this.populateData = this.populateData.bind(this);
@@ -85,6 +87,9 @@ class AccountRegistrationForm extends React.Component {
 					this.state.selectedCountryObj.countryCode
 				}${this.state.phoneFormat.replaceAll(' ', '')}`,
 			});
+		}
+		if (prevState.selectedCountryObj !== this.state.selectedCountryObj) {
+			this.phoneRef.current.focus();
 		}
 	}
 
@@ -240,7 +245,18 @@ class AccountRegistrationForm extends React.Component {
 		}
 
 		return (
-			<div className="form-body">
+			<div
+				className="form-body"
+				onClick={() => {
+					if (this.state.isCountrySelected) {
+						this.setState((prev) => {
+							return {
+								isCountrySelected: false,
+							};
+						});
+					}
+				}}
+			>
 				<Form
 					onFinish={(e) => this.onSubmit(e)}
 					layout={'vertical'}
@@ -397,47 +413,82 @@ class AccountRegistrationForm extends React.Component {
 								name="phone"
 							>
 								<div className="phone-display-flex">
-									<Select
-										showSearch
-										filterOption={(input, option) => {
-											return option.children[0]
-												.toLowerCase()
-												.includes(input.toLowerCase());
-										}}
-										defaultValue={this.state.country}
-										onChange={(value) => {
-											const obj = countryCodes.find(
-												(data) => data.id === Number(value)
-											);
-											this.setState({
-												country: value,
-												selectedCountryObj: {...obj},
-												phoneFormat: '',
-											});
-										}}
-									>
-										{countryCodes?.map((data, index) => {
-											return (
-												<Option key={index} value={data?.id}>
-													{data?.iso2}{' '}
-													<img
-														className="countryFlag-img"
-														src={`${
-															process.env.FLAG_ICON_CDN
-														}/${data?.iso2.toLowerCase()}.png`}
-														alt="flag"
-													/>
-												</Option>
-											);
-										})}
-									</Select>
-									<span className="phone-number-code">
-										+
-										{this.state.selectedCountryObj?.countryCode
-											? this.state.selectedCountryObj?.countryCode
-											: ''}
-									</span>
+									{!this.state.isCountrySelected && (
+										<div
+											className="phone-number-before-select"
+											onClick={(e) => {
+												this.setState({isCountrySelected: true});
+												e.stopPropagation();
+											}}
+										>
+											<img
+												className="countryFlag-img"
+												src={`${
+													process.env.FLAG_ICON_CDN
+												}/${this.state.selectedCountryObj?.iso2.toLowerCase()}.png`}
+												alt="flag"
+											/>
+											<span>+{this.state.selectedCountryObj.countryCode}</span>
+										</div>
+									)}
+									{this.state.isCountrySelected && (
+										<Select
+											style={{
+												width: 120,
+											}}
+											open={this.state.isCountrySelected}
+											dropdownClassName="select-box-country"
+											dropdownMatchSelectWidth={false}
+											showSearch
+											onClick={(e) => {
+												e.stopPropagation();
+											}}
+											filterOption={(input, option) => {
+												return option?.props?.children?.props?.children[0]?.props?.children[1]
+													.toLowerCase()
+													.includes(input.toLowerCase());
+											}}
+											defaultValue={this.state.country}
+											onChange={(value) => {
+												const obj = countryCodes.find(
+													(data) => data.id === Number(value)
+												);
+												this.setState((prev) => {
+													return {
+														...prev,
+														country: value,
+														selectedCountryObj: {...obj},
+														phoneFormat: '',
+														isCountrySelected: false,
+													};
+												});
+											}}
+										>
+											{countryCodes?.map((data, index) => {
+												return (
+													<Select.Option key={index} value={data?.id}>
+														<div className="option-header-register">
+															<div>
+																<img
+																	className="countryFlag-img"
+																	src={`${
+																		process.env.FLAG_ICON_CDN
+																	}/${data?.iso2.toLowerCase()}.png`}
+																	alt="flag"
+																/>
+																{data?.defaultName}
+															</div>
+															<div className="select-country-code">
+																+{data?.countryCode}{' '}
+															</div>
+														</div>
+													</Select.Option>
+												);
+											})}
+										</Select>
+									)}
 									<Input
+										ref={this.phoneRef}
 										id="phone"
 										required
 										placeholder={
