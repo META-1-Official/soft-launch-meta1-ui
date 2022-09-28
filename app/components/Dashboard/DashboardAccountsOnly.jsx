@@ -55,6 +55,7 @@ class Accounts extends React.Component {
 			width: null,
 			showIgnored: false,
 			currentEntry: props.currentEntry,
+			transactionHistoryCheckbox: ['Operation'],
 		};
 
 		this._setDimensions = this._setDimensions.bind(this);
@@ -181,6 +182,9 @@ class Accounts extends React.Component {
 								fullHeight={true}
 								showFilters={true}
 								dashboard
+								transactionHistoryCheckbox={
+									this.state.transactionHistoryCheckbox
+								}
 							/>
 						</Tab>
 					</Tabs>
