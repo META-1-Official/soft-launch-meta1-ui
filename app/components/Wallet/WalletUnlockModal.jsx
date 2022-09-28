@@ -559,7 +559,7 @@ class WalletUnlockModal extends React.Component {
 					Login with Wallet name (Cloud wallet)
 				</div>
 				<Form className="full-width" layout="vertical">
-					{/*<LoginTypeSelector type={passwordLogin} />*/}
+					{/* <LoginTypeSelector type={passwordLogin} /> */}
 					{/* <LoginTypeSelector /> */}
 					{passwordLogin || passwordlessLogin ? (
 						<div className="info-form">
@@ -579,12 +579,12 @@ class WalletUnlockModal extends React.Component {
 								reserveErrorSpace
 							/>
 
-							{/* {passwordLogin && (
+							{passwordLogin && (
 								<Form.Item
 									label={counterpart.translate('settings.password')}
 									validateStatus={passwordError ? 'error' : ''}
 									onChange={this.handlePasswordChange}
-									onPasswordChanged={() => { }}
+									onPasswordChanged={() => {}}
 									help={passwordError || ''}
 								>
 									<div className="password-field">
@@ -592,7 +592,7 @@ class WalletUnlockModal extends React.Component {
 											type={this.state.eyeChecked ? 'text' : 'password'}
 											value={this.state.password}
 											onChange={this.handlePasswordChange}
-											onPasswordChanged={() => { }}
+											onPasswordChanged={() => {}}
 											onPressEnter={this.handleLogin}
 											ref={(input) => {
 												this.password_input = input;
@@ -607,7 +607,7 @@ class WalletUnlockModal extends React.Component {
 										</div>
 									</div>
 								</Form.Item>
-							)} */}
+							)}
 						</div>
 					) : (
 						<div>

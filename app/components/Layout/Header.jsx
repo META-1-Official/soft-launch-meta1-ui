@@ -48,6 +48,8 @@ import {getLogo} from 'branding';
 import StyledButton from 'components/Button/Button';
 import theme from 'lib/styles/themeDark';
 
+import migrationService from 'services/migration.service';
+
 var logo = getLogo();
 const CHAINID_SHORT = chainIds[process.env.CURRENT_NET].substr(0, 8);
 

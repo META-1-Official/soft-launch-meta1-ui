@@ -18,10 +18,10 @@ class WalletUnlockStore {
 		// can't use settings store due to possible initialization race conditions
 		const storedSettings = ss.get('settings_v4', {});
 		if (storedSettings.passwordLogin === undefined) {
-			storedSettings.passwordLogin = false;
+			storedSettings.passwordLogin = true;
 		}
 		if (storedSettings.passwordlessLogin === undefined) {
-			storedSettings.passwordlessLogin = true;
+			storedSettings.passwordlessLogin = false;
 		}
 		let passwordLogin = storedSettings.passwordLogin;
 		const passwordlessLogin = storedSettings.passwordlessLogin;
@@ -35,7 +35,7 @@ class WalletUnlockStore {
 					: storedSettings.rememberMe,
 		};
 
-		this.walletLockTimeout = this._getTimeout(); // seconds (10 minutes)
+		this.walletLockTimeout = this._getTimeout(); // seconds (15 minutes)
 		this.timeout = null;
 
 		this.bindListeners({
@@ -132,7 +132,7 @@ class WalletUnlockStore {
 	}
 
 	_getTimeout() {
-		return parseInt(ss.get('lockTimeout', 600), 10);
+		return parseInt(ss.get('lockTimeout', 900), 10);
 	}
 
 	onCheckLock() {

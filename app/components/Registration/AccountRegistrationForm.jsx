@@ -190,7 +190,6 @@ class AccountRegistrationForm extends React.Component {
 	}
 
 	onSubmit(e) {
-		// sessionStorage.email = this.state.email;
 		ss.set('phone', this.state.phone);
 		ss.set('firstname', this.state.firstname);
 		ss.set('lastname', this.state.lastname);

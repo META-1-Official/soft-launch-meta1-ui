@@ -14,6 +14,7 @@ import ls from '../../lib/common/localStorage';
 import {Form, Input, Button, Tooltip} from 'antd';
 import Webcam from 'react-webcam';
 import faceKIService from 'services/face-ki.service';
+import migrationService from 'services/migration.service';
 
 import {toast} from 'react-toastify';
 
@@ -30,7 +31,9 @@ class AccountRegistration extends React.Component {
 			torusAlreadyAssociatedEmail: false,
 			finalStep: false,
 			faceKIStep: false,
+			migrationStep: false,
 			faceKISuccess: false,
+			passkey: '',
 		};
 		this.webcamRef = React.createRef();
 		this.continue = this.continue.bind(this);
@@ -43,6 +46,7 @@ class AccountRegistration extends React.Component {
 		this.proceedTorus = this.proceedTorus.bind(this);
 		this.enroll = this.enroll.bind(this);
 		this.nextStep = this.nextStep.bind(this);
+		this.handleImportBtn = this.handleImportBtn.bind(this);
 	}
 
 	dataURLtoFile(dataurl, filename) {
@@ -130,11 +134,30 @@ class AccountRegistration extends React.Component {
 				password,
 				finalStep: true,
 				faceKIStep: false,
+				migrationStep: false,
 				fromStep: false,
 			});
 		} else {
-			// alert('first enroll');
 			toast('first enroll');
+		}
+	}
+
+	async handleImportBtn() {
+		const response = await migrationService.validateSignature(
+			this.state.accountName,
+			this.state.passkey
+		);
+		if (response?.isValid === true) {
+			this.setState(
+				{
+					fromStep: false,
+					migrationStep: false,
+				},
+				() => this.renderTorusLogin()
+			);
+		} else {
+			toast('Private Key is invalid');
+			return;
 		}
 	}
 
@@ -172,14 +195,24 @@ class AccountRegistration extends React.Component {
 		return !utils.are_equal_shallow(nextState, this.state);
 	}
 
-	continue({accountName}) {
-		this.setState(
-			{
+	async continue({accountName}) {
+		const response = await migrationService.checkOldUser(accountName);
+
+		if (response?.found === true) {
+			this.setState({
 				accountName,
 				fromStep: false,
-			},
-			() => this.renderTorusLogin()
-		);
+				migrationStep: true,
+			});
+		} else {
+			this.setState(
+				{
+					accountName,
+					fromStep: false,
+				},
+				() => this.renderTorusLogin()
+			);
+		}
 	}
 
 	toggleConfirmed() {
@@ -215,7 +248,7 @@ class AccountRegistration extends React.Component {
 				const data = await openLogin.getUserInfo();
 			}
 		} catch (error) {
-			this.setState({fromStep: true});
+			// this.setState({ fromStep: true });
 		}
 	}
 
@@ -288,8 +321,13 @@ class AccountRegistration extends React.Component {
 	}
 
 	renderScreen() {
-		const {fromStep, faceKIStep, torusAlreadyAssociatedEmail, finalStep} =
-			this.state;
+		const {
+			fromStep,
+			faceKIStep,
+			torusAlreadyAssociatedEmail,
+			finalStep,
+			migrationStep,
+		} = this.state;
 		if (fromStep) {
 			return <AccountRegistrationForm continue={this.continue} />;
 		} else if (torusAlreadyAssociatedEmail) {
@@ -308,6 +346,74 @@ class AccountRegistration extends React.Component {
 						</Button>
 					</div>
 				</React.Fragment>
+			);
+		} else if (migrationStep) {
+			return (
+				<div
+					style={{
+						display: 'flex',
+						flexDirection: 'column',
+						alignItems: 'center',
+						justifyContent: 'center',
+					}}
+				>
+					<div
+						style={{
+							fontSize: '24px',
+							color: 'white',
+							marginBottom: '15px',
+							marginTop: '50px',
+						}}
+					>
+						Import Your Wallet
+					</div>
+					<div style={{color: 'white', marginBottom: '50px'}}>
+						To import your wallet please enter your Meta Wallet name and your
+						private passkey in the input below
+					</div>
+					<div style={{width: '100%'}}>
+						<label>Meta Wallet Name</label>
+						<input
+							control={Input}
+							value={this.state.accountName}
+							type="text"
+							contentEditable={false}
+							style={{border: '1px solid grey'}}
+						/>
+					</div>
+					<div style={{width: '100%', marginTop: '15px'}}>
+						<label>Your Owner Key</label>
+						<input
+							control={Input}
+							value={this.state.passkey}
+							type="text"
+							placeholder="Enter your owner key"
+							onChange={(event) => {
+								this.setState({passkey: event.target.value});
+							}}
+							style={{border: '1px solid grey'}}
+						/>
+					</div>
+					<Button
+						style={{
+							height: '60px',
+							width: '100%',
+							background: '#ffc000',
+							color: '#440000',
+							fontSize: '18px',
+							fontWeight: '600',
+							borderRadius: '6px',
+							border: 'none',
+							marginTop: '20px',
+						}}
+						disabled={
+							this.state.accountName === '' || this.state.passkey === ''
+						}
+						onClick={this.handleImportBtn}
+					>
+						Import Wallet
+					</Button>
+				</div>
 			);
 		} else if (faceKIStep) {
 			return (
@@ -357,6 +463,7 @@ class AccountRegistration extends React.Component {
 								border: 'none',
 								marginLeft: '10px',
 							}}
+							disabled={!this.state.faceKISuccess}
 						>
 							Next
 						</Button>
