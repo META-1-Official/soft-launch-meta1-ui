@@ -114,7 +114,7 @@ class TradingViewPriceChart extends React.Component {
 			overrides: {
 				'paneProperties.background': themeColors.bgColor,
 				'paneProperties.horzGridProperties.color': themeColors.axisLineColor,
-				'paneProperties.vertGridProperties.color': 'transparent',
+				'paneProperties.vertGridProperties.color': themeColors.axisLineColor,
 				'scalesProperties.lineColor': themeColors.axisLineColor,
 				'scalesProperties.textColor': themeColors.textColor,
 			},
