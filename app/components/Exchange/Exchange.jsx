@@ -1615,6 +1615,8 @@ class Exchange extends React.Component {
 					.toString();
 			}
 			return true;
+		} else {
+			state.toReceiveText = '';
 		}
 		return false;
 	}
@@ -1630,6 +1632,8 @@ class Exchange extends React.Component {
 				state.forSaleText = state.for_sale.getAmount({real: true}).toString();
 			}
 			return true;
+		} else {
+			state.forSaleText = '';
 		}
 		return false;
 	}
