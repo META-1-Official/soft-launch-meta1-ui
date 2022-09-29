@@ -14,6 +14,7 @@ import {Apis} from 'meta1-vision-ws';
 import walletIcon from '../../assets/icons/walleticon.png';
 import Immutable from 'immutable';
 import {BalanceValueComponent} from 'components/Utility/EquivalentValueComponent';
+import ExchangeInput from './ExchangeInput';
 
 const MarketOrderForm = (props) => {
 	const [feeAssets, setFeeAssets] = useState([]);
@@ -393,7 +394,7 @@ const MarketOrderForm = (props) => {
 					validateTrigger={'onBlur'}
 					rules={quantityRules}
 				>
-					<Input
+					<ExchangeInput
 						placeholder="0.0"
 						style={{width: '100%'}}
 						autoComplete="off"
