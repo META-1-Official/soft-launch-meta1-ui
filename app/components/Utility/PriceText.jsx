@@ -14,10 +14,8 @@ class PriceText extends React.Component {
 				<span>
 					&nbsp;&nbsp;
 					<span className="price-integer">{formattedPrice.int}.</span>
-					<span className="price-integer">{formattedPrice.dec ?? '0.0'}</span>
-					<span className="price-decimal">
-						{formattedPrice.trailing ?? '0.0'}
-					</span>
+					<span className="price-integer">{formattedPrice.dec ?? ''}</span>
+					<span className="price-decimal">{formattedPrice.trailing ?? ''}</span>
 				</span>
 			);
 		} else if (formattedPrice.full >= 0.1) {
@@ -25,10 +23,8 @@ class PriceText extends React.Component {
 				<span>
 					&nbsp;&nbsp;
 					<span className="price-decimal">{formattedPrice.int}.</span>
-					<span className="price-integer">{formattedPrice.dec ?? '0.0'}</span>
-					<span className="price-decimal">
-						{formattedPrice.trailing ?? '0.0'}
-					</span>
+					<span className="price-integer">{formattedPrice.dec ?? ''}</span>
+					<span className="price-decimal">{formattedPrice.trailing ?? ''}</span>
 				</span>
 			);
 		} else {
@@ -36,10 +32,8 @@ class PriceText extends React.Component {
 				<span>
 					&nbsp;&nbsp;
 					<span className="price-decimal">{formattedPrice.int}.</span>
-					<span className="price-integer">{formattedPrice.dec ?? '0.0'}</span>
-					<span className="price-decimal">
-						{formattedPrice.trailing ?? '0.0'}
-					</span>
+					<span className="price-integer">{formattedPrice.dec ?? ''}</span>
+					<span className="price-decimal">{formattedPrice.trailing ?? ''}</span>
 				</span>
 			);
 		}
