@@ -259,6 +259,7 @@ class RecentTransactions extends React.Component {
 					if (response.status === 200) {
 						response.data.data.forEach((h) => {
 							history.push({
+								trx_id: h.block_data.trx_id,
 								id: h.account_history.operation_id,
 								block_num: h.block_data.block_num,
 								op_in_trx: h.operation_history.op_in_trx,
@@ -508,16 +509,7 @@ class RecentTransactions extends React.Component {
 					</div>
 				</div>
 			),
-			transaction: (
-				<TrxHash
-					trx={
-						this.props.blocks
-							.toArray()
-							.filter((block) => block.id === o.block_num)[0]
-							?.transaction_merkle_root
-					}
-				/>
-			),
+			transaction: <TrxHash trx={o.trx_id} />,
 			fee: <FormattedAsset amount={fee.amount} asset={fee.asset_id} />,
 			time: (
 				<BlockTime
