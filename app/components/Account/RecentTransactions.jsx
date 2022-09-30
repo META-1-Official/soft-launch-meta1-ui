@@ -220,20 +220,10 @@ class RecentTransactions extends React.Component {
 
 	async _getHistory(accountsList) {
 		let history = [];
-
-		let seen_ops = new Set();
 		for (let account of accountsList) {
 			if (account) {
-				if (!this.props.showAll) {
-					let h = account.get('history');
-					if (h) {
-						history = history.concat(
-							h
-								.toJS()
-								.filter((op) => !seen_ops.has(op.id) && seen_ops.add(op.id))
-						);
-					}
-				} else {
+				let count = this.props.limit;
+				if (this.props.showAll) {
 					const countResponse = await explorerApi.get(`v1/es/account_history`, {
 						params: {
 							account_id: account.get('id'),
@@ -244,36 +234,35 @@ class RecentTransactions extends React.Component {
 						},
 					});
 
-					const count = countResponse.data.count;
+					count = countResponse.data.count;
+				}
+				const response = await explorerApi.get(`v1/es/account_history`, {
+					params: {
+						account_id: account.get('id'),
+						size: count,
+						from: 0,
+						type: 'data',
+						sort_by: '-account_history.sequence',
+					},
+				});
 
-					const response = await explorerApi.get(`v1/es/account_history`, {
-						params: {
-							account_id: account.get('id'),
-							size: count,
-							from: 0,
-							type: 'data',
-							sort_by: '-account_history.sequence',
-						},
-					});
-
-					if (response.status === 200) {
-						response.data.data.forEach((h) => {
-							history.push({
-								id: h.account_history.operation_id,
-								block_num: h.block_data.block_num,
-								op_in_trx: h.operation_history.op_in_trx,
-								trx_in_block: h.operation_history.trx_in_block,
-								virtual_op: h.operation_history.virtual_op,
-								op: JSON.parse(h.operation_history.op),
-								result: JSON.parse(h.operation_history.operation_result),
-								block_time: {
-									timestamp: moment.utc(h.block_data.block_time).toDate(),
-								},
-							});
+				if (response.status === 200) {
+					response.data.data.forEach((h) => {
+						history.push({
+							trx_id: h.block_data.trx_id,
+							id: h.account_history.operation_id,
+							block_num: h.block_data.block_num,
+							op_in_trx: h.operation_history.op_in_trx,
+							trx_in_block: h.operation_history.trx_in_block,
+							virtual_op: h.operation_history.virtual_op,
+							op: JSON.parse(h.operation_history.op),
+							result: JSON.parse(h.operation_history.operation_result),
+							block_time: {
+								timestamp: moment.utc(h.block_data.block_time).toDate(),
+							},
 						});
-
-						this.setState({limit: count, total: count});
-					}
+					});
+					this.setState({limit: count, total: count});
 				}
 			}
 		}
@@ -508,16 +497,7 @@ class RecentTransactions extends React.Component {
 					</div>
 				</div>
 			),
-			transaction: (
-				<TrxHash
-					trx={
-						this.props.blocks
-							.toArray()
-							.filter((block) => block.id === o.block_num)[0]
-							?.transaction_merkle_root
-					}
-				/>
-			),
+			transaction: <TrxHash trx={o.trx_id} />,
 			fee: <FormattedAsset amount={fee.amount} asset={fee.asset_id} />,
 			time: (
 				<BlockTime
