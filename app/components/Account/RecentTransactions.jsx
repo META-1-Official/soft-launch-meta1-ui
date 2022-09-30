@@ -163,11 +163,14 @@ class RecentTransactions extends React.Component {
 	shouldComponentUpdate(nextProps, nextState) {
 		if (
 			!utils.are_equal_shallow(this.props.accountsList, nextProps.accountsList)
-		)
+		) {
+			this._getHistory(nextProps.accountsList);
 			return true;
+		}
 		if (this.props.maxHeight !== nextProps.maxHeight) return true;
 		if (this.state.headerHeight !== nextState.headerHeight) return true;
 		if (this.state.filter !== nextState.filter) return true;
+		if (this.state.history !== nextState.history) return true;
 		if (this.props.blocks !== nextProps.blocks) return true;
 		if (this.props.customFilter) {
 			if (
