@@ -14,6 +14,7 @@ import {Apis} from 'meta1-vision-ws';
 import walletIcon from '../../assets/icons/walleticon.png';
 import Immutable from 'immutable';
 import {BalanceValueComponent} from 'components/Utility/EquivalentValueComponent';
+import ExchangeInput from './ExchangeInput';
 
 const MarketOrderForm = (props) => {
 	const [feeAssets, setFeeAssets] = useState([]);
@@ -120,8 +121,8 @@ const MarketOrderForm = (props) => {
 				: props.baseAsset.get('symbol');
 
 		let usd_price = 0.0;
-		if (symbol === 'META1') usd_price = 350.7914;
-		else if (symbol === undefined) usd_price = 0.0;
+
+		if (symbol === undefined) usd_price = 0.0;
 		else {
 			let usd_price_ratio = await Apis.db.get_published_asset_price(symbol);
 			usd_price = usd_price_ratio.numerator / usd_price_ratio.denominator;
@@ -393,7 +394,7 @@ const MarketOrderForm = (props) => {
 					validateTrigger={'onBlur'}
 					rules={quantityRules}
 				>
-					<Input
+					<ExchangeInput
 						placeholder="0.0"
 						style={{width: '100%'}}
 						autoComplete="off"

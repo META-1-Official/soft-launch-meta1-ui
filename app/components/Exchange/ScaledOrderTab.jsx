@@ -18,6 +18,7 @@ import {
 	preciseMinus,
 } from '../../services/Math';
 import {DatePicker} from 'antd';
+import ExchangeInput from './ExchangeInput';
 
 class ScaledOrderForm extends Component {
 	constructor(props) {
@@ -646,7 +647,7 @@ class ScaledOrderForm extends Component {
 		// );
 
 		const priceLowerInput = () => (
-			<Input
+			<ExchangeInput
 				placeholder="0.0"
 				style={{width: '100%'}}
 				autoComplete="off"
@@ -660,7 +661,7 @@ class ScaledOrderForm extends Component {
 		const priceLower = Number((formValues && formValues.priceLower) || 0);
 
 		const priceUpperInput = () => (
-			<Input
+			<ExchangeInput
 				placeholder="0.0"
 				style={{width: '100%'}}
 				autoComplete="off"
@@ -703,7 +704,7 @@ class ScaledOrderForm extends Component {
 		const feeInput = () => {
 			if (this.formRef) {
 				return (
-					<Input
+					<ExchangeInput
 						disabled
 						placeholder="0.0"
 						style={{width: '100%'}}
@@ -717,7 +718,7 @@ class ScaledOrderForm extends Component {
 		};
 
 		const marketFeeInput = (
-			<Input
+			<ExchangeInput
 				disabled
 				style={{width: '100%'}}
 				autoComplete="off"
@@ -771,7 +772,7 @@ class ScaledOrderForm extends Component {
 		}
 
 		const quantityInput = () => (
-			<Input
+			<ExchangeInput
 				placeholder="0.0"
 				style={{width: '100%'}}
 				autoComplete="off"
@@ -781,7 +782,7 @@ class ScaledOrderForm extends Component {
 		);
 
 		const orderCountInput = () => (
-			<Input
+			<ExchangeInput
 				style={{width: '100%'}}
 				placeholder="0"
 				autoComplete="off"

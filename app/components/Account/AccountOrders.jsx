@@ -479,8 +479,8 @@ class AccountOrders extends React.Component {
 		const dataSource = this._getDataSource(orders);
 
 		let pagination = {
-			hideOnSinglePage: true,
-			pageSize: 20,
+			// hideOnSinglePage: true,
+			pageSize: 10,
 			showTotal: (total, range) =>
 				counterpart.translate('utility.total_x_items', {
 					count: total,
