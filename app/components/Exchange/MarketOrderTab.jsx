@@ -49,13 +49,7 @@ const MarketOrderForm = (props) => {
 			totalBalance: total,
 			amount,
 		});
-	}, [amount]);
-
-	useEffect(() => {
-		form.setFieldsValue({
-			price: props.price,
-		});
-	}, [props.price]);
+	}, [amount, props.price]);
 
 	useEffect(() => {
 		form.setFieldsValue({
