@@ -204,7 +204,7 @@ class OrderBookRowHorizontal extends React.Component {
 						>
 							{price}
 						</td>
-						<td
+						{/*	<td
 							style={{
 								color: '#009D55',
 								textAlign: 'right',
@@ -212,7 +212,7 @@ class OrderBookRowHorizontal extends React.Component {
 							}}
 						>
 							{total}
-						</td>
+						</td>*/}
 					</tr>
 				) : (
 					<tr
@@ -242,7 +242,7 @@ class OrderBookRowHorizontal extends React.Component {
 						>
 							{amount}
 						</td>
-						<td
+						{/*	<td
 							style={{
 								color: '#009D55',
 								textAlign: 'right',
@@ -250,7 +250,7 @@ class OrderBookRowHorizontal extends React.Component {
 							}}
 						>
 							{total}
-						</td>
+						</td>*/}
 					</tr>
 				)}
 			</Tooltip>
@@ -930,13 +930,13 @@ class OrderBook extends React.Component {
 						>
 							<span className="header-sub-title">BUY PRICE</span>
 						</th>
-						<th
+						{/*<th
 							style={{
 								textAlign: 'right',
 							}}
 						>
 							<span className="header-sub-title">TOTAL</span>
-						</th>
+						</th>*/}
 					</tr>
 				</thead>
 			);
@@ -954,14 +954,14 @@ class OrderBook extends React.Component {
 						<th style={{textAlign: 'center'}}>
 							<span className="header-sub-title">SELL PRICE</span>
 						</th>
-						<th
+						{/*<th
 							style={{
 								width: '33.5%',
 								textAlign: 'right',
 							}}
 						>
 							<span className="header-sub-title">VOLUME</span>
-						</th>
+						</th>*/}
 					</tr>
 				</thead>
 			);
