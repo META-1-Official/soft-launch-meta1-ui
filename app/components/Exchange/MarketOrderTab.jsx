@@ -24,12 +24,10 @@ const MarketOrderForm = (props) => {
 	const [sellBalance, setSellBalance] = useState(null);
 	const [balanceData, setBalanceData] = useState(null);
 
-	const total =
-		props.baseAsset.get('symbol') === 'USDT'
-			? (Number(amount) * Number(usdPrice)).toFixed(2)
-			: Number(amount) * Number(props.price);
+	const total = Number(amount) * Number(props.price);
 
 	const usdVal = (Number(amount) * Number(usdPrice)).toFixed(2);
+
 	const isBid = props.type === 'bid';
 	const [form] = Form.useForm();
 
@@ -114,6 +112,7 @@ const MarketOrderForm = (props) => {
 			);
 		}
 	}, [props.quoteAssetBalance]);
+
 	const _setUsdPrice = async () => {
 		let symbol =
 			props.type === 'bid'
@@ -121,8 +120,8 @@ const MarketOrderForm = (props) => {
 				: props.baseAsset.get('symbol');
 
 		let usd_price = 0.0;
-
-		if (symbol === undefined) usd_price = 0.0;
+		if (symbol === 'META1') usd_price = props.price;
+		else if (symbol === undefined) usd_price = 0.0;
 		else {
 			let usd_price_ratio = await Apis.db.get_published_asset_price(symbol);
 			usd_price = usd_price_ratio.numerator / usd_price_ratio.denominator;
