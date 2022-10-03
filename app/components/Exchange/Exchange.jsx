@@ -1617,7 +1617,13 @@ class Exchange extends React.Component {
 			return true;
 		} else {
 			state.toReceiveText = '';
+			const asset = isBid ? this.props.quoteAsset : this.props.baseAsset;
+			state.to_receive = new Asset({
+				asset_id: asset.get('id'),
+				precision: asset.get('precision'),
+			});
 		}
+
 		return false;
 	}
 
@@ -1634,7 +1640,13 @@ class Exchange extends React.Component {
 			return true;
 		} else {
 			state.forSaleText = '';
+			const asset = isBid ? this.props.baseAsset : this.props.quoteAsset;
+			state.for_sale = new Asset({
+				asset_id: asset.get('id'),
+				precision: asset.get('precision'),
+			});
 		}
+
 		return false;
 	}
 
