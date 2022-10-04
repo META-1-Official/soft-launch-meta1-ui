@@ -944,24 +944,24 @@ class OrderBook extends React.Component {
 			let rightHeader = (
 				<thead>
 					<tr key="top-header" className="top-header">
-						<th
+						{/*<th
 							style={{
 								textAlign: 'left',
 							}}
 						>
 							<span className="header-sub-title">TOTAL</span>
-						</th>
-						<th style={{textAlign: 'right'}}>
+						</th>*/}
+						<th style={{textAlign: 'left'}}>
 							<span className="header-sub-title">SELL PRICE</span>
 						</th>
-						{/*<th
+						<th
 							style={{
 								width: '33.5%',
 								textAlign: 'right',
 							}}
 						>
 							<span className="header-sub-title">VOLUME</span>
-						</th>*/}
+						</th>
 					</tr>
 				</thead>
 			);
