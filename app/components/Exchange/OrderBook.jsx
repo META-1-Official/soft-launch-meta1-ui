@@ -925,7 +925,7 @@ class OrderBook extends React.Component {
 						</th>
 						<th
 							style={{
-								textAlign: 'center',
+								textAlign: 'right',
 							}}
 						>
 							<span className="header-sub-title">BUY PRICE</span>
@@ -951,7 +951,7 @@ class OrderBook extends React.Component {
 						>
 							<span className="header-sub-title">TOTAL</span>
 						</th>
-						<th style={{textAlign: 'center'}}>
+						<th style={{textAlign: 'right'}}>
 							<span className="header-sub-title">SELL PRICE</span>
 						</th>
 						{/*<th
