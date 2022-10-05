@@ -177,7 +177,7 @@ class Accounts extends React.Component {
 						<Tab title="account.recent">
 							<RecentTransactions
 								accountsList={myActiveAccounts}
-								limit={10}
+								limit={20}
 								compactView={false}
 								fullHeight={true}
 								showFilters={true}
