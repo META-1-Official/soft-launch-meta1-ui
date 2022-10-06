@@ -19,9 +19,11 @@ import Ps from 'perfect-scrollbar';
 import TransitionWrapper from '../Utility/TransitionWrapper';
 import {Row, Col, Typography} from 'antd';
 import ExploreCard from 'components/ExploreCard/ExploreCard';
-
+import axios from 'axios';
 require('../Blockchain/json-inspector.scss');
-
+import {explorerApi} from '../../services/api';
+import {chartLinearGradient} from '../Graph/chartUtilities';
+import moment from 'moment';
 // const logo = require('assets/asset-symbols/blockNumber.png');
 const blockNumberIcon = require('assets/explorer/blockNumber.png');
 const witnessIcon = require('assets/explorer/witness.png');
@@ -87,6 +89,7 @@ class Blocks extends React.Component {
 			animateEnter: false,
 			operationsHeight: null,
 			blocksHeight: null,
+			headerData: {},
 		};
 
 		this._updateHeight = this._updateHeight.bind(this);
@@ -97,6 +100,7 @@ class Blocks extends React.Component {
 			height = parseInt(height, 10);
 			BlockchainActions.getLatest(height, maxBlock);
 		}
+		this.fetchHeader();
 	}
 
 	componentWillMount() {
@@ -104,6 +108,7 @@ class Blocks extends React.Component {
 			capture: false,
 			passive: true,
 		});
+		this.fetchHeader();
 	}
 
 	componentWillUnmount() {
@@ -191,6 +196,35 @@ class Blocks extends React.Component {
 		Ps.update(oc);
 		let blocks = this.refs.blocks;
 		Ps.update(blocks);
+	}
+
+	getChartLabels(histories) {
+		const labels = [];
+		const startTime = moment();
+		labels.push(startTime.format('h:mm A'));
+		for (let i = 1; i < histories.length; i++) {
+			labels.push(startTime.add(-1, 'hours').format('h:mm A'));
+		}
+		return labels;
+	}
+
+	fetchHeader() {
+		const self = this;
+		explorerApi
+			.get(`/v1/explorer/header`, {
+				headers: {
+					'Content-Type': 'application/json-patch+json',
+				},
+			})
+			.then(function (response) {
+				// handle success
+				console.log(response);
+				self.setState({headerData: response.data});
+			})
+			.catch(function (error) {
+				// handle error
+				console.log(error);
+			});
 	}
 
 	render() {
@@ -317,6 +351,27 @@ class Blocks extends React.Component {
 			trxPerSec = trxCount / ((lastBlock - firstBlock) / 1000);
 		}
 
+		let block_history_labels = [];
+
+		if (this.state.headerData['blocks_24h_history']) {
+			block_history_labels = this.getChartLabels(
+				this.state.headerData['blocks_24h_history']
+			);
+		}
+
+		const chartProperties = {
+			borderColor: '#ffc000',
+			borderWidth: 1,
+			fill: true,
+			backgroundColor: () =>
+				chartLinearGradient(document.getElementById('engaged'), 165, {
+					start: '#0e1013',
+					end: '#141619',
+				}),
+			pointHoverRadius: 0,
+			pointHoverBorderColor: 'transparent',
+		};
+
 		return (
 			<div ref="outerWrapper">
 				{/* First row of stats */}
@@ -331,6 +386,13 @@ class Blocks extends React.Component {
 							<ExploreCard
 								icon={blockNumberIcon}
 								textContent="explorer.blocks.current_block"
+								labels={block_history_labels}
+								datasets={[
+									{
+										data: this.state.headerData['blocks_24h_history'],
+										...chartProperties,
+									},
+								]}
 								showAreaChart={true}
 							>
 								<div>

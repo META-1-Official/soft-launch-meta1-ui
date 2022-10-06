@@ -8,6 +8,8 @@ interface IExploreCards {
 	children: React.ReactNode;
 	textContent: boolean;
 	witnessCard: string;
+	labels: string[];
+	datasets: string[];
 }
 
 const ExploreCard = ({
@@ -16,6 +18,8 @@ const ExploreCard = ({
 	children,
 	textContent,
 	witnessCard,
+	labels,
+	datasets,
 }: IExploreCards) => {
 	return (
 		<div
@@ -69,7 +73,12 @@ const ExploreCard = ({
 						},
 					}}
 				>
-					<ChartjsAreaChart id="engaged" height={40} />
+					<ChartjsAreaChart
+						id="engaged"
+						height={40}
+						labels={labels}
+						datasets={datasets}
+					/>
 				</div>
 			)}
 		</div>

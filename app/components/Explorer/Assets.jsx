@@ -21,6 +21,9 @@ import SearchInput from '../Utility/SearchInput';
 import ExploreCard from 'components/ExploreCard/ExploreCard';
 import {FaChartBar} from 'react-icons/fa';
 import chainIds from 'chain/chainIds';
+import {explorerApi} from '../../services/api';
+import {chartLinearGradient} from '../Graph/chartUtilities';
+import moment from 'moment';
 
 let accountStorage = new ls('__graphene__');
 const {Text} = Typography;
@@ -54,6 +57,7 @@ class Assets extends React.Component {
 			activeFilter: 'market',
 			filterSearch: props.filterSearch || '',
 			rowsOnPage: '25',
+			headerData: {},
 		};
 
 		this._toggleFilter = this._toggleFilter.bind(this);
@@ -70,6 +74,7 @@ class Assets extends React.Component {
 
 	componentWillMount() {
 		this._checkAssets(this.props.assets, true);
+		this.fetchHeader();
 	}
 
 	handleFilterChange(e) {
@@ -113,6 +118,7 @@ class Assets extends React.Component {
 		if (this.state.assetsFetched >= this.state.totalAssets - 100) {
 			this.setState({isLoading: false});
 		}
+		this.fetchHeader();
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -140,6 +146,35 @@ class Assets extends React.Component {
 		SettingsActions.changeViewSetting({
 			[type]: e.target.value.toUpperCase(),
 		});
+	}
+
+	getChartLabels(histories) {
+		const labels = [];
+		const startTime = moment();
+		labels.push(startTime.format('h:mm A'));
+		for (let i = 1; i < histories.length; i++) {
+			labels.push(startTime.add(-1, 'hours').format('h:mm A'));
+		}
+		return labels;
+	}
+
+	fetchHeader() {
+		const self = this;
+		explorerApi
+			.get(`/v1/explorer/header`, {
+				headers: {
+					'Content-Type': 'application/json-patch+json',
+				},
+			})
+			.then(function (response) {
+				// handle success
+				console.log(response);
+				self.setState({headerData: response.data});
+			})
+			.catch(function (error) {
+				// handle error
+				console.log(error);
+			});
 	}
 
 	render() {
@@ -416,6 +451,27 @@ class Assets extends React.Component {
 				.toArray();
 		}
 
+		let meta1_volume_24h_history_labels = [];
+
+		if (this.state.headerData['meta1_volume_24h_history']) {
+			meta1_volume_24h_history_labels = this.getChartLabels(
+				this.state.headerData['meta1_volume_24h_history']
+			);
+		}
+
+		const chartProperties = {
+			borderColor: '#ffc000',
+			borderWidth: 1,
+			fill: true,
+			backgroundColor: () =>
+				chartLinearGradient(document.getElementById('engaged'), 165, {
+					start: '#0e1013',
+					end: '#141619',
+				}),
+			pointHoverRadius: 0,
+			pointHoverBorderColor: 'transparent',
+		};
+
 		return (
 			<div>
 				<div
@@ -430,6 +486,13 @@ class Assets extends React.Component {
 								icon={marketCapIcon}
 								textContent="explorer.blocks.24h_volumn_meta1"
 								showAreaChart={true}
+								labels={meta1_volume_24h_history_labels}
+								datasets={[
+									{
+										data: this.state.headerData['meta1_volume_24h_history'],
+										...chartProperties,
+									},
+								]}
 							>
 								<div>
 									<Text
