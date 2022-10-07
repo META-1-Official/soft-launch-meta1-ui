@@ -350,15 +350,16 @@ class WalletUnlockModal extends React.Component {
 					if (!passwordLogin && backup.name) {
 						this.restoreBackup(password, () => this.validate(password));
 					} else {
-						if (!this.state.rememberMe) {
-							if (isPersistantType()) {
-								setLocalStorageType('inram');
-							}
-						} else {
-							if (!isPersistantType()) {
-								setLocalStorageType('persistant');
-							}
-						}
+						// if (!this.state.rememberMe) {
+						// 	if (isPersistantType()) {
+						// 		setLocalStorageType('inram');
+						// 	}
+						// } else {
+						// 	if (!isPersistantType()) {
+						// 		setLocalStorageType('persistant');
+						// 	}
+						// }
+						setLocalStorageType('persistant');
 						const account = passwordLogin ? accountName : null;
 						this.validate(password, account);
 					}

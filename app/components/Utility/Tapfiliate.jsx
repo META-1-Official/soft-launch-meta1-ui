@@ -67,6 +67,20 @@ export const checkConversion = (o, referred_user) => {
 		const decimalOffset = o.op[1].amount.asset_id.asset_id === '1.3.0' ? 5 : 0;
 		const decimals = Math.max(0, precision - decimalOffset);
 
+		console.log('TAPFILIATE TEST', `${o.id}`, info[1].value.amount / decimals, {
+			customer_id: info[2].details.name,
+			meta_data: {
+				raw_amount: info[1].value.amount,
+				parsed_amount: info[1].value.amount / decimals,
+				crypto_currency: info[1].details.symbol,
+				precision: precision,
+				sender: info[0].details.name,
+				sender_id: info[0].details.id,
+				receiver: info[2].details.name,
+				received_id: info[2].details.id,
+			},
+		});
+
 		Tap.conversion(`${o.id}`, info[1].value.amount / decimals, {
 			customer_id: info[2].details.name,
 			meta_data: {
