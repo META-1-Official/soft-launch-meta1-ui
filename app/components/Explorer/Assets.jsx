@@ -51,7 +51,7 @@ class Assets extends React.Component {
 					? 3000
 					: 50, // mainnet has 3000+ assets, other chains may not have that many
 			assetsFetched: 0,
-			activeFilter: 'market',
+			activeFilter: 'user',
 			filterSearch: props.filterSearch || '',
 			rowsOnPage: '25',
 		};
@@ -568,11 +568,11 @@ class Assets extends React.Component {
 									>
 										{this.state.isLoading ? <Spin /> : null}
 									</span>
-									<SearchInput
+									{/*<SearchInput
 										value={this.state.filterSearch}
 										style={{width: '200px'}}
 										onChange={this.handleFilterChange}
-									/>
+									/>*/}
 									<Radio.Group
 										value={this.state.activeFilter}
 										onChange={this._toggleFilter}
