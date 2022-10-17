@@ -462,6 +462,9 @@ class AccountRegistrationForm extends React.Component {
 													};
 												});
 											}}
+											getPopupContainer={(triggerNode) =>
+												triggerNode.parentNode
+											}
 										>
 											{countryCodes?.map((data, index) => {
 												return (
