@@ -415,6 +415,13 @@ class Blocks extends React.Component {
 							<ExploreCard
 								icon={blockNumberIcon}
 								textContent="explorer.blocks.last_block"
+								labels={block_history_labels}
+								datasets={[
+									{
+										data: this.state.headerData['blocks_24h_history'],
+										...chartProperties,
+									},
+								]}
 								showAreaChart={true}
 							>
 								<BlockTimeAgo blockTime={headBlock} />
