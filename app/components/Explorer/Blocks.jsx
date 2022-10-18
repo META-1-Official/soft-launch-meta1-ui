@@ -424,7 +424,6 @@ class Blocks extends React.Component {
 							<ExploreCard
 								icon={blockNumberIcon}
 								textContent="explorer.blocks.avg_conf_time"
-								showAreaChart={true}
 							>
 								<div>
 									<Text
@@ -462,7 +461,6 @@ class Blocks extends React.Component {
 							<ExploreCard
 								icon={blockNumberIcon}
 								textContent="explorer.blocks.avg_conf_time"
-								showAreaChart={true}
 							>
 								<div>
 									<Text
