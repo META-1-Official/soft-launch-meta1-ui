@@ -114,7 +114,8 @@
 			"name_is_taken": "Questo nome wallet è già stato preso.",
 			"not_found": "Wallet non trovato.",
 			"premium_name_faucet": "Questo è un nome premium che non è supportato da questo faucet. Per favore inserisci un nome regolare che contiene almeno un trattino, un numero o nessuna vocale.",
-			"premium_name_warning": "Questo è un nome premium che costa di più di un nome contenente un trattino (-) o un numero."
+			"premium_name_warning": "Questo è un nome premium che costa di più di un nome contenente un trattino (-) o un numero.",
+			"name_with_dash_number": "Inserisci un nickname per il portafoglio (non il tuo nome personale) contenente almeno un trattino, un numero"
 		},
 		"new_user": "Nuovo utente?",
 		"no_order_history": "No order history",
