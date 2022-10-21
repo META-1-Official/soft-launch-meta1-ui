@@ -114,7 +114,8 @@
 			"name_is_taken": "El nombre de la cuenta ya está tomado.",
 			"not_found": "Cuenta no encontrada.",
 			"premium_name_faucet": "Este es un nombre premium. Los nombres premium son más caros y no pueden registrarse de forma gratuita con faucet. Intente seleccionar otro nombre que contenga al menos un guion, número o sin vocales.",
-			"premium_name_warning": "Este es un nombre premium que es más caro registrar. Los nombres comunes tienen al menos un guion, número o sin vocales."
+			"premium_name_warning": "Este es un nombre premium que es más caro registrar. Los nombres comunes tienen al menos un guion, número o sin vocales.",
+			"name_with_dash_number": "Ingrese un apodo de billetera (no su nombre personal) que contenga al menos un guión, un número"
 		},
 		"new_user": "Nuevo usuario?",
 		"no_order_history": "No order history",
