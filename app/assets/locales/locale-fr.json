@@ -114,7 +114,8 @@
 			"name_is_taken": "Wallet name is already taken.",
 			"not_found": "Wallet not found.",
 			"premium_name_faucet": "This is a premium name which is not supported by this faucet. Please enter a regular name containing least one dash, a number or no vowels.",
-			"premium_name_warning": "This is a premium name which is more expensive than a name containing a dash (-) or a number."
+			"premium_name_warning": "This is a premium name which is more expensive than a name containing a dash (-) or a number.",
+			"name_with_dash_number": "Veuillez entrer un surnom de portefeuille (pas votre nom personnel) contenant au moins un tiret, un chiffre"
 		},
 		"new_user": "New user?",
 		"no_order_history": "No order history",
