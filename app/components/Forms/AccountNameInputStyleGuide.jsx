@@ -96,6 +96,21 @@ class AccountNameInput extends React.Component {
 		return error;
 	}
 
+	hasNumber(myString) {
+		return /\d/.test(myString);
+	}
+
+	isVowelsExistAndHasNumber(str) {
+		if (this.hasNumber(str)) {
+			if (str.includes('-')) {
+				return true;
+			}
+			return false;
+		} else {
+			return false;
+		}
+	}
+
 	validateAccountName(value) {
 		this.state.error =
 			value === ''
@@ -119,6 +134,13 @@ class AccountNameInput extends React.Component {
 					'account.name_input.premium_name_warning'
 				);
 		}
+
+		if (!this.state.error && !this.isVowelsExistAndHasNumber(value)) {
+			this.state.error = counterpart.translate(
+				'account.name_input.name_with_dash_number'
+			);
+		}
+
 		this.setState({
 			value: value,
 			error: this.state.error,
