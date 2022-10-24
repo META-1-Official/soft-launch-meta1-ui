@@ -222,12 +222,6 @@ class AccountRegistrationForm extends React.Component {
 		return valid;
 	}
 
-	caChange = () => {
-		this.setState({
-			captcha: true,
-		});
-	};
-
 	renderAccountCreateForm() {
 		const {registrarAccount} = this.state;
 		const myAccounts = AccountStore.getMyAccounts();
