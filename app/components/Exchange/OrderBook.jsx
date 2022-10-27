@@ -137,24 +137,24 @@ class OrderBookRowHorizontal extends React.Component {
 		let price = (
 			<PriceText price={order.getPrice()} quote={quote} base={base} />
 		);
-		// let amount = isBid
-		// 	? utils.format_number(
-		// 			order.amountToReceive().getAmount({real: true}),
-		// 			quote.get('precision')
-		// 	  )
-		// 	: utils.format_number(
-		// 			order.amountForSale().getAmount({real: true}),
-		// 			quote.get('precision')
-		// 	  );
-		let value = isBid
+		let amount = isBid
 			? utils.format_number(
-					order.amountForSale().getAmount({real: true}),
-					base.get('precision')
+					order.amountToReceive().getAmount({real: true}),
+					quote.get('precision')
 			  )
 			: utils.format_number(
-					order.amountToReceive().getAmount({real: true}),
-					base.get('precision')
+					order.amountForSale().getAmount({real: true}),
+					quote.get('precision')
 			  );
+		// let value = isBid
+		// 	? utils.format_number(
+		// 			order.amountForSale().getAmount({real: true}),
+		// 			base.get('precision')
+		// 	  )
+		// 	: utils.format_number(
+		// 			order.amountToReceive().getAmount({real: true}),
+		// 			base.get('precision')
+		// 	  );
 		const totalValueBids = quoteTotal
 			? order.totalToReceive()
 			: order.totalForSale();
@@ -194,7 +194,7 @@ class OrderBookRowHorizontal extends React.Component {
 							}}
 							className="table-body-class"
 						>
-							{value}
+							{amount}
 						</td>
 						<td
 							style={{
@@ -232,7 +232,7 @@ class OrderBookRowHorizontal extends React.Component {
 								textAlign: 'right',
 							}}
 						>
-							{value}
+							{amount}
 						</td>
 					</tr>
 				)}

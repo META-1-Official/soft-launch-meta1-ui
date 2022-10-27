@@ -114,7 +114,8 @@
 			"name_is_taken": "Wallet name is already taken.",
 			"not_found": "Wallet not found.",
 			"premium_name_faucet": "This is a premium name. Premium names are more expensive and can't be registered for free by faucet. Try to select another name containing at least one dash, number or no vowels.",
-			"premium_name_warning": "This is a premium name that is more expensive to register. Regular names have at least one dash, number or no vowels."
+			"premium_name_warning": "This is a premium name that is more expensive to register. Regular names have at least one dash, number or no vowels.",
+			"name_with_dash_number": "Please enter a wallet nickname (not your personal name) containing at least one dash, a number"
 		},
 		"new_user": "New user?",
 		"no_order_history": "No order history",
