@@ -393,7 +393,7 @@ class AccountTrade extends React.Component {
 					render: (price) => {
 						return (
 							<div>
-								<div className="price">{`$${price}`}</div>
+								<div className="price">{`${price}`}</div>
 							</div>
 						);
 					},
@@ -775,7 +775,7 @@ class AccountTrade extends React.Component {
 
 				const rateHigh = high.toFixed(2);
 				const rateLow = low.toFixed(2);
-				rateHighLow = `$${rateHigh} / $${rateLow}`;
+				rateHighLow = `${rateHigh} / ${rateLow}`;
 			}
 
 			_dataSource.push({
