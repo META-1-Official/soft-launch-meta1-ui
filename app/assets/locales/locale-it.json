@@ -878,7 +878,8 @@
 				"issuer": "Erogatore",
 				"market_fee": "Commissione di mercato",
 				"market_fee_referral_reward_percent": "Market fee referral reward",
-				"stealth_supply": "Disponibilità nascosta"
+				"stealth_supply": "Disponibilità nascosta",
+				"confidential_supply": "Fornitura riservata"
 			},
 			"title": "Asset",
 			"whitelist": {

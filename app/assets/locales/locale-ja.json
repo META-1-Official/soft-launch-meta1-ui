@@ -878,7 +878,8 @@
 				"issuer": "発行者",
 				"market_fee": "取引手数料",
 				"market_fee_referral_reward_percent": "Market fee referral reward",
-				"stealth_supply": "隠れた供給量"
+				"stealth_supply": "隠れた供給量",
+				"confidential_supply": "秘密の供給量"
 			},
 			"title": "アセット",
 			"whitelist": {

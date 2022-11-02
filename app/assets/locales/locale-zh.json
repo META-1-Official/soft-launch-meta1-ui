@@ -884,7 +884,8 @@
 				"issuer": "发行人",
 				"market_fee": "市场手续费率",
 				"market_fee_referral_reward_percent": "市场手续费引荐奖励",
-				"stealth_supply": "隐私供应量"
+				"stealth_supply": "隐私供应量",
+				"confidential_supply": "秘密供应量"
 			},
 			"title": "资产",
 			"whitelist": {

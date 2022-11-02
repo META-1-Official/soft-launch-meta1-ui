@@ -878,7 +878,8 @@
 				"issuer": "Issuer",
 				"market_fee": "Market fee",
 				"market_fee_referral_reward_percent": "Market fee referral reward",
-				"stealth_supply": "Stealth supply"
+				"stealth_supply": "Stealth supply",
+				"confidential_supply": "Approvisionnement confidentiel"
 			},
 			"title": "Actif",
 			"whitelist": {

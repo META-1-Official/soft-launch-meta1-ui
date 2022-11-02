@@ -884,7 +884,8 @@
 				"issuer": "Эмитент",
 				"market_fee": "Рыночная комиссия",
 				"market_fee_referral_reward_percent": "Реферальное вознаграждение с рыночной комиссии",
-				"stealth_supply": "Стелс предложение"
+				"stealth_supply": "Стелс предложение",
+				"confidential_supply": "Конфиденциальная поставка"
 			},
 			"title": "Актив",
 			"whitelist": {
