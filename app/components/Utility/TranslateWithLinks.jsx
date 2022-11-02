@@ -134,7 +134,7 @@ export default class TranslateWithLinks extends React.Component {
 						break;
 
 					case 'change':
-						if (key.value && Object.keys(key.value).length > 0) {
+						if (key && key?.value && key?.value?.votes) {
 							const {votes, active, owner, memo} = key.value;
 							const voteDiv = votes && (
 								<div>
