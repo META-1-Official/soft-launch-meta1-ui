@@ -18,6 +18,9 @@ import {Form, Input, Button, Tooltip, Select} from 'antd';
 import ReCAPTCHA from 'react-google-recaptcha';
 import WalletUnlockActions from 'actions/WalletUnlockActions';
 import {MailOutlined, UserOutlined, PhoneOutlined} from '@ant-design/icons';
+import ls from '../../lib/common/localStorage';
+const STORAGE_KEY = '__AuthData__';
+const ss = new ls(STORAGE_KEY);
 import countryCodes from '../Utility/countryCode.json';
 
 class AccountRegistrationForm extends React.Component {
@@ -33,8 +36,6 @@ class AccountRegistrationForm extends React.Component {
 			accountName: '',
 			registrarAccount: null,
 			loading: false,
-			generatedPassword: `P${key.get_random_key().toWif()}`,
-			confirmPassword: '',
 			email: '',
 			phone: '',
 			firstname: '',
@@ -56,7 +57,6 @@ class AccountRegistrationForm extends React.Component {
 		this.onRegistrarAccountChange = this.onRegistrarAccountChange.bind(this);
 		this.onAccountNameChange = this.onAccountNameChange.bind(this);
 		this.onConfirmation = this.onConfirmation.bind(this);
-		this.onEmailChange = this.onEmailChange.bind(this);
 		this.onPhoneChange = this.onPhoneChange.bind(this);
 		this.onLastnameChange = this.onLastnameChange.bind(this);
 		this.onFirstnameChange = this.onFirstnameChange.bind(this);
@@ -140,13 +140,11 @@ class AccountRegistrationForm extends React.Component {
 
 		const firstname = url.searchParams.get('firstname');
 		const lastname = url.searchParams.get('lastname');
-		const email = url.searchParams.get('email');
 		const phone = url.searchParams.get('phone');
 
 		this.setState({
 			firstname: firstname,
 			lastname: lastname,
-			email: email,
 			phone: phone,
 		});
 	}
@@ -176,11 +174,6 @@ class AccountRegistrationForm extends React.Component {
 		this.setState({registrarAccount});
 	}
 
-	onEmailChange(e) {
-		const value = e.currentTarget.value;
-		this.setState({email: value});
-	}
-
 	onPhoneChange(e) {
 		const value = e.currentTarget.value;
 		this.setState({phone: value});
@@ -197,25 +190,23 @@ class AccountRegistrationForm extends React.Component {
 	}
 
 	onSubmit(e) {
-		sessionStorage.email = this.state.email;
-		sessionStorage.phone = this.state.phone;
-		sessionStorage.firstname = this.state.firstname;
-		sessionStorage.lastname = this.state.lastname;
+		ss.set('phone', this.state.phone);
+		ss.set('firstname', this.state.firstname);
+		ss.set('lastname', this.state.lastname);
 
 		if (this.isValid()) {
 			this.props.continue({
 				accountName: this.state.accountName,
-				password: this.state.generatedPassword,
 			});
 		}
 	}
 
 	onConfirmation(e) {
 		const value = e.currentTarget.value;
-		this.setState({
-			confirmPassword: value,
-			passwordConfirmed: value === this.state.generatedPassword,
-		});
+		// this.setState({
+		// 	confirmPassword: value,
+		// 	passwordConfirmed: value === this.state.generatedPassword,
+		// });
 	}
 
 	isValid() {
@@ -230,12 +221,6 @@ class AccountRegistrationForm extends React.Component {
 		}
 		return valid;
 	}
-
-	caChange = () => {
-		this.setState({
-			captcha: true,
-		});
-	};
 
 	renderAccountCreateForm() {
 		const {registrarAccount} = this.state;
@@ -352,7 +337,7 @@ class AccountRegistrationForm extends React.Component {
 							</Form.Item>
 						</div>
 						<div className="form-blocks">
-							<Form.Item
+							{/* <Form.Item
 								label={'Email'}
 								css={{marginRight: '10px'}}
 								name="email"
@@ -386,7 +371,7 @@ class AccountRegistrationForm extends React.Component {
 									prefix={<MailOutlined />}
 									bordered={false}
 								/>
-							</Form.Item>
+							</Form.Item> */}
 							<Form.Item
 								label={'Phone number'}
 								css={{marginLeft: '10px'}}
@@ -471,6 +456,9 @@ class AccountRegistrationForm extends React.Component {
 													};
 												});
 											}}
+											getPopupContainer={(triggerNode) =>
+												triggerNode.parentNode
+											}
 										>
 											{countryCodes?.map((data, index) => {
 												return (
@@ -559,7 +547,7 @@ class AccountRegistrationForm extends React.Component {
 						}
 						noLabel
 					/>
-					<Form.Item label={counterpart.translate('wallet.generated')}>
+					{/* <Form.Item label={counterpart.translate('wallet.generated')}>
 						<div className="password-wrapper">
 							<Input
 								disabled={true}
@@ -575,7 +563,7 @@ class AccountRegistrationForm extends React.Component {
 								className="button registration-layout--copy-password-btn"
 							/>
 						</div>
-					</Form.Item>
+					</Form.Item> */}
 					{firstAccount ? null : (
 						<div className="full-width-content form-group no-overflow">
 							<label htmlFor="account">
@@ -594,9 +582,7 @@ class AccountRegistrationForm extends React.Component {
 						</div>
 					)}
 					<ReCAPTCHA
-						sitekey="6LcriOkfAAAAAF6nxnLMIXkHXMeyyPH7oZuoNTpB"
-						// sitekey="6LdY-48UAAAAAAX8Y8-UdRtFks70LCRmyvyye0VU"
-						// sitekey=process.env.RECAPTCHA_SITE_KEY
+						sitekey={`${process.env.RECAPTCHA_SITE_KEY}`}
 						onChange={this.caChange.bind(this)}
 					/>
 					<br></br>

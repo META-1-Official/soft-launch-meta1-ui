@@ -6,6 +6,10 @@ import themeDark from './lib/styles/themeDark';
 import GlobalStyles from 'lib/styles/GlobalStyles';
 import Tap from '@tapfiliate/tapfiliate-js';
 
+import {ToastContainer} from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
+
 if (__PERFORMANCE_DEVTOOL__) {
 	const {registerObserver} = require('react-perf-devtool');
 	registerObserver();
@@ -19,6 +23,7 @@ const render = () => {
 		<ThemeProvider theme={themeDark}>
 			<Global styles={GlobalStyles(themeDark)} />
 			<AppInit />
+			<ToastContainer theme="dark" />
 		</ThemeProvider>,
 		rootEl
 	);

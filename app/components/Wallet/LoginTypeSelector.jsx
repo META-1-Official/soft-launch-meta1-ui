@@ -12,24 +12,34 @@ const LoginTypeSelectorView = ({type}) => {
 				className={`login-btn ${type ? 'active' : ''}`}
 				onClick={() => onClick('cloud')}
 			>
-				{counterpart.translate('account.name')} (
+				Password Login (
 				{counterpart.translate('wallet.password_model').toLowerCase()})
 			</div>
 			<div
+				className={`login-btn ${type ? '' : 'active'}`}
+				onClick={() => onClick('passwordless')}
+			>
+				Passwordless Login (Torus)
+			</div>
+			{/* <div
 				className={`login-btn ${type ? '' : 'active'}`}
 				onClick={() => onClick('local')}
 			>
 				{counterpart.translate('wallet.key_file')} (
 				{counterpart.translate('wallet.wallet_model').toLowerCase()})
-			</div>
+			</div> */}
 		</div>
 	);
 };
 
 const onClick = (value) => {
-	const validValues = ['cloud', 'local'];
+	const validValues = ['cloud', 'local', 'passwordless'];
 	if (!value in validValues) throw new Error('Invalid login type value');
 
+	SettingsActions.changeSetting({
+		setting: 'passwordlessLogin',
+		value: value === 'passwordless',
+	});
 	return SettingsActions.changeSetting({
 		setting: 'passwordLogin',
 		value: value === 'cloud',

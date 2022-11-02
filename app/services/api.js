@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-const voiceItApi = axios.create({
-	baseURL: `${process.env.VOICEIT_URL}/api`, // process.env.REACT_APP_VOICEIT_API_URL
+const faceKIApi = axios.create({
+	baseURL: `${process.env.FACEKI_URL}`,
 });
 
 const kycApi = axios.create({
-	baseURL: `${process.env.VOICEIT_URL}/apiewallet`, // process.env.REACT_APP_KYC_API_URL
+	baseURL: `${process.env.ESIGNATURE_URL}/apiewallet`,
 });
 
 const explorerApi = axios.create({
@@ -13,7 +13,11 @@ const explorerApi = axios.create({
 });
 
 const backUrlApi = axios.create({
-	baseURL: `https://${process.env.BACK_URL}`, // process.env.BACK_URL
+	baseURL: `${process.env.LITE_WALLET_URL}`, // process.env.BACK_URL
 });
 
-export {voiceItApi, kycApi, explorerApi, backUrlApi};
+const migrationApi = axios.create({
+	baseURL: `${process.env.LITE_WALLET_URL2}`,
+});
+
+export {faceKIApi, kycApi, explorerApi, backUrlApi, migrationApi};
