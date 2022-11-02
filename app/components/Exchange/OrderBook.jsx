@@ -171,7 +171,6 @@ class OrderBookRowHorizontal extends React.Component {
 					totalValueAsks.getAmount({real: true}),
 					totalAsset.get('precision')
 			  );
-
 		return (
 			<Tooltip title={'Total: ' + total} placement="right">
 				{isBid ? (
@@ -205,6 +204,15 @@ class OrderBookRowHorizontal extends React.Component {
 						>
 							{price}
 						</td>
+						<td
+							style={{
+								color: '#009D55',
+								textAlign: 'right',
+								paddingRight: '10px',
+							}}
+						>
+							{total}
+						</td>
 					</tr>
 				) : (
 					<tr
@@ -233,6 +241,15 @@ class OrderBookRowHorizontal extends React.Component {
 							}}
 						>
 							{amount}
+						</td>
+						<td
+							style={{
+								color: '#009D55',
+								textAlign: 'right',
+								paddingRight: '10px',
+							}}
+						>
+							{total}
 						</td>
 					</tr>
 				)}
@@ -908,10 +925,17 @@ class OrderBook extends React.Component {
 						</th>
 						<th
 							style={{
-								textAlign: 'right',
+								textAlign: 'center',
 							}}
 						>
 							<span className="header-sub-title">BUY PRICE</span>
+						</th>
+						<th
+							style={{
+								textAlign: 'right',
+							}}
+						>
+							<span className="header-sub-title">TOTAL</span>
 						</th>
 					</tr>
 				</thead>
@@ -920,7 +944,14 @@ class OrderBook extends React.Component {
 			let rightHeader = (
 				<thead>
 					<tr key="top-header" className="top-header">
-						<th style={{textAlign: 'left'}}>
+						<th
+							style={{
+								textAlign: 'left',
+							}}
+						>
+							<span className="header-sub-title">TOTAL</span>
+						</th>
+						<th style={{textAlign: 'center'}}>
 							<span className="header-sub-title">SELL PRICE</span>
 						</th>
 						<th
