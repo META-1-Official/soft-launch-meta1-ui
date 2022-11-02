@@ -94,7 +94,7 @@ export function getGoldImage() {
  */
 export function getDefaultTheme() {
 	// possible ["darkTheme", "lightTheme", "midnightTheme"]
-	return 'darkTheme';
+	return 'lightTheme';
 }
 
 /**
