@@ -884,7 +884,8 @@
 				"issuer": "Emisor",
 				"market_fee": "Comisión de mercado",
 				"market_fee_referral_reward_percent": "Market fee referral reward",
-				"stealth_supply": "Suministro de sigilo"
+				"stealth_supply": "Suministro de sigilo",
+				"confidential_supply": "suministro confidencial"
 			},
 			"title": "Activo",
 			"whitelist": {

@@ -882,7 +882,8 @@
 				"issuer": "Herausgeber",
 				"market_fee": "Marktgebühr",
 				"market_fee_referral_reward_percent": "Market fee referral reward",
-				"stealth_supply": "Stealth Verfügbarkeit"
+				"stealth_supply": "Stealth Verfügbarkeit",
+				"confidential_supply": "Vertrauliche Lieferung"
 			},
 			"title": "Anlagen",
 			"whitelist": {

@@ -878,7 +878,8 @@
 				"issuer": "İhraç Eden",
 				"market_fee": "Piyasa ücreti",
 				"market_fee_referral_reward_percent": "Market fee referral reward",
-				"stealth_supply": "Gizli arz"
+				"stealth_supply": "Gizli arz",
+				"confidential_supply": "Gizli tedarik"
 			},
 			"title": "Aktif",
 			"whitelist": {

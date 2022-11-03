@@ -460,7 +460,7 @@ class Asset extends React.Component {
 		var stealthSupply = dynamic ? (
 			<tr>
 				<td>
-					<Translate content="explorer.asset.summary.stealth_supply" />
+					<Translate content="explorer.asset.summary.confidential_supply" />
 				</td>
 				<td>
 					<FormattedAsset
