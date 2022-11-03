@@ -193,17 +193,8 @@ class WithdrawModalNew extends React.Component {
 		let fullSymbol = selectedGateway
 			? selectedGateway + '.' + selectedAsset
 			: selectedAsset;
-
-		if (
-			selectedGateway === 'META1' &&
-			(selectedAsset === 'BTC' ||
-				selectedAsset === 'LTC' ||
-				selectedAsset === 'ETH' ||
-				selectedAsset === 'XLM' ||
-				selectedAsset === 'BNB' ||
-				selectedAsset === 'EOS' ||
-				selectedAsset === 'USDT')
-		)
+		const existingAssets = ['BTC', 'LTC', 'ETH', 'XLM', 'BNB', 'EOS', 'USDT'];
+		if (selectedGateway === 'META1' && existingAssets.includes(selectedAsset))
 			fullSymbol = selectedAsset;
 
 		let withdrawalCurrencyBalance = 0;
