@@ -93,7 +93,7 @@ class BuySell extends React.Component {
 	shouldComponentUpdate(nextProps, nextState) {
 		this._forceRender(nextProps, nextState);
 
-		return (
+		let shouldUpdate =
 			nextState.isSettleModalVisible !== this.state.isSettleModalVisible ||
 			nextProps.amount !== this.props.amount ||
 			nextProps.onBorrow !== this.props.onBorrow ||
@@ -118,8 +118,11 @@ class BuySell extends React.Component {
 			nextProps.hideFunctionButtons !== this.props.hideFunctionButtons ||
 			nextState.isQuickDepositVisible !== this.state.isQuickDepositVisible ||
 			nextProps.base !== this.props.base ||
-			nextProps.quote !== this.props.quote
-		);
+			nextProps.quote !== this.props.quote;
+
+		if (shouldUpdate)
+			this.props.priceChangePercent(nextProps.type, nextProps.marketPrice);
+		return shouldUpdate;
 	}
 
 	getDatePickerRef = (node) => {
