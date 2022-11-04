@@ -135,9 +135,13 @@ class AccountNameInput extends React.Component {
 				);
 		}
 		if (!this.state.error && !this.isVowelsExistAndHasNumber(value)) {
-			this.state.error = counterpart.translate(
-				'account.name_input.name_with_dash_number'
-			);
+			let account = this.props.searchAccounts.find((a) => a === value);
+			if (this.props.accountShouldNotExist && account) {
+				this.state.error = '';
+			} else
+				this.state.error = counterpart.translate(
+					'account.name_input.name_with_dash_number'
+				);
 		}
 		this.setState({
 			value: value,
