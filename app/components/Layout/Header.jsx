@@ -723,6 +723,21 @@ class Header extends React.Component {
 										Send / Receive
 									</StyledButton>
 								</div>
+								<div
+									css={(theme) => ({
+										[`@media (max-width: ${theme.sizes.lg})`]: {
+											display: 'none',
+										},
+									})}
+								>
+									<StyledButton
+										buttonType="transparent"
+										style={{marginRight: '20px'}}
+										onClick={this._toggleLock.bind(this)}
+									>
+										Login
+									</StyledButton>
+								</div>
 								<div css={{marginRight: '10px'}}>
 									{this.props.currentAccount == null ? null : (
 										<span
