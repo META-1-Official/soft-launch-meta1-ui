@@ -40,7 +40,8 @@ const onClick = (value) => {
 		setting: 'passwordlessLogin',
 		value: value === 'passwordless',
 	});
-	return SettingsActions.changeSetting({
+
+	SettingsActions.changeSetting({
 		setting: 'passwordLogin',
 		value: value === 'cloud',
 	});

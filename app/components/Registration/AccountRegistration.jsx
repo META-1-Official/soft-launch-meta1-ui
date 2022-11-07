@@ -67,7 +67,6 @@ class AccountRegistration extends React.Component {
 		const imageSrc = this.webcamRef.current.getScreenshot();
 
 		if (!imageSrc) {
-			// alert('Check your camera');
 			toast('Check your camera');
 			return;
 		}

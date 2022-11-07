@@ -350,17 +350,22 @@ class WalletUnlockModal extends React.Component {
 		if (e) e.preventDefault();
 		const {passwordLogin, backup, passwordlessLogin} = this.props;
 		const {walletSelected, accountName} = this.state;
+		console.log('props', this.props);
 		if (this.state.captcha) {
 			if (!passwordLogin && !walletSelected && !passwordlessLogin) {
+				console.log('ERRR1');
 				this.setState({
 					customError: counterpart.translate('wallet.ask_to_select_wallet'),
 				});
 			} else {
+				console.log('NOT ERRO');
 				this.setState({passwordError: null}, () => {
 					const password = this.state.password;
 					if (!passwordLogin && !passwordlessLogin && backup.name) {
 						this.restoreBackup(password, () => this.validate(password));
+						console.log('@3');
 					} else {
+						console.log('@4', accountName);
 						if (!this.state.rememberMe) {
 							if (isPersistantType()) {
 								setLocalStorageType('inram');
@@ -560,7 +565,7 @@ class WalletUnlockModal extends React.Component {
 				</div>
 				<Form className="full-width" layout="vertical">
 					{/* <LoginTypeSelector type={passwordLogin} /> */}
-					{/* <LoginTypeSelector /> */}
+					<LoginTypeSelector />
 					{passwordLogin || passwordlessLogin ? (
 						<div className="info-form">
 							<DisableChromeAutocomplete />
@@ -684,7 +689,7 @@ class WalletUnlockModal extends React.Component {
 						/>
 					)}
 				</Form>
-				{`passwordLogin` && (
+				{passwordLogin && (
 					<div className="control-wrapper">
 						<Tooltip
 							key="wallet.remember_me_explanation"
@@ -743,12 +748,12 @@ class WalletUnlockModal extends React.Component {
 						type="primary"
 						onClick={this.handleLogin}
 						className="login-btn"
-						disabled={
-							!this.state.accountName ||
-							!this.state.password ||
-							this.state.accountName === '' ||
-							this.state.password === ''
-						}
+						// disabled={
+						// 	!this.state.accountName ||
+						// 	!this.state.password ||
+						// 	this.state.accountName === '' ||
+						// 	this.state.password === ''
+						// }
 					>
 						{counterpart.translate(
 							this.shouldUseBackupLogin()
