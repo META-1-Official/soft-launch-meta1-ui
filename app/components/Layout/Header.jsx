@@ -184,25 +184,25 @@ class Header extends React.Component {
 	}
 
 	_toggleLock(e, fromMenu) {
-		!fromMenu && e.preventDefault();
-		if (WalletDb.isLocked()) {
-			WalletUnlockActions.unlock()
-				.then(() => {
-					AccountActions.tryToSetCurrentAccount();
-				})
-				.catch(() => {});
-		} else {
-			WalletUnlockActions.lock();
-			if (!WalletUnlockStore.getState().rememberMe) {
-				if (!isPersistantType()) {
-					setLocalStorageType('persistant');
-				}
-				AccountActions.setPasswordAccount(null);
-				AccountStore.tryToSetCurrentAccount();
-			}
-		}
-		//DEBUG console.log("props:" + JSON.stringify(this.props));
-		this._closeAccountNotifications();
+		// !fromMenu && e.preventDefault();
+		// if (WalletDb.isLocked()) {
+		// 	WalletUnlockActions.unlock()
+		// 		.then(() => {
+		// 			AccountActions.tryToSetCurrentAccount();
+		// 		})
+		// 		.catch(() => {});
+		// } else {
+		// 	WalletUnlockActions.lock();
+		// 	if (!WalletUnlockStore.getState().rememberMe) {
+		// 		if (!isPersistantType()) {
+		// 			setLocalStorageType('persistant');
+		// 		}
+		// 		AccountActions.setPasswordAccount(null);
+		// 		AccountStore.tryToSetCurrentAccount();
+		// 	}
+		// }
+		// //DEBUG console.log("props:" + JSON.stringify(this.props));
+		// this._closeAccountNotifications();
 	}
 
 	_onNavigate(route, e, fromMenu, claimWalletFlag = false) {
@@ -723,7 +723,7 @@ class Header extends React.Component {
 										Send / Receive
 									</StyledButton>
 								</div>
-								<div css={{marginRight: '10px'}}>
+								<div css={{marginRight: '10px', display: 'none'}}>
 									{this.props.currentAccount == null ? null : (
 										<span
 											onClick={this._toggleLock.bind(this)}

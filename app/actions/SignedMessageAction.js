@@ -239,6 +239,9 @@ class SignedMessageAction {
 				})
 				.catch((res) => {
 					reject(res);
+				})
+				.finally(() => {
+					WalletUnlockActions.lock();
 				});
 		});
 	}

@@ -57,7 +57,10 @@ class Borrow extends Component {
 						isBorrowBaseModalVisible: true,
 					});
 				})
-				.catch(() => {});
+				.catch(() => {})
+				.finally(() => {
+					WalletUnlockActions.lock();
+				});
 		} else {
 			this.setState({
 				isBorrowBaseModalVisible: true,

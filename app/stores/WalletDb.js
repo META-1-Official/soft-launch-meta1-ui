@@ -231,7 +231,10 @@ class WalletDb extends BaseStore {
 						});
 				});
 			})
-			.catch(() => {});
+			.catch(() => {})
+			.finally(() => {
+				WalletUnlockActions.lock();
+			});
 	}
 
 	transaction_update() {
@@ -331,7 +334,11 @@ class WalletDb extends BaseStore {
 					this.setState({wallet});
 					if (unlock) {
 						aes_private = local_aes_private;
-						WalletUnlockActions.unlock().catch(() => {});
+						WalletUnlockActions.unlock()
+							.catch(() => {})
+							.finally(() => {
+								WalletUnlockActions.lock();
+							});
 					}
 				});
 				Promise.all([add, end])

@@ -27,7 +27,7 @@ class WalletUnlockStore {
 		const passwordlessLogin = storedSettings.passwordlessLogin;
 		this.state = {
 			locked: true,
-			passwordLogin: passwordLogin,
+			passwordLogin,
 			passwordlessLogin,
 			rememberMe:
 				storedSettings.rememberMe === undefined

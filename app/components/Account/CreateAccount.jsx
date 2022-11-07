@@ -172,7 +172,10 @@ class CreateAccount extends React.Component {
 						this.setState({loading: false});
 					});
 			})
-			.catch(() => {});
+			.catch(() => {})
+			.finally(() => {
+				WalletUnlockActions.lock();
+			});
 	}
 
 	createWallet(password) {

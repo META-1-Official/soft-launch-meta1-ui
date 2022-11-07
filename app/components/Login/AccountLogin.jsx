@@ -92,7 +92,7 @@ class AccountLogin extends React.Component {
 			// 	this.setState({passwordError: true});
 			// 	return false;
 			// }
-			WalletUnlockActions.unlock();
+			// WalletUnlockActions.unlock();
 			this.setState({
 				password: '',
 			});

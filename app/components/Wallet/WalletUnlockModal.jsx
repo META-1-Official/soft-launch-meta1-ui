@@ -685,7 +685,7 @@ class WalletUnlockModal extends React.Component {
 					)}
 				</Form>
 				{`passwordLogin` && (
-					<div className="control-wrapper">
+					<div className="control-wrapper none">
 						<Tooltip
 							key="wallet.remember_me_explanation"
 							title={counterpart.translate('wallet.remember_me_explanation')}

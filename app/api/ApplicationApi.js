@@ -216,6 +216,9 @@ const ApplicationApi = {
 			})
 			.catch((err) => {
 				console.error(err);
+			})
+			.finally(() => {
+				WalletUnlockActions.lock();
 			});
 	},
 
@@ -281,47 +284,51 @@ const ApplicationApi = {
 		if (typeof proposal_fee !== 'string') {
 			proposal_fee = proposal_fee.get('id');
 		}
-		return WalletUnlockActions.unlock().then(() => {
-			let proposer = null;
-			let transfers = [];
-			let tr = new TransactionBuilder();
-			list_of_transfers.forEach((transferData) => {
-				transferData.transactionBuilder = tr;
-				transfers.push(this._create_transfer_op(transferData));
-			});
-			return Promise.all(transfers)
-				.then((result) => {
-					return tr.update_head_block().then(() => {
-						let propose = [];
-						result.forEach((item, idx) => {
-							if (list_of_transfers[idx].propose_account) {
-								if (proposer == null) {
-									proposer = item.chain_propose_account;
-								}
-								propose.push({op: item.transfer_op});
-							} else {
-								tr.add_operation(item.transfer_op);
-							}
-						});
-						tr.add_type_operation('proposal_create', {
-							fee: {
-								amount: 0,
-								asset_id: proposal_fee,
-							},
-							proposed_ops: propose,
-							fee_paying_account: proposer.get('id'),
-						});
-						return WalletDb.process_transaction(
-							tr,
-							null, //signer_private_keys,
-							true
-						);
-					});
-				})
-				.catch((err) => {
-					console.log(err);
+		return WalletUnlockActions.unlock()
+			.then(() => {
+				let proposer = null;
+				let transfers = [];
+				let tr = new TransactionBuilder();
+				list_of_transfers.forEach((transferData) => {
+					transferData.transactionBuilder = tr;
+					transfers.push(this._create_transfer_op(transferData));
 				});
-		});
+				return Promise.all(transfers)
+					.then((result) => {
+						return tr.update_head_block().then(() => {
+							let propose = [];
+							result.forEach((item, idx) => {
+								if (list_of_transfers[idx].propose_account) {
+									if (proposer == null) {
+										proposer = item.chain_propose_account;
+									}
+									propose.push({op: item.transfer_op});
+								} else {
+									tr.add_operation(item.transfer_op);
+								}
+							});
+							tr.add_type_operation('proposal_create', {
+								fee: {
+									amount: 0,
+									asset_id: proposal_fee,
+								},
+								proposed_ops: propose,
+								fee_paying_account: proposer.get('id'),
+							});
+							return WalletDb.process_transaction(
+								tr,
+								null, //signer_private_keys,
+								true
+							);
+						});
+					})
+					.catch((err) => {
+						console.log(err);
+					});
+			})
+			.finally(() => {
+				WalletUnlockActions.lock();
+			});
 	},
 
 	issue_asset(
@@ -339,76 +346,80 @@ const ApplicationApi = {
 			FetchChain('getAccount', from_account),
 			FetchChain('getAccount', to_account),
 			unlock_promise,
-		]).then((res) => {
-			let [chain_memo_sender, chain_to] = res;
+		])
+			.then((res) => {
+				let [chain_memo_sender, chain_to] = res;
 
-			let memo_from_public, memo_to_public;
-			if (memo && encrypt_memo) {
-				memo_from_public = chain_memo_sender.getIn(['options', 'memo_key']);
+				let memo_from_public, memo_to_public;
+				if (memo && encrypt_memo) {
+					memo_from_public = chain_memo_sender.getIn(['options', 'memo_key']);
 
-				// The 1s are base58 for all zeros (null)
-				if (/111111111111111111111/.test(memo_from_public)) {
-					memo_from_public = null;
+					// The 1s are base58 for all zeros (null)
+					if (/111111111111111111111/.test(memo_from_public)) {
+						memo_from_public = null;
+					}
+
+					memo_to_public = chain_to.getIn(['options', 'memo_key']);
+					if (/111111111111111111111/.test(memo_to_public)) {
+						memo_to_public = null;
+					}
 				}
 
-				memo_to_public = chain_to.getIn(['options', 'memo_key']);
-				if (/111111111111111111111/.test(memo_to_public)) {
-					memo_to_public = null;
+				let memo_from_privkey;
+				if (encrypt_memo && memo) {
+					memo_from_privkey = WalletDb.getPrivateKey(memo_from_public);
+
+					if (!memo_from_privkey) {
+						throw new Error(
+							'Missing private memo key for sender: ' + from_account
+						);
+					}
 				}
-			}
 
-			let memo_from_privkey;
-			if (encrypt_memo && memo) {
-				memo_from_privkey = WalletDb.getPrivateKey(memo_from_public);
+				let memo_object;
+				if (memo && memo_to_public && memo_from_public) {
+					let nonce =
+						optional_nonce == null
+							? TransactionHelper.unique_nonce_uint64()
+							: optional_nonce;
 
-				if (!memo_from_privkey) {
-					throw new Error(
-						'Missing private memo key for sender: ' + from_account
-					);
+					memo_object = {
+						from: memo_from_public,
+						to: memo_to_public,
+						nonce,
+						message: encrypt_memo
+							? Aes.encrypt_with_checksum(
+									memo_from_privkey,
+									memo_to_public,
+									nonce,
+									memo
+							  )
+							: Buffer.isBuffer(memo)
+							? memo.toString('utf-8')
+							: memo,
+					};
 				}
-			}
 
-			let memo_object;
-			if (memo && memo_to_public && memo_from_public) {
-				let nonce =
-					optional_nonce == null
-						? TransactionHelper.unique_nonce_uint64()
-						: optional_nonce;
+				let tr = new TransactionBuilder();
+				tr.add_type_operation('asset_issue', {
+					fee: {
+						amount: 0,
+						asset_id: 0,
+					},
+					issuer: from_account,
+					asset_to_issue: {
+						amount: amount,
+						asset_id: asset_id,
+					},
+					issue_to_account: to_account,
+					memo: memo_object,
+				});
 
-				memo_object = {
-					from: memo_from_public,
-					to: memo_to_public,
-					nonce,
-					message: encrypt_memo
-						? Aes.encrypt_with_checksum(
-								memo_from_privkey,
-								memo_to_public,
-								nonce,
-								memo
-						  )
-						: Buffer.isBuffer(memo)
-						? memo.toString('utf-8')
-						: memo,
-				};
-			}
-
-			let tr = new TransactionBuilder();
-			tr.add_type_operation('asset_issue', {
-				fee: {
-					amount: 0,
-					asset_id: 0,
-				},
-				issuer: from_account,
-				asset_to_issue: {
-					amount: amount,
-					asset_id: asset_id,
-				},
-				issue_to_account: to_account,
-				memo: memo_object,
+				return WalletDb.process_transaction(tr, null, true);
+			})
+			.finally(() => {
+				WalletUnlockActions.lock();
 			});
-
-			return WalletDb.process_transaction(tr, null, true);
-		});
 	},
 
 	createWorker(options, account) {
@@ -541,6 +552,7 @@ const ApplicationApi = {
 			null, //signer_private_keys,
 			broadcast
 		);
+		await WalletUnlockActions.lock();
 		if (!transactionBuilder.tr_buffer) {
 			throw 'Something went finalization the transaction, this should not happen';
 		}
@@ -616,6 +628,7 @@ const ApplicationApi = {
 
 		transactionBuilder.add_operation(op);
 		await WalletDb.process_transaction(transactionBuilder, null, broadcast);
+		await WalletUnlockActions.lock();
 		if (!transactionBuilder.tr_buffer) {
 			throw 'Something went finalization the transaction, this should not happen';
 		}
@@ -706,6 +719,7 @@ const ApplicationApi = {
 
 		transactionBuilder.add_operation(op);
 		await WalletDb.process_transaction(transactionBuilder, null, broadcast);
+		await WalletUnlockActions.lock();
 		if (!transactionBuilder.tr_buffer) {
 			throw 'Something went finalization the transaction, this should not happen';
 		}
@@ -744,6 +758,7 @@ const ApplicationApi = {
 
 		transactionBuilder.add_operation(op);
 		await WalletDb.process_transaction(transactionBuilder, null, broadcast);
+		await WalletUnlockActions.lock();
 		if (!transactionBuilder.tr_buffer) {
 			throw 'Something went finalization the transaction, this should not happen';
 		}
@@ -786,6 +801,7 @@ const ApplicationApi = {
 
 		transactionBuilder.add_operation(op);
 		await WalletDb.process_transaction(transactionBuilder, null, broadcast);
+		await WalletUnlockActions.lock();
 		if (!transactionBuilder.tr_buffer) {
 			throw 'Something went finalization the transaction, this should not happen';
 		}
@@ -826,6 +842,7 @@ const ApplicationApi = {
 
 		transactionBuilder.add_operation(op);
 		await WalletDb.process_transaction(transactionBuilder, null, broadcast);
+		await WalletUnlockActions.lock();
 		if (!transactionBuilder.tr_buffer) {
 			throw 'Something went finalization the transaction, this should not happen';
 		}

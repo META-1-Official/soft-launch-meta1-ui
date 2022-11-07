@@ -32,7 +32,10 @@ class MemoText extends React.Component {
 			.then(() => {
 				ReactTooltip.rebuild();
 			})
-			.catch(() => {});
+			.catch(() => {})
+			.finally(() => {
+				WalletUnlockActions.lock();
+			});
 	}
 
 	render() {
