@@ -124,7 +124,6 @@ class AuthRedirect extends React.Component {
 
 		var file = this.dataURLtoFile(imageSrc, 'a.jpg');
 		const response = await faceKIService.liveLinessCheck(file);
-
 		if (response.data.liveness === 'Spoof') alert('try again');
 		else {
 			const response_verify = await faceKIService.verify(file);
@@ -133,22 +132,34 @@ class AuthRedirect extends React.Component {
 				response_verify.name === authData.email
 			) {
 				console.log('you verified');
+				toast('Face Verification is successful');
 				this.setState({faceKISuccess: true});
 			}
 		}
 	}
 
 	continueLogin() {
-		const {privKey} = this.props;
+		const {privKey, authData} = this.props;
 		const accountName = ss.get('account_login_name', '');
-		let password;
 		if (!accountName || !privKey) {
 			return;
 		}
-		password = this.genKey(`${accountName}${privKey}`);
-
 		if (this.state.faceKISuccess === true) {
-			this.validateLogin(password, accountName);
+			try {
+				const email = authData.email;
+				console.log('LITE_WALLET_URL', process.env.LITE_WALLET_URL);
+				axios
+					.post(process.env.LITE_WALLET_URL + '/login', {
+						accountName: 'zhong-1',
+						email: 'zhong@meta1coin.vision',
+					})
+					.then((response) => {
+						console.log('response', response);
+						// Next
+					});
+			} catch (err) {
+				console.log('Error in e-sign token generation');
+			}
 		} else {
 			alert('first verify');
 		}
@@ -173,6 +184,7 @@ class AuthRedirect extends React.Component {
 				const privKey = openLogin.privKey;
 				const data = await openLogin.getUserInfo();
 				setPrivKey(privKey);
+				console.log('userInfo', data);
 				setAuthData(data);
 			} else {
 				this.props.history.push('/registration');
