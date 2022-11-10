@@ -147,11 +147,10 @@ class AuthRedirect extends React.Component {
 		if (this.state.faceKISuccess === true) {
 			try {
 				const email = authData.email;
-				console.log('LITE_WALLET_URL', process.env.LITE_WALLET_URL);
 				axios
 					.post(process.env.LITE_WALLET_URL + '/login', {
-						accountName: 'zhong-1',
-						email: 'zhong@meta1coin.vision',
+						accountName: accountName,
+						email: email,
 					})
 					.then((response) => {
 						console.log('response', response);
