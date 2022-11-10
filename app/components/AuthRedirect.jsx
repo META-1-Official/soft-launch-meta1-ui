@@ -348,6 +348,7 @@ class AuthRedirect extends React.Component {
 							</Button>
 							<Button
 								onClick={this.continueLogin}
+								disabled={!this.state.faceKISuccess}
 								style={{
 									background: '#ffcc00',
 									border: 'none',
