@@ -35,6 +35,7 @@ class WalletUnlockModal extends React.Component {
 			isModalVisible: false,
 			accountName: '',
 			isOpen: false,
+			hasError: true,
 		};
 	};
 
@@ -134,11 +135,18 @@ class WalletUnlockModal extends React.Component {
 		if (!accountName) {
 			return;
 		}
+		if (this.state.hasError) {
+			return;
+		}
 		this.renderTorusLogin();
 	};
 
 	handleAccountNameChange = (accountName) => {
 		this.setState({accountName, error: null});
+	};
+
+	setHasError = (hasError) => {
+		this.setState({hasError});
 	};
 
 	render() {
@@ -178,6 +186,7 @@ class WalletUnlockModal extends React.Component {
 							account={accountName}
 							onChange={this.handleAccountNameChange}
 							onAccountChanged={() => {}}
+							setHasError={this.setHasError}
 							size={60}
 							hideImage
 							placeholder=" "

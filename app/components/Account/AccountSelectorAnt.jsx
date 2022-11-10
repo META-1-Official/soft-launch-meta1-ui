@@ -393,7 +393,9 @@ class AccountSelector extends React.Component {
 			disabled:
 				!(account || inputType === 'pubkey') || error || disableActionButton,
 		});
-		console.log('AccountSelector', error);
+
+		if (this.props.setHasError) this.props.setHasError(!!error);
+
 		return (
 			<div className="account-selector" style={this.props.style}>
 				<div className="content-area">
