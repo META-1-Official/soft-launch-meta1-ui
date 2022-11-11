@@ -121,7 +121,6 @@ class AuthRedirect extends React.Component {
 			alert('Check your camera');
 			return;
 		}
-
 		var file = this.dataURLtoFile(imageSrc, 'a.jpg');
 		const response = await faceKIService.liveLinessCheck(file);
 		if (response.data.liveness === 'Spoof') alert('try again');
@@ -129,7 +128,7 @@ class AuthRedirect extends React.Component {
 			const response_verify = await faceKIService.verify(file);
 			if (
 				response_verify.status === 'Verify OK' &&
-				response_verify.name === authData.email
+				response_verify.name.includes(authData.email)
 			) {
 				console.log('you verified');
 				toast('Face Verification is successful');
