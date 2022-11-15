@@ -6,7 +6,7 @@ import {PrivateKey, FetchChain, key} from 'meta1-vision-js/es';
 import qs from 'qs';
 import axios from 'axios';
 import {Helmet} from 'react-helmet';
-
+import {Modal} from 'antd';
 import AuthStore from '../stores/AuthStore';
 import AccountStore from '../stores/AccountStore';
 import WalletDb from '../stores/WalletDb';
@@ -20,6 +20,7 @@ import faceKIService from '../services/face-ki.service';
 import Webcam from 'react-webcam';
 import {Form, Input, Button, Tooltip} from 'antd';
 import {toast} from 'react-toastify';
+const OvalImage = require('assets/oval/oval.png');
 
 const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
@@ -37,6 +38,7 @@ class AuthRedirect extends React.Component {
 			redirectFromESign: false,
 			login: false,
 			faceKISuccess: false,
+			device: {},
 		};
 		this.skipFreshCreationAndProceed =
 			this.skipFreshCreationAndProceed.bind(this);
@@ -79,6 +81,20 @@ class AuthRedirect extends React.Component {
 		if (openLogin && !privKey) {
 			this.generateAuthData();
 		}
+
+		this.loadVideo();
+	}
+
+	async loadVideo() {
+		let features = {
+			audio: false,
+			video: {
+				width: {ideal: 1800},
+				height: {ideal: 900},
+			},
+		};
+		let display = await navigator.mediaDevices.getUserMedia(features);
+		setState({device: display?.getVideoTracks()[0]?.getSettings()});
 	}
 
 	componentDidUpdate(prevProps, prevState) {
@@ -182,7 +198,6 @@ class AuthRedirect extends React.Component {
 				const privKey = openLogin.privKey;
 				const data = await openLogin.getUserInfo();
 				setPrivKey(privKey);
-				console.log('userInfo', data);
 				setAuthData(data);
 			} else {
 				this.props.history.push('/registration');
@@ -306,7 +321,15 @@ class AuthRedirect extends React.Component {
 		return (
 			<React.Fragment>
 				{this.state.login && (
-					<div
+					<Modal
+						visible={true}
+						closeable={false}
+						ref="modal"
+						overlay={false}
+						modalHeader="header.unlock_short"
+						leftHeader
+						zIndex={1001}
+						footer={null}
 						style={{
 							display: 'flex',
 							flexDirection: 'column',
@@ -319,19 +342,39 @@ class AuthRedirect extends React.Component {
 							the security of your wallet
 						</h5>
 						<br />
-						<Webcam
-							audio={false}
-							ref={this.webcamRef}
-							screenshotFormat="image/jpeg"
-							videoConstraints={{
-								facingMode: 'user',
-								width: 500,
-								height: 500,
+						<div
+							style={{
+								position: 'relative',
 							}}
-							width={500}
-							height={500}
-							mirrored
-						/>
+						>
+							<Webcam
+								audio={false}
+								ref={this.webcamRef}
+								screenshotFormat="image/jpeg"
+								width={500}
+								videoConstraints={{deviceId: this.state.device?.deviceId}}
+								height={
+									this.state.device?.aspectRatio
+										? 500 / this.state.device?.aspectRatio
+										: 385
+								}
+								mirrored
+							/>
+							<img
+								src={OvalImage}
+								alt="oval-image"
+								className="oval-image"
+								style={{
+									position: 'absolute',
+									width: '100%',
+									height: '100%',
+									top: 0,
+									left: 0,
+									zIndex: 2,
+									opacity: 0.8,
+								}}
+							/>
+						</div>
 						<div
 							style={{
 								display: 'flex',
@@ -357,7 +400,7 @@ class AuthRedirect extends React.Component {
 								Continue Login
 							</Button>
 						</div>
-					</div>
+					</Modal>
 				)}
 			</React.Fragment>
 		);
