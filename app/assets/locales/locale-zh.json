@@ -1790,7 +1790,8 @@
 		"walletLoginByValue": "Bin-文件+密码",
 		"walletModelTitle": "通过bin-文件",
 		"walletNote": "请务必牢记，比特股不会存储用户密码，用户密码如果丢失不能帮助找回及恢复。",
-		"whyBinFile": "为什么我需要一个 .bin 文件？"
+		"whyBinFile": "为什么我需要一个 .bin 文件？",
+		"wait": "Please wait ..."
 	},
 	"scaled_orders": {
 		"action": {

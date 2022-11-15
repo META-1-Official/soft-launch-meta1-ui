@@ -36,6 +36,7 @@ class WalletUnlockModal extends React.Component {
 			accountName: '',
 			isOpen: false,
 			hasError: true,
+			isTorusLogin: false,
 		};
 	};
 
@@ -120,13 +121,16 @@ class WalletUnlockModal extends React.Component {
 			await openLogin.init();
 			ss.set('account_login_name', accountName);
 			ss.remove('account_registration_name');
+			this.setState({isTorusLogin: true});
 			if (openLogin.privKey) {
 				await openLogin.logout({});
 				await openLogin.login();
 			} else {
 				const privKey = await openLogin.login();
 			}
-		} catch (error) {}
+		} catch (error) {
+			this.setState({isTorusLogin: false});
+		}
 	};
 
 	handleLogin = (e) => {
@@ -189,7 +193,7 @@ class WalletUnlockModal extends React.Component {
 							setHasError={this.setHasError}
 							size={60}
 							hideImage
-							placeholder=" "
+							placeholder=""
 							useHR
 							labelClass="login-label"
 							reserveErrorSpace
@@ -203,9 +207,15 @@ class WalletUnlockModal extends React.Component {
 						type="primary"
 						onClick={this.handleLogin}
 						className="login-btn"
-						disabled={!this.state.accountName || this.state.accountName === ''}
+						disabled={
+							!this.state.accountName ||
+							this.state.accountName === '' ||
+							this.state.isTorusLogin === true
+						}
 					>
-						{counterpart.translate('header.unlock_short')}
+						{this.state.isTorusLogin
+							? counterpart.translate('registration.wait')
+							: counterpart.translate('header.unlock_short')}
 					</Button>
 					<div className="redirect">
 						Or create your <a href="/registration">wallet</a>

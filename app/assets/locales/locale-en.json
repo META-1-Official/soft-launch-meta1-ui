@@ -1912,7 +1912,8 @@
 		"walletLoginByValue": "Bin-file + Passkey",
 		"walletModelTitle": "By bin-file",
 		"walletNote": "Please keep in mind, that Meta doesn't store users passkeys and couldn't recover users wallets after passkey loss.",
-		"whyBinFile": "Why do I need a .bin file?"
+		"whyBinFile": "Why do I need a .bin file?",
+		"wait": "Please wait ..."
 	},
 	"scaled_orders": {
 		"action": {

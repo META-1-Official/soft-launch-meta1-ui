@@ -1791,7 +1791,8 @@
 		"walletLoginByValue": "Archivo bin + contraseña",
 		"walletModelTitle": "Por bin-archivo",
 		"walletNote": "Tenga en cuenta que Meta no almacena las contraseñas de los usuarios y no pudo recuperar las cuentas de los usuarios después de la pérdida de la contraseña.",
-		"whyBinFile": "¿Por qué necesito un archivo .bin?"
+		"whyBinFile": "¿Por qué necesito un archivo .bin?",
+		"wait": "Please wait ..."
 	},
 	"scaled_orders": {
 		"action": {
