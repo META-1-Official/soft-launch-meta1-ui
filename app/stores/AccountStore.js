@@ -633,9 +633,8 @@ class AccountStore extends BaseStore {
 		if (this.state.passwordAccount) name = this.state.passwordAccount;
 		if (this.state.passwordlessAccount) name = this.state.passwordlessAccount;
 		const key = this._getStorageKey();
-		if (!name) {
-			name = null;
-		}
+
+		if (!name) name = null;
 
 		if (this.state.currentAccount !== name) {
 			this.setState({currentAccount: name});

@@ -156,9 +156,8 @@ class AuthRedirect extends React.Component {
 	continueLogin() {
 		const {privKey, authData} = this.props;
 		const accountName = ss.get('account_login_name', '');
-		if (!accountName || !privKey) {
-			return;
-		}
+		if (!accountName || !privKey) return;
+
 		if (this.state.faceKISuccess === true) {
 			try {
 				const email = authData.email;
