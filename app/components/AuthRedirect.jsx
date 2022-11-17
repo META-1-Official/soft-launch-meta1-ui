@@ -39,6 +39,7 @@ class AuthRedirect extends React.Component {
 			login: false,
 			faceKISuccess: false,
 			device: {},
+			token: '',
 		};
 		this.skipFreshCreationAndProceed =
 			this.skipFreshCreationAndProceed.bind(this);
@@ -167,12 +168,12 @@ class AuthRedirect extends React.Component {
 						email: email,
 					})
 					.then((response) => {
-						console.log('response', response);
+						console.log('LW login response', response); // DEBUG
 						ss.set('account_login_name', response.data['accountName']);
 						ss.set('account_login_name', response.data['token']);
 					});
 			} catch (err) {
-				console.log('Error in e-sign token generation');
+				console.log('Error in e-sign token generation', err);
 			}
 		} else {
 			alert('first verify');
