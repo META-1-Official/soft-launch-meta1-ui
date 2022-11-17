@@ -168,7 +168,8 @@ class AuthRedirect extends React.Component {
 					})
 					.then((response) => {
 						console.log('response', response);
-						// Next
+						ss.set('account_login_name', response.data['accountName']);
+						ss.set('account_login_name', response.data['token']);
 					});
 			} catch (err) {
 				console.log('Error in e-sign token generation');

@@ -185,23 +185,22 @@ class Header extends React.Component {
 
 	_toggleLock(e, fromMenu) {
 		!fromMenu && e.preventDefault();
+
 		if (WalletDb.isLocked()) {
-			WalletUnlockActions.unlock()
-				.then(() => {
-					AccountActions.tryToSetCurrentAccount();
-				})
+			WalletUnlockActions.unlock_v2()
+				.then(() => {})
 				.catch(() => {});
 		} else {
-			WalletUnlockActions.lock();
+			WalletUnlockActions.lock_v2();
 			if (!WalletUnlockStore.getState().rememberMe) {
-				if (!isPersistantType()) {
-					setLocalStorageType('persistant');
-				}
-				AccountActions.setPasswordAccount(null);
-				AccountStore.tryToSetCurrentAccount();
+				// if (!isPersistantType()) {
+				// 	setLocalStorageType('persistant');
+				// }
+				// AccountActions.setPasswordAccount(null);
+				// AccountStore.tryToSetCurrentAccount();
 			}
 		}
-		//DEBUG console.log("props:" + JSON.stringify(this.props));
+
 		this._closeAccountNotifications();
 	}
 

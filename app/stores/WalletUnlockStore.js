@@ -27,6 +27,7 @@ class WalletUnlockStore {
 		const passwordlessLogin = storedSettings.passwordlessLogin;
 		this.state = {
 			locked: true,
+			locked_v2: true,
 			passwordLogin,
 			passwordlessLogin,
 			rememberMe:
@@ -62,6 +63,17 @@ class WalletUnlockStore {
 		this.setState({resolve, reject, locked: WalletDb.isLocked()});
 	}
 
+	onUnlock_v2({resolve_v2, reject_v2}) {
+		// this._setLockTimeout();
+		if (!WalletDb.isLocked()) {
+			this.setState({locked: false});
+			resolve_v2();
+			return;
+		}
+
+		this.setState({resolve_v2, reject_v2, locked_v2: WalletDb.isLocked()});
+	}
+
 	onLock({resolve}) {
 		//DEBUG console.log('... WalletUnlockStore\tprogramatic lock', WalletDb.isLocked())
 		if (WalletDb.isLocked()) {
@@ -80,10 +92,33 @@ class WalletUnlockStore {
 		resolve();
 	}
 
+	onLock_v2({resolve_v2}) {
+		if (WalletDb.isLocked()) {
+			resolve_v2();
+			return;
+		}
+		// WalletDb.onLock_v2();
+		this.setState({
+			resolve_v2: null,
+			reject_v2: null,
+			locked_v2: WalletDb.isLocked(),
+		});
+		resolve_v2();
+	}
+
 	onCancel() {
 		if (typeof this.state.reject === 'function')
 			this.state.reject({isCanceled: true});
-		this.setState({resolve: null, reject: null});
+
+		if (typeof this.state.reject_v2 === 'function')
+			this.state.reject_v2({isCanceled: true});
+
+		this.setState({
+			resolve: null,
+			resolve_v2: null,
+			reject: null,
+			reject_v2: null,
+		});
 	}
 
 	onChange() {

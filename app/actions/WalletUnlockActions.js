@@ -25,6 +25,18 @@ class WalletUnlockActions {
 		};
 	}
 
+	unlock_v2() {
+		return (dispatch) => {
+			return new Promise((resolve, reject) => {
+				dispatch({resolve_v2: resolve, reject_v2: reject});
+			})
+				.then((was_unlocked) => {})
+				.catch((params) => {
+					throw params;
+				});
+		};
+	}
+
 	lock() {
 		return (dispatch) => {
 			return new Promise((resolve) => {
@@ -36,6 +48,17 @@ class WalletUnlockActions {
 					referred_user !== 'null' &&
 					ss.set('referred_user_id', referred_user);
 				if (was_unlocked) WrappedWalletUnlockActions.change();
+			});
+		};
+	}
+
+	lock_v2() {
+		return (dispatch) => {
+			return new Promise((resolve_v2) => {
+				dispatch({resolve_v2});
+			}).then((was_unlocked) => {
+				localStorage.clear();
+				// if (was_unlocked) WrappedWalletUnlockActions.change();
 			});
 		};
 	}
