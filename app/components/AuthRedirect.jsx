@@ -170,7 +170,7 @@ class AuthRedirect extends React.Component {
 					.then((response) => {
 						console.log('LW login response', response); // DEBUG
 						ss.set('account_login_name', response.data['accountName']);
-						ss.set('account_login_name', response.data['token']);
+						ss.set('account_login_token', response.data['token']);
 					});
 			} catch (err) {
 				console.log('Error in e-sign token generation', err);
@@ -318,6 +318,10 @@ class AuthRedirect extends React.Component {
 		toast('Success');
 	}
 
+	handleModalClose = () => {
+		this.props.history.push('/market/META1_USDT');
+	};
+
 	render() {
 		return (
 			<React.Fragment>
@@ -337,6 +341,7 @@ class AuthRedirect extends React.Component {
 							alignItems: 'center',
 							justifyContent: 'center',
 						}}
+						onCancel={this.handleModalClose}
 					>
 						<h5>
 							We will setup your Biometric two factor authentication, to ensure
