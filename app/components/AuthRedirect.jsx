@@ -39,6 +39,7 @@ class AuthRedirect extends React.Component {
 			login: false,
 			faceKISuccess: false,
 			device: {},
+			token: '',
 		};
 		this.skipFreshCreationAndProceed =
 			this.skipFreshCreationAndProceed.bind(this);
@@ -170,9 +171,31 @@ class AuthRedirect extends React.Component {
 					.then((response) => {
 						console.log('response', response);
 						// Next
+						if (response.data.success == 'success') {
+							this.setState({token: response.data.token});
+
+							const config = {
+								headers: {
+									Authorization: 'Bearer ' + response.data.token,
+								},
+							};
+							axios
+								.post(
+									process.env.LITE_WALLET_URL + '/verifyToken',
+									{
+										token: response.data.token,
+									},
+									config
+								)
+								.then((response) => {
+									console.log('response1', response);
+									// Next
+									ss.set('esign_token', email);
+								});
+						}
 					});
 			} catch (err) {
-				console.log('Error in e-sign token generation');
+				console.log('Error in e-sign token generation', err);
 			}
 		} else {
 			alert('first verify');
