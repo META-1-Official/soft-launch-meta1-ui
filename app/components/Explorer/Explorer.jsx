@@ -8,6 +8,11 @@ import AccountsContainer from './AccountsContainer';
 import counterpart from 'counterpart';
 import MarketsContainer from '../Exchange/MarketsContainer';
 import {Tabs} from 'antd';
+import ls from '../../lib/common/localStorage';
+
+const STORAGE_KEY = '__AuthData__';
+const ss = new ls(STORAGE_KEY);
+
 class Explorer extends React.Component {
 	constructor(props) {
 		super(props);
@@ -64,6 +69,10 @@ class Explorer extends React.Component {
 		const onChange = (value) => {
 			this.props.history.push(value);
 		};
+
+		const accountName = ss.get('account_login_name', '');
+		const token = ss.get('account_login_token', '');
+		if (!accountName || !token) this.props.history.push('/market/META1_USDT');
 
 		return (
 			<Tabs

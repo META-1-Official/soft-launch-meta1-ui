@@ -266,6 +266,7 @@ class AccountRegistration extends React.Component {
 			await openLogin.logout({});
 			ss.set('account_registration_name', accountName);
 			ss.remove('account_login_name');
+			ss.remove('account_login_token');
 			await openLogin.init();
 			await openLogin.login();
 		} else {
