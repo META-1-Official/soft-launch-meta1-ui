@@ -96,8 +96,6 @@ class PasswordlessLoginModal extends React.Component {
 	componentDidUpdate() {
 		const {resolve_v2, isLocked} = this.props;
 
-		console.log('@1 - ', resolve_v2, isLocked);
-
 		if (resolve_v2) {
 			if (isLocked) {
 				this.setState({

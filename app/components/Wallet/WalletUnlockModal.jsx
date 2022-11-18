@@ -188,8 +188,6 @@ class WalletUnlockModal extends React.Component {
 		const {resolve, isLocked, passwordLogin, passwordlessLogin} = this.props;
 		const {isModalVisible, accountName, focusedOnce} = this.state;
 
-		console.log('@0 - ', resolve, isLocked);
-
 		if (
 			!focusedOnce &&
 			isModalVisible &&
