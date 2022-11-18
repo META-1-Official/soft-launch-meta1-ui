@@ -155,6 +155,7 @@ class Header extends React.Component {
 			nextProps.currentAccount !== this.props.currentAccount ||
 			nextProps.passwordLogin !== this.props.passwordLogin ||
 			nextProps.locked !== this.props.locked ||
+			nextProps.locked_v2 !== this.props.locked_v2 ||
 			nextProps.current_wallet !== this.props.current_wallet ||
 			nextProps.lastMarket !== this.props.lastMarket ||
 			nextProps.starredAccounts !== this.props.starredAccounts ||
@@ -190,7 +191,7 @@ class Header extends React.Component {
 	_toggleLock(e, fromMenu) {
 		!fromMenu && e.preventDefault();
 
-		if (WalletDb.isLocked()) {
+		if (WalletDb.isLocked_v2()) {
 			WalletUnlockActions.unlock_v2()
 				.then(() => {})
 				.catch(() => {});
@@ -504,7 +505,7 @@ class Header extends React.Component {
 					<Text>
 						<Translate
 							content={`header.${
-								this.props.locked ? 'unlock_short' : 'lock_short'
+								this.props.locked_v2 ? 'unlock_short' : 'lock_short'
 							}`}
 						/>
 					</Text>
@@ -519,7 +520,7 @@ class Header extends React.Component {
 				</Menu.Item>
 				<Menu.Item
 					key="claimWallet"
-					style={this.props.locked ? {cursor: 'not-allowed'} : {}}
+					style={this.props.locked_v2 ? {cursor: 'not-allowed'} : {}}
 					className={
 						this.props.locked ? 'disable-li-text' : 'claim-wallet-background'
 					}
@@ -528,8 +529,8 @@ class Header extends React.Component {
 				</Menu.Item>
 				<Menu.Item
 					key="send"
-					style={this.props.locked ? {cursor: 'not-allowed'} : {}}
-					className={this.props.locked ? 'disable-li-text' : ''}
+					style={this.props.locked_v2 ? {cursor: 'not-allowed'} : {}}
+					className={this.props.locked_v2 ? 'disable-li-text' : ''}
 				>
 					<Text>Send</Text>
 				</Menu.Item>
@@ -555,15 +556,15 @@ class Header extends React.Component {
 				</Menu.Item> */}
 				<Menu.Item
 					key="withdraw"
-					style={this.props.locked ? {cursor: 'not-allowed'} : {}}
-					className={this.props.locked ? 'disable-li-text' : ''}
+					style={this.props.locked_v2 ? {cursor: 'not-allowed'} : {}}
+					className={this.props.locked_v2 ? 'disable-li-text' : ''}
 				>
 					<Text>Withdraw</Text>
 				</Menu.Item>
 				<Menu.Item
 					key="deposit"
-					style={this.props.locked ? {cursor: 'not-allowed'} : {}}
-					className={this.props.locked ? 'disable-li-text' : ''}
+					style={this.props.locked_v2 ? {cursor: 'not-allowed'} : {}}
+					className={this.props.locked_v2 ? 'disable-li-text' : ''}
 				>
 					<Text>Deposit</Text>
 				</Menu.Item>
@@ -826,6 +827,7 @@ Header = connect(Header, {
 				AccountStore.getState().passwordAccount,
 			passwordAccount: AccountStore.getState().passwordAccount,
 			locked: WalletUnlockStore.getState().locked,
+			locked_v2: WalletUnlockStore.getState().locked_v2,
 			current_wallet: WalletManagerStore.getState().current_wallet,
 			lastMarket: SettingsStore.getState().viewSettings.get(
 				`lastMarket${chainID ? '_' + chainID.substr(0, 8) : ''}`
