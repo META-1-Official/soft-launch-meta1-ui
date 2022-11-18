@@ -184,6 +184,7 @@ class AppInit extends React.Component {
 			return false;
 		});
 
+		const self = this;
 		if (!contains) {
 			const token = ss.get('account_login_token');
 			const config = {
@@ -193,12 +194,13 @@ class AppInit extends React.Component {
 			};
 			axios
 				.post(process.env.LITE_WALLET_URL + '/verifyToken', {}, config)
-				.then((response) => {
-					this.transit();
-				})
+				.then((response) => {})
 				.catch((error) => {
 					console.log('error', error);
-					history.push('/market/META1_USDT');
+					history.replace('/market/META1_USDT');
+				})
+				.finally(function () {
+					self.transit();
 				});
 		} else {
 			this.transit();
