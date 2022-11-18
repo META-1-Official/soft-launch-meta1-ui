@@ -168,6 +168,9 @@ class AppInit extends React.Component {
 			'/create-account',
 			'/registration/local',
 			'/registration/cloud',
+			'/learn',
+			'/asset-explorer',
+			'/asset-explorer-details',
 			'market/META1_USDT',
 			'auth-proceed',
 		];

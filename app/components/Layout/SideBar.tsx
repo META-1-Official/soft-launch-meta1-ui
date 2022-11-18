@@ -109,7 +109,7 @@ const SideBar = ({collapsed, currentLink, toggle}: ISideBar) => {
 			menuId: 'settings',
 			menuName: <Translate content="header.settings" />,
 			icon: <SettingOutlined />,
-			enableNavLinks: true,
+			enableNavLinks,
 		},
 	];
 

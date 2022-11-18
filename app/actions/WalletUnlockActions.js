@@ -42,11 +42,18 @@ class WalletUnlockActions {
 			return new Promise((resolve) => {
 				dispatch({resolve});
 			}).then((was_unlocked) => {
-				var referred_user = ss.get('referred_user_id', 'null');
+				const referred_user = ss.get('referred_user_id', 'null');
+				const account_login_name = ss.get('account_login_name', 'null');
+				const account_login_token = ss.get('account_login_token', 'null');
+
 				localStorage.clear();
+
+				// Keep passwordless login info
 				referred_user !== null &&
 					referred_user !== 'null' &&
 					ss.set('referred_user_id', referred_user);
+				if (account_login_name) ss.set('account_login_name', referred_user);
+				if (account_login_token) ss.set('account_login_token', referred_user);
 				if (was_unlocked) WrappedWalletUnlockActions.change();
 			});
 		};
@@ -58,7 +65,6 @@ class WalletUnlockActions {
 				dispatch({resolve_v2});
 			}).then((was_unlocked) => {
 				localStorage.clear();
-				// if (was_unlocked) WrappedWalletUnlockActions.change();
 			});
 		};
 	}
