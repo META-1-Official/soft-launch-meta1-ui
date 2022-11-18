@@ -38,22 +38,24 @@ class WalletUnlockActions {
 	}
 
 	lock() {
+		const referred_user = ss.get('referred_user_id', 'null');
+		const account_login_name = ss.get('account_login_name', '');
+		const account_login_token = ss.get('account_login_token', '');
+
 		return (dispatch) => {
 			return new Promise((resolve) => {
 				dispatch({resolve});
 			}).then((was_unlocked) => {
-				const referred_user = ss.get('referred_user_id', 'null');
-				const account_login_name = ss.get('account_login_name', 'null');
-				const account_login_token = ss.get('account_login_token', 'null');
-
 				localStorage.clear();
 
 				// Keep passwordless login info
 				referred_user !== null &&
 					referred_user !== 'null' &&
 					ss.set('referred_user_id', referred_user);
-				if (account_login_name) ss.set('account_login_name', referred_user);
-				if (account_login_token) ss.set('account_login_token', referred_user);
+				if (account_login_name)
+					ss.set('account_login_name', account_login_name);
+				if (account_login_token)
+					ss.set('account_login_token', account_login_token);
 				if (was_unlocked) WrappedWalletUnlockActions.change();
 			});
 		};
