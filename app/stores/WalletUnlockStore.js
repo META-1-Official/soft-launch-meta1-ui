@@ -25,9 +25,10 @@ class WalletUnlockStore {
 		}
 		let passwordLogin = storedSettings.passwordLogin;
 		const passwordlessLogin = storedSettings.passwordlessLogin;
+
 		this.state = {
 			locked: true,
-			locked_v2: true,
+			locked_v2: WalletDb.isLocked_v2(),
 			passwordLogin,
 			passwordlessLogin,
 			rememberMe:
@@ -42,12 +43,6 @@ class WalletUnlockStore {
 		this.bindListeners({
 			onChangeSetting: SettingsActions.changeSetting,
 		});
-
-		// let timeoutSetting = this._getTimeout();
-
-		// if (timeoutSetting) {
-		//     this.walletLockTimeout = timeoutSetting;
-		// }
 	}
 
 	onUnlock({resolve, reject}) {
@@ -65,13 +60,13 @@ class WalletUnlockStore {
 
 	onUnlock_v2({resolve_v2, reject_v2}) {
 		// this._setLockTimeout();
-		if (!WalletDb.isLocked()) {
-			this.setState({locked: false});
+		if (!WalletDb.isLocked_v2()) {
+			this.setState({locked_v2: false});
 			resolve_v2();
 			return;
 		}
 
-		this.setState({resolve_v2, reject_v2, locked_v2: WalletDb.isLocked()});
+		this.setState({resolve_v2, reject_v2, locked_v2: WalletDb.isLocked_v2()});
 	}
 
 	onLock({resolve}) {
@@ -93,15 +88,15 @@ class WalletUnlockStore {
 	}
 
 	onLock_v2({resolve_v2}) {
-		if (WalletDb.isLocked()) {
+		if (WalletDb.isLocked_v2()) {
 			resolve_v2();
 			return;
 		}
-		// WalletDb.onLock_v2();
+		WalletDb.onLock_v2();
 		this.setState({
 			resolve_v2: null,
 			reject_v2: null,
-			locked_v2: WalletDb.isLocked(),
+			locked_v2: WalletDb.isLocked_v2(),
 		});
 		resolve_v2();
 	}

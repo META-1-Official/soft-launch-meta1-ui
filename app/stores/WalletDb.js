@@ -20,10 +20,14 @@ import {notification} from 'antd';
 import counterpart from 'counterpart';
 import AccountStore from './AccountStore';
 import Axios from 'axios';
+import ls from '../lib/common/localStorage';
 
 let aes_private = null;
 let _passwordKey = null;
+
 // let transaction;
+const STORAGE_KEY = '__AuthData__';
+const ss = new ls(STORAGE_KEY);
 
 let TRACE = false;
 
@@ -48,7 +52,9 @@ class WalletDb extends BaseStore {
 			'checkNextGeneratedKey',
 			'getWallet',
 			'onLock',
+			'onLock_v2',
 			'isLocked',
+			'isLocked_v2',
 			'decryptTcomb_PrivateKey',
 			'getPrivateKey',
 			'process_transaction',
@@ -101,8 +107,19 @@ class WalletDb extends BaseStore {
 		aes_private = null;
 	}
 
+	onLock_v2() {
+		ss.set('account_login_name', null);
+		ss.set('account_login_token', null);
+	}
+
 	isLocked() {
 		return !(!!aes_private || !!_passwordKey);
+	}
+
+	isLocked_v2() {
+		const accountName = ss.get('account_login_name', '');
+		const token = ss.get('account_login_token', '');
+		return !(!!accountName || !!token);
 	}
 
 	decryptTcomb_PrivateKey(private_key_tcomb) {

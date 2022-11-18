@@ -189,7 +189,7 @@ class AppInit extends React.Component {
 			const token = ss.get('account_login_token');
 			const config = {
 				headers: {
-					Authorization: 'Bearer ' + token,
+					Authorization: `Bearer ${token}`,
 				},
 			};
 			axios
@@ -197,6 +197,8 @@ class AppInit extends React.Component {
 				.then((response) => {})
 				.catch((error) => {
 					console.log('error', error);
+					ss.set('account_login_name', null);
+					ss.set('account_login_token', null);
 					history.replace('/market/META1_USDT');
 				})
 				.finally(function () {

@@ -171,6 +171,7 @@ class AuthRedirect extends React.Component {
 						console.log('LW login response', response); // DEBUG
 						ss.set('account_login_name', response.data['accountName']);
 						ss.set('account_login_token', response.data['token']);
+						WalletUnlockActions.unlock_v2();
 						this.props.history.push('/market/META1_USDT');
 					});
 			} catch (err) {
