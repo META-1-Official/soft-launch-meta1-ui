@@ -171,6 +171,7 @@ class AuthRedirect extends React.Component {
 						console.log('LW login response', response); // DEBUG
 						ss.set('account_login_name', response.data['accountName']);
 						ss.set('account_login_token', response.data['token']);
+						this.props.history.push('/market/META1_USDT');
 					});
 			} catch (err) {
 				console.log('Error in e-sign token generation', err);
@@ -376,8 +377,8 @@ class AuthRedirect extends React.Component {
 									height: '100%',
 									top: 0,
 									left: 0,
-									zIndex: 2,
-									opacity: 0.8,
+									zIndex: 200,
+									opacity: 0.9,
 								}}
 							/>
 						</div>

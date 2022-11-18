@@ -117,11 +117,12 @@ class PasswordlessLoginModal extends React.Component {
 			return;
 		}
 		try {
+			this.setState({isTorusLogin: true});
 			const {openLogin} = this.props;
 			await openLogin.init();
 			ss.set('account_login_name', accountName);
 			ss.remove('account_registration_name');
-			this.setState({isTorusLogin: true});
+
 			if (openLogin.privKey) {
 				await openLogin.logout({});
 				await openLogin.login();
