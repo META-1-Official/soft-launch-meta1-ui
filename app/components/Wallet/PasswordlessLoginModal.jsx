@@ -94,10 +94,10 @@ class PasswordlessLoginModal extends React.Component {
 	}
 
 	componentDidUpdate() {
-		const {resolve_v2, isLocked} = this.props;
+		const {resolve_v2, isLocked_v2} = this.props;
 
 		if (resolve_v2) {
-			if (isLocked) {
+			if (isLocked_v2) {
 				this.setState({
 					isModalVisible: true,
 				});
@@ -120,9 +120,7 @@ class PasswordlessLoginModal extends React.Component {
 			this.setState({isTorusLogin: true});
 			const {openLogin} = this.props;
 			await openLogin.init();
-			ss.set('account_login_name', accountName);
 			ss.remove('account_registration_name');
-
 			if (openLogin.privKey) {
 				await openLogin.logout({});
 				await openLogin.login();
@@ -156,7 +154,6 @@ class PasswordlessLoginModal extends React.Component {
 
 	render() {
 		const {accountName, isOpen} = this.state;
-
 		return (
 			<Modal
 				visible={this.state.isModalVisible}
@@ -241,6 +238,7 @@ class PasswordlessLoginModalContainer extends React.Component {
 				inject={{
 					dbWallet: () => WalletDb.getWallet(),
 					isLocked: () => WalletDb.isLocked(),
+					isLocked_v2: () => WalletDb.isLocked_v2(),
 					resolve_v2: () => WalletUnlockStore.getState().resolve_v2,
 					reject_v2: () => WalletUnlockStore.getState().reject_v2,
 					locked_v2: () => WalletUnlockStore.getState().locked_v2,
