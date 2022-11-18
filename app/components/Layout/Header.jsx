@@ -43,6 +43,7 @@ import {withRouter} from 'react-router-dom';
 import AccountBrowsingMode from '../Account/AccountBrowsingMode';
 import {setLocalStorageType, isPersistantType} from 'lib/common/localStorage';
 import chainIds from 'chain/chainIds';
+import ls from '../../lib/common/localStorage';
 
 import {getLogo} from 'branding';
 import StyledButton from 'components/Button/Button';
@@ -52,6 +53,9 @@ import migrationService from 'services/migration.service';
 
 var logo = getLogo();
 const CHAINID_SHORT = chainIds[process.env.CURRENT_NET].substr(0, 8);
+
+const STORAGE_KEY = '__AuthData__';
+const ss = new ls(STORAGE_KEY);
 
 const {Header: AntdHeader} = Layout;
 const {Text} = Typography;
@@ -311,10 +315,13 @@ class Header extends React.Component {
 		const {key} = e;
 		let isLogged = false;
 
+		// Need refactor
+		const accountName = ss.get('account_login_name');
+
 		if (key === 'auth') {
 			this._toggleLock(this, true);
 		} else if (key === 'dashboard') {
-			this._onNavigate(`/account/${currentAccount}`, this, true);
+			this._onNavigate(`/account/${accountName || currentAccount}`, this, true);
 		} else if (key === 'createAccount') {
 			this._onNavigate('/registration/', this, true);
 		} else if (key === 'market') {
