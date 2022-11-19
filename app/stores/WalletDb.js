@@ -382,7 +382,7 @@ class WalletDb extends BaseStore {
 		roles = ['active', 'owner', 'memo'],
 		chainAccount
 	) {
-		console.log('Starting auth validate');
+		console.log('Starting authentication');
 		if (account) {
 			let id = 0;
 			function setKey(role, priv, pub) {
@@ -404,8 +404,9 @@ class WalletDb extends BaseStore {
 			try {
 				fromWif = PrivateKey.fromWif(password);
 			} catch (err) {
-				console.log('Err in validate', err);
+				console.log('Not a private key!');
 			}
+
 			let acc = chainAccount
 				? chainAccount
 				: ChainStore.getAccount(account, false);
@@ -463,6 +464,7 @@ class WalletDb extends BaseStore {
 					notification.success({
 						message: counterpart.translate('wallet.local_switch'),
 					});
+
 					if (!!passwordlessLogin) {
 						SettingsActions.changeSetting({
 							setting: 'passwordLogin',
@@ -474,9 +476,18 @@ class WalletDb extends BaseStore {
 							value: false,
 						});
 					}
+
+					console.log('Password is validated!');
 					return {success: true, cloudMode: false};
 				}
 			}
+
+			if (!!_passwordKey) {
+				console.log('Password is validated!');
+			} else {
+				console.log('Password is *NOT* validated!');
+			}
+
 			return {success: !!_passwordKey, cloudMode: true};
 		} else {
 			let wallet = this.state.wallet;
@@ -494,6 +505,7 @@ class WalletDb extends BaseStore {
 					);
 					aes_private = Aes.fromSeed(encryption_plainbuffer);
 				}
+				console.log('Password is validated!');
 				return {success: true, cloudMode: false};
 			} catch (e) {
 				console.error('Failed to validate by using wallet', e);
