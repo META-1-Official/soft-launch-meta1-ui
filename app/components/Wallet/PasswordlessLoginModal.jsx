@@ -119,6 +119,7 @@ class PasswordlessLoginModal extends React.Component {
 		try {
 			this.setState({isTorusLogin: true});
 			const {openLogin} = this.props;
+			localStorage.setItem('openlogin_store', '{}');
 			await openLogin.init();
 			ss.remove('account_registration_name');
 			if (openLogin.privKey) {
