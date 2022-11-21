@@ -135,20 +135,22 @@ class AuthRedirect extends React.Component {
 		const imageSrc = this.webcamRef.current.getScreenshot();
 
 		if (!imageSrc) {
-			alert('Check your camera');
+			alert('Please check your camera.');
 			return;
 		}
-		var file = this.dataURLtoFile(imageSrc, 'a.jpg');
+
+		const file = this.dataURLtoFile(imageSrc, 'a.jpg');
 		const response = await faceKIService.liveLinessCheck(file);
-		if (response.data.liveness === 'Spoof') alert('try again');
-		else {
+		if (response.data.liveness === 'Spoof') {
+			alert('Please try again.');
+		} else {
 			const response_verify = await faceKIService.verify(file);
 			if (
 				response_verify.status === 'Verify OK' &&
 				response_verify.name.includes(authData.email)
 			) {
-				console.log('you verified');
-				toast('Face Verification is successful');
+				console.log('You are verified! :)');
+				toast('Face Verification is successful.');
 				this.setState({faceKISuccess: true});
 			}
 		}
