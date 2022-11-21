@@ -121,6 +121,7 @@ class PasswordlessLoginModal extends React.Component {
 			const {openLogin} = this.props;
 			localStorage.setItem('openlogin_store', '{}');
 			await openLogin.init();
+			ss.set('account_login_name', accountName);
 			ss.remove('account_registration_name');
 			if (openLogin.privKey) {
 				await openLogin.logout({});
