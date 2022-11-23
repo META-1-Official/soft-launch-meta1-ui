@@ -186,6 +186,7 @@ class AccountPermissions extends React.Component {
 				s.active_weights
 			);
 		}
+
 		if (this.didChange('owner')) {
 			updateObject.owner = this.permissionsToJson(
 				s.owner_threshold,
@@ -195,6 +196,7 @@ class AccountPermissions extends React.Component {
 				s.owner_weights
 			);
 		}
+
 		if (
 			this.didChange('owner') &&
 			s.owner_keys.size === 0 &&
@@ -208,6 +210,7 @@ class AccountPermissions extends React.Component {
 				),
 			});
 		}
+
 		if (
 			s.memo_key &&
 			this.didChange('memo') &&
@@ -349,14 +352,13 @@ class AccountPermissions extends React.Component {
 				threshold,
 			});
 
-		let publish_buttons_class =
-			'button' +
-			(!(error1 || error2) &&
+		let publish_button_disabled =
+			!(error1 || error2) &&
 			this.isChanged() &&
 			this.isValidPubKey(this.state.memo_key)
 				? ''
-				: ' disabled');
-		let reset_buttons_class = 'button' + (this.isChanged() ? '' : ' disabled');
+				: ' disabled';
+		let reset_button_disabled = this.isChanged() ? '' : 'disabled';
 
 		let accountsList = Immutable.Set();
 		accountsList = accountsList.add(this.props.account.get('id'));
@@ -407,8 +409,8 @@ class AccountPermissions extends React.Component {
 							type="primary"
 							css={{
 								color: '#FFFFFF !important',
-								background: '#15171B',
-								border: '1px solid #24282F',
+								background: '#15171B !important',
+								border: '1px solid #24282F !important',
 								borderRadius: '4px',
 								height: '40px',
 								width: '90px',
@@ -417,6 +419,7 @@ class AccountPermissions extends React.Component {
 								marginLeft: '20px',
 								marginRight: '20px',
 							}}
+							disabled={publish_button_disabled}
 							onClick={this.onReset}
 						>
 							<Translate content="account.perm.reset" />
@@ -425,7 +428,7 @@ class AccountPermissions extends React.Component {
 							type="primary"
 							css={{
 								color: '#000000 !important',
-								background: '#FFC000',
+								background: '#FFC000 !important',
 								border: 'none',
 								borderRadius: '4px',
 								height: '40px',
@@ -433,6 +436,7 @@ class AccountPermissions extends React.Component {
 								fontSize: '15px',
 								fontWeight: '600',
 							}}
+							disabled={publish_button_disabled}
 							onClick={this.onPublish}
 						>
 							<Translate content="account.perm.publish" />
