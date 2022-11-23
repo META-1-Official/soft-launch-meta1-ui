@@ -5,6 +5,7 @@ import counterpart from 'counterpart';
 import utils from 'common/utils';
 import accountUtils from 'common/account_utils';
 import {createPaperWalletAsPDF} from 'common/paperWallet';
+import WalletUnlockActions from 'actions/WalletUnlockActions';
 import ApplicationApi from 'api/ApplicationApi';
 import {PublicKey} from 'meta1-vision-js';
 import AccountPermissionsList from './AccountPermissionsList';
@@ -308,7 +309,10 @@ class AccountPermissions extends React.Component {
 	}
 
 	onPdfCreate() {
-		createPaperWalletAsPDF(this.props.account);
+		WalletUnlockActions.unlock().finally(() => {
+			createPaperWalletAsPDF(this.props.account);
+			WalletUnlockActions.lock();
+		});
 	}
 
 	onTabChange = (e) => {
