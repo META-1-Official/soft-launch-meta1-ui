@@ -1629,7 +1629,6 @@
 	"notifications": {
 		"account_create_failure": "Failed to create wallet: %(account_name)s - %(error_msg)s",
 		"account_permissions_update_warning": "Setting your owner permissions like this will render your wallet permanently unusable. Please make sure you know what you're doing before modifying wallet authorities!",
-		"account_permissions_no_updates_warning": "Nothing has been updated!",
 		"account_wallet_create_failure": "Failed to create wallet: %(error_msg)s",
 		"asset_issue_failure": "Failed to issue the asset, probably due to an invalid amount being issued",
 		"backup_file_save_unsupported": "File saving is not supported",

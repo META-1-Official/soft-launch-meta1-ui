@@ -163,7 +163,6 @@ class AccountPermissions extends React.Component {
 	onPublish() {
 		let s = this.state;
 		let updated_account = this.props.account.toJS();
-		let hasChange = false;
 
 		// Set fee asset
 		updated_account.fee = {
@@ -186,7 +185,6 @@ class AccountPermissions extends React.Component {
 				s.active_addresses,
 				s.active_weights
 			);
-			hasChange = true;
 		}
 
 		if (this.didChange('owner')) {
@@ -197,7 +195,6 @@ class AccountPermissions extends React.Component {
 				s.owner_addresses,
 				s.owner_weights
 			);
-			hasChange = true;
 		}
 
 		if (
@@ -221,19 +218,10 @@ class AccountPermissions extends React.Component {
 		) {
 			updateObject.new_options = this.props.account.get('options').toJS();
 			updateObject.new_options.memo_key = s.memo_key;
-			hasChange = true;
 		}
 
-		if (hasChange) {
-			// console.log("-- AccountPermissions.onPublish -->", updateObject, s.memo_key);
-			ApplicationApi.updateAccount(updateObject);
-		} else {
-			return notification.warning({
-				message: counterpart.translate(
-					'notifications.account_permissions_no_updates_warning'
-				),
-			});
-		}
+		// console.log("-- AccountPermissions.onPublish -->", updateObject, s.memo_key);
+		ApplicationApi.updateAccount(updateObject);
 	}
 
 	isValidPubKey(value) {
@@ -364,14 +352,13 @@ class AccountPermissions extends React.Component {
 				threshold,
 			});
 
-		let publish_buttons_class =
-			'button' +
-			(!(error1 || error2) &&
+		let publish_button_disabled =
+			!(error1 || error2) &&
 			this.isChanged() &&
 			this.isValidPubKey(this.state.memo_key)
 				? ''
-				: ' disabled');
-		let reset_buttons_class = 'button' + (this.isChanged() ? '' : ' disabled');
+				: ' disabled';
+		let reset_button_disabled = this.isChanged() ? '' : 'disabled';
 
 		let accountsList = Immutable.Set();
 		accountsList = accountsList.add(this.props.account.get('id'));
@@ -422,8 +409,8 @@ class AccountPermissions extends React.Component {
 							type="primary"
 							css={{
 								color: '#FFFFFF !important',
-								background: '#15171B',
-								border: '1px solid #24282F',
+								background: '#15171B !important',
+								border: '1px solid #24282F !important',
 								borderRadius: '4px',
 								height: '40px',
 								width: '90px',
@@ -432,6 +419,7 @@ class AccountPermissions extends React.Component {
 								marginLeft: '20px',
 								marginRight: '20px',
 							}}
+							disabled={publish_button_disabled}
 							onClick={this.onReset}
 						>
 							<Translate content="account.perm.reset" />
@@ -440,7 +428,7 @@ class AccountPermissions extends React.Component {
 							type="primary"
 							css={{
 								color: '#000000 !important',
-								background: '#FFC000',
+								background: '#FFC000 !important',
 								border: 'none',
 								borderRadius: '4px',
 								height: '40px',
@@ -448,6 +436,7 @@ class AccountPermissions extends React.Component {
 								fontSize: '15px',
 								fontWeight: '600',
 							}}
+							disabled={publish_button_disabled}
 							onClick={this.onPublish}
 						>
 							<Translate content="account.perm.publish" />
