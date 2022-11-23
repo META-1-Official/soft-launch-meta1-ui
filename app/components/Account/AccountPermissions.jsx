@@ -163,7 +163,6 @@ class AccountPermissions extends React.Component {
 	onPublish() {
 		let s = this.state;
 		let updated_account = this.props.account.toJS();
-		let hasChange = false;
 
 		// Set fee asset
 		updated_account.fee = {
@@ -186,7 +185,6 @@ class AccountPermissions extends React.Component {
 				s.active_addresses,
 				s.active_weights
 			);
-			hasChange = true;
 		}
 
 		if (this.didChange('owner')) {
@@ -197,7 +195,6 @@ class AccountPermissions extends React.Component {
 				s.owner_addresses,
 				s.owner_weights
 			);
-			hasChange = true;
 		}
 
 		if (
@@ -221,19 +218,10 @@ class AccountPermissions extends React.Component {
 		) {
 			updateObject.new_options = this.props.account.get('options').toJS();
 			updateObject.new_options.memo_key = s.memo_key;
-			hasChange = true;
 		}
 
-		if (hasChange) {
-			// console.log("-- AccountPermissions.onPublish -->", updateObject, s.memo_key);
-			ApplicationApi.updateAccount(updateObject);
-		} else {
-			return notification.warning({
-				message: counterpart.translate(
-					'notifications.account_permissions_no_updates_warning'
-				),
-			});
-		}
+		// console.log("-- AccountPermissions.onPublish -->", updateObject, s.memo_key);
+		ApplicationApi.updateAccount(updateObject);
 	}
 
 	isValidPubKey(value) {
