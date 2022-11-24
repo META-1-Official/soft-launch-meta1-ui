@@ -97,7 +97,7 @@ class AuthRedirect extends React.Component {
 			},
 		};
 		let display = await navigator.mediaDevices.getUserMedia(features);
-		setState({device: display?.getVideoTracks()[0]?.getSettings()});
+		this.setState({device: display?.getVideoTracks()[0]?.getSettings()});
 	}
 
 	componentDidUpdate(prevProps, prevState) {
