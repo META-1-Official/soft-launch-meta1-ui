@@ -20,10 +20,10 @@ const DepositModalContent = (props) => {
 		eos: 0.001,
 	};
 
-	const api_gateway_url = `${process.env.GATEWAY_URL}/api-gateways/${
+	const api_gateway_url = `${process.env.GATEWAY_URL}api-gateways/${
 		assetType === 'usdt' ? 'eth' : assetType
 	}`;
-	const wallet_init_url = `${process.env.GATEWAY_URL}/api/wallet/init/${
+	const wallet_init_url = `${process.env.GATEWAY_URL}api/wallet/init/${
 		assetType === 'usdt' ? 'eth' : assetType
 	}`;
 
