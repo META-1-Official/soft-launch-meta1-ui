@@ -28,10 +28,6 @@ const ss = new ls(STORAGE_KEY);
 class AuthRedirect extends React.Component {
 	constructor() {
 		super();
-		this.generateAuthData = this.generateAuthData.bind(this);
-		this.authProceed = this.authProceed.bind(this);
-		this.onFinishConfirm = this.onFinishConfirm.bind(this);
-		this.createAccount = this.createAccount.bind(this);
 		this.state = {
 			skipCreationFlow: false,
 			passwordError: false,
@@ -40,7 +36,13 @@ class AuthRedirect extends React.Component {
 			faceKISuccess: false,
 			device: {},
 			token: '',
+			webcamEnabled: true,
 		};
+
+		this.generateAuthData = this.generateAuthData.bind(this);
+		this.authProceed = this.authProceed.bind(this);
+		this.onFinishConfirm = this.onFinishConfirm.bind(this);
+		this.createAccount = this.createAccount.bind(this);
 		this.skipFreshCreationAndProceed =
 			this.skipFreshCreationAndProceed.bind(this);
 		this.validateLogin = this.validateLogin.bind(this);
@@ -95,7 +97,7 @@ class AuthRedirect extends React.Component {
 			},
 		};
 		let display = await navigator.mediaDevices.getUserMedia(features);
-		setState({device: display?.getVideoTracks()[0]?.getSettings()});
+		this.setState({device: display?.getVideoTracks()[0]?.getSettings()});
 	}
 
 	componentDidUpdate(prevProps, prevState) {
@@ -171,6 +173,7 @@ class AuthRedirect extends React.Component {
 					})
 					.then((response) => {
 						console.log('LW login response', response); // DEBUG
+						this.setState({webcamEnabled: false});
 						ss.set('account_login_name', response.data['accountName']);
 						ss.set('account_login_token', response.data['token']);
 						WalletUnlockActions.unlock_v2();
@@ -352,39 +355,41 @@ class AuthRedirect extends React.Component {
 							the security of your wallet
 						</h5>
 						<br />
-						<div
-							style={{
-								position: 'relative',
-							}}
-						>
-							<Webcam
-								audio={false}
-								ref={this.webcamRef}
-								screenshotFormat="image/jpeg"
-								width={500}
-								videoConstraints={{deviceId: this.state.device?.deviceId}}
-								height={
-									this.state.device?.aspectRatio
-										? 500 / this.state.device?.aspectRatio
-										: 385
-								}
-								mirrored
-							/>
-							<img
-								src={OvalImage}
-								alt="oval-image"
-								className="oval-image"
+						{this.state.webcamEnabled && (
+							<div
 								style={{
-									position: 'absolute',
-									width: '100%',
-									height: '100%',
-									top: 0,
-									left: 0,
-									zIndex: 200,
-									opacity: 0.9,
+									position: 'relative',
 								}}
-							/>
-						</div>
+							>
+								<Webcam
+									audio={false}
+									ref={this.webcamRef}
+									screenshotFormat="image/jpeg"
+									width={500}
+									videoConstraints={{deviceId: this.state.device?.deviceId}}
+									height={
+										this.state.device?.aspectRatio
+											? 500 / this.state.device?.aspectRatio
+											: 385
+									}
+									mirrored
+								/>
+								<img
+									src={OvalImage}
+									alt="oval-image"
+									className="oval-image"
+									style={{
+										position: 'absolute',
+										width: '100%',
+										height: '100%',
+										top: 0,
+										left: 0,
+										zIndex: 200,
+										opacity: 0.9,
+									}}
+								/>
+							</div>
+						)}
 						<div
 							style={{
 								display: 'flex',
@@ -404,7 +409,7 @@ class AuthRedirect extends React.Component {
 								style={{
 									background: '#ffcc00',
 									border: 'none',
-									marginLeft: '10px',
+									marginLeft: '30px',
 								}}
 							>
 								Continue Login
