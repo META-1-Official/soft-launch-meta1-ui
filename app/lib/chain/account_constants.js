@@ -6,5 +6,5 @@ module.exports = {
 		white_and_black_listed: 0x1 | 0x2, ///< This account is both whitelisted and blacklisted
 	},
 	issuer_name: 'meta1cold',
-	issuer_id: '1.2.32', // DEV: 1.2.32 | PROD: 1.2.21
+	issuer_id: '1.2.33', // DEV: 1.2.32 | PROD: 1.2.21
 };

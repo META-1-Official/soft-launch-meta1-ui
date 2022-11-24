@@ -611,9 +611,9 @@ class Header extends React.Component {
 						<Text>Signed Messages</Text>
 					</Menu.Item>
 
-					{/* <Menu.Item key="advanced-membership-stats">
+					<Menu.Item key="advanced-membership-stats">
 						<Text>Membership Stats</Text>
-					</Menu.Item> */}
+					</Menu.Item>
 
 					<Menu.Item key="advanced-vesting-balance">
 						<Text>Vesting Balance</Text>
