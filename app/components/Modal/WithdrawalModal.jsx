@@ -250,6 +250,9 @@ class WithdrawalModal extends React.Component {
 			})
 			.catch((error) => {
 				swal('Oops!', error, 'error', {customClass: 'swal-modal'});
+			})
+			.finally(() => {
+				WalletUnlockActions.lock();
 			});
 	}
 

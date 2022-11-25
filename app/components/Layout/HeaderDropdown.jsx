@@ -28,7 +28,6 @@ export default class DropDownMenu extends React.Component {
 			maxHeight,
 			locked,
 			active,
-			passwordLogin,
 			isMyAccount,
 			showAccountLinks,
 			tradeUrl,

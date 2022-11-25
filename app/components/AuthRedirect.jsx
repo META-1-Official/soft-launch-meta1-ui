@@ -6,7 +6,7 @@ import {PrivateKey, FetchChain, key} from 'meta1-vision-js/es';
 import qs from 'qs';
 import axios from 'axios';
 import {Helmet} from 'react-helmet';
-
+import {Modal} from 'antd';
 import AuthStore from '../stores/AuthStore';
 import AccountStore from '../stores/AccountStore';
 import WalletDb from '../stores/WalletDb';
@@ -20,6 +20,7 @@ import faceKIService from '../services/face-ki.service';
 import Webcam from 'react-webcam';
 import {Form, Input, Button, Tooltip} from 'antd';
 import {toast} from 'react-toastify';
+const OvalImage = require('assets/oval/oval.png');
 
 const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
@@ -27,17 +28,21 @@ const ss = new ls(STORAGE_KEY);
 class AuthRedirect extends React.Component {
 	constructor() {
 		super();
-		this.generateAuthData = this.generateAuthData.bind(this);
-		this.authProceed = this.authProceed.bind(this);
-		this.onFinishConfirm = this.onFinishConfirm.bind(this);
-		this.createAccount = this.createAccount.bind(this);
 		this.state = {
 			skipCreationFlow: false,
 			passwordError: false,
 			redirectFromESign: false,
 			login: false,
 			faceKISuccess: false,
+			device: {},
+			token: '',
+			webcamEnabled: true,
 		};
+
+		this.generateAuthData = this.generateAuthData.bind(this);
+		this.authProceed = this.authProceed.bind(this);
+		this.onFinishConfirm = this.onFinishConfirm.bind(this);
+		this.createAccount = this.createAccount.bind(this);
 		this.skipFreshCreationAndProceed =
 			this.skipFreshCreationAndProceed.bind(this);
 		this.validateLogin = this.validateLogin.bind(this);
@@ -79,6 +84,20 @@ class AuthRedirect extends React.Component {
 		if (openLogin && !privKey) {
 			this.generateAuthData();
 		}
+
+		this.loadVideo();
+	}
+
+	async loadVideo() {
+		let features = {
+			audio: false,
+			video: {
+				width: {ideal: 1800},
+				height: {ideal: 900},
+			},
+		};
+		let display = await navigator.mediaDevices.getUserMedia(features);
+		this.setState({device: display?.getVideoTracks()[0]?.getSettings()});
 	}
 
 	componentDidUpdate(prevProps, prevState) {
@@ -118,37 +137,51 @@ class AuthRedirect extends React.Component {
 		const imageSrc = this.webcamRef.current.getScreenshot();
 
 		if (!imageSrc) {
-			alert('Check your camera');
+			alert('Please check your camera.');
 			return;
 		}
 
-		var file = this.dataURLtoFile(imageSrc, 'a.jpg');
+		const file = this.dataURLtoFile(imageSrc, 'a.jpg');
 		const response = await faceKIService.liveLinessCheck(file);
-
-		if (response.data.liveness === 'Spoof') alert('try again');
-		else {
+		if (response.data.liveness === 'Spoof') {
+			alert('Please try again.');
+		} else {
 			const response_verify = await faceKIService.verify(file);
 			if (
 				response_verify.status === 'Verify OK' &&
-				response_verify.name === authData.email
+				response_verify.name.includes(authData.email)
 			) {
-				console.log('you verified');
+				console.log('You are verified! :)');
+				toast('Face Verification is successful.');
 				this.setState({faceKISuccess: true});
 			}
 		}
 	}
 
 	continueLogin() {
-		const {privKey} = this.props;
+		const {privKey, authData} = this.props;
 		const accountName = ss.get('account_login_name', '');
-		let password;
-		if (!accountName || !privKey) {
-			return;
-		}
-		password = this.genKey(`${accountName}${privKey}`);
+		if (!accountName || !privKey) return;
 
 		if (this.state.faceKISuccess === true) {
-			this.validateLogin(password, accountName);
+			try {
+				const email = authData.email;
+				axios
+					.post(process.env.LITE_WALLET_URL + '/login', {
+						accountName: accountName,
+						email: email,
+					})
+					.then((response) => {
+						console.log('LW login response', response); // DEBUG
+						this.setState({webcamEnabled: false});
+						ss.set('account_login_name', response.data['accountName']);
+						ss.set('account_login_token', response.data['token']);
+						WalletUnlockActions.unlock_v2();
+						this.props.history.push('/market/META1_USDT');
+					});
+			} catch (err) {
+				console.log('Error in e-sign token generation', err);
+			}
 		} else {
 			alert('first verify');
 		}
@@ -292,36 +325,71 @@ class AuthRedirect extends React.Component {
 		toast('Success');
 	}
 
+	handleModalClose = () => {
+		this.props.history.push('/market/META1_USDT');
+	};
+
 	render() {
 		return (
 			<React.Fragment>
 				{this.state.login && (
-					<div
+					<Modal
+						visible={true}
+						closeable={false}
+						ref="modal"
+						overlay={false}
+						modalHeader="header.unlock_short"
+						leftHeader
+						zIndex={1001}
+						footer={null}
 						style={{
 							display: 'flex',
 							flexDirection: 'column',
 							alignItems: 'center',
 							justifyContent: 'center',
 						}}
+						onCancel={this.handleModalClose}
 					>
 						<h5>
 							We will setup your Biometric two factor authentication, to ensure
 							the security of your wallet
 						</h5>
 						<br />
-						<Webcam
-							audio={false}
-							ref={this.webcamRef}
-							screenshotFormat="image/jpeg"
-							videoConstraints={{
-								facingMode: 'user',
-								width: 500,
-								height: 500,
-							}}
-							width={500}
-							height={500}
-							mirrored
-						/>
+						{this.state.webcamEnabled && (
+							<div
+								style={{
+									position: 'relative',
+								}}
+							>
+								<Webcam
+									audio={false}
+									ref={this.webcamRef}
+									screenshotFormat="image/jpeg"
+									width={500}
+									videoConstraints={{deviceId: this.state.device?.deviceId}}
+									height={
+										this.state.device?.aspectRatio
+											? 500 / this.state.device?.aspectRatio
+											: 385
+									}
+									mirrored
+								/>
+								<img
+									src={OvalImage}
+									alt="oval-image"
+									className="oval-image"
+									style={{
+										position: 'absolute',
+										width: '100%',
+										height: '100%',
+										top: 0,
+										left: 0,
+										zIndex: 200,
+										opacity: 0.9,
+									}}
+								/>
+							</div>
+						)}
 						<div
 							style={{
 								display: 'flex',
@@ -337,16 +405,17 @@ class AuthRedirect extends React.Component {
 							</Button>
 							<Button
 								onClick={this.continueLogin}
+								disabled={!this.state.faceKISuccess}
 								style={{
 									background: '#ffcc00',
 									border: 'none',
-									marginLeft: '10px',
+									marginLeft: '30px',
 								}}
 							>
 								Continue Login
 							</Button>
 						</div>
-					</div>
+					</Modal>
 				)}
 			</React.Fragment>
 		);

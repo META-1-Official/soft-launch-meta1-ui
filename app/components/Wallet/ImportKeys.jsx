@@ -522,7 +522,10 @@ class ImportKeys extends Component {
 				// show the loading indicator
 				setTimeout(() => this.saveImport(), 200);
 			})
-			.catch(() => {});
+			.catch(() => {})
+			.finally(() => {
+				WalletUnlockActions.lock();
+			});
 	}
 
 	saveImport() {

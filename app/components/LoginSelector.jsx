@@ -167,11 +167,11 @@ class LoginSelector extends React.Component {
 							<span
 								className="button primary"
 								onClick={() => {
-									SettingsActions.changeSetting.defer({
-										setting: 'passwordlessLogin',
-										value: true,
-									});
-									WalletUnlockActions.unlock().catch(() => {});
+									// SettingsActions.changeSetting.defer({
+									// 	setting: 'passwordlessLogin',
+									// 	value: true,
+									// });
+									// WalletUnlockActions.unlock().catch(() => {});
 								}}
 							>
 								<Translate content="header.unlock_short" />

@@ -10,6 +10,8 @@ import accountUtils from 'common/account_utils';
 import {List, Set} from 'immutable';
 import Page404 from '../Page404/Page404';
 import {Route, Switch, Redirect} from 'react-router-dom';
+import WalletUnlockActions from 'actions/WalletUnlockActions';
+import ls from '../../lib/common/localStorage';
 
 /* Nested routes */
 import AccountAssets from './AccountAssets';
@@ -26,6 +28,9 @@ import AccountVoting from './AccountVoting';
 import AccountOverview from './AccountOverview';
 import AccountNotification from './AccountNotification';
 
+const STORAGE_KEY = '__AuthData__';
+const ss = new ls(STORAGE_KEY);
+
 class AccountPage extends React.Component {
 	static propTypes = {
 		account: ChainTypes.ChainAccount.isRequired,
@@ -36,6 +41,20 @@ class AccountPage extends React.Component {
 	}
 
 	componentDidMount() {
+		const {currentAccount, history, location} = this.props;
+
+		const currentPath = location.pathname.split('/');
+		const accountNameFromUrl = currentPath[2];
+		const accountName = ss.get('account_login_name');
+
+		if (accountName !== accountNameFromUrl) {
+			WalletUnlockActions.lock_v2()
+				.then(() => {
+					history.push('/market/META1_USDT');
+				})
+				.catch(() => {});
+		}
+
 		if (this.props.account) {
 			AccountActions.setCurrentAccount.defer(this.props.account.get('name'));
 			// Fetch possible fee assets here to avoid async issues later (will resolve assets)

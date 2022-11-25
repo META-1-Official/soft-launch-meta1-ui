@@ -476,7 +476,10 @@ class WalletActions {
 							return result;
 						});
 					})
-					.catch(() => {});
+					.catch(() => {})
+					.finally(() => {
+						WalletUnlockActions.lock();
+					});
 				resolve(p);
 			});
 		};

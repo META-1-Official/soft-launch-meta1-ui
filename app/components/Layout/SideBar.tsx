@@ -16,6 +16,10 @@ import {useTheme} from '@emotion/react';
 import Translate from 'react-translate-component';
 import history from '../../lib/common/history'; // lib/common/history';
 import AccountStore from '../../stores/AccountStore';
+import ls from '../../lib/common/localStorage';
+
+const STORAGE_KEY = '__AuthData__';
+const ss = new ls(STORAGE_KEY);
 
 const {Sider} = Layout;
 
@@ -29,21 +33,28 @@ const {useBreakpoint} = Grid;
 const SideBar = ({collapsed, currentLink, toggle}: ISideBar) => {
 	const theme: any = useTheme();
 	const screens = useBreakpoint();
-	let accountName =
-		AccountStore.getState().currentAccount ||
-		AccountStore.getState().passwordAccount;
-	accountName =
-		accountName && accountName !== 'null' ? accountName : 'committee-account';
 
-	const checkCurrentAccount =
-		AccountStore.getState().currentAccount ||
-		AccountStore.getState().passwordAccount;
+	/* Old logic */
+	// let accountName =
+	// 	AccountStore.getState().currentAccount ||
+	// 	AccountStore.getState().passwordAccount;
+	// accountName =
+	// 	accountName && accountName !== 'null' ? accountName : 'committee-account';
 
-	const enableNavLinks = checkCurrentAccount
-		? checkCurrentAccount === null
-			? false
-			: true
-		: false;
+	// const checkCurrentAccount =
+	// 	AccountStore.getState().currentAccount ||
+	// 	AccountStore.getState().passwordAccount;
+
+	// const enableNavLinks = checkCurrentAccount
+	// 	? checkCurrentAccount === null
+	// 		? false
+	// 		: true
+	// 	: false;
+
+	/* New logic */
+	const accountName = ss.get('account_login_name', '');
+	const token = ss.get('account_login_token', '');
+	const enableNavLinks = accountName && token;
 
 	const menuList = [
 		{
@@ -98,7 +109,7 @@ const SideBar = ({collapsed, currentLink, toggle}: ISideBar) => {
 			menuId: 'settings',
 			menuName: <Translate content="header.settings" />,
 			icon: <SettingOutlined />,
-			enableNavLinks: true,
+			enableNavLinks,
 		},
 	];
 

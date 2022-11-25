@@ -194,7 +194,10 @@ class Transaction extends React.Component {
 			.then(() => {
 				this.forceUpdate();
 			})
-			.catch(() => {});
+			.catch(() => {})
+			.finally(() => {
+				WalletUnlockActions.lock();
+			});
 	}
 
 	render() {

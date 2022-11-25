@@ -73,10 +73,16 @@ class WalletUnlockModal extends React.Component {
 			currentWallet,
 			passwordlessLogin,
 		} = props;
+
+		// Need refactor
+		const accountName = ss.get('account_login_name', '');
+
 		return {
 			isModalVisible: false,
 			passwordError: null,
-			accountName: passwordlessLogin ? passwordlessAccount : passwordAccount,
+			accountName:
+				accountName ||
+				(passwordlessLogin ? passwordlessAccount : passwordAccount),
 			passwordInput: null,
 			walletSelected: !!currentWallet,
 			customError: null,
@@ -577,6 +583,7 @@ class WalletUnlockModal extends React.Component {
 								useHR
 								labelClass="login-label"
 								reserveErrorSpace
+								disabled={true}
 							/>
 
 							{passwordLogin && (
@@ -685,7 +692,7 @@ class WalletUnlockModal extends React.Component {
 					)}
 				</Form>
 				{`passwordLogin` && (
-					<div className="control-wrapper">
+					<div className="control-wrapper none">
 						<Tooltip
 							key="wallet.remember_me_explanation"
 							title={counterpart.translate('wallet.remember_me_explanation')}
@@ -812,4 +819,5 @@ class WalletUnlockModalContainer extends React.Component {
 		);
 	}
 }
+
 export default WalletUnlockModalContainer;

@@ -11,6 +11,7 @@ import ReactTooltip from 'react-tooltip';
 import NotificationSystem from 'react-notification-system';
 import TransactionConfirm from './components/Blockchain/TransactionConfirm';
 import WalletUnlockModal from './components/Wallet/WalletUnlockModal';
+import PasswordlessLoginModal from './components/Wallet/PasswordlessLoginModal';
 import BrowserSupportModal from './components/Modal/BrowserSupportModal';
 import Deprecate from './Deprecate';
 import Incognito from './components/Layout/Incognito';
@@ -566,6 +567,7 @@ class App extends React.Component {
 								<BrowserNotifications />
 								<PriceAlertNotifications />
 								<WalletUnlockModal />
+								<PasswordlessLoginModal />
 								<BrowserSupportModal
 									visible={this.state.isBrowserSupportModalVisible}
 									hideModal={this.hideBrowserSupportModal}

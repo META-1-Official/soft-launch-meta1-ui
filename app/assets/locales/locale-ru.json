@@ -1790,7 +1790,8 @@
 		"walletLoginByValue": "bin-файл + пароль",
 		"walletModelTitle": "с bin-файлом",
 		"walletNote": "Пожалуйста, имейте в виду, что Meta1 не хранит пароли пользователей и не может восстановить их аккаунты в случае утери пароля.",
-		"whyBinFile": "Зачем мне нужен bin-файл?"
+		"whyBinFile": "Зачем мне нужен bin-файл?",
+		"wait": "Please wait ..."
 	},
 	"scaled_orders": {
 		"action": {

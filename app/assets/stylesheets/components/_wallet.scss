@@ -13,6 +13,7 @@
 	text-align: right;
 }
 
+.passwordless_unlock_modal,
 .unlock_wallet_modal2 {
 	padding-left: 0;
 	padding-right: 0;
@@ -34,6 +35,10 @@
 	}
 
 	form {
+		#username {
+			color: #919293 !important;
+		}
+
 		.login-type-selector {
 			display: flex;
 			flex-direction: row;

@@ -25,9 +25,11 @@ class WalletUnlockStore {
 		}
 		let passwordLogin = storedSettings.passwordLogin;
 		const passwordlessLogin = storedSettings.passwordlessLogin;
+
 		this.state = {
 			locked: true,
-			passwordLogin: passwordLogin,
+			locked_v2: WalletDb.isLocked_v2(),
+			passwordLogin,
 			passwordlessLogin,
 			rememberMe:
 				storedSettings.rememberMe === undefined
@@ -41,12 +43,6 @@ class WalletUnlockStore {
 		this.bindListeners({
 			onChangeSetting: SettingsActions.changeSetting,
 		});
-
-		// let timeoutSetting = this._getTimeout();
-
-		// if (timeoutSetting) {
-		//     this.walletLockTimeout = timeoutSetting;
-		// }
 	}
 
 	onUnlock({resolve, reject}) {
@@ -60,6 +56,17 @@ class WalletUnlockStore {
 		}
 
 		this.setState({resolve, reject, locked: WalletDb.isLocked()});
+	}
+
+	onUnlock_v2({resolve_v2, reject_v2}) {
+		// this._setLockTimeout();
+		if (!WalletDb.isLocked_v2()) {
+			this.setState({locked_v2: false});
+			resolve_v2();
+			return;
+		}
+
+		this.setState({resolve_v2, reject_v2, locked_v2: WalletDb.isLocked_v2()});
 	}
 
 	onLock({resolve}) {
@@ -80,10 +87,33 @@ class WalletUnlockStore {
 		resolve();
 	}
 
+	onLock_v2({resolve_v2}) {
+		if (WalletDb.isLocked_v2()) {
+			resolve_v2();
+			return;
+		}
+		WalletDb.onLock_v2();
+		this.setState({
+			resolve_v2: null,
+			reject_v2: null,
+			locked_v2: WalletDb.isLocked_v2(),
+		});
+		resolve_v2();
+	}
+
 	onCancel() {
 		if (typeof this.state.reject === 'function')
 			this.state.reject({isCanceled: true});
-		this.setState({resolve: null, reject: null});
+
+		if (typeof this.state.reject_v2 === 'function')
+			this.state.reject_v2({isCanceled: true});
+
+		this.setState({
+			resolve: null,
+			resolve_v2: null,
+			reject: null,
+			reject_v2: null,
+		});
 	}
 
 	onChange() {

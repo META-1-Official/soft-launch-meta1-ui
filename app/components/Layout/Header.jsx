@@ -43,6 +43,7 @@ import {withRouter} from 'react-router-dom';
 import AccountBrowsingMode from '../Account/AccountBrowsingMode';
 import {setLocalStorageType, isPersistantType} from 'lib/common/localStorage';
 import chainIds from 'chain/chainIds';
+import ls from '../../lib/common/localStorage';
 
 import {getLogo} from 'branding';
 import StyledButton from 'components/Button/Button';
@@ -52,6 +53,9 @@ import migrationService from 'services/migration.service';
 
 var logo = getLogo();
 const CHAINID_SHORT = chainIds[process.env.CURRENT_NET].substr(0, 8);
+
+const STORAGE_KEY = '__AuthData__';
+const ss = new ls(STORAGE_KEY);
 
 const {Header: AntdHeader} = Layout;
 const {Text} = Typography;
@@ -151,6 +155,7 @@ class Header extends React.Component {
 			nextProps.currentAccount !== this.props.currentAccount ||
 			nextProps.passwordLogin !== this.props.passwordLogin ||
 			nextProps.locked !== this.props.locked ||
+			nextProps.locked_v2 !== this.props.locked_v2 ||
 			nextProps.current_wallet !== this.props.current_wallet ||
 			nextProps.lastMarket !== this.props.lastMarket ||
 			nextProps.starredAccounts !== this.props.starredAccounts ||
@@ -185,23 +190,22 @@ class Header extends React.Component {
 
 	_toggleLock(e, fromMenu) {
 		!fromMenu && e.preventDefault();
-		if (WalletDb.isLocked()) {
-			WalletUnlockActions.unlock()
-				.then(() => {
-					AccountActions.tryToSetCurrentAccount();
-				})
+
+		if (WalletDb.isLocked_v2()) {
+			WalletUnlockActions.unlock_v2()
+				.then(() => {})
 				.catch(() => {});
 		} else {
-			WalletUnlockActions.lock();
+			WalletUnlockActions.lock_v2();
 			if (!WalletUnlockStore.getState().rememberMe) {
-				if (!isPersistantType()) {
-					setLocalStorageType('persistant');
-				}
-				AccountActions.setPasswordAccount(null);
-				AccountStore.tryToSetCurrentAccount();
+				// if (!isPersistantType()) {
+				// 	setLocalStorageType('persistant');
+				// }
+				// AccountActions.setPasswordAccount(null);
+				// AccountStore.tryToSetCurrentAccount();
 			}
 		}
-		//DEBUG console.log("props:" + JSON.stringify(this.props));
+
 		this._closeAccountNotifications();
 	}
 
@@ -312,10 +316,13 @@ class Header extends React.Component {
 		const {key} = e;
 		let isLogged = false;
 
+		// Need refactor
+		const accountName = ss.get('account_login_name');
+
 		if (key === 'auth') {
 			this._toggleLock(this, true);
 		} else if (key === 'dashboard') {
-			this._onNavigate(`/account/${currentAccount}`, this, true);
+			this._onNavigate(`/account/${accountName || currentAccount}`, this, true);
 		} else if (key === 'createAccount') {
 			this._onNavigate('/registration/', this, true);
 		} else if (key === 'market') {
@@ -498,7 +505,7 @@ class Header extends React.Component {
 					<Text>
 						<Translate
 							content={`header.${
-								this.props.locked ? 'unlock_short' : 'lock_short'
+								this.props.locked_v2 ? 'unlock_short' : 'lock_short'
 							}`}
 						/>
 					</Text>
@@ -513,7 +520,7 @@ class Header extends React.Component {
 				</Menu.Item>
 				<Menu.Item
 					key="claimWallet"
-					style={this.props.locked ? {cursor: 'not-allowed'} : {}}
+					style={this.props.locked_v2 ? {cursor: 'not-allowed'} : {}}
 					className={
 						this.props.locked ? 'disable-li-text' : 'claim-wallet-background'
 					}
@@ -522,8 +529,8 @@ class Header extends React.Component {
 				</Menu.Item>
 				<Menu.Item
 					key="send"
-					style={this.props.locked ? {cursor: 'not-allowed'} : {}}
-					className={this.props.locked ? 'disable-li-text' : ''}
+					style={this.props.locked_v2 ? {cursor: 'not-allowed'} : {}}
+					className={this.props.locked_v2 ? 'disable-li-text' : ''}
 				>
 					<Text>Send</Text>
 				</Menu.Item>
@@ -549,15 +556,15 @@ class Header extends React.Component {
 				</Menu.Item> */}
 				<Menu.Item
 					key="withdraw"
-					style={this.props.locked ? {cursor: 'not-allowed'} : {}}
-					className={this.props.locked ? 'disable-li-text' : ''}
+					style={this.props.locked_v2 ? {cursor: 'not-allowed'} : {}}
+					className={this.props.locked_v2 ? 'disable-li-text' : ''}
 				>
 					<Text>Withdraw</Text>
 				</Menu.Item>
 				<Menu.Item
 					key="deposit"
-					style={this.props.locked ? {cursor: 'not-allowed'} : {}}
-					className={this.props.locked ? 'disable-li-text' : ''}
+					style={this.props.locked_v2 ? {cursor: 'not-allowed'} : {}}
+					className={this.props.locked_v2 ? 'disable-li-text' : ''}
 				>
 					<Text>Deposit</Text>
 				</Menu.Item>
@@ -604,9 +611,9 @@ class Header extends React.Component {
 						<Text>Signed Messages</Text>
 					</Menu.Item>
 
-					{/* <Menu.Item key="advanced-membership-stats">
+					<Menu.Item key="advanced-membership-stats">
 						<Text>Membership Stats</Text>
-					</Menu.Item> */}
+					</Menu.Item>
 
 					<Menu.Item key="advanced-vesting-balance">
 						<Text>Vesting Balance</Text>
@@ -723,7 +730,7 @@ class Header extends React.Component {
 										Send / Receive
 									</StyledButton>
 								</div>
-								<div css={{marginRight: '10px'}}>
+								<div css={{marginRight: '10px', display: 'none'}}>
 									{this.props.currentAccount == null ? null : (
 										<span
 											onClick={this._toggleLock.bind(this)}
@@ -820,6 +827,7 @@ Header = connect(Header, {
 				AccountStore.getState().passwordAccount,
 			passwordAccount: AccountStore.getState().passwordAccount,
 			locked: WalletUnlockStore.getState().locked,
+			locked_v2: WalletUnlockStore.getState().locked_v2,
 			current_wallet: WalletManagerStore.getState().current_wallet,
 			lastMarket: SettingsStore.getState().viewSettings.get(
 				`lastMarket${chainID ? '_' + chainID.substr(0, 8) : ''}`

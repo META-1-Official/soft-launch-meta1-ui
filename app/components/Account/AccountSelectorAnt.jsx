@@ -46,6 +46,7 @@ class AccountSelector extends React.Component {
 		allowUppercase: PropTypes.bool, // use it if you need to allow uppercase letters
 		typeahead: PropTypes.bool,
 		excludeAccounts: PropTypes.array, // array of accounts to exclude from the typeahead
+		disabled: PropTypes.bool,
 	};
 
 	static defaultProps = {
@@ -227,6 +228,7 @@ class AccountSelector extends React.Component {
 			useHR,
 			labelClass,
 			reserveErrorSpace,
+			disabled,
 		} = this.props;
 
 		const inputType = this.getInputType(accountName);
@@ -394,6 +396,8 @@ class AccountSelector extends React.Component {
 				!(account || inputType === 'pubkey') || error || disableActionButton,
 		});
 
+		if (this.props.setHasError) this.props.setHasError(!!error);
+
 		return (
 			<div className="account-selector" style={this.props.style}>
 				<div className="content-area">
@@ -427,6 +431,7 @@ class AccountSelector extends React.Component {
 							onKeyDown={this.onKeyDown.bind(this)}
 							tabIndex={this.props.tabIndex}
 							bordered={false}
+							disabled={this.props.disabled}
 						/>
 					)}
 				</div>

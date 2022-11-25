@@ -109,51 +109,55 @@ class WalletRegistrationForm extends React.Component {
 
 	createAccount(name) {
 		const {referralAccount} = AccountStore.getState();
-		WalletUnlockActions.unlock().then(() => {
-			this.setState({loading: true});
+		WalletUnlockActions.unlock()
+			.then(() => {
+				this.setState({loading: true});
 
-			AccountActions.createAccount(
-				name,
-				this.state.registrarAccount,
-				referralAccount || this.state.registrarAccount,
-				0
-			)
-				.then(() => {
-					// User registering his own account
-					FetchChain('getAccount', name, undefined, {
-						[name]: true,
-					}).then(() => {
-						this.props.continue();
-						if (this.unmounted) {
-							return;
+				AccountActions.createAccount(
+					name,
+					this.state.registrarAccount,
+					referralAccount || this.state.registrarAccount,
+					0
+				)
+					.then(() => {
+						// User registering his own account
+						FetchChain('getAccount', name, undefined, {
+							[name]: true,
+						}).then(() => {
+							this.props.continue();
+							if (this.unmounted) {
+								return;
+							}
+							this.setState({
+								loading: false,
+							});
+						});
+						if (this.state.registrarAccount) {
+							TransactionConfirmStore.listen(this.onFinishConfirm);
 						}
-						this.setState({
-							loading: false,
+					})
+					.catch((error) => {
+						this.setState({loading: false});
+						console.log('ERROR AccountActions.createAccount', error);
+						let errorMsg =
+							error.base && error.base.length && error.base.length > 0
+								? error.base[0]
+								: 'unknown error';
+						if (error.remote_ip) [errorMsg] = error.remote_ip;
+						notification.error({
+							message: counterpart.translate(
+								'notifications.account_create_failure',
+								{
+									account_name: name,
+									error_msg: errorMsg,
+								}
+							),
 						});
 					});
-					if (this.state.registrarAccount) {
-						TransactionConfirmStore.listen(this.onFinishConfirm);
-					}
-				})
-				.catch((error) => {
-					this.setState({loading: false});
-					console.log('ERROR AccountActions.createAccount', error);
-					let errorMsg =
-						error.base && error.base.length && error.base.length > 0
-							? error.base[0]
-							: 'unknown error';
-					if (error.remote_ip) [errorMsg] = error.remote_ip;
-					notification.error({
-						message: counterpart.translate(
-							'notifications.account_create_failure',
-							{
-								account_name: name,
-								error_msg: errorMsg,
-							}
-						),
-					});
-				});
-		});
+			})
+			.finally(() => {
+				WalletUnlockActions.lock();
+			});
 	}
 
 	createWallet(password) {

@@ -25,17 +25,48 @@ class WalletUnlockActions {
 		};
 	}
 
+	unlock_v2() {
+		return (dispatch) => {
+			return new Promise((resolve, reject) => {
+				dispatch({resolve_v2: resolve, reject_v2: reject});
+			})
+				.then((was_unlocked) => {})
+				.catch((params) => {
+					throw params;
+				});
+		};
+	}
+
 	lock() {
+		const referred_user = ss.get('referred_user_id', 'null');
+		const account_login_name = ss.get('account_login_name', '');
+		const account_login_token = ss.get('account_login_token', '');
+
 		return (dispatch) => {
 			return new Promise((resolve) => {
 				dispatch({resolve});
 			}).then((was_unlocked) => {
-				var referred_user = ss.get('referred_user_id', 'null');
 				localStorage.clear();
+
+				// Keep passwordless login info
 				referred_user !== null &&
 					referred_user !== 'null' &&
 					ss.set('referred_user_id', referred_user);
+				if (account_login_name)
+					ss.set('account_login_name', account_login_name);
+				if (account_login_token)
+					ss.set('account_login_token', account_login_token);
 				if (was_unlocked) WrappedWalletUnlockActions.change();
+			});
+		};
+	}
+
+	lock_v2() {
+		return (dispatch) => {
+			return new Promise((resolve_v2) => {
+				dispatch({resolve_v2});
+			}).then((was_unlocked) => {
+				localStorage.clear();
 			});
 		};
 	}
