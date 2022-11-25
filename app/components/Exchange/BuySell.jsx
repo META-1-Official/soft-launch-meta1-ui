@@ -118,6 +118,7 @@ class BuySell extends React.Component {
 			nextProps.hideFunctionButtons !== this.props.hideFunctionButtons ||
 			nextState.isQuickDepositVisible !== this.state.isQuickDepositVisible ||
 			nextProps.base !== this.props.base ||
+			nextProps.marketPrice !== this.props.marketPrice ||
 			nextProps.quote !== this.props.quote;
 
 		if (shouldUpdate)
