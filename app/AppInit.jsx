@@ -2,6 +2,7 @@ import {hot} from 'react-hot-loader';
 import React from 'react';
 import App from './App';
 import IntlActions from 'actions/IntlActions';
+import WalletUnlockActions from 'actions/WalletUnlockActions';
 import WalletManagerStore from 'stores/WalletManagerStore';
 import AccountStore from 'stores/AccountStore';
 import SettingsStore from 'stores/SettingsStore';
@@ -197,9 +198,9 @@ class AppInit extends React.Component {
 				.then((response) => {})
 				.catch((error) => {
 					console.log('error', error);
-					ss.set('account_login_name', null);
-					ss.set('account_login_token', null);
-					history.replace('/market/META1_USDT');
+					WalletUnlockActions.lock_v2().finally(() => {
+						history.replace('/market/META1_USDT');
+					});
 				})
 				.finally(function () {
 					self.transit();
