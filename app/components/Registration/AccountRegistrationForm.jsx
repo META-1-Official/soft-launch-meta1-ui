@@ -600,7 +600,10 @@ class AccountRegistrationForm extends React.Component {
 					)}
 					<div className="redirect">
 						Or if you have an wallet then{' '}
-						<div className="btn" onClick={() => {}}>
+						<div
+							className="btn"
+							onClick={() => WalletUnlockActions.unlock_v2()}
+						>
 							login
 						</div>
 					</div>

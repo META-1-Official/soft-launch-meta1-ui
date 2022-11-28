@@ -294,7 +294,8 @@ function estimateFee(op_type, options, globalObject, data = {}) {
 	}
 	// console.timeEnd("estimateFee");
 	fee =
-		(fee * globalObject.getIn(['parameters', 'current_fees', 'scale'])) / 10000;
+		(fee * globalObject.getIn(['parameters', 'current_fees', 'scale'])) /
+		100000000;
 	_feeCache[cacheKey] = fee;
 	setTimeout(() => {
 		delete _feeCache[cacheKey];
