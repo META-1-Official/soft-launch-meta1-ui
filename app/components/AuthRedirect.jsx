@@ -217,8 +217,14 @@ class AuthRedirect extends React.Component {
 						this.setState({webcamEnabled: false});
 						ss.set('account_login_name', response.data['accountName']);
 						ss.set('account_login_token', response.data['token']);
-						WalletUnlockActions.unlock_v2();
-						this.props.history.push('/market/META1_USDT');
+						WalletUnlockActions.unlock_v2().finally(() => {
+							this.props.history.push('/market/META1_USDT');
+						});
+						setTimeout(() => {
+							WalletUnlockActions.lock_v2().finally(() => {
+								this.props.history.push('/market/META1_USDT');
+							});
+						}, 24 * 60 * 60 * 1000); // Auto timeout in 24 hrs
 					});
 			} catch (err) {
 				console.log('Error in e-sign token generation', err);
