@@ -335,19 +335,19 @@ class Header extends React.Component {
 		} else if (key === 'get-help') {
 			window.open('https://support.meta1coin.vision');
 		} else if (key === 'withdraw') {
-			if (!this.props.locked) {
+			if (!this.props.locked_v2) {
 				this._showWithdraw(this, true);
 			}
 		} else if (key === 'claimWallet') {
-			if (!this.props.locked) {
+			if (!this.props.locked_v2) {
 				this._onNavigate('/claimWallet', this, true, true);
 			}
 		} else if (key === 'send') {
-			if (!this.props.locked) {
+			if (!this.props.locked_v2) {
 				this._showSend();
 			}
 		} else if (key === 'deposit') {
-			if (!this.props.locked) {
+			if (!this.props.locked_v2) {
 				this._showDeposit();
 			}
 		} else if (key === 'advanced-trezor') {
