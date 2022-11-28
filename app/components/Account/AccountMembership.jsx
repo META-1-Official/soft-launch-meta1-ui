@@ -168,8 +168,14 @@ class AccountMembership extends React.Component {
 														wallet_name={getWalletName()}
 													/>
 													:
-													<a href={getWalletURL() + `/?r=${account.name}`}>
-														{getWalletURL() + `/?r=${account.name}`}{' '}
+													<a
+														href={
+															getWalletURL() +
+															`registration/?ref=${account.name}`
+														}
+													>
+														{getWalletURL() +
+															`registration/?ref=${account.name}`}{' '}
 													</a>
 												</p>
 											</div>

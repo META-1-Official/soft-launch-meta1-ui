@@ -17,6 +17,7 @@ import WalletUnlockActions from '../actions/WalletUnlockActions';
 import LoadingIndicator from './LoadingIndicator';
 import ls from '../lib/common/localStorage';
 import faceKIService from '../services/face-ki.service';
+import kycService from 'services/kyc.service';
 import Webcam from 'react-webcam';
 import {Form, Input, Button, Tooltip} from 'antd';
 import {toast} from 'react-toastify';
@@ -91,10 +92,7 @@ class AuthRedirect extends React.Component {
 	async loadVideo() {
 		let features = {
 			audio: false,
-			video: {
-				width: {ideal: 1800},
-				height: {ideal: 900},
-			},
+			video: true,
 		};
 		let display = await navigator.mediaDevices.getUserMedia(features);
 		this.setState({device: display?.getVideoTracks()[0]?.getSettings()});
@@ -134,26 +132,69 @@ class AuthRedirect extends React.Component {
 	async verify() {
 		const {privKey, authData} = this.props;
 
+		const accountName = ss.get('account_login_name', '');
+		if (!accountName || !privKey) return;
+
 		const imageSrc = this.webcamRef.current.getScreenshot();
 
 		if (!imageSrc) {
-			alert('Please check your camera.');
+			toast('Please check your camera.');
 			return;
 		}
 
-		const file = this.dataURLtoFile(imageSrc, 'a.jpg');
+		// const response_user = await kycService.getUserKycProfile(authData.email);
+
+		// if (!response_user?.member1Name) {
+		// 	toast('Email and wallet name are not matched.');
+		// 	return;
+		// }
+		// else {
+		// 	const walletArry = response_user.member1Name.split(',');
+
+		// 	if (!walletArry.includes(accountName)) {
+		// 		toast('Email and wallet name are not matched.');
+		// 		return;
+		// 	}
+		// };
+
+		var file = this.dataURLtoFile(imageSrc, 'a.jpg');
 		const response = await faceKIService.liveLinessCheck(file);
-		if (response.data.liveness === 'Spoof') {
-			alert('Please try again.');
+
+		console.log('LIVENESS', response);
+
+		const response_user = await kycService.getUserKycProfile(authData.email);
+
+		if (!response_user?.member1Name) {
+			toast('Email and wallet name are not matched.');
+			return;
+		} else {
+			const walletArry = response_user.member1Name.split(',');
+
+			if (!walletArry.includes(accountName)) {
+				toast('Email and wallet name are not matched.');
+				return;
+			}
+		}
+
+		if (response.data.liveness !== 'Genuine') {
+			toast('Try again by changing position or background.');
 		} else {
 			const response_verify = await faceKIService.verify(file);
-			if (
-				response_verify.status === 'Verify OK' &&
-				response_verify.name.includes(authData.email)
-			) {
-				console.log('You are verified! :)');
-				toast('Face Verification is successful.');
-				this.setState({faceKISuccess: true});
+			if (response_verify.status === 'Verify OK') {
+				const nameArry = response_verify.name.split(',');
+
+				if (nameArry.includes(authData.email)) {
+					this.setState({faceKISuccess: true});
+					this.continueLogin();
+				} else {
+					toast(
+						'Bio-metric verification failed for this email. Please use an email that has been linked to your biometric verification / enrollment.'
+					);
+				}
+			} else {
+				toast(
+					'We can not verify you because you never enrolled with your face yet.'
+				);
 			}
 		}
 	}
@@ -311,7 +352,6 @@ class AuthRedirect extends React.Component {
 
 		if (!success && WalletDb.isLocked()) {
 			this.setState({passwordError: true});
-			// alert('Password Or Account is wrong');
 		} else {
 			this.setState({password: ''});
 			if (cloudMode) AccountActions.setPasswordAccount(account);
@@ -321,7 +361,6 @@ class AuthRedirect extends React.Component {
 			ss.remove('account_login_name');
 			this.props.history.push(`/account/${account}`);
 		}
-
 		toast('Success');
 	}
 
@@ -385,7 +424,7 @@ class AuthRedirect extends React.Component {
 										top: 0,
 										left: 0,
 										zIndex: 200,
-										opacity: 0.9,
+										opacity: 0.8,
 									}}
 								/>
 							</div>
@@ -402,17 +441,6 @@ class AuthRedirect extends React.Component {
 								style={{background: '#ffcc00', border: 'none'}}
 							>
 								Verify
-							</Button>
-							<Button
-								onClick={this.continueLogin}
-								disabled={!this.state.faceKISuccess}
-								style={{
-									background: '#ffcc00',
-									border: 'none',
-									marginLeft: '30px',
-								}}
-							>
-								Continue Login
 							</Button>
 						</div>
 					</Modal>

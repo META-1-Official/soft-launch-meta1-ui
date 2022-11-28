@@ -14,9 +14,11 @@ import ls from '../../lib/common/localStorage';
 import {Form, Input, Button, Tooltip} from 'antd';
 import Webcam from 'react-webcam';
 import faceKIService from 'services/face-ki.service';
+import kycService from 'services/kyc.service';
 import migrationService from 'services/migration.service';
-
 import {toast} from 'react-toastify';
+
+const OvalImage = require('assets/oval/oval.png');
 
 const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
@@ -34,6 +36,8 @@ class AccountRegistration extends React.Component {
 			migrationStep: false,
 			faceKISuccess: false,
 			passkey: '',
+			device: {},
+			webcamEnabled: true,
 		};
 		this.webcamRef = React.createRef();
 		this.continue = this.continue.bind(this);
@@ -63,11 +67,9 @@ class AccountRegistration extends React.Component {
 
 	async enroll() {
 		const {privKey, authData} = this.props;
-
 		const imageSrc = this.webcamRef.current.getScreenshot();
 
 		if (!imageSrc) {
-			// alert('Check your camera');
 			toast('Check your camera');
 			return;
 		}
@@ -75,44 +77,64 @@ class AccountRegistration extends React.Component {
 		var file = this.dataURLtoFile(imageSrc, 'a.jpg');
 		const response = await faceKIService.liveLinessCheck(file);
 
-		if (response.data.liveness === 'Spoof') toast('try again!');
-		else {
+		if (response.data.liveness !== 'Genuine') {
+			toast('Try again by changing position or background.');
+		} else {
 			const response_verify = await faceKIService.verify(file);
-			if (
-				response_verify.status === 'Verify OK' &&
-				response_verify.name === authData.email
-			) {
-				console.log('you already enrolled');
-				toast('You already enrolled');
-				this.setState({faceKISuccess: true});
-			} else {
-				const response_enroll = await faceKIService.enroll(
-					file,
-					authData.email
-				);
-				if (response_enroll.status === 'Enroll OK') {
-					console.log('Successfully enrolled');
-					toast('Successfully enrolled');
+			if (response_verify.status === 'Verify OK') {
+				const nameArry = response_verify.name.split(',');
+
+				if (nameArry.includes(email)) {
+					toast('You already enrolled and verified successfully.');
 					this.setState({faceKISuccess: true});
+				} else {
+					const response_user = await kycService.getUserKycProfile(email);
+					if (response_user) {
+						toast('This email already has been used for another user.');
+					} else {
+						const newName = response_verify.name + ',' + email;
+						const response_remove = await faceKIService.remove_user(
+							response_verify.name
+						);
 
-					// try {
-					// 	const response_adduser = await axios({
-					// 		url: process.env.ESIGNATURE_URL + '/apiewallet/users',
-					// 		method: 'get',
-					// 		headers: {
-					// 			Accept: 'application/json',
-					// 		},
-					// 		params: {email},
-					// 	});
-
-					// 	if (response && response.headers) {
-					// 		if (response.headers.authorization) {
-					// 			token = response.headers.authorization;
-					// 		}
-					// 	}
-					// } catch (err) {
-					// 	console.log('Error in e-sign token generation');
-					// }
+						if (!response_remove) {
+							toast('Something went wrong.');
+						} else {
+							const response_enroll = await faceKIService.enroll(file, newName);
+							if (response_enroll.status === 'Enroll OK') {
+								const add_response = await kycService.postUserKycProfile(
+									email,
+									`usr_${email}_${privKey}`
+								);
+								if (add_response.result) {
+									toast('Successfully enrolled.');
+									this.setState({faceKISuccess: true});
+								} else {
+									toast('Something went wrong.');
+								}
+							}
+						}
+					}
+				}
+			} else {
+				const response_user = await kycService.getUserKycProfile(email);
+				if (response_user) {
+					alert('This email already has been used for another user.');
+				} else {
+					const response_enroll = await faceKIService.enroll(file, email);
+					if (response_enroll.status === 'Enroll OK') {
+						const add_response = await kycService.postUserKycProfile(
+							email,
+							`usr_${email}_${privKey}`
+						);
+						if (add_response.result) {
+							alert('Successfully enrolled.');
+							setFaceKISuccess(true);
+						} else {
+							await faceKIService.remove_user(email);
+							alert('Something went wrong.');
+						}
+					}
 				}
 			}
 		}
@@ -136,6 +158,7 @@ class AccountRegistration extends React.Component {
 				faceKIStep: false,
 				migrationStep: false,
 				fromStep: false,
+				webcamEnabled: false,
 			});
 		} else {
 			toast('first enroll');
@@ -189,6 +212,17 @@ class AccountRegistration extends React.Component {
 		} else {
 			setOpenLoginInstance();
 		}
+
+		this.loadVideo();
+	}
+
+	async loadVideo() {
+		let features = {
+			audio: false,
+			video: true,
+		};
+		let display = await navigator.mediaDevices.getUserMedia(features);
+		this.setState({device: display?.getVideoTracks()[0]?.getSettings()});
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
@@ -431,19 +465,41 @@ class AccountRegistration extends React.Component {
 						the security of your wallet
 					</h5>
 					<br />
-					<Webcam
-						audio={false}
-						ref={this.webcamRef}
-						screenshotFormat="image/jpeg"
-						videoConstraints={{
-							facingMode: 'user',
-							width: 500,
-							height: 500,
-						}}
-						width={500}
-						height={500}
-						mirrored
-					/>
+					{this.state.webcamEnabled && (
+						<div
+							style={{
+								position: 'relative',
+							}}
+						>
+							<Webcam
+								audio={false}
+								ref={this.webcamRef}
+								screenshotFormat="image/jpeg"
+								width={500}
+								videoConstraints={{deviceId: this.state.device?.deviceId}}
+								height={
+									this.state.device?.aspectRatio
+										? 500 / this.state.device?.aspectRatio
+										: 385
+								}
+								mirrored
+							/>
+							<img
+								src={OvalImage}
+								alt="oval-image"
+								className="oval-image"
+								style={{
+									position: 'absolute',
+									width: '100%',
+									height: '100%',
+									top: 0,
+									left: 0,
+									zIndex: 200,
+									opacity: 0.8,
+								}}
+							/>
+						</div>
+					)}
 					<div
 						style={{
 							display: 'flex',

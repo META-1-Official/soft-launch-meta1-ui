@@ -259,11 +259,12 @@ class BuySell extends React.Component {
 
 		symbolType.set('META1', '1.3.0');
 		symbolType.set('USDT', '1.3.1');
-		symbolType.set('BTC', '1.3.2');
-		symbolType.set('ETH', '1.3.3');
-		symbolType.set('EOS', '1.3.5');
+		symbolType.set('BTC', '1.3.5');
+		symbolType.set('ETH', '1.3.4');
+		symbolType.set('EOS', '1.3.3');
 		symbolType.set('XLM', '1.3.6');
 		symbolType.set('BNB', '1.3.7');
+		symbolType.set('LTC', '1.3.2');
 
 		const tradeSymbol = {};
 		if (this.props.historyUrl) {

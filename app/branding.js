@@ -38,7 +38,6 @@ export function getWalletName() {
  */
 export function getWalletURL() {
 	return process.env.DEFAULT_WALLET_URL;
-	// return "https://meta-exchange.io";
 }
 
 /**
