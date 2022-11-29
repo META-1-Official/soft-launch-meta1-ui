@@ -3337,7 +3337,7 @@ class Exchange extends React.Component {
 										display: 'inline-block',
 										border: '1px solid #1C1F27',
 										borderRadius: '5px',
-										width: '48%',
+										width: '73%',
 										marginRight: '1%',
 									}}
 								>
@@ -3351,7 +3351,7 @@ class Exchange extends React.Component {
 										position: 'relative',
 										border: '1px solid #1C1F27',
 										borderRadius: '5px',
-										width: '48%',
+										width: '25%',
 										marginLeft: '1%',
 									}}
 								>
