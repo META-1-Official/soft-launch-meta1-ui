@@ -164,6 +164,12 @@ class AuthRedirect extends React.Component {
 		var file = this.dataURLtoFile(imageSrc, 'a.jpg');
 		const response = await faceKIService.liveLinessCheck(file);
 
+		if (!response) {
+			toast('Something went wrong from Biometric server.');
+			this.setState({verifying: false});
+			return;
+		}
+
 		if (response.data.liveness !== 'Genuine') {
 			toast('Try again by changing position or background.');
 			this.setState({verifying: false});

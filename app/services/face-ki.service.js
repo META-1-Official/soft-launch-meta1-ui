@@ -36,19 +36,9 @@ const user_list = async () => {
 };
 
 const remove_user = async (name) => {
-	let form_data = new FormData();
-	form_data.append('name', name);
-
-	const {data} = await faceKIApi.post('/remove_user', form_data, {
-		headers: {'content-type': 'multipart/form-data'},
-	});
+	const {data} = await faceKIApi.post('/remove_user', {name});
 	return data;
 };
-
-// const remove_user = async (name) => {
-// 	const {data} = await faceKIApi.post('/remove_user', {name});
-// 	return data;
-// };
 
 const remove_all_user = async () => {
 	const {data} = await faceKIApi.post('/remove_all');

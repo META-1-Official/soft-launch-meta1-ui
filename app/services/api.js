@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const faceKIApi = axios.create({
-	baseURL: `${process.env.FACEKI_URL}`,
+	baseURL: `${process.env.LITE_WALLET_URL}`,
 });
 
 const kycApi = axios.create({
