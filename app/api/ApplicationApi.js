@@ -118,8 +118,6 @@ const ApplicationApi = {
 		fee_asset_id = '1.3.0',
 		transactionBuilder = null,
 	}) {
-		let unlock_promise = WalletUnlockActions.unlock();
-
 		let memo_sender_account = propose_account || from_account;
 		return Promise.all([
 			FetchChain('getAccount', from_account),
@@ -127,7 +125,6 @@ const ApplicationApi = {
 			FetchChain('getAccount', memo_sender_account),
 			FetchChain('getAsset', asset),
 			FetchChain('getAsset', fee_asset_id),
-			unlock_promise,
 		])
 			.then((res) => {
 				let [
@@ -216,9 +213,6 @@ const ApplicationApi = {
 			})
 			.catch((err) => {
 				console.error(err);
-			})
-			.finally(() => {
-				WalletUnlockActions.lock();
 			});
 	},
 
@@ -242,37 +236,46 @@ const ApplicationApi = {
 		if (transactionBuilder == null) {
 			transactionBuilder = new TransactionBuilder();
 		}
-		return this._create_transfer_op({
-			from_account,
-			to_account,
-			amount,
-			asset,
-			memo,
-			propose_account,
-			encrypt_memo,
-			optional_nonce,
-			fee_asset_id,
-			transactionBuilder,
-		}).then((transfer_obj) => {
-			return transactionBuilder
-				.update_head_block()
-				.then(() => {
-					if (propose_account) {
-						transactionBuilder.add_type_operation('proposal_create', {
-							proposed_ops: [{op: transfer_obj.transfer_op}],
-							fee_paying_account: transfer_obj.chain_propose_account.get('id'),
+
+		return WalletUnlockActions.unlock().then(() => {
+			return this._create_transfer_op({
+				from_account,
+				to_account,
+				amount,
+				asset,
+				memo,
+				propose_account,
+				encrypt_memo,
+				optional_nonce,
+				fee_asset_id,
+				transactionBuilder,
+			})
+				.then((transfer_obj) => {
+					return transactionBuilder
+						.update_head_block()
+						.then(() => {
+							if (propose_account) {
+								transactionBuilder.add_type_operation('proposal_create', {
+									proposed_ops: [{op: transfer_obj.transfer_op}],
+									fee_paying_account:
+										transfer_obj.chain_propose_account.get('id'),
+								});
+							} else {
+								transactionBuilder.add_operation(transfer_obj.transfer_op);
+							}
+
+							return WalletDb.process_transaction(
+								transactionBuilder,
+								null, //signer_private_keys,
+								broadcast
+							);
+						})
+						.catch((err) => {
+							console.error(err);
 						});
-					} else {
-						transactionBuilder.add_operation(transfer_obj.transfer_op);
-					}
-					return WalletDb.process_transaction(
-						transactionBuilder,
-						null, //signer_private_keys,
-						broadcast
-					);
 				})
-				.catch((err) => {
-					console.error(err);
+				.finally(() => {
+					WalletUnlockActions.lock();
 				});
 		});
 	},

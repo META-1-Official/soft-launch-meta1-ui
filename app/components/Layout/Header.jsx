@@ -170,7 +170,15 @@ class Header extends React.Component {
 	}
 
 	_showSend() {
-		if (this.send_modal) this.send_modal.show();
+		if (WalletDb.isLocked_v2()) {
+			WalletUnlockActions.unlock_v2()
+				.then(() => {
+					if (this.send_modal) this.send_modal.show();
+				})
+				.catch(() => {});
+		} else {
+			if (this.send_modal) this.send_modal.show();
+		}
 	}
 
 	_showWithdraw(e, fromMenu) {
