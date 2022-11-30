@@ -23,6 +23,10 @@ import ReactTooltip from 'react-tooltip';
 import PrivateKeyStore from '../../stores/PrivateKeyStore';
 import WalletDb from '../../stores/WalletDb';
 import StyledButton from 'components/Button/Button';
+import ls from '../../lib/common/localStorage';
+
+const STORAGE_KEY = '__AuthData__';
+const ss = new ls(STORAGE_KEY);
 
 const getUninitializedFeeAmount = () =>
 	new Asset({amount: 0, asset_id: '1.3.0'});
@@ -407,9 +411,8 @@ class SendModal extends React.Component {
 			balanceError,
 			hidden,
 		} = this.state;
-		let from_my_account =
-			AccountStore.isMyAccount(from_account) ||
-			from_name === this.props.passwordAccount;
+		const accountName = ss.get('account_login_name', '');
+		const from_my_account = from_name === accountName;
 		let from_error =
 			from_account && !from_my_account && !propose ? true : false;
 
@@ -469,6 +472,16 @@ class SendModal extends React.Component {
 			propose_incomplete ||
 			balanceError ||
 			from_account.get('id') == to_account.get('id');
+		console.log(
+			'@DEBUG:',
+			!from_account,
+			!to_account,
+			!isAmountValid,
+			!asset,
+			from_error,
+			propose_incomplete,
+			balanceError
+		);
 
 		let tabIndex = this.props.tabIndex; // Continue tabIndex on props count
 
