@@ -45,6 +45,11 @@ const remove_user = async (name) => {
 	return data;
 };
 
+// const remove_user = async (name) => {
+// 	const {data} = await faceKIApi.post('/remove_user', {name});
+// 	return data;
+// };
+
 const remove_all_user = async () => {
 	const {data} = await faceKIApi.post('/remove_all');
 	return data;

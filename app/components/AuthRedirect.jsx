@@ -17,6 +17,7 @@ import WalletUnlockActions from '../actions/WalletUnlockActions';
 import LoadingIndicator from './LoadingIndicator';
 import ls from '../lib/common/localStorage';
 import faceKIService from '../services/face-ki.service';
+import kycService from 'services/kyc.service';
 import Webcam from 'react-webcam';
 import {Form, Input, Button, Tooltip} from 'antd';
 import {toast} from 'react-toastify';
@@ -37,6 +38,7 @@ class AuthRedirect extends React.Component {
 			device: {},
 			token: '',
 			webcamEnabled: true,
+			verifying: false,
 		};
 
 		this.generateAuthData = this.generateAuthData.bind(this);
@@ -47,7 +49,7 @@ class AuthRedirect extends React.Component {
 			this.skipFreshCreationAndProceed.bind(this);
 		this.validateLogin = this.validateLogin.bind(this);
 		this.proceedESignRedirect = this.proceedESignRedirect.bind(this);
-		this.verify = this.verify.bind(this);
+		this.faceVerify = this.faceVerify.bind(this);
 		this.continueLogin = this.continueLogin.bind(this);
 		this.webcamRef = React.createRef();
 	}
@@ -91,10 +93,7 @@ class AuthRedirect extends React.Component {
 	async loadVideo() {
 		let features = {
 			audio: false,
-			video: {
-				width: {ideal: 1800},
-				height: {ideal: 900},
-			},
+			video: true,
 		};
 		let display = await navigator.mediaDevices.getUserMedia(features);
 		this.setState({device: display?.getVideoTracks()[0]?.getSettings()});
@@ -131,29 +130,66 @@ class AuthRedirect extends React.Component {
 		return new File([u8arr], filename, {type: mime});
 	}
 
-	async verify() {
+	async faceVerify() {
 		const {privKey, authData} = this.props;
+		this.setState({verifying: true});
+
+		const accountName = ss.get('account_login_name', '');
+		if (!accountName || !privKey) return;
 
 		const imageSrc = this.webcamRef.current.getScreenshot();
 
 		if (!imageSrc) {
-			alert('Please check your camera.');
+			toast('Please check your camera.');
+			this.setState({verifying: false});
 			return;
 		}
 
-		const file = this.dataURLtoFile(imageSrc, 'a.jpg');
+		const response_user = await kycService.getUserKycProfile(authData.email);
+
+		if (!response_user?.member1Name) {
+			toast('Email and wallet name are not matched.');
+			this.setState({verifying: false});
+			return;
+		} else {
+			const walletArry = response_user.member1Name.split(',');
+
+			if (!walletArry.includes(accountName)) {
+				toast('Email and wallet name are not matched.');
+				this.setState({verifying: false});
+				return;
+			}
+		}
+
+		var file = this.dataURLtoFile(imageSrc, 'a.jpg');
 		const response = await faceKIService.liveLinessCheck(file);
-		if (response.data.liveness === 'Spoof') {
-			alert('Please try again.');
+
+		if (response.data.liveness !== 'Genuine') {
+			toast('Try again by changing position or background.');
+			this.setState({verifying: false});
 		} else {
 			const response_verify = await faceKIService.verify(file);
-			if (
-				response_verify.status === 'Verify OK' &&
-				response_verify.name.includes(authData.email)
-			) {
-				console.log('You are verified! :)');
-				toast('Face Verification is successful.');
-				this.setState({faceKISuccess: true});
+			if (response_verify.status === 'Verify OK') {
+				const nameArry = response_verify.name.split(',');
+
+				if (nameArry.includes(authData.email)) {
+					this.setState({faceKISuccess: true});
+					this.setState({verifying: false});
+					this.continueLogin();
+				} else {
+					toast(
+						'Bio-metric verification failed for this email. Please use an email that has been linked to your biometric verification / enrollment.'
+					);
+					this.setState({verifying: false});
+				}
+			} else if (response_verify.status === 'Verify Failed') {
+				toast(
+					'We can not verify you because you never enrolled with your face yet.'
+				);
+				this.setState({verifying: false});
+			} else {
+				toast('Please try again.');
+				this.setState({verifying: false});
 			}
 		}
 	}
@@ -317,7 +353,6 @@ class AuthRedirect extends React.Component {
 
 		if (!success && WalletDb.isLocked()) {
 			this.setState({passwordError: true});
-			// alert('Password Or Account is wrong');
 		} else {
 			this.setState({password: ''});
 			if (cloudMode) AccountActions.setPasswordAccount(account);
@@ -327,7 +362,6 @@ class AuthRedirect extends React.Component {
 			ss.remove('account_login_name');
 			this.props.history.push(`/account/${account}`);
 		}
-
 		toast('Success');
 	}
 
@@ -391,7 +425,7 @@ class AuthRedirect extends React.Component {
 										top: 0,
 										left: 0,
 										zIndex: 200,
-										opacity: 0.9,
+										opacity: 0.8,
 									}}
 								/>
 							</div>
@@ -404,21 +438,17 @@ class AuthRedirect extends React.Component {
 							}}
 						>
 							<Button
-								onClick={this.verify}
+								onClick={this.faceVerify}
 								style={{background: '#ffcc00', border: 'none'}}
+								disabled={
+									this.state.verifying
+										? true
+										: this.state.faceKISuccess
+										? true
+										: false
+								}
 							>
-								Verify
-							</Button>
-							<Button
-								onClick={this.continueLogin}
-								disabled={!this.state.faceKISuccess}
-								style={{
-									background: '#ffcc00',
-									border: 'none',
-									marginLeft: '30px',
-								}}
-							>
-								Continue Login
+								{this.state.verifying ? 'Verifying...' : 'Verify'}
 							</Button>
 						</div>
 					</Modal>

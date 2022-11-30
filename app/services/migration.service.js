@@ -4,10 +4,24 @@ import {Login, PrivateKey, Signature} from 'meta1-vision-js';
 const buildSignature = async (accountName, password) => {
 	let publicKey, signature;
 
-	const signerPkey = PrivateKey.fromWif(password);
-	publicKey = signerPkey.toPublicKey().toString();
-	signature = Signature.sign(accountName, signerPkey).toHex();
-	return {accountName, publicKey, signature};
+	try {
+		const signerPkey = PrivateKey.fromWif(password);
+		publicKey = signerPkey.toPublicKey().toString();
+		signature = Signature.sign(accountName, signerPkey).toHex();
+	} catch (err) {
+		const account = await Login.generateKeys(
+			accountName,
+			password,
+			['owner'],
+			process.env.REACT_APP_KEY_PREFIX
+		);
+		const ownerPrivateKey = account.privKeys.owner.toWif();
+		publicKey = account.pubKeys.owner;
+		const signerPkey = PrivateKey.fromWif(ownerPrivateKey);
+		signature = Signature.sign(accountName, signerPkey).toHex();
+	}
+
+	return {accountName, publicKey, signature, is4Migration: true};
 };
 
 // MIGRATION

@@ -76,17 +76,17 @@ class AccountRegistrationConfirm extends React.Component {
 			phone: ss.get('phone'),
 			firstname: ss.get('firstname'),
 			lastname: ss.get('lastname'),
-			confirmed: ss.get('confirmed'),
-			confirmedTerms: ss.get('confirmedTerms'),
-			confirmedTerms2: ss.get('confirmedTerms2'),
-			confirmedTerms3: ss.get('confirmedTerms3'),
+			confirmed: ss.get('confirmed', false),
+			confirmedTerms: ss.get('confirmedTerms', false),
+			confirmedTerms2: ss.get('confirmedTerms2', false),
+			confirmedTerms3: ss.get('confirmedTerms3', false),
 		});
 	}
 
 	componentDidMount() {
-		const jwt = ss.get('confirmedTerms3Token', '');
-		const email = ss.get('email', '');
-		const eSign = ss.get('confirmedTerms4Token', '');
+		const jwt = ss.get('confirmedTerms3Token');
+		const email = ss.get('email');
+		const eSign = ss.get('confirmedTerms4Token');
 		if (!email) {
 			this.props.history.push('/registration');
 		}
@@ -105,9 +105,7 @@ class AccountRegistrationConfirm extends React.Component {
 				},
 				params: {email},
 			});
-			console.log('Response after esign validation', response);
 			if (response && response.data) {
-				console.log('*** response data from eSign', response.data);
 				if (
 					response.data.email === email &&
 					response.data.status &&
@@ -117,10 +115,6 @@ class AccountRegistrationConfirm extends React.Component {
 					this.setState({confirmedTerms4: true});
 					ss.remove('confirmedTerms4Token');
 					ss.remove('confirmedTerms3Token');
-					ss.remove('confirmed');
-					ss.remove('confirmedTerms');
-					ss.remove('confirmedTerms2');
-					ss.remove('account_registration_name');
 				}
 			}
 		} catch (err) {
@@ -140,23 +134,6 @@ class AccountRegistrationConfirm extends React.Component {
 				this.props.history.push('/wallet/backup/create?newAccount=true');
 			});
 		}
-	}
-
-	postWallet(email, accountName) {
-		fetch(`${process.env.WEBSITE_URL}/api/link`, {
-			method: 'POST',
-			headers: {
-				Accept: 'application/json, text/plain, */*',
-				'Content-Type': 'application/json',
-				'X-Requested-With': 'XMLHttpRequest',
-			},
-			body: JSON.stringify({
-				userId: email,
-				walletId: accountName,
-			}),
-		}).then((response) => {
-			toast('You have successfully created your wallet account.');
-		});
 	}
 
 	onCreateAccount(e) {
@@ -189,13 +166,16 @@ class AccountRegistrationConfirm extends React.Component {
 		last_name,
 		private_key
 	) {
-		console.log('phone_number: ', phone_number);
 		const origEmail = ss.get('email');
 		const {referralAccount} = AccountStore.getState();
 		ss.remove('email');
 		ss.remove('phone');
 		ss.remove('firstname');
 		ss.remove('lastname');
+		ss.remove('confirmed');
+		ss.remove('confirmedTerms');
+		ss.remove('confirmedTerms2');
+		ss.remove('account_registration_name');
 		AccountActions.createAccountWithPassword(
 			name,
 			password,
@@ -223,9 +203,6 @@ class AccountRegistrationConfirm extends React.Component {
 					FetchChain('getAccount', name).then(() => {});
 					this.validateLogin(name, password);
 				}
-				// if (origEmail) {
-				// 	this.postWallet(origEmail, name);
-				// }
 			})
 			.catch((error) => {
 				console.log('ERROR AccountActions.createAccount', error);
@@ -252,7 +229,6 @@ class AccountRegistrationConfirm extends React.Component {
 
 		if (!success && WalletDb.isLocked()) {
 			this.setState({passwordError: 'Invalid password'});
-			// alert('Password Or Account is wrong');
 		} else {
 			this.setState({password: ''});
 			if (cloudMode) AccountActions.setPasswordAccount(account);
@@ -315,6 +291,7 @@ class AccountRegistrationConfirm extends React.Component {
 	async toggleConfirmedTerms4(e) {
 		if (e.target.checked) {
 			const {email, phone, firstname, lastname} = this.state;
+			const {accountName} = this.props;
 			let token;
 			try {
 				const response = await axios({
@@ -338,9 +315,12 @@ class AccountRegistrationConfirm extends React.Component {
 				process.env.ESIGNATURE_URL
 			}/e-sign?email=${encodeURIComponent(
 				email
-			)}&firstName=${firstname}&lastName=${lastname}&phoneNumber=${phone}&token=${token}&redirectUrl=${
+			)}&firstName=${firstname}&lastName=${lastname}&phoneNumber=${phone}&walletName=${accountName}&token=${token}&redirectUrl=${
 				window.location.origin
 			}/auth-proceed`;
+		} else {
+			toast('You already signed and paid with the current email');
+			return;
 		}
 	}
 
@@ -438,7 +418,7 @@ class AccountRegistrationConfirm extends React.Component {
 								this.state.confirmedTerms4 ? 'active' : ''
 							}`}
 						>
-							Sign Membership Agreement
+							Sign META Association Membership Agreement
 						</button>
 					</Checkbox>
 					<div id="myModal" class="custom-modal">

@@ -13,7 +13,17 @@ const postUserKycProfile = async (email, facekiID) => {
 	return data;
 };
 
+const updateUserKycProfile = async (email, payload, token) => {
+	const {data} = await kycApi.patch(`/users/update?email=${email}`, payload, {
+		headers: {
+			authorization: token,
+		},
+	});
+	return data;
+};
+
 export default {
 	getUserKycProfile,
 	postUserKycProfile,
+	updateUserKycProfile,
 };
