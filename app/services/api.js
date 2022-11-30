@@ -9,15 +9,15 @@ const kycApi = axios.create({
 });
 
 const explorerApi = axios.create({
-	baseURL: `${process.env.EXPLORER_META1_URL}/api`, // process.env.EXPLORER_META1_URL
+	baseURL: `${process.env.EXPLORER_META1_URL}/api`,
 });
 
 const backUrlApi = axios.create({
-	baseURL: `${process.env.LITE_WALLET_URL}`, // process.env.BACK_URL
+	baseURL: `${process.env.LITE_WALLET_URL}`,
 });
 
 const migrationApi = axios.create({
-	baseURL: `${process.env.LITE_WALLET_URL2}`,
+	baseURL: `${process.env.LITE_WALLET_URL}`,
 });
 
 export {faceKIApi, kycApi, explorerApi, backUrlApi, migrationApi};

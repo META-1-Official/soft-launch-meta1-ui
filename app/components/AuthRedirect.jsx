@@ -38,6 +38,7 @@ class AuthRedirect extends React.Component {
 			device: {},
 			token: '',
 			webcamEnabled: true,
+			verifying: false,
 		};
 
 		this.generateAuthData = this.generateAuthData.bind(this);
@@ -48,7 +49,7 @@ class AuthRedirect extends React.Component {
 			this.skipFreshCreationAndProceed.bind(this);
 		this.validateLogin = this.validateLogin.bind(this);
 		this.proceedESignRedirect = this.proceedESignRedirect.bind(this);
-		this.verify = this.verify.bind(this);
+		this.faceVerify = this.faceVerify.bind(this);
 		this.continueLogin = this.continueLogin.bind(this);
 		this.webcamRef = React.createRef();
 	}
@@ -129,8 +130,9 @@ class AuthRedirect extends React.Component {
 		return new File([u8arr], filename, {type: mime});
 	}
 
-	async verify() {
+	async faceVerify() {
 		const {privKey, authData} = this.props;
+		this.setState({verifying: true});
 
 		const accountName = ss.get('account_login_name', '');
 		if (!accountName || !privKey) return;
@@ -139,45 +141,32 @@ class AuthRedirect extends React.Component {
 
 		if (!imageSrc) {
 			toast('Please check your camera.');
+			this.setState({verifying: false});
 			return;
 		}
-
-		// const response_user = await kycService.getUserKycProfile(authData.email);
-
-		// if (!response_user?.member1Name) {
-		// 	toast('Email and wallet name are not matched.');
-		// 	return;
-		// }
-		// else {
-		// 	const walletArry = response_user.member1Name.split(',');
-
-		// 	if (!walletArry.includes(accountName)) {
-		// 		toast('Email and wallet name are not matched.');
-		// 		return;
-		// 	}
-		// };
-
-		var file = this.dataURLtoFile(imageSrc, 'a.jpg');
-		const response = await faceKIService.liveLinessCheck(file);
-
-		console.log('LIVENESS', response);
 
 		const response_user = await kycService.getUserKycProfile(authData.email);
 
 		if (!response_user?.member1Name) {
 			toast('Email and wallet name are not matched.');
+			this.setState({verifying: false});
 			return;
 		} else {
 			const walletArry = response_user.member1Name.split(',');
 
 			if (!walletArry.includes(accountName)) {
 				toast('Email and wallet name are not matched.');
+				this.setState({verifying: false});
 				return;
 			}
 		}
 
+		var file = this.dataURLtoFile(imageSrc, 'a.jpg');
+		const response = await faceKIService.liveLinessCheck(file);
+
 		if (response.data.liveness !== 'Genuine') {
 			toast('Try again by changing position or background.');
+			this.setState({verifying: false});
 		} else {
 			const response_verify = await faceKIService.verify(file);
 			if (response_verify.status === 'Verify OK') {
@@ -185,16 +174,22 @@ class AuthRedirect extends React.Component {
 
 				if (nameArry.includes(authData.email)) {
 					this.setState({faceKISuccess: true});
+					this.setState({verifying: false});
 					this.continueLogin();
 				} else {
 					toast(
 						'Bio-metric verification failed for this email. Please use an email that has been linked to your biometric verification / enrollment.'
 					);
+					this.setState({verifying: false});
 				}
-			} else {
+			} else if (response_verify.status === 'Verify Failed') {
 				toast(
 					'We can not verify you because you never enrolled with your face yet.'
 				);
+				this.setState({verifying: false});
+			} else {
+				toast('Please try again.');
+				this.setState({verifying: false});
 			}
 		}
 	}
@@ -443,10 +438,17 @@ class AuthRedirect extends React.Component {
 							}}
 						>
 							<Button
-								onClick={this.verify}
+								onClick={this.faceVerify}
 								style={{background: '#ffcc00', border: 'none'}}
+								disabled={
+									this.state.verifying
+										? true
+										: this.state.faceKISuccess
+										? true
+										: false
+								}
 							>
-								Verify
+								{this.state.verifying ? 'Verifying...' : 'Verify'}
 							</Button>
 						</div>
 					</Modal>

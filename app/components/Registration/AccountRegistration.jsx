@@ -38,6 +38,7 @@ class AccountRegistration extends React.Component {
 			passkey: '',
 			device: {},
 			webcamEnabled: true,
+			verifying: false,
 		};
 		this.webcamRef = React.createRef();
 		this.continue = this.continue.bind(this);
@@ -48,7 +49,7 @@ class AccountRegistration extends React.Component {
 		this.proceedLoggingOut = this.proceedLoggingOut.bind(this);
 		this.proceedESign = this.proceedESign.bind(this);
 		this.proceedTorus = this.proceedTorus.bind(this);
-		this.enroll = this.enroll.bind(this);
+		this.faceEnroll = this.faceEnroll.bind(this);
 		this.nextStep = this.nextStep.bind(this);
 		this.handleImportBtn = this.handleImportBtn.bind(this);
 	}
@@ -65,12 +66,19 @@ class AccountRegistration extends React.Component {
 		return new File([u8arr], filename, {type: mime});
 	}
 
-	async enroll() {
+	async faceEnroll() {
 		const {privKey, authData} = this.props;
+		const email = authData.email;
+
+		if (!email || !privKey) return;
+
+		this.setState({verifying: true});
+
 		const imageSrc = this.webcamRef.current.getScreenshot();
 
 		if (!imageSrc) {
 			toast('Check your camera');
+			this.setState({verifying: false});
 			return;
 		}
 
@@ -79,6 +87,7 @@ class AccountRegistration extends React.Component {
 
 		if (response.data.liveness !== 'Genuine') {
 			toast('Try again by changing position or background.');
+			this.setState({verifying: false});
 		} else {
 			const response_verify = await faceKIService.verify(file);
 			if (response_verify.status === 'Verify OK') {
@@ -86,11 +95,13 @@ class AccountRegistration extends React.Component {
 
 				if (nameArry.includes(email)) {
 					toast('You already enrolled and verified successfully.');
+					this.setState({verifying: false});
 					this.setState({faceKISuccess: true});
 				} else {
 					const response_user = await kycService.getUserKycProfile(email);
 					if (response_user) {
 						toast('This email already has been used for another user.');
+						this.setState({verifying: false});
 					} else {
 						const newName = response_verify.name + ',' + email;
 						const response_remove = await faceKIService.remove_user(
@@ -99,6 +110,7 @@ class AccountRegistration extends React.Component {
 
 						if (!response_remove) {
 							toast('Something went wrong.');
+							this.setState({verifying: false});
 						} else {
 							const response_enroll = await faceKIService.enroll(file, newName);
 							if (response_enroll.status === 'Enroll OK') {
@@ -109,17 +121,20 @@ class AccountRegistration extends React.Component {
 								if (add_response.result) {
 									toast('Successfully enrolled.');
 									this.setState({faceKISuccess: true});
+									this.setState({verifying: false});
 								} else {
 									toast('Something went wrong.');
+									this.setState({verifying: false});
 								}
 							}
 						}
 					}
 				}
-			} else {
+			} else if (response_verify.status === 'Verify Failed') {
 				const response_user = await kycService.getUserKycProfile(email);
 				if (response_user) {
-					alert('This email already has been used for another user.');
+					toast('This email already has been used for another user.');
+					this.setState({verifying: false});
 				} else {
 					const response_enroll = await faceKIService.enroll(file, email);
 					if (response_enroll.status === 'Enroll OK') {
@@ -128,14 +143,18 @@ class AccountRegistration extends React.Component {
 							`usr_${email}_${privKey}`
 						);
 						if (add_response.result) {
-							alert('Successfully enrolled.');
+							toast('Successfully enrolled.');
 							setFaceKISuccess(true);
 						} else {
 							await faceKIService.remove_user(email);
-							alert('Something went wrong.');
+							toast('Something went wrong.');
+							this.setState({verifying: false});
 						}
 					}
 				}
+			} else {
+				toast('Please try again.');
+				this.setState({verifying: false});
 			}
 		}
 	}
@@ -400,14 +419,15 @@ class AccountRegistration extends React.Component {
 							marginTop: '50px',
 						}}
 					>
-						Import Your Wallet
+						Import Legacy Wallet
 					</div>
 					<div style={{color: 'white', marginBottom: '50px'}}>
-						To import your wallet please enter your Meta Wallet name and your
-						private passkey in the input below
+						To import your original wallet from the LEGACY META Blockchain
+						please enter your LEGACY wallet ID and passkey for that wallet
+						below.
 					</div>
 					<div style={{width: '100%'}}>
-						<label>Meta Wallet Name</label>
+						<label>META Legacy Wallet Name</label>
 						<input
 							control={Input}
 							value={this.state.accountName}
@@ -417,12 +437,12 @@ class AccountRegistration extends React.Component {
 						/>
 					</div>
 					<div style={{width: '100%', marginTop: '15px'}}>
-						<label>Your Owner Key</label>
+						<label>Your Private Passkey</label>
 						<input
 							control={Input}
 							value={this.state.passkey}
 							type="text"
-							placeholder="Enter your owner key"
+							placeholder="Enter passkey or owner private key"
 							onChange={(event) => {
 								this.setState({passkey: event.target.value});
 							}}
@@ -508,10 +528,17 @@ class AccountRegistration extends React.Component {
 						}}
 					>
 						<Button
-							onClick={this.enroll}
+							onClick={this.faceEnroll}
 							style={{background: '#ffcc00', border: 'none'}}
+							disabled={
+								this.state.verifying
+									? true
+									: this.state.faceKISuccess
+									? true
+									: false
+							}
 						>
-							Verify & Enroll
+							{this.state.verifying ? 'Verifying...' : 'Verify'}
 						</Button>
 						<Button
 							onClick={this.nextStep}
