@@ -339,7 +339,7 @@ class AccountRegistrationConfirm extends React.Component {
 							value={this.props.password}
 						/>
 						<CopyButton
-							text={this.state.generatedPassword}
+							text={this.props.password}
 							tip="tooltip.copy_password"
 							dataPlace="top"
 							className="button registration-layout--copy-password-btn"
