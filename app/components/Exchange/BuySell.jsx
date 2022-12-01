@@ -121,7 +121,7 @@ class BuySell extends React.Component {
 			nextProps.marketPrice !== this.props.marketPrice ||
 			nextProps.quote !== this.props.quote;
 
-		if (shouldUpdate)
+		if (shouldUpdate && !!nextProps.marketPrice)
 			this.props.priceChangePercent(nextProps.type, nextProps.marketPrice);
 		return shouldUpdate;
 	}
