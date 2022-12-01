@@ -1,8 +1,9 @@
 import React from 'react';
 import counterpart from 'counterpart';
-import ClipboardButton from 'react-clipboard.js';
+import Clipboard from 'react-clipboard.js';
 import Icon from '../Icon/Icon';
 import {Tooltip} from 'antd';
+import {toast} from 'react-toastify';
 
 const CopyButton = ({
 	className = 'button',
@@ -12,16 +13,24 @@ const CopyButton = ({
 	buttonIcon = 'clippy',
 	buttonText = '',
 }) => {
+	const onSuccess = () => {
+		toast('successfully copied');
+	};
+
 	return (
 		<Tooltip placement={dataPlace} title={counterpart.translate(tip)}>
 			<div>
-				<ClipboardButton data-clipboard-text={text} className={className}>
+				<Clipboard
+					data-clipboard-text={text}
+					className={className}
+					onSuccess={onSuccess}
+				>
 					{!buttonText ? (
 						<Icon name={buttonIcon} title={'icons.clippy.copy'} />
 					) : (
 						buttonText
 					)}
-				</ClipboardButton>
+				</Clipboard>
 			</div>
 		</Tooltip>
 	);
