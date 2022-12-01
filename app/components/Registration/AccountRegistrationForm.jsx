@@ -40,7 +40,7 @@ class AccountRegistrationForm extends React.Component {
 			phone: '',
 			firstname: '',
 			lastname: '',
-			captcha: false,
+			captcha: true, //false,
 			country: 227,
 			selectedCountryObj: {
 				id: 227,
@@ -193,6 +193,7 @@ class AccountRegistrationForm extends React.Component {
 		ss.set('phone', this.state.phone);
 		ss.set('firstname', this.state.firstname);
 		ss.set('lastname', this.state.lastname);
+		ss.set('email', this.state.email);
 
 		if (this.isValid()) {
 			this.props.continue({
@@ -600,7 +601,10 @@ class AccountRegistrationForm extends React.Component {
 					)}
 					<div className="redirect">
 						Or if you have an wallet then{' '}
-						<div className="btn" onClick={() => WalletUnlockActions.unlock()}>
+						<div
+							className="btn"
+							onClick={() => WalletUnlockActions.unlock_v2()}
+						>
 							login
 						</div>
 					</div>
