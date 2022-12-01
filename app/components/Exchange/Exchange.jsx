@@ -3337,7 +3337,7 @@ class Exchange extends React.Component {
 										display: 'inline-block',
 										border: '1px solid #1C1F27',
 										borderRadius: '5px',
-										width: '73%',
+										width: '67%',
 										marginRight: '1%',
 									}}
 								>
@@ -3351,8 +3351,7 @@ class Exchange extends React.Component {
 										position: 'relative',
 										border: '1px solid #1C1F27',
 										borderRadius: '5px',
-										width: '25%',
-										marginLeft: '1%',
+										width: '33%',
 									}}
 								>
 									{groupTabs[1]}
