@@ -548,6 +548,7 @@ class Exchange extends React.Component {
 	}
 
 	_initialState(props) {
+		console.log('_initialState');
 		let ws = props.viewSettings;
 		let {ask, bid} = this._initialOrderState(props);
 
