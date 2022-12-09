@@ -110,6 +110,17 @@ class AccountRegistrationForm extends React.Component {
 							phoneFormat: event.target.value + ' ',
 						});
 					} else {
+						if (event.nativeEvent.inputType === 'deleteContentBackward') {
+							if (this.state.phoneFormat.endsWith(' ')) {
+								this.setState({
+									phoneFormat: event.target.value.slice(
+										0,
+										event.target.value.length - 1
+									),
+								});
+								return;
+							}
+						}
 						this.setState({
 							phoneFormat: event.target.value,
 						});
