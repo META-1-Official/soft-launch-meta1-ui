@@ -119,7 +119,7 @@ class WalletDb extends BaseStore {
 	isLocked_v2() {
 		const accountName = ss.get('account_login_name', '');
 		const token = ss.get('account_login_token', '');
-		return !(!!accountName || !!token);
+		return !(!!accountName && !!token);
 	}
 
 	decryptTcomb_PrivateKey(private_key_tcomb) {
