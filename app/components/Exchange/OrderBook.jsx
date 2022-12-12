@@ -171,8 +171,9 @@ class OrderBookRowHorizontal extends React.Component {
 					totalValueAsks.getAmount({real: true}),
 					totalAsset.get('precision')
 			  );
+		const totalAmt = amount * price.props.price;
 		return (
-			<Tooltip title={'Total: ' + total} placement="right">
+			<Tooltip title={'Total: ' + totalAmt.toFixed(8)} placement="right">
 				{isBid ? (
 					<tr
 						onClick={this.props.onClick}
@@ -211,7 +212,7 @@ class OrderBookRowHorizontal extends React.Component {
 								paddingRight: '10px',
 							}}
 						>
-							{total}
+							{totalAmt.toFixed(8)}
 						</td>
 					</tr>
 				) : (
@@ -249,7 +250,7 @@ class OrderBookRowHorizontal extends React.Component {
 								paddingRight: '10px',
 							}}
 						>
-							{total}
+							{totalAmt.toFixed(8)}
 						</td>
 					</tr>
 				)}
