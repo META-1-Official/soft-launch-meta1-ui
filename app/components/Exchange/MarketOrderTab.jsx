@@ -24,10 +24,7 @@ const MarketOrderForm = (props) => {
 	const [sellBalance, setSellBalance] = useState(null);
 	const [balanceData, setBalanceData] = useState(null);
 
-	const total =
-		props.baseAsset.get('symbol') === 'USDT'
-			? (Number(amount) * Number(usdPrice)).toFixed(2)
-			: Number(amount) * Number(props.price);
+	const total = Number(amount) * Number(props.price);
 
 	const usdVal = (Number(amount) * Number(usdPrice)).toFixed(2);
 	const isBid = props.type === 'bid';
