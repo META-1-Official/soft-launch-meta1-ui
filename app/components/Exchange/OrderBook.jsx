@@ -194,7 +194,7 @@ class OrderBookRowHorizontal extends React.Component {
 							}}
 							className="table-body-class"
 						>
-							<div className="overflow_hidden">{amount}</div>
+							<div className="overflow-hidden">{amount}</div>
 						</td>
 						<td
 							style={{
@@ -203,7 +203,7 @@ class OrderBookRowHorizontal extends React.Component {
 								paddingRight: '10px',
 							}}
 						>
-							<div className="overflow_hidden">{price}</div>
+							<div className="overflow-hidden">{price}</div>
 						</td>
 						<td
 							style={{
@@ -212,7 +212,7 @@ class OrderBookRowHorizontal extends React.Component {
 								paddingRight: '10px',
 							}}
 						>
-							<div className="overflow_hidden">{totalAmt}</div>
+							<div className="overflow-hidden">{totalAmt}</div>
 						</td>
 					</tr>
 				) : (
@@ -231,7 +231,7 @@ class OrderBookRowHorizontal extends React.Component {
 							style={{color: '#FF2929', textAlign: 'left', paddingLeft: '2px'}}
 							className="table-body-class"
 						>
-							<div className="overflow_hidden">{totalAmt}</div>
+							<div className="overflow-hidden">{totalAmt}</div>
 						</td>
 						<td
 							style={{
@@ -241,7 +241,7 @@ class OrderBookRowHorizontal extends React.Component {
 								textAlign: 'right',
 							}}
 						>
-							<div className="overflow_hidden">{price}</div>
+							<div className="overflow-hidden">{price}</div>
 						</td>
 						<td
 							style={{
@@ -250,7 +250,7 @@ class OrderBookRowHorizontal extends React.Component {
 								paddingRight: '10px',
 							}}
 						>
-							<div className="overflow_hidden">{amount}</div>
+							<div className="overflow-hidden">{amount}</div>
 						</td>
 					</tr>
 				)}
