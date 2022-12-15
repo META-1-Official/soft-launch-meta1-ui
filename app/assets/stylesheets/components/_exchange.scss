@@ -1714,6 +1714,9 @@ form.hide-container {
 
 // Order Book Panel
 .order-book-panel {
+	.overflow_hidden {
+		overflow: hidden !important;
+	}
 	.header {
 		background: #1c1f27;
 		font-size: 16px;

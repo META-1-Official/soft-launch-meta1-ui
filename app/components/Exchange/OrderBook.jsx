@@ -173,7 +173,7 @@ class OrderBookRowHorizontal extends React.Component {
 			  );
 		const totalAmt = Number(amount) * Number(price.props.price);
 		return (
-			<Tooltip title={'Total: ' + totalAmt.toFixed(8)} placement="right">
+			<Tooltip title={'Total: ' + totalAmt} placement="right">
 				{isBid ? (
 					<tr
 						onClick={this.props.onClick}
@@ -194,7 +194,7 @@ class OrderBookRowHorizontal extends React.Component {
 							}}
 							className="table-body-class"
 						>
-							{amount}
+							<div className="overflow_hidden">{amount}</div>
 						</td>
 						<td
 							style={{
@@ -203,7 +203,7 @@ class OrderBookRowHorizontal extends React.Component {
 								paddingRight: '10px',
 							}}
 						>
-							{price}
+							<div className="overflow_hidden">{price}</div>
 						</td>
 						<td
 							style={{
@@ -212,7 +212,7 @@ class OrderBookRowHorizontal extends React.Component {
 								paddingRight: '10px',
 							}}
 						>
-							{totalAmt.toFixed(8)}
+							<div className="overflow_hidden">{totalAmt}</div>
 						</td>
 					</tr>
 				) : (
@@ -231,7 +231,7 @@ class OrderBookRowHorizontal extends React.Component {
 							style={{color: '#FF2929', textAlign: 'left', paddingLeft: '2px'}}
 							className="table-body-class"
 						>
-							{totalAmt.toFixed(8)}
+							<div className="overflow_hidden">{totalAmt}</div>
 						</td>
 						<td
 							style={{
@@ -241,7 +241,7 @@ class OrderBookRowHorizontal extends React.Component {
 								textAlign: 'right',
 							}}
 						>
-							{price}
+							<div className="overflow_hidden">{price}</div>
 						</td>
 						<td
 							style={{
@@ -250,7 +250,7 @@ class OrderBookRowHorizontal extends React.Component {
 								paddingRight: '10px',
 							}}
 						>
-							{amount}
+							<div className="overflow_hidden">{amount}</div>
 						</td>
 					</tr>
 				)}
