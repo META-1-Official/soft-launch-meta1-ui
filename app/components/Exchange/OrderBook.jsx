@@ -171,8 +171,9 @@ class OrderBookRowHorizontal extends React.Component {
 					totalValueAsks.getAmount({real: true}),
 					totalAsset.get('precision')
 			  );
+		const totalAmt = Number(amount) * Number(price.props.price);
 		return (
-			<Tooltip title={'Total: ' + total} placement="right">
+			<Tooltip title={'Total: ' + totalAmt.toFixed(8)} placement="right">
 				{isBid ? (
 					<tr
 						onClick={this.props.onClick}
@@ -211,7 +212,7 @@ class OrderBookRowHorizontal extends React.Component {
 								paddingRight: '10px',
 							}}
 						>
-							{total}
+							{totalAmt.toFixed(8)}
 						</td>
 					</tr>
 				) : (
@@ -230,7 +231,7 @@ class OrderBookRowHorizontal extends React.Component {
 							style={{color: '#FF2929', textAlign: 'left', paddingLeft: '2px'}}
 							className="table-body-class"
 						>
-							{price}
+							{totalAmt.toFixed(8)}
 						</td>
 						<td
 							style={{
@@ -240,7 +241,7 @@ class OrderBookRowHorizontal extends React.Component {
 								textAlign: 'right',
 							}}
 						>
-							{amount}
+							{price}
 						</td>
 						<td
 							style={{
@@ -249,7 +250,7 @@ class OrderBookRowHorizontal extends React.Component {
 								paddingRight: '10px',
 							}}
 						>
-							{total}
+							{amount}
 						</td>
 					</tr>
 				)}
