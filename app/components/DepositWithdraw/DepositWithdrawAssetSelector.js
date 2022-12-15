@@ -6,6 +6,8 @@ import counterpart from 'counterpart';
 import {Select} from 'antd';
 import {getAssetAndGateway} from '../../lib/common/gatewayUtils';
 
+const WITHDRAW_ASSET_LIST = ['USDT', 'ETH'];
+
 class DepositWithdrawAssetSelector extends React.Component {
 	constructor(props) {
 		super(props);
@@ -148,11 +150,13 @@ class DepositWithdrawAssetSelector extends React.Component {
                 */}
 
 				{coinItems.length > 0 ? (
-					coinItems.map((coin) => (
-						<Select.Option key={coin.id} value={coin.label}>
-							{coin.label}
-						</Select.Option>
-					))
+					coinItems
+						.filter((coin) => WITHDRAW_ASSET_LIST.includes(coin.id))
+						.map((coin) => (
+							<Select.Option key={coin.id} value={coin.label}>
+								{coin.label}
+							</Select.Option>
+						))
 				) : (
 					<Select.Option disabled key={0} value={0}>
 						{counterpart.translate(
