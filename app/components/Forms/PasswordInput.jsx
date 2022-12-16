@@ -111,7 +111,7 @@ class PasswordInput extends Component {
 			value: password,
 			score,
 			doesnt_match,
-			error: hasSpace ? 'Password contains space' : null,
+			error: hasSpace ? 'Passkey contains space' : null,
 		};
 		if (this.props.onChange) this.props.onChange(state);
 		this.setState(state);
@@ -235,7 +235,7 @@ class PasswordInput extends Component {
 								ref="confirm_password"
 								autoComplete="confirm-password"
 								onChange={this.handleChange}
-								placeholder="Confirmed Password"
+								placeholder="Confirmed Passkey"
 							/>
 							{confirmMatch ? (
 								<div className={'ok-indicator success'}>OK</div>

@@ -421,7 +421,7 @@ class AccountRegistrationConfirm extends React.Component {
 							}`}
 						>
 							&nbsp;&nbsp;&nbsp;&nbsp;I understand that no one can recover my
-							password if I lose or forget it
+							passkey if I lose or forget it
 						</button>
 						<br />
 						<Checkbox
@@ -434,7 +434,7 @@ class AccountRegistrationConfirm extends React.Component {
 							}`}
 						>
 							&nbsp;&nbsp;&nbsp;&nbsp;I have written down or otherwise stored my
-							password
+							passkey
 						</button>
 						<br />
 						<Checkbox
