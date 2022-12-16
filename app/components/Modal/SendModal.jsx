@@ -116,7 +116,6 @@ class SendModal extends React.Component {
 				maxAmount: false,
 				hidden: false,
 				code: '',
-				currencyBalance: '',
 			},
 			() => {
 				if (publishClose) this.hideModal();
@@ -485,7 +484,6 @@ class SendModal extends React.Component {
 		);
 
 		let tabIndex = this.props.tabIndex; // Continue tabIndex on props count
-		let balanceData = null;
 		let balanceAssetId = null;
 		if (this.state.from_account && this.state.asset_id) {
 			const accountBalance = this.state.from_account.get('balances').toJS();
