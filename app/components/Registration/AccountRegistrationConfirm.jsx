@@ -395,7 +395,7 @@ class AccountRegistrationConfirm extends React.Component {
 							description={counterpart.translate('registration.accountNote')}
 						/>
 					</Form.Item>
-					<Form.Item className="checkbox-group">
+					<Form.Item className="checkbox-group custom-checkbox-register">
 						<Checkbox
 							checked={this.state.confirmed}
 							onChange={this.toggleConfirmed}
