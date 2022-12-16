@@ -35,7 +35,6 @@ class Settings extends React.Component {
 			'fee_asset',
 			'browser_notifications',
 			'showSettles',
-			'walletLockTimeout',
 			'themes',
 			'showAssetPercent',
 			'viewOnlyMode',
