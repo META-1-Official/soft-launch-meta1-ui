@@ -285,7 +285,6 @@ class AccountRegistration extends React.Component {
 		const {accountName} = this.state;
 		try {
 			const openLogin = this.props.openLogin;
-			localStorage.setItem('openlogin_store', '{}');
 			await openLogin.init();
 			if (openLogin.privKey) {
 				const privKey = openLogin.privKey;
@@ -308,7 +307,7 @@ class AccountRegistration extends React.Component {
 				const data = await openLogin.getUserInfo();
 			}
 		} catch (error) {
-			// this.setState({ fromStep: true });
+			this.setState({fromStep: true});
 		}
 	}
 
@@ -389,9 +388,8 @@ class AccountRegistration extends React.Component {
 			finalStep,
 			migrationStep,
 		} = this.state;
-		if (fromStep) {
-			return <AccountRegistrationForm continue={this.continue} />;
-		} else if (torusAlreadyAssociatedEmail) {
+
+		if (torusAlreadyAssociatedEmail) {
 			return (
 				<React.Fragment>
 					<div className="desc2">
@@ -568,6 +566,13 @@ class AccountRegistration extends React.Component {
 					password={this.state.password}
 					toggleConfirmed={this.toggleConfirmed}
 					history={this.props.history}
+				/>
+			);
+		} else {
+			return (
+				<AccountRegistrationForm
+					continue={this.continue}
+					visibility={fromStep}
 				/>
 			);
 		}
