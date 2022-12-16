@@ -285,6 +285,7 @@ class AccountRegistration extends React.Component {
 		const {accountName} = this.state;
 		try {
 			const openLogin = this.props.openLogin;
+			localStorage.setItem('openlogin_store', '{}');
 			await openLogin.init();
 			if (openLogin.privKey) {
 				const privKey = openLogin.privKey;
