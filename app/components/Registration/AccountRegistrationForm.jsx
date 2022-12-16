@@ -98,7 +98,7 @@ class AccountRegistrationForm extends React.Component {
 
 	componentWillReceiveProps(nextProps) {
 		if (nextProps.visibility != this.state.visibility) {
-			this.setState({visibility: nextProps.visibility}, () => {
+			this.setState({visibility: nextProps.visibility, captcha: false}, () => {
 				if (
 					this.formRef &&
 					this.formRef.current &&
