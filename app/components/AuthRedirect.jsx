@@ -225,7 +225,8 @@ class AuthRedirect extends React.Component {
 							WalletUnlockActions.lock_v2().finally(() => {
 								this.props.history.push('/market/META1_USDT');
 							});
-						}, 24 * 60 * 60 * 1000); // Auto timeout in 24 hrs
+							// }, 24 * 60 * 60 * 1000); // Auto timeout in 24 hrs
+						}, 5 * 60 * 1000); // Auto timeout in 24 hrs
 					});
 			} catch (err) {
 				console.log('Error in e-sign token generation', err);
