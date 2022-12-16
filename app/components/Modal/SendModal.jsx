@@ -24,12 +24,24 @@ import PrivateKeyStore from '../../stores/PrivateKeyStore';
 import WalletDb from '../../stores/WalletDb';
 import StyledButton from 'components/Button/Button';
 import ls from '../../lib/common/localStorage';
+import {BalanceValueComponent} from 'components/Utility/EquivalentValueComponent';
 
 const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
 
 const getUninitializedFeeAmount = () =>
 	new Asset({amount: 0, asset_id: '1.3.0'});
+
+const assetSymbolObj = {
+	'1.3.0': 'META1',
+	'1.3.1': 'USDT',
+	'1.3.2': 'LTC',
+	'1.3.3': 'EOS',
+	'1.3.4': 'ETH',
+	'1.3.5': 'BTC',
+	'1.3.6': 'XLM',
+	'1.3.7': 'BNB',
+};
 
 class SendModal extends React.Component {
 	constructor(props) {
@@ -116,6 +128,7 @@ class SendModal extends React.Component {
 				maxAmount: false,
 				hidden: false,
 				code: '',
+				currencyBalance: '',
 			},
 			() => {
 				if (publishClose) this.hideModal();
@@ -484,6 +497,24 @@ class SendModal extends React.Component {
 		);
 
 		let tabIndex = this.props.tabIndex; // Continue tabIndex on props count
+		let balanceData = null;
+		if (this.state.from_account && this.state.asset_id) {
+			const accountBalance = this.state.from_account.get('balances').toJS();
+			const balanceId = accountBalance[this.state.asset_id];
+			balanceData = (
+				<BalanceValueComponent
+					balance={balanceId}
+					toAsset={assetSymbolObj[this.state.asset_id]}
+					balanceHandler={(data) => {
+						this.setState({
+							currencyBalance: data,
+						});
+					}}
+					hide_asset
+					fromExchange={true}
+				/>
+			);
+		}
 
 		let tabHeaderContainer = (
 			<div
@@ -572,7 +603,12 @@ class SendModal extends React.Component {
 						allowNaN={true}
 					/>
 				</div>
-
+				{this.state.asset_id && (
+					<span className="show-balance">
+						Balance: {this.state.currencyBalance}{' '}
+						{assetSymbolObj[this.state.asset_id]}
+					</span>
+				)}
 				<div className="account-selector-wrapper">
 					<Form.Item
 						label={`${counterpart.translate('transfer.memo')} - ${
@@ -622,6 +658,7 @@ class SendModal extends React.Component {
 				id="send_modal_wrapper"
 				className={hidden || !this.state.open ? 'hide' : ''}
 			>
+				<div style={{display: 'none'}}>{balanceData}</div>
 				<Modal
 					visible={this.state.isModalVisible}
 					id={this.props.id}
