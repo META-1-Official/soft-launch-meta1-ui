@@ -130,7 +130,7 @@ const AccountPermissionsMigrate = (props) => {
 					noLabel
 					passwordLength={12}
 					checkStrength
-					placeholder="Password"
+					placeholder="Passkey"
 				/>
 			</form>
 

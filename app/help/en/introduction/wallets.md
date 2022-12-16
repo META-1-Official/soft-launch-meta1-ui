@@ -6,14 +6,14 @@ serves as a gateway to the rest of the ecosystem.
 
 ## Cloud Wallet
 
-If you registered with a username and password, you have a cloud wallet. Although
+If you registered with a username and passkey, you have a cloud wallet. Although
 nothing is technically stored in the cloud, we use the term Cloud Wallet because
-you can use these credentials (username and password) from any web browser at any 
+you can use these credentials (username and passkey) from any web browser at any 
 time to gain access to your wallet. The cloud wallet only allows for a single 
 wallet to be accessed at a time. This is generally the correct choice for new users. 
-While it is possible to change the auto-generated password, we do not recommend
+While it is possible to change the auto-generated passkey, we do not recommend
 doing so at this time. The team is working on a responsible way to manage the
-password change that requires no technical knowledge. We will make an announcement
+passkey change that requires no technical knowledge. We will make an announcement
 once it's released.
 
 ## Local Wallet
