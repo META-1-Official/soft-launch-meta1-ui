@@ -832,7 +832,8 @@ Header = connect(Header, {
 			myActiveAccounts: AccountStore.getState().myActiveAccounts,
 			currentAccount:
 				AccountStore.getState().currentAccount ||
-				AccountStore.getState().passwordAccount,
+				AccountStore.getState().passwordAccount ||
+				ss.get('account_login_name', ''),
 			passwordAccount: AccountStore.getState().passwordAccount,
 			locked: WalletUnlockStore.getState().locked,
 			locked_v2: WalletUnlockStore.getState().locked_v2,
