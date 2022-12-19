@@ -530,7 +530,7 @@ class Header extends React.Component {
 					key="claimWallet"
 					style={this.props.locked_v2 ? {cursor: 'not-allowed'} : {}}
 					className={
-						this.props.locked ? 'disable-li-text' : 'claim-wallet-background'
+						this.props.locked_v2 ? 'disable-li-text' : 'claim-wallet-background'
 					}
 				>
 					<Text>Claim META Wallet</Text>
@@ -832,7 +832,8 @@ Header = connect(Header, {
 			myActiveAccounts: AccountStore.getState().myActiveAccounts,
 			currentAccount:
 				AccountStore.getState().currentAccount ||
-				AccountStore.getState().passwordAccount,
+				AccountStore.getState().passwordAccount ||
+				ss.get('account_login_name', ''),
 			passwordAccount: AccountStore.getState().passwordAccount,
 			locked: WalletUnlockStore.getState().locked,
 			locked_v2: WalletUnlockStore.getState().locked_v2,

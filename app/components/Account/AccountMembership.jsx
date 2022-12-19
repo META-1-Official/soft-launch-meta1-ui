@@ -171,11 +171,11 @@ class AccountMembership extends React.Component {
 													<a
 														href={
 															getWalletURL() +
-															`registration/?ref=${account.name}`
+															`/registration/?ref=${account.name}`
 														}
 													>
 														{getWalletURL() +
-															`registration/?ref=${account.name}`}{' '}
+															`/registration/?ref=${account.name}`}{' '}
 													</a>
 												</p>
 											</div>

@@ -922,21 +922,23 @@ class OrderBook extends React.Component {
 								textAlign: 'left',
 							}}
 						>
-							<span className="header-sub-title">VOLUME</span>
+							<span className="header-sub-title header-font-size">VOLUME</span>
 						</th>
 						<th
 							style={{
 								textAlign: 'center',
 							}}
 						>
-							<span className="header-sub-title">BUY PRICE</span>
+							<span className="header-sub-title header-font-size">
+								BUY PRICE
+							</span>
 						</th>
 						<th
 							style={{
 								textAlign: 'right',
 							}}
 						>
-							<span className="header-sub-title">TOTAL</span>
+							<span className="header-sub-title header-font-size">TOTAL</span>
 						</th>
 					</tr>
 				</thead>
@@ -950,10 +952,12 @@ class OrderBook extends React.Component {
 								textAlign: 'left',
 							}}
 						>
-							<span className="header-sub-title">TOTAL</span>
+							<span className="header-sub-title header-font-size">TOTAL</span>
 						</th>
 						<th style={{textAlign: 'center'}}>
-							<span className="header-sub-title">SELL PRICE</span>
+							<span className="header-sub-title header-font-size">
+								SELL PRICE
+							</span>
 						</th>
 						<th
 							style={{
@@ -961,7 +965,7 @@ class OrderBook extends React.Component {
 								textAlign: 'right',
 							}}
 						>
-							<span className="header-sub-title">VOLUME</span>
+							<span className="header-sub-title header-font-size">VOLUME</span>
 						</th>
 					</tr>
 				</thead>
