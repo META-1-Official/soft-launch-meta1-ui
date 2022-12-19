@@ -246,7 +246,7 @@ class AccountRegistrationConfirm extends React.Component {
 			chainAccount
 		);
 
-		if (!success && WalletDb.isLocked()) {
+		if (!success && WalletDb.isLocked_v2()) {
 			this.setState({passwordError: 'Invalid password'});
 		} else {
 			this.setState({password: ''});
@@ -254,25 +254,23 @@ class AccountRegistrationConfirm extends React.Component {
 			WalletUnlockActions.change();
 			if (resolve) resolve();
 			WalletUnlockActions.cancel();
-			axios
-				.post(process.env.LITE_WALLET_URL + '/login', {
-					accountName: account,
-					email: email,
-				})
-				.then((response) => {
-					console.log('LW login response', response); // DEBUG
-					ss.set('account_login_name', response.data['accountName']);
-					ss.set('account_login_token', response.data['token']);
-					WalletUnlockActions.unlock_v2().finally(() => {
-						this.props.history.push(`/account/${account}`);
-					});
-					setTimeout(() => {
-						WalletUnlockActions.lock_v2().finally(() => {
-							this.props.history.push('/market/META1_USDT');
-						});
-					}, 24 * 60 * 60 * 1000); // Auto timeout in 24 hrs
-				});
 		}
+
+		axios
+			.post(process.env.LITE_WALLET_URL + '/login', {
+				accountName: account,
+				email: this.state.email,
+			})
+			.then((response) => {
+				console.log('LW login response', response); // DEBUG
+				ss.set('account_login_name', response.data['accountName']);
+				ss.set('account_login_token', response.data['token']);
+				WalletUnlockActions.unlock_v2();
+				setTimeout(() => {
+					WalletUnlockActions.lock_v2();
+				}, 24 * 60 * 60 * 1000); // Auto timeout in 24 hrs
+			});
+
 		this.props.history.push(
 			`/account/${account}/permissions/?currentDisplay=createPaperWallet`
 		);
