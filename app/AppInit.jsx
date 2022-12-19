@@ -199,7 +199,10 @@ class AppInit extends React.Component {
 				.catch((error) => {
 					console.log('error', error);
 					WalletUnlockActions.lock_v2().finally(() => {
-						history.replace('/market/META1_USDT');
+						const isIncludes = history?.location?.pathname.includes('explorer');
+						if (!isIncludes) {
+							history.replace('/market/META1_USDT');
+						}
 					});
 				})
 				.finally(function () {

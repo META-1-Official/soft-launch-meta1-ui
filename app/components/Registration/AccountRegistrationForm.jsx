@@ -24,8 +24,10 @@ const ss = new ls(STORAGE_KEY);
 import countryCodes from '../Utility/countryCode.json';
 
 class AccountRegistrationForm extends React.Component {
+	formRef = React.createRef();
 	static propTypes = {
 		continue: PropTypes.func.isRequired,
+		visibility: PropTypes.bool.isRequired,
 	};
 
 	constructor() {
@@ -51,6 +53,7 @@ class AccountRegistrationForm extends React.Component {
 			},
 			phoneFormat: '',
 			isCountrySelected: false,
+			visibility: true,
 		};
 		this.onSubmit = this.onSubmit.bind(this);
 		this.populateData = this.populateData.bind(this);
@@ -90,6 +93,19 @@ class AccountRegistrationForm extends React.Component {
 		}
 		if (prevState.selectedCountryObj !== this.state.selectedCountryObj) {
 			this.phoneRef.current.focus();
+		}
+	}
+
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.visibility != this.state.visibility) {
+			this.setState({visibility: nextProps.visibility, captcha: false}, () => {
+				if (
+					this.formRef &&
+					this.formRef.current &&
+					this.formRef.current.setFieldsValue
+				)
+					this.formRef.current.setFieldsValue(this.state);
+			});
 		}
 	}
 
@@ -266,6 +282,7 @@ class AccountRegistrationForm extends React.Component {
 					onFinish={(e) => this.onSubmit(e)}
 					layout={'vertical'}
 					initialValues={{remember: true}}
+					ref={this.formRef}
 				>
 					<div className="info-form">
 						<div className="form-blocks">
@@ -537,6 +554,7 @@ class AccountRegistrationForm extends React.Component {
 						onChange={this.onAccountNameChange}
 						accountShouldNotExist
 						placeholder={counterpart.translate('account.name')}
+						initial_value={this.state.accountName}
 						label={
 							<span>
 								<span className="vertical-middle">
@@ -640,12 +658,16 @@ class AccountRegistrationForm extends React.Component {
 	}
 
 	render() {
-		return (
-			<div className="registration-form">
-				{this.renderAccountCreateText()}
-				{this.renderAccountCreateForm()}
-			</div>
-		);
+		const {visibility} = this.state;
+
+		if (visibility)
+			return (
+				<div className="registration-form">
+					{this.renderAccountCreateText()}
+					{this.renderAccountCreateForm()}
+				</div>
+			);
+		else return null;
 	}
 }
 

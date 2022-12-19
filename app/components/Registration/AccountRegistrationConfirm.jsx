@@ -247,7 +247,7 @@ class AccountRegistrationConfirm extends React.Component {
 		);
 
 		if (!success && WalletDb.isLocked()) {
-			this.setState({passwordError: 'Invalid password'});
+			this.setState({passwordError: 'Invalid paskey'});
 		} else {
 			this.setState({password: ''});
 			if (cloudMode) AccountActions.setPasswordAccount(account);
@@ -395,7 +395,7 @@ class AccountRegistrationConfirm extends React.Component {
 							description={counterpart.translate('registration.accountNote')}
 						/>
 					</Form.Item>
-					<Form.Item className="checkbox-group">
+					<Form.Item className="checkbox-group custom-checkbox-register">
 						<Checkbox
 							checked={this.state.confirmed}
 							onChange={this.toggleConfirmed}
@@ -421,7 +421,7 @@ class AccountRegistrationConfirm extends React.Component {
 							}`}
 						>
 							&nbsp;&nbsp;&nbsp;&nbsp;I understand that no one can recover my
-							password if I lose or forget it
+							passkey if I lose or forget it
 						</button>
 						<br />
 						<Checkbox
@@ -434,7 +434,7 @@ class AccountRegistrationConfirm extends React.Component {
 							}`}
 						>
 							&nbsp;&nbsp;&nbsp;&nbsp;I have written down or otherwise stored my
-							password
+							passkey
 						</button>
 						<br />
 						<Checkbox

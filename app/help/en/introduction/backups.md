@@ -11,7 +11,7 @@ will be unable to access any of your funds again!
 You can create a backup from [Settings -> Backup](/settings).
 
 - Store this backup in at least two secure locations only accessible by you
-- The backup is encrypted with your passphrase/password so do not store your passwrod in the same location
+- The backup is encrypted with your passphrase/passkey so do not store your passkey in the same location
 
 ## Advanced Users Only
 

@@ -258,7 +258,7 @@ class WalletUnlockModal extends React.Component {
 		);
 
 		if (!success && WalletDb.isLocked()) {
-			this.setState({passwordError: 'Invalid password'});
+			this.setState({passwordError: 'Invalid passkey'});
 		} else {
 			if (!passwordLogin) {
 				this.setState({password: ''});

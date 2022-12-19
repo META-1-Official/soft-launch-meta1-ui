@@ -70,10 +70,6 @@ class Explorer extends React.Component {
 			this.props.history.push(value);
 		};
 
-		const accountName = ss.get('account_login_name', '');
-		const token = ss.get('account_login_token', '');
-		if (!accountName || !token) this.props.history.push('/market/META1_USDT');
-
 		return (
 			<Tabs
 				activeKey={this.props.location.pathname}
