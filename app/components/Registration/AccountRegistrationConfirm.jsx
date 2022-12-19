@@ -265,15 +265,21 @@ class AccountRegistrationConfirm extends React.Component {
 				console.log('LW login response', response); // DEBUG
 				ss.set('account_login_name', response.data['accountName']);
 				ss.set('account_login_token', response.data['token']);
-				WalletUnlockActions.unlock_v2();
+				WalletUnlockActions.unlock_v2().finally(() => {
+					this.props.history.push(
+						`/account/${account}/permissions/?currentDisplay=createPaperWallet`
+					);
+				});
 				setTimeout(() => {
 					WalletUnlockActions.lock_v2();
 				}, 24 * 60 * 60 * 1000); // Auto timeout in 24 hrs
+			})
+			.catch((error) => {
+				this.props.history.push(
+					`/account/${account}/permissions/?currentDisplay=createPaperWallet`
+				);
 			});
 
-		this.props.history.push(
-			`/account/${account}/permissions/?currentDisplay=createPaperWallet`
-		);
 		toast('Success');
 	}
 
