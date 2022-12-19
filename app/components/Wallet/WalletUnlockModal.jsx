@@ -62,7 +62,6 @@ class WalletUnlockModal extends React.Component {
 		this.account_input = React.createRef();
 
 		this.handlePasswordChange = this.handlePasswordChange.bind(this);
-		this.renderTorusLogin = this.renderTorusLogin.bind(this);
 		this.toggleEye = this.toggleEye.bind(this);
 	}
 
@@ -294,25 +293,6 @@ class WalletUnlockModal extends React.Component {
 		}
 	};
 
-	renderTorusLogin = async () => {
-		const {accountName} = this.state;
-		if (this.props.isLoading || !this.props.openLogin) {
-			return;
-		}
-		try {
-			const {openLogin} = this.props;
-			await openLogin.init();
-			ss.set('account_login_name', accountName);
-			ss.remove('account_registration_name');
-			if (openLogin.privKey) {
-				await openLogin.logout({});
-				await openLogin.login();
-			} else {
-				const privKey = await openLogin.login();
-			}
-		} catch (error) {}
-	};
-
 	passwordInput = () =>
 		this.refs.password_input ||
 		this.refs.custom_password_input.refs.password_input;
@@ -378,14 +358,8 @@ class WalletUnlockModal extends React.Component {
 						}
 						const account =
 							passwordLogin || passwordlessLogin ? accountName : null;
-						if (passwordlessLogin) {
-							if (!accountName) {
-								return;
-							}
-							this.renderTorusLogin();
-						} else {
-							this.validate(password, account);
-						}
+
+						this.validate(password, account);
 					}
 				});
 			}
