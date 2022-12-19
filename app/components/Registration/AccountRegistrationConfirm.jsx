@@ -247,7 +247,7 @@ class AccountRegistrationConfirm extends React.Component {
 		);
 
 		if (!success && WalletDb.isLocked()) {
-			this.setState({passwordError: 'Invalid password'});
+			this.setState({passwordError: 'Invalid paskey'});
 		} else {
 			this.setState({password: ''});
 			if (cloudMode) AccountActions.setPasswordAccount(account);
