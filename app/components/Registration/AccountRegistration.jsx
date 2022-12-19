@@ -37,7 +37,7 @@ class AccountRegistration extends React.Component {
 			faceKISuccess: false,
 			passkey: '',
 			device: {},
-			webcamEnabled: true,
+			webcamEnabled: false,
 			verifying: false,
 		};
 		this.webcamRef = React.createRef();
@@ -177,16 +177,21 @@ class AccountRegistration extends React.Component {
 
 		if (this.state.faceKISuccess === true) {
 			this.setState({
-				accountName,
-				password,
-				finalStep: true,
-				faceKIStep: false,
-				migrationStep: false,
-				fromStep: false,
 				webcamEnabled: false,
 			});
+
+			setTimeout(() => {
+				this.setState({
+					accountName,
+					password,
+					finalStep: true,
+					faceKIStep: false,
+					migrationStep: false,
+					fromStep: false,
+				});
+			}, 300);
 		} else {
-			toast('first enroll');
+			toast('Please enroll first.');
 		}
 	}
 
@@ -237,8 +242,6 @@ class AccountRegistration extends React.Component {
 		} else {
 			setOpenLoginInstance();
 		}
-
-		this.loadVideo();
 	}
 
 	async loadVideo() {
@@ -307,7 +310,7 @@ class AccountRegistration extends React.Component {
 				const data = await openLogin.getUserInfo();
 			}
 		} catch (error) {
-			// this.setState({ fromStep: true });
+			this.setState({fromStep: true});
 		}
 	}
 
@@ -352,6 +355,7 @@ class AccountRegistration extends React.Component {
 			finalStep: true,
 			fromStep: false,
 			faceKIStep: false,
+			webcamEnabled: false,
 		});
 	}
 
@@ -366,11 +370,13 @@ class AccountRegistration extends React.Component {
 		const email = authData.email;
 		password = this.genKey(`${accountName}${privKey}`);
 		ss.set('email', email);
+		this.loadVideo();
 
 		this.setState({
 			accountName,
 			password,
 			faceKIStep: true,
+			webcamEnabled: true,
 			fromStep: false,
 			finalStep: false,
 		});
@@ -388,9 +394,11 @@ class AccountRegistration extends React.Component {
 			finalStep,
 			migrationStep,
 		} = this.state;
-		if (fromStep) {
-			return <AccountRegistrationForm continue={this.continue} />;
-		} else if (torusAlreadyAssociatedEmail) {
+
+		// if (fromStep) {
+		// 	return <AccountRegistrationForm continue={this.continue} />;
+		// } else if (torusAlreadyAssociatedEmail) {
+		if (torusAlreadyAssociatedEmail) {
 			return (
 				<React.Fragment>
 					<div className="desc2">
@@ -567,6 +575,13 @@ class AccountRegistration extends React.Component {
 					password={this.state.password}
 					toggleConfirmed={this.toggleConfirmed}
 					history={this.props.history}
+				/>
+			);
+		} else {
+			return (
+				<AccountRegistrationForm
+					continue={this.continue}
+					visibility={fromStep}
 				/>
 			);
 		}

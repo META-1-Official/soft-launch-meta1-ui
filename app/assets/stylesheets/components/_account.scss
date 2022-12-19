@@ -2163,3 +2163,12 @@ div.account-notification {
 		background: #15171b;
 	}
 }
+
+// sign-up checkbox inner color
+.custom-checkbox-register {
+	.ant-checkbox-checked .ant-checkbox-inner::after {
+		border: 3px solid #000 !important;
+		border-top: 0 !important;
+		border-left: 0 !important;
+	}
+}

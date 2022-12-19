@@ -484,6 +484,11 @@ class SendModal extends React.Component {
 		);
 
 		let tabIndex = this.props.tabIndex; // Continue tabIndex on props count
+		let balanceAssetId = null;
+		if (this.state.from_account && this.state.asset_id) {
+			const accountBalance = this.state.from_account.get('balances').toJS();
+			balanceAssetId = accountBalance[this.state.asset_id];
+		}
 
 		let tabHeaderContainer = (
 			<div
@@ -572,7 +577,11 @@ class SendModal extends React.Component {
 						allowNaN={true}
 					/>
 				</div>
-
+				{this.state.asset_id && balanceAssetId && (
+					<span className="show-balance">
+						Balance : <BalanceComponent balance={balanceAssetId} />
+					</span>
+				)}
 				<div className="account-selector-wrapper">
 					<Form.Item
 						label={`${counterpart.translate('transfer.memo')} - ${

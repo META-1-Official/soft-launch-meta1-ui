@@ -171,8 +171,9 @@ class OrderBookRowHorizontal extends React.Component {
 					totalValueAsks.getAmount({real: true}),
 					totalAsset.get('precision')
 			  );
+		const totalAmt = Number(amount) * Number(price.props.price);
 		return (
-			<Tooltip title={'Total: ' + total} placement="right">
+			<Tooltip title={'Total: ' + totalAmt} placement="right">
 				{isBid ? (
 					<tr
 						onClick={this.props.onClick}
@@ -193,7 +194,7 @@ class OrderBookRowHorizontal extends React.Component {
 							}}
 							className="table-body-class"
 						>
-							{amount}
+							<div className="overflow-hidden">{amount}</div>
 						</td>
 						<td
 							style={{
@@ -202,7 +203,7 @@ class OrderBookRowHorizontal extends React.Component {
 								paddingRight: '10px',
 							}}
 						>
-							{price}
+							<div className="overflow-hidden">{price}</div>
 						</td>
 						<td
 							style={{
@@ -211,7 +212,7 @@ class OrderBookRowHorizontal extends React.Component {
 								paddingRight: '10px',
 							}}
 						>
-							{total}
+							<div className="overflow-hidden">{totalAmt}</div>
 						</td>
 					</tr>
 				) : (
@@ -230,7 +231,7 @@ class OrderBookRowHorizontal extends React.Component {
 							style={{color: '#FF2929', textAlign: 'left', paddingLeft: '2px'}}
 							className="table-body-class"
 						>
-							{price}
+							<div className="overflow-hidden">{totalAmt}</div>
 						</td>
 						<td
 							style={{
@@ -240,7 +241,7 @@ class OrderBookRowHorizontal extends React.Component {
 								textAlign: 'right',
 							}}
 						>
-							{amount}
+							<div className="overflow-hidden">{price}</div>
 						</td>
 						<td
 							style={{
@@ -249,7 +250,7 @@ class OrderBookRowHorizontal extends React.Component {
 								paddingRight: '10px',
 							}}
 						>
-							{total}
+							<div className="overflow-hidden">{amount}</div>
 						</td>
 					</tr>
 				)}
@@ -921,21 +922,23 @@ class OrderBook extends React.Component {
 								textAlign: 'left',
 							}}
 						>
-							<span className="header-sub-title">VOLUME</span>
+							<span className="header-sub-title header-font-size">VOLUME</span>
 						</th>
 						<th
 							style={{
 								textAlign: 'center',
 							}}
 						>
-							<span className="header-sub-title">BUY PRICE</span>
+							<span className="header-sub-title header-font-size">
+								BUY PRICE
+							</span>
 						</th>
 						<th
 							style={{
 								textAlign: 'right',
 							}}
 						>
-							<span className="header-sub-title">TOTAL</span>
+							<span className="header-sub-title header-font-size">TOTAL</span>
 						</th>
 					</tr>
 				</thead>
@@ -949,10 +952,12 @@ class OrderBook extends React.Component {
 								textAlign: 'left',
 							}}
 						>
-							<span className="header-sub-title">TOTAL</span>
+							<span className="header-sub-title header-font-size">TOTAL</span>
 						</th>
 						<th style={{textAlign: 'center'}}>
-							<span className="header-sub-title">SELL PRICE</span>
+							<span className="header-sub-title header-font-size">
+								SELL PRICE
+							</span>
 						</th>
 						<th
 							style={{
@@ -960,7 +965,7 @@ class OrderBook extends React.Component {
 								textAlign: 'right',
 							}}
 						>
-							<span className="header-sub-title">VOLUME</span>
+							<span className="header-sub-title header-font-size">VOLUME</span>
 						</th>
 					</tr>
 				</thead>

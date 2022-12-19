@@ -104,7 +104,7 @@ export default class BackupBrainkey extends Component {
 						/>
 						<p>
 							{this.state.invalid_password ? (
-								<span className="error">Invalid password</span>
+								<span className="error">Invalid passkey</span>
 							) : (
 								<span>
 									<Translate content="wallet.pwd4brainkey" />

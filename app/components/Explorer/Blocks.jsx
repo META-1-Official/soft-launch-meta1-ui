@@ -526,7 +526,7 @@ class Blocks extends React.Component {
 							<span className="txtlabel">
 								<Translate
 									component="span"
-									content="explorer.asset.summary.stealth_supply"
+									content="explorer.asset.summary.confidential_supply"
 								/>
 							</span>
 							<h3 className="txtlabel">

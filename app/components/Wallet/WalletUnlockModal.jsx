@@ -62,7 +62,6 @@ class WalletUnlockModal extends React.Component {
 		this.account_input = React.createRef();
 
 		this.handlePasswordChange = this.handlePasswordChange.bind(this);
-		this.renderTorusLogin = this.renderTorusLogin.bind(this);
 		this.toggleEye = this.toggleEye.bind(this);
 	}
 
@@ -259,7 +258,7 @@ class WalletUnlockModal extends React.Component {
 		);
 
 		if (!success && WalletDb.isLocked()) {
-			this.setState({passwordError: 'Invalid password'});
+			this.setState({passwordError: 'Invalid passkey'});
 		} else {
 			if (!passwordLogin) {
 				this.setState({password: ''});
@@ -292,25 +291,6 @@ class WalletUnlockModal extends React.Component {
 				this.props.history.push(`/account/${account}`);
 			}
 		}
-	};
-
-	renderTorusLogin = async () => {
-		const {accountName} = this.state;
-		if (this.props.isLoading || !this.props.openLogin) {
-			return;
-		}
-		try {
-			const {openLogin} = this.props;
-			await openLogin.init();
-			ss.set('account_login_name', accountName);
-			ss.remove('account_registration_name');
-			if (openLogin.privKey) {
-				await openLogin.logout({});
-				await openLogin.login();
-			} else {
-				const privKey = await openLogin.login();
-			}
-		} catch (error) {}
 	};
 
 	passwordInput = () =>
@@ -378,14 +358,8 @@ class WalletUnlockModal extends React.Component {
 						}
 						const account =
 							passwordLogin || passwordlessLogin ? accountName : null;
-						if (passwordlessLogin) {
-							if (!accountName) {
-								return;
-							}
-							this.renderTorusLogin();
-						} else {
-							this.validate(password, account);
-						}
+
+						this.validate(password, account);
 					}
 				});
 			}

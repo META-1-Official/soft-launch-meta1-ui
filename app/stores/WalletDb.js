@@ -119,7 +119,7 @@ class WalletDb extends BaseStore {
 	isLocked_v2() {
 		const accountName = ss.get('account_login_name', '');
 		const token = ss.get('account_login_token', '');
-		return !(!!accountName || !!token);
+		return !(!!accountName && !!token);
 	}
 
 	decryptTcomb_PrivateKey(private_key_tcomb) {
@@ -291,7 +291,7 @@ class WalletDb extends BaseStore {
 		let walletCreateFct = (dictionary) => {
 			return new Promise((resolve, reject) => {
 				if (typeof password_plaintext !== 'string')
-					throw new Error('password string is required');
+					throw new Error('passkey string is required');
 
 				let brainkey_backup_date;
 				if (brainkey_plaintext) {
@@ -543,7 +543,7 @@ class WalletDb extends BaseStore {
 		return new Promise((resolve) => {
 			let wallet = this.state.wallet;
 			let {success} = this.validatePassword(old_password);
-			if (!success) throw new Error('wrong password');
+			if (!success) throw new Error('wrong passkey');
 
 			let old_password_aes = Aes.fromSeed(old_password);
 			let new_password_aes = Aes.fromSeed(new_password);
@@ -551,7 +551,7 @@ class WalletDb extends BaseStore {
 			if (!wallet.encryption_key)
 				// This change pre-dates the live chain..
 				throw new Error(
-					'This wallet does not support the change password feature.'
+					'This wallet does not support the change passkey feature.'
 				);
 			let encryption_plainbuffer = old_password_aes.decryptHexToBuffer(
 				wallet.encryption_key

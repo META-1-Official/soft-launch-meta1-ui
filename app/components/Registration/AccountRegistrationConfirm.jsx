@@ -399,73 +399,76 @@ class AccountRegistrationConfirm extends React.Component {
 							description={counterpart.translate('registration.accountNote')}
 						/>
 					</Form.Item>
-					<Form.Item className="checkbox-group">
+					<Form.Item className="checkbox-group custom-checkbox-register">
 						<Checkbox
 							checked={this.state.confirmed}
 							onChange={this.toggleConfirmed}
+						></Checkbox>
+						<button
+							disabled
+							className={`reset-this terms ${
+								this.state.confirmed ? 'active' : ''
+							}`}
 						>
-							<Translate
-								content="registration.accountConfirmation"
-								className={`checkbox-text ${
-									this.state.confirmed ? 'active' : ''
-								}`}
-								unsafe
-							/>
-						</Checkbox>
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							{counterpart.translate('registration.accountConfirmation')}
+						</button>
+						<br />
 						<Checkbox
 							checked={this.state.confirmedTerms}
 							onChange={this.toggleConfirmedTerms}
+						></Checkbox>
+
+						<button
+							className={`reset-this terms ${
+								this.state.confirmedTerms ? 'active' : ''
+							}`}
 						>
-							&nbsp;&nbsp;&nbsp;
-							<button
-								className={`reset-this terms ${
-									this.state.confirmedTerms ? 'active' : ''
-								}`}
-							>
-								I understand that no one can recover my password if I lose or
-								forget it
-							</button>
-						</Checkbox>
+							&nbsp;&nbsp;&nbsp;&nbsp;I understand that no one can recover my
+							passkey if I lose or forget it
+						</button>
+						<br />
 						<Checkbox
 							checked={this.state.confirmedTerms2}
 							onChange={this.toggleConfirmedTerms2}
+						></Checkbox>
+						<button
+							className={`reset-this terms ${
+								this.state.confirmedTerms2 ? 'active' : ''
+							}`}
 						>
-							&nbsp;&nbsp;&nbsp;
-							<button
-								className={`reset-this terms ${
-									this.state.confirmedTerms2 ? 'active' : ''
-								}`}
-							>
-								I have written down or otherwise stored my password
-							</button>
-						</Checkbox>
+							&nbsp;&nbsp;&nbsp;&nbsp;I have written down or otherwise stored my
+							passkey
+						</button>
+						<br />
 						<Checkbox
 							checked={this.state.confirmedTerms3}
 							onChange={this.toggleConfirmedTerms3}
+						></Checkbox>
+						<button
+							className={`reset-this terms ${
+								this.state.confirmedTerms3 ? 'active' : ''
+							}`}
 						>
-							&nbsp;&nbsp;&nbsp;
-							<button
-								className={`reset-this terms ${
-									this.state.confirmedTerms3 ? 'active' : ''
-								}`}
-							>
-								I am a living man or woman hence a living being
-							</button>
-						</Checkbox>
+							&nbsp;&nbsp;&nbsp;&nbsp;I am a living man or woman hence a living
+							being
+						</button>
+
 						<br />
+
 						<Checkbox
 							checked={this.state.confirmedTerms4}
 							onChange={this.toggleConfirmedTerms4}
+						></Checkbox>
+
+						<button
+							className={`reset-this terms ${
+								this.state.confirmedTerms4 ? 'active' : ''
+							}`}
 						>
-							&nbsp;&nbsp;&nbsp;
-							<button
-								className={`reset-this terms ${
-									this.state.confirmedTerms4 ? 'active' : ''
-								}`}
-							>
-								Sign META Association Membership Agreement
-							</button>
-						</Checkbox>
+							&nbsp;&nbsp;&nbsp;&nbsp;Sign META Association Membership Agreement
+						</button>
+
 						<div id="myModal" class="custom-modal">
 							<div class="custom-modal-content">
 								<span class="close">&times;</span>
