@@ -242,8 +242,6 @@ class AccountRegistration extends React.Component {
 		} else {
 			setOpenLoginInstance();
 		}
-
-		this.loadVideo();
 	}
 
 	async loadVideo() {
@@ -372,6 +370,7 @@ class AccountRegistration extends React.Component {
 		const email = authData.email;
 		password = this.genKey(`${accountName}${privKey}`);
 		ss.set('email', email);
+		this.loadVideo();
 
 		this.setState({
 			accountName,
@@ -395,6 +394,7 @@ class AccountRegistration extends React.Component {
 			finalStep,
 			migrationStep,
 		} = this.state;
+
 		if (fromStep) {
 			return <AccountRegistrationForm continue={this.continue} />;
 		} else if (torusAlreadyAssociatedEmail) {
