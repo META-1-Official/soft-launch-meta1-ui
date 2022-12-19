@@ -37,7 +37,7 @@ class AccountRegistration extends React.Component {
 			faceKISuccess: false,
 			passkey: '',
 			device: {},
-			webcamEnabled: true,
+			webcamEnabled: false,
 			verifying: false,
 		};
 		this.webcamRef = React.createRef();
@@ -177,16 +177,21 @@ class AccountRegistration extends React.Component {
 
 		if (this.state.faceKISuccess === true) {
 			this.setState({
-				accountName,
-				password,
-				finalStep: true,
-				faceKIStep: false,
-				migrationStep: false,
-				fromStep: false,
 				webcamEnabled: false,
 			});
+
+			setTimeout(() => {
+				this.setState({
+					accountName,
+					password,
+					finalStep: true,
+					faceKIStep: false,
+					migrationStep: false,
+					fromStep: false,
+				});
+			}, 300);
 		} else {
-			toast('first enroll');
+			toast('Please enroll first.');
 		}
 	}
 
@@ -352,6 +357,7 @@ class AccountRegistration extends React.Component {
 			finalStep: true,
 			fromStep: false,
 			faceKIStep: false,
+			webcamEnabled: false,
 		});
 	}
 
@@ -371,6 +377,7 @@ class AccountRegistration extends React.Component {
 			accountName,
 			password,
 			faceKIStep: true,
+			webcamEnabled: true,
 			fromStep: false,
 			finalStep: false,
 		});
