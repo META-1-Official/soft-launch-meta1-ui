@@ -149,19 +149,83 @@ class AccountRegistrationConfirm extends React.Component {
 		}
 	}
 
-	onCreateAccount() {
+	async onCreateAccount() {
 		if (!this.state.email || !this.props.password || !this.props.accountName) {
 			this.props.history.push('/registration');
 		}
-		this.createAccount(
-			this.props.accountName,
-			this.props.password,
-			this.state.email,
-			this.state.phone,
-			this.state.firstname,
-			this.state.lastname,
-			this.props.password
+
+		let email = this.state.email;
+		let accountName = this.props.accountName;
+
+		// getting token
+		let token;
+		const response_token = await axios({
+			url: process.env.ESIGNATURE_URL + '/apiewallet/sign/token',
+			method: 'get',
+			headers: {
+				Accept: 'application/json',
+			},
+			params: {email},
+		});
+
+		if (response_token && response_token.headers) {
+			if (response_token.headers.authorization) {
+				token = response_token.headers.authorization;
+			}
+		}
+
+		// getting user profile
+		const response_user = await axios({
+			url: process.env.ESIGNATURE_URL + '/apiewallet/users',
+			method: 'get',
+			headers: {
+				Accept: 'application/json',
+			},
+			params: {email},
+		});
+
+		if (!token || token.error === true) return;
+		if (!response_user) return;
+
+		let member1Name = '';
+
+		if (response_user.data.member1Name) {
+			let nameArry = response_user.data.member1Name.split(',');
+			if (nameArry.includes(accountName)) {
+				member1Name = response_user.data.member1Name;
+			} else {
+				member1Name = response_user.data.member1Name + ',' + accountName;
+			}
+		} else {
+			member1Name = accountName;
+		}
+
+		// appeding wallet name to the user wallet list.
+		const res_update = await axios.patch(
+			`${process.env.ESIGNATURE_URL}/apiewallet/users/update?email=${this.state.email}`,
+			{member1Name},
+			{
+				headers: {
+					authorization: token,
+				},
+			}
 		);
+
+		if (res_update.error === true) {
+			return;
+		} else if (res_update) {
+			this.createAccount(
+				this.props.accountName,
+				this.props.password,
+				this.state.email,
+				this.state.phone,
+				this.state.firstname,
+				this.state.lastname,
+				this.props.password
+			);
+		} else {
+			return;
+		}
 	}
 
 	trackSignup(customerId) {
@@ -203,7 +267,6 @@ class AccountRegistrationConfirm extends React.Component {
 		)
 			.then((res) => {
 				AccountActions.setPasswordAccount(name);
-
 				this.trackSignup(res);
 
 				if (this.state.registrarAccount) {
@@ -537,9 +600,9 @@ class AccountRegistrationConfirm extends React.Component {
 									distributed, republished, downloaded, displayed, posted or
 									transmitted in any form or by any means unless otherwise
 									indicated, any future release, update, or other addition to
-									functionality of the Site shall be subject to these Terms. 
-									All copyright and other proprietary notices on the Site must
-									be retained on all copies thereof.
+									functionality of the Site shall be subject to these Terms. All
+									copyright and other proprietary notices on the Site must be
+									retained on all copies thereof.
 								</p>
 
 								<p>
@@ -808,7 +871,7 @@ class AccountRegistrationConfirm extends React.Component {
 									Company may attempt to resolve the claim or dispute
 									informally.  If you and the Company do not resolve the claim
 									or dispute within thirty (30) days after the Notice is
-									received, either party may begin an arbitration proceeding. 
+									received, either party may begin an arbitration proceeding.
 									The amount of any settlement offer made by any party may not
 									be disclosed to the arbitrator until after the arbitrator has
 									determined the amount of the award to which either party is

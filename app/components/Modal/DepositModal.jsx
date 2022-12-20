@@ -13,7 +13,7 @@ const DepositModalContent = (props) => {
 	const minDepositValues = {
 		btc: 0.001,
 		ltc: 0.01,
-		eth: 0.01,
+		eth: 0.001,
 		usdt: 1,
 		xlm: 0.01,
 		bnb: 0.01,
