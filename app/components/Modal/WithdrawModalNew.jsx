@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import BindToChainState from 'components/Utility/BindToChainState';
 import DepositWithdrawAssetSelector from '../DepositWithdraw/DepositWithdrawAssetSelector';
 import Translate from 'react-translate-component';
@@ -24,6 +25,7 @@ import BalanceComponent from '../Utility/BalanceComponent';
 import QRScanner from '../QRAddressScanner';
 import {Modal, Button, Select, Input, ConfigProvider} from 'antd';
 import CAValidator from 'multicoin-address-validator';
+import WalletUnlockActions from 'actions/WalletUnlockActions';
 import counterpart from 'counterpart';
 import {
 	gatewaySelector,
@@ -44,8 +46,12 @@ import AccountSelector from 'components/Account/AccountSelector';
 import {ChainStore} from 'meta1-vision-js';
 import {getAssetAndGateway, getIntermediateAccount} from 'common/gatewayUtils';
 import TransactionConfirmStore from '../../stores/TransactionConfirmStore';
+import ls from '../../lib/common/localStorage';
+import {toast} from 'react-toastify';
 
 const gatewayBoolCheck = 'withdrawalAllowed';
+const STORAGE_KEY = '__AuthData__';
+const ss = new ls(STORAGE_KEY);
 
 class WithdrawModalNew extends React.Component {
 	constructor(props) {
@@ -658,6 +664,8 @@ class WithdrawModalNew extends React.Component {
 			memo,
 			btsAccount,
 			feeAmount,
+			email,
+			username,
 		} = this.state;
 
 		let gatewayStatus = this.state.gatewayStatus[selectedGateway];
@@ -754,20 +762,58 @@ class WithdrawModalNew extends React.Component {
 			null,
 			feeAmount ? feeAmount.asset_id : '1.3.0',
 		];
-		this.setState({
-			submitted: true,
-		});
 
-		TransactionConfirmStore.unlisten(this.onTrxIncluded);
-		TransactionConfirmStore.listen(this.onTrxIncluded);
-		AccountActions.transfer(...args).then((res) => {
-			this.setState({submitted: false});
-			if (res && res?.isCanceled) {
-				// login popup close
-			} else {
-				this.props.hideModal();
-			}
-		});
+		const emailType = 'withdraw';
+		const emailData = {
+			accountName: this.props.account.get('name'),
+			name: username,
+			emailAddress: email,
+			asset: selectedAsset,
+			amount: quantity,
+			toAddress: address,
+		};
+
+		WalletUnlockActions.unlock()
+			.then(() => {
+				this.setState({submitted: true});
+				const token = ss.get('account_login_token', '');
+				const config = {
+					headers: {
+						Authorization: 'Bearer ' + token,
+					},
+				};
+				axios
+					.post(
+						`${process.env.LITE_WALLET_URL}/sendEmail`,
+						{emailType, emailData},
+						config
+					)
+					.then((result) => {
+						toast('Email sent successfully!');
+						this.setState({submitted: false});
+						this.props.hideModal();
+					})
+					.catch((error) => {
+						toast('Failed to send email!');
+					});
+			})
+			.finally(() => {
+				WalletUnlockActions.lock();
+			});
+
+		// TransactionConfirmStore.unlisten(this.onTrxIncluded);
+		// TransactionConfirmStore.listen(this.onTrxIncluded);
+		// AccountActions.transfer(...args).then(() => {
+		// 	this.setState({submitted: false});
+		// 	this.props.hideModal();
+		// });
+	}
+
+	onInputChanged(e) {
+		const name = e.target.name;
+
+		if (name === 'username') this.setState({username: e.target.value});
+		else if (name === 'email') this.setState({email: e.target.value});
 	}
 
 	onBTSAccountNameChanged(btsAccountName) {
@@ -840,6 +886,8 @@ class WithdrawModalNew extends React.Component {
 		const {state, props} = this;
 		let {preferredCurrency, assets, balances} = props;
 		let {
+			username,
+			email,
 			selectedAsset,
 			selectedGateway,
 			gatewayStatus,
@@ -905,6 +953,8 @@ class WithdrawModalNew extends React.Component {
 				  !quantity ||
 				  !address ||
 				  !canCoverWithdrawal ||
+				  !email ||
+				  !username ||
 				  addressError ||
 				  quantity < minWithdraw);
 
@@ -952,6 +1002,26 @@ class WithdrawModalNew extends React.Component {
 				]}
 			>
 				<div className="withdraw-modal-body">
+					<div className="account-selector-wrapper">
+						<span className="selector-label">Name</span>
+						<Input
+							type="text"
+							value={username}
+							name="username"
+							onChange={(e) => this.onInputChanged(e)}
+						/>
+					</div>
+
+					<div className="account-selector-wrapper">
+						<span className="selector-label">EMAIL</span>
+						<Input
+							type="text"
+							value={email}
+							name="email"
+							onChange={(e) => this.onInputChanged(e)}
+						/>
+					</div>
+
 					<div className="account-selector-wrapper">
 						<span className="selector-label">ASSET</span>
 						{/*ASSET SELECTION*/}
