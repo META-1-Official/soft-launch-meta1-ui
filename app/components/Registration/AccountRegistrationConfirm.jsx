@@ -122,7 +122,8 @@ class AccountRegistrationConfirm extends React.Component {
 					response.data.email === email &&
 					response.data.status &&
 					response.data.status.isSign === true &&
-					response.data.status.isPayed === true
+					(response.data.status.isPayed === true ||
+						response.data.status.isPaidByCrypto === true)
 				) {
 					this.setState({confirmedTerms4: true});
 					ss.remove('confirmedTerms4Token');
