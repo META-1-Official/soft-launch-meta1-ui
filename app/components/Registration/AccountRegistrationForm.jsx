@@ -366,41 +366,6 @@ class AccountRegistrationForm extends React.Component {
 							</Form.Item>
 						</div>
 						<div className="form-blocks">
-							{/* <Form.Item
-								label={'Email'}
-								css={{marginRight: '10px'}}
-								name="email"
-								rules={[
-									{
-										required: true,
-										validator: (_, value) => {
-											if (
-												/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-													value
-												)
-											) {
-												return Promise.resolve();
-											} else {
-												var message = '';
-												if (value.length === 0)
-													message = 'The email address is required.';
-												else message = 'Invalid email address.';
-												return Promise.reject(message);
-											}
-										},
-									},
-								]}
-							>
-								<Input
-									id="email"
-									required
-									placeholder="email@example.com"
-									value={this.state.email}
-									onChange={this.onEmailChange}
-									prefix={<MailOutlined />}
-									bordered={false}
-								/>
-							</Form.Item> */}
 							<Form.Item
 								label={'Phone number'}
 								css={{marginLeft: '10px'}}

@@ -68,6 +68,8 @@ class Header extends React.Component {
 			isDepositModalVisible: false,
 			isWithdrawModalVisible: false,
 			hasWithdrawalModalBeenShown: false,
+			migratable: false,
+			oldUser: false,
 		};
 
 		this._accountNotificationActiveKeys = [];
@@ -86,6 +88,25 @@ class Header extends React.Component {
 		this.hideWithdrawModal = this.hideWithdrawModal.bind(this);
 
 		this.onBodyClick = this.onBodyClick.bind(this);
+	}
+
+	async checkTransferableAccount(acc_name) {
+		const response = await migrationService.checkMigrationable(acc_name);
+
+		if (
+			response?.snapshot?.transfer_status === 'PENDING' ||
+			response?.snapshot?.transfer_status === 'PARTIALLY_DONE'
+		) {
+			this.setState({migratable: true});
+		}
+	}
+
+	async checkOldUser(acc_name) {
+		const response = await migrationService.checkOldUser(acc_name);
+
+		if (response?.found === true) {
+			this.setState({oldUser: true});
+		}
 	}
 
 	showWithdrawModal() {
@@ -111,7 +132,7 @@ class Header extends React.Component {
 		});
 	}
 
-	componentDidMount() {
+	async componentDidMount() {
 		setTimeout(() => {
 			ReactTooltip.rebuild();
 		}, 1250);
@@ -120,6 +141,13 @@ class Header extends React.Component {
 			capture: false,
 			passive: true,
 		});
+
+		let {currentAccount} = this.props;
+
+		if (currentAccount) {
+			await this.checkTransferableAccount(currentAccount);
+			await this.checkOldUser(currentAccount);
+		}
 	}
 
 	componentWillUnmount() {
@@ -528,12 +556,23 @@ class Header extends React.Component {
 				</Menu.Item>
 				<Menu.Item
 					key="claimWallet"
-					style={this.props.locked_v2 ? {cursor: 'not-allowed'} : {}}
+					style={
+						!this.props.locked_v2 && this.state.migratable && this.state.oldUser
+							? {}
+							: {cursor: 'not-allowed'}
+					}
 					className={
-						this.props.locked_v2 ? 'disable-li-text' : 'claim-wallet-background'
+						!this.props.locked_v2 && this.state.migratable && this.state.oldUser
+							? 'claim-wallet-background'
+							: 'disable-li-text'
+					}
+					disabled={
+						this.props.locked_v2 ||
+						!this.state.migratable ||
+						!this.state.oldUser
 					}
 				>
-					<Text>Claim META Wallet</Text>
+					<Text>Claim Legacy Wallet</Text>
 				</Menu.Item>
 				<Menu.Item
 					key="send"
