@@ -845,11 +845,6 @@ class BuySell extends React.Component {
 									const obj = {
 										totalPercent: 100,
 									};
-									if (this.props.type !== 'bid') {
-										obj.currencyBalance = !amount
-											? this.state.globalCurrencyBalance
-											: Number(e.target.value) * Number(amount);
-									}
 									if (this.state.totalPercent) {
 										this.setState({...obj});
 									}
@@ -879,11 +874,6 @@ class BuySell extends React.Component {
 									const obj = {
 										totalPercent: 100,
 									};
-									if (this.props.type !== 'bid') {
-										obj.currencyBalance = !amount
-											? this.state.globalCurrencyBalance
-											: Number(e.target.value) * Number(price);
-									}
 									if (this.state.totalPercent) {
 										this.setState({...obj});
 									}
@@ -913,12 +903,6 @@ class BuySell extends React.Component {
 										const obj = {
 											totalPercent: 100,
 										};
-										if (this.props.type !== 'bid' && e.target.value) {
-											obj.currencyBalance =
-												!amount && !price
-													? this.state.globalCurrencyBalance
-													: Number(e.target.value);
-										}
 										this.setState({...obj});
 									}
 								}}
