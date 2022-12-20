@@ -89,6 +89,7 @@ class AccountActions {
 					// console.log( "transfer result: ", result )
 
 					dispatch(result);
+					return result;
 				});
 			};
 		} catch (error) {

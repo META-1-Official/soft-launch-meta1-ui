@@ -760,9 +760,13 @@ class WithdrawModalNew extends React.Component {
 
 		TransactionConfirmStore.unlisten(this.onTrxIncluded);
 		TransactionConfirmStore.listen(this.onTrxIncluded);
-		AccountActions.transfer(...args).then(() => {
+		AccountActions.transfer(...args).then((res) => {
 			this.setState({submitted: false});
-			this.props.hideModal();
+			if (res && res?.isCanceled) {
+				// login popup close
+			} else {
+				this.props.hideModal();
+			}
 		});
 	}
 
