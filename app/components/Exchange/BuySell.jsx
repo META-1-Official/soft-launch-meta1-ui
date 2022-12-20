@@ -95,11 +95,13 @@ class BuySell extends React.Component {
 
 		if (
 			(nextProps.currentPrice !== this.props.currentPrice ||
+				nextProps.marketPrice !== this.props.marketPrice ||
 				nextProps.base !== this.props.base ||
 				nextProps.quote !== this.props.quote) &&
 			!!nextProps.marketPrice
-		)
+		) {
 			this.props.priceChangePercent(nextProps.type, nextProps.marketPrice);
+		}
 
 		return (
 			nextState.isSettleModalVisible !== this.state.isSettleModalVisible ||
