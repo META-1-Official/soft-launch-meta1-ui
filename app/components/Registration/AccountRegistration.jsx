@@ -179,6 +179,7 @@ class AccountRegistration extends React.Component {
 			this.setState({
 				webcamEnabled: false,
 			});
+			this.loadVideo(false);
 
 			setTimeout(() => {
 				this.setState({
@@ -244,10 +245,10 @@ class AccountRegistration extends React.Component {
 		}
 	}
 
-	async loadVideo() {
+	async loadVideo(flag) {
 		let features = {
 			audio: false,
-			video: true,
+			video: flag,
 		};
 		let display = await navigator.mediaDevices.getUserMedia(features);
 		this.setState({device: display?.getVideoTracks()[0]?.getSettings()});
@@ -337,6 +338,7 @@ class AccountRegistration extends React.Component {
 	}
 
 	proceedESign() {
+		this.loadVideo(false);
 		ss.set('confirmedTerms4Token', 'success');
 		const {privKey, authData} = this.props;
 		const email = authData.email;
@@ -370,7 +372,7 @@ class AccountRegistration extends React.Component {
 		const email = authData.email;
 		password = this.genKey(`${accountName}${privKey}`);
 		ss.set('email', email);
-		this.loadVideo();
+		this.loadVideo(true);
 
 		this.setState({
 			accountName,
