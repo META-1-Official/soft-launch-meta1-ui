@@ -8,6 +8,7 @@ import counterpart from 'counterpart';
 import AltContainer from 'alt-container';
 import ReactTooltip from 'react-tooltip';
 import {Form, Input} from 'antd';
+import migrationService from 'services/migration.service';
 
 class AccountNameInput extends React.Component {
 	static propTypes = {
@@ -111,7 +112,7 @@ class AccountNameInput extends React.Component {
 		}
 	}
 
-	validateAccountName(value) {
+	async validateAccountName(value) {
 		this.state.error =
 			value === ''
 				? 'Please enter valid wallet name'
@@ -139,6 +140,11 @@ class AccountNameInput extends React.Component {
 			this.state.error = counterpart.translate(
 				'account.name_input.name_with_dash_number'
 			);
+		}
+
+		const response = await migrationService.checkOldUser(value);
+		if (response?.found === true) {
+			this.state.error = null;
 		}
 
 		this.setState({
@@ -201,32 +207,6 @@ class AccountNameInput extends React.Component {
 					value={this.state.account_name || this.props.initial_value}
 				/>
 			</Form.Item>
-		);
-
-		return (
-			<div className={class_name}>
-				{/* {noLabel ? null : <label><Translate content="account.name" /></label>} */}
-				<section>
-					<label className="left-label">{this.props.placeholder}</label>
-					<input
-						name="username"
-						id="username"
-						type="text"
-						ref="input"
-						autoComplete="username"
-						placeholder={null}
-						onChange={this.handleChange}
-						onKeyDown={this.onKeyDown}
-						value={this.state.account_name || this.props.initial_value}
-					/>
-				</section>
-				<div style={{textAlign: 'left'}} className="facolor-error">
-					{error}
-				</div>
-				<div style={{textAlign: 'left'}} className="facolor-warning">
-					{error ? null : warning}
-				</div>
-			</div>
 		);
 	}
 }
