@@ -237,47 +237,51 @@ const ApplicationApi = {
 			transactionBuilder = new TransactionBuilder();
 		}
 
-		return WalletUnlockActions.unlock().then(() => {
-			return this._create_transfer_op({
-				from_account,
-				to_account,
-				amount,
-				asset,
-				memo,
-				propose_account,
-				encrypt_memo,
-				optional_nonce,
-				fee_asset_id,
-				transactionBuilder,
-			})
-				.then((transfer_obj) => {
-					return transactionBuilder
-						.update_head_block()
-						.then(() => {
-							if (propose_account) {
-								transactionBuilder.add_type_operation('proposal_create', {
-									proposed_ops: [{op: transfer_obj.transfer_op}],
-									fee_paying_account:
-										transfer_obj.chain_propose_account.get('id'),
-								});
-							} else {
-								transactionBuilder.add_operation(transfer_obj.transfer_op);
-							}
-
-							return WalletDb.process_transaction(
-								transactionBuilder,
-								null, //signer_private_keys,
-								broadcast
-							);
-						})
-						.catch((err) => {
-							console.error(err);
-						});
+		return WalletUnlockActions.unlock()
+			.then(() => {
+				return this._create_transfer_op({
+					from_account,
+					to_account,
+					amount,
+					asset,
+					memo,
+					propose_account,
+					encrypt_memo,
+					optional_nonce,
+					fee_asset_id,
+					transactionBuilder,
 				})
-				.finally(() => {
-					WalletUnlockActions.lock();
-				});
-		});
+					.then((transfer_obj) => {
+						return transactionBuilder
+							.update_head_block()
+							.then(() => {
+								if (propose_account) {
+									transactionBuilder.add_type_operation('proposal_create', {
+										proposed_ops: [{op: transfer_obj.transfer_op}],
+										fee_paying_account:
+											transfer_obj.chain_propose_account.get('id'),
+									});
+								} else {
+									transactionBuilder.add_operation(transfer_obj.transfer_op);
+								}
+
+								return WalletDb.process_transaction(
+									transactionBuilder,
+									null, //signer_private_keys,
+									broadcast
+								);
+							})
+							.catch((err) => {
+								console.error(err);
+							});
+					})
+					.finally(() => {
+						WalletUnlockActions.lock();
+					});
+			})
+			.catch((err) => {
+				return err;
+			});
 	},
 
 	transfer_list(list_of_transfers, proposal_fee = null) {
