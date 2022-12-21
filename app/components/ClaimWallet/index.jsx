@@ -44,6 +44,7 @@ export default function ClaimWallet(props) {
 				const response = await migrationService.migrate(accountName, passKey);
 				if (response.error === false) {
 					toast(response.msg);
+					props.history.push(`/account/${accountName}/`);
 				} else {
 					toast('Something went wrong');
 				}
