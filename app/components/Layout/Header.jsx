@@ -97,6 +97,8 @@ class Header extends React.Component {
 			response?.snapshot?.transfer_status === 'PARTIALLY_DONE'
 		) {
 			this.setState({migratable: true});
+		} else {
+			this.setState({migratable: false});
 		}
 	}
 
@@ -105,6 +107,8 @@ class Header extends React.Component {
 
 		if (response?.found === true) {
 			this.setState({oldUser: true});
+		} else {
+			this.setState({oldUser: false});
 		}
 	}
 
@@ -131,7 +135,7 @@ class Header extends React.Component {
 		});
 	}
 
-	async componentDidMount() {
+	componentDidMount() {
 		setTimeout(() => {
 			ReactTooltip.rebuild();
 		}, 1250);
@@ -141,11 +145,9 @@ class Header extends React.Component {
 			passive: true,
 		});
 
-		let {currentAccount} = this.props;
-
-		if (currentAccount) {
-			await this.checkTransferableAccount(currentAccount);
-			await this.checkOldUser(currentAccount);
+		if (this.props.currentAccount && !this.props.locked_v2) {
+			this.checkTransferableAccount(this.props.currentAccount);
+			this.checkOldUser(this.props.currentAccount);
 		}
 	}
 
@@ -165,7 +167,18 @@ class Header extends React.Component {
 		) {
 			this.props.history.push('/settings/general');
 		}
+
+		if (
+			this.props.currentAccount !== np.currentAccount ||
+			(this.props.locked_v2 !== np.locked_v2 && !np.locked_v2) ||
+			(this.props.location.pathname != np.location.pathname &&
+				this.props.location.pathname === '/claimWallet')
+		) {
+			this.checkTransferableAccount(np.currentAccount);
+			this.checkOldUser(np.currentAccount);
+		}
 	}
+
 	showDepositModal() {
 		this.setState({
 			isDepositModalVisible: true,
@@ -554,26 +567,11 @@ class Header extends React.Component {
 				<Menu.Item key="addContact" className="level-2">
 					<Text>Add Contact</Text>
 				</Menu.Item>
-				<Menu.Item
-					key="claimWallet"
-					style={
-						!this.props.locked_v2 && this.state.migratable && this.state.oldUser
-							? {}
-							: {cursor: 'not-allowed'}
-					}
-					className={
-						!this.props.locked_v2 && this.state.migratable && this.state.oldUser
-							? 'claim-wallet-background'
-							: 'disable-li-text'
-					}
-					disabled={
-						this.props.locked_v2 ||
-						!this.state.migratable ||
-						!this.state.oldUser
-					}
-				>
-					<Text>Claim Legacy Wallet</Text>
-				</Menu.Item>
+				{!this.props.locked_v2 && this.state.migratable && this.state.oldUser && (
+					<Menu.Item key="claimWallet">
+						<Text>Claim Legacy Wallet</Text>
+					</Menu.Item>
+				)}
 				<Menu.Item
 					key="send"
 					style={this.props.locked_v2 ? {cursor: 'not-allowed'} : {}}

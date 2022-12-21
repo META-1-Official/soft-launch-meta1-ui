@@ -123,6 +123,19 @@ class ScaledOrderForm extends Component {
 
 		if (!hasBalance) return false;
 
+		const pathUrl = this.props.historyUrl.pathname;
+		if (pathUrl) {
+			const pathUrlArr = pathUrl.split('/');
+			if (Array.isArray(pathUrlArr) && pathUrlArr.length === 3) {
+				if (
+					!pathUrlArr[2].toLowerCase().includes('usdt') &&
+					!pathUrlArr[2].toLowerCase().includes('meta1')
+				) {
+					return false;
+				}
+			}
+		}
+
 		this._forceReRender;
 
 		return true;

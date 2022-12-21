@@ -9,10 +9,10 @@ import {Helmet} from 'react-helmet';
 import {Modal} from 'antd';
 import AuthStore from '../stores/AuthStore';
 import AccountStore from '../stores/AccountStore';
+import AccountActions from '../actions/AccountActions';
 import WalletDb from '../stores/WalletDb';
 import WalletUnlockStore from '../stores/WalletUnlockStore';
 import TransactionConfirmStore from '../stores/TransactionConfirmStore';
-import AccountActions from '../actions/AccountActions';
 import WalletUnlockActions from '../actions/WalletUnlockActions';
 import LoadingIndicator from './LoadingIndicator';
 import ls from '../lib/common/localStorage';
@@ -228,7 +228,7 @@ class AuthRedirect extends React.Component {
 				console.log('Error in e-sign token generation', err);
 			}
 		} else {
-			alert('first verify');
+			alert('Verify first!');
 		}
 	}
 

@@ -2109,6 +2109,7 @@ class Exchange extends React.Component {
 						quoteAsset={quote}
 						baseAsset={base}
 						price={latest && latest.getPrice()}
+						historyUrl={this.props.history.location}
 					/>
 				</Tabs.TabPane>
 				<Tabs.TabPane
@@ -2224,6 +2225,7 @@ class Exchange extends React.Component {
 						type={'bid'}
 						quoteAsset={quote}
 						baseAsset={base}
+						historyUrl={this.props.history.location}
 					/>
 				</Tabs.TabPane>
 			</Tabs>
@@ -2391,6 +2393,7 @@ class Exchange extends React.Component {
 						type="ask"
 						baseAsset={base}
 						quoteAsset={quote}
+						historyUrl={this.props.history.location}
 					/>
 				</Tabs.TabPane>
 			</Tabs>
