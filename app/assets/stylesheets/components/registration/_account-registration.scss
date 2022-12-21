@@ -43,24 +43,21 @@ div.registration {
 		}
 
 		.warn-tooltip {
-			.ant-alert-with-description {
-				height: 105px;
-				background: #640000;
+			p {
+				padding: 10px;
+				background: darkred;
 				border-radius: 10px;
 				border: none;
-				display: flex;
-				align-items: center;
-				margin-top: 10px;
+				line-height: 1.4;
+				color: #ffc000;
 
-				.ant-alert-description {
-					color: #ffc000;
-					font-size: 17px;
+				a {
+					text-decoration: underline;
 				}
 			}
 		}
 
 		.checkbox-group {
-			margin-top: 60px;
 			margin-bottom: 50px;
 
 			.checkbox-text {
