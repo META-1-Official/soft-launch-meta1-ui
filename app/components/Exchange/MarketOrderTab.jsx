@@ -144,6 +144,19 @@ const MarketOrderForm = (props) => {
 
 		if (!amount || isNaN(Number(amount)) || Number(amount) <= 0) return false;
 
+		const pathUrl = props.historyUrl.pathname;
+		if (pathUrl) {
+			const pathUrlArr = pathUrl.split('/');
+			if (Array.isArray(pathUrlArr) && pathUrlArr.length === 3) {
+				if (
+					!pathUrlArr[2].toLowerCase().includes('usdt') &&
+					!pathUrlArr[2].toLowerCase().includes('meta1')
+				) {
+					return false;
+				}
+			}
+		}
+
 		return true;
 	};
 
@@ -500,6 +513,7 @@ const MarketOrderForm = (props) => {
 };
 
 const MarketOrderTab = (props) => {
+	console.log('propssss', props);
 	const handleCancel = () => {
 		props.hideModal();
 	};
