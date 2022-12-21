@@ -609,7 +609,21 @@ class BuySell extends React.Component {
 		let invalidPrice = !(price > 0);
 		let invalidAmount = !(amount > 0);
 
-		let disabled = noBalance || invalidPrice || invalidAmount;
+		let isNotUsdtMeta1 = true;
+		const pathUrl = this.props.historyUrl.pathname;
+		if (pathUrl) {
+			const pathUrlArr = pathUrl.split('/');
+			if (Array.isArray(pathUrlArr) && pathUrlArr.length === 3) {
+				if (
+					pathUrlArr[2].toLowerCase().includes('usdt') ||
+					pathUrlArr[2].toLowerCase().includes('meta1')
+				) {
+					isNotUsdtMeta1 = false;
+				}
+			}
+		}
+
+		let disabled = noBalance || invalidPrice || invalidAmount || isNotUsdtMeta1;
 
 		let buttonClass = classNames(type, {
 			disabled: disabled,
