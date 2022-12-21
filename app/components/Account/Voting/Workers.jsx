@@ -149,7 +149,7 @@ export default class Workers extends React.Component {
 							{globalObject ? (
 								<EquivalentValueComponent
 									hide_asset
-									fromasset={process.env.META1_ASSET_ID}
+									fromAsset={process.env.META1_ASSET_ID}
 									toAsset={preferredUnit}
 									amount={totalBudget}
 								/>

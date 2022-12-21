@@ -291,7 +291,7 @@ class WorkerList extends React.Component {
 									) : (
 										<EquivalentValueComponent
 											hide_asset
-											fromasset={process.env.META1_ASSET_ID}
+											fromAsset={process.env.META1_ASSET_ID}
 											toAsset={item.preferredUnit}
 											amount={item.rest}
 										/>
@@ -337,7 +337,7 @@ class WorkerList extends React.Component {
 						>
 							<EquivalentValueComponent
 								hide_asset
-								fromasset={process.env.META1_ASSET_ID}
+								fromAsset={process.env.META1_ASSET_ID}
 								toAsset={item.preferredUnit}
 								amount={item.daily_pay}
 								style={{whiteSpace: 'nowrap'}}

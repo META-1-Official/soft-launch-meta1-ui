@@ -120,7 +120,7 @@ class FeeGroup extends React.Component {
 				);
 				let equivalentAmountLTM = amountForLTM ? (
 					<EquivalentValueComponent
-						fromasset={process.env.META1_ASSET_ID}
+						fromAsset={process.env.META1_ASSET_ID}
 						fullPrecision={true}
 						amount={amountForLTM}
 						toAsset={preferredUnit}
