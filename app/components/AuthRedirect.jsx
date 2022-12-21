@@ -9,10 +9,10 @@ import {Helmet} from 'react-helmet';
 import {Modal} from 'antd';
 import AuthStore from '../stores/AuthStore';
 import AccountStore from '../stores/AccountStore';
+import AccountActions from '../actions/AccountActions';
 import WalletDb from '../stores/WalletDb';
 import WalletUnlockStore from '../stores/WalletUnlockStore';
 import TransactionConfirmStore from '../stores/TransactionConfirmStore';
-import AccountActions from '../actions/AccountActions';
 import WalletUnlockActions from '../actions/WalletUnlockActions';
 import LoadingIndicator from './LoadingIndicator';
 import ls from '../lib/common/localStorage';
@@ -207,17 +207,17 @@ class AuthRedirect extends React.Component {
 
 		if (this.state.faceKISuccess === true) {
 			try {
-				const email = authData.email;
 				axios
 					.post(process.env.LITE_WALLET_URL + '/login', {
 						accountName: accountName,
-						email: email,
+						email: authData.email,
 					})
 					.then((response) => {
 						console.log('LW login response', response); // DEBUG
 						this.setState({webcamEnabled: false});
 						ss.set('account_login_name', response.data['accountName']);
 						ss.set('account_login_token', response.data['token']);
+						AccountActions.setCurrentAccount.defer(accountName);
 						WalletUnlockActions.unlock_v2().finally(() => {
 							this.props.history.push('/market/META1_USDT');
 						});
@@ -231,7 +231,7 @@ class AuthRedirect extends React.Component {
 				console.log('Error in e-sign token generation', err);
 			}
 		} else {
-			alert('first verify');
+			alert('Verify first!');
 		}
 	}
 
