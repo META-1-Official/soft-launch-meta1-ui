@@ -5,20 +5,25 @@ import StyledButton from 'components/Button/Button';
 import {toast} from 'react-toastify';
 import './claimWallet.scss';
 import WalletDb from 'stores/WalletDb';
+import AccountStore from 'stores/AccountStore';
 
 export default function ClaimWallet(props) {
-	const [accountName, setAccountName] = useState(
-		props?.location?.state?.passwordAccount
-	);
+	const [accountName, setAccountName] = useState(null);
 	const [isOldUser, setIsOldUser] = useState(false);
 	const [passKey, setPassKey] = useState('');
 
 	useEffect(async () => {
-		const response = await migrationService.checkOldUser(accountName);
-		if (response?.found) {
-			setIsOldUser(true);
-		}
+		setAccountName(AccountStore.getState().currentAccount);
 	}, []);
+
+	useEffect(async () => {
+		if (accountName) {
+			const response = await migrationService.checkOldUser(accountName);
+			if (response?.found) {
+				setIsOldUser(true);
+			}
+		}
+	}, [accountName]);
 
 	const submit = async () => {
 		const signature_valid_response = await migrationService.validateSignature(
