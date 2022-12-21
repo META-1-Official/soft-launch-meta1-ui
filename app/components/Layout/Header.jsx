@@ -132,7 +132,7 @@ class Header extends React.Component {
 		});
 	}
 
-	async componentDidMount() {
+	componentDidMount() {
 		setTimeout(() => {
 			ReactTooltip.rebuild();
 		}, 1250);
@@ -141,13 +141,6 @@ class Header extends React.Component {
 			capture: false,
 			passive: true,
 		});
-
-		let {currentAccount} = this.props;
-
-		if (currentAccount) {
-			await this.checkTransferableAccount(currentAccount);
-			await this.checkOldUser(currentAccount);
-		}
 	}
 
 	componentWillUnmount() {
@@ -166,7 +159,16 @@ class Header extends React.Component {
 		) {
 			this.props.history.push('/settings/general');
 		}
+
+		if (
+			this.props.currentAccount !== np.currentAccount ||
+			(this.props.locked_v2 !== np.locked_v2 && !np.locked_v2)
+		) {
+			this.checkTransferableAccount(np.currentAccount);
+			this.checkOldUser(np.currentAccount);
+		}
 	}
+
 	showDepositModal() {
 		this.setState({
 			isDepositModalVisible: true,
