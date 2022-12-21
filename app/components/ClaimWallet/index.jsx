@@ -11,6 +11,7 @@ export default function ClaimWallet(props) {
 	const [accountName, setAccountName] = useState(null);
 	const [isOldUser, setIsOldUser] = useState(false);
 	const [passKey, setPassKey] = useState('');
+	const [progressing, setProgressing] = useState(false);
 
 	useEffect(async () => {
 		setAccountName(AccountStore.getState().currentAccount);
@@ -21,11 +22,15 @@ export default function ClaimWallet(props) {
 			const response = await migrationService.checkOldUser(accountName);
 			if (response?.found) {
 				setIsOldUser(true);
+			} else {
+				setIsOldUser(false);
 			}
 		}
 	}, [accountName]);
 
 	const submit = async () => {
+		setProgressing(true);
+
 		const signature_valid_response = await migrationService.validateSignature(
 			accountName,
 			passKey
@@ -44,18 +49,24 @@ export default function ClaimWallet(props) {
 				const response = await migrationService.migrate(accountName, passKey);
 				if (response.error === false) {
 					toast(response.msg);
+					setProgressing(false);
 					props.history.push(`/account/${accountName}/`);
 				} else {
+					setProgressing(false);
 					toast('Something went wrong');
 				}
 			} else if (transfer_status === 'IN_PROGRESS') {
+				setProgressing(false);
 				toast('Your claim wallet request is under progress');
 			} else if (transfer_status === 'COMPLETED') {
+				setProgressing(false);
 				toast('Your claim wallet request is already completed');
 			} else {
+				setProgressing(false);
 				toast('Your Claim Wallet is failed. Please try again');
 			}
 		} else {
+			setProgressing(false);
 			toast('Invalid Signature');
 			return;
 		}
@@ -82,13 +93,15 @@ export default function ClaimWallet(props) {
 								/>
 								<StyledButton
 									buttonType="primary"
-									disabled={passKey == '' || WalletDb.isLocked_v2()}
+									disabled={
+										passKey == '' || WalletDb.isLocked_v2() || progressing
+									}
 									style={{marginRight: '15px'}}
 									onClick={() => {
 										submit();
 									}}
 								>
-									Migrate
+									{progressing ? 'Migrating...' : 'Migrate'}
 								</StyledButton>
 							</div>
 						)}

@@ -98,6 +98,8 @@ class Header extends React.Component {
 			response?.snapshot?.transfer_status === 'PARTIALLY_DONE'
 		) {
 			this.setState({migratable: true});
+		} else {
+			this.setState({migratable: false});
 		}
 	}
 
@@ -106,6 +108,8 @@ class Header extends React.Component {
 
 		if (response?.found === true) {
 			this.setState({oldUser: true});
+		} else {
+			this.setState({oldUser: false});
 		}
 	}
 
