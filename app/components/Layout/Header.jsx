@@ -141,6 +141,11 @@ class Header extends React.Component {
 			capture: false,
 			passive: true,
 		});
+
+		if (this.props.currentAccount && !this.props.locked_v2) {
+			this.checkTransferableAccount(this.props.currentAccount);
+			this.checkOldUser(this.props.currentAccount);
+		}
 	}
 
 	componentWillUnmount() {
@@ -162,7 +167,9 @@ class Header extends React.Component {
 
 		if (
 			this.props.currentAccount !== np.currentAccount ||
-			(this.props.locked_v2 !== np.locked_v2 && !np.locked_v2)
+			(this.props.locked_v2 !== np.locked_v2 && !np.locked_v2) ||
+			(this.props.location.pathname != np.location.pathname &&
+				this.props.location.pathname === '/claimWallet')
 		) {
 			this.checkTransferableAccount(np.currentAccount);
 			this.checkOldUser(np.currentAccount);
