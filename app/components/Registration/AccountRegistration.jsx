@@ -29,7 +29,7 @@ class AccountRegistration extends React.Component {
 		this.state = {
 			accountName: '',
 			password: '',
-			fromStep: true,
+			firstStep: true,
 			torusAlreadyAssociatedEmail: false,
 			finalStep: false,
 			faceKIStep: false,
@@ -188,7 +188,7 @@ class AccountRegistration extends React.Component {
 					finalStep: true,
 					faceKIStep: false,
 					migrationStep: false,
-					fromStep: false,
+					firstStep: false,
 				});
 			}, 300);
 		} else {
@@ -204,7 +204,7 @@ class AccountRegistration extends React.Component {
 		if (response?.isValid === true) {
 			this.setState(
 				{
-					fromStep: false,
+					firstStep: false,
 					migrationStep: false,
 				},
 				() => this.renderTorusLogin()
@@ -264,14 +264,14 @@ class AccountRegistration extends React.Component {
 		if (response?.found === true) {
 			this.setState({
 				accountName,
-				fromStep: false,
+				firstStep: false,
 				migrationStep: true,
 			});
 		} else {
 			this.setState(
 				{
 					accountName,
-					fromStep: false,
+					firstStep: false,
 				},
 				() => this.renderTorusLogin()
 			);
@@ -288,8 +288,10 @@ class AccountRegistration extends React.Component {
 	async renderTorusLogin() {
 		const {accountName} = this.state;
 		try {
-			const openLogin = this.props.openLogin;
+			const {openLogin} = this.props;
+			localStorage.setItem('openlogin_store', '{}');
 			await openLogin.init();
+
 			if (openLogin.privKey) {
 				const privKey = openLogin.privKey;
 				const data = await openLogin.getUserInfo();
@@ -311,7 +313,9 @@ class AccountRegistration extends React.Component {
 				const data = await openLogin.getUserInfo();
 			}
 		} catch (error) {
-			this.setState({fromStep: true});
+			// this.setState({firstStep: true});
+			console.log('Torus Error:', error);
+			toast('Unable to initiate Torus. Refresh browser and try again.');
 		}
 	}
 
@@ -355,7 +359,7 @@ class AccountRegistration extends React.Component {
 			accountName,
 			password,
 			finalStep: true,
-			fromStep: false,
+			firstStep: false,
 			faceKIStep: false,
 			webcamEnabled: false,
 		});
@@ -379,7 +383,7 @@ class AccountRegistration extends React.Component {
 			password,
 			faceKIStep: true,
 			webcamEnabled: true,
-			fromStep: false,
+			firstStep: false,
 			finalStep: false,
 		});
 	}
@@ -390,14 +394,14 @@ class AccountRegistration extends React.Component {
 
 	renderScreen() {
 		const {
-			fromStep,
+			firstStep,
 			faceKIStep,
 			torusAlreadyAssociatedEmail,
 			finalStep,
 			migrationStep,
 		} = this.state;
 
-		// if (fromStep) {
+		// if (firstStep) {
 		// 	return <AccountRegistrationForm continue={this.continue} />;
 		// } else if (torusAlreadyAssociatedEmail) {
 		if (torusAlreadyAssociatedEmail) {
@@ -583,7 +587,7 @@ class AccountRegistration extends React.Component {
 			return (
 				<AccountRegistrationForm
 					continue={this.continue}
-					visibility={fromStep}
+					visibility={firstStep}
 				/>
 			);
 		}
