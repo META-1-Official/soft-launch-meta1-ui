@@ -35,7 +35,7 @@ export default class CreateMarketModal extends Modal {
 					amount: 1,
 				},
 				base: {
-					asset_id: '1.3.0', //TODO
+					asset_id: process.env.META1_ASSET_ID, //TODO
 					amount: 1,
 				},
 			},
@@ -45,7 +45,7 @@ export default class CreateMarketModal extends Modal {
 				force_settlement_delay_sec: 60 * 60 * 24,
 				force_settlement_offset_percent: 1 * assetConstants.GRAPHENE_1_PERCENT,
 				maximum_force_settlement_volume: 20 * assetConstants.GRAPHENE_1_PERCENT,
-				short_backing_asset: '1.3.0',
+				short_backing_asset: process.env.META1_ASSET_ID,
 			},
 			inProgress: false,
 		};
@@ -394,7 +394,12 @@ export default class CreateMarketModal extends Modal {
 									/>
 								</Tooltip>
 								<AssetSelect
-									assets={['1.3.0', '1.3.113', '1.3.120', '1.3.121']}
+									assets={[
+										process.env.META1_ASSET_ID,
+										'1.3.113',
+										'1.3.120',
+										'1.3.121',
+									]}
 									value={this.state.bitasset_opts.short_backing_asset}
 									onChange={this.handleAssetChange}
 									tabIndex={5}

@@ -51,8 +51,7 @@ const isAccountsListType = checkChainType(ChainTypes.ChainAccountsList);
 const isAssetsListType = checkChainType(ChainTypes.ChainAssetsList);
 const isAccountNameType = checkChainType(ChainTypes.ChainAccountName);
 
-const STORAGE_KEY = '__AuthData__';
-const ss = new ls(STORAGE_KEY);
+const ss = new ls(process.env.AUTH_STORAGE_KEY);
 
 function checkIfRequired(t) {
 	for (let k in ChainTypes) {

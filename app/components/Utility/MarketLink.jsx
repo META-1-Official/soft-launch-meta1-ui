@@ -32,7 +32,7 @@ class MarketLink extends React.Component {
 
 MarketLink = AssetWrapper(MarketLink, {
 	propNames: ['quote', 'base'],
-	defaultProps: {base: '1.3.0'},
+	defaultProps: {base: process.env.META1_ASSET_ID},
 });
 
 /*

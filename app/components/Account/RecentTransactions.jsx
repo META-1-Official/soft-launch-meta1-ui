@@ -294,7 +294,9 @@ class RecentTransactions extends React.Component {
 			'from',
 			'to',
 		];
-		const dynGlobalObject = ChainStore.getObject('2.1.0');
+		const dynGlobalObject = ChainStore.getObject(
+			process.env.DYNAMIC_GLOBAL_PROPERTY
+		);
 
 		if (!dynGlobalObject) return history;
 
@@ -474,7 +476,9 @@ class RecentTransactions extends React.Component {
 			this.props.marketDirections
 		);
 		fee.amount = parseInt(fee.amount, 10);
-		const dynGlobalObject = ChainStore.getObject('2.1.0');
+		const dynGlobalObject = ChainStore.getObject(
+			process.env.DYNAMIC_GLOBAL_PROPERTY
+		);
 		const lastIrreversibleBlockNum = dynGlobalObject.get(
 			'last_irreversible_block_num'
 		);
@@ -913,7 +917,7 @@ class TransactionWrapper extends React.Component {
 	};
 
 	static defaultProps = {
-		asset: '1.3.0',
+		asset: process.env.META1_ASSET_ID,
 	};
 
 	render() {

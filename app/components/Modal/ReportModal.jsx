@@ -110,13 +110,13 @@ class ReportModal extends React.Component {
 						<br />
 						&nbsp;&nbsp;
 						<a
-							href="https://t.me/meta1exchange"
+							href={process.env.TELEGRAM_META1_URL}
 							target="_blank"
 							rel="noopener noreferrer"
 							style={{textAlign: 'center', width: '100%'}}
 							className="external-link"
 						>
-							https://t.me/meta1exchange
+							{process.env.TELEGRAM_META1_URL}
 						</a>
 					</p>
 				);

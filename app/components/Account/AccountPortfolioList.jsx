@@ -53,7 +53,7 @@ class AccountPortfolioList extends React.Component {
 			isWithdrawModalVisibleBefore: false,
 			isBurnModalVisibleBefore: false,
 			borrow: null,
-			settleAsset: '1.3.0',
+			settleAsset: process.env.META1_ASSET_ID,
 			depositAsset: null,
 			withdrawAsset: null,
 			bridgeAsset: null,
@@ -650,7 +650,7 @@ class AccountPortfolioList extends React.Component {
 			let directMarketLink, settleLink, transferLink;
 			let symbol = '';
 			const assetName = asset.get('symbol');
-			const notCore = asset.get('id') !== '1.3.0';
+			const notCore = asset.get('id') !== process.env.META1_ASSET_ID;
 			const notCorePrefUnit = preferredUnit !== coreSymbol;
 			const isPreferred = assetName === preferredUnit;
 
@@ -987,7 +987,7 @@ class AccountPortfolioList extends React.Component {
 					if (e) this.send_modal = e;
 				}}
 				from_name={this.props.account.get('name')}
-				asset_id={this.state.send_asset || '1.3.0'}
+				asset_id={this.state.send_asset || process.env.META1_ASSET_ID}
 			/>
 		);
 	}

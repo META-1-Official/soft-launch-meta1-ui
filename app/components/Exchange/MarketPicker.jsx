@@ -164,7 +164,8 @@ class MarketPickerWrapper extends Component {
 		} else {
 			weight.asset = quote;
 		}
-		if (market.issuerId === '1.2.0') weight.isCommittee = true;
+		if (market.issuerId === process.env.GENESIS_ACCOUNT_ID)
+			weight.isCommittee = true;
 		return weight;
 	}
 

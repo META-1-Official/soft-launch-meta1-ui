@@ -6,8 +6,10 @@ import utils from 'common/utils';
 import counterpart from 'counterpart';
 
 export const HtlcCreate = ({op, block}) => {
-	const globalObject = ChainStore.getObject('2.0.0');
-	const dynGlobalObject = ChainStore.getObject('2.1.0');
+	const globalObject = ChainStore.getObject(process.env.GLOBAL_PROPERTY);
+	const dynGlobalObject = ChainStore.getObject(
+		process.env.DYNAMIC_GLOBAL_PROPERTY
+	);
 	let block_time = utils.calc_block_time(block, globalObject, dynGlobalObject);
 	let estimated = false;
 	if (!block_time) {
@@ -45,7 +47,8 @@ export const HtlcCreate = ({op, block}) => {
 							type: 'amount',
 							value: op[1].amount,
 							arg: 'amount',
-							decimalOffset: op[1].amount.asset_id === '1.3.0' ? 5 : null,
+							decimalOffset:
+								op[1].amount.asset_id === process.env.META1_ASSET_ID ? 5 : null,
 						},
 						{
 							type: 'account',

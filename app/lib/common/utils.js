@@ -144,9 +144,9 @@ var Utils = {
 			'1.3.113': 5, // bitCNY
 			'1.3.121': 5, // bitUSD
 		};
-		if (quoteID === '1.3.0') {
+		if (quoteID === process.env.META1_ASSET_ID) {
 			priceText = this.format_number(price, quotePrecision);
-		} else if (baseID === '1.3.0') {
+		} else if (baseID === process.env.META1_ASSET_ID) {
 			priceText = this.format_number(
 				price,
 				Math.min(maxDecimals, quotePrecision + 2)
@@ -454,7 +454,7 @@ var Utils = {
 		const isBitAsset =
 			asset.get('bitasset') &&
 			!asset.getIn(['bitasset', 'is_prediction_market']) &&
-			asset.get('issuer') === '1.2.0';
+			asset.get('issuer') === process.env.GENESIS_ACCOUNT_ID;
 
 		let toReplace = getAssetNamespaces();
 		let suffix = '';

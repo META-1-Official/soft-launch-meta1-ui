@@ -32,7 +32,7 @@ class AccountVoting extends React.Component {
 	};
 
 	static defaultProps = {
-		globalObject: '2.0.0',
+		globalObject: process.env.GLOBAL_PROPERTY,
 	};
 
 	constructor(props) {
@@ -565,7 +565,8 @@ class AccountVoting extends React.Component {
 			filterSearch,
 		} = this.state;
 		const accountHasProxy = !!prev_proxy_account_id;
-		let preferredUnit = this.props.settings.get('unit') || '1.3.0';
+		let preferredUnit =
+			this.props.settings.get('unit') || process.env.META1_ASSET_ID;
 		let hasProxy = !!this.state.proxy_account_id; // this.props.account.getIn(["options", "voting_account"]) !== "1.2.5";
 		let publish_buttons_class = cnames('button', {
 			disabled: !this.isChanged(),
@@ -904,7 +905,7 @@ class AccountVoting extends React.Component {
 												decimalOffset={4}
 												hide_asset
 												amount={voteThreshold}
-												asset="1.3.0"
+												asset={process.env.META1_ASSET_ID}
 											/>
 										</Col>
 									</Row>
@@ -922,7 +923,7 @@ class AccountVoting extends React.Component {
 											{globalObject ? (
 												<EquivalentValueComponent
 													hide_asset
-													fromAsset="1.3.0"
+													fromAsset={process.env.META1_ASSET_ID}
 													toAsset={preferredUnit}
 													amount={totalBudget}
 												/>

@@ -46,7 +46,8 @@ class DirectDebitModal extends React.Component {
 			error: null,
 			feeAsset: null,
 			fee_asset_id:
-				ChainStore.assets_by_symbol.get(this.props.fee_asset_symbol) || '1.3.0',
+				ChainStore.assets_by_symbol.get(this.props.fee_asset_symbol) ||
+				process.env.META1_ASSET_ID,
 			feeAmount: new Asset({amount: 0}),
 			feeStatus: {},
 			maxAmount: false,

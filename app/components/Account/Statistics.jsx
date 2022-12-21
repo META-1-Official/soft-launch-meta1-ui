@@ -20,7 +20,7 @@ class Statistics extends React.Component {
 					<td>
 						<FormattedAsset
 							amount={parseFloat(stat_object.lifetime_fees_paid)}
-							asset="1.3.0"
+							asset={process.env.META1_ASSET_ID}
 						/>
 					</td>
 				</tr>

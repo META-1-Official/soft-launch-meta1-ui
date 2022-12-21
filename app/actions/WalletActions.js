@@ -2,7 +2,7 @@ import WalletDb from 'stores/WalletDb';
 import WalletUnlockActions from 'actions/WalletUnlockActions';
 import CachedPropertyActions from 'actions/CachedPropertyActions';
 import ApplicationApi from 'api/ApplicationApi';
-import axios from 'axios';
+import Axios from 'axios';
 import {TransactionBuilder, FetchChain} from 'meta1-vision-js';
 import {Apis, ChainConfig} from 'meta1-vision-ws';
 import alt from 'alt-instance';
@@ -130,7 +130,7 @@ class WalletActions {
 					faucetAddress = faucetAddress.replace(/http:\/\//, 'https://');
 				}
 
-				let create_account_promise = axios({
+				let create_account_promise = Axios({
 					url: faucetAddress + '/api/v1/accounts',
 					method: 'post',
 					headers: {
@@ -377,7 +377,7 @@ class WalletActions {
 		}
 
 		tr.add_type_operation('vesting_balance_withdraw', {
-			fee: {amount: '0', asset_id: '1.3.0'},
+			fee: {amount: '0', asset_id: process.env.META1_ASSET_ID},
 			owner: account,
 			vesting_balance: vb.id,
 			amount: {
@@ -444,7 +444,7 @@ class WalletActions {
 
 							signer_pubkeys[public_key_string] = true;
 							balance_claims.push({
-								fee: {amount: '0', asset_id: '1.3.0'},
+								fee: {amount: '0', asset_id: process.env.META1_ASSET_ID},
 								deposit_to_account: account.get('id'),
 								balance_to_claim: balance.id,
 								balance_owner_key: public_key_string,

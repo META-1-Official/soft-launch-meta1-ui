@@ -23,7 +23,7 @@ class AccountTreemap extends React.Component {
 
 	static defaultProps = {
 		assets: [],
-		preferredAsset: '1.3.0',
+		preferredAsset: process.env.META1_ASSET_ID,
 	};
 
 	// shouldComponentUpdate(nextProps) {
@@ -226,7 +226,7 @@ class AccountTreemapBalanceWrapper extends React.Component {
 
 	static defaultProps = {
 		balanceObjects: [],
-		core_asset: '1.3.0',
+		core_asset: process.env.META1_ASSET_ID,
 	};
 
 	render() {
@@ -237,7 +237,10 @@ class AccountTreemapBalanceWrapper extends React.Component {
 			});
 		return (
 			<AccountTreemap
-				preferredAsset={this.props.settings.get('unit', '1.3.0')}
+				preferredAsset={this.props.settings.get(
+					'unit',
+					process.env.META1_ASSET_ID
+				)}
 				assets={assets}
 				{...this.props}
 			/>

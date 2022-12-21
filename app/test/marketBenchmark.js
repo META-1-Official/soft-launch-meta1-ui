@@ -1,10 +1,14 @@
 var Benchmark = require('benchmark');
 var marketClasses = require('./MarketClasses');
 
-const asset1 = {asset_id: '1.3.0', precision: 5};
+const asset1 = {asset_id: process.env.META1_ASSET_ID, precision: 5};
 const asset2 = {asset_id: '1.3.121', precision: 4}; // bitUSD
 const asset3 = {asset_id: '1.3.113', precision: 4}; // bitCNY
-const assets = {'1.3.0': asset1, '1.3.121': asset2, '1.3.113': asset3};
+const assets = {
+	[process.env.META1_ASSET_ID]: asset1,
+	'1.3.121': asset2,
+	'1.3.113': asset3,
+};
 
 /* marketClasses.Asset creation */
 let suite = new Benchmark.Suite();
@@ -50,7 +54,10 @@ let base = new marketClasses.Asset({
 	amount: 36,
 	precision: 4,
 });
-let quote = new marketClasses.Asset({asset_id: '1.3.0', amount: 86275});
+let quote = new marketClasses.Asset({
+	asset_id: process.env.META1_ASSET_ID,
+	amount: 86275,
+});
 
 suite = new Benchmark.Suite();
 
@@ -68,7 +75,7 @@ suite
 	.add('FeedPrice#from_sats', function () {
 		new marketClasses.FeedPrice({
 			priceObject: {base: base, quote: quote},
-			market_base: '1.3.0',
+			market_base: process.env.META1_ASSET_ID,
 			sqr: 1100,
 			assets: assets,
 		});

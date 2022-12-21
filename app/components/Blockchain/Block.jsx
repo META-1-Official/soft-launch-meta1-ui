@@ -45,7 +45,7 @@ class Block extends React.Component {
 	};
 
 	static defaultProps = {
-		dynGlobalObject: '2.1.0',
+		dynGlobalObject: process.env.DYNAMIC_GLOBAL_PROPERTY,
 		blocks: {},
 		height: 1,
 	};

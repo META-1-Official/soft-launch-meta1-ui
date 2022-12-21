@@ -65,7 +65,7 @@ class PriceInput extends React.Component {
 PriceInput = AssetWrapper(PriceInput, {
 	propNames: ['quote', 'base'],
 	defaultProps: {
-		base: '1.3.0',
+		base: process.env.META1_ASSET_ID,
 	},
 });
 

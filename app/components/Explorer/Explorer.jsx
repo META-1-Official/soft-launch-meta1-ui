@@ -10,8 +10,7 @@ import MarketsContainer from '../Exchange/MarketsContainer';
 import {Tabs} from 'antd';
 import ls from '../../lib/common/localStorage';
 
-const STORAGE_KEY = '__AuthData__';
-const ss = new ls(STORAGE_KEY);
+const ss = new ls(process.env.AUTH_STORAGE_KEY);
 
 class Explorer extends React.Component {
 	constructor(props) {

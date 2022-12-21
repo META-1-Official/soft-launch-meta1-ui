@@ -187,7 +187,7 @@ class VotingAccountsList extends React.Component {
 						>
 							<FormattedAsset
 								amount={item}
-								asset="1.3.0"
+								asset={process.env.META1_ASSET_ID}
 								decimalOffset={5}
 								hide_asset
 							/>

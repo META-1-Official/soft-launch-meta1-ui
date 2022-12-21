@@ -332,7 +332,8 @@ export default connect(FeeAssetSelector, {
 	getProps() {
 		return {
 			defaultFeeAsset:
-				SettingsStore.getState().settings.get('fee_asset') || '1.3.0',
+				SettingsStore.getState().settings.get('fee_asset') ||
+				process.env.META1_ASSET_ID,
 		};
 	},
 });

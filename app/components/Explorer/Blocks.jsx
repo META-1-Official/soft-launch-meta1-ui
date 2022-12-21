@@ -72,8 +72,8 @@ class Blocks extends React.Component {
 	};
 
 	static defaultProps = {
-		globalObject: '2.0.0',
-		dynGlobalObject: '2.1.0',
+		globalObject: process.env.GLOBAL_PROPERTY,
+		dynGlobalObject: process.env.DYNAMIC_GLOBAL_PROPERTY,
 		latestBlocks: {},
 		assets: {},
 		accounts: {},
@@ -299,7 +299,7 @@ class Blocks extends React.Component {
 									block={trx.block_num}
 									hideFee={true}
 									hideOpLabel={false}
-									current={'1.2.0'}
+									current={process.env.GENESIS_ACCOUNT_ID}
 									hideDate
 									hidePending
 								/>

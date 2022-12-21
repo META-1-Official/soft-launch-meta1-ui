@@ -57,7 +57,9 @@ function AssetWrapper(Component, options = {}) {
 
 	let defaultProps = Object.keys(finalPropTypes).reduce((res, key) => {
 		let current = options.defaultProps && options.defaultProps[key];
-		res[key] = !!options.asList ? List(current || []) : current || '1.3.0';
+		res[key] = !!options.asList
+			? List(current || [])
+			: current || process.env.META1_ASSET_ID;
 		return res;
 	}, {});
 

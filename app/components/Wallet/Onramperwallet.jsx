@@ -11,7 +11,7 @@ const Onramperwallet = () => {
 	const apiKey = 'pk_prod_k6LKERIMdGDE8geCxOApKSCy6mnfF5CuhI4TLZj55Wc0';
 	const onlyCryptos = 'BTC,ETH,USDT,LTC,XLM';
 	const onlyFiat = 'USD,EUR';
-	const baseURL = 'https://widget.onramper.com/';
+	const baseURL = process.env.ONRAMPER_WIDGET_URL;
 	const title = 'META1';
 
 	return (

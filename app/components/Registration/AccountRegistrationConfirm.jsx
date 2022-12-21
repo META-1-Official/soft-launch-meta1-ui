@@ -11,7 +11,7 @@ import TransactionConfirmStore from 'stores/TransactionConfirmStore';
 import Translate from 'react-translate-component';
 import {FetchChain, ChainStore} from 'meta1-vision-js/es';
 import WalletUnlockActions from 'actions/WalletUnlockActions';
-import axios from 'axios';
+import Axios from 'axios';
 import Icon from 'components/Icon/Icon';
 import {Button, Input, Checkbox, Form, Alert, Modal, Typography} from 'antd';
 import CopyButton from '../Utility/CopyButton';
@@ -27,8 +27,7 @@ import {
 	_createPaperWalletAsPDFNew,
 } from 'lib/common/paperWallet';
 
-const STORAGE_KEY = '__AuthData__';
-const ss = new ls(STORAGE_KEY);
+const ss = new ls(process.env.AUTH_STORAGE_KEY);
 const {Title} = Typography;
 class AccountRegistrationConfirm extends React.Component {
 	static propTypes = {
@@ -109,7 +108,7 @@ class AccountRegistrationConfirm extends React.Component {
 
 	async verifyESign(email) {
 		try {
-			const response = await axios({
+			const response = await Axios({
 				url: process.env.ESIGNATURE_URL + '/apiewallet/users',
 				method: 'get',
 				headers: {
@@ -159,7 +158,7 @@ class AccountRegistrationConfirm extends React.Component {
 
 		// getting token
 		let token;
-		const response_token = await axios({
+		const response_token = await Axios({
 			url: process.env.ESIGNATURE_URL + '/apiewallet/sign/token',
 			method: 'get',
 			headers: {
@@ -175,7 +174,7 @@ class AccountRegistrationConfirm extends React.Component {
 		}
 
 		// getting user profile
-		const response_user = await axios({
+		const response_user = await Axios({
 			url: process.env.ESIGNATURE_URL + '/apiewallet/users',
 			method: 'get',
 			headers: {
@@ -201,8 +200,8 @@ class AccountRegistrationConfirm extends React.Component {
 		}
 
 		// appeding wallet name to the user wallet list.
-		const res_update = await axios.patch(
-			`${process.env.ESIGNATURE_URL}/apiewallet/users/update?email=${this.state.email}`,
+		const res_update = await Axios.patch(
+			`${process.env.ESIGNATURE_URL}/apiewallet/users/update?email=${email}`,
 			{member1Name},
 			{
 				headers: {
@@ -320,11 +319,10 @@ class AccountRegistrationConfirm extends React.Component {
 			WalletUnlockActions.cancel();
 		}
 
-		axios
-			.post(process.env.LITE_WALLET_URL + '/login', {
-				accountName: account,
-				email: this.state.email,
-			})
+		Axios.post(process.env.LITE_WALLET_URL + '/login', {
+			accountName: account,
+			email: this.state.email,
+		})
 			.then((response) => {
 				toast('Success');
 				console.log('LW login response', response); // DEBUG
@@ -393,7 +391,7 @@ class AccountRegistrationConfirm extends React.Component {
 			const {accountName} = this.props;
 			let token;
 			try {
-				const response = await axios({
+				const response = await Axios({
 					url: process.env.ESIGNATURE_URL + '/apiewallet/sign/token',
 					method: 'get',
 					headers: {
@@ -1212,7 +1210,7 @@ class AccountRegistrationConfirm extends React.Component {
 						more info{' '}
 						<a
 							target="__blank"
-							href="https://support.meta1coin.vision/password-storage-tips"
+							href={`${process.env.SUPPORT_META1_URL}/password-storage-tips`}
 						>
 							here
 						</a>

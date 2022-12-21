@@ -57,7 +57,7 @@ class SettleOrderRow extends React.Component {
 		let {base, quote, order, showSymbols} = this.props;
 
 		let price =
-			base.get('id') == '1.3.0'
+			base.get('id') == process.env.META1_ASSET_ID
 				? order.getPrice() / (1 + order.offset_percent / 10000)
 				: order.getPrice() * (1 + order.offset_percent / 10000);
 		let amountSymbol = showSymbols ? ' ' + quote.get('symbol') : null;

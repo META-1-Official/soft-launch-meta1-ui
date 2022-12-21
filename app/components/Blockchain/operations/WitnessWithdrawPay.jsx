@@ -17,7 +17,7 @@ export const WitnessWithdrawPay = ({
 					<FormattedAsset
 						style={{fontWeight: 'bold'}}
 						amount={op[1].amount}
-						asset={'1.3.0'}
+						asset={process.env.META1_ASSET_ID}
 					/>
 					<Translate component="span" content="proposal.to" />
 					&nbsp;
@@ -32,7 +32,7 @@ export const WitnessWithdrawPay = ({
 					<FormattedAsset
 						style={{fontWeight: 'bold'}}
 						amount={op[1].amount}
-						asset={'1.3.0'}
+						asset={process.env.META1_ASSET_ID}
 					/>
 					<Translate component="span" content="proposal.from" />
 					&nbsp;
@@ -46,7 +46,10 @@ export const WitnessWithdrawPay = ({
 				<span>
 					<Translate component="span" content="transaction.witness_pay" />
 					&nbsp;
-					<FormattedAsset amount={op[1].amount} asset={'1.3.0'} />
+					<FormattedAsset
+						amount={op[1].amount}
+						asset={process.env.META1_ASSET_ID}
+					/>
 					<Translate component="span" content="transaction.to" />
 					&nbsp;
 					{linkToAccount(op[1].witness_account)}
@@ -57,7 +60,10 @@ export const WitnessWithdrawPay = ({
 				<span>
 					<Translate component="span" content="transaction.received" />
 					&nbsp;
-					<FormattedAsset amount={op[1].amount} asset={'1.3.0'} />
+					<FormattedAsset
+						amount={op[1].amount}
+						asset={process.env.META1_ASSET_ID}
+					/>
 					<Translate component="span" content="transaction.from" />
 					&nbsp;
 					{linkToAccount(op[1].witness_account)}

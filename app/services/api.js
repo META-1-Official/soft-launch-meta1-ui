@@ -1,22 +1,22 @@
-import axios from 'axios';
+import Axios from 'axios';
 
-const faceKIApi = axios.create({
+const faceKIApi = Axios.create({
 	baseURL: `${process.env.LITE_WALLET_URL}`,
 });
 
-const kycApi = axios.create({
+const kycApi = Axios.create({
 	baseURL: `${process.env.ESIGNATURE_URL}/apiewallet`,
 });
 
-const explorerApi = axios.create({
+const explorerApi = Axios.create({
 	baseURL: `${process.env.EXPLORER_META1_URL}/api`,
 });
 
-const backUrlApi = axios.create({
+const backUrlApi = Axios.create({
 	baseURL: `${process.env.LITE_WALLET_URL}`,
 });
 
-const migrationApi = axios.create({
+const migrationApi = Axios.create({
 	baseURL: `${process.env.LITE_WALLET_URL}`,
 });
 

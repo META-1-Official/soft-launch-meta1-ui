@@ -62,8 +62,8 @@ class EquivalentPrice extends MarketStatsCheck {
 EquivalentPrice = AssetWrapper(EquivalentPrice, {
 	propNames: ['toAsset', 'fromAsset', 'coreAsset'],
 	defaultProps: {
-		toAsset: '1.3.0',
-		coreAsset: '1.3.0',
+		toAsset: process.env.META1_ASSET_ID,
+		coreAsset: process.env.META1_ASSET_ID,
 	},
 });
 
@@ -76,7 +76,10 @@ export default class EquivalentPriceWrapper extends React.Component {
 					toAsset: () => {
 						return (
 							this.props.toAsset ||
-							SettingsStore.getState().settings.get('unit', '1.3.0')
+							SettingsStore.getState().settings.get(
+								'unit',
+								process.env.META1_ASSET_ID
+							)
 						);
 					},
 					allMarketStats: () => {

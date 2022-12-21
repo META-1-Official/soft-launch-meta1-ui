@@ -18,7 +18,7 @@ class FeeHelp extends React.Component {
 		dprops: ChainTypes.ChainObject.isRequired,
 	};
 	static defaultProps = {
-		dprops: '2.1.0',
+		dprops: process.env.DYNAMIC_GLOBAL_PROPERTY,
 	};
 
 	render() {
@@ -45,8 +45,8 @@ class AccountMembership extends React.Component {
 		core_asset: ChainTypes.ChainAsset.isRequired,
 	};
 	static defaultProps = {
-		gprops: '2.0.0',
-		core_asset: '1.3.0',
+		gprops: process.env.GLOBAL_PROPERTY,
+		core_asset: process.env.META1_ASSET_ID,
 	};
 
 	upgradeAccount(id, lifetime, e) {

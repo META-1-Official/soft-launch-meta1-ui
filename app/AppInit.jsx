@@ -17,7 +17,7 @@ import InitError from './components/InitError';
 import SyncError from './components/SyncError';
 import counterpart from 'counterpart';
 import LogsActions from 'actions/LogsActions';
-import axios from 'axios';
+import Axios from 'axios';
 import ls from './lib/common/localStorage';
 /*
  * Electron does not support browserHistory, so we need to use hashHistory.
@@ -27,8 +27,7 @@ import {Router} from 'react-router-dom';
 import history from 'lib/common/history';
 import BodyClassName from 'components/BodyClassName';
 
-const STORAGE_KEY = '__AuthData__';
-const ss = new ls(STORAGE_KEY);
+const ss = new ls(process.env.AUTH_STORAGE_KEY);
 
 class RootIntl extends React.Component {
 	componentWillMount() {
@@ -193,8 +192,7 @@ class AppInit extends React.Component {
 					Authorization: `Bearer ${token}`,
 				},
 			};
-			axios
-				.post(process.env.LITE_WALLET_URL + '/verifyToken', {}, config)
+			Axios.post(process.env.LITE_WALLET_URL + '/verifyToken', {}, config)
 				.then((response) => {})
 				.catch((error) => {
 					console.log('error', error);

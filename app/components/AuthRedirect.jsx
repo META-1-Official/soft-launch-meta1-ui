@@ -4,7 +4,7 @@ import {connect} from 'alt-react';
 import {ChainStore} from 'meta1-vision-js';
 import {PrivateKey, FetchChain, key} from 'meta1-vision-js/es';
 import qs from 'qs';
-import axios from 'axios';
+import Axios from 'axios';
 import {Helmet} from 'react-helmet';
 import {Modal} from 'antd';
 import AuthStore from '../stores/AuthStore';
@@ -23,8 +23,7 @@ import {Form, Input, Button, Tooltip} from 'antd';
 import {toast} from 'react-toastify';
 const OvalImage = require('assets/oval/oval.png');
 
-const STORAGE_KEY = '__AuthData__';
-const ss = new ls(STORAGE_KEY);
+const ss = new ls(process.env.AUTH_STORAGE_KEY);
 
 class AuthRedirect extends React.Component {
 	constructor() {
@@ -208,25 +207,23 @@ class AuthRedirect extends React.Component {
 		if (this.state.faceKISuccess === true) {
 			try {
 				const email = authData.email;
-				axios
-					.post(process.env.LITE_WALLET_URL + '/login', {
-						accountName: accountName,
-						email: email,
-					})
-					.then((response) => {
-						console.log('LW login response', response); // DEBUG
-						this.setState({webcamEnabled: false});
-						ss.set('account_login_name', response.data['accountName']);
-						ss.set('account_login_token', response.data['token']);
-						WalletUnlockActions.unlock_v2().finally(() => {
+				Axios.post(process.env.LITE_WALLET_URL + '/login', {
+					accountName: accountName,
+					email: email,
+				}).then((response) => {
+					console.log('LW login response', response); // DEBUG
+					this.setState({webcamEnabled: false});
+					ss.set('account_login_name', response.data['accountName']);
+					ss.set('account_login_token', response.data['token']);
+					WalletUnlockActions.unlock_v2().finally(() => {
+						this.props.history.push('/market/META1_USDT');
+					});
+					setTimeout(() => {
+						WalletUnlockActions.lock_v2().finally(() => {
 							this.props.history.push('/market/META1_USDT');
 						});
-						setTimeout(() => {
-							WalletUnlockActions.lock_v2().finally(() => {
-								this.props.history.push('/market/META1_USDT');
-							});
-						}, 24 * 60 * 60 * 1000); // Auto timeout in 24 hrs
-					});
+					}, 24 * 60 * 60 * 1000); // Auto timeout in 24 hrs
+				});
 			} catch (err) {
 				console.log('Error in e-sign token generation', err);
 			}

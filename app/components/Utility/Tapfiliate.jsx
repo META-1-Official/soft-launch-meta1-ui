@@ -5,8 +5,7 @@ import Tap from '@tapfiliate/tapfiliate-js';
 
 import ls from 'lib/common/localStorage';
 
-const STORAGE_KEY = '__AuthData__';
-const ss = new ls(STORAGE_KEY);
+const ss = new ls(process.env.AUTH_STORAGE_KEY);
 
 // track customer
 export const checkCustomer = (customerId) => {
@@ -25,7 +24,9 @@ export const checkConversion = (o, referred_user) => {
 		'asset_price_publish_operation'
 	);
 
-	const dynGlobalObject = ChainStore.getObject('2.1.0');
+	const dynGlobalObject = ChainStore.getObject(
+		process.env.DYNAMIC_GLOBAL_PROPERTY
+	);
 	const lastIrreversibleBlockNum = dynGlobalObject.get(
 		'last_irreversible_block_num'
 	);
@@ -64,7 +65,8 @@ export const checkConversion = (o, referred_user) => {
 
 	if (referred_user === info[2].details.name && info[1].details.symbol) {
 		const precision = utils.get_asset_precision(info[1].details.precision);
-		const decimalOffset = o.op[1].amount.asset_id.asset_id === '1.3.0' ? 5 : 0;
+		const decimalOffset =
+			o.op[1].amount.asset_id.asset_id === process.env.META1_ASSET_ID ? 5 : 0;
 		const decimals = Math.max(0, precision - decimalOffset);
 
 		Tap.conversion(`${o.id}`, info[1].value.amount / decimals, {

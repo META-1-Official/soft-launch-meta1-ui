@@ -31,8 +31,7 @@ import ChartjsAreaChart from '../Graph/Graph';
 import ls from '../../lib/common/localStorage';
 import history from 'lib/common/history';
 
-const STORAGE_KEY = '__AuthData__';
-const ss = new ls(STORAGE_KEY);
+const ss = new ls(process.env.AUTH_STORAGE_KEY);
 
 const bnbIcon = require('assets/explorer/BNB_new.png');
 const eosIcon = require('assets/explorer/EOS_new.png');

@@ -51,9 +51,7 @@ import ls, {
 import Translate from 'react-translate-component';
 import Icon from '../Icon/Icon';
 
-const STORAGE_KEY = '__AuthData__';
-
-const ss = new ls(STORAGE_KEY);
+const ss = new ls(process.env.AUTH_STORAGE_KEY);
 const {Text, Title} = Typography;
 class WalletUnlockModal extends React.Component {
 	constructor(props) {

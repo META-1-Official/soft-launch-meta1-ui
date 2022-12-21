@@ -241,7 +241,7 @@ SetDefaultFeeAssetModal.defaultProps = {
 	asset_types: [],
 	displayFees: false,
 	forceDefault: false,
-	current_asset: '1.3.0',
+	current_asset: process.env.META1_ASSET_ID,
 	show: false,
 };
 

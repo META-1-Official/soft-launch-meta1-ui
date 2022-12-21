@@ -18,8 +18,7 @@ import history from '../../lib/common/history'; // lib/common/history';
 import AccountStore from '../../stores/AccountStore';
 import ls from '../../lib/common/localStorage';
 
-const STORAGE_KEY = '__AuthData__';
-const ss = new ls(STORAGE_KEY);
+const ss = new ls(process.env.AUTH_STORAGE_KEY);
 
 const {Sider} = Layout;
 

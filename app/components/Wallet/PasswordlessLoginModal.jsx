@@ -16,9 +16,7 @@ import {withRouter} from 'react-router-dom';
 import ls from 'lib/common/localStorage';
 import {MailOutlined} from '@ant-design/icons';
 
-const STORAGE_KEY = '__AuthData__';
-
-const ss = new ls(STORAGE_KEY);
+const ss = new ls(process.env.AUTH_STORAGE_KEY);
 const {Text, Title} = Typography;
 
 class PasswordlessLoginModal extends React.Component {

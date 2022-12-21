@@ -330,7 +330,7 @@ class ProposalWrapper extends React.Component {
 	static defaultProps = {
 		type: 'active',
 		added: null,
-		globalObject: '2.0.0',
+		globalObject: process.env.GLOBAL_PROPERTY,
 	};
 
 	render() {

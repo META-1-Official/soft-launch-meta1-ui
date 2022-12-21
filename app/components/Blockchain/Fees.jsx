@@ -39,7 +39,7 @@ class FeeGroup extends React.Component {
 	};
 
 	static defaultProps = {
-		globalObject: '2.0.0',
+		globalObject: process.env.GLOBAL_PROPERTY,
 	};
 
 	constructor(props) {
@@ -53,7 +53,7 @@ class FeeGroup extends React.Component {
 	render() {
 		let {globalObject, settings, opIds, title} = this.props;
 		globalObject = globalObject.toJSON();
-		const core_asset = ChainStore.getAsset('1.3.0');
+		const core_asset = ChainStore.getAsset(process.env.META1_ASSET_ID);
 
 		let current_fees = globalObject.parameters.current_fees;
 		let network_fee = globalObject.parameters.network_percent_of_fee / 1e4;
@@ -95,13 +95,13 @@ class FeeGroup extends React.Component {
 				let amountForLTM = amount * feeRateForLTM;
 				let feeTypes = counterpart.translate('transaction.feeTypes');
 				let assetAmount = amount ? (
-					<FormattedAsset amount={amount} asset="1.3.0" />
+					<FormattedAsset amount={amount} asset={process.env.META1_ASSET_ID} />
 				) : (
 					feeTypes['_none']
 				);
 				let equivalentAmount = amount ? (
 					<EquivalentValueComponent
-						fromAsset="1.3.0"
+						fromAsset={process.env.META1_ASSET_ID}
 						fullPrecision={true}
 						amount={amount}
 						toAsset={preferredUnit}
@@ -111,13 +111,16 @@ class FeeGroup extends React.Component {
 					feeTypes['_none']
 				);
 				let assetAmountLTM = amountForLTM ? (
-					<FormattedAsset amount={amountForLTM} asset="1.3.0" />
+					<FormattedAsset
+						amount={amountForLTM}
+						asset={process.env.META1_ASSET_ID}
+					/>
 				) : (
 					feeTypes['_none']
 				);
 				let equivalentAmountLTM = amountForLTM ? (
 					<EquivalentValueComponent
-						fromAsset="1.3.0"
+						fromasset={process.env.META1_ASSET_ID}
 						fullPrecision={true}
 						amount={amountForLTM}
 						toAsset={preferredUnit}

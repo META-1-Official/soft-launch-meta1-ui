@@ -108,7 +108,11 @@ class CommitteeMemberList extends React.Component {
 				title: 'VOTES',
 				dataIndex: 'votes',
 				render: (item) => (
-					<FormattedAsset amount={item} asset="1.3.0" decimalOffset={5} />
+					<FormattedAsset
+						amount={item}
+						asset={process.env.META1_ASSET_ID}
+						decimalOffset={5}
+					/>
 				),
 				sorter: (a, b) => {
 					return a.votes > b.votes ? 1 : a.votes < b.votes ? -1 : 0;
@@ -141,7 +145,7 @@ class CommitteeMembers extends React.Component {
 	};
 
 	static defaultProps = {
-		globalObject: '2.0.0',
+		globalObject: process.env.GLOBAL_PROPERTY,
 	};
 
 	constructor(props) {

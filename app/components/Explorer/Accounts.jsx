@@ -215,7 +215,10 @@ class Accounts extends React.Component {
 							currentAccount = ChainStore.getAccount(id.toLowerCase());
 
 							let balance = currentAccount
-								? currentAccount.getIn(['balances', '1.3.0']) || null
+								? currentAccount.getIn([
+										'balances',
+										process.env.META1_ASSET_ID,
+								  ]) || null
 								: null;
 
 							dataSource.push({
@@ -228,7 +231,10 @@ class Accounts extends React.Component {
 						}, 1000);
 					} else {
 						let balance = currentAccount
-							? currentAccount.getIn(['balances', '1.3.0']) || null
+							? currentAccount.getIn([
+									'balances',
+									process.env.META1_ASSET_ID,
+							  ]) || null
 							: null;
 						dataSource.push({
 							accountId: id,

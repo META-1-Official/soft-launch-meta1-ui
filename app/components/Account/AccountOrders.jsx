@@ -144,7 +144,7 @@ class AccountOrders extends React.Component {
 					marketDirection: direction,
 					preferredUnit: this.props.settings
 						? this.props.settings.get('unit')
-						: '1.3.0',
+						: process.env.META1_ASSET_ID,
 					quoteColor: !isBid ? 'value negative' : 'value positive',
 					baseColor: isBid ? 'value negative' : 'value positive',
 				};

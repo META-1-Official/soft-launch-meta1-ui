@@ -425,7 +425,7 @@ class ModalContent extends React.Component {
 ModalContent = AssetWrapper(ModalContent, {
 	propNames: ['asset', 'core'],
 	withDynamic: true,
-	defaultProps: {core: '2.0.0'},
+	defaultProps: {core: process.env.GLOBAL_PROPERTY},
 });
 
 class SettleModal extends React.Component {

@@ -32,24 +32,30 @@ export default class AccountUtils {
 	}
 
 	static getPossibleFees(account, operation) {
-		let core = ChainStore.getAsset('1.3.0');
+		let core = ChainStore.getAsset(process.env.META1_ASSET_ID);
 		account =
 			!account || account.toJS ? account : ChainStore.getAccount(account);
 
 		if (!account || !core) {
-			return {assets: ['1.3.0'], fees: {'1.3.0': 0}};
+			return {
+				assets: [process.env.META1_ASSET_ID],
+				fees: {[process.env.META1_ASSET_ID]: 0},
+			};
 		}
 
 		let assets = [],
 			fees = {};
 
-		let globalObject = ChainStore.getObject('2.0.0');
+		let globalObject = ChainStore.getObject(process.env.GLOBAL_PROPERTY);
 
 		let fee = estimateFee(operation, null, globalObject);
 
 		let accountBalances = account.get('balances');
 		if (!accountBalances) {
-			return {assets: ['1.3.0'], fees: {'1.3.0': 0}};
+			return {
+				assets: [process.env.META1_ASSET_ID],
+				fees: {[process.env.META1_ASSET_ID]: 0},
+			};
 		}
 
 		accountBalances.forEach((balanceID, assetID) => {
@@ -60,7 +66,7 @@ export default class AccountUtils {
 			let hasBalance = false,
 				eqFee;
 
-			if (assetID === '1.3.0' && balance >= fee) {
+			if (assetID === process.env.META1_ASSET_ID && balance >= fee) {
 				hasBalance = true;
 			} else if (balance && ChainStore.getAsset(assetID)) {
 				let asset = ChainStore.getAsset(assetID);
@@ -88,7 +94,11 @@ export default class AccountUtils {
 		return {assets, fees};
 	}
 
-	static getFinalFeeAsset(account, operation, fee_asset_id = '1.3.0') {
+	static getFinalFeeAsset(
+		account,
+		operation,
+		fee_asset_id = process.env.META1_ASSET_ID
+	) {
 		let {assets: feeAssets} = this.getPossibleFees(account, operation);
 		if (feeAssets.length === 1) {
 			fee_asset_id = feeAssets[0];
@@ -116,7 +126,7 @@ export default class AccountUtils {
 		let prevTotal = 0;
 
 		let allMarketStats = MarketsStore.getState().allMarketStats;
-		let coreAsset = ChainStore.getAsset('1.3.0');
+		let coreAsset = ChainStore.getAsset(process.env.META1_ASSET_ID);
 		let toAsset = ChainStore.getAsset(preferredUnit);
 
 		if (!coreAsset || !toAsset) {
@@ -158,7 +168,7 @@ export default class AccountUtils {
 		let total = 0;
 
 		let allMarketStats = MarketsStore.getState().allMarketStats;
-		let coreAsset = ChainStore.getAsset('1.3.0');
+		let coreAsset = ChainStore.getAsset(process.env.META1_ASSET_ID);
 		let toAsset = ChainStore.getAsset(preferredUnit);
 
 		if (!coreAsset || !toAsset) {
@@ -193,7 +203,7 @@ export default class AccountUtils {
 		let fromAsset = ChainStore.getAsset(fromAssetID);
 		let toAsset = ChainStore.getAsset('USDT');
 		let allMarketStats = MarketsStore.getState().allMarketStats;
-		let coreAsset = ChainStore.getAsset('1.3.0');
+		let coreAsset = ChainStore.getAsset(process.env.META1_ASSET_ID);
 
 		if (!coreAsset) {
 			return 0;

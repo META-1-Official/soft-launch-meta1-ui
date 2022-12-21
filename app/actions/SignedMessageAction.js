@@ -182,9 +182,9 @@ class SignedMessageAction {
 							}
 						}
 						// get other meta data
-						let irr_block = ChainStore.getObject('2.1.0').get(
-							'last_irreversible_block_num'
-						);
+						let irr_block = ChainStore.getObject(
+							process.env.DYNAMIC_GLOBAL_PROPERTY
+						).get('last_irreversible_block_num');
 						let now = new Date();
 
 						let meta =

@@ -114,7 +114,11 @@ export default class ExchangeHeader extends React.Component {
 		const baseId = baseAsset.get('id');
 
 		const lookForBitAsset =
-			quoteId === '1.3.0' ? baseId : baseId === '1.3.0' ? quoteId : null;
+			quoteId === process.env.META1_ASSET_ID
+				? baseId
+				: baseId === process.env.META1_ASSET_ID
+				? quoteId
+				: null;
 		const possibleBitAsset = lookForBitAsset
 			? ChainStore.getAsset(lookForBitAsset)
 			: null;
@@ -146,9 +150,9 @@ export default class ExchangeHeader extends React.Component {
 
 			/* Settlment Offset */
 			let settleAsset =
-				baseId == '1.3.0'
+				baseId == process.env.META1_ASSET_ID
 					? quoteAsset
-					: quoteId == '1.3.0'
+					: quoteId == process.env.META1_ASSET_ID
 					? baseAsset
 					: quoteAsset;
 
@@ -181,13 +185,14 @@ export default class ExchangeHeader extends React.Component {
 						amount: settlePrice.base.amount,
 					}),
 				}).toReal();
-				settlePrice = baseId == '1.3.0' ? 1 / settlePrice : settlePrice;
+				settlePrice =
+					baseId == process.env.META1_ASSET_ID ? 1 / settlePrice : settlePrice;
 			} else if (settleAsset && feedPrice) {
 				let offset_percent = settleAsset
 					.getIn(['bitasset', 'options'])
 					.toJS().force_settlement_offset_percent;
 				settlePrice =
-					baseId == '1.3.0'
+					baseId == process.env.META1_ASSET_ID
 						? feedPrice.toReal() / (1 + offset_percent / 10000)
 						: feedPrice.toReal() * (1 + offset_percent / 10000);
 			}

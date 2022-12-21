@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from 'axios';
+import Axios from 'axios';
 import BindToChainState from 'components/Utility/BindToChainState';
 import DepositWithdrawAssetSelector from '../DepositWithdraw/DepositWithdrawAssetSelector';
 import Translate from 'react-translate-component';
@@ -50,8 +50,7 @@ import ls from '../../lib/common/localStorage';
 import {toast} from 'react-toastify';
 
 const gatewayBoolCheck = 'withdrawalAllowed';
-const STORAGE_KEY = '__AuthData__';
-const ss = new ls(STORAGE_KEY);
+const ss = new ls(process.env.AUTH_STORAGE_KEY);
 
 class WithdrawModalNew extends React.Component {
 	constructor(props) {
@@ -66,7 +65,7 @@ class WithdrawModalNew extends React.Component {
 			hasBalance: null,
 			hasPoolBalance: null,
 			feeError: null,
-			fee_asset_id: '1.3.0',
+			fee_asset_id: process.env.META1_ASSET_ID,
 			gateFee: 0,
 			quantity: 0,
 			address: '',
@@ -252,7 +251,7 @@ class WithdrawModalNew extends React.Component {
 
 			assets.forEach((item) => {
 				item = item.get ? item : Immutable.fromJS(item);
-				if (item.get('id') == '1.3.0') coreAsset = item;
+				if (item.get('id') == process.env.META1_ASSET_ID) coreAsset = item;
 				if (item.get('symbol') == preferredCurrency) {
 					toAsset = item;
 					preferredCurrencyPrecision = item.get('precision');
@@ -394,7 +393,7 @@ class WithdrawModalNew extends React.Component {
 					priceIsValid = false;
 				}
 
-				if (asset.get('id') !== '1.3.0' && !priceIsValid) {
+				if (asset.get('id') !== process.env.META1_ASSET_ID && !priceIsValid) {
 					fee_asset_types.splice(fee_asset_types.indexOf(key), 1);
 				}
 			}
@@ -760,7 +759,7 @@ class WithdrawModalNew extends React.Component {
 			withdrawalCurrencyId,
 			descriptor,
 			null,
-			feeAmount ? feeAmount.asset_id : '1.3.0',
+			feeAmount ? feeAmount.asset_id : process.env.META1_ASSET_ID,
 		];
 
 		const emailType = 'withdraw';
@@ -782,12 +781,11 @@ class WithdrawModalNew extends React.Component {
 						Authorization: 'Bearer ' + token,
 					},
 				};
-				axios
-					.post(
-						`${process.env.LITE_WALLET_URL}/sendEmail`,
-						{emailType, emailData},
-						config
-					)
+				Axios.post(
+					`${process.env.LITE_WALLET_URL}/sendEmail`,
+					{emailType, emailData},
+					config
+				)
 					.then((result) => {
 						toast('Email sent successfully!');
 						this.setState({submitted: false});

@@ -54,8 +54,7 @@ import migrationService from 'services/migration.service';
 var logo = getLogo();
 const CHAINID_SHORT = chainIds[process.env.CURRENT_NET].substr(0, 8);
 
-const STORAGE_KEY = '__AuthData__';
-const ss = new ls(STORAGE_KEY);
+const ss = new ls(process.env.AUTH_STORAGE_KEY);
 
 const {Header: AntdHeader} = Layout;
 const {Text} = Typography;
@@ -369,7 +368,7 @@ class Header extends React.Component {
 		} else if (key === 'explorer') {
 			this._onNavigate('/explorer/blocks', this, true);
 		} else if (key === 'get-help') {
-			window.open('https://support.meta1coin.vision');
+			window.open(process.env.SUPPORT_META1_URL);
 		} else if (key === 'withdraw') {
 			if (!this.props.locked_v2) {
 				this._showWithdraw(this, true);
@@ -387,9 +386,9 @@ class Header extends React.Component {
 				this._showDeposit();
 			}
 		} else if (key === 'advanced-trezor') {
-			window.open('https://beta-wallet.trezor.io/next/#/', '_blank');
+			window.open(process.env.TREZOR_URL, '_blank');
 		} else if (key === 'advanced-ledger-nano') {
-			window.open('https://shop.ledger.com/pages/ledger-live', '_blank');
+			window.open(process.env.LEDGER_URL, '_blank');
 		} else if (key === 'advanced-signed-messages') {
 			currentAccount &&
 				this._onNavigate(

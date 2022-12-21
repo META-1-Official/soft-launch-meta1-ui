@@ -31,8 +31,7 @@ import {getAssetIcon, getAssetFullName} from '../utils/asset';
 //import {Route, Link, Redirect} from 'react-router-dom';
 import {withRouter} from 'react-router-dom';
 
-const STORAGE_KEY = '__AuthData__';
-const ss = new ls(STORAGE_KEY);
+const ss = new ls(process.env.AUTH_STORAGE_KEY);
 
 const SORT_TYPE_MULTIPLE = 'multiple';
 

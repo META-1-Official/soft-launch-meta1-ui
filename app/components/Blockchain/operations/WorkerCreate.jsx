@@ -12,7 +12,7 @@ export const WorkerCreate = ({op, fromComponent}) => {
 				<FormattedAsset
 					style={{fontWeight: 'bold'}}
 					amount={op[1].daily_pay}
-					asset={'1.3.0'}
+					asset={process.env.META1_ASSET_ID}
 				/>
 			</span>
 		);
@@ -31,7 +31,7 @@ export const WorkerCreate = ({op, fromComponent}) => {
 							type: 'amount',
 							value: {
 								amount: op[1].daily_pay,
-								asset_id: '1.3.0',
+								asset_id: process.env.META1_ASSET_ID,
 							},
 							arg: 'pay',
 						},

@@ -112,7 +112,7 @@ class AssetPublishFeed extends React.Component {
 				<PriceInput
 					onPriceChanged={this.onPriceChanged.bind(this, 'cer')}
 					label="explorer.asset.fee_pool.core_exchange_rate"
-					quote={'1.3.0'}
+					quote={process.env.META1_ASSET_ID}
 					base={base}
 				/>
 

@@ -338,7 +338,11 @@ class Exchange extends React.Component {
 		currentAccount
 			.get('balances', [])
 			.filter((balance, id) => {
-				return ['1.3.0', quote.get('id'), base.get('id')].indexOf(id) >= 0;
+				return (
+					[process.env.META1_ASSET_ID, quote.get('id'), base.get('id')].indexOf(
+						id
+					) >= 0
+				);
 			})
 			.forEach((balance, id) => {
 				let balanceObject = ChainStore.getObject(balance);
@@ -768,9 +772,9 @@ class Exchange extends React.Component {
 	_verifyFee(fee, sell, sellBalance, coreBalance) {
 		let coreFee = this._getFee();
 
-		if (fee.asset_id === '1.3.0') {
+		if (fee.asset_id === process.env.META1_ASSET_ID) {
 			if (coreFee.getAmount() <= coreBalance) {
-				return '1.3.0';
+				return process.env.META1_ASSET_ID;
 			} else {
 				return null;
 			}
@@ -784,10 +788,10 @@ class Exchange extends React.Component {
 				return fee.asset_id;
 			} else if (
 				coreFee.getAmount() <= coreBalance &&
-				fee.asset_id !== '1.3.0'
+				fee.asset_id !== process.env.META1_ASSET_ID
 			) {
 				// Sufficient balance in core asset to pay fee
-				return '1.3.0';
+				return process.env.META1_ASSET_ID;
 			} else {
 				return null; // Unable to pay fee
 			}
@@ -1982,7 +1986,7 @@ class Exchange extends React.Component {
 					if (id === base.get('id')) {
 						baseBalance = accountBalance[id];
 					}
-					if (id === '1.3.0') {
+					if (id === process.env.META1_ASSET_ID) {
 						coreBalance = accountBalance[id];
 					}
 				}

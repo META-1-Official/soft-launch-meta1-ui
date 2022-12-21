@@ -41,7 +41,7 @@ function didOrdersChange(newOrders, oldOrders) {
 
 class Asset {
 	constructor({
-		asset_id = '1.3.0',
+		asset_id = process.env.META1_ASSET_ID,
 		amount = 0,
 		precision = 5,
 		real = null,
@@ -349,7 +349,7 @@ class Price {
 		};
 	}
 
-	times(p, common = '1.3.0') {
+	times(p, common = process.env.META1_ASSET_ID) {
 		const p2 =
 			(p.base.asset_id === common && this.quote.asset_id === common) ||
 			(p.quote.asset_id === common && this.base.asset_id === common)
@@ -435,7 +435,7 @@ class LimitOrderCreate {
 		seller = '',
 		expiration = new Date(),
 		fill_or_kill = false,
-		fee = {amount: 0, asset_id: '1.3.0'},
+		fee = {amount: 0, asset_id: process.env.META1_ASSET_ID},
 	} = {}) {
 		if (!for_sale || !to_receive) {
 			throw new Error('Missing order amounts');

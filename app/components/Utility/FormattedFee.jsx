@@ -19,7 +19,7 @@ class FormattedFee extends React.Component {
 	};
 
 	static defaultProps = {
-		globalObject: '2.0.0',
+		globalObject: process.env.GLOBAL_PROPERTY,
 		options: [],
 	};
 
@@ -41,7 +41,9 @@ class FormattedFee extends React.Component {
 
 		let amount = estimateFee(opType, options, globalObject);
 
-		return <FormattedAsset amount={amount} asset="1.3.0" />;
+		return (
+			<FormattedAsset amount={amount} asset={process.env.META1_ASSET_ID} />
+		);
 	}
 }
 

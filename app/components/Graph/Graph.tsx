@@ -1,5 +1,6 @@
 import React from 'react';
 import {Line} from 'react-chartjs-2';
+import moment from 'moment';
 import {customTooltips, chartLinearGradient} from './chartUtilities';
 
 const ChartjsAreaChart = (props: any) => {
@@ -117,20 +118,7 @@ const ChartjsAreaChart = (props: any) => {
 };
 
 ChartjsAreaChart.defaultProps = {
-	labels: [
-		'Jan',
-		'Feb',
-		'Mar',
-		'Apr',
-		'May',
-		'Jun',
-		'Jul',
-		'Aug',
-		'Sep',
-		'Oct',
-		'Nov',
-		'Dec',
-	],
+	labels: moment.monthsShort(),
 
 	datasets: [
 		{

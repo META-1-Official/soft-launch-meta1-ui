@@ -194,8 +194,10 @@ class ProposedOperation extends React.Component {
 		}
 
 		if (csvExportMode) {
-			const globalObject = ChainStore.getObject('2.0.0');
-			const dynGlobalObject = ChainStore.getObject('2.1.0');
+			const globalObject = ChainStore.getObject(process.env.GLOBAL_PROPERTY);
+			const dynGlobalObject = ChainStore.getObject(
+				process.env.DYNAMIC_GLOBAL_PROPERTY
+			);
 			const block_time = utils.calc_block_time(
 				block,
 				globalObject,

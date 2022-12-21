@@ -141,7 +141,7 @@ class ExchangeSubscriber extends React.Component {
 
 	static defaultProps = {
 		currentAccount: '1.2.3',
-		coreAsset: '1.3.0',
+		coreAsset: process.env.META1_ASSET_ID,
 	};
 
 	constructor(props) {

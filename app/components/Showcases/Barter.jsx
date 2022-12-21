@@ -176,7 +176,7 @@ export default class Barter extends Component {
 			from_asset_id: asset.get('id'),
 			from_feeAmount: new Asset({amount: 0}),
 			from_feeAsset: asset,
-			from_fee_asset_id: '1.3.0',
+			from_fee_asset_id: process.env.META1_ASSET_ID,
 			from_balanceError: false,
 		};
 
@@ -216,7 +216,7 @@ export default class Barter extends Component {
 			to_asset_id: asset.get('id'),
 			to_feeAmount: new Asset({amount: 0}),
 			to_feeAsset: asset,
-			to_fee_asset_id: '1.3.0',
+			to_fee_asset_id: process.env.META1_ASSET_ID,
 			to_balanceError: false,
 		};
 
@@ -277,7 +277,7 @@ export default class Barter extends Component {
 			: null;
 		if (!feeBalanceObject || feeBalanceObject.get('balance') === 0) {
 			if (from) {
-				barter[index].from_fee_asset_id = '1.3.0';
+				barter[index].from_fee_asset_id = process.env.META1_ASSET_ID;
 				this.setState(
 					{from_barter: barter},
 					this._updateFee(
@@ -290,7 +290,7 @@ export default class Barter extends Component {
 					)
 				);
 			} else {
-				barter[index].to_fee_asset_id = '1.3.0';
+				barter[index].to_fee_asset_id = process.env.META1_ASSET_ID;
 				this.setState(
 					{to_barter: barter},
 					this._updateFee(
@@ -473,9 +473,9 @@ export default class Barter extends Component {
 					from_account: this.state.from_account.get('id'),
 					to_account: this.state.escrow_account.get('id'),
 					amount: escrow_payment,
-					asset: '1.3.0',
+					asset: process.env.META1_ASSET_ID,
 					memo: escrowMemo ? new Buffer(escrowMemo, 'utf-8') : null,
-					feeAsset: '1.3.0',
+					feeAsset: process.env.META1_ASSET_ID,
 					propose_account: proposer,
 				});
 			}
@@ -501,7 +501,9 @@ export default class Barter extends Component {
 					amount: sendAmount.getAmount(),
 					asset: asset.get('id'),
 					memo: escrowMemo ? new Buffer(escrowMemo, 'utf-8') : this.state.memo,
-					feeAsset: item.from_feeAsset ? item.from_feeAsset.get('id') : '1.3.0',
+					feeAsset: item.from_feeAsset
+						? item.from_feeAsset.get('id')
+						: process.env.META1_ASSET_ID,
 				});
 			}
 
@@ -511,7 +513,9 @@ export default class Barter extends Component {
 				amount: sendAmount.getAmount(),
 				asset: asset.get('id'),
 				memo: fromBarterMemo ? new Buffer(fromBarterMemo, 'utf-8') : null,
-				feeAsset: item.from_feeAsset ? item.from_feeAsset.get('id') : '1.3.0',
+				feeAsset: item.from_feeAsset
+					? item.from_feeAsset.get('id')
+					: process.env.META1_ASSET_ID,
 				propose_account: proposer,
 			});
 		});
@@ -521,9 +525,9 @@ export default class Barter extends Component {
 				from_account: this.state.escrow_account.get('id'),
 				to_account: this.state.from_account.get('id'),
 				amount: 1,
-				asset: '1.3.0',
+				asset: process.env.META1_ASSET_ID,
 				memo: null,
-				feeAsset: '1.3.0',
+				feeAsset: process.env.META1_ASSET_ID,
 				propose_account: proposer,
 			});
 		}
@@ -545,7 +549,9 @@ export default class Barter extends Component {
 				amount: sendAmount.getAmount(),
 				asset: asset.get('id'),
 				memo: toBarterMemo ? new Buffer(toBarterMemo, 'utf-8') : null,
-				feeAsset: item.to_feeAsset ? item.to_feeAsset.get('id') : '1.3.0',
+				feeAsset: item.to_feeAsset
+					? item.to_feeAsset.get('id')
+					: process.env.META1_ASSET_ID,
 				propose_account: proposer,
 			});
 		});
@@ -1275,8 +1281,8 @@ export default class Barter extends Component {
 								marginBottom: '1rem',
 							}}
 							amount={fee(true) + addToExecutionFee}
-							asset={'1.3.0'}
-							assets={['1.3.0']}
+							asset={process.env.META1_ASSET_ID}
+							assets={[process.env.META1_ASSET_ID]}
 							error={
 								this.state.hasPoolBalance === false
 									? 'transfer.errors.insufficient'
@@ -1298,8 +1304,8 @@ export default class Barter extends Component {
 							style={{
 								marginBottom: '1rem',
 							}}
-							asset={'1.3.0'}
-							assets={['1.3.0']}
+							asset={process.env.META1_ASSET_ID}
+							assets={[process.env.META1_ASSET_ID]}
 							error={
 								this.state.hasPoolBalance === false
 									? 'transfer.errors.insufficient'
@@ -1342,8 +1348,8 @@ export default class Barter extends Component {
 							style={{
 								marginTop: '0.5rem',
 							}}
-							asset={'1.3.0'}
-							assets={['1.3.0']}
+							asset={process.env.META1_ASSET_ID}
+							assets={[process.env.META1_ASSET_ID]}
 							error={
 								this.state.hasPoolBalance === false
 									? 'transfer.errors.insufficient'
@@ -1375,8 +1381,8 @@ export default class Barter extends Component {
 								style={{
 									marginTop: '0.5rem',
 								}}
-								asset={'1.3.0'}
-								assets={['1.3.0']}
+								asset={process.env.META1_ASSET_ID}
+								assets={[process.env.META1_ASSET_ID]}
 								error={
 									this.state.hasPoolBalance === false
 										? 'transfer.errors.insufficient'
@@ -1478,8 +1484,8 @@ export default class Barter extends Component {
 									style={{
 										margin: '1rem 0',
 									}}
-									asset={'1.3.0'}
-									assets={['1.3.0']}
+									asset={process.env.META1_ASSET_ID}
+									assets={[process.env.META1_ASSET_ID]}
 									error={
 										this.state.hasPoolBalance === false
 											? 'transfer.errors.insufficient'

@@ -61,7 +61,7 @@ class AccountList extends React.Component {
 					asset_id:
 						ChainStore.assets_by_symbol.get(
 							this.props.settings.get('fee_asset')
-						) || '1.3.0',
+						) || process.env.META1_ASSET_ID,
 				},
 				authorizing_account: this.props.account.get('id'),
 				account_to_list: account,
@@ -261,7 +261,7 @@ class AccountWhitelist extends React.Component {
 			tr.add_type_operation('account_whitelist', {
 				fee: {
 					amount: 0,
-					asset_id: '1.3.0',
+					asset_id: process.env.META1_ASSET_ID,
 				},
 				authorizing_account: account.get('id'),
 				account_to_list: accountToList,

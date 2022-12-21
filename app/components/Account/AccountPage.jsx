@@ -28,8 +28,7 @@ import AccountVoting from './AccountVoting';
 import AccountOverview from './AccountOverview';
 import AccountNotification from './AccountNotification';
 
-const STORAGE_KEY = '__AuthData__';
-const ss = new ls(STORAGE_KEY);
+const ss = new ls(process.env.AUTH_STORAGE_KEY);
 
 class AccountPage extends React.Component {
 	static propTypes = {

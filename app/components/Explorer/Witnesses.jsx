@@ -20,7 +20,7 @@ import {AiOutlineLink, AiOutlineKey} from 'react-icons/ai';
 require('./witnesses.scss');
 const volumeIcon = require('assets/explorer/volume.png');
 
-const baseExplorerUrl = 'https://explorer.dev.meta1coin.vision/blocks';
+const baseExplorerUrl = `${process.env.EXPLORER_META1_URL}/blocks`;
 
 const {Text} = Typography;
 class WitnessRow extends React.Component {
@@ -53,7 +53,7 @@ class WitnessRow extends React.Component {
 		let last_aslot_time = new Date(
 			Date.now() -
 				(this.props.most_recent - witness_aslot) *
-					ChainStore.getObject('2.0.0').getIn([
+					ChainStore.getObject(process.env.GLOBAL_PROPERTY).getIn([
 						'parameters',
 						'block_interval',
 					]) *
@@ -83,7 +83,7 @@ class WitnessRow extends React.Component {
 				<td>
 					<FormattedAsset
 						amount={witness_data.get('total_votes')}
-						asset="1.3.0"
+						asset={process.env.META1_ASSET_ID}
 						decimalOffset={5}
 					/>
 				</td>
@@ -194,7 +194,7 @@ class WitnessList extends React.Component {
 					let last_aslot_time = new Date(
 						Date.now() -
 							(this.props.current_aslot - witness_aslot) *
-								ChainStore.getObject('2.0.0').getIn([
+								ChainStore.getObject(process.env.GLOBAL_PROPERTY).getIn([
 									'parameters',
 									'block_interval',
 								]) *
@@ -376,7 +376,11 @@ class WitnessList extends React.Component {
 				dataIndex: 'votes',
 				align: 'center',
 				render: (item) => (
-					<FormattedAsset amount={item} asset="1.3.0" decimalOffset={5} />
+					<FormattedAsset
+						amount={item}
+						asset={process.env.META1_ASSET_ID}
+						decimalOffset={5}
+					/>
 				),
 				sorter: (a, b) => {
 					return a.votes > b.votes ? 1 : a.votes < b.votes ? -1 : 0;
@@ -423,8 +427,8 @@ class Witnesses extends React.Component {
 	};
 
 	static defaultProps = {
-		globalObject: '2.0.0',
-		dynGlobalObject: '2.1.0',
+		globalObject: process.env.GLOBAL_PROPERTY,
+		dynGlobalObject: process.env.DYNAMIC_GLOBAL_PROPERTY,
 	};
 
 	constructor(props) {
@@ -535,7 +539,7 @@ class Witnesses extends React.Component {
 									>
 										<FormattedAsset
 											amount={globalObject.parameters.witness_pay_per_block}
-											asset="1.3.0"
+											asset={process.env.META1_ASSET_ID}
 										/>{' '}
 									</Text>
 								</div>
@@ -555,7 +559,7 @@ class Witnesses extends React.Component {
 									>
 										<FormattedAsset
 											amount={dynGlobalObject.witness_budget}
-											asset="1.3.0"
+											asset={process.env.META1_ASSET_ID}
 										/>
 									</Text>
 								</div>

@@ -263,7 +263,7 @@ class BuySell extends React.Component {
 			hiddenBalancesList = Immutable.List();
 		var symbolType = new Map();
 
-		symbolType.set('META1', '1.3.0');
+		symbolType.set('META1', process.env.META1_ASSET_ID);
 		symbolType.set('USDT', '1.3.1');
 		symbolType.set('BTC', '1.3.5');
 		symbolType.set('ETH', '1.3.4');
@@ -681,13 +681,13 @@ class BuySell extends React.Component {
 				'core_exchange_rate',
 				'quote',
 				'asset_id',
-			]) === '1.3.0' &&
+			]) === process.env.META1_ASSET_ID &&
 			feeAssets[1].getIn([
 				'options',
 				'core_exchange_rate',
 				'base',
 				'asset_id',
-			]) === '1.3.0'
+			]) === process.env.META1_ASSET_ID
 		) {
 			feeAsset = feeAssets[0];
 			feeAssets.splice(1, 1);

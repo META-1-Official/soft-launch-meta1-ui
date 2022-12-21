@@ -95,13 +95,13 @@ class MarketsStore {
 		this.onlyStars = marketStorage.get('onlyStars', false);
 
 		this.baseAsset = {
-			id: '1.3.0',
+			id: process.env.META1_ASSET_ID,
 			symbol: 'META1',
 			precision: 5,
 		};
 
 		this.coreAsset = {
-			id: '1.3.0',
+			id: process.env.META1_ASSET_ID,
 			symbol: 'CORE',
 			precision: 5,
 		};

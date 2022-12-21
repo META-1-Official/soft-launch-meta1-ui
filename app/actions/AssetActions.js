@@ -49,7 +49,7 @@ class AssetActions {
 		tr.add_type_operation('asset_fund_fee_pool', {
 			fee: {
 				amount: 0,
-				asset_id: '1.3.0',
+				asset_id: process.env.META1_ASSET_ID,
 			},
 			from_account: account_id,
 			asset_id: asset.get('id'),
@@ -73,7 +73,7 @@ class AssetActions {
 		tr.add_type_operation('asset_claim_pool', {
 			fee: {
 				amount: 0,
-				asset_id: '1.3.0',
+				asset_id: process.env.META1_ASSET_ID,
 			},
 			issuer: asset.get('issuer'),
 			asset_id: asset.get('id'),
@@ -99,7 +99,7 @@ class AssetActions {
 		tr.add_type_operation('bid_collateral', {
 			fee: {
 				amount: 0,
-				asset_id: '1.3.0',
+				asset_id: process.env.META1_ASSET_ID,
 			},
 			bidder: account_id,
 			additional_collateral: {
@@ -130,7 +130,7 @@ class AssetActions {
 		tr.add_type_operation('asset_update_issuer', {
 			fee: {
 				amount: 0,
-				asset_id: '1.3.0',
+				asset_id: process.env.META1_ASSET_ID,
 			},
 			issuer: asset.issuer,
 			asset_to_update: asset.id,
@@ -153,7 +153,7 @@ class AssetActions {
 		tr.add_type_operation('asset_update_feed_producers', {
 			fee: {
 				amount: 0,
-				asset_id: '1.3.0',
+				asset_id: process.env.META1_ASSET_ID,
 			},
 			issuer: account,
 			asset_to_update: asset.get('id'),
@@ -462,7 +462,7 @@ class AssetActions {
 			tr.add_type_operation('asset_update_feed_producers', {
 				fee: {
 					amount: 0,
-					asset_id: '1.3.0',
+					asset_id: process.env.META1_ASSET_ID,
 				},
 				issuer: issuer,
 				asset_to_update: asset.get('id'),

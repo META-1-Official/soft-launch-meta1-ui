@@ -523,11 +523,11 @@ class MarketsActions {
 		let feeAsset = ChainStore.getAsset(fee_asset_id);
 		if (
 			feeAsset.getIn(['options', 'core_exchange_rate', 'base', 'asset_id']) ===
-				'1.3.0' &&
+				process.env.META1_ASSET_ID &&
 			feeAsset.getIn(['options', 'core_exchange_rate', 'quote', 'asset_id']) ===
-				'1.3.0'
+				process.env.META1_ASSET_ID
 		) {
-			fee_asset_id = '1.3.0';
+			fee_asset_id = process.env.META1_ASSET_ID;
 		}
 
 		tr.add_type_operation('limit_order_create', {
@@ -603,7 +603,7 @@ class MarketsActions {
 		buyAsset,
 		expiration,
 		isFillOrKill,
-		fee_asset_id = '1.3.0'
+		fee_asset_id = process.env.META1_ASSET_ID
 	) {
 		var tr = WalletApi.new_transaction();
 

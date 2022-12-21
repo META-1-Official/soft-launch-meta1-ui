@@ -19,8 +19,8 @@ import ReCAPTCHA from 'react-google-recaptcha';
 import WalletUnlockActions from 'actions/WalletUnlockActions';
 import {MailOutlined, UserOutlined, PhoneOutlined} from '@ant-design/icons';
 import ls from '../../lib/common/localStorage';
-const STORAGE_KEY = '__AuthData__';
-const ss = new ls(STORAGE_KEY);
+
+const ss = new ls(process.env.AUTH_STORAGE_KEY);
 import countryCodes from '../Utility/countryCode.json';
 
 class AccountRegistrationForm extends React.Component {

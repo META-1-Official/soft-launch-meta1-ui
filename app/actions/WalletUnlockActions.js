@@ -1,8 +1,7 @@
 import alt from 'alt-instance';
 import ls from 'lib/common/localStorage';
 
-const STORAGE_KEY = '__AuthData__';
-const ss = new ls(STORAGE_KEY);
+const ss = new ls(process.env.AUTH_STORAGE_KEY);
 
 class WalletUnlockActions {
 	/** If you get resolved then the wallet is or was just unlocked.  If you get

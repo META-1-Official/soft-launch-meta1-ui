@@ -25,11 +25,11 @@ import WalletDb from '../../stores/WalletDb';
 import StyledButton from 'components/Button/Button';
 import ls from '../../lib/common/localStorage';
 
-const STORAGE_KEY = '__AuthData__';
-const ss = new ls(STORAGE_KEY);
+console.log('process.env.AUTH_STORAGE_KEY', process.env.AUTH_STORAGE_KEY);
+const ss = new ls(process.env.AUTH_STORAGE_KEY);
 
 const getUninitializedFeeAmount = () =>
-	new Asset({amount: 0, asset_id: '1.3.0'});
+	new Asset({amount: 0, asset_id: process.env.META1_ASSET_ID});
 
 class SendModal extends React.Component {
 	constructor(props) {

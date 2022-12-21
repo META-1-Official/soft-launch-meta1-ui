@@ -13,12 +13,12 @@ import {
 import assert from 'assert';
 
 console.log('**** Starting market tests here ****');
-const asset1 = {asset_id: '1.3.0', precision: 5};
+const asset1 = {asset_id: process.env.META1_ASSET_ID, precision: 5};
 const asset2 = {asset_id: '1.3.121', precision: 4}; // bitUSD
 const asset3 = {asset_id: '1.3.113', precision: 4}; // bitCNY
 const asset4 = {asset_id: '1.3.22', precision: 4}; // PEG.FAKEUSD
 const assets = {
-	'1.3.0': asset1,
+	[process.env.META1_ASSET_ID]: asset1,
 	'1.3.121': asset2,
 	'1.3.113': asset3,
 	'1.3.22': asset4,
@@ -57,7 +57,11 @@ describe('Utility functions', function () {
 describe('Asset', function () {
 	it('Instantiates empty', function () {
 		let asset = new Asset();
-		assert.equal(asset.asset_id, '1.3.0', 'Default asset should be 1.3.0');
+		assert.equal(
+			asset.asset_id,
+			process.env.META1_ASSET_ID,
+			'Default asset should be 1.3.0'
+		);
 		assert.equal(asset.amount, 0, 'Default amount should be 0');
 		assert.equal(asset.satoshi, 100000, 'Satoshi should be 100000');
 	});
@@ -70,8 +74,12 @@ describe('Asset', function () {
 	});
 
 	it('Instantiates from real number', function () {
-		let asset = new Asset({asset_id: '1.3.0', real: 1});
-		assert.equal(asset.asset_id, '1.3.0', 'Asset should be 1.3.0');
+		let asset = new Asset({asset_id: process.env.META1_ASSET_ID, real: 1});
+		assert.equal(
+			asset.asset_id,
+			process.env.META1_ASSET_ID,
+			'Asset should be 1.3.0'
+		);
 		assert.equal(asset.amount, 100000, 'Amount should be 242');
 		assert.equal(asset.satoshi, 100000, 'Satoshi should be 10000');
 
@@ -103,7 +111,7 @@ describe('Asset', function () {
 
 	it('Throws when adding or subtracting unequal assets', function () {
 		let asset = new Asset({asset_id: '1.3.121', amount: 242});
-		let asset2 = new Asset({asset_id: '1.3.0', amount: 242});
+		let asset2 = new Asset({asset_id: process.env.META1_ASSET_ID, amount: 242});
 		assert.throws(function () {
 			asset.plus(asset2);
 		}, Error);
@@ -177,23 +185,23 @@ describe('Asset', function () {
 	});
 
 	it('Can be multiplied with a price', function () {
-		let asset = new Asset({asset_id: '1.3.0', real: 100});
+		let asset = new Asset({asset_id: process.env.META1_ASSET_ID, real: 100});
 		let asset2 = new Asset({asset_id: '1.3.121', precision: 4, real: 55});
 
 		let price1 = new Price({
-			base: new Asset({asset_id: '1.3.0'}),
+			base: new Asset({asset_id: process.env.META1_ASSET_ID}),
 			quote: new Asset({asset_id: '1.3.121', precision: 4}),
 			real: 200,
 		});
 
 		let price2 = new Price({
 			base: new Asset({asset_id: '1.3.121', precision: 4}),
-			quote: new Asset({asset_id: '1.3.0'}),
+			quote: new Asset({asset_id: process.env.META1_ASSET_ID}),
 			real: 0.001,
 		});
 
 		let price3 = new Price({
-			base: new Asset({asset_id: '1.3.0'}),
+			base: new Asset({asset_id: process.env.META1_ASSET_ID}),
 			quote: new Asset({asset_id: '1.3.121', precision: 4}),
 			real: 250,
 		});
@@ -239,7 +247,7 @@ describe('Asset', function () {
 	});
 
 	it('Throws when multiplied with an incorrect price', function () {
-		let asset = new Asset({asset_id: '1.3.0', amount: 100});
+		let asset = new Asset({asset_id: process.env.META1_ASSET_ID, amount: 100});
 		let price = new Price({
 			base: new Asset({asset_id: '1.3.12', amount: 25}),
 			quote: new Asset({asset_id: '1.3.121', amount: 500}),
@@ -268,13 +276,17 @@ describe('Asset', function () {
 });
 
 describe('Price', function () {
-	let base = new Asset({asset_id: '1.3.0', amount: 50});
+	let base = new Asset({asset_id: process.env.META1_ASSET_ID, amount: 50});
 	let quote = new Asset({asset_id: '1.3.121', amount: 250, precision: 4});
 
 	it('Instantiates', function () {
 		let price = new Price({base, quote});
 
-		assert.equal(price.base.asset_id, '1.3.0', 'Base asset should be 1.3.0');
+		assert.equal(
+			price.base.asset_id,
+			process.env.META1_ASSET_ID,
+			'Base asset should be 1.3.0'
+		);
 		assert.equal(price.base.amount, 50, 'Base amount should be 50');
 		assert.equal(
 			price.quote.asset_id,
@@ -298,7 +310,7 @@ describe('Price', function () {
 	it('Instantiates from real number', function () {
 		let priceNum = 250;
 		let price = new Price({
-			base: new Asset({asset_id: '1.3.0'}),
+			base: new Asset({asset_id: process.env.META1_ASSET_ID}),
 			quote: new Asset({asset_id: '1.3.121', precision: 4}),
 			real: priceNum,
 		});
@@ -312,7 +324,7 @@ describe('Price', function () {
 		assert.equal(price.quote.amount, 1, 'Quote amount should equal 1');
 
 		let price2 = new Price({
-			base: new Asset({asset_id: '1.3.0'}),
+			base: new Asset({asset_id: process.env.META1_ASSET_ID}),
 			quote: new Asset({asset_id: '1.3.121', precision: 4}),
 			real: 212.23323,
 		});
@@ -335,7 +347,7 @@ describe('Price', function () {
 
 		priceNum = 121000.52323231;
 		let price3 = new Price({
-			base: new Asset({asset_id: '1.3.0'}),
+			base: new Asset({asset_id: process.env.META1_ASSET_ID}),
 			quote: new Asset({asset_id: '1.3.103', precision: 8}),
 			real: priceNum,
 		});
@@ -392,19 +404,19 @@ describe('Price', function () {
 
 	it('Can be compared with equals', function () {
 		let price1 = new Price({
-			base: new Asset({asset_id: '1.3.0'}),
+			base: new Asset({asset_id: process.env.META1_ASSET_ID}),
 			quote: new Asset({asset_id: '1.3.121', precision: 4}),
 			real: 2312.151,
 		});
 
 		let price2 = new Price({
-			base: new Asset({asset_id: '1.3.0'}),
+			base: new Asset({asset_id: process.env.META1_ASSET_ID}),
 			quote: new Asset({asset_id: '1.3.121', precision: 4}),
 			real: 212.23323,
 		});
 
 		let price3 = new Price({
-			base: new Asset({asset_id: '1.3.0'}),
+			base: new Asset({asset_id: process.env.META1_ASSET_ID}),
 			quote: new Asset({asset_id: '1.3.121', precision: 4}),
 			real: 2312.151,
 		});
@@ -415,13 +427,13 @@ describe('Price', function () {
 
 	it('Can be compared with less than', function () {
 		let price1 = new Price({
-			base: new Asset({asset_id: '1.3.0'}),
+			base: new Asset({asset_id: process.env.META1_ASSET_ID}),
 			quote: new Asset({asset_id: '1.3.121', precision: 4}),
 			real: 2312.151,
 		});
 
 		let price2 = new Price({
-			base: new Asset({asset_id: '1.3.0'}),
+			base: new Asset({asset_id: process.env.META1_ASSET_ID}),
 			quote: new Asset({asset_id: '1.3.121', precision: 4}),
 			real: 212.23323,
 		});
@@ -432,19 +444,19 @@ describe('Price', function () {
 
 	it('Can be compared with less than or equal', function () {
 		let price1 = new Price({
-			base: new Asset({asset_id: '1.3.0'}),
+			base: new Asset({asset_id: process.env.META1_ASSET_ID}),
 			quote: new Asset({asset_id: '1.3.121', precision: 4}),
 			real: 212.151,
 		});
 
 		let price2 = new Price({
-			base: new Asset({asset_id: '1.3.0'}),
+			base: new Asset({asset_id: process.env.META1_ASSET_ID}),
 			quote: new Asset({asset_id: '1.3.121', precision: 4}),
 			real: 212.23323,
 		});
 
 		let price3 = new Price({
-			base: new Asset({asset_id: '1.3.0'}),
+			base: new Asset({asset_id: process.env.META1_ASSET_ID}),
 			quote: new Asset({asset_id: '1.3.121', precision: 4}),
 			real: 212.151,
 		});
@@ -456,13 +468,13 @@ describe('Price', function () {
 
 	it('Can be compared with not equal', function () {
 		let price1 = new Price({
-			base: new Asset({asset_id: '1.3.0'}),
+			base: new Asset({asset_id: process.env.META1_ASSET_ID}),
 			quote: new Asset({asset_id: '1.3.121', precision: 4}),
 			real: 212.151,
 		});
 
 		let price2 = new Price({
-			base: new Asset({asset_id: '1.3.0'}),
+			base: new Asset({asset_id: process.env.META1_ASSET_ID}),
 			quote: new Asset({asset_id: '1.3.121', precision: 4}),
 			real: 212.23323,
 		});
@@ -472,19 +484,19 @@ describe('Price', function () {
 
 	it('Can be compared with greater than', function () {
 		let price1 = new Price({
-			base: new Asset({asset_id: '1.3.0'}),
+			base: new Asset({asset_id: process.env.META1_ASSET_ID}),
 			quote: new Asset({asset_id: '1.3.121', precision: 4}),
 			real: 212.151,
 		});
 
 		let price2 = new Price({
-			base: new Asset({asset_id: '1.3.0'}),
+			base: new Asset({asset_id: process.env.META1_ASSET_ID}),
 			quote: new Asset({asset_id: '1.3.121', precision: 4}),
 			real: 212.23323,
 		});
 
 		let price3 = new Price({
-			base: new Asset({asset_id: '1.3.0'}),
+			base: new Asset({asset_id: process.env.META1_ASSET_ID}),
 			quote: new Asset({asset_id: '1.3.121', precision: 4}),
 			real: 212.23323,
 		});
@@ -496,19 +508,19 @@ describe('Price', function () {
 
 	it('Can be compared with greater than or equal', function () {
 		let price1 = new Price({
-			base: new Asset({asset_id: '1.3.0'}),
+			base: new Asset({asset_id: process.env.META1_ASSET_ID}),
 			quote: new Asset({asset_id: '1.3.121', precision: 4}),
 			real: 212.151,
 		});
 
 		let price2 = new Price({
-			base: new Asset({asset_id: '1.3.0'}),
+			base: new Asset({asset_id: process.env.META1_ASSET_ID}),
 			quote: new Asset({asset_id: '1.3.121', precision: 4}),
 			real: 212.23323,
 		});
 
 		let price3 = new Price({
-			base: new Asset({asset_id: '1.3.0'}),
+			base: new Asset({asset_id: process.env.META1_ASSET_ID}),
 			quote: new Asset({asset_id: '1.3.121', precision: 4}),
 			real: 212.23323,
 		});
@@ -524,7 +536,7 @@ describe('Price', function () {
 
 	it('Can be inverted', function () {
 		let price1 = new Price({
-			base: new Asset({asset_id: '1.3.0', amount: 10000}),
+			base: new Asset({asset_id: process.env.META1_ASSET_ID, amount: 10000}),
 			quote: new Asset({asset_id: '1.3.121', precision: 4, amount: 500}),
 		});
 
@@ -532,7 +544,7 @@ describe('Price', function () {
 
 		let price2 = new Price({
 			base: new Asset({asset_id: '1.3.121', precision: 4, amount: 500}),
-			quote: new Asset({asset_id: '1.3.0', amount: 10000}),
+			quote: new Asset({asset_id: process.env.META1_ASSET_ID, amount: 10000}),
 		});
 
 		assert(price1.equals(price2));
@@ -541,12 +553,12 @@ describe('Price', function () {
 
 describe('FeedPrice', function () {
 	let base = new Asset({asset_id: '1.3.121', amount: 36, precision: 4});
-	let quote = new Asset({asset_id: '1.3.0', amount: 86275});
+	let quote = new Asset({asset_id: process.env.META1_ASSET_ID, amount: 86275});
 
 	it('Instantiates', function () {
 		let price = new FeedPrice({
 			priceObject: {base, quote},
-			market_base: '1.3.0',
+			market_base: process.env.META1_ASSET_ID,
 			sqr: 1100,
 			assets,
 		});
@@ -563,7 +575,11 @@ describe('FeedPrice', function () {
 			'Base asset should be 1.3.121'
 		);
 		assert.equal(price.base.amount, 36, 'Base amount should be 36');
-		assert.equal(price.quote.asset_id, '1.3.0', 'Quote asset should be 1.3.0');
+		assert.equal(
+			price.quote.asset_id,
+			process.env.META1_ASSET_ID,
+			'Quote asset should be 1.3.0'
+		);
 		assert.equal(price.quote.amount, 86275, 'Quote amount should be 86275');
 		assert.equal(price.toReal(), 0.0041727, 'Real price should be 0.0041727');
 
@@ -583,7 +599,7 @@ describe('FeedPrice', function () {
 		});
 		let price2 = new FeedPrice({
 			priceObject: {base, quote},
-			market_base: '1.3.0',
+			market_base: process.env.META1_ASSET_ID,
 			sqr: 1100,
 			assets,
 		});
@@ -609,7 +625,7 @@ describe('FeedPrice', function () {
 		});
 		let price2 = new FeedPrice({
 			priceObject: {base, quote},
-			market_base: '1.3.0',
+			market_base: process.env.META1_ASSET_ID,
 			sqr: 1100,
 			assets,
 		});
@@ -720,7 +736,7 @@ describe('LimitOrder', function () {
 		sell_price: {
 			base: {
 				amount: 40652748,
-				asset_id: '1.3.0',
+				asset_id: process.env.META1_ASSET_ID,
 			},
 			quote: {
 				amount: 16186,
@@ -742,7 +758,7 @@ describe('LimitOrder', function () {
 			},
 			quote: {
 				amount: 40652748,
-				asset_id: '1.3.0',
+				asset_id: process.env.META1_ASSET_ID,
 			},
 		},
 		deferred_fee: 14676,
@@ -760,7 +776,7 @@ describe('LimitOrder', function () {
 			},
 			quote: {
 				amount: 150000000,
-				asset_id: '1.3.0',
+				asset_id: process.env.META1_ASSET_ID,
 			},
 		},
 		deferred_fee: 14676,
@@ -774,7 +790,7 @@ describe('LimitOrder', function () {
 		sell_price: {
 			base: {
 				amount: 150000000,
-				asset_id: '1.3.0',
+				asset_id: process.env.META1_ASSET_ID,
 			},
 			quote: {
 				amount: 47554,
@@ -792,7 +808,7 @@ describe('LimitOrder', function () {
 		sell_price: {
 			base: {
 				amount: 6470,
-				asset_id: '1.3.0',
+				asset_id: process.env.META1_ASSET_ID,
 			},
 			quote: {
 				amount: 20113,
@@ -803,7 +819,7 @@ describe('LimitOrder', function () {
 	};
 
 	it('Instantiates', function () {
-		let order = new LimitOrder(o, assets, '1.3.0');
+		let order = new LimitOrder(o, assets, process.env.META1_ASSET_ID);
 		assert(order.id === o.id);
 		assert(order.seller === o.seller);
 		assert(order.for_sale === o.for_sale);
@@ -817,7 +833,7 @@ describe('LimitOrder', function () {
 			251.15994069,
 			'Price should equal 251.15994069'
 		);
-		let order2 = new LimitOrder(o, assets, '1.3.0');
+		let order2 = new LimitOrder(o, assets, process.env.META1_ASSET_ID);
 		assert.equal(
 			order2.getPrice(),
 			0.00398153,
@@ -826,7 +842,7 @@ describe('LimitOrder', function () {
 	});
 
 	it('Returns the amount for sale as an asset', function () {
-		let order = new LimitOrder(o, assets, '1.3.0');
+		let order = new LimitOrder(o, assets, process.env.META1_ASSET_ID);
 		let forSale = order.amountForSale();
 		assert.equal(
 			forSale.getAmount(),
@@ -841,7 +857,7 @@ describe('LimitOrder', function () {
 	});
 
 	it('Returns the amount to receive as an asset', function () {
-		let order = new LimitOrder(o, assets, '1.3.0');
+		let order = new LimitOrder(o, assets, process.env.META1_ASSET_ID);
 		let toReceive = order.amountToReceive();
 		assert.equal(
 			toReceive.getAmount(),
@@ -856,8 +872,8 @@ describe('LimitOrder', function () {
 
 		let order3 = new LimitOrder(o3, assets, '1.3.121');
 		let order4 = new LimitOrder(o4, assets, '1.3.121');
-		let order5 = new LimitOrder(o3, assets, '1.3.0');
-		let order6 = new LimitOrder(o4, assets, '1.3.0');
+		let order5 = new LimitOrder(o3, assets, process.env.META1_ASSET_ID);
+		let order6 = new LimitOrder(o4, assets, process.env.META1_ASSET_ID);
 		let order7 = new LimitOrder(o5, assets, '1.3.121');
 
 		assert.equal(
@@ -888,15 +904,15 @@ describe('LimitOrder', function () {
 	});
 
 	it('Returns the order type', function () {
-		let order = new LimitOrder(o, assets, '1.3.0');
-		let order2 = new LimitOrder(o2, assets, '1.3.0');
+		let order = new LimitOrder(o, assets, process.env.META1_ASSET_ID);
+		let order2 = new LimitOrder(o2, assets, process.env.META1_ASSET_ID);
 		assert.equal(order.isBid(), false, 'Order type should be ASK/false');
 		assert.equal(order2.isBid(), true, 'Order type should be BID/true');
 	});
 
 	it('Can be summed with another order', function () {
-		let o1 = new LimitOrder(o, assets, '1.3.0');
-		let o2 = new LimitOrder(o, assets, '1.3.0');
+		let o1 = new LimitOrder(o, assets, process.env.META1_ASSET_ID);
+		let o2 = new LimitOrder(o, assets, process.env.META1_ASSET_ID);
 
 		let o3 = o1.sum(o2);
 
@@ -908,8 +924,8 @@ describe('LimitOrder', function () {
 	});
 
 	it('Can be compared to another order with equals / ne', function () {
-		let o1 = new LimitOrder(o, assets, '1.3.0');
-		let o2 = new LimitOrder(o, assets, '1.3.0');
+		let o1 = new LimitOrder(o, assets, process.env.META1_ASSET_ID);
+		let o2 = new LimitOrder(o, assets, process.env.META1_ASSET_ID);
 
 		assert.equal(o1.ne(o2), false, 'Orders are the same');
 		assert.equal(o1.equals(o2), true, 'Orders are the same');
@@ -924,7 +940,7 @@ describe('CallOrder', function () {
 
 	let quote = {
 		amount: 59170,
-		asset_id: '1.3.0',
+		asset_id: process.env.META1_ASSET_ID,
 	};
 
 	let settlePrice_0 = new FeedPrice({
@@ -932,7 +948,7 @@ describe('CallOrder', function () {
 			base,
 			quote,
 		},
-		market_base: '1.3.0',
+		market_base: process.env.META1_ASSET_ID,
 		sqr: 1100,
 		assets,
 	});
@@ -955,7 +971,7 @@ describe('CallOrder', function () {
 		call_price: {
 			base: {
 				amount: '13558072233',
-				asset_id: '1.3.0',
+				asset_id: process.env.META1_ASSET_ID,
 			},
 			quote: {
 				amount: 34930000,
@@ -972,7 +988,7 @@ describe('CallOrder', function () {
 		call_price: {
 			base: {
 				amount: '1355807223',
-				asset_id: '1.3.0',
+				asset_id: process.env.META1_ASSET_ID,
 			},
 			quote: {
 				amount: 349300000,
@@ -989,7 +1005,7 @@ describe('CallOrder', function () {
 		call_price: {
 			base: {
 				amount: '1355807223',
-				asset_id: '1.3.0',
+				asset_id: process.env.META1_ASSET_ID,
 			},
 			quote: {
 				amount: 349300000,
@@ -1000,7 +1016,12 @@ describe('CallOrder', function () {
 	};
 
 	it('Instantiates', function () {
-		let order = new CallOrder(o, assets, '1.3.0', settlePrice_0);
+		let order = new CallOrder(
+			o,
+			assets,
+			process.env.META1_ASSET_ID,
+			settlePrice_0
+		);
 		assert.equal(order.id, o.id, 'Id should be 1.8.2317');
 		assert.equal(order.collateral, o.collateral);
 		assert.equal(order.debt, o.debt);
@@ -1013,7 +1034,12 @@ describe('CallOrder', function () {
 			38.8149792,
 			'Price should equal 38.8149792'
 		);
-		let order2 = new CallOrder(o, assets, '1.3.0', settlePrice_0);
+		let order2 = new CallOrder(
+			o,
+			assets,
+			process.env.META1_ASSET_ID,
+			settlePrice_0
+		);
 		assert.equal(
 			order2.getPrice(false),
 			0.02576325,
@@ -1022,7 +1048,12 @@ describe('CallOrder', function () {
 	});
 
 	it('Returns the order type', function () {
-		let order = new CallOrder(o, assets, '1.3.0', settlePrice_0);
+		let order = new CallOrder(
+			o,
+			assets,
+			process.env.META1_ASSET_ID,
+			settlePrice_0
+		);
 		assert.equal(order.isBid(), false, 'Order type should be ASK/false');
 
 		let order2 = new CallOrder(o, assets, '1.3.113', settlePrice_113);
@@ -1050,8 +1081,18 @@ describe('CallOrder', function () {
 				settlePrice_113.toReal()
 		);
 
-		let order3 = new CallOrder(o, assets, '1.3.0', settlePrice_0);
-		let order4 = new CallOrder(o2, assets, '1.3.0', settlePrice_0);
+		let order3 = new CallOrder(
+			o,
+			assets,
+			process.env.META1_ASSET_ID,
+			settlePrice_0
+		);
+		let order4 = new CallOrder(
+			o2,
+			assets,
+			process.env.META1_ASSET_ID,
+			settlePrice_0
+		);
 
 		assert.equal(
 			order3.isMarginCalled(),
@@ -1072,7 +1113,12 @@ describe('CallOrder', function () {
 	});
 
 	it('Returns the amount for sale as an asset based on squeeze price', function () {
-		let order = new CallOrder(o, assets, '1.3.0', settlePrice_0);
+		let order = new CallOrder(
+			o,
+			assets,
+			process.env.META1_ASSET_ID,
+			settlePrice_0
+		);
 		let forSale = order.amountForSale();
 
 		assert.equal(
@@ -1088,7 +1134,12 @@ describe('CallOrder', function () {
 	});
 
 	it('Returns the amount to receive as an asset', function () {
-		let order = new CallOrder(o, assets, '1.3.0', settlePrice_0);
+		let order = new CallOrder(
+			o,
+			assets,
+			process.env.META1_ASSET_ID,
+			settlePrice_0
+		);
 		let toReceive = order.amountToReceive();
 
 		assert.equal(
@@ -1104,8 +1155,18 @@ describe('CallOrder', function () {
 	});
 
 	it('Can be summed with another order', function () {
-		let o1 = new CallOrder(o, assets, '1.3.0', settlePrice_0);
-		let o2 = new CallOrder(o, assets, '1.3.0', settlePrice_0);
+		let o1 = new CallOrder(
+			o,
+			assets,
+			process.env.META1_ASSET_ID,
+			settlePrice_0
+		);
+		let o2 = new CallOrder(
+			o,
+			assets,
+			process.env.META1_ASSET_ID,
+			settlePrice_0
+		);
 		const o3 = o1.sum(o2);
 
 		assert(o3.isSum);
@@ -1123,15 +1184,30 @@ describe('CallOrder', function () {
 	});
 
 	it('Can be compared to another order with equals / ne', function () {
-		let o1 = new CallOrder(o, assets, '1.3.0', settlePrice_0);
-		let o2 = new CallOrder(o, assets, '1.3.0', settlePrice_0);
+		let o1 = new CallOrder(
+			o,
+			assets,
+			process.env.META1_ASSET_ID,
+			settlePrice_0
+		);
+		let o2 = new CallOrder(
+			o,
+			assets,
+			process.env.META1_ASSET_ID,
+			settlePrice_0
+		);
 
 		assert.equal(o1.ne(o2), false, 'Orders are the same');
 		assert.equal(o1.equals(o2), true, 'Orders are the same');
 	});
 
 	it('Calculates collateral to sell using target_collateral_ratio', function () {
-		let o = new CallOrder(o3_target_cr, assets, '1.3.0', settlePrice_0);
+		let o = new CallOrder(
+			o3_target_cr,
+			assets,
+			process.env.META1_ASSET_ID,
+			settlePrice_0
+		);
 		let o2 = new CallOrder(o3_target_cr, assets, '1.3.113', settlePrice_113);
 
 		/* check non-rounded values first */
@@ -1160,7 +1236,7 @@ describe('CallOrder', function () {
 				call_price: {
 					base: {
 						amount: '1355807223',
-						asset_id: '1.3.0',
+						asset_id: process.env.META1_ASSET_ID,
 					},
 					quote: {
 						amount: 349300000,
@@ -1182,8 +1258,18 @@ describe('CallOrder', function () {
 	});
 
 	it('Can be summed using target_cr', function () {
-		let o1 = new CallOrder(o3_target_cr, assets, '1.3.0', settlePrice_0);
-		let o2 = new CallOrder(o, assets, '1.3.0', settlePrice_0);
+		let o1 = new CallOrder(
+			o3_target_cr,
+			assets,
+			process.env.META1_ASSET_ID,
+			settlePrice_0
+		);
+		let o2 = new CallOrder(
+			o,
+			assets,
+			process.env.META1_ASSET_ID,
+			settlePrice_0
+		);
 		const o3 = o1.sum(o2);
 
 		assert(o3.isSum);
@@ -1208,7 +1294,7 @@ describe('CallOrder', function () {
 		},
 		quote: {
 			amount: 100000000,
-			asset_id: '1.3.0',
+			asset_id: process.env.META1_ASSET_ID,
 			precision: 5,
 		},
 		sqr: 1100,
@@ -1219,7 +1305,7 @@ describe('CallOrder', function () {
 			base: new Asset(feedPriceUSD.base),
 			quote: new Asset(feedPriceUSD.quote),
 		},
-		market_base: '1.3.0',
+		market_base: process.env.META1_ASSET_ID,
 		sqr: feedPriceUSD.sqr,
 		assets,
 	});
@@ -1228,7 +1314,7 @@ describe('CallOrder', function () {
 
 	it('Can sum a large amount of call orders', function () {
 		let cos = usdMarginCalls.map(
-			(o) => new CallOrder(o, assets, '1.3.0', feedPrice)
+			(o) => new CallOrder(o, assets, process.env.META1_ASSET_ID, feedPrice)
 		);
 		for (var i = cos.length - 2; i >= 0; i--) {
 			cos[i] = cos[i].sum(cos[i + 1]);
@@ -1247,7 +1333,7 @@ describe('Settle Order', function () {
 
 	let quote = {
 		amount: 10624,
-		asset_id: '1.3.0',
+		asset_id: process.env.META1_ASSET_ID,
 	};
 
 	let settlePrice_0 = new FeedPrice({
@@ -1255,7 +1341,7 @@ describe('Settle Order', function () {
 			base,
 			quote,
 		},
-		market_base: '1.3.0',
+		market_base: process.env.META1_ASSET_ID,
 		sqr: 1100,
 		assets,
 	});
@@ -1293,21 +1379,27 @@ describe('Settle Order', function () {
 	const bitasset_options = {force_settlement_offset_percent: 150};
 
 	it('Instantiates', function () {
-		new SettleOrder(so, assets, '1.3.0', settlePrice_0, bitasset_options);
+		new SettleOrder(
+			so,
+			assets,
+			process.env.META1_ASSET_ID,
+			settlePrice_0,
+			bitasset_options
+		);
 	});
 
 	it('Can be compared by date with isBefore', function () {
 		let order = new SettleOrder(
 			so,
 			assets,
-			'1.3.0',
+			process.env.META1_ASSET_ID,
 			settlePrice_0,
 			bitasset_options
 		);
 		let order2 = new SettleOrder(
 			so2,
 			assets,
-			'1.3.0',
+			process.env.META1_ASSET_ID,
 			settlePrice_0,
 			bitasset_options
 		);
@@ -1328,7 +1420,7 @@ describe('Settle Order', function () {
 		let order = new SettleOrder(
 			so,
 			assets,
-			'1.3.0',
+			process.env.META1_ASSET_ID,
 			settlePrice_0,
 			bitasset_options
 		);
@@ -1379,7 +1471,7 @@ describe('Settle Order', function () {
 		);
 		assert.equal(
 			order.amountToReceive().asset_id,
-			'1.3.0',
+			process.env.META1_ASSET_ID,
 			'Asset to receive should be 1.3.0'
 		);
 		assert.equal(
@@ -1406,7 +1498,7 @@ describe('Settle Order', function () {
 		let order2 = new SettleOrder(
 			so,
 			assets,
-			'1.3.0',
+			process.env.META1_ASSET_ID,
 			settlePrice_0,
 			bitasset_options
 		);
@@ -1419,7 +1511,7 @@ describe('Fill Order', function () {
 	const fill_1 = {
 		id: '5.0.46863942',
 		key: {
-			base: '1.3.0',
+			base: process.env.META1_ASSET_ID,
 			quote: '1.3.121',
 			sequence: -6204499,
 		},
@@ -1432,7 +1524,7 @@ describe('Fill Order', function () {
 			fill_price: {
 				base: {
 					amount: 42848745,
-					asset_id: '1.3.0',
+					asset_id: process.env.META1_ASSET_ID,
 				},
 				quote: {
 					amount: 626498,
@@ -1443,7 +1535,7 @@ describe('Fill Order', function () {
 			order_id: '1.7.104920573',
 			pays: {
 				amount: 55674,
-				asset_id: '1.3.0',
+				asset_id: process.env.META1_ASSET_ID,
 			},
 			receives: {
 				amount: 814,
@@ -1456,7 +1548,7 @@ describe('Fill Order', function () {
 	const fill_2 = {
 		id: '5.0.46863942',
 		key: {
-			base: '1.3.0',
+			base: process.env.META1_ASSET_ID,
 			quote: '1.3.121',
 			sequence: -6204499,
 		},
@@ -1469,7 +1561,7 @@ describe('Fill Order', function () {
 			fill_price: {
 				base: {
 					amount: 42848745,
-					asset_id: '1.3.0',
+					asset_id: process.env.META1_ASSET_ID,
 				},
 				quote: {
 					amount: 626498,
@@ -1484,7 +1576,7 @@ describe('Fill Order', function () {
 			},
 			receives: {
 				amount: 814,
-				asset_id: '1.3.0',
+				asset_id: process.env.META1_ASSET_ID,
 			},
 		},
 		time: '2018-07-11T07:48:42',
@@ -1493,7 +1585,7 @@ describe('Fill Order', function () {
 	const fill_3 = {
 		id: '5.0.46863942',
 		key: {
-			base: '1.3.0',
+			base: process.env.META1_ASSET_ID,
 			quote: '1.3.121',
 			sequence: -6204499,
 		},
@@ -1506,7 +1598,7 @@ describe('Fill Order', function () {
 			fill_price: {
 				base: {
 					amount: 42848745,
-					asset_id: '1.3.0',
+					asset_id: process.env.META1_ASSET_ID,
 				},
 				quote: {
 					amount: 626498,
@@ -1521,7 +1613,7 @@ describe('Fill Order', function () {
 			},
 			receives: {
 				amount: 814,
-				asset_id: '1.3.0',
+				asset_id: process.env.META1_ASSET_ID,
 			},
 		},
 		time: '2018-07-11T07:48:42',
@@ -1537,12 +1629,12 @@ describe('Fill Order', function () {
 				account_id: '1.2.680',
 				fee: {
 					amount: 0,
-					asset_id: '1.3.0',
+					asset_id: process.env.META1_ASSET_ID,
 				},
 				fill_price: {
 					base: {
 						amount: 1000200002,
-						asset_id: '1.3.0',
+						asset_id: process.env.META1_ASSET_ID,
 					},
 					quote: {
 						amount: 20000,
@@ -1557,7 +1649,7 @@ describe('Fill Order', function () {
 				},
 				receives: {
 					amount: 500100001,
-					asset_id: '1.3.0',
+					asset_id: process.env.META1_ASSET_ID,
 				},
 			},
 		],
@@ -1575,7 +1667,7 @@ describe('Fill Order', function () {
 				account_id: '1.2.680',
 				fee: {
 					amount: 0,
-					asset_id: '1.3.0',
+					asset_id: process.env.META1_ASSET_ID,
 				},
 				fill_price: {
 					base: {
@@ -1584,7 +1676,7 @@ describe('Fill Order', function () {
 					},
 					quote: {
 						amount: 1020000000,
-						asset_id: '1.3.0',
+						asset_id: process.env.META1_ASSET_ID,
 					},
 				},
 				is_maker: true,
@@ -1595,7 +1687,7 @@ describe('Fill Order', function () {
 				},
 				receives: {
 					amount: 1020000000,
-					asset_id: '1.3.0',
+					asset_id: process.env.META1_ASSET_ID,
 				},
 			},
 		],
@@ -1608,7 +1700,7 @@ describe('Fill Order', function () {
 	const marketHistorySell = {
 		id: '5.0.44514',
 		key: {
-			base: '1.3.0',
+			base: process.env.META1_ASSET_ID,
 			quote: '1.3.22',
 			sequence: -40474,
 		},
@@ -1616,12 +1708,12 @@ describe('Fill Order', function () {
 			account_id: '1.2.680',
 			fee: {
 				amount: 0,
-				asset_id: '1.3.0',
+				asset_id: process.env.META1_ASSET_ID,
 			},
 			fill_price: {
 				base: {
 					amount: 1000200002,
-					asset_id: '1.3.0',
+					asset_id: process.env.META1_ASSET_ID,
 				},
 				quote: {
 					amount: 20000,
@@ -1636,7 +1728,7 @@ describe('Fill Order', function () {
 			},
 			receives: {
 				amount: 500100001,
-				asset_id: '1.3.0',
+				asset_id: process.env.META1_ASSET_ID,
 			},
 		},
 		time: '2018-07-12T09:18:57',
@@ -1645,7 +1737,7 @@ describe('Fill Order', function () {
 	const marketHistorySell2 = {
 		id: '5.0.40990',
 		key: {
-			base: '1.3.0',
+			base: process.env.META1_ASSET_ID,
 			quote: '1.3.22',
 			sequence: -40429,
 		},
@@ -1653,7 +1745,7 @@ describe('Fill Order', function () {
 			account_id: '1.2.780',
 			fee: {
 				amount: 0,
-				asset_id: '1.3.0',
+				asset_id: process.env.META1_ASSET_ID,
 			},
 			fill_price: {
 				base: {
@@ -1662,7 +1754,7 @@ describe('Fill Order', function () {
 				},
 				quote: {
 					amount: 272073,
-					asset_id: '1.3.0',
+					asset_id: process.env.META1_ASSET_ID,
 				},
 			},
 			is_maker: false,
@@ -1673,14 +1765,14 @@ describe('Fill Order', function () {
 			},
 			receives: {
 				amount: 20928691,
-				asset_id: '1.3.0',
+				asset_id: process.env.META1_ASSET_ID,
 			},
 		},
 		time: '2017-02-10T09:07:50',
 	};
 
 	it('Instantiates', function () {
-		new FillOrder(fill_1, assets, '1.3.0');
+		new FillOrder(fill_1, assets, process.env.META1_ASSET_ID);
 	});
 
 	it('Returns the correct price', function () {
@@ -1696,7 +1788,7 @@ describe('Fill Order', function () {
 		let o5 = new FillOrder(myHistorySellTaker, assets, '1.3.22');
 		assert.equal(o5.getPrice(), 5001.00001);
 
-		let o = new FillOrder(fill_1, assets, '1.3.0');
+		let o = new FillOrder(fill_1, assets, process.env.META1_ASSET_ID);
 		let o2 = new FillOrder(fill_1, assets, '1.3.121');
 
 		assert.equal(o.getPrice(), 0.14621152);
@@ -1705,12 +1797,12 @@ describe('Fill Order', function () {
 	});
 
 	it('Returns the amount to receive', function () {
-		let o = new FillOrder(fill_1, assets, '1.3.0');
+		let o = new FillOrder(fill_1, assets, process.env.META1_ASSET_ID);
 		assert.equal(o.amountToReceive(), 0.55672);
 	});
 
 	it('Returns the amount to pay', function () {
-		let o = new FillOrder(fill_1, assets, '1.3.0');
+		let o = new FillOrder(fill_1, assets, process.env.META1_ASSET_ID);
 		assert.equal(o.amountToPay(), 0.0814);
 	});
 
@@ -1724,11 +1816,11 @@ describe('Fill Order', function () {
 		let o5 = new FillOrder(marketHistorySell, assets, '1.3.22');
 		assert.equal(o5.isBid, false);
 
-		let o = new FillOrder(fill_1, assets, '1.3.0');
+		let o = new FillOrder(fill_1, assets, process.env.META1_ASSET_ID);
 		assert.equal(o.isBid, false);
-		let o2 = new FillOrder(fill_2, assets, '1.3.0');
+		let o2 = new FillOrder(fill_2, assets, process.env.META1_ASSET_ID);
 		assert.equal(o2.isBid, true);
-		let o3 = new FillOrder(fill_3, assets, '1.3.0');
+		let o3 = new FillOrder(fill_3, assets, process.env.META1_ASSET_ID);
 		assert.equal(o3.isBid, true);
 		assert.equal(o3.isCall, true);
 	});

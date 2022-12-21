@@ -253,7 +253,9 @@ class App extends React.Component {
 	 * @returns {Date}
 	 */
 	getBlockTime() {
-		let dynGlobalObject = ChainStore.getObject('2.1.0');
+		let dynGlobalObject = ChainStore.getObject(
+			process.env.DYNAMIC_GLOBAL_PROPERTY
+		);
 		if (dynGlobalObject) {
 			let block_time = dynGlobalObject.get('time');
 			if (!/Z$/.test(block_time)) {

@@ -66,7 +66,7 @@ class AccountActions {
 		asset,
 		memo,
 		propose_account = null,
-		fee_asset_id = '1.3.0'
+		fee_asset_id = process.env.META1_ASSET_ID
 	) {
 		// Set the fee asset to use
 		fee_asset_id = accountUtils.getFinalFeeAsset(
@@ -210,7 +210,7 @@ class AccountActions {
 		tr.add_type_operation('committee_member_create', {
 			fee: {
 				amount: 0,
-				asset_id: '1.3.0',
+				asset_id: process.env.META1_ASSET_ID,
 			},
 			committee_member_account: account_id,
 			url: url,
@@ -234,7 +234,7 @@ class AccountActions {
 		tr.add_type_operation('witness_create', {
 			fee: {
 				amount: 0,
-				asset_id: '1.3.0',
+				asset_id: process.env.META1_ASSET_ID,
 			},
 			witness_account: account_id,
 			url: url,

@@ -101,7 +101,7 @@ class FeePoolOperation extends React.Component {
 		let dynamicObject = null;
 		if (!hideBalance)
 			dynamicObject = getDynamicObject(asset.get('dynamic_asset_data_id'));
-		const coreID = core.get('id') || '1.3.0';
+		const coreID = core.get('id') || process.env.META1_ASSET_ID;
 		let balance = 0;
 		if (newFunderAccount) {
 			const coreBalanceID = newFunderAccount.getIn(['balances', coreID]);
@@ -178,7 +178,7 @@ class FeePoolOperation extends React.Component {
 		const {claimPoolAmount} = this.state;
 		const {asset, core, getDynamicObject} = props;
 		let dynamicObject = getDynamicObject(asset.get('dynamic_asset_data_id'));
-		const coreID = core.get('id') || '1.3.0';
+		const coreID = core.get('id') || process.env.META1_ASSET_ID;
 
 		const balanceText = !!dynamicObject ? (
 			<span
@@ -316,7 +316,7 @@ class FeePoolOperation extends React.Component {
 FeePoolOperation = AssetWrapper(FeePoolOperation, {
 	propNames: ['asset', 'core'],
 	defaultProps: {
-		core: '1.3.0',
+		core: process.env.META1_ASSET_ID,
 	},
 	withDynamic: true,
 });

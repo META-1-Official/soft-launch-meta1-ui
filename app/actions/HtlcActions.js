@@ -75,7 +75,7 @@ class HtlcActions {
 			to: to_account_id,
 			fee: {
 				amount: 0,
-				asset_id: '1.3.0',
+				asset_id: process.env.META1_ASSET_ID,
 			},
 			amount: {
 				amount: amount,
@@ -108,7 +108,7 @@ class HtlcActions {
 			preimage: new Buffer(preimage).toString('hex'),
 			fee: {
 				amount: 0,
-				asset_id: '1.3.0',
+				asset_id: process.env.META1_ASSET_ID,
 			},
 			htlc_id: htlc_id,
 			redeemer: user_id,
@@ -135,7 +135,7 @@ class HtlcActions {
 		tr.add_type_operation('htlc_extend', {
 			fee: {
 				amount: 0,
-				asset_id: '1.3.0',
+				asset_id: process.env.META1_ASSET_ID,
 			},
 			htlc_id: htlc_id,
 			update_issuer: user_id,

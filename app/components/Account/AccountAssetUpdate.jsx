@@ -43,7 +43,7 @@ class AccountAssetUpdate extends React.Component {
 	};
 
 	static defaultProps = {
-		globalObject: '2.0.0',
+		globalObject: process.env.GLOBAL_PROPERTY,
 	};
 
 	constructor(props) {
@@ -905,8 +905,8 @@ class AccountAssetUpdate extends React.Component {
 		let cerValid = false;
 
 		if (
-			(cr_quote_asset.get('id') === '1.3.0' ||
-				cr_base_asset.get('id') === '1.3.0') &&
+			(cr_quote_asset.get('id') === process.env.META1_ASSET_ID ||
+				cr_base_asset.get('id') === process.env.META1_ASSET_ID) &&
 			(cr_quote_asset.get('id') === asset.get('id') ||
 				cr_base_asset.get('id') === asset.get('id'))
 		) {
@@ -1412,7 +1412,7 @@ AccountAssetUpdate = BindToChainState(AccountAssetUpdate);
 AccountAssetUpdate = AssetWrapper(AccountAssetUpdate, {
 	propNames: ['asset', 'core'],
 	defaultProps: {
-		core: '1.3.0',
+		core: process.env.META1_ASSET_ID,
 	},
 	withDynamic: true,
 });

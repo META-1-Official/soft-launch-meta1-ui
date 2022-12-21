@@ -169,7 +169,7 @@ class WorkerList extends React.Component {
 					return (
 						<FormattedAsset
 							amount={item}
-							asset="1.3.0"
+							asset={process.env.META1_ASSET_ID}
 							decimalOffset={5}
 							hide_asset
 							style={{whiteSpace: 'nowrap'}}
@@ -198,7 +198,7 @@ class WorkerList extends React.Component {
 								>
 									<FormattedAsset
 										amount={Math.max(0, item)}
-										asset="1.3.0"
+										asset={process.env.META1_ASSET_ID}
 										hide_asset
 										decimalOffset={5}
 									/>
@@ -291,7 +291,7 @@ class WorkerList extends React.Component {
 									) : (
 										<EquivalentValueComponent
 											hide_asset
-											fromAsset="1.3.0"
+											fromasset={process.env.META1_ASSET_ID}
 											toAsset={item.preferredUnit}
 											amount={item.rest}
 										/>
@@ -337,7 +337,7 @@ class WorkerList extends React.Component {
 						>
 							<EquivalentValueComponent
 								hide_asset
-								fromAsset="1.3.0"
+								fromasset={process.env.META1_ASSET_ID}
 								toAsset={item.preferredUnit}
 								amount={item.daily_pay}
 								style={{whiteSpace: 'nowrap'}}

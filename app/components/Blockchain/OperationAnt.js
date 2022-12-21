@@ -83,7 +83,10 @@ class Operation {
 									type: 'amount',
 									value: op[1].amount,
 									arg: 'amount',
-									decimalOffset: op[1].amount.asset_id === '1.3.0' ? 5 : null,
+									decimalOffset:
+										op[1].amount.asset_id === process.env.META1_ASSET_ID
+											? 5
+											: null,
 								},
 								{type: 'account', value: op[1].to, arg: 'to'},
 							]}
@@ -478,7 +481,7 @@ class Operation {
 									type: 'amount',
 									value: {
 										amount: op[1].amount,
-										asset_id: '1.3.0',
+										asset_id: process.env.META1_ASSET_ID,
 									},
 									arg: 'amount',
 								},
@@ -639,7 +642,10 @@ class Operation {
 						<span>
 							<Translate component="span" content="transaction.witness_pay" />
 							&nbsp;
-							<FormattedAsset amount={op[1].amount} asset={'1.3.0'} />
+							<FormattedAsset
+								amount={op[1].amount}
+								asset={process.env.META1_ASSET_ID}
+							/>
 							<Translate component="span" content="transaction.to" />
 							&nbsp;
 							{this.linkToAccount(op[1].witness_account)}
@@ -650,7 +656,10 @@ class Operation {
 						<span>
 							<Translate component="span" content="transaction.received" />
 							&nbsp;
-							<FormattedAsset amount={op[1].amount} asset={'1.3.0'} />
+							<FormattedAsset
+								amount={op[1].amount}
+								asset={process.env.META1_ASSET_ID}
+							/>
 							<Translate component="span" content="transaction.from" />
 							&nbsp;
 							{this.linkToAccount(op[1].witness_account)}
@@ -999,7 +1008,7 @@ class Operation {
 									type: 'amount',
 									value: {
 										amount: op[1].daily_pay,
-										asset_id: '1.3.0',
+										asset_id: process.env.META1_ASSET_ID,
 									},
 									arg: 'pay',
 								},
@@ -1151,7 +1160,7 @@ class Operation {
 							keys={[
 								{
 									type: 'account',
-									value: '1.2.0',
+									value: process.env.GENESIS_ACCOUNT_ID,
 									arg: 'account',
 								},
 							]}
@@ -1269,8 +1278,10 @@ class Operation {
 				);
 				break;
 			case 'htlc_create':
-				const globalObject = ChainStore.getObject('2.0.0');
-				const dynGlobalObject = ChainStore.getObject('2.1.0');
+				const globalObject = ChainStore.getObject(process.env.GLOBAL_PROPERTY);
+				const dynGlobalObject = ChainStore.getObject(
+					process.env.DYNAMIC_GLOBAL_PROPERTY
+				);
 				let block_time = utils.calc_block_time(
 					block,
 					globalObject,
@@ -1424,7 +1435,10 @@ class Operation {
 									type: 'amount',
 									value: op[1].amount,
 									arg: 'amount',
-									decimalOffset: op[1].amount.asset_id === '1.3.0' ? 5 : null,
+									decimalOffset:
+										op[1].amount.asset_id === process.env.META1_ASSET_ID
+											? 5
+											: null,
 								},
 								{
 									value: op[1].htlc_id,

@@ -9,7 +9,7 @@ import counterpart from 'counterpart';
 import {isGatewayTemporarilyDisabled} from '../chain/onChainConfig';
 
 export function getGatewayName(asset) {
-	if (asset.get('issuer') === '1.2.0') {
+	if (asset.get('issuer') === process.env.GENESIS_ACCOUNT_ID) {
 		return counterpart.translate('exchange.native');
 	}
 

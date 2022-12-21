@@ -14,7 +14,8 @@ class FeeAssetSettings extends React.Component {
 		this.state = {
 			showModal: false,
 			current_asset:
-				ChainStore.assets_by_symbol.get(props.fee_asset) || '1.3.0',
+				ChainStore.assets_by_symbol.get(props.fee_asset) ||
+				process.env.META1_ASSET_ID,
 		};
 	}
 

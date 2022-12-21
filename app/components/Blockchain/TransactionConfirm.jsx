@@ -157,7 +157,7 @@ class TransactionConfirm extends React.Component {
 							<Operation
 								op={this.props.transaction.serialize().operations[0]}
 								block={1}
-								current={'1.2.0'}
+								current={process.env.GENESIS_ACCOUNT_ID}
 								hideFee
 								inverted={false}
 								hideOpLabel={true}

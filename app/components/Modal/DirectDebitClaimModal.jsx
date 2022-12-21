@@ -41,7 +41,8 @@ class DirectDebitClaimModal extends React.Component {
 			error: null,
 			feeAsset: null,
 			fee_asset_id:
-				ChainStore.assets_by_symbol.get(this.props.fee_asset_symbol) || '1.3.0',
+				ChainStore.assets_by_symbol.get(this.props.fee_asset_symbol) ||
+				process.env.META1_ASSET_ID,
 			feeAmount: new Asset({amount: 0}),
 			feeStatus: {},
 			maxAmount: false,
@@ -151,7 +152,10 @@ class DirectDebitClaimModal extends React.Component {
 			? ChainStore.getObject(feeBalanceID)
 			: null;
 		if (!feeBalanceObject || feeBalanceObject.get('balance') === 0) {
-			this.setState({fee_asset_id: '1.3.0'}, this._updateFee);
+			this.setState(
+				{fee_asset_id: process.env.META1_ASSET_ID},
+				this._updateFee
+			);
 		}
 		if (!balanceObject || !feeAmount) return;
 

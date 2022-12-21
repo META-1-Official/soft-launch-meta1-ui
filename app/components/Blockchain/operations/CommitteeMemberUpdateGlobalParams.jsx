@@ -13,7 +13,7 @@ export const CommitteeMemberUpdateGlobalParams = ({fromComponent}) => {
 				keys={[
 					{
 						type: 'account',
-						value: '1.2.0',
+						value: process.env.GENESIS_ACCOUNT_ID,
 						arg: 'account',
 					},
 				]}

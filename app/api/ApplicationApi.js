@@ -115,7 +115,7 @@ const ApplicationApi = {
 		propose_account = null, // should be called memo_sender, but is not for compatibility reasons with transfer. Is set to "from_account" for non proposals
 		encrypt_memo = true,
 		optional_nonce = null,
-		fee_asset_id = '1.3.0',
+		fee_asset_id = process.env.META1_ASSET_ID,
 		transactionBuilder = null,
 	}) {
 		let memo_sender_account = propose_account || from_account;
@@ -175,10 +175,12 @@ const ApplicationApi = {
 
 				// Default to CORE in case of faulty core_exchange_rate
 				if (
-					fee_asset.options.core_exchange_rate.base.asset_id === '1.3.0' &&
-					fee_asset.options.core_exchange_rate.quote.asset_id === '1.3.0'
+					fee_asset.options.core_exchange_rate.base.asset_id ===
+						process.env.META1_ASSET_ID &&
+					fee_asset.options.core_exchange_rate.quote.asset_id ===
+						process.env.META1_ASSET_ID
 				) {
-					fee_asset_id = '1.3.0';
+					fee_asset_id = process.env.META1_ASSET_ID;
 				}
 
 				let tr = null;
@@ -230,7 +232,7 @@ const ApplicationApi = {
 		encrypt_memo = true,
 		optional_nonce = null,
 		propose_account = null,
-		fee_asset_id = '1.3.0',
+		fee_asset_id = process.env.META1_ASSET_ID,
 		transactionBuilder = null,
 	}) {
 		if (transactionBuilder == null) {
@@ -286,7 +288,7 @@ const ApplicationApi = {
 
 	transfer_list(list_of_transfers, proposal_fee = null) {
 		if (!proposal_fee) {
-			proposal_fee = '1.3.0';
+			proposal_fee = process.env.META1_ASSET_ID;
 		}
 		if (typeof proposal_fee !== 'string') {
 			proposal_fee = proposal_fee.get('id');
@@ -432,7 +434,7 @@ const ApplicationApi = {
 	createWorker(options, account) {
 		return new Promise((resolve, reject) => {
 			let tr = new TransactionBuilder();
-			const core = ChainStore.getAsset('1.3.0');
+			const core = ChainStore.getAsset(process.env.META1_ASSET_ID);
 			if (!core) reject(new Error("Can't find core asset, please try again"));
 			let precision = Math.pow(10, core.get('precision'));
 
@@ -511,7 +513,7 @@ const ApplicationApi = {
 		periodInSeconds,
 		periodsUntilExpiration,
 		periodStartTime = null,
-		feeAsset = '1.3.0',
+		feeAsset = process.env.META1_ASSET_ID,
 		broadcast = true
 	) {
 		// default is now
@@ -590,7 +592,7 @@ const ApplicationApi = {
 		periodInSeconds,
 		periodsUntilExpiration,
 		periodStartTime = null,
-		feeAsset = '1.3.0',
+		feeAsset = process.env.META1_ASSET_ID,
 		broadcast = true
 	) {
 		// default is now
@@ -662,7 +664,7 @@ const ApplicationApi = {
 		claimAsset,
 		claimAssetAmount,
 		memo = null,
-		feeAsset = '1.3.0',
+		feeAsset = process.env.META1_ASSET_ID,
 		broadcast = true
 	) {
 		// account must be unlocked
@@ -736,7 +738,7 @@ const ApplicationApi = {
 		withdrawPermissionId,
 		from,
 		to,
-		feeAsset = '1.3.0',
+		feeAsset = process.env.META1_ASSET_ID,
 		broadcast = true
 	) {
 		// account must be unlocked
@@ -777,7 +779,7 @@ const ApplicationApi = {
 		asset,
 		amount,
 		policy,
-		feeAsset = '1.3.0',
+		feeAsset = process.env.META1_ASSET_ID,
 		broadcast = true
 	) {
 		// account must be unlocked
@@ -819,7 +821,7 @@ const ApplicationApi = {
 		asset,
 		amount,
 		targetType = ChainTypes.ticket_type.lock_forever,
-		feeAsset = '1.3.0',
+		feeAsset = process.env.META1_ASSET_ID,
 		broadcast = true
 	) {
 		// account must be unlocked

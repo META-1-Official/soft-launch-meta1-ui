@@ -17,7 +17,7 @@ const ADDRESS_PREFIX =
 
 function estimateFeeAsync(type, options = null, data = {}) {
 	return new Promise((res, rej) => {
-		FetchChain('getObject', '2.0.0')
+		FetchChain('getObject', process.env.GLOBAL_PROPERTY)
 			.then((obj) => {
 				try {
 					res(estimateFee(type, options, obj, data));
@@ -36,7 +36,7 @@ function checkFeePoolAsync({
 	data,
 } = {}) {
 	return new Promise((res, rej) => {
-		if (assetID === '1.3.0') {
+		if (assetID === process.env.META1_ASSET_ID) {
 			res(true);
 		} else {
 			Promise.all([
@@ -57,7 +57,7 @@ const feeStatusTTL = 60000; // 1 minute
 
 function checkFeeStatusAsync({
 	accountID,
-	feeID = '1.3.0',
+	feeID = process.env.META1_ASSET_ID,
 	type = 'transfer',
 	options = null,
 	data,
@@ -91,17 +91,22 @@ function checkFeeStatusAsync({
 			estimateFeeAsync(type, options, data),
 			checkFeePoolAsync({assetID: feeID, type, options, data}),
 			FetchChain('getAccount', accountID),
-			FetchChain('getAsset', '1.3.0'),
-			feeID !== '1.3.0' ? FetchChain('getAsset', feeID) : null,
+			FetchChain('getAsset', process.env.META1_ASSET_ID),
+			feeID !== process.env.META1_ASSET_ID
+				? FetchChain('getAsset', feeID)
+				: null,
 		])
 			.then((result) => {
 				let [coreFee, hasPoolBalance, account, coreAsset, feeAsset] = result;
 				let hasBalance = false;
-				if (feeID === '1.3.0') feeAsset = coreAsset;
-				let coreBalanceID = account?.getIn(['balances', '1.3.0']),
+				if (feeID === process.env.META1_ASSET_ID) feeAsset = coreAsset;
+				let coreBalanceID = account?.getIn([
+						'balances',
+						process.env.META1_ASSET_ID,
+					]),
 					feeBalanceID = account?.getIn(['balances', feeID]);
 
-				if (feeID === '1.3.0' && !coreBalanceID) {
+				if (feeID === process.env.META1_ASSET_ID && !coreBalanceID) {
 					asyncCache[key].queue.forEach((promise) => {
 						promise.res({
 							fee: new Asset({amount: coreFee * operationsCount}),
@@ -134,7 +139,7 @@ function checkFeeStatusAsync({
 					 ** If the fee is to be paid in a non-core asset, check the fee
 					 ** pool and convert the amount using the CER
 					 */
-					if (feeID !== '1.3.0') {
+					if (feeID !== process.env.META1_ASSET_ID) {
 						// Convert the amount using the CER
 						let cer = feeAsset.getIn(['options', 'core_exchange_rate']);
 						let b = cer.get('base').toJS();
@@ -334,7 +339,11 @@ function checkBalance(amount, sendAsset, feeAmount, balance) {
 }
 
 function shouldPayFeeWithAssetAsync(fromAccount, feeAmount) {
-	if (fromAccount && feeAmount && feeAmount.asset_id === '1.3.0') {
+	if (
+		fromAccount &&
+		feeAmount &&
+		feeAmount.asset_id === process.env.META1_ASSET_ID
+	) {
 		const balanceID = fromAccount.getIn(['balances', feeAmount.asset_id]);
 		return FetchChain('getObject', balanceID).then((balanceObject) => {
 			const balance = balanceObject.get('balance');

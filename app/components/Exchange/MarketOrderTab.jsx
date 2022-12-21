@@ -74,7 +74,7 @@ const MarketOrderForm = (props) => {
 				hiddenBalancesList = Immutable.List();
 			var symbolType = new Map();
 
-			symbolType.set('META1', '1.3.0');
+			symbolType.set('META1', process.env.META1_ASSET_ID);
 			symbolType.set('USDT', '1.3.1');
 			symbolType.set('BTC', '1.3.5');
 			symbolType.set('ETH', '1.3.4');

@@ -1058,7 +1058,10 @@ class Transaction extends React.Component {
 								<Translate component="span" content="transfer.amount" />
 							</td>
 							<td>
-								<FormattedAsset amount={op[1].amount} asset="1.3.0" />
+								<FormattedAsset
+									amount={op[1].amount}
+									asset={process.env.META1_ASSET_ID}
+								/>
 							</td>
 						</tr>
 					);
@@ -1712,7 +1715,10 @@ class Transaction extends React.Component {
 								/>
 							</td>
 							<td>
-								<FormattedAsset amount={op[1].daily_pay} asset="1.3.0" />
+								<FormattedAsset
+									amount={op[1].daily_pay}
+									asset={process.env.META1_ASSET_ID}
+								/>
 							</td>
 						</tr>
 					);

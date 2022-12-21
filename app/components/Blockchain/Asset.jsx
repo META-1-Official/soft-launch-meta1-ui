@@ -333,7 +333,7 @@ class Asset extends React.Component {
 		let urls = desc.match(urlTest);
 
 		// Add market link
-		const core_asset = ChainStore.getAsset('1.3.0');
+		const core_asset = ChainStore.getAsset(process.env.META1_ASSET_ID);
 		let preferredMarket = description.market
 			? description.market
 			: core_asset
@@ -964,7 +964,7 @@ class Asset extends React.Component {
 		let dynamic = this.props.getDynamicObject(asset.dynamic_asset_data_id);
 		if (dynamic) dynamic = dynamic.toJS();
 		var options = asset.options;
-		const core = ChainStore.getAsset('1.3.0');
+		const core = ChainStore.getAsset(process.env.META1_ASSET_ID);
 
 		return (
 			<Panel
@@ -973,7 +973,10 @@ class Asset extends React.Component {
 						<Translate content="explorer.asset.fee_pool.title" />
 						{dynamic ? (
 							<span className="float-right">
-								<FormattedAsset asset="1.3.0" amount={dynamic.fee_pool} />
+								<FormattedAsset
+									asset={process.env.META1_ASSET_ID}
+									amount={dynamic.fee_pool}
+								/>
 							</span>
 						) : null}
 					</div>
@@ -1001,7 +1004,10 @@ class Asset extends React.Component {
 								</td>
 								<td>
 									{dynamic ? (
-										<FormattedAsset asset="1.3.0" amount={dynamic.fee_pool} />
+										<FormattedAsset
+											asset={process.env.META1_ASSET_ID}
+											amount={dynamic.fee_pool}
+										/>
 									) : null}
 								</td>
 							</tr>
@@ -1981,7 +1987,7 @@ class AssetContainer extends React.Component {
 		}
 		let backingAsset = this.props.asset.has('bitasset')
 			? this.props.asset.getIn(['bitasset', 'options', 'short_backing_asset'])
-			: '1.3.0';
+			: process.env.META1_ASSET_ID;
 		return <Asset {...this.props} backingAsset={backingAsset} />;
 	}
 }

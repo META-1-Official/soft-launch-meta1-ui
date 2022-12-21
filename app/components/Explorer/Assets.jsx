@@ -147,7 +147,7 @@ class Assets extends React.Component {
 		let {activeFilter} = this.state;
 
 		let placeholder = counterpart.translate('markets.filter').toUpperCase();
-		let coreAsset = ChainStore.getAsset('1.3.0');
+		let coreAsset = ChainStore.getAsset(process.env.META1_ASSET_ID);
 
 		let pm;
 

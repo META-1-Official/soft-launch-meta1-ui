@@ -27,7 +27,7 @@ export const AssetFundFeePool = ({
 				<FormattedAsset
 					style={{fontWeight: 'bold'}}
 					amount={op[1].amount}
-					asset="1.3.0"
+					asset={process.env.META1_ASSET_ID}
 				/>
 			</span>
 		);
@@ -51,7 +51,7 @@ export const AssetFundFeePool = ({
 							type: 'amount',
 							value: {
 								amount: op[1].amount,
-								asset_id: '1.3.0',
+								asset_id: process.env.META1_ASSET_ID,
 							},
 							arg: 'amount',
 						},

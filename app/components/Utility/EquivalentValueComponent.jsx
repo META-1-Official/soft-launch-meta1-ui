@@ -109,8 +109,8 @@ class ValueComponent extends MarketStatsCheck {
 ValueComponent = AssetWrapper(ValueComponent, {
 	propNames: ['toAsset', 'fromAsset', 'coreAsset'],
 	defaultProps: {
-		toAsset: '1.3.0',
-		coreAsset: '1.3.0',
+		toAsset: process.env.META1_ASSET_ID,
+		coreAsset: process.env.META1_ASSET_ID,
 	},
 });
 

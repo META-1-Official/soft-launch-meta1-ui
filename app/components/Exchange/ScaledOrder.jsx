@@ -363,9 +363,9 @@ class ScaledOrderForm extends Component {
 
 		const feeCurrencySelect = getFieldDecorator('feeCurrency', {
 			initialValue:
-				ChainStore.getAsset('1.3.0') &&
-				ChainStore.getAsset('1.3.0').get &&
-				ChainStore.getAsset('1.3.0').get('symbol'),
+				ChainStore.getAsset(process.env.META1_ASSET_ID) &&
+				ChainStore.getAsset(process.env.META1_ASSET_ID).get &&
+				ChainStore.getAsset(process.env.META1_ASSET_ID).get('symbol'),
 		})(
 			<Select
 				showSearch

@@ -72,7 +72,7 @@ class MarketChangeComponent extends MarketStats {
 }
 MarketChangeComponent = AssetWrapper(MarketChangeComponent, {
 	propNames: ['quote', 'base'],
-	defaultProps: {quote: '1.3.0'},
+	defaultProps: {quote: process.env.META1_ASSET_ID},
 });
 
 class Market24HourChangeComponent extends React.Component {

@@ -20,8 +20,7 @@ import {toast} from 'react-toastify';
 
 const OvalImage = require('assets/oval/oval.png');
 
-const STORAGE_KEY = '__AuthData__';
-const ss = new ls(STORAGE_KEY);
+const ss = new ls(process.env.AUTH_STORAGE_KEY);
 
 class AccountRegistration extends React.Component {
 	constructor() {

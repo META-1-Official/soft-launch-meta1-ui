@@ -65,7 +65,7 @@ class BitAssetOptions extends React.Component {
 				ChainStore.getAsset(
 					backing.getIn(['bitasset', 'options', 'short_backing_asset'])
 				);
-			if (backing_backing && backing_backing !== '1.3.0') {
+			if (backing_backing && backing_backing !== process.env.META1_ASSET_ID) {
 				this.setState({
 					error: counterpart.translate(
 						'account.user_issued_assets.error_too_deep'
@@ -194,8 +194,8 @@ class AccountAssetCreate extends React.Component {
 	};
 
 	static defaultProps = {
-		globalObject: '2.0.0',
-		core: '1.3.0',
+		globalObject: process.env.GLOBAL_PROPERTY,
+		core: process.env.META1_ASSET_ID,
 	};
 
 	constructor(props) {
@@ -218,7 +218,9 @@ class AccountAssetCreate extends React.Component {
 		// let permissions = assetUtils.getPermissions(permissionBooleans, isBitAsset);
 		// console.log("all permissions:", permissionBooleans, permissions)
 
-		let coreRateBaseAssetName = ChainStore.getAsset('1.3.0').get('symbol');
+		let coreRateBaseAssetName = ChainStore.getAsset(
+			process.env.META1_ASSET_ID
+		).get('symbol');
 
 		return {
 			update: {
@@ -244,7 +246,7 @@ class AccountAssetCreate extends React.Component {
 					amount: 1,
 				},
 				base: {
-					asset_id: '1.3.0',
+					asset_id: process.env.META1_ASSET_ID,
 					amount: 1,
 				},
 			},
@@ -254,7 +256,7 @@ class AccountAssetCreate extends React.Component {
 				force_settlement_delay_sec: 60 * 60 * 24,
 				force_settlement_offset_percent: 1 * assetConstants.GRAPHENE_1_PERCENT,
 				maximum_force_settlement_volume: 20 * assetConstants.GRAPHENE_1_PERCENT,
-				short_backing_asset: '1.3.0',
+				short_backing_asset: process.env.META1_ASSET_ID,
 			},
 			marketInput: '',
 		};
@@ -674,21 +676,21 @@ class AccountAssetCreate extends React.Component {
 			createFee = (
 				<FormattedAsset
 					amount={estimateFee('asset_create', ['symbol3'], globalObject)}
-					asset={'1.3.0'}
+					asset={process.env.META1_ASSET_ID}
 				/>
 			);
 		} else if (symbolLength === 4) {
 			createFee = (
 				<FormattedAsset
 					amount={estimateFee('asset_create', ['symbol4'], globalObject)}
-					asset={'1.3.0'}
+					asset={process.env.META1_ASSET_ID}
 				/>
 			);
 		} else if (symbolLength > 4) {
 			createFee = (
 				<FormattedAsset
 					amount={estimateFee('asset_create', ['long_symbol'], globalObject)}
-					asset={'1.3.0'}
+					asset={process.env.META1_ASSET_ID}
 				/>
 			);
 		}

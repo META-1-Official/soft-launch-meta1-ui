@@ -392,7 +392,7 @@ class WithdrawalModal extends React.Component {
 				asset_types.splice(asset_types.indexOf(key), 1);
 			}
 		}
-		var indexOfMeta1 = asset_types.indexOf('1.3.0');
+		var indexOfMeta1 = asset_types.indexOf(process.env.META1_ASSET_ID);
 		if (indexOfMeta1 > -1) {
 			asset_types.splice(indexOfMeta1, 1);
 		}
