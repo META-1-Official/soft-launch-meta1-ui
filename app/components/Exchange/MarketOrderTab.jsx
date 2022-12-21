@@ -513,7 +513,6 @@ const MarketOrderForm = (props) => {
 };
 
 const MarketOrderTab = (props) => {
-	console.log('propssss', props);
 	const handleCancel = () => {
 		props.hideModal();
 	};
