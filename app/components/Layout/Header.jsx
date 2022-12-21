@@ -557,26 +557,11 @@ class Header extends React.Component {
 				<Menu.Item key="addContact" className="level-2">
 					<Text>Add Contact</Text>
 				</Menu.Item>
-				<Menu.Item
-					key="claimWallet"
-					style={
-						!this.props.locked_v2 && this.state.migratable && this.state.oldUser
-							? {}
-							: {cursor: 'not-allowed'}
-					}
-					className={
-						!this.props.locked_v2 && this.state.migratable && this.state.oldUser
-							? 'claim-wallet-background'
-							: 'disable-li-text'
-					}
-					disabled={
-						this.props.locked_v2 ||
-						!this.state.migratable ||
-						!this.state.oldUser
-					}
-				>
-					<Text>Claim Legacy Wallet</Text>
-				</Menu.Item>
+				{!this.props.locked_v2 && this.state.migratable && this.state.oldUser && (
+					<Menu.Item key="claimWallet">
+						<Text>Claim Legacy Wallet</Text>
+					</Menu.Item>
+				)}
 				<Menu.Item
 					key="send"
 					style={this.props.locked_v2 ? {cursor: 'not-allowed'} : {}}
