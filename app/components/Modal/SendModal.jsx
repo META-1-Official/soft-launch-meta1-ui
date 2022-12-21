@@ -25,7 +25,6 @@ import WalletDb from '../../stores/WalletDb';
 import StyledButton from 'components/Button/Button';
 import ls from '../../lib/common/localStorage';
 
-console.log('process.env.AUTH_STORAGE_KEY', process.env.AUTH_STORAGE_KEY);
 const ss = new ls(process.env.AUTH_STORAGE_KEY);
 
 const getUninitializedFeeAmount = () =>
