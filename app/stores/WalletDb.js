@@ -406,6 +406,12 @@ class WalletDb extends BaseStore {
 		roles = ['active', 'owner', 'memo'],
 		chainAccount
 	) {
+		console.log(
+			'login issue check password start1',
+			password,
+			account,
+			chainAccount
+		);
 		console.log('Starting authentication');
 		if (account) {
 			let id = 0;
@@ -426,26 +432,37 @@ class WalletDb extends BaseStore {
 			/* Check if the user tried to login with a private key */
 			let fromWif;
 			try {
+				console.log('login issue check password start2');
 				fromWif = PrivateKey.fromWif(password);
+				console.log('login issue check password start3 fromWif', fromWif);
 			} catch (err) {
+				console.log(
+					'login issue check password start4 catch Not a private key',
+					err.message
+				);
 				console.log('Not a private key!');
 			}
-
+			console.log('login issue check password start5');
 			let acc = chainAccount
 				? chainAccount
 				: ChainStore.getAccount(account, false);
+			console.log('login issue check password start6 acc', acc);
 			let key;
 			if (fromWif) {
+				console.log('login issue check password start7');
 				key = {
 					privKey: fromWif,
 					pubKey: fromWif.toPublicKey().toString(),
 				};
+				console.log('login issue check password start8 key', key);
 			}
-
+			console.log('login issue check password start9 roles', roles);
 			/* Test the pubkey for each role against either the wif key, or the password generated keys */
 			roles.forEach((role) => {
 				if (!fromWif) {
+					console.log('login issue check password start10 fromWif', fromWif);
 					key = this.generateKeyFromPassword(account, role, password);
+					console.log('login issue check password start11 key', key);
 				}
 
 				let foundRole = false;

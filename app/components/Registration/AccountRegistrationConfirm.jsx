@@ -287,21 +287,25 @@ class AccountRegistrationConfirm extends React.Component {
 	timer = (ms) => new Promise((res) => setTimeout(res, ms));
 	async validateLogin(account, password) {
 		const {resolve} = this.props;
-
+		console.log('login issue', account, password);
 		let keys = getPrivateKeys(account, password);
+		console.log('login issue keys', keys);
 		_createPaperWalletAsPDFNew(
 			keys['owner'],
 			keys['active'],
 			keys['memo'],
 			account
 		);
-
+		console.log('login issue before');
 		let chainAccount = ChainStore.getAccount(account);
+		console.log('login issue chainAccount', chainAccount);
 		while (chainAccount === undefined) {
+			console.log('login issue chainAccount2', chainAccount);
 			chainAccount = ChainStore.getAccount(account);
+			console.log('login issue chainAccount3', chainAccount);
 			await this.timer(1000);
 		}
-
+		console.log('login issue check password before');
 		const {success, cloudMode} = WalletDb.validatePassword(
 			password || '',
 			true,
@@ -309,23 +313,30 @@ class AccountRegistrationConfirm extends React.Component {
 			['active', 'owner', 'memo'],
 			chainAccount
 		);
-
+		console.log('login issue check password success', success);
 		if (!success && WalletDb.isLocked_v2()) {
+			console.log('login issue check password Invalid password');
 			this.setState({passwordError: 'Invalid password'});
 		} else {
+			console.log('login issue check password proceed to else');
 			this.setState({password: ''});
 			if (cloudMode) AccountActions.setPasswordAccount(account);
 			WalletUnlockActions.change();
 			if (resolve) resolve();
 			WalletUnlockActions.cancel();
 		}
-
+		console.log(
+			'login issue check password login api before',
+			account,
+			this.state.email
+		);
 		axios
 			.post(process.env.LITE_WALLET_URL + '/login', {
 				accountName: account,
 				email: this.state.email,
 			})
 			.then((response) => {
+				console.log('login issue check password login api response', response);
 				console.log('LW login response', response); // DEBUG
 				ss.set('account_login_name', response.data['accountName']);
 				ss.set('account_login_token', response.data['token']);
@@ -339,6 +350,10 @@ class AccountRegistrationConfirm extends React.Component {
 				}, 24 * 60 * 60 * 1000); // Auto timeout in 24 hrs
 			})
 			.catch((error) => {
+				console.log(
+					'login issue check password login api error',
+					error.message
+				);
 				this.props.history.push(
 					`/account/${account}/permissions/?currentDisplay=createPaperWallet`
 				);
