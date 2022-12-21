@@ -420,6 +420,7 @@ class Header extends React.Component {
 
 	render() {
 		let {active} = this.state;
+
 		let {
 			currentAccount,
 			starredAccounts,

@@ -457,7 +457,7 @@ class AccountRegistration extends React.Component {
 						<input
 							control={Input}
 							value={this.state.passkey}
-							type="text"
+							type="password"
 							placeholder="Enter passkey or owner private key"
 							onChange={(event) => {
 								this.setState({passkey: event.target.value});

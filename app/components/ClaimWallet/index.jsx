@@ -26,7 +26,6 @@ export default function ClaimWallet(props) {
 			passKey
 		);
 
-		console.log('Stage1', signature_valid_response);
 		if (signature_valid_response.isValid) {
 			const migrationable_response = await migrationService.checkMigrationable(
 				accountName
@@ -69,7 +68,7 @@ export default function ClaimWallet(props) {
 							<div>
 								<Input
 									value={passKey}
-									placeholder="Enter Owner Key"
+									placeholder="Enter Passkey Or Owner key"
 									onChange={(e) => {
 										setPassKey(e.target.value);
 									}}
@@ -77,7 +76,7 @@ export default function ClaimWallet(props) {
 								/>
 								<StyledButton
 									buttonType="primary"
-									disabled={passKey == '' || WalletDb.isLocked()}
+									disabled={passKey == '' || WalletDb.isLocked_v2()}
 									style={{marginRight: '15px'}}
 									onClick={() => {
 										submit();

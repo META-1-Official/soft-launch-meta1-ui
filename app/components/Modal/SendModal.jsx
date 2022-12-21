@@ -472,16 +472,6 @@ class SendModal extends React.Component {
 			propose_incomplete ||
 			balanceError ||
 			from_account.get('id') == to_account.get('id');
-		console.log(
-			'@DEBUG:',
-			!from_account,
-			!to_account,
-			!isAmountValid,
-			!asset,
-			from_error,
-			propose_incomplete,
-			balanceError
-		);
 
 		let tabIndex = this.props.tabIndex; // Continue tabIndex on props count
 		let balanceAssetId = null;
