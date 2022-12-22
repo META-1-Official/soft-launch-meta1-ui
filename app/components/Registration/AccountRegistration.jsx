@@ -246,6 +246,11 @@ class AccountRegistration extends React.Component {
 	}
 
 	async loadVideo(flag) {
+		if (!flag) {
+			this.setState({device: {}});
+			return;
+		}
+
 		let features = {
 			audio: false,
 			video: flag,

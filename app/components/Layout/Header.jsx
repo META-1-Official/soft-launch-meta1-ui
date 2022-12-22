@@ -146,9 +146,10 @@ class Header extends React.Component {
 			passive: true,
 		});
 
-		if (this.props.currentAccount && !this.props.locked_v2) {
-			this.checkTransferableAccount(this.props.currentAccount);
-			this.checkOldUser(this.props.currentAccount);
+		const accountName = ss.get('account_login_name', null);
+		if (accountName && !this.props.locked_v2) {
+			this.checkTransferableAccount(accountName);
+			this.checkOldUser(accountName);
 		}
 	}
 
@@ -169,14 +170,14 @@ class Header extends React.Component {
 			this.props.history.push('/settings/general');
 		}
 
+		const accountName = ss.get('account_login_name', null);
 		if (
-			this.props.currentAccount !== np.currentAccount ||
 			(this.props.locked_v2 !== np.locked_v2 && !np.locked_v2) ||
 			(this.props.location.pathname != np.location.pathname &&
 				this.props.location.pathname === '/claimWallet')
 		) {
-			this.checkTransferableAccount(np.currentAccount);
-			this.checkOldUser(np.currentAccount);
+			this.checkTransferableAccount(accountName);
+			this.checkOldUser(accountName);
 		}
 	}
 
