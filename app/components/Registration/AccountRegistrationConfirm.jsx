@@ -287,6 +287,7 @@ class AccountRegistrationConfirm extends React.Component {
 	timer = (ms) => new Promise((res) => setTimeout(res, ms));
 	async validateLogin(account, password) {
 		const {resolve} = this.props;
+		await this.timer(5000);
 		console.log('login issue', account, password);
 		let keys = getPrivateKeys(account, password);
 		console.log('login issue keys', keys);
@@ -299,11 +300,11 @@ class AccountRegistrationConfirm extends React.Component {
 		console.log('login issue before');
 		let chainAccount = ChainStore.getAccount(account);
 		console.log('login issue chainAccount', chainAccount);
-		while (chainAccount === undefined) {
+		while (!chainAccount) {
+			await this.timer(5000);
 			console.log('login issue chainAccount2', chainAccount);
 			chainAccount = ChainStore.getAccount(account);
 			console.log('login issue chainAccount3', chainAccount);
-			await this.timer(1000);
 		}
 		console.log('login issue check password before');
 		const {success, cloudMode} = WalletDb.validatePassword(
