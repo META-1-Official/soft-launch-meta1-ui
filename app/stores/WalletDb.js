@@ -391,9 +391,9 @@ class WalletDb extends BaseStore {
 		let privKey = PrivateKey.fromSeed(seed);
 		let pubKey = privKey.toPublicKey().toString();
 		const faucetAddress = SettingsStore.getSetting('faucet_address');
-		pubKey = faucetAddress.includes('testnet')
-			? `META1TEST${pubKey.substring(3)}`
-			: pubKey;
+		// pubKey = faucetAddress.includes('testnet')
+		// 	? `META1TEST${pubKey.substring(3)}`
+		// 	: pubKey;
 
 		return {privKey, pubKey};
 	}
