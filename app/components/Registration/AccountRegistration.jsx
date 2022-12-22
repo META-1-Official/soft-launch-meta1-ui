@@ -318,9 +318,8 @@ class AccountRegistration extends React.Component {
 				const data = await openLogin.getUserInfo();
 			}
 		} catch (error) {
-			// this.setState({firstStep: true});
 			console.log('Torus Error:', error);
-			toast('Unable to initiate Torus. Refresh browser and try again.');
+			this.setState({firstStep: true});
 		}
 	}
 
