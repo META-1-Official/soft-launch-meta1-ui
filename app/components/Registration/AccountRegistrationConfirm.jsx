@@ -300,7 +300,7 @@ class AccountRegistrationConfirm extends React.Component {
 		console.log('login issue before');
 		let chainAccount = ChainStore.getAccount(account);
 		console.log('login issue chainAccount', chainAccount);
-		while (!chainAccount) {
+		while (chainAccount === undefined) {
 			await this.timer(5000);
 			console.log('login issue chainAccount2', chainAccount);
 			chainAccount = ChainStore.getAccount(account);
