@@ -9,7 +9,7 @@ import {
 } from '../lib/common/localStorage';
 
 const STORAGE_KEY = '__graphene__';
-let ss = new ls(STORAGE_KEY);
+const ss = new ls(STORAGE_KEY);
 
 class WalletUnlockStore {
 	constructor() {

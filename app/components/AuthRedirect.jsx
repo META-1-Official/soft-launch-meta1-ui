@@ -217,7 +217,6 @@ class AuthRedirect extends React.Component {
 						this.setState({webcamEnabled: false});
 						ss.set('account_login_name', response.data['accountName']);
 						ss.set('account_login_token', response.data['token']);
-						AccountActions.setCurrentAccount.defer(accountName);
 						WalletUnlockActions.unlock_v2().finally(() => {
 							this.props.history.push('/market/META1_USDT');
 						});
