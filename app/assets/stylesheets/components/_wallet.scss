@@ -330,6 +330,12 @@
 	}
 }
 
+.hide-close-btn {
+	.ant-modal-content .ant-modal-close {
+		display: none;
+	}
+}
+
 .text-group {
 	width: 100%;
 	display: table;
