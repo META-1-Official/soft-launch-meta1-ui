@@ -167,30 +167,21 @@ class AccountRegistration extends React.Component {
 
 	nextStep() {
 		const {privKey} = this.props;
-
 		const accountName = ss.get('account_registration_name', '');
-		let password;
-		if (!accountName || !privKey) {
-			return;
-		}
-		password = this.genKey(`${accountName}${privKey}`);
+		if (!accountName || !privKey) return;
 
 		if (this.state.faceKISuccess === true) {
-			this.setState({
-				webcamEnabled: false,
-			});
-			this.loadVideo(false);
-
-			setTimeout(() => {
+			this.setState({webcamEnabled: false});
+			this.loadVideo(false).then(() => {
 				this.setState({
 					accountName,
-					password,
+					password: this.genKey(`${accountName}${privKey}`),
 					finalStep: true,
 					faceKIStep: false,
 					migrationStep: false,
 					firstStep: false,
 				});
-			}, 300);
+			});
 		} else {
 			toast('Please enroll first.');
 		}
@@ -245,18 +236,20 @@ class AccountRegistration extends React.Component {
 		}
 	}
 
-	async loadVideo(flag) {
-		if (!flag) {
-			this.setState({device: {}});
-			return;
-		}
+	loadVideo(flag) {
+		let features = {};
 
-		let features = {
-			audio: false,
-			video: flag,
-		};
-		let display = await navigator.mediaDevices.getUserMedia(features);
-		this.setState({device: display?.getVideoTracks()[0]?.getSettings()});
+		if (flag) features = {audio: false, video: true};
+		else features = {audio: true, video: false};
+
+		return navigator.mediaDevices
+			.getUserMedia(features)
+			.then((display) => {
+				this.setState({device: display?.getVideoTracks()[0]?.getSettings()});
+			})
+			.finally(() => {
+				return true;
+			});
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
@@ -346,49 +339,39 @@ class AccountRegistration extends React.Component {
 	}
 
 	proceedESign() {
-		this.loadVideo(false);
-		ss.set('confirmedTerms4Token', 'success');
 		const {privKey, authData} = this.props;
-		const email = authData.email;
-		ss.set('email', email);
+		ss.set('confirmedTerms4Token', 'success');
+		ss.set('email', authData.email);
 		const accountName = ss.get('account_registration_name', '');
-		let password;
-		if (!accountName || !privKey) {
-			return;
-		}
-		password = this.genKey(`${accountName}${privKey}`);
+		if (!accountName || !privKey) return;
 
-		/* Data population for Final Step */
-		this.setState({
-			accountName,
-			password,
-			finalStep: true,
-			firstStep: false,
-			faceKIStep: false,
-			webcamEnabled: false,
+		this.loadVideo(false).then(() => {
+			this.setState({
+				accountName,
+				password: this.genKey(`${accountName}${privKey}`),
+				finalStep: true,
+				firstStep: false,
+				faceKIStep: false,
+				webcamEnabled: false,
+			});
 		});
 	}
 
 	proceedTorus() {
 		const accountName = ss.get('account_registration_name', '');
 		const {privKey, authData} = this.props;
+		if (!accountName || !privKey) return;
 
-		let password;
-		if (!accountName || !privKey) {
-			return;
-		}
-		const email = authData.email;
-		password = this.genKey(`${accountName}${privKey}`);
-		ss.set('email', email);
-		this.loadVideo(true);
-
-		this.setState({
-			accountName,
-			password,
-			faceKIStep: true,
-			webcamEnabled: true,
-			firstStep: false,
-			finalStep: false,
+		ss.set('email', authData.email);
+		this.loadVideo(true).then(() => {
+			this.setState({
+				accountName,
+				password: this.genKey(`${accountName}${privKey}`),
+				faceKIStep: true,
+				webcamEnabled: true,
+				firstStep: false,
+				finalStep: false,
+			});
 		});
 	}
 
