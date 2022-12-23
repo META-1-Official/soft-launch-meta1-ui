@@ -1137,9 +1137,11 @@ class AccountRegistrationConfirm extends React.Component {
 							}
 							className="create-acc-btn"
 							onClick={() => {
-								this.setState({
-									copyPasswordModal: true,
-								});
+								if (this.state.confirmedTerms4) {
+									this.setState({
+										copyPasswordModal: true,
+									});
+								}
 							}}
 						>
 							<Translate content="account.create_account" />
