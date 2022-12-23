@@ -171,7 +171,6 @@ class AccountRegistration extends React.Component {
 		if (!accountName || !privKey) return;
 
 		if (this.state.faceKISuccess === true) {
-			this.setState({webcamEnabled: false});
 			this.loadVideo(false).then(() => {
 				this.setState({
 					accountName,
@@ -237,15 +236,19 @@ class AccountRegistration extends React.Component {
 	}
 
 	loadVideo(flag) {
-		let features = {};
-
-		if (flag) features = {audio: false, video: true};
-		else features = {audio: true, video: false};
+		const features = (features = {audio: false, video: true});
 
 		return navigator.mediaDevices
 			.getUserMedia(features)
 			.then((display) => {
-				this.setState({device: display?.getVideoTracks()[0]?.getSettings()});
+				if (flag) {
+					this.setState({
+						webcamEnabled: true,
+						device: display?.getVideoTracks()[0]?.getSettings(),
+					});
+				} else {
+					this.setState({webcamEnabled: false, device: {}});
+				}
 			})
 			.finally(() => {
 				return true;
@@ -352,7 +355,6 @@ class AccountRegistration extends React.Component {
 				finalStep: true,
 				firstStep: false,
 				faceKIStep: false,
-				webcamEnabled: false,
 			});
 		});
 	}
@@ -368,7 +370,6 @@ class AccountRegistration extends React.Component {
 				accountName,
 				password: this.genKey(`${accountName}${privKey}`),
 				faceKIStep: true,
-				webcamEnabled: true,
 				firstStep: false,
 				finalStep: false,
 			});
