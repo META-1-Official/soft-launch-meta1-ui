@@ -1167,10 +1167,10 @@ class AccountRegistrationConfirm extends React.Component {
 							name: '',
 							password: '',
 						});
-						// this.validateLogin(name, password);
-						WalletUnlockActions.unlock_v2().finally(() => {
-							this.props.history.push(`/market/META1_USDT`);
-						});
+						this.validateLogin(name, password);
+						// WalletUnlockActions.unlock_v2().finally(() => {
+						// 	this.props.history.push(`/market/META1_USDT`);
+						// });
 					}}
 				>
 					<Title className="header-title1">Download Paper Wallet</Title>
@@ -1189,10 +1189,10 @@ class AccountRegistrationConfirm extends React.Component {
 									name: '',
 									password: '',
 								});
-								// this.validateLogin(name, password);
-								WalletUnlockActions.unlock_v2().finally(() => {
-									this.props.history.push(`/market/META1_USDT`);
-								});
+								this.validateLogin(name, password);
+								// WalletUnlockActions.unlock_v2().finally(() => {
+								// 	this.props.history.push(`/market/META1_USDT`);
+								// });
 							}}
 							className="login-btn"
 						>
