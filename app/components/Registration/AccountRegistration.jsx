@@ -236,7 +236,7 @@ class AccountRegistration extends React.Component {
 	}
 
 	loadVideo(flag) {
-		const features = (features = {audio: false, video: true});
+		const features = {audio: false, video: true};
 
 		return navigator.mediaDevices
 			.getUserMedia(features)
