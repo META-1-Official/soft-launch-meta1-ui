@@ -47,9 +47,18 @@ class AccountPage extends React.Component {
 		const accountNameFromUrl = currentPath[2];
 		const accountName = ss.get('account_login_name');
 
-		if (accountName !== accountNameFromUrl) {
+		if (
+			accountName &&
+			accountNameFromUrl &&
+			accountName !== accountNameFromUrl
+		) {
 			WalletUnlockActions.lock_v2()
 				.then(() => {
+					console.log(
+						'Error 407: different account.',
+						accountName,
+						accountNameFromUrl
+					);
 					history.push('/market/META1_USDT');
 				})
 				.catch(() => {});
@@ -96,6 +105,7 @@ class AccountPage extends React.Component {
 		} = this.props;
 
 		if (!account) {
+			console.log('Error 408: no account.', account);
 			return <Redirect to="/market/META1_USDT" />;
 		}
 
@@ -205,7 +215,7 @@ AccountPage = BindToChainState(AccountPage, {
 
 class AccountPageStoreWrapper extends React.Component {
 	render() {
-		let account_name = this.props.match.params.account_name;
+		const account_name = this.props.match.params.account_name;
 		return <AccountPage {...this.props} account={account_name} />;
 	}
 }
