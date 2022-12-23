@@ -1151,7 +1151,7 @@ class AccountRegistrationConfirm extends React.Component {
 					visible={this.state.downloadPaperWalletModal}
 					className="unlock_wallet_modal2"
 					id={'downloadPaperWallet'}
-					closeable={true}
+					closeable={false}
 					ref="modal"
 					overlay={true}
 					overlayClose={false}
