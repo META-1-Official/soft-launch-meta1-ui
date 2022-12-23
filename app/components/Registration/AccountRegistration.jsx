@@ -247,6 +247,7 @@ class AccountRegistration extends React.Component {
 						device: display?.getVideoTracks()[0]?.getSettings(),
 					});
 				} else {
+					display?.getVideoTracks()[0]?.stop();
 					this.setState({webcamEnabled: false, device: {}});
 				}
 			})
