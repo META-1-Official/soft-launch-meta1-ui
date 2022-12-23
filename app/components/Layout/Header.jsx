@@ -47,7 +47,6 @@ import ls from '../../lib/common/localStorage';
 
 import {getLogo} from 'branding';
 import StyledButton from 'components/Button/Button';
-import theme from 'lib/styles/themeDark';
 
 import migrationService from 'services/migration.service';
 
@@ -739,7 +738,10 @@ class Header extends React.Component {
 									onClick={() => this.handleHeaderLink({key: 'get-help'})}
 								>
 									<QuestionCircleOutlined
-										css={{color: theme.colors.white, marginRight: '10px'}}
+										css={(theme) => ({
+											color: theme.colors.white,
+											marginRight: '10px',
+										})}
 									/>
 									Get help
 								</Text>
@@ -800,12 +802,12 @@ class Header extends React.Component {
 								<Dropdown overlay={avatarMenu}>
 									<span>
 										<Avatar
-											css={{
+											css={(theme) => ({
 												'&& .ant-avatar': {
 													backgroundColor: theme.colors.primaryColor,
 													cursor: 'pointer',
 												},
-											}}
+											})}
 											src="https://cdn.vectorstock.com/i/1000x1000/19/45/user-avatar-icon-sign-symbol-vector-4001945.webp"
 										/>
 										<CaretDownOutlined

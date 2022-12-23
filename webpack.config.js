@@ -439,6 +439,7 @@ module.exports = function (env) {
 				sanitize$: 'xss',
 				moment$: path.resolve(root_dir, 'node_modules/moment/moment.js'),
 				meta1js$: path.resolve(root_dir, 'node_modules/meta1js/'),
+				'react-dom': '@hot-loader/react-dom',
 			},
 		},
 		plugins: plugins,
