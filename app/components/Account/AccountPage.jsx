@@ -108,7 +108,7 @@ class AccountPage extends React.Component {
 			const accountName = ss.get('account_login_name');
 
 			if (accountName) {
-				return <Redirect to={`/account/${accountName}/`} />;
+				window.location.replace(`/account/${accountName}/`);
 			} else {
 				console.log('Error 408: no account.', account, accountName);
 				return <Redirect to="/market/META1_USDT" />;
