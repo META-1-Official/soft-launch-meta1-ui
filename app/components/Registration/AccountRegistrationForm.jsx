@@ -479,6 +479,8 @@ class AccountRegistrationForm extends React.Component {
 									)}
 									<Input
 										ref={this.phoneRef}
+										name="new-password"
+										autoComplete={false}
 										id="phone"
 										required
 										placeholder={

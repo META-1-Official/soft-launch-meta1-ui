@@ -113,6 +113,15 @@ class AccountNameInput extends React.Component {
 	}
 
 	async validateAccountName(value) {
+		if (value === '') {
+			this.setState({
+				value: value,
+				error: 'Please enter valid wallet name',
+				warning: null,
+			});
+			this.props.onChange({value, valid: false});
+			return;
+		}
 		this.state.error =
 			value === ''
 				? 'Please enter valid wallet name'
@@ -122,6 +131,13 @@ class AccountNameInput extends React.Component {
 
 		if (value !== '' && value.length < 4) {
 			this.state.error = 'Wallet name should be longer.';
+			this.setState({
+				value: value,
+				error: 'Wallet name should be longer.',
+				warning: null,
+			});
+			this.props.onChange({value, valid: false});
+			return;
 		}
 		this.state.warning = null;
 		if (this.props.cheapNameOnly) {
@@ -196,11 +212,11 @@ class AccountNameInput extends React.Component {
 				validateStatus={getValidateStatus()}
 			>
 				<Input
-					name="username"
+					name="new-password"
 					id="username"
 					type="text"
 					ref="input"
-					autoComplete="username"
+					autoComplete={false}
 					placeholder={this.props.placeholder}
 					onChange={this.handleChange}
 					onKeyDown={this.onKeyDown}
