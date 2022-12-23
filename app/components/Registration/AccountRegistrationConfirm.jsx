@@ -330,7 +330,7 @@ class AccountRegistrationConfirm extends React.Component {
 				let accountName = response.data['accountName'];
 				console.log('LW login response', response); // DEBUG
 				console.log('LW login accountName:', accountName);
-				ss.set('account_login_name');
+				ss.set('account_login_name', accountName);
 				ss.set('account_login_token', response.data['token']);
 				WalletUnlockActions.unlock_v2().finally(() => {
 					this.props.history.push(`/account/${accountName}/`);
