@@ -327,11 +327,13 @@ class AccountRegistrationConfirm extends React.Component {
 			})
 			.then((response) => {
 				toast('Success');
+				let accountName = response.data['accountName'];
 				console.log('LW login response', response); // DEBUG
-				ss.set('account_login_name', response.data['accountName']);
+				console.log('LW login accountName:', accountName);
+				ss.set('account_login_name');
 				ss.set('account_login_token', response.data['token']);
 				WalletUnlockActions.unlock_v2().finally(() => {
-					this.props.history.push(`/account/${account}/`);
+					this.props.history.push(`/account/${accountName}/`);
 				});
 				setTimeout(() => {
 					WalletUnlockActions.lock_v2();
@@ -339,7 +341,7 @@ class AccountRegistrationConfirm extends React.Component {
 			})
 			.catch((error) => {
 				console.log('Login Error:', error);
-				this.props.history.push(`/account/${account}/`);
+				this.props.history.push(`/market/META1_USDT/`);
 			});
 	}
 

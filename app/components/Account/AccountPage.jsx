@@ -105,8 +105,14 @@ class AccountPage extends React.Component {
 		} = this.props;
 
 		if (!account) {
-			console.log('Error 408: no account.', account);
-			return <Redirect to="/market/META1_USDT" />;
+			const accountName = ss.get('account_login_name');
+
+			if (accountName) {
+				return <Redirect to={`/account/${accountName}/`} />;
+			} else {
+				console.log('Error 408: no account.', account, accountName);
+				return <Redirect to="/market/META1_USDT" />;
+			}
 		}
 
 		let account_name = this.props.account.get('name');
