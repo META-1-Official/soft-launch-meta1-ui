@@ -215,10 +215,11 @@ class AuthRedirect extends React.Component {
 					.then((response) => {
 						console.log('LW login response', response); // DEBUG
 						this.setState({webcamEnabled: false});
-						ss.set('account_login_name', response.data['accountName']);
+						const accountName = response.data['accountName'];
+						ss.set('account_login_name', accountName);
 						ss.set('account_login_token', response.data['token']);
 						WalletUnlockActions.unlock_v2().finally(() => {
-							this.props.history.push('/market/META1_USDT');
+							this.props.history.push(`/account/${accountName}/`);
 						});
 						setTimeout(() => {
 							WalletUnlockActions.lock_v2().finally(() => {
