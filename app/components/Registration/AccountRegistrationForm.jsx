@@ -283,6 +283,7 @@ class AccountRegistrationForm extends React.Component {
 					layout={'vertical'}
 					initialValues={{remember: true}}
 					ref={this.formRef}
+					autoComplete="off"
 				>
 					<div className="info-form">
 						<div className="form-blocks">
