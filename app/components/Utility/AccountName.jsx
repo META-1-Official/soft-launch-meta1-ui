@@ -1,6 +1,6 @@
-import React from "react";
-import ChainTypes from "./ChainTypes";
-import BindToChainState from "./BindToChainState";
+import React from 'react';
+import ChainTypes from './ChainTypes';
+import BindToChainState from './BindToChainState';
 
 /**
  *  Given an account id, displays the name of that account
@@ -9,18 +9,18 @@ import BindToChainState from "./BindToChainState";
  */
 
 class AccountName extends React.Component {
-    static propTypes = {
-        account: ChainTypes.ChainObject.isRequired
-    };
+	static propTypes = {
+		account: ChainTypes.ChainObject.isRequired,
+	};
 
-    static defaultProps = {
-        autosubscribe: false
-    };
+	static defaultProps = {
+		autosubscribe: false,
+	};
 
-    render() {
-        if (!this.props.account) return null;
-        return <span>{this.props.account.get("name")}</span>;
-    }
+	render() {
+		if (!this.props.account) return null;
+		return <span>{this.props.account.get('name')}</span>;
+	}
 }
 
 export default BindToChainState(AccountName);

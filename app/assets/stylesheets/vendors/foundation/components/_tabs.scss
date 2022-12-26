@@ -18,64 +18,64 @@ $tab-content-padding: $global-padding !default;
 ///
 
 @mixin tabstrip($orientation: horizontal, $background: $tabstrip-background) {
-    /* Container styles */
-    display: flex;
-    background: $background;
-    @if $orientation == vertical {
-        flex-flow: column nowrap;
-    } @else {
-        flex-flow: row wrap;
-    }
+	/* Container styles */
+	display: flex;
+	background: $background;
+	@if $orientation == vertical {
+		flex-flow: column nowrap;
+	} @else {
+		flex-flow: row wrap;
+	}
 }
 @mixin tabstrip-item(
-    $background: $tab-title-background,
-    $background-hover: $tab-title-background-hover,
-    $background-active: $tab-title-background-active,
-    $color: $tab-title-color,
-    $color-active: $tab-title-color-active,
-    $padding: $tab-title-padding
+	$background: $tab-title-background,
+	$background-hover: $tab-title-background-hover,
+	$background-active: $tab-title-background-active,
+	$color: $tab-title-color,
+	$color-active: $tab-title-color-active,
+	$padding: $tab-title-padding
 ) {
-    background: $background;
-    padding: $padding;
-    line-height: 1;
-    margin: 0;
-    flex: 0 1 auto;
-    cursor: pointer;
-    color: $color;
-    &.is-active {
-        background: $background-active;
-        color: $color-active;
-        &:hover {
-            background: $background-hover;
-        }
-    }
-    &:hover {
-        background: $background-hover;
-    }
+	background: $background;
+	padding: $padding;
+	line-height: 1;
+	margin: 0;
+	flex: 0 1 auto;
+	cursor: pointer;
+	color: $color;
+	&.is-active {
+		background: $background-active;
+		color: $color-active;
+		&:hover {
+			background: $background-hover;
+		}
+	}
+	&:hover {
+		background: $background-hover;
+	}
 }
 @mixin tab-content($padding: $tab-content-padding) {
-    padding: $padding;
+	padding: $padding;
 }
 @mixin tab-content-item {
-    display: none;
-    &.is-active {
-        display: block;
-    }
+	display: none;
+	&.is-active {
+		display: block;
+	}
 }
 @include exports(tabs) {
-    .tabs {
-        @include tabstrip(horizontal);
-        &.vertical {
-            @include tabstrip(vertical);
-        }
-        .tab-item {
-            @include tabstrip-item;
-        }
-    }
-    .tab-contents {
-        @include tab-content;
-        .tab-content {
-            @include tab-content-item;
-        }
-    }
+	.tabs {
+		@include tabstrip(horizontal);
+		&.vertical {
+			@include tabstrip(vertical);
+		}
+		.tab-item {
+			@include tabstrip-item;
+		}
+	}
+	.tab-contents {
+		@include tab-content;
+		.tab-content {
+			@include tab-content-item;
+		}
+	}
 }

@@ -7,7 +7,7 @@ With this worker proposal, we've started a Meta1 bug bounty program for security
 
 The proposal will use funds from the reserve pool to reward those that step forward with exploits, relative to the overall risk assessment of the exploit. The higher the payout for critical bugs, the more incentive there will be to attract higher quality researchers, and ultimately providing better security coverage for the DEX.
 
-Worker proposal funds will be held in an escrow account by the Meta1 Blockchain Foundation and unused funds will be refunded back to the network at the end of the proposal period.
+Worker proposal funds will be held in an escrow wallet by the Meta1 Blockchain Foundation and unused funds will be refunded back to the network at the end of the proposal period.
 
 ## General Rules
 * Public disclosure of a vulnerability makes it ineligible for a bounty

@@ -1,9 +1,9 @@
-import React from "react";
-import LoadingIndicator from "../LoadingIndicator";
-import counterpart from "counterpart";
-import {findDOMNode} from "react-dom";
-import PropTypes from "prop-types";
-import {Button} from "bitshares-ui-style-guide";
+import React from 'react';
+import LoadingIndicator from '../LoadingIndicator';
+import counterpart from 'counterpart';
+import {findDOMNode} from 'react-dom';
+import PropTypes from 'prop-types';
+import StyledButton from 'components/Button/Button';
 
 /** This component gives a convenient way to indicate loading.
  *
@@ -63,294 +63,292 @@ import {Button} from "bitshares-ui-style-guide";
  *    @author Stefan Schiessl <stefan.schiessl@blockchainprojectsbv.com>
  */
 class LoadingButton extends React.Component {
-    static propTypes = {
-        id: PropTypes.string,
-        className: PropTypes.string,
-        type: PropTypes.string,
-        style: PropTypes.object,
-        //
-        caption: PropTypes.string.isRequired,
-        onClick: PropTypes.func.isRequired,
-        //
-        loadingType: PropTypes.string,
-        loadingMessage: PropTypes.string,
-        //
-        isLoading: PropTypes.bool
-    };
+	static propTypes = {
+		id: PropTypes.string,
+		className: PropTypes.string,
+		type: PropTypes.string,
+		style: PropTypes.object,
+		//
+		caption: PropTypes.string.isRequired,
+		onClick: PropTypes.func.isRequired,
+		//
+		loadingType: PropTypes.string,
+		loadingMessage: PropTypes.string,
+		//
+		isLoading: PropTypes.bool,
+	};
 
-    static defaultProps = {
-        style: {},
-        isLoading: null,
-        className: "button",
-        type: "button",
-        loadingType: "inside-feedback",
-        loadingMessage: null
-    };
+	static defaultProps = {
+		style: {},
+		isLoading: null,
+		className: 'button',
+		type: 'button',
+		loadingType: 'inside-feedback',
+		loadingMessage: null,
+	};
 
-    constructor(props) {
-        super(props);
-        // initialize state (do not use setState method!)
-        this.state = {
-            loading:
-                this.props.isLoading == null ? false : this.props.isLoading,
-            overrideMessage: null,
-            loadingButtonWidth: null
-        };
-        this.processingOnClick = false;
-    }
+	constructor(props) {
+		super(props);
+		// initialize state (do not use setState method!)
+		this.state = {
+			loading: this.props.isLoading == null ? false : this.props.isLoading,
+			overrideMessage: null,
+			loadingButtonWidth: null,
+		};
+		this.processingOnClick = false;
+	}
 
-    shouldComponentUpdate(nextProps, nextState) {
-        return (
-            nextProps.isLoading !== this.props.isLoading ||
-            nextState.loading !== this.state.loading
-        );
-    }
+	shouldComponentUpdate(nextProps, nextState) {
+		return (
+			nextProps.isLoading !== this.props.isLoading ||
+			nextState.loading !== this.state.loading
+		);
+	}
 
-    _feedback(done = null, message = null) {
-        if (done == null) {
-            this.setState({
-                overrideMessage: null,
-                loading: false
-            });
-            this.processingOnClick = false;
-        } else if (typeof done === "string") {
-            this.setState({
-                overrideMessage: done
-            });
-        } else if (typeof done === "boolean") {
-            if (!done) {
-                this.setState({
-                    overrideMessage: message
-                });
-            } else {
-                this.setState({
-                    loading: false
-                });
-                this.processingOnClick = false;
-            }
-        }
-    }
+	_feedback(done = null, message = null) {
+		if (done == null) {
+			this.setState({
+				overrideMessage: null,
+				loading: false,
+			});
+			this.processingOnClick = false;
+		} else if (typeof done === 'string') {
+			this.setState({
+				overrideMessage: done,
+			});
+		} else if (typeof done === 'boolean') {
+			if (!done) {
+				this.setState({
+					overrideMessage: message,
+				});
+			} else {
+				this.setState({
+					loading: false,
+				});
+				this.processingOnClick = false;
+			}
+		}
+	}
 
-    _onClick(event) {
-        this.processingOnClick = true;
-        if (this.state.loading) {
-            return true;
-        }
-        if (this.props.onClick != null) {
-            // persist button width
-            this.setState({
-                loadingButtonWidth: findDOMNode(
-                    this.loadingButton
-                ).getBoundingClientRect().width,
-                loading: true
-            });
-            event.persist();
-            this.props.onClick(event, this._feedback.bind(this));
-            return true;
-        }
-    }
+	_onClick(event) {
+		this.processingOnClick = true;
+		if (this.state.loading) {
+			return true;
+		}
+		if (this.props.onClick != null) {
+			// persist button width
+			this.setState({
+				loadingButtonWidth:
+					findDOMNode(this.loadingButton)?.getBoundingClientRect().width ?? 30,
+				loading: true,
+			});
+			event.persist();
+			this.props.onClick(event, this._feedback.bind(this));
+			return true;
+		}
+	}
 
-    _isLoading() {
-        return this.processingOnClick
-            ? this.state.loading
-            : this.props.isLoading == null
-                ? false
-                : this.props.isLoading;
-    }
+	_isLoading() {
+		return this.processingOnClick
+			? this.state.loading
+			: this.props.isLoading == null
+			? false
+			: this.props.isLoading;
+	}
 
-    render() {
-        let caption = this.props.caption || this.props.text || null;
-        if (typeof caption === "string" && caption.indexOf(".") > 0) {
-            caption = counterpart.translate(caption);
-        }
-        if (caption != null && caption.trim() == "") {
-            caption = null;
-        }
+	render() {
+		let caption = this.props.caption || this.props.text || null;
+		if (typeof caption === 'string' && caption.indexOf('.') > 0) {
+			caption = counterpart.translate(caption);
+		}
+		if (caption != null && caption.trim() == '') {
+			caption = null;
+		}
 
-        let loadingMessage = this.props.loadingMessage || null;
-        if (
-            this.state.overrideMessage != null &&
-            this.state.overrideMessage.trim() != ""
-        ) {
-            loadingMessage = this.state.overrideMessage;
-        }
-        if (
-            typeof loadingMessage === "string" &&
-            loadingMessage.indexOf(".") > 0
-        ) {
-            loadingMessage = counterpart.translate(loadingMessage);
-        }
-        if (loadingMessage != null && loadingMessage.trim() == "") {
-            loadingMessage = null;
-        }
-        let leftElement = null;
-        let rightElement = null;
-        let fixButtonWidth = false;
-        let buttonInner = <span>{caption}</span>;
+		let loadingMessage = this.props.loadingMessage || null;
+		if (
+			this.state.overrideMessage != null &&
+			this.state.overrideMessage.trim() != ''
+		) {
+			loadingMessage = this.state.overrideMessage;
+		}
+		if (typeof loadingMessage === 'string' && loadingMessage.indexOf('.') > 0) {
+			loadingMessage = counterpart.translate(loadingMessage);
+		}
+		if (loadingMessage != null && loadingMessage.trim() == '') {
+			loadingMessage = null;
+		}
+		let leftElement = null;
+		let rightElement = null;
+		let fixButtonWidth = false;
+		let buttonInner = <span>{caption}</span>;
 
-        let loadingState = this._isLoading();
+		let loadingState = this._isLoading();
 
-        switch (this.props.loadingType) {
-            case "inside":
-                if (loadingState) {
-                    fixButtonWidth = true;
-                    buttonInner = (
-                        <span style={{margin: "auto", display: "inline-block"}}>
-                            <LoadingIndicator type={"circle-small"} />
-                        </span>
-                    );
-                }
-                break;
-            case "inside-feedback":
-                if (loadingState) {
-                    fixButtonWidth = true;
-                    buttonInner = (
-                        <span style={{float: "left"}}>
-                            <span
-                                style={{
-                                    position: "absolute",
-                                    whiteSpace: "nowrap",
-                                    marginLeft: "12px"
-                                }}
-                            >
-                                {loadingMessage}
-                            </span>
-                            <span>
-                                <LoadingIndicator type={"circle-small"} />
-                            </span>
-                        </span>
-                    );
-                }
-                break;
-            case "overlay":
-                if (loadingState) {
-                    fixButtonWidth = true;
-                    rightElement = <LoadingIndicator type="loading-overlay" />;
-                }
-                break;
-            case "overlay-feedback":
-                if (loadingState) {
-                    fixButtonWidth = true;
-                    rightElement = (
-                        <LoadingIndicator
-                            loadingText={loadingMessage}
-                            type="loading-overlay"
-                        />
-                    );
-                }
-                break;
-            case "inside-feedback-resize":
-                if (loadingState) {
-                    buttonInner = (
-                        <span>
-                            <span>{loadingMessage}</span>
-                            <span style={{float: "left"}}>
-                                <LoadingIndicator type={"circle-small"} />
-                            </span>
-                        </span>
-                    );
-                }
-                break;
-            case "right-feedback":
-                if (loadingState) {
-                    rightElement = (
-                        <div
-                            style={{
-                                float: "left",
-                                marginLeft: "-9px",
-                                position: "relative"
-                            }}
-                            className="disabled"
-                        >
-                            <span>
-                                <span
-                                    style={{
-                                        float: "left",
-                                        marginTop: "7px"
-                                    }}
-                                >
-                                    <LoadingIndicator type={"circle"} />
-                                </span>
-                                <span
-                                    style={{
-                                        float: "left",
-                                        marginLeft: "6px",
-                                        marginTop: "11px"
-                                    }}
-                                >
-                                    {loadingMessage}
-                                </span>
-                            </span>
-                        </div>
-                    );
-                }
-                break;
-            case "left-feedback":
-                if (loadingState) {
-                    leftElement = (
-                        <div
-                            style={{
-                                float: "left",
-                                marginRight: "6px",
-                                position: "relative"
-                            }}
-                            className="disabled"
-                        >
-                            <span>
-                                <span
-                                    style={{
-                                        float: "right",
-                                        marginTop: "7px"
-                                    }}
-                                >
-                                    <LoadingIndicator type={"circle"} />
-                                </span>
-                                <span
-                                    style={{
-                                        float: "right",
-                                        marginRight: "6px",
-                                        marginTop: "11px"
-                                    }}
-                                >
-                                    {loadingMessage}
-                                </span>
-                            </span>
-                        </div>
-                    );
-                }
-                break;
-        }
+		switch (this.props.loadingType) {
+			case 'inside':
+				if (loadingState) {
+					fixButtonWidth = true;
+					buttonInner = (
+						<span style={{margin: 'auto', display: 'inline-block'}}>
+							<LoadingIndicator type={'circle-small'} />
+						</span>
+					);
+				}
+				break;
+			case 'inside-feedback':
+				if (loadingState) {
+					fixButtonWidth = true;
+					buttonInner = (
+						<span style={{float: 'left'}}>
+							<span
+								style={{
+									position: 'absolute',
+									whiteSpace: 'nowrap',
+									marginLeft: '12px',
+								}}
+							>
+								{loadingMessage}
+							</span>
+							<span>
+								<LoadingIndicator type={'circle-small'} />
+							</span>
+						</span>
+					);
+				}
+				break;
+			case 'overlay':
+				if (loadingState) {
+					fixButtonWidth = true;
+					rightElement = <LoadingIndicator type="loading-overlay" />;
+				}
+				break;
+			case 'overlay-feedback':
+				if (loadingState) {
+					fixButtonWidth = true;
+					rightElement = (
+						<LoadingIndicator
+							loadingText={loadingMessage}
+							type="loading-overlay"
+						/>
+					);
+				}
+				break;
+			case 'inside-feedback-resize':
+				if (loadingState) {
+					buttonInner = (
+						<span>
+							<span>{loadingMessage}</span>
+							<span style={{float: 'left'}}>
+								<LoadingIndicator type={'circle-small'} />
+							</span>
+						</span>
+					);
+				}
+				break;
+			case 'right-feedback':
+				if (loadingState) {
+					rightElement = (
+						<div
+							style={{
+								float: 'left',
+								marginLeft: '-9px',
+								position: 'relative',
+							}}
+							className="disabled"
+						>
+							<span>
+								<span
+									style={{
+										float: 'left',
+										marginTop: '7px',
+									}}
+								>
+									<LoadingIndicator type={'circle'} />
+								</span>
+								<span
+									style={{
+										float: 'left',
+										marginLeft: '6px',
+										marginTop: '11px',
+									}}
+								>
+									{loadingMessage}
+								</span>
+							</span>
+						</div>
+					);
+				}
+				break;
+			case 'left-feedback':
+				if (loadingState) {
+					leftElement = (
+						<div
+							style={{
+								float: 'left',
+								marginRight: '6px',
+								position: 'relative',
+							}}
+							className="disabled"
+						>
+							<span>
+								<span
+									style={{
+										float: 'right',
+										marginTop: '7px',
+									}}
+								>
+									<LoadingIndicator type={'circle'} />
+								</span>
+								<span
+									style={{
+										float: 'right',
+										marginRight: '6px',
+										marginTop: '11px',
+									}}
+								>
+									{loadingMessage}
+								</span>
+							</span>
+						</div>
+					);
+				}
+				break;
+		}
 
-        let buttonStyle = {
-            overflow: "hidden",
-            position: "relative"
-        };
-        if (fixButtonWidth && this.state.loadingButtonWidth != null) {
-            buttonStyle.width = this.state.loadingButtonWidth;
-        }
-        return (
-            <div style={this.props.style}>
-                {leftElement != null && leftElement}
-                <span style={{float: "left"}}>
-                    <Button
-                        ref={instance => {
-                            this.loadingButton = instance;
-                        }}
-                        disabled={loadingState}
-                        type={this.props.type}
-                        className={this.props.className}
-                        id={this.props.id}
-                        onClick={this._onClick.bind(this)}
-                        style={buttonStyle}
-                    >
-                        {buttonInner}
-                    </Button>
-                </span>
-                {rightElement != null && rightElement}
-                <div style={{clear: "both"}} />
-            </div>
-        );
-    }
+		let buttonStyle = {
+			overflow: 'hidden',
+			position: 'relative',
+			display: 'flex',
+			alignItems: 'center',
+		};
+		if (fixButtonWidth && this.state.loadingButtonWidth != null) {
+			buttonStyle.width = this.state.loadingButtonWidth;
+		}
+		return (
+			<div style={this.props.style}>
+				{leftElement != null && leftElement}
+				<span style={{float: 'left'}}>
+					<StyledButton
+						buttonType="primary"
+						ref={(instance) => {
+							this.loadingButton = instance;
+						}}
+						disabled={loadingState}
+						type={this.props.type}
+						className={this.props.className}
+						id={this.props.id}
+						onClick={this._onClick.bind(this)}
+						style={buttonStyle}
+					>
+						{buttonInner}
+					</StyledButton>
+				</span>
+				{rightElement != null && rightElement}
+				<div style={{clear: 'both'}} />
+			</div>
+		);
+	}
 }
 
 export default LoadingButton;

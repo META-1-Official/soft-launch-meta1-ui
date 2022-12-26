@@ -41,7 +41,7 @@ a *price* and an *amount* to sell/buy. The cost for this order will be
 calculated automatically. Note that there will be an additional fee required to
 actually place the order.
 
-Once the order is filled (i.e. someone sold/bought your offer), your account
+Once the order is filled (i.e. someone sold/bought your offer), your wallet
 will be credited by the corresponding asset.
 
 Unfilled orders can be canceled at any time.

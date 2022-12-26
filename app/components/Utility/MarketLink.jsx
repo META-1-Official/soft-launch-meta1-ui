@@ -1,8 +1,8 @@
-import React from "react";
-import {Link} from "react-router-dom";
-import ChainTypes from "./ChainTypes";
-import AssetWrapper from "./AssetWrapper";
-import AssetName from "./AssetName";
+import React from 'react';
+import {Link} from 'react-router-dom';
+import ChainTypes from './ChainTypes';
+import AssetWrapper from './AssetWrapper';
+import AssetName from './AssetName';
 
 /**
  *  Given a base and quote asset, render a link to that market
@@ -14,25 +14,25 @@ import AssetName from "./AssetName";
  */
 
 class MarketLink extends React.Component {
-    render() {
-        let {base, quote} = this.props;
-        if (base.get("id") === quote.get("id")) {
-            return null;
-        }
-        let marketID = quote.get("symbol") + "_" + base.get("symbol");
-        let marketName = (
-            <span>
-                <AssetName name={quote.get("symbol")} /> /{" "}
-                <AssetName name={base.get("symbol")} />
-            </span>
-        );
-        return <Link to={`/market/${marketID}`}>{marketName}</Link>;
-    }
+	render() {
+		let {base, quote} = this.props;
+		if (base.get('id') === quote.get('id')) {
+			return null;
+		}
+		let marketID = quote.get('symbol') + '_' + base.get('symbol');
+		let marketName = (
+			<span>
+				<AssetName name={quote.get('symbol')} /> /{' '}
+				<AssetName name={base.get('symbol')} />
+			</span>
+		);
+		return <Link to={`/market/${marketID}`}>{marketName}</Link>;
+	}
 }
 
 MarketLink = AssetWrapper(MarketLink, {
-    propNames: ["quote", "base"],
-    defaultProps: {base: "1.3.0"}
+	propNames: ['quote', 'base'],
+	defaultProps: {base: '1.3.0'},
 });
 
 /*

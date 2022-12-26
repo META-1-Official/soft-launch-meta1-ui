@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 // import PropTypes from "prop-types";
 // import ZfApi from "react-foundation-apps/src/utils/foundation-api";
 // import Modal from "react-foundation-apps/src/modal";
@@ -9,15 +9,15 @@ import React from "react";
 // var logo = getLogo();
 
 class BaseModal extends React.Component {
-    render() {
-        return (
-            <div>
-                Base Modal was removed by task following below:
-                <br />
-                https://github.com/bitshares/bitshares-ui/issues/1942
-            </div>
-        );
-    }
+	render() {
+		return (
+			<div>
+				Base Modal was removed by task following below:
+				<br />
+				https://github.com/bitshares/bitshares-ui/issues/1942
+			</div>
+		);
+	}
 }
 
 // BaseModal.defaultProps = {

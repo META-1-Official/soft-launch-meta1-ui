@@ -11,18 +11,18 @@ will be unable to access any of your funds again!
 You can create a backup from [Settings -> Backup](/settings).
 
 - Store this backup in at least two secure locations only accessible by you
-- The backup is encrypted with your passphrase/password so do not store your passwrod in the same location
+- The backup is encrypted with your passphrase/passkey so do not store your passkey in the same location
 
 ## Advanced Users Only
 
 ### Brainkey
 
-> If you never manually imported an account key into your wallet, you can
-alternatively backup your accounts and their funds by exporting the *brainkey*,
+> If you never manually imported an wallet key into your wallet, you can
+alternatively backup your wallets and their funds by exporting the *brainkey*,
 a string of words from which your keys are derived deterministically.
 
 Remark: Hierarchical Authorities (advanced uses ONLY)
 
-> If you are using hierarchical authorities (account and/or active permissions),
+> If you are using hierarchical authorities (wallet and/or active permissions),
 backing up your keys alone may not be sufficient to regain access to your funds!
 Please revise the documentations about hierarchical authorities.

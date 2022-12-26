@@ -1,0 +1,75 @@
+.modal--transaction-confirm {
+	.ant-modal {
+		background-color: #000 !important;
+
+		.ant-modal-header {
+			padding: 18px 0;
+			background: transparent !important;
+			border: unset !important;
+
+			.ant-modal-title {
+				text-align: center;
+				margin: 0 auto;
+				color: white;
+				background: transparent;
+				font-size: 22px;
+				text-transform: uppercase;
+			}
+		}
+
+		.ant-modal-body {
+			table {
+				td {
+					padding: 15px 0;
+					font-size: 16px;
+
+					span {
+						color: #cacaca;
+
+						&.txtlabel.info {
+							color: #cacaca !important;
+						}
+					}
+				}
+			}
+
+			.propose-from {
+				label span {
+					text-transform: uppercase;
+				}
+
+				select {
+					background-color: #21252f !important;
+				}
+			}
+
+			.propose-toggle {
+				span {
+					text-transform: uppercase;
+					color: #ffc000;
+				}
+			}
+		}
+
+		.ant-modal-footer {
+			.ant-btn-default {
+				width: 48%;
+				background-color: #ffc000;
+				color: black;
+				height: 50px;
+				font-weight: bold;
+				font-size: 16px;
+				border: unset !important;
+			}
+
+			.ant-btn-danger {
+				width: 48%;
+				margin-left: 4%;
+				color: white;
+				height: 50px;
+				font-weight: bold;
+				font-size: 16px;
+			}
+		}
+	}
+}
