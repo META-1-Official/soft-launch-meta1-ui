@@ -14,7 +14,7 @@ const CHAINID_SHORT = chainIds[process.env.CURRENT_NET].substr(0, 8);
  * @private
  */
 function _isTestnet() {
-	const chainId = (Apis.instance().chain_id || '04e96f5d').substr(0, 8);
+	const chainId = (Apis.instance().chain_id || CHAINID_SHORT).substr(0, 8);
 
 	if (chainId === CHAINID_SHORT) {
 		return false;
