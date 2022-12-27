@@ -20,7 +20,7 @@ import {AiOutlineLink, AiOutlineKey} from 'react-icons/ai';
 require('./witnesses.scss');
 const volumeIcon = require('assets/explorer/volume.png');
 
-const baseExplorerUrl = 'https://explorer.dev.meta1coin.vision/blocks';
+const baseExplorerUrl = process.env.EXPLORER_META1_URL;
 
 const {Text} = Typography;
 class WitnessRow extends React.Component {
