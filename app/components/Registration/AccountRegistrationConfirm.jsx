@@ -1152,7 +1152,6 @@ class AccountRegistrationConfirm extends React.Component {
 				</Form>
 				{/* download paper wallet modal */}
 				<Modal
-					centered
 					visible={this.state.downloadPaperWalletModal}
 					className="unlock_wallet_modal2 hide-close-btn"
 					id={'downloadPaperWallet'}
