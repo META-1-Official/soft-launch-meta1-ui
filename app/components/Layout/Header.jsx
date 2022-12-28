@@ -568,11 +568,13 @@ class Header extends React.Component {
 				<Menu.Item key="addContact" className="level-2">
 					<Text>Add Contact</Text>
 				</Menu.Item>
-				{!this.props.locked_v2 && this.state.migratable && this.state.oldUser && (
-					<Menu.Item key="claimWallet">
-						<Text>Claim Legacy Wallet</Text>
-					</Menu.Item>
-				)}
+				{!this.props.locked_v2 &&
+					this.state.migratable &&
+					this.state.oldUser && (
+						<Menu.Item key="claimWallet">
+							<Text>Claim Legacy Wallet</Text>
+						</Menu.Item>
+					)}
 				<Menu.Item
 					key="send"
 					style={this.props.locked_v2 ? {cursor: 'not-allowed'} : {}}
@@ -626,7 +628,7 @@ class Header extends React.Component {
 							questions */
 						</Text>
 					</Menu.Item>
-					<Menu.Item key="advanced-trezor">
+					{/* <Menu.Item key="advanced-trezor">
 						<Text>
 							<Translate
 								style={{textTransform: 'capitalize'}}
@@ -643,7 +645,7 @@ class Header extends React.Component {
 								content="explorer.assets.ledger"
 							/>
 						</Text>
-					</Menu.Item>
+					</Menu.Item> */}
 					<Menu.Item
 						key="comment-no-hardware-wallet-support"
 						className="comment none"
