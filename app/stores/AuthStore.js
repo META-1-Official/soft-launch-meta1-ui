@@ -53,6 +53,7 @@ class AuthStore extends BaseStore {
 	}
 
 	setOpenLoginInstance() {
+		console.log('OPEN', process.env.TORUS_PROJECT_ID);
 		try {
 			const openLogin = new OpenLogin({
 				clientId: process.env.TORUS_PROJECT_ID,
