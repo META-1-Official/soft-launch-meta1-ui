@@ -394,6 +394,7 @@ class AuthRedirect extends React.Component {
 							alignItems: 'center',
 							justifyContent: 'center',
 						}}
+						className="custom-auth-faceki"
 						onCancel={this.handleModalClose}
 					>
 						<h5>
@@ -407,6 +408,11 @@ class AuthRedirect extends React.Component {
 									position: 'relative',
 								}}
 							>
+								<div className="flex_container">
+									<div className="position-head color-black">
+										Position your face in the oval
+									</div>
+								</div>
 								<Webcam
 									audio={false}
 									ref={this.webcamRef}
@@ -434,6 +440,13 @@ class AuthRedirect extends React.Component {
 										opacity: 0.8,
 									}}
 								/>
+								<div className="flex_container">
+									<p className="span-class color-black">
+										{!this.state.faceKISuccess
+											? 'Press verify to complete authentication and log in'
+											: 'Verification Successful!'}
+									</p>
+								</div>
 							</div>
 						)}
 						<div

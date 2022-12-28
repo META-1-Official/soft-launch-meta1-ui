@@ -24,7 +24,7 @@ const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
 
 class AccountRegistration extends React.Component {
-	constructor() {
+	constructor(props) {
 		super();
 		this.state = {
 			accountName: '',
@@ -500,6 +500,33 @@ class AccountRegistration extends React.Component {
 								position: 'relative',
 							}}
 						>
+							<div className="flex_container">
+								<div className="position-head color-black">
+									Position your face in the oval
+								</div>
+								<button
+									className="btn-x"
+									onClick={() => {
+										this.setState({
+											accountName: '',
+											password: '',
+											firstStep: true,
+											torusAlreadyAssociatedEmail: false,
+											finalStep: false,
+											faceKIStep: false,
+											migrationStep: false,
+											faceKISuccess: false,
+											passkey: '',
+											device: {},
+											webcamEnabled: false,
+											verifying: false,
+										});
+										this.props.history.push('/registration');
+									}}
+								>
+									X
+								</button>
+							</div>
 							<Webcam
 								audio={false}
 								ref={this.webcamRef}
@@ -527,6 +554,13 @@ class AccountRegistration extends React.Component {
 									opacity: 0.8,
 								}}
 							/>
+							<div className="flex_container">
+								<p className="span-class color-black">
+									{!this.state.faceKISuccess
+										? 'Press verify to begin enrollment'
+										: 'Verification Successful!'}
+								</p>
+							</div>
 						</div>
 					)}
 					<div
