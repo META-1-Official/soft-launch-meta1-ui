@@ -1135,7 +1135,8 @@ class AccountRegistrationConfirm extends React.Component {
 								!this.state.confirmed ||
 								!this.state.confirmedTerms ||
 								!this.state.confirmedTerms2 ||
-								!this.state.confirmedTerms3
+								!this.state.confirmedTerms3 ||
+								!this.state.confirmedTerms4
 							}
 							className="create-acc-btn"
 							onClick={() => {
