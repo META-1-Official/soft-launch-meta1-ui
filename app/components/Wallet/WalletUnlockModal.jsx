@@ -579,6 +579,7 @@ class WalletUnlockModal extends React.Component {
 												this.password_input = input;
 											}}
 											bordered={false}
+											placeholder="Enter Passkey"
 										/>
 										<div onClick={this.toggleEye}>
 											<Icon
