@@ -2558,7 +2558,7 @@
 		"free": "Free",
 		"from": "From",
 		"header": "Transfer details",
-		"header_subheader": "Send funds from an wallet you control to another %(wallet_name)s wallet holder.",
+		"header_subheader": "Send funds from a wallet you control to another %(wallet_name)s wallet holder.",
 		"header_subheader_propose": "Propose to send funds from one %(wallet_name)s wallet to another. The BY wallet is the wallet proposing the transaction.",
 		"memo": "Memo / Message",
 		"memo_unlock": "Unlock your wallet/wallet in order to see this memo",
