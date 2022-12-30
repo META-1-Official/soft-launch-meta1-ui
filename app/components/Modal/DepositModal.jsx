@@ -82,7 +82,9 @@ const DepositModalContent = (props) => {
 		return (
 			<>
 				<div className="qr-wrapper">
-					<span>Deposit {assetType}</span>
+					<span>
+						Deposit <span className="deposit-coin">{assetType}</span>
+					</span>
 					{depositAddress && depositAddress != '' ? (
 						<QRCode value={depositAddress} />
 					) : (
