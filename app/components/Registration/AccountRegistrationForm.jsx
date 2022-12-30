@@ -23,6 +23,8 @@ const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
 import countryCodes from '../Utility/countryCode.json';
 
+const ALLOW_PHONE_NUMBER_KEY = ['Backspace', 'Tab', 'ArrowRight', 'ArrowLeft'];
+
 class AccountRegistrationForm extends React.Component {
 	formRef = React.createRef();
 	static propTypes = {
@@ -501,13 +503,13 @@ class AccountRegistrationForm extends React.Component {
 										value={this.state.phoneFormat}
 										onKeyDown={(event) => {
 											if (
-												event.key !== 'Backspace' &&
+												!ALLOW_PHONE_NUMBER_KEY.includes(event.key) &&
 												!this.state.selectedCountryObj.patterns &&
 												this.state.phoneFormat.length === 15
 											) {
 												event.preventDefault();
 											} else if (
-												event.key !== 'Backspace' &&
+												!ALLOW_PHONE_NUMBER_KEY.includes(event.key) &&
 												this.state.selectedCountryObj?.patterns &&
 												this.state.phoneFormat.length ===
 													this.state.selectedCountryObj.patterns[0].length
