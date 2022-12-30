@@ -303,6 +303,10 @@ class AccountRegistrationForm extends React.Component {
 														);
 													else if (/\d/.test(value))
 														return Promise.reject('Numbers are not allowed.');
+													else if (value.length > 63)
+														return Promise.reject(
+															'First Name should be less than 64 characters'
+														);
 													else
 														return Promise.reject(
 															'Your First Name must not contain special characters.'
@@ -342,6 +346,10 @@ class AccountRegistrationForm extends React.Component {
 														);
 													else if (/\d/.test(value))
 														return Promise.reject('Numbers are not allowed.');
+													else if (value.length > 63)
+														return Promise.reject(
+															'Last Name should be less than 64 characters.'
+														);
 													else
 														return Promise.reject(
 															'Your Last Name must not contain special characters.'
