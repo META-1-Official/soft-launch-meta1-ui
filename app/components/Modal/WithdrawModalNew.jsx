@@ -1009,6 +1009,7 @@ class WithdrawModalNew extends React.Component {
 							value={username}
 							name="username"
 							onChange={(e) => this.onInputChanged(e)}
+							placeholder="Enter name"
 						/>
 					</div>
 
@@ -1019,6 +1020,7 @@ class WithdrawModalNew extends React.Component {
 							value={email}
 							name="email"
 							onChange={(e) => this.onInputChanged(e)}
+							placeholder="Enter email"
 						/>
 					</div>
 
