@@ -43,27 +43,6 @@ class AccountPage extends React.Component {
 	componentDidMount() {
 		const {currentAccount, history, location} = this.props;
 
-		const currentPath = location.pathname.split('/');
-		const accountNameFromUrl = currentPath[2];
-		const accountName = ss.get('account_login_name');
-
-		if (
-			accountName &&
-			accountNameFromUrl &&
-			accountName !== accountNameFromUrl
-		) {
-			WalletUnlockActions.lock_v2()
-				.then(() => {
-					console.log(
-						'Error 407: different account.',
-						accountName,
-						accountNameFromUrl
-					);
-					history.push('/market/META1_USDT');
-				})
-				.catch(() => {});
-		}
-
 		if (this.props.account) {
 			AccountActions.setCurrentAccount.defer(this.props.account.get('name'));
 			// Fetch possible fee assets here to avoid async issues later (will resolve assets)

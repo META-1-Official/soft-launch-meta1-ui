@@ -61,7 +61,7 @@ const SideBar = ({collapsed, currentLink, toggle}: ISideBar) => {
 			menuId: `account`,
 			menuName: <Translate content="explorer.assets.title" />,
 			icon: <WalletOutlined />,
-			enableNavLinks,
+			enableNavLinks: true,
 		},
 		{
 			menuId: 'trade',
