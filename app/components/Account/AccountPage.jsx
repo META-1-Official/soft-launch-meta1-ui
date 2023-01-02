@@ -43,27 +43,6 @@ class AccountPage extends React.Component {
 	componentDidMount() {
 		const {currentAccount, history, location} = this.props;
 
-		const currentPath = location.pathname.split('/');
-		const accountNameFromUrl = currentPath[2];
-		const accountName = ss.get('account_login_name');
-
-		if (
-			accountName &&
-			accountNameFromUrl &&
-			accountName !== accountNameFromUrl
-		) {
-			WalletUnlockActions.lock_v2()
-				.then(() => {
-					console.log(
-						'Error 407: different account.',
-						accountName,
-						accountNameFromUrl
-					);
-					history.push('/market/META1_USDT');
-				})
-				.catch(() => {});
-		}
-
 		if (this.props.account) {
 			AccountActions.setCurrentAccount.defer(this.props.account.get('name'));
 			// Fetch possible fee assets here to avoid async issues later (will resolve assets)
@@ -103,10 +82,10 @@ class AccountPage extends React.Component {
 			account,
 			hiddenAssets,
 		} = this.props;
+		const accountName = ss.get('account_login_name', null);
+		const accountToken = ss.get('account_login_token', null);
 
 		if (!account) {
-			const accountName = ss.get('account_login_name');
-
 			if (accountName) {
 				window.location.replace(`/account/${accountName}/`);
 			} else {
@@ -117,6 +96,9 @@ class AccountPage extends React.Component {
 
 		let account_name = this.props.account.get('name');
 		let isMyAccount = AccountStore.isMyAccount(account);
+
+		if (!accountToken && account_name && account_name != accountName)
+			ss.set('account_login_name', account_name);
 
 		let passOnProps = {
 			account_name,
