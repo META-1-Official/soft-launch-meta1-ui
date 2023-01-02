@@ -449,6 +449,11 @@ class AuthRedirect extends React.Component {
 											: 'Verification Successful!'}
 									</p>
 								</div>
+								<div className="flex_container">
+									<span className="span-class color-black">
+										Min camera resolution must me 720p
+									</span>
+								</div>
 							</div>
 						)}
 						<div
