@@ -128,6 +128,7 @@ class PasswordlessLoginModal extends React.Component {
 				await openLogin.login();
 			} else {
 				const privKey = await openLogin.login();
+				this.props.history.push('/auth-proceed');
 			}
 		} catch (error) {
 			this.setState({isTorusLogin: false});
