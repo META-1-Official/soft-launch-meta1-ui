@@ -12,6 +12,7 @@ import {
 	InteractionOutlined,
 	FileProtectOutlined,
 } from '@ant-design/icons';
+import {toast} from 'react-toastify';
 import {useTheme} from '@emotion/react';
 import Translate from 'react-translate-component';
 import history from '../../lib/common/history'; // lib/common/history';
@@ -117,6 +118,11 @@ const SideBar = ({collapsed, currentLink, toggle}: ISideBar) => {
 		let link = e.key;
 
 		if (e.key === 'account') {
+			if (!accountName) {
+				toast('Please login or get this page from explorer');
+				return;
+			}
+
 			link = `account/${accountName}/?currentDisplay=portfolio`;
 		} else if (e.key === 'activity') {
 			link = `account/${accountName}/activity`;

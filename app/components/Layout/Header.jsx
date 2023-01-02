@@ -44,6 +44,7 @@ import AccountBrowsingMode from '../Account/AccountBrowsingMode';
 import {setLocalStorageType, isPersistantType} from 'lib/common/localStorage';
 import chainIds from 'chain/chainIds';
 import ls from '../../lib/common/localStorage';
+import {isEmpty} from 'lodash-es';
 
 import {getLogo} from 'branding';
 import StyledButton from 'components/Button/Button';
@@ -366,12 +367,20 @@ class Header extends React.Component {
 		let isLogged = false;
 
 		// Need refactor
-		const accountName = ss.get('account_login_name');
+		const accountName = ss.get('account_login_name', null);
 
 		if (key === 'auth') {
 			this._toggleLock(this, true);
 		} else if (key === 'dashboard') {
-			this._onNavigate(`/account/${accountName || currentAccount}`, this, true);
+			if (accountName || !isEmpty(currentAccount)) {
+				this._onNavigate(
+					`/account/${accountName || currentAccount}`,
+					this,
+					true
+				);
+			} else {
+				this._onNavigate(`/learn`, this, true);
+			}
 		} else if (key === 'createAccount') {
 			this._onNavigate('/registration/', this, true);
 		} else if (key === 'market') {

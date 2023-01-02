@@ -82,10 +82,10 @@ class AccountPage extends React.Component {
 			account,
 			hiddenAssets,
 		} = this.props;
+		const accountName = ss.get('account_login_name', null);
+		const accountToken = ss.get('account_login_token', null);
 
 		if (!account) {
-			const accountName = ss.get('account_login_name');
-
 			if (accountName) {
 				window.location.replace(`/account/${accountName}/`);
 			} else {
@@ -96,6 +96,9 @@ class AccountPage extends React.Component {
 
 		let account_name = this.props.account.get('name');
 		let isMyAccount = AccountStore.isMyAccount(account);
+
+		if (!accountToken && account_name && account_name != accountName)
+			ss.set('account_login_name', account_name);
 
 		let passOnProps = {
 			account_name,
