@@ -441,9 +441,14 @@ class AccountRegistrationForm extends React.Component {
 												e.stopPropagation();
 											}}
 											filterOption={(input, option) => {
-												return option?.props?.children?.props?.children[0]?.props?.children[1]
-													.toLowerCase()
-													.includes(input.toLowerCase());
+												if (
+													typeof option?.props?.children?.props?.children[0]
+														?.props?.children[1] === 'string'
+												) {
+													return option?.props?.children?.props?.children[0]?.props?.children[1]
+														.toLowerCase()
+														.includes(input.toLowerCase());
+												}
 											}}
 											defaultValue={this.state.country}
 											onChange={(value) => {
@@ -467,21 +472,38 @@ class AccountRegistrationForm extends React.Component {
 											{countryCodes?.map((data, index) => {
 												return (
 													<Select.Option key={index} value={data?.id}>
-														<div className="option-header-register">
-															<div>
-																<img
-																	className="countryFlag-img"
-																	src={`${
-																		process.env.FLAG_ICON_CDN
-																	}/${data?.iso2.toLowerCase()}.png`}
-																	alt="flag"
-																/>
-																{data?.defaultName}
+														{data?.id === this.state?.selectedCountryObj?.id ? (
+															<div className="option-header-register">
+																<div>
+																	<img
+																		className="countryFlag-img"
+																		src={`${
+																			process.env.FLAG_ICON_CDN
+																		}/${data?.iso2.toLowerCase()}.png`}
+																		alt="flag"
+																	/>
+																</div>
+																<div className="select-country-code">
+																	+{data?.countryCode}{' '}
+																</div>
 															</div>
-															<div className="select-country-code">
-																+{data?.countryCode}{' '}
+														) : (
+															<div className="option-header-register">
+																<div>
+																	<img
+																		className="countryFlag-img"
+																		src={`${
+																			process.env.FLAG_ICON_CDN
+																		}/${data?.iso2.toLowerCase()}.png`}
+																		alt="flag"
+																	/>
+																	{data?.defaultName}
+																</div>
+																<div className="select-country-code">
+																	+{data?.countryCode}{' '}
+																</div>
 															</div>
-														</div>
+														)}
 													</Select.Option>
 												);
 											})}
