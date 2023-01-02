@@ -68,7 +68,7 @@ class AccountRegistration extends React.Component {
 
 	async faceEnroll() {
 		const {privKey, authData} = this.props;
-		const email = authData.email;
+		const email = authData.email.toLowerCase();
 
 		if (!email || !privKey) return;
 
@@ -306,7 +306,7 @@ class AccountRegistration extends React.Component {
 					ss.remove('account_login_name');
 					await openLogin.login();
 				}
-				this.setState({torusAlreadyAssociatedEmail: data.email});
+				this.setState({torusAlreadyAssociatedEmail: data.email.toLowerCase()});
 			} else {
 				ss.set('account_registration_name', accountName);
 				ss.remove('account_login_name');
@@ -345,7 +345,7 @@ class AccountRegistration extends React.Component {
 	proceedESign() {
 		const {privKey, authData} = this.props;
 		ss.set('confirmedTerms4Token', 'success');
-		ss.set('email', authData.email);
+		ss.set('email', authData.email.toLowerCase());
 		const accountName = ss.get('account_registration_name', '');
 		if (!accountName || !privKey) return;
 
@@ -365,7 +365,7 @@ class AccountRegistration extends React.Component {
 		const {privKey, authData} = this.props;
 		if (!accountName || !privKey) return;
 
-		ss.set('email', authData.email);
+		ss.set('email', authData.email.toLowerCase());
 		this.loadVideo(true).then(() => {
 			this.setState({
 				accountName,

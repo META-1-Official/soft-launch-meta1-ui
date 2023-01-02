@@ -145,7 +145,9 @@ class AuthRedirect extends React.Component {
 			return;
 		}
 
-		const response_user = await kycService.getUserKycProfile(authData.email);
+		const response_user = await kycService.getUserKycProfile(
+			authData.email.toLowerCase()
+		);
 
 		if (!response_user?.member1Name) {
 			toast('Email and wallet name are not matched.');
@@ -178,7 +180,7 @@ class AuthRedirect extends React.Component {
 			if (response_verify.status === 'Verify OK') {
 				const nameArry = response_verify.name.split(',');
 
-				if (nameArry.includes(authData.email)) {
+				if (nameArry.includes(authData.email.toLowerCase())) {
 					this.setState({faceKISuccess: true});
 					this.setState({verifying: false});
 					this.continueLogin();
@@ -210,7 +212,7 @@ class AuthRedirect extends React.Component {
 				axios
 					.post(process.env.LITE_WALLET_URL + '/login', {
 						accountName: accountName,
-						email: authData.email,
+						email: authData.email.toLowerCase(),
 					})
 					.then((response) => {
 						console.log('LW login response', response); // DEBUG
