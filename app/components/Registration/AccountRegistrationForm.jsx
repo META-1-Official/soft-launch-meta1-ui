@@ -298,16 +298,16 @@ class AccountRegistrationForm extends React.Component {
 											if (value.length === 0)
 												return Promise.reject('First Name is required.');
 											else {
-												if (!/^[A-Za-z]{0,63}$/.test(value)) {
+												if (!/^[A-Za-z]{0,256}$/.test(value)) {
 													if (value.includes(' '))
 														return Promise.reject(
 															'Whitespace character is not allowed.'
 														);
 													else if (/\d/.test(value))
 														return Promise.reject('Numbers are not allowed.');
-													else if (value.length > 63)
+													else if (value.length > 256)
 														return Promise.reject(
-															'First Name should be less than 64 characters'
+															'First Name should be less than 256 characters'
 														);
 													else
 														return Promise.reject(
@@ -341,16 +341,16 @@ class AccountRegistrationForm extends React.Component {
 											if (value.length === 0)
 												return Promise.reject('Last Name is required.');
 											else {
-												if (!/^[A-Za-z]{0,63}$/.test(value)) {
+												if (!/^[A-Za-z]{0,256}$/.test(value)) {
 													if (value.includes(' '))
 														return Promise.reject(
 															'Whitespace character is not allowed.'
 														);
 													else if (/\d/.test(value))
 														return Promise.reject('Numbers are not allowed.');
-													else if (value.length > 63)
+													else if (value.length > 256)
 														return Promise.reject(
-															'Last Name should be less than 64 characters.'
+															'Last Name should be less than 256 characters.'
 														);
 													else
 														return Promise.reject(
