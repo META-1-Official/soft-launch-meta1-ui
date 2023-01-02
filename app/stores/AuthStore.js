@@ -57,8 +57,7 @@ class AuthStore extends BaseStore {
 			const openLogin = new OpenLogin({
 				clientId: process.env.TORUS_PROJECT_ID,
 				network: process.env.TORUS_NETWORK,
-				uxMode: 'redirect',
-				redirectUrl: window.location.origin + '/auth-proceed',
+				uxMode: 'popup',
 				whiteLabel: {
 					name: 'META1',
 					dark: true,

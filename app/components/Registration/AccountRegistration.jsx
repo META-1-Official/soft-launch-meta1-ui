@@ -17,6 +17,7 @@ import faceKIService from 'services/face-ki.service';
 import kycService from 'services/kyc.service';
 import migrationService from 'services/migration.service';
 import {toast} from 'react-toastify';
+import LoadingIndicator from 'components/LoadingIndicator';
 
 const OvalImage = require('assets/oval/oval.png');
 
@@ -39,6 +40,7 @@ class AccountRegistration extends React.Component {
 			device: {},
 			webcamEnabled: false,
 			verifying: false,
+			loading: false,
 		};
 		this.webcamRef = React.createRef();
 		this.continue = this.continue.bind(this);
@@ -310,13 +312,16 @@ class AccountRegistration extends React.Component {
 			} else {
 				ss.set('account_registration_name', accountName);
 				ss.remove('account_login_name');
+				this.setState({loading: true});
 				await openLogin.init();
 				await openLogin.login();
 				const data = await openLogin.getUserInfo();
+				this.setState({loading: false});
+				this.props.history.push('/auth-proceed');
 			}
 		} catch (error) {
 			console.log('Torus Error:', error);
-			this.setState({firstStep: true});
+			this.setState({firstStep: true, loading: false});
 		}
 	}
 
@@ -607,12 +612,20 @@ class AccountRegistration extends React.Component {
 				/>
 			);
 		} else {
-			return (
-				<AccountRegistrationForm
-					continue={this.continue}
-					visibility={firstStep}
-				/>
-			);
+			if (this.state.loading) {
+				return (
+					<div className="custom-loader">
+						<LoadingIndicator type="three-bounce" />
+					</div>
+				);
+			} else {
+				return (
+					<AccountRegistrationForm
+						continue={this.continue}
+						visibility={firstStep}
+					/>
+				);
+			}
 		}
 	}
 
