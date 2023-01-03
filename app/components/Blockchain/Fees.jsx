@@ -88,7 +88,7 @@ class FeeGroup extends React.Component {
 
 			let rows = [];
 			let headIncluded = false;
-			let labelClass = classNames('label', 'info');
+			let labelClass = classNames('label', 'info', 'explore-fee-title-text');
 
 			for (let key in fee) {
 				let amount = (fee[key] * scale) / 1e4;
