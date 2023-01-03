@@ -414,6 +414,9 @@ class AuthRedirect extends React.Component {
 									<div className="position-head color-black">
 										Position your face in the oval
 									</div>
+									<div className="position-head color-black">
+										Min camera resolution must me 720p
+									</div>
 								</div>
 								<Webcam
 									audio={false}

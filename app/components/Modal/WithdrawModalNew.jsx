@@ -89,6 +89,7 @@ class WithdrawModalNew extends React.Component {
 			btsAccountName: '',
 			btsAccount: '',
 			submitted: false,
+			minWithdraw: 0,
 		};
 
 		this.handleQrScanSuccess = this.handleQrScanSuccess.bind(this);
@@ -460,6 +461,17 @@ class WithdrawModalNew extends React.Component {
 		stateObj.estimatedValue = 0;
 		stateObj.memo = '';
 		stateObj.address = '';
+
+		if (value) {
+			fetch(`${process.env.GATEWAY_URL}/api/currency/${value}`)
+				.then(async (res) => {
+					let minWithdraw = (await res.json()).minWithdrawal;
+					this.setState({minWithdraw: minWithdraw});
+				})
+				.catch((err) => {
+					console.log('ERR', err);
+				});
+		}
 
 		this.setState(stateObj);
 	}
@@ -910,23 +922,24 @@ class WithdrawModalNew extends React.Component {
 		// Get Backing Asset for Gateway
 		let backingAsset = this._getBackingAssetProps();
 
-		let minWithdraw = null;
+		let minWithdraw = this.state.minWithdraw;
 		let maxWithdraw = null;
-		if (backingAsset && backingAsset.minAmount) {
-			minWithdraw = !!backingAsset.precision
-				? utils.format_number(
-						backingAsset.minAmount /
-							utils.get_asset_precision(backingAsset.precision),
-						backingAsset.precision,
-						false
-				  )
-				: backingAsset.minAmount;
-		} else if (backingAsset) {
-			minWithdraw =
-				'gateFee' in backingAsset
-					? backingAsset.gateFee * 2 || 0 + backingAsset.transactionFee || 0
-					: 0;
-		}
+
+		// if (backingAsset && backingAsset.minAmount) {
+		// 	minWithdraw = !!backingAsset.precision
+		// 		? utils.format_number(
+		// 				backingAsset.minAmount /
+		// 					utils.get_asset_precision(backingAsset.precision),
+		// 				backingAsset.precision,
+		// 				false
+		// 		  )
+		// 		: backingAsset.minAmount;
+		// } else if (backingAsset) {
+		// 	minWithdraw =
+		// 		'gateFee' in backingAsset
+		// 			? backingAsset.gateFee * 2 || 0 + backingAsset.transactionFee || 0
+		// 			: 0;
+		// }
 
 		if (backingAsset && backingAsset.maxAmount) {
 			maxWithdraw = backingAsset.maxAmount;
