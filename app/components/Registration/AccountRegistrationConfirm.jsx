@@ -333,6 +333,7 @@ class AccountRegistrationConfirm extends React.Component {
 				ss.set('account_login_name', accountName);
 				ss.set('account_login_token', response.data['token']);
 				WalletUnlockActions.unlock_v2().finally(() => {
+					this.resetTerms();
 					this.props.history.push(`/account/${accountName}/`);
 				});
 				setTimeout(() => {
@@ -341,8 +342,19 @@ class AccountRegistrationConfirm extends React.Component {
 			})
 			.catch((error) => {
 				console.log('Login Error:', error);
+				this.resetTerms();
 				this.props.history.push(`/market/META1_USDT/`);
 			});
+	}
+
+	resetTerms() {
+		this.setState({
+			confirmed: false,
+			confirmedTerms: false,
+			confirmedTerms2: false,
+			confirmedTerms3: false,
+			confirmedTerms4: false,
+		});
 	}
 
 	toggleConfirmed(e) {
