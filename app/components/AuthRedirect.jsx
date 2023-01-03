@@ -215,7 +215,6 @@ class AuthRedirect extends React.Component {
 						email: authData.email.toLowerCase(),
 					})
 					.then((response) => {
-						console.log('LW login response', response); // DEBUG
 						this.setState({webcamEnabled: false});
 						const accountName = response.data['accountName'];
 						ss.set('account_login_name', accountName);
