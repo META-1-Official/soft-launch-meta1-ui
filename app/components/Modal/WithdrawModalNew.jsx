@@ -463,14 +463,19 @@ class WithdrawModalNew extends React.Component {
 		stateObj.address = '';
 
 		if (value) {
-			fetch(`${process.env.GATEWAY_URL}/api/currency/${value}`)
-				.then(async (res) => {
-					let minWithdraw = (await res.json()).minWithdrawal;
-					this.setState({minWithdraw: minWithdraw});
-				})
-				.catch((err) => {
-					console.log('ERR', err);
-				});
+			// fetch(`${process.env.GATEWAY_URL}/api/currency/${value}`)
+			// 	.then(async (res) => {
+			// 		let minWithdraw = (await res.json()).minWithdrawal;
+			// 		this.setState({minWithdraw: minWithdraw});
+			// 	})
+			// 	.catch((err) => {
+			// 		console.log('ERR', err);
+			// 	});
+			if (value === 'ETH') {
+				this.setState({minWithdraw: 0.02});
+			} else if (value === 'USDT') {
+				this.setState({minWithdraw: 25});
+			}
 		}
 
 		this.setState(stateObj);
