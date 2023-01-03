@@ -563,7 +563,7 @@ class AccountRegistration extends React.Component {
 							</div>
 							<div className="flex_container">
 								<span className="span-class color-black">
-									Min camera resolution must me 720p
+									Min camera resolution must be 720p
 								</span>
 							</div>
 						</div>

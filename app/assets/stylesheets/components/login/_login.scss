@@ -320,4 +320,12 @@
 		z-index: 999;
 		text-align: center;
 	}
+	.span-container {
+		display: flex;
+		justify-content: center;
+	}
+	.position-relative-custom {
+		position: relative;
+		bottom: 2px;
+	}
 }

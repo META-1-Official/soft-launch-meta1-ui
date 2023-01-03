@@ -450,8 +450,9 @@ class AuthRedirect extends React.Component {
 									</p>
 								</div>
 								<div className="flex_container">
-									<span className="span-class color-black">
-										Min camera resolution must me 720p
+									<span className="span-class color-black span-container">
+										Min camera resolution must be{' '}
+										<p className="position-relative-custom">720p</p>
 									</span>
 								</div>
 							</div>
