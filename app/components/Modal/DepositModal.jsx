@@ -5,6 +5,7 @@ import {CopyOutlined} from '@ant-design/icons';
 import CopyButton from '../Utility/CopyButton';
 import AccountStore from 'stores/AccountStore';
 import QRCode from 'qrcode.react';
+import {toast} from 'react-toastify';
 
 const DepositModalContent = (props) => {
 	const [depositAddress, setDepositAddress] = useState('');
@@ -81,7 +82,9 @@ const DepositModalContent = (props) => {
 		return (
 			<>
 				<div className="qr-wrapper">
-					<span>Deposit {assetType}</span>
+					<span>
+						Deposit <span className="deposit-coin">{assetType}</span>
+					</span>
 					{depositAddress && depositAddress != '' ? (
 						<QRCode value={depositAddress} />
 					) : (
@@ -104,7 +107,13 @@ const DepositModalContent = (props) => {
 					>
 						<div
 							className="copy-btn"
-							onClick={() => navigator.clipboard.writeText(depositAddress)}
+							onClick={() => {
+								navigator.clipboard.writeText(depositAddress);
+								toast.success('Copied successfully', {
+									position: 'top-right',
+									autoClose: 3000,
+								});
+							}}
 						>
 							<div className="btn-text">Copy</div>
 							<CopyOutlined className="copy-icon" />

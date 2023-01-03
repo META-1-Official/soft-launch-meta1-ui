@@ -175,22 +175,28 @@ class AppInit extends React.Component {
 			'market/META1_USDT',
 			'auth-proceed',
 		];
+		const pathname = window.location.pathname.toLowerCase();
+		const accountName = ss.get('account_login_name', null);
+		const accountToken = ss.get('account_login_token', null);
+		let contains = false;
 
-		const contains = openRoutes.some((element) => {
-			if (
-				window.location.pathname.toLowerCase().includes(element.toLowerCase())
-			) {
-				return true;
+		if (accountName) {
+			if (pathname.includes('account') || pathname.includes('currentDisplay')) {
+				contains = true;
 			}
-			return false;
-		});
+		}
+
+		if (!contains) {
+			contains = openRoutes.some((element) => {
+				return pathname.includes(element.toLowerCase());
+			});
+		}
 
 		const self = this;
 		if (!contains) {
-			const token = ss.get('account_login_token');
 			const config = {
 				headers: {
-					Authorization: `Bearer ${token}`,
+					Authorization: `Bearer ${accountToken}`,
 				},
 			};
 			axios

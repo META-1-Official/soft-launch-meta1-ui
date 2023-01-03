@@ -1771,7 +1771,12 @@ div.messages {
 			padding: 10px 39px;
 			margin-top: 30px;
 		}
-
+		.verify-msg-btn {
+			margin-top: 0 !important;
+		}
+		.verify-message-div {
+			padding-top: 30px;
+		}
 		div.verify-status {
 			display: inline-block;
 			margin-left: 10px;

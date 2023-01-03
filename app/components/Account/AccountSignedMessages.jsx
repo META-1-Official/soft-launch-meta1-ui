@@ -322,9 +322,9 @@ class AccountSignedMessages extends React.Component {
 											'account.signedmessages.entermessage'
 										)}
 									/>
-									<span>
+									<div className="verify-message-div">
 										<button
-											className="button"
+											className="button verify-msg-btn"
 											onClick={this._tabVMAction.bind(this)}
 										>
 											<Translate content="account.signedmessages.verify" />
@@ -361,7 +361,7 @@ class AccountSignedMessages extends React.Component {
 												/>
 											</div>
 										)}
-									</span>
+									</div>
 								</div>
 							</Tab>
 						</Tabs>

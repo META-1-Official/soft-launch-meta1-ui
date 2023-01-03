@@ -23,6 +23,8 @@ const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
 import countryCodes from '../Utility/countryCode.json';
 
+const ALLOW_PHONE_NUMBER_KEY = ['Backspace', 'Tab', 'ArrowRight', 'ArrowLeft'];
+
 class AccountRegistrationForm extends React.Component {
 	formRef = React.createRef();
 	static propTypes = {
@@ -296,13 +298,17 @@ class AccountRegistrationForm extends React.Component {
 											if (value.length === 0)
 												return Promise.reject('First Name is required.');
 											else {
-												if (!/^[A-Za-z]{0,63}$/.test(value)) {
+												if (!/^[A-Za-z]{0,256}$/.test(value)) {
 													if (value.includes(' '))
 														return Promise.reject(
 															'Whitespace character is not allowed.'
 														);
 													else if (/\d/.test(value))
 														return Promise.reject('Numbers are not allowed.');
+													else if (value.length > 256)
+														return Promise.reject(
+															'First Name should be less than 256 characters'
+														);
 													else
 														return Promise.reject(
 															'Your First Name must not contain special characters.'
@@ -335,13 +341,17 @@ class AccountRegistrationForm extends React.Component {
 											if (value.length === 0)
 												return Promise.reject('Last Name is required.');
 											else {
-												if (!/^[A-Za-z]{0,63}$/.test(value)) {
+												if (!/^[A-Za-z]{0,256}$/.test(value)) {
 													if (value.includes(' '))
 														return Promise.reject(
 															'Whitespace character is not allowed.'
 														);
 													else if (/\d/.test(value))
 														return Promise.reject('Numbers are not allowed.');
+													else if (value.length > 256)
+														return Promise.reject(
+															'Last Name should be less than 256 characters.'
+														);
 													else
 														return Promise.reject(
 															'Your Last Name must not contain special characters.'
@@ -431,9 +441,14 @@ class AccountRegistrationForm extends React.Component {
 												e.stopPropagation();
 											}}
 											filterOption={(input, option) => {
-												return option?.props?.children?.props?.children[0]?.props?.children[1]
-													.toLowerCase()
-													.includes(input.toLowerCase());
+												if (
+													typeof option?.props?.children?.props?.children[0]
+														?.props?.children[1] === 'string'
+												) {
+													return option?.props?.children?.props?.children[0]?.props?.children[1]
+														.toLowerCase()
+														.includes(input.toLowerCase());
+												}
 											}}
 											defaultValue={this.state.country}
 											onChange={(value) => {
@@ -457,21 +472,38 @@ class AccountRegistrationForm extends React.Component {
 											{countryCodes?.map((data, index) => {
 												return (
 													<Select.Option key={index} value={data?.id}>
-														<div className="option-header-register">
-															<div>
-																<img
-																	className="countryFlag-img"
-																	src={`${
-																		process.env.FLAG_ICON_CDN
-																	}/${data?.iso2.toLowerCase()}.png`}
-																	alt="flag"
-																/>
-																{data?.defaultName}
+														{data?.id === this.state?.selectedCountryObj?.id ? (
+															<div className="option-header-register">
+																<div>
+																	<img
+																		className="countryFlag-img"
+																		src={`${
+																			process.env.FLAG_ICON_CDN
+																		}/${data?.iso2.toLowerCase()}.png`}
+																		alt="flag"
+																	/>
+																</div>
+																<div className="select-country-code">
+																	+{data?.countryCode}{' '}
+																</div>
 															</div>
-															<div className="select-country-code">
-																+{data?.countryCode}{' '}
+														) : (
+															<div className="option-header-register">
+																<div>
+																	<img
+																		className="countryFlag-img"
+																		src={`${
+																			process.env.FLAG_ICON_CDN
+																		}/${data?.iso2.toLowerCase()}.png`}
+																		alt="flag"
+																	/>
+																	{data?.defaultName}
+																</div>
+																<div className="select-country-code">
+																	+{data?.countryCode}{' '}
+																</div>
 															</div>
-														</div>
+														)}
 													</Select.Option>
 												);
 											})}
@@ -493,13 +525,13 @@ class AccountRegistrationForm extends React.Component {
 										value={this.state.phoneFormat}
 										onKeyDown={(event) => {
 											if (
-												event.key !== 'Backspace' &&
+												!ALLOW_PHONE_NUMBER_KEY.includes(event.key) &&
 												!this.state.selectedCountryObj.patterns &&
 												this.state.phoneFormat.length === 15
 											) {
 												event.preventDefault();
 											} else if (
-												event.key !== 'Backspace' &&
+												!ALLOW_PHONE_NUMBER_KEY.includes(event.key) &&
 												this.state.selectedCountryObj?.patterns &&
 												this.state.phoneFormat.length ===
 													this.state.selectedCountryObj.patterns[0].length
