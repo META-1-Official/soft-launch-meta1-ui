@@ -26,6 +26,7 @@ class PasswordlessLoginModal extends React.Component {
 		super(props);
 		this.state = this.initialState(props);
 		this.account_input = React.createRef();
+		this.login_btn_ref = React.createRef();
 
 		this.renderTorusLogin = this.renderTorusLogin.bind(this);
 	}
@@ -197,6 +198,9 @@ class PasswordlessLoginModal extends React.Component {
 							useHR
 							labelClass="login-label"
 							reserveErrorSpace
+							enterSubmitEvent={() => {
+								this.login_btn_ref.current.click();
+							}}
 						/>
 					</div>
 				</Form>
@@ -212,6 +216,7 @@ class PasswordlessLoginModal extends React.Component {
 							this.state.accountName === '' ||
 							this.state.isTorusLogin === true
 						}
+						ref={this.login_btn_ref}
 					>
 						{this.state.isTorusLogin
 							? counterpart.translate('registration.wait')
