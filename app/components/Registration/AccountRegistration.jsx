@@ -51,6 +51,7 @@ class AccountRegistration extends React.Component {
 		this.proceedTorus = this.proceedTorus.bind(this);
 		this.faceEnroll = this.faceEnroll.bind(this);
 		this.nextStep = this.nextStep.bind(this);
+		this.backBtnClick = this.backBtnClick.bind(this);
 		this.handleImportBtn = this.handleImportBtn.bind(this);
 	}
 
@@ -184,6 +185,15 @@ class AccountRegistration extends React.Component {
 		} else {
 			toast('Please enroll first.');
 		}
+	}
+
+	backBtnClick() {
+		this.setState({
+			finalStep: false,
+			faceKIStep: false,
+			migrationStep: false,
+			firstStep: true,
+		});
 	}
 
 	async handleImportBtn() {
@@ -430,7 +440,20 @@ class AccountRegistration extends React.Component {
 					>
 						Import Legacy Wallet
 					</div>
-					<div style={{color: 'white', marginBottom: '50px'}}>
+					<div
+						style={{
+							color: 'white',
+							marginBottom: '50px',
+							lineHeight: 1.2,
+							marginBottom: '10px',
+						}}
+					>
+						This wallet is existing in the LEGACY META Blockchain and so it
+						should be imported instead of being created. If you own this wallet,
+						you can continue to import. In other case, you need to go back and
+						create the wallet with the different wallet name.
+					</div>
+					<div style={{color: 'white', marginBottom: '50px', lineHeight: 1.2}}>
 						To import your original wallet from the LEGACY META Blockchain
 						please enter your LEGACY wallet ID and passkey for that wallet
 						below.
@@ -503,6 +526,9 @@ class AccountRegistration extends React.Component {
 							<div className="flex_container">
 								<div className="position-head color-black">
 									Position your face in the oval
+								</div>
+								<div className="position-head color-black">
+									Min camera resolution must me 720p
 								</div>
 								<button
 									className="btn-x"
@@ -621,6 +647,11 @@ class AccountRegistration extends React.Component {
 			<div className="no-margin grid-block registration-layout registration">
 				<div className="horizontal align-center text-center">
 					<div className="create-account-block">
+						{this.state.migrationStep && (
+							<div style={{cursor: 'pointer'}} onClick={this.backBtnClick}>
+								{'<< Back'}
+							</div>
+						)}
 						<Translate
 							component="h3"
 							className="registration-account-title"
