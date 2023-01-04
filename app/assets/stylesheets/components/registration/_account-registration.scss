@@ -407,6 +407,9 @@ div.registration {
 		}
 		.ant-select-selection-item {
 			line-height: 45px;
+			.selected-data-element {
+				display: none;
+			}
 		}
 		.ant-select-selection-search input {
 			padding-top: 20px !important;
@@ -570,16 +573,26 @@ div.registration {
 .select-box-country {
 	background-color: #000;
 	.ant-select-item-option-selected {
-		background-color: #ffc000;
+		background-color: #ffc000 !important;
+		.option-header-register {
+			color: #000 !important;
+			font-weight: 700 !important;
+		}
 	}
 	.ant-select-item:hover {
 		background-color: #ffc000;
 	}
 	.option-header-register:hover {
 		background-color: #ffc000;
-		color: #fff !important;
+		color: #000 !important;
+		font-weight: 700 !important;
 	}
 	.rc-virtual-list {
 		min-width: 300px !important;
+	}
+}
+.phone-number {
+	.ant-form-item-explain-error {
+		display: none;
 	}
 }
