@@ -182,6 +182,7 @@ class AccountSelector extends React.Component {
 	onAction(e) {
 		let {onAction, disableActionButton, account, accountName} = this.props;
 		e.preventDefault();
+		this.props.enterSubmitEvent();
 		if (!this.getError() && onAction && !disableActionButton) {
 			if (account) onAction(account);
 			else if (this.getInputType(accountName) === 'pubkey')
