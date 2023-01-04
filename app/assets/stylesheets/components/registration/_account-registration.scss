@@ -407,6 +407,9 @@ div.registration {
 		}
 		.ant-select-selection-item {
 			line-height: 45px;
+			.selected-data-element {
+				display: none;
+			}
 		}
 		.ant-select-selection-search input {
 			padding-top: 20px !important;
