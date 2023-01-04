@@ -433,6 +433,7 @@ class AccountRegistrationForm extends React.Component {
 											style={{
 												width: 120,
 											}}
+											autoFocus
 											open={this.state.isCountrySelected}
 											dropdownClassName="select-box-country"
 											dropdownMatchSelectWidth={false}
