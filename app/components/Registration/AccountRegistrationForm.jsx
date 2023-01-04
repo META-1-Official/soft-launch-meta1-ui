@@ -56,6 +56,7 @@ class AccountRegistrationForm extends React.Component {
 			phoneFormat: '',
 			isCountrySelected: false,
 			visibility: true,
+			hidePhoneNumberErrorMsg: false,
 		};
 		this.onSubmit = this.onSubmit.bind(this);
 		this.populateData = this.populateData.bind(this);
@@ -408,6 +409,9 @@ class AccountRegistrationForm extends React.Component {
 									},
 								]}
 								name="phone"
+								className={`${
+									this.state.hidePhoneNumberErrorMsg ? 'phone-number' : ''
+								}`}
 							>
 								<div className="phone-display-flex">
 									{!this.state.isCountrySelected && (
@@ -438,6 +442,7 @@ class AccountRegistrationForm extends React.Component {
 											dropdownMatchSelectWidth={false}
 											showSearch
 											onClick={(e) => {
+												this.setState({hidePhoneNumberErrorMsg: true});
 												e.stopPropagation();
 											}}
 											filterOption={(input, option) => {
@@ -524,6 +529,9 @@ class AccountRegistrationForm extends React.Component {
 										}
 										value={this.state.phoneFormat}
 										onKeyDown={(event) => {
+											if (this.state.hidePhoneNumberErrorMsg) {
+												this.setState({hidePhoneNumberErrorMsg: false});
+											}
 											if (
 												!ALLOW_PHONE_NUMBER_KEY.includes(event.key) &&
 												!this.state.selectedCountryObj.patterns &&
