@@ -355,6 +355,12 @@ class AccountRegistrationConfirm extends React.Component {
 			confirmedTerms3: false,
 			confirmedTerms4: false,
 		});
+
+		ss.set('confirmed', false);
+		ss.set('confirmedTerms', false);
+		ss.set('confirmedTerms2', false);
+		ss.set('confirmedTerms3', false);
+		ss.set('confirmedTerms4', false);
 	}
 
 	toggleConfirmed(e) {
