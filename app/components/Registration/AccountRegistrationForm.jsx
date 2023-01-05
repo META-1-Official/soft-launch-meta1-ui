@@ -605,23 +605,6 @@ class AccountRegistrationForm extends React.Component {
 							/>
 						</div>
 					</Form.Item> */}
-					{firstAccount ? null : (
-						<div className="full-width-content form-group no-overflow">
-							<label htmlFor="account">
-								<Translate content="account.pay_from" />
-							</label>
-							<AccountSelect
-								id="account"
-								account_names={myAccounts}
-								onChange={this.onRegistrarAccountChange}
-							/>
-							{registrarAccount && !isLTM ? (
-								<div style={{textAlign: 'left'}} className="facolor-error">
-									<Translate content="wallet.must_be_ltm" />
-								</div>
-							) : null}
-						</div>
-					)}
 					<ReCAPTCHA
 						sitekey={`${process.env.RECAPTCHA_SITE_KEY}`}
 						onChange={this.caChange.bind(this)}
