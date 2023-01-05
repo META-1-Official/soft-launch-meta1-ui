@@ -422,6 +422,19 @@ div.registration {
 		display: flex;
 		flex-direction: column;
 	}
+	.flex-container-new {
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding-top: 7px;
+		padding-bottom: 7px;
+	}
+	.flex-container-first {
+		z-index: 999;
+		float: center;
+		width: 100%;
+	}
 	.position-head {
 		display: flex;
 		justify-content: center;

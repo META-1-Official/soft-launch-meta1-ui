@@ -530,12 +530,14 @@ class AccountRegistration extends React.Component {
 								position: 'relative',
 							}}
 						>
-							<div className="flex_container">
-								<div className="position-head color-black">
-									Position your face in the oval
-								</div>
-								<div className="position-head color-black">
-									Min camera resolution must me 720p
+							<div className="flex-container-new">
+								<div className="flex-container-first">
+									<div className="position-head color-black">
+										Position your face in the oval
+									</div>
+									<div className="position-head color-black">
+										Min camera resolution must me 720p
+									</div>
 								</div>
 								<button
 									className="btn-x"
