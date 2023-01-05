@@ -29,7 +29,7 @@ class AccountRegistration extends React.Component {
 		this.state = {
 			accountName: '',
 			password: '',
-			firstStep: true,
+			firstStep: false,
 			torusAlreadyAssociatedEmail: false,
 			finalStep: false,
 			faceKIStep: false,
@@ -241,6 +241,7 @@ class AccountRegistration extends React.Component {
 				this.props.history.push('/registration');
 			}
 		} else {
+			this.setState({firstStep: true});
 			setOpenLoginInstance();
 		}
 	}
@@ -381,7 +382,6 @@ class AccountRegistration extends React.Component {
 		const accountName = ss.get('account_registration_name', '');
 		const {privKey, authData} = this.props;
 		if (!accountName || !privKey) return;
-
 		ss.set('email', authData.email.toLowerCase());
 		this.loadVideo(true).then(() => {
 			this.setState({
@@ -406,7 +406,6 @@ class AccountRegistration extends React.Component {
 			finalStep,
 			migrationStep,
 		} = this.state;
-
 		// if (firstStep) {
 		// 	return <AccountRegistrationForm continue={this.continue} />;
 		// } else if (torusAlreadyAssociatedEmail) {
