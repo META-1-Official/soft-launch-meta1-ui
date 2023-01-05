@@ -670,7 +670,6 @@ class AccountRegistrationForm extends React.Component {
 
 	render() {
 		const {visibility} = this.state;
-
 		if (visibility)
 			return (
 				<div className="registration-form">
