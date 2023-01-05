@@ -258,6 +258,12 @@ class AccountRegistration extends React.Component {
 					});
 				} else {
 					display?.getVideoTracks()[0]?.stop();
+					const videoTag = document.querySelector('video');
+					for (const track of videoTag.srcObject.getTracks()) {
+						track.stop();
+					}
+
+					videoTag.srcObject = null;
 					this.setState({webcamEnabled: false, device: {}});
 				}
 			})
