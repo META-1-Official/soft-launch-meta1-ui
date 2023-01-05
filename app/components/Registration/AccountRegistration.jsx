@@ -326,7 +326,8 @@ class AccountRegistration extends React.Component {
 			}
 		} catch (error) {
 			console.log('Torus Error:', error);
-			this.setState({firstStep: true});
+			if (error.message === 'user canceled login')
+				this.setState({firstStep: true});
 		}
 	}
 
