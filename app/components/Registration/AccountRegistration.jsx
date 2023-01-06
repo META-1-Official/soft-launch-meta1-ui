@@ -383,6 +383,11 @@ class AccountRegistration extends React.Component {
 		const {privKey, authData} = this.props;
 		if (!accountName || !privKey) return;
 		ss.set('email', authData.email.toLowerCase());
+		ss.set('confirmed', false);
+		ss.set('confirmedTerms', false);
+		ss.set('confirmedTerms2', false);
+		ss.set('confirmedTerms3', false);
+		ss.set('confirmedTerms4', false);
 		this.loadVideo(true).then(() => {
 			this.setState({
 				accountName,
