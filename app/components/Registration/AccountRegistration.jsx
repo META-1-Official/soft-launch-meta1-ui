@@ -534,9 +534,6 @@ class AccountRegistration extends React.Component {
 									<div className="position-head color-black">
 										Position your face in the oval
 									</div>
-									<div className="position-head color-black">
-										Min camera resolution must me 720p
-									</div>
 								</div>
 								<button
 									className="btn-x"
@@ -588,12 +585,15 @@ class AccountRegistration extends React.Component {
 									opacity: 0.8,
 								}}
 							/>
-							<div className="flex_container">
-								<p className="span-class color-black">
+							<div className="flex_container flex-padding">
+								<span className="span-class color-black custom-margin-bottom-zero">
 									{!this.state.faceKISuccess
 										? 'Press verify to begin enrollment'
 										: 'Verification Successful!'}
-								</p>
+								</span>
+								<div className="span-class color-black custom-margin-bottom-zero">
+									Min camera resolution must be 720p
+								</div>
 							</div>
 						</div>
 					)}
