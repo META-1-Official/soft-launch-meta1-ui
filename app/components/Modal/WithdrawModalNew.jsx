@@ -90,6 +90,7 @@ class WithdrawModalNew extends React.Component {
 			btsAccount: '',
 			submitted: false,
 			minWithdraw: 0,
+			isInsufficientBalance: false,
 		};
 
 		this.handleQrScanSuccess = this.handleQrScanSuccess.bind(this);
@@ -489,6 +490,9 @@ class WithdrawModalNew extends React.Component {
 	}
 
 	onQuantityChanged(e) {
+		if (this.state.isInsufficientBalance) {
+			this.setState({isInsufficientBalance: false});
+		}
 		var input = null;
 		if (parseFloat(e.target.value) == e.target.value) {
 			input = e.target.value.trim();
@@ -744,9 +748,11 @@ class WithdrawModalNew extends React.Component {
 
 		sendAmount.plus(gateFeeAmount);
 
+		let isInsufficientBalance = false;
 		/* Insufficient balance */
 		if (balanceAmount.lt(sendAmount)) {
 			sendAmount = balanceAmount;
+			isInsufficientBalance = true;
 		}
 
 		let descriptor = '';
@@ -768,6 +774,10 @@ class WithdrawModalNew extends React.Component {
 					: '') +
 				(memo ? ':' + new Buffer(memo, 'utf-8') : '');
 			to = intermediateAccount.get('id');
+		}
+		if (isInsufficientBalance) {
+			this.setState({isInsufficientBalance: true});
+			return;
 		}
 
 		let args = [
@@ -1190,7 +1200,8 @@ class WithdrawModalNew extends React.Component {
 									coin={selectedGateway + '.' + selectedAsset}
 								/>
 							) : null}
-							{(assetAndGateway || isMeta1) && !canCoverWithdrawal ? (
+							{((assetAndGateway || isMeta1) && !canCoverWithdrawal) ||
+							this.state.isInsufficientBalance ? (
 								<Translate
 									content="modal.withdraw.cannot_cover"
 									component="div"
