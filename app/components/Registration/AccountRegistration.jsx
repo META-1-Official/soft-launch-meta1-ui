@@ -102,8 +102,7 @@ class AccountRegistration extends React.Component {
 
 				if (nameArry.includes(email)) {
 					toast('You already enrolled and verified successfully.');
-					this.setState({verifying: false});
-					this.setState({faceKISuccess: true});
+					this.setState({verifying: false, faceKISuccess: true});
 				} else {
 					const response_user = await kycService.getUserKycProfile(email);
 					if (response_user) {
@@ -127,8 +126,7 @@ class AccountRegistration extends React.Component {
 								);
 								if (add_response.result) {
 									toast('Successfully enrolled.');
-									this.setState({faceKISuccess: true});
-									this.setState({verifying: false});
+									this.setState({verifying: false, faceKISuccess: true});
 								} else {
 									toast('Something went wrong.');
 									this.setState({verifying: false});
@@ -151,7 +149,7 @@ class AccountRegistration extends React.Component {
 						);
 						if (add_response.result) {
 							toast('Successfully enrolled.');
-							setFaceKISuccess(true);
+							this.setState({verifying: false, faceKISuccess: true});
 						} else {
 							await faceKIService.remove_user(email);
 							toast('Something went wrong.');
@@ -172,15 +170,14 @@ class AccountRegistration extends React.Component {
 		if (!accountName || !privKey) return;
 
 		if (this.state.faceKISuccess === true) {
-			this.loadVideo(false).then(() => {
-				this.setState({
-					accountName,
-					password: this.genKey(`${accountName}${privKey}`),
-					finalStep: true,
-					faceKIStep: false,
-					migrationStep: false,
-					firstStep: false,
-				});
+			this.loadVideo(false);
+			this.setState({
+				accountName,
+				password: this.genKey(`${accountName}${privKey}`),
+				finalStep: true,
+				faceKIStep: false,
+				migrationStep: false,
+				firstStep: false,
 			});
 		} else {
 			toast('Please enroll first.');
@@ -249,28 +246,30 @@ class AccountRegistration extends React.Component {
 	loadVideo(flag) {
 		const features = {audio: false, video: true};
 
-		return navigator.mediaDevices
-			.getUserMedia(features)
-			.then((display) => {
-				if (flag) {
+		if (flag) {
+			return navigator.mediaDevices
+				.getUserMedia(features)
+				.then((display) => {
 					this.setState({
 						webcamEnabled: true,
 						device: display?.getVideoTracks()[0]?.getSettings(),
 					});
-				} else {
-					display?.getVideoTracks()[0]?.stop();
-					const videoTag = document.querySelector('video');
-					for (const track of videoTag.srcObject.getTracks()) {
-						track.stop();
-					}
+				})
+				.finally(() => {
+					return true;
+				});
+		} else {
+			try {
+				const videoTag = document.querySelector('video');
+				for (const track of videoTag.srcObject.getTracks()) track.stop();
 
-					videoTag.srcObject = null;
-					this.setState({webcamEnabled: false, device: {}});
-				}
-			})
-			.finally(() => {
-				return true;
-			});
+				videoTag.srcObject = null;
+			} catch (err) {
+				// Nothing to do
+			}
+
+			this.setState({webcamEnabled: false, device: {}});
+		}
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
@@ -367,14 +366,13 @@ class AccountRegistration extends React.Component {
 		const accountName = ss.get('account_registration_name', '');
 		if (!accountName || !privKey) return;
 
-		this.loadVideo(false).then(() => {
-			this.setState({
-				accountName,
-				password: this.genKey(`${accountName}${privKey}`),
-				finalStep: true,
-				firstStep: false,
-				faceKIStep: false,
-			});
+		this.loadVideo(false);
+		this.setState({
+			accountName,
+			password: this.genKey(`${accountName}${privKey}`),
+			finalStep: true,
+			firstStep: false,
+			faceKIStep: false,
 		});
 	}
 
