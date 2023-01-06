@@ -413,9 +413,6 @@ class AuthRedirect extends React.Component {
 									<div className="position-head color-black">
 										Position your face in the oval
 									</div>
-									<div className="position-head color-black">
-										Min camera resolution must me 720p
-									</div>
 								</div>
 								<Webcam
 									audio={false}
@@ -445,11 +442,14 @@ class AuthRedirect extends React.Component {
 									}}
 								/>
 								<div className="flex_container">
-									<p className="span-class color-black">
+									<span className="span-class color-black">
 										{!this.state.faceKISuccess
 											? 'Press verify to complete authentication and log in'
 											: 'Verification Successful!'}
-									</p>
+									</span>
+									<div className="span-class color-black">
+										Min camera resolution must be 720p
+									</div>
 								</div>
 							</div>
 						)}

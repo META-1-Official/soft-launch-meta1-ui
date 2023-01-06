@@ -461,6 +461,13 @@ div.registration {
 		z-index: 999;
 		text-align: center;
 	}
+	.custom-margin-bottom-zero {
+		margin-top: 0 !important;
+	}
+	.flex-padding {
+		padding-top: 4px;
+		padding-bottom: 4px;
+	}
 }
 
 .ant-layout.layout {
