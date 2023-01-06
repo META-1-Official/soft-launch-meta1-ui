@@ -28,7 +28,7 @@ const AllHistoryViewRow = ({fill, base, quote}) => {
 		>
 			<Tooltip title={fill.time.toString()} placement="left">
 				<div
-					className="tooltip"
+					className="tooltip overflow-hidden"
 					style={{whiteSpace: 'nowrap', paddingLeft: '10px'}}
 				>
 					{counterpart.localize(fill.time, {
@@ -52,13 +52,15 @@ const AllHistoryViewRow = ({fill, base, quote}) => {
 				style={{color: fill.isBid ? '#009D55' : '#FF2929', textAlign: 'left'}}
 				className="table-body-class"
 			>
-				<PriceText price={fill.getPrice()} base={base} quote={quote} />
+				<div className="overflow-hidden">
+					<PriceText price={fill.getPrice()} base={base} quote={quote} />
+				</div>
 			</td>
 			<td
 				style={{color: 'rgba(255, 255, 255, 0.5)', textAlign: 'left'}}
 				className="table-body-class"
 			>
-				{fill.amountToReceive()}
+				<div className="overflow-hidden">{fill.amountToReceive()}</div>
 			</td>
 		</tr>
 	);
