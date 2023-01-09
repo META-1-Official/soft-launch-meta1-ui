@@ -120,9 +120,10 @@ class Row extends React.Component {
 		return (
 			<tr
 				css={(theme) => ({
-					border: `1px solid ${theme.colors.borderColor}`,
+					border: `1px solid gray`,
 				})}
 			>
+				&nbsp;
 				{this.props.includeOperationId ? (
 					<td style={{textAlign: 'left'}}>
 						{/* {this.props.block}#{this.props.txIndex}<br /> */}
@@ -146,7 +147,6 @@ class Row extends React.Component {
 						</Tooltip>
 					</td>
 				)}
-
 				<td style={{padding: '8px 5px', textAlign: 'left'}}>
 					<div>
 						<span>{this.props.info}</span>
@@ -176,6 +176,7 @@ class Row extends React.Component {
 						<BlockTime block_number={block} fullDate={this.props.fullDate} />
 					) : null}
 				</td>
+				&nbsp;
 			</tr>
 		);
 	}
