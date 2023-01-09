@@ -242,6 +242,7 @@ class AuthRedirect extends React.Component {
 						const accountName = response.data['accountName'];
 						ss.set('account_login_name', accountName);
 						ss.set('account_login_token', response.data['token']);
+						AccountActions.setPasswordlessAccount(accountName);
 						WalletUnlockActions.unlock_v2().finally(() => {
 							this.props.history.push(`/account/${accountName}/`);
 						});
