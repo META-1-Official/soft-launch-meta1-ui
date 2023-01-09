@@ -56,6 +56,7 @@ class AuthRedirect extends React.Component {
 
 	componentDidMount() {
 		const {openLogin, privKey, authData, setOpenLoginInstance} = this.props;
+		const loginAccountName = ss.get('account_login_name', '');
 
 		if (this.props.location && this.props.location.search) {
 			const param = qs.parse(this.props.location.search, {
@@ -87,16 +88,38 @@ class AuthRedirect extends React.Component {
 			this.generateAuthData();
 		}
 
-		this.loadVideo();
+		if (loginAccountName && privKey) {
+			this.loadVideo(true);
+		}
 	}
 
-	async loadVideo() {
-		let features = {
-			audio: false,
-			video: true,
-		};
-		let display = await navigator.mediaDevices.getUserMedia(features);
-		this.setState({device: display?.getVideoTracks()[0]?.getSettings()});
+	loadVideo(flag) {
+		const features = {audio: false, video: true};
+
+		if (flag) {
+			return navigator.mediaDevices
+				.getUserMedia(features)
+				.then((display) => {
+					this.setState({
+						webcamEnabled: true,
+						device: display?.getVideoTracks()[0]?.getSettings(),
+					});
+				})
+				.finally(() => {
+					return true;
+				});
+		} else {
+			try {
+				const videoTag = document.querySelector('video');
+				for (const track of videoTag.srcObject.getTracks()) track.stop();
+
+				videoTag.srcObject = null;
+			} catch (err) {
+				// Nothing to do
+			}
+
+			this.setState({webcamEnabled: false, device: {}});
+		}
 	}
 
 	componentDidUpdate(prevProps, prevState) {
@@ -215,7 +238,7 @@ class AuthRedirect extends React.Component {
 						email: authData.email.toLowerCase(),
 					})
 					.then((response) => {
-						this.setState({webcamEnabled: false});
+						this.loadVideo(false);
 						const accountName = response.data['accountName'];
 						ss.set('account_login_name', accountName);
 						ss.set('account_login_token', response.data['token']);
