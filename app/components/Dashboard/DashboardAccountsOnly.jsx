@@ -32,8 +32,8 @@ class AccountsContainer extends React.Component {
 							AccountStore.getState().refsLoaded
 						);
 					},
-					passwordAccount: () => {
-						return AccountStore.getState().passwordAccount;
+					passwordlessAccount: () => {
+						return AccountStore.getState().passwordlessAccount;
 					},
 					currentEntry: SettingsStore.getState().viewSettings.get(
 						'dashboardEntry',
@@ -75,7 +75,7 @@ class Accounts extends React.Component {
 			nextProps.myActiveAccounts !== this.props.myActiveAccounts ||
 			nextProps.contacts !== this.props.contacts ||
 			nextProps.ignoredAccounts !== this.props.ignoredAccounts ||
-			nextProps.passwordAccount !== this.props.passwordAccount ||
+			nextProps.passwordlessAccount !== this.props.passwordlessAccount ||
 			nextState.width !== this.state.width ||
 			nextProps.accountsReady !== this.props.accountsReady ||
 			nextState.showIgnored !== this.state.showIgnored ||
@@ -111,20 +111,25 @@ class Accounts extends React.Component {
 	}
 
 	render() {
-		let {myActiveAccounts, myHiddenAccounts, accountsReady, passwordAccount} =
-			this.props;
+		let {
+			myActiveAccounts,
+			myHiddenAccounts,
+			accountsReady,
+			passwordlessAccount,
+		} = this.props;
 		let {width, showIgnored} = this.state;
-
-		if (passwordAccount && !myActiveAccounts.has(passwordAccount)) {
-			myActiveAccounts = myActiveAccounts.add(passwordAccount);
+		if (passwordlessAccount && !myActiveAccounts.has(passwordlessAccount)) {
+			myActiveAccounts = myActiveAccounts.add(passwordlessAccount);
 		}
 		let names = myActiveAccounts.toArray().sort();
-		if (passwordAccount && names.indexOf(passwordAccount) === -1)
-			names.push(passwordAccount);
+		if (passwordlessAccount && names.indexOf(passwordlessAccount) === -1)
+			names.push(passwordlessAccount);
 		let ignored = myHiddenAccounts.toArray().sort();
 
 		let accountCount =
-			myActiveAccounts.size + myHiddenAccounts.size + (passwordAccount ? 1 : 0);
+			myActiveAccounts.size +
+			myHiddenAccounts.size +
+			(passwordlessAccount ? 1 : 0);
 
 		if (!accountsReady) {
 			return <LoadingIndicator />;
@@ -150,6 +155,7 @@ class Accounts extends React.Component {
 								<div className="box-content">
 									<DashboardList
 										accounts={Immutable.List(names)}
+										passwordlessAccount={passwordlessAccount}
 										ignoredAccounts={Immutable.List(ignored)}
 										width={width}
 										onToggleIgnored={this._onToggleIgnored.bind(this)}
@@ -164,7 +170,7 @@ class Accounts extends React.Component {
 								<div className="box-content">
 									<DashboardList
 										accounts={contacts}
-										passwordAccount={passwordAccount}
+										passwordlessAccount={passwordlessAccount}
 										ignoredAccounts={Immutable.List(ignored)}
 										width={width}
 										onToggleIgnored={this._onToggleIgnored.bind(this)}

@@ -29,6 +29,7 @@ class AccountStore extends BaseStore {
 			onAccountSearch: AccountActions.accountSearch,
 			tryToSetCurrentAccount: AccountActions.tryToSetCurrentAccount,
 			onSetPasswordAccount: AccountActions.setPasswordAccount,
+			onSetPasswordlessAccount: AccountActions.setPasswordlessAccount,
 			onChangeSetting: SettingsActions.changeSetting,
 			onSetWallet: WalletActions.setWallet,
 			onAddStarAccount: AccountActions.addStarAccount,
@@ -611,7 +612,7 @@ class AccountStore extends BaseStore {
 			}
 			return this.setCurrentAccount(acc);
 		} else if (ss.has(passwordlessAccountKey)) {
-			const acc = ss.get(passwordAccountlessKey, null);
+			const acc = ss.get(passwordlessAccountKey, null);
 			if (this.state.passwordlessAccount !== acc) {
 				this.setState({passwordlessAccount: acc});
 			}
@@ -639,7 +640,6 @@ class AccountStore extends BaseStore {
 		if (this.state.currentAccount !== name) {
 			this.setState({currentAccount: name});
 		}
-
 		ss.set(key, name || null);
 	}
 

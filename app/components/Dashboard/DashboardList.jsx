@@ -66,7 +66,7 @@ class DashboardList extends React.Component {
 			nextProps.width !== this.props.width ||
 			nextProps.showIgnored !== this.props.showIgnored ||
 			nextProps.locked !== this.props.locked ||
-			nextProps.passwordAccount !== this.props.passwordAccount ||
+			nextProps.passwordlessAccount !== this.props.passwordlessAccount ||
 			!utils.are_equal_shallow(
 				nextProps.starredAccounts,
 				this.props.starredAccounts
@@ -128,17 +128,17 @@ class DashboardList extends React.Component {
 	}
 
 	_renderList(accounts, isHiddenAccountsList) {
-		const {width, starredAccounts, isContactsList, passwordAccount} =
+		const {width, starredAccounts, isContactsList, passwordlessAccount} =
 			this.props;
 		const {dashboardFilter, sortBy, inverseSort} = this.state;
 		let balanceList = Immutable.List();
-
 		return accounts
 			.filter((account) => {
 				if (!account) return false;
 				let accountName = account.get('name');
 				let isMyAccount =
-					AccountStore.isMyAccount(account) || accountName === passwordAccount;
+					AccountStore.isMyAccount(account) ||
+					accountName === passwordlessAccount;
 				/*
                 Display all accounts from contacts list
                 Display only my Accounts for Accounts page
@@ -242,7 +242,7 @@ class DashboardList extends React.Component {
 
 					let isMyAccount =
 						AccountStore.isMyAccount(account) ||
-						accountName === passwordAccount;
+						accountName === passwordlessAccount;
 
 					let isStarred = starredAccounts.has(accountName);
 					let starClass = isStarred ? 'gold-star' : 'grey-star';
