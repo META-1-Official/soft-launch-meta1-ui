@@ -20,6 +20,7 @@ $bg-color: rgb(0, 0, 0);
 $bg-color-mixin: #240000;
 $panel-bg-color: #000000;
 $light-panel-bg-color: #8f0c0c;
+$notification-panel-bg-color: #000;
 $super-light-panel-bg-color: lighten($light-panel-bg-color, 8%);
 $settings-menu-hover-bg: darken($light-panel-bg-color, 20%);
 $settings-menu-active-bg: darken($light-panel-bg-color, 20%);
