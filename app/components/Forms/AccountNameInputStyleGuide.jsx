@@ -9,6 +9,7 @@ import AltContainer from 'alt-container';
 import ReactTooltip from 'react-tooltip';
 import {Form, Input} from 'antd';
 import migrationService from 'services/migration.service';
+import {debounce, memoize, wrap, property} from 'lodash-es';
 
 class AccountNameInput extends React.Component {
 	static propTypes = {
@@ -113,6 +114,7 @@ class AccountNameInput extends React.Component {
 	}
 
 	async validateAccountName(value) {
+		console.log('@11 - ', value);
 		if (value === '') {
 			this.setState({
 				value: value,
@@ -174,6 +176,16 @@ class AccountNameInput extends React.Component {
 			AccountActions.accountSearch(value);
 	}
 
+	debounce(func, wait) {
+		let timeout;
+		return (...args) => {
+			clearTimeout(timeout);
+			timeout = setTimeout(() => func(...arg), wait);
+		};
+	}
+
+	debouncedValidateAccountName = debounce(this.validateAccountName, 500);
+
 	handleChange(e) {
 		e.preventDefault();
 		e.stopPropagation();
@@ -182,7 +194,7 @@ class AccountNameInput extends React.Component {
 		account_name = account_name.match(/[a-z0-9\.-]+/);
 		account_name = account_name ? account_name[0] : '';
 		this.setState({account_name});
-		this.validateAccountName(account_name);
+		this.debouncedValidateAccountName(account_name);
 	}
 
 	onKeyDown(e) {
