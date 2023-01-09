@@ -114,7 +114,6 @@ class AccountNameInput extends React.Component {
 	}
 
 	async validateAccountName(value) {
-		console.log('@11 - ', value);
 		if (value === '') {
 			this.setState({
 				value: value,
