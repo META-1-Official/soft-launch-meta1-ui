@@ -231,8 +231,6 @@ class AuthRedirect extends React.Component {
 		if (!accountName || !privKey) return;
 
 		if (this.state.faceKISuccess === true) {
-			loadVideo(false);
-
 			try {
 				axios
 					.post(process.env.LITE_WALLET_URL + '/login', {
@@ -240,7 +238,7 @@ class AuthRedirect extends React.Component {
 						email: authData.email.toLowerCase(),
 					})
 					.then((response) => {
-						this.setState({webcamEnabled: false});
+						this.loadVideo(false);
 						const accountName = response.data['accountName'];
 						ss.set('account_login_name', accountName);
 						ss.set('account_login_token', response.data['token']);
