@@ -169,8 +169,10 @@ class AccountNameInput extends React.Component {
 			error: this.state.error,
 			warning: this.state.warning,
 		});
+
 		if (this.props.onChange)
 			this.props.onChange({value: value, valid: !this.getError()});
+
 		if (this.props.accountShouldExist || this.props.accountShouldNotExist)
 			AccountActions.accountSearch(value);
 	}
@@ -231,7 +233,7 @@ class AccountNameInput extends React.Component {
 					placeholder={this.props.placeholder}
 					onChange={this.handleChange}
 					onKeyDown={this.onKeyDown}
-					value={this.state.account_name || this.props.initial_value}
+					value={this.state.account_name}
 				/>
 			</Form.Item>
 		);
