@@ -267,7 +267,7 @@ class AccountRegistration extends React.Component {
 
 				videoTag.srcObject = null;
 			} catch (err) {
-				// Nothing to do
+				console.log('[loadVideo] @104 - ', err);
 			}
 
 			this.setState({webcamEnabled: false, device: {}});
