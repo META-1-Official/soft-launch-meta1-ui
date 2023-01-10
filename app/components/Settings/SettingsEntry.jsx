@@ -249,6 +249,7 @@ export default class SettingsEntry extends React.Component {
 							<StyledSelect
 								value={value}
 								onChange={this.props.onChange.bind(this, setting)}
+								disabled={setting == 'viewOnlyMode'}
 							>
 								{options}
 							</StyledSelect>
