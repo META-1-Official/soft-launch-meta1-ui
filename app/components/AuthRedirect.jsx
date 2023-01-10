@@ -94,6 +94,7 @@ class AuthRedirect extends React.Component {
 	}
 
 	loadVideo(flag) {
+		console.log('[loadVideo] @11 - ', flag);
 		const features = {audio: false, video: true};
 
 		if (flag) {
@@ -111,11 +112,12 @@ class AuthRedirect extends React.Component {
 		} else {
 			try {
 				const videoTag = document.querySelector('video');
-				for (const track of videoTag.srcObject.getTracks()) track.stop();
-
+				for (const track of videoTag.srcObject.getTracks()) {
+					track.stop();
+				}
 				videoTag.srcObject = null;
 			} catch (err) {
-				// Nothing to do
+				console.log('[loadVideo] @114 - ', err);
 			}
 
 			this.setState({webcamEnabled: false, device: {}});
