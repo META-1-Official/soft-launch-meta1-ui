@@ -170,14 +170,15 @@ class AccountRegistration extends React.Component {
 		if (!accountName || !privKey) return;
 
 		if (this.state.faceKISuccess === true) {
-			this.loadVideo(false);
-			this.setState({
-				accountName,
-				password: this.genKey(`${accountName}${privKey}`),
-				finalStep: true,
-				faceKIStep: false,
-				migrationStep: false,
-				firstStep: false,
+			this.loadVideo(false).then(() => {
+				this.setState({
+					accountName,
+					password: this.genKey(`${accountName}${privKey}`),
+					finalStep: true,
+					faceKIStep: false,
+					migrationStep: false,
+					firstStep: false,
+				});
 			});
 		} else {
 			toast('Please enroll first.');
@@ -246,6 +247,7 @@ class AccountRegistration extends React.Component {
 
 	loadVideo(flag) {
 		console.log('[loadVideo] @10 - ', flag);
+		const videoTag = document.querySelector('video');
 		const features = {audio: false, video: true};
 
 		if (flag) {
@@ -262,15 +264,16 @@ class AccountRegistration extends React.Component {
 				});
 		} else {
 			try {
-				const videoTag = document.querySelector('video');
-				for (const track of videoTag.srcObject.getTracks()) track.stop();
-
-				videoTag.srcObject = null;
+				if (videoTag) {
+					for (const track of videoTag.srcObject.getTracks()) track.stop();
+					videoTag.srcObject = null;
+				}
 			} catch (err) {
 				console.log('[loadVideo] @104 - ', err);
 			}
 
 			this.setState({webcamEnabled: false, device: {}});
+			return Promise.resolve();
 		}
 	}
 
@@ -368,13 +371,14 @@ class AccountRegistration extends React.Component {
 		const accountName = ss.get('account_registration_name', '');
 		if (!accountName || !privKey) return;
 
-		this.loadVideo(false);
-		this.setState({
-			accountName,
-			password: this.genKey(`${accountName}${privKey}`),
-			finalStep: true,
-			firstStep: false,
-			faceKIStep: false,
+		this.loadVideo(false).then(() => {
+			this.setState({
+				accountName,
+				password: this.genKey(`${accountName}${privKey}`),
+				finalStep: true,
+				firstStep: false,
+				faceKIStep: false,
+			});
 		});
 	}
 
