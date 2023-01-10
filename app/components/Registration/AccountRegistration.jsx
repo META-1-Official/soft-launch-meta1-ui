@@ -221,6 +221,7 @@ class AccountRegistration extends React.Component {
 
 	componentDidMount() {
 		const {openLogin, privKey, authData, setOpenLoginInstance} = this.props;
+		loadVideo(false);
 		ReactTooltip.rebuild();
 		if (this.props.location && this.props.location.search) {
 			const param = qs.parse(this.props.location.search, {
