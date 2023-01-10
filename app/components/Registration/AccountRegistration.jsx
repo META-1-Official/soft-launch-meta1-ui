@@ -245,6 +245,7 @@ class AccountRegistration extends React.Component {
 	}
 
 	loadVideo(flag) {
+		console.log('[loadVideo] @10 - ', flag);
 		const features = {audio: false, video: true};
 
 		if (flag) {
