@@ -155,12 +155,18 @@ class AuthRedirect extends React.Component {
 
 	async faceVerify() {
 		const {privKey, authData} = this.props;
+		const {device} = this.state;
 		this.setState({verifying: true});
 
 		const accountName = ss.get('account_login_name', '');
 		if (!accountName || !privKey) return;
 
-		const imageSrc = this.webcamRef.current.getScreenshot();
+		const imageSrc = device.width
+			? this.webcamRef.current.getScreenshot({
+					width: device.width,
+					height: device.height,
+			  })
+			: this.webcamRef.current.getScreenshot();
 
 		if (!imageSrc) {
 			toast('Please check your camera.');
