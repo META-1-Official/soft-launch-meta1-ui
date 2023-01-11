@@ -37,7 +37,7 @@ class Settings extends React.Component {
 			'showSettles',
 			'themes',
 			'showAssetPercent',
-			'viewOnlyMode',
+			// 'viewOnlyMode',
 		];
 
 		let generalGroup = [
