@@ -25,6 +25,7 @@ const OvalImage = require('assets/oval/oval.png');
 
 const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
+const ss_graphene = new ls('__graphene__');
 
 class AuthRedirect extends React.Component {
 	constructor() {
@@ -242,7 +243,9 @@ class AuthRedirect extends React.Component {
 						const accountName = response.data['accountName'];
 						ss.set('account_login_name', accountName);
 						ss.set('account_login_token', response.data['token']);
-						AccountActions.setPasswordlessAccount(accountName);
+						ss_graphene.set('currentAccount', accountName);
+						ss_graphene.set('passwordlessAccount', accountName);
+						AccountActions.setCurrentAccount.defer(accountName);
 						WalletUnlockActions.unlock_v2().finally(() => {
 							this.props.history.push(`/account/${accountName}/`);
 						});
