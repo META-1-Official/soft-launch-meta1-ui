@@ -7,7 +7,7 @@ const theme = {
 		explorerBackground: '#ffffff',
 		footerTextColor: '#ffffff',
 		sideBar: '#ffffff',
-		menuActiveBackground: '#ffffff',
+		menuActiveBackground: '#ffc000',
 		white: '#fff',
 		black: '#ffffff',
 		nodeInactiveColor: '#ffffff',
