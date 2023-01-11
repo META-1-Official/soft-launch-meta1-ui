@@ -94,8 +94,8 @@ class AuthRedirect extends React.Component {
 	}
 
 	loadVideo(flag) {
-		console.log('[loadVideo] @10 - ', flag);
 		const videoTag = document.querySelector('video');
+		console.log('[loadVideo] @10 - ', flag, videoTag);
 		const features = {audio: false, video: true};
 
 		if (flag) {
