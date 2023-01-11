@@ -146,7 +146,7 @@ const SideBar = ({collapsed, currentLink, toggle}: ISideBar) => {
 			<Menu
 				css={{
 					'& .ant-menu-item': {
-						borderBottom: '1px solid #1c1f27',
+						borderBottom: '1px solid #eaeaea',
 						height: '44px !important',
 						lineHeight: '44px !important',
 						marginBottom: '0px !important',
@@ -154,7 +154,7 @@ const SideBar = ({collapsed, currentLink, toggle}: ISideBar) => {
 						textTransform: 'capitalize',
 					},
 					'& .ant-menu-item:first-child': {
-						borderTop: '1px solid #1c1f27',
+						borderTop: '1px solid #eaeaea',
 					},
 				}}
 				mode="inline"
