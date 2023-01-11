@@ -69,13 +69,19 @@ class AccountRegistration extends React.Component {
 
 	async faceEnroll() {
 		const {privKey, authData} = this.props;
+		const {device} = this.state;
 		const email = authData.email.toLowerCase();
 
 		if (!email || !privKey) return;
 
 		this.setState({verifying: true});
 
-		const imageSrc = this.webcamRef.current.getScreenshot();
+		const imageSrc = device.width
+			? this.webcamRef.current.getScreenshot({
+					width: device.width,
+					height: device.height,
+			  })
+			: this.webcamRef.current.getScreenshot();
 
 		if (!imageSrc) {
 			toast('Check your camera');
