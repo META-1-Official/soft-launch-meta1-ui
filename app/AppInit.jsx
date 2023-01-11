@@ -2,6 +2,7 @@ import {hot} from 'react-hot-loader';
 import React from 'react';
 import App from './App';
 import IntlActions from 'actions/IntlActions';
+import AccountActions from 'actions/AccountActions';
 import WalletUnlockActions from 'actions/WalletUnlockActions';
 import WalletManagerStore from 'stores/WalletManagerStore';
 import AccountStore from 'stores/AccountStore';
@@ -29,6 +30,7 @@ import BodyClassName from 'components/BodyClassName';
 
 const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
+const ss_graphene = new ls('__graphene__');
 
 class RootIntl extends React.Component {
 	componentWillMount() {
@@ -178,9 +180,21 @@ class AppInit extends React.Component {
 		const pathname = window.location.pathname.toLowerCase();
 		const accountName = ss.get('account_login_name', null);
 		const accountToken = ss.get('account_login_token', null);
+		const currentAccount = ss_graphene.get('currentAccount', null);
+		const passwordlessAccount = ss_graphene.get('passwordlessAccount', null);
 		let contains = false;
 
+		if (
+			(accountName && accountName !== passwordlessAccount) ||
+			accountName !== currentAccount
+		) {
+			ss_graphene.set('currentAccount', accountName);
+			ss_graphene.set('passwordlessAccount', accountName);
+		}
+
 		if (accountName) {
+			AccountActions.setCurrentAccount.defer(accountName);
+
 			if (pathname.includes('account') || pathname.includes('currentDisplay')) {
 				contains = true;
 			}
@@ -193,7 +207,7 @@ class AppInit extends React.Component {
 		}
 
 		const self = this;
-		if (!contains) {
+		if (!contains || (accountName && accountToken)) {
 			const config = {
 				headers: {
 					Authorization: `Bearer ${accountToken}`,
