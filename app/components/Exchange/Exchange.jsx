@@ -1899,7 +1899,9 @@ class Exchange extends React.Component {
 			combinedBids,
 			combinedAsks,
 			lowestAsk,
+			highestAsk,
 			highestBid,
+			lowestBid,
 			flatBids,
 			flatAsks,
 			flatCalls,
@@ -2104,7 +2106,7 @@ class Exchange extends React.Component {
 						quoteAsset={quote}
 						baseAsset={base}
 						historyUrl={this.props.history.location}
-						price={lowestAsk?.getPrice()}
+						price={highestAsk?.getPrice()}
 					/>
 				</Tabs.TabPane>
 				<Tabs.TabPane
@@ -2271,7 +2273,7 @@ class Exchange extends React.Component {
 						baseAsset={base}
 						quoteAsset={quote}
 						historyUrl={this.props.history.location}
-						price={highestBid?.getPrice()}
+						price={lowestBid?.getPrice()}
 					/>
 				</Tabs.TabPane>
 				<Tabs.TabPane

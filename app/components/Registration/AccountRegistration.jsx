@@ -246,8 +246,8 @@ class AccountRegistration extends React.Component {
 	}
 
 	loadVideo(flag) {
-		console.log('[loadVideo] @10 - ', flag);
 		const videoTag = document.querySelector('video');
+		console.log('[loadVideo] @11 - ', flag, videoTag);
 		const features = {audio: false, video: true};
 
 		if (flag) {
@@ -269,7 +269,7 @@ class AccountRegistration extends React.Component {
 					videoTag.srcObject = null;
 				}
 			} catch (err) {
-				console.log('[loadVideo] @104 - ', err);
+				console.log('[loadVideo] @114 - ', err);
 			}
 
 			this.setState({webcamEnabled: false, device: {}});
