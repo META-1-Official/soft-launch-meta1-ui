@@ -722,7 +722,7 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 		}
 		.main-content {
 			// @include radialGradient($bg-color-mixin, $bg-color);
-			background-color: black;
+			background-color: $bg-color;
 			&.margin-block {
 				background-color: $main-content-margin-block-bg-color;
 			}
