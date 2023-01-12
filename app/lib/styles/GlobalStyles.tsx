@@ -114,6 +114,7 @@ const GlobalStyles = (theme: any) => css`
 	}
 	.ant-table {
 		color: ${theme.colors.themeOpositeColor}; 
+		border: 1px solid ${theme.colors.borderColor};
 	}
 	.ant-table-thead {
 		th.ant-table-column-sort {
