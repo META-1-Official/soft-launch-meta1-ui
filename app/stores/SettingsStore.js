@@ -139,7 +139,7 @@ class SettingsStore {
 			showProposedTx: [{translate: 'yes'}, {translate: 'no'}],
 			showSettles: [{translate: 'yes'}, {translate: 'no'}],
 			showAssetPercent: [{translate: 'yes'}, {translate: 'no'}],
-			themes: ['darkTheme'],
+			themes: ['darkTheme', 'lightTheme'],
 			passwordLogin: [{translate: 'cloud_login'}, {translate: 'local_wallet'}],
 			browser_notifications: {
 				allow: [true, false],
