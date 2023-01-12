@@ -38,6 +38,9 @@ const theme = {
 		dropdownBackgroundColor: '#aaaaaa',
 		bankingAssetsStatusColor: '#ffffff',
 		bankingAssetsDetailBackground: '#ffffff',
+		bidRowBackgroundColor: '#d9f8f0',
+		askRowBackgroundColor: '#ffeaec',
+		orderTextColor: '#666666',
 	},
 	sizes: {
 		lg: '992px',
