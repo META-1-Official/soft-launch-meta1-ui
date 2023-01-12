@@ -1,6 +1,6 @@
 const theme = {
 	colors: {
-		primaryColor: '#ffffff',
+		primaryColor: '#ffc000',
 		themeOpositeColor: '#000000',
 		background: '#ffffff',
 		footerBackground: '#aaaaaa',
@@ -14,9 +14,9 @@ const theme = {
 		descriptionTextColor: '#ffffff',
 		settingBlockColor: '#aaaaaa',
 		borderColor: '#eaeaea',
-		buttonWhiteColor: '#ffffff',
-		buttonRedColor: '#ffffff',
-		buttonGreenColor: '#ffffff',
+		buttonWhiteColor: '#000000',
+		buttonRedColor: '#ff2929',
+		buttonGreenColor: '#0f923a',
 		inputBackgroundColor: '#aaaaaa',
 		inputTextColor: '#ffffff',
 		tagCancelColor: '#ffffff',
