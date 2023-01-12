@@ -29,7 +29,7 @@ class AccountRegistration extends React.Component {
 		this.state = {
 			accountName: '',
 			password: '',
-			firstStep: true,
+			firstStep: false,
 			torusAlreadyAssociatedEmail: false,
 			finalStep: false,
 			faceKIStep: false,
@@ -69,13 +69,19 @@ class AccountRegistration extends React.Component {
 
 	async faceEnroll() {
 		const {privKey, authData} = this.props;
+		const {device} = this.state;
 		const email = authData.email.toLowerCase();
 
 		if (!email || !privKey) return;
 
 		this.setState({verifying: true});
 
-		const imageSrc = this.webcamRef.current.getScreenshot();
+		const imageSrc = device.width
+			? this.webcamRef.current.getScreenshot({
+					width: device.width,
+					height: device.height,
+			  })
+			: this.webcamRef.current.getScreenshot();
 
 		if (!imageSrc) {
 			toast('Check your camera');
@@ -102,8 +108,7 @@ class AccountRegistration extends React.Component {
 
 				if (nameArry.includes(email)) {
 					toast('You already enrolled and verified successfully.');
-					this.setState({verifying: false});
-					this.setState({faceKISuccess: true});
+					this.setState({verifying: false, faceKISuccess: true});
 				} else {
 					const response_user = await kycService.getUserKycProfile(email);
 					if (response_user) {
@@ -127,8 +132,7 @@ class AccountRegistration extends React.Component {
 								);
 								if (add_response.result) {
 									toast('Successfully enrolled.');
-									this.setState({faceKISuccess: true});
-									this.setState({verifying: false});
+									this.setState({verifying: false, faceKISuccess: true});
 								} else {
 									toast('Something went wrong.');
 									this.setState({verifying: false});
@@ -151,7 +155,7 @@ class AccountRegistration extends React.Component {
 						);
 						if (add_response.result) {
 							toast('Successfully enrolled.');
-							setFaceKISuccess(true);
+							this.setState({verifying: false, faceKISuccess: true});
 						} else {
 							await faceKIService.remove_user(email);
 							toast('Something went wrong.');
@@ -224,6 +228,7 @@ class AccountRegistration extends React.Component {
 
 	componentDidMount() {
 		const {openLogin, privKey, authData, setOpenLoginInstance} = this.props;
+		this.loadVideo(false);
 		ReactTooltip.rebuild();
 		if (this.props.location && this.props.location.search) {
 			const param = qs.parse(this.props.location.search, {
@@ -241,29 +246,41 @@ class AccountRegistration extends React.Component {
 				this.props.history.push('/registration');
 			}
 		} else {
+			this.setState({firstStep: true});
 			setOpenLoginInstance();
 		}
 	}
 
 	loadVideo(flag) {
+		const videoTag = document.querySelector('video');
+		console.log('[loadVideo] @11 - ', flag, videoTag);
 		const features = {audio: false, video: true};
 
-		return navigator.mediaDevices
-			.getUserMedia(features)
-			.then((display) => {
-				if (flag) {
+		if (flag) {
+			return navigator.mediaDevices
+				.getUserMedia(features)
+				.then((display) => {
 					this.setState({
 						webcamEnabled: true,
 						device: display?.getVideoTracks()[0]?.getSettings(),
 					});
-				} else {
-					display?.getVideoTracks()[0]?.stop();
-					this.setState({webcamEnabled: false, device: {}});
+				})
+				.finally(() => {
+					return true;
+				});
+		} else {
+			try {
+				if (videoTag) {
+					for (const track of videoTag.srcObject.getTracks()) track.stop();
+					videoTag.srcObject = null;
 				}
-			})
-			.finally(() => {
-				return true;
-			});
+			} catch (err) {
+				console.log('[loadVideo] @114 - ', err);
+			}
+
+			this.setState({webcamEnabled: false, device: {}});
+			return Promise.resolve();
+		}
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
@@ -326,7 +343,8 @@ class AccountRegistration extends React.Component {
 			}
 		} catch (error) {
 			console.log('Torus Error:', error);
-			this.setState({firstStep: true});
+			if (error.message === 'user canceled login')
+				this.setState({firstStep: true});
 		}
 	}
 
@@ -374,8 +392,12 @@ class AccountRegistration extends React.Component {
 		const accountName = ss.get('account_registration_name', '');
 		const {privKey, authData} = this.props;
 		if (!accountName || !privKey) return;
-
 		ss.set('email', authData.email.toLowerCase());
+		ss.set('confirmed', false);
+		ss.set('confirmedTerms', false);
+		ss.set('confirmedTerms2', false);
+		ss.set('confirmedTerms3', false);
+		ss.set('confirmedTerms4', false);
 		this.loadVideo(true).then(() => {
 			this.setState({
 				accountName,
@@ -399,7 +421,6 @@ class AccountRegistration extends React.Component {
 			finalStep,
 			migrationStep,
 		} = this.state;
-
 		// if (firstStep) {
 		// 	return <AccountRegistrationForm continue={this.continue} />;
 		// } else if (torusAlreadyAssociatedEmail) {
@@ -523,12 +544,11 @@ class AccountRegistration extends React.Component {
 								position: 'relative',
 							}}
 						>
-							<div className="flex_container">
-								<div className="position-head color-black">
-									Position your face in the oval
-								</div>
-								<div className="position-head color-black">
-									Min camera resolution must me 720p
+							<div className="flex-container-new">
+								<div className="flex-container-first">
+									<div className="position-head color-black">
+										Position your face in the oval
+									</div>
 								</div>
 								<button
 									className="btn-x"
@@ -580,12 +600,15 @@ class AccountRegistration extends React.Component {
 									opacity: 0.8,
 								}}
 							/>
-							<div className="flex_container">
-								<p className="span-class color-black">
+							<div className="flex_container flex-padding">
+								<span className="span-class color-black custom-margin-bottom-zero">
 									{!this.state.faceKISuccess
 										? 'Press verify to begin enrollment'
 										: 'Verification Successful!'}
-								</p>
+								</span>
+								<div className="span-class color-black custom-margin-bottom-zero">
+									Min camera resolution must be 720p
+								</div>
 							</div>
 						</div>
 					)}

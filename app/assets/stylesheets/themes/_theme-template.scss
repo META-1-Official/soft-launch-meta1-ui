@@ -559,7 +559,7 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 	}
 	// notification
 	.notification {
-		@include color($primary-text-color, $light-panel-bg-color, true);
+		@include color($primary-text-color, $notification-panel-bg-color, true);
 	}
 	.notification-dismiss {
 		@include color($primary-text-color, $super-light-panel-bg-color, true);

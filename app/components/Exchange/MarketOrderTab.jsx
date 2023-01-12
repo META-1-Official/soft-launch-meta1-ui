@@ -23,12 +23,11 @@ const MarketOrderForm = (props) => {
 	const [totalPercent, setTotalPercent] = useState(100);
 	const [sellBalance, setSellBalance] = useState(null);
 	const [balanceData, setBalanceData] = useState(null);
+	const [form] = Form.useForm();
 
 	const total = Number(amount) * Number(props.price);
-
 	const usdVal = (Number(amount) * Number(usdPrice)).toFixed(2);
 	const isBid = props.type === 'bid';
-	const [form] = Form.useForm();
 
 	useEffect(async () => {
 		_setUsdPrice();
@@ -112,6 +111,7 @@ const MarketOrderForm = (props) => {
 			);
 		}
 	}, [props.quoteAssetBalance]);
+
 	const _setUsdPrice = async () => {
 		let symbol =
 			props.type === 'bid'
@@ -198,13 +198,9 @@ const MarketOrderForm = (props) => {
 		const price = Number(props.price);
 		const isBid = props.type === 'bid';
 
-		let expirationTime = null;
-		if (props.expirationType === 'SPECIFIC') {
-			expirationTime = props.expirations[props.expirationType].get(props.type);
-		} else {
-			expirationTime = props.expirations[props.expirationType].get(props.type);
-		}
-
+		const expirationTime = props.expirations[props.expirationType].get(
+			props.type
+		);
 		const sellAsset = !isBid ? props.quoteAsset : props.baseAsset;
 		const buyAsset = isBid ? props.quoteAsset : props.baseAsset;
 

@@ -15,6 +15,7 @@ import {DisableChromeAutocomplete} from './WalletUnlockModalLib';
 import {withRouter} from 'react-router-dom';
 import ls from 'lib/common/localStorage';
 import {MailOutlined} from '@ant-design/icons';
+import AccountActions from 'actions/AccountActions';
 
 const STORAGE_KEY = '__AuthData__';
 
@@ -123,6 +124,7 @@ class PasswordlessLoginModal extends React.Component {
 			localStorage.setItem('openlogin_store', '{}');
 			await openLogin.init();
 			ss.set('account_login_name', accountName);
+
 			ss.remove('account_registration_name');
 			if (openLogin.privKey) {
 				await openLogin.logout({});
@@ -144,6 +146,7 @@ class PasswordlessLoginModal extends React.Component {
 		if (this.state.hasError) {
 			return;
 		}
+		AccountActions.setPasswordlessAccount(accountName);
 		this.renderTorusLogin();
 	};
 

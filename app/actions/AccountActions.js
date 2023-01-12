@@ -203,6 +203,10 @@ class AccountActions {
 		return account;
 	}
 
+	setPasswordlessAccount(account) {
+		return account;
+	}
+
 	createCommittee({url, account}) {
 		const account_id = account.get('id');
 		var tr = WalletApi.new_transaction();

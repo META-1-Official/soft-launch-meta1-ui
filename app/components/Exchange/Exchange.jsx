@@ -1899,7 +1899,9 @@ class Exchange extends React.Component {
 			combinedBids,
 			combinedAsks,
 			lowestAsk,
+			highestAsk,
 			highestBid,
+			lowestBid,
 			flatBids,
 			flatAsks,
 			flatCalls,
@@ -2098,14 +2100,13 @@ class Exchange extends React.Component {
 							this,
 							'bid'
 						)}
-						currentPrice={lowestAsk.getPrice()}
 						currentAccount={currentAccount}
 						createMarketOrder={this._createScaledOrder}
 						type={'bid'}
 						quoteAsset={quote}
 						baseAsset={base}
-						price={latest && latest.getPrice()}
 						historyUrl={this.props.history.location}
+						price={highestAsk?.getPrice()}
 					/>
 				</Tabs.TabPane>
 				<Tabs.TabPane
@@ -2265,7 +2266,6 @@ class Exchange extends React.Component {
 							this,
 							'ask'
 						)}
-						currentPrice={highestBid.getPrice()}
 						lastClickedPrice={this.state.ask && this.state.ask.priceText}
 						currentAccount={currentAccount}
 						createMarketOrder={this._createScaledOrder}
@@ -2273,7 +2273,7 @@ class Exchange extends React.Component {
 						baseAsset={base}
 						quoteAsset={quote}
 						historyUrl={this.props.history.location}
-						price={latest && latest.getPrice()}
+						price={lowestBid?.getPrice()}
 					/>
 				</Tabs.TabPane>
 				<Tabs.TabPane

@@ -56,6 +56,7 @@ class BuySell extends React.Component {
 		this.showSettleModal = this.showSettleModal.bind(this);
 		this.hideSettleModal = this.hideSettleModal.bind(this);
 	}
+
 	componentDidMount() {
 		this.props.priceChangePercent(this.props.type, this.props.marketPrice);
 	}

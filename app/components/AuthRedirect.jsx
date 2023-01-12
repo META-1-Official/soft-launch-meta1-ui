@@ -25,6 +25,7 @@ const OvalImage = require('assets/oval/oval.png');
 
 const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
+const ss_graphene = new ls('__graphene__');
 
 class AuthRedirect extends React.Component {
 	constructor() {
@@ -56,6 +57,7 @@ class AuthRedirect extends React.Component {
 
 	componentDidMount() {
 		const {openLogin, privKey, authData, setOpenLoginInstance} = this.props;
+		const loginAccountName = ss.get('account_login_name', '');
 
 		if (this.props.location && this.props.location.search) {
 			const param = qs.parse(this.props.location.search, {
@@ -87,16 +89,38 @@ class AuthRedirect extends React.Component {
 			this.generateAuthData();
 		}
 
-		this.loadVideo();
+		if (loginAccountName && privKey) {
+			this.loadVideo(true);
+		}
 	}
 
-	async loadVideo() {
-		let features = {
-			audio: false,
-			video: true,
-		};
-		let display = await navigator.mediaDevices.getUserMedia(features);
-		this.setState({device: display?.getVideoTracks()[0]?.getSettings()});
+	loadVideo(flag) {
+		const videoTag = document.querySelector('video');
+		console.log('[loadVideo] @10 - ', flag, videoTag);
+		const features = {audio: false, video: true};
+
+		if (flag) {
+			return navigator.mediaDevices
+				.getUserMedia(features)
+				.then((display) => {
+					this.setState({
+						webcamEnabled: true,
+						device: display?.getVideoTracks()[0]?.getSettings(),
+					});
+				})
+				.finally(() => {
+					return true;
+				});
+		} else {
+			try {
+				for (const track of videoTag.srcObject.getTracks()) track.stop();
+				videoTag.srcObject = null;
+			} catch (err) {
+				console.log('[loadVideo] @104 - ', err);
+			}
+
+			this.setState({webcamEnabled: false, device: {}});
+		}
 	}
 
 	componentDidUpdate(prevProps, prevState) {
@@ -132,12 +156,18 @@ class AuthRedirect extends React.Component {
 
 	async faceVerify() {
 		const {privKey, authData} = this.props;
+		const {device} = this.state;
 		this.setState({verifying: true});
 
 		const accountName = ss.get('account_login_name', '');
 		if (!accountName || !privKey) return;
 
-		const imageSrc = this.webcamRef.current.getScreenshot();
+		const imageSrc = device.width
+			? this.webcamRef.current.getScreenshot({
+					width: device.width,
+					height: device.height,
+			  })
+			: this.webcamRef.current.getScreenshot();
 
 		if (!imageSrc) {
 			toast('Please check your camera.');
@@ -215,10 +245,13 @@ class AuthRedirect extends React.Component {
 						email: authData.email.toLowerCase(),
 					})
 					.then((response) => {
-						this.setState({webcamEnabled: false});
+						this.loadVideo(false);
 						const accountName = response.data['accountName'];
 						ss.set('account_login_name', accountName);
 						ss.set('account_login_token', response.data['token']);
+						ss_graphene.set('currentAccount', accountName);
+						ss_graphene.set('passwordlessAccount', accountName);
+						AccountActions.setCurrentAccount.defer(accountName);
 						WalletUnlockActions.unlock_v2().finally(() => {
 							this.props.history.push(`/account/${accountName}/`);
 						});
@@ -413,9 +446,6 @@ class AuthRedirect extends React.Component {
 									<div className="position-head color-black">
 										Position your face in the oval
 									</div>
-									<div className="position-head color-black">
-										Min camera resolution must me 720p
-									</div>
 								</div>
 								<Webcam
 									audio={false}
@@ -445,11 +475,14 @@ class AuthRedirect extends React.Component {
 									}}
 								/>
 								<div className="flex_container">
-									<p className="span-class color-black">
+									<span className="span-class color-black">
 										{!this.state.faceKISuccess
 											? 'Press verify to complete authentication and log in'
 											: 'Verification Successful!'}
-									</p>
+									</span>
+									<div className="span-class color-black">
+										Min camera resolution must be 720p
+									</div>
 								</div>
 							</div>
 						)}

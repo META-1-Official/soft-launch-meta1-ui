@@ -324,12 +324,14 @@ class App extends React.Component {
 			5000
 		);
 		const user_agent = navigator.userAgent.toLowerCase();
+
 		if (
 			!(
 				window.electron ||
 				user_agent.indexOf('firefox') > -1 ||
 				user_agent.indexOf('chrome') > -1 ||
-				user_agent.indexOf('edge') > -1
+				user_agent.indexOf('edge') > -1 ||
+				user_agent.indexOf('safari') > -1
 			)
 		) {
 			this.showBrowserSupportModal();

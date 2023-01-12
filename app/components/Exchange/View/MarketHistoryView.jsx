@@ -78,7 +78,7 @@ class MarketHistoryView extends React.Component {
 						lineHeight: '18px',
 					}}
 				>
-					<table className="table order-table no-stripes table-hover fixed-table text-right no-overflow">
+					<table className="table order-table no-stripes table-hover fixed-table text-right no-overflow market-history-custom">
 						<TransitionWrapper
 							ref="historyTransition"
 							component="tbody"

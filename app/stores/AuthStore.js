@@ -1,6 +1,6 @@
 import BaseStore from './BaseStore';
 import alt from 'alt-instance';
-import OpenLogin from '@toruslabs/openlogin';
+import OpenLogin from 'openlogin';
 
 class AuthStore extends BaseStore {
 	constructor() {

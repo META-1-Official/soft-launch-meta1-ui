@@ -9,6 +9,7 @@ import AltContainer from 'alt-container';
 import ReactTooltip from 'react-tooltip';
 import {Form, Input} from 'antd';
 import migrationService from 'services/migration.service';
+import {debounce, memoize, wrap, property} from 'lodash-es';
 
 class AccountNameInput extends React.Component {
 	static propTypes = {
@@ -168,11 +169,23 @@ class AccountNameInput extends React.Component {
 			error: this.state.error,
 			warning: this.state.warning,
 		});
+
 		if (this.props.onChange)
 			this.props.onChange({value: value, valid: !this.getError()});
+
 		if (this.props.accountShouldExist || this.props.accountShouldNotExist)
 			AccountActions.accountSearch(value);
 	}
+
+	debounce(func, wait) {
+		let timeout;
+		return (...args) => {
+			clearTimeout(timeout);
+			timeout = setTimeout(() => func(...arg), wait);
+		};
+	}
+
+	debouncedValidateAccountName = debounce(this.validateAccountName, 500);
 
 	handleChange(e) {
 		e.preventDefault();
@@ -182,7 +195,7 @@ class AccountNameInput extends React.Component {
 		account_name = account_name.match(/[a-z0-9\.-]+/);
 		account_name = account_name ? account_name[0] : '';
 		this.setState({account_name});
-		this.validateAccountName(account_name);
+		this.debouncedValidateAccountName(account_name);
 	}
 
 	onKeyDown(e) {
@@ -220,7 +233,7 @@ class AccountNameInput extends React.Component {
 					placeholder={this.props.placeholder}
 					onChange={this.handleChange}
 					onKeyDown={this.onKeyDown}
-					value={this.state.account_name || this.props.initial_value}
+					value={this.state.account_name}
 				/>
 			</Form.Item>
 		);

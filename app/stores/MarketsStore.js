@@ -51,8 +51,10 @@ class MarketsStore {
 			calls: [],
 			combinedBids: [],
 			highestBid: nullPrice,
+			lowestBid: nullPrice,
 			combinedAsks: [],
 			lowestAsk: nullPrice,
+			highestAsk: nullPrice,
 			flatBids: [],
 			flatAsks: [],
 			flatCalls: [],
@@ -221,8 +223,10 @@ class MarketsStore {
 				calls: [],
 				combinedBids: [],
 				highestBid: nullPrice,
+				lowestBid: nullPrice,
 				combinedAsks: [],
 				lowestAsk: nullPrice,
+				highestAsk: nullPrice,
 				flatBids: [],
 				flatAsks: [],
 				flatCalls: [],
@@ -1134,10 +1138,16 @@ class MarketsStore {
 		this.marketData.lowestAsk = !combinedAsks.length
 			? nullPrice
 			: combinedAsks[0];
+		this.marketData.highestAsk = !combinedAsks.length
+			? nullPrice
+			: combinedAsks[combinedAsks.length - 1];
 
 		this.marketData.highestBid = !combinedBids.length
 			? nullPrice
 			: combinedBids[0];
+		this.marketData.lowestBid = !combinedBids.length
+			? nullPrice
+			: combinedBids[combinedBids.length - 1];
 
 		this.marketData.combinedBids = combinedBids;
 		this.marketData.combinedAsks = combinedAsks;
