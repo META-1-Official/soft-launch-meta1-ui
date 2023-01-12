@@ -256,6 +256,13 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 					color: $dark;
 				}
 			}
+
+			.filter {
+				.ant-input,
+				.ant-input-group-addon {
+					background-color: white;
+				}
+			}
 		}
 
 		.tab-controller {

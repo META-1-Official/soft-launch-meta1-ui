@@ -63,7 +63,7 @@ const GlobalStyles = (theme: any) => css`
 		border-bottom: 3px solid ${theme.colors.primaryColor} !important;
 	}
 	.ant-switch {
-		background-color: #0e1013;
+		background-color: ${theme.colors.settingBlockColor};
 		height: 15px;
 		margin-top: 4px;
 	}

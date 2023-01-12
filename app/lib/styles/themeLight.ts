@@ -12,7 +12,7 @@ const theme = {
 		black: '#ffffff',
 		nodeInactiveColor: '#ffffff',
 		descriptionTextColor: '#ffffff',
-		settingBlockColor: '#ffffff',
+		settingBlockColor: '#aaaaaa',
 		borderColor: '#eaeaea',
 		buttonWhiteColor: '#ffffff',
 		buttonRedColor: '#ffffff',
