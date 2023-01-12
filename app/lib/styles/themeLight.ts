@@ -1,12 +1,12 @@
 const theme = {
 	colors: {
 		primaryColor: '#ffffff',
-		themeOpositeColor: '#ffff',
+		themeOpositeColor: '#000000',
 		background: '#ffffff',
 		footerBackground: '#ffffff',
 		explorerBackground: '#ffffff',
 		footerTextColor: '#ffffff',
-		sideBar: '#0a0b0d',
+		sideBar: '#ffffff',
 		menuActiveBackground: '#ffffff',
 		white: '#fff',
 		black: '#ffffff',
