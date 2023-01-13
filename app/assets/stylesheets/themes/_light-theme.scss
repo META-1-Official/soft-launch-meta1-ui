@@ -93,7 +93,7 @@ $settings-label-color: rgba(0, 0, 0, 0.65);
 // color palette
 
 // branding colors
-$primary-color: #337ab7;
+$primary-color: #ffc000;
 
 // help colors
 $white: #fff;
@@ -374,6 +374,20 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 						background: transparent;
 					}
 				}
+			}
+		}
+	}
+
+	.order-book-panel {
+		.header {
+			background: transparent;
+			.title {
+				color: $dark !important;
+			}
+
+			div.tap.active {
+				background: transparent;
+				color: $primary-color !important;
 			}
 		}
 	}
