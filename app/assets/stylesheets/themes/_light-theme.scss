@@ -15,7 +15,7 @@ $settings-select-color: #656565;
 $settings-api-node-border-color: #e6e6e6;
 $main-content-margin-block-bg-color: #f8f9f8;
 $bg-color: #fff;
-$panel-bg-color: #e5e6e4;
+$panel-bg-color: #f5f6fa;
 $light-panel-bg-color: #fff;
 $super-light-panel-bg-color: darken($light-panel-bg-color, 1%);
 $settings-menu-hover-bg: darken($light-panel-bg-color, 10%);
@@ -272,23 +272,23 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 		.tab-controller {
 			button {
 				&.primary {
-					color: #ffffff !important;
+					color: $white !important;
 				}
 
 				&.transparent {
-					background-color: #f5f6fa !important;
-					color: #000000 !important;
+					background-color: $panel-bg-color !important;
+					color: $dark !important;
 				}
 
 				&.ant-dropdown-trigger {
-					background-color: #f5f6fa !important;
-					color: #000000 !important;
+					background-color: $panel-bg-color !important;
+					color: $dark !important;
 				}
 			}
 
 			.overview-settings {
 				.icon-class span.anticon.anticon-setting {
-					color: #000 !important;
+					color: $dark !important;
 				}
 			}
 
@@ -306,6 +306,33 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 
 			p {
 				color: $light-text-color !important;
+			}
+		}
+	}
+
+	.buy-sell-tab {
+		.ant-tabs-tabpane {
+			background: $white !important;
+		}
+
+		.buy-sell-container {
+			.order-form {
+				.ant-form-item {
+					background: $panel-bg-color !important;
+
+					.ant-input-wrapper input,
+					.ant-input-wrapper span {
+						color: $light-text-color !important;
+					}
+				}
+
+				.limit-order-input-wrapper {
+					background: $panel-bg-color !important;
+				}
+
+				.ant-input[disabled] {
+					background: $panel-bg-color !important;
+				}
 			}
 		}
 	}
