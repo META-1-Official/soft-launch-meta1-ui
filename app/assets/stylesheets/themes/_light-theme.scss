@@ -314,13 +314,13 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 		.ant-tabs-nav {
 			.ant-tabs-nav-list {
 				.ant-tabs-tab.ant-tabs-tab-active {
-					background: transparent;
+					background-color: transparent;
 				}
 			}
 		}
 
 		.ant-tabs-tabpane {
-			background: $white !important;
+			background-color: $white !important;
 		}
 
 		.buy-sell-container {
@@ -349,7 +349,7 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 	}
 
 	.amount_footer {
-		background: transparent;
+		background-color: transparent;
 
 		.left_footer_sec span {
 			color: $primary-text-color !important;
@@ -371,7 +371,7 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 					}
 
 					.ant-table-row {
-						background: transparent;
+						background-color: transparent;
 					}
 				}
 			}
@@ -380,13 +380,13 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 
 	.order-book-panel {
 		.header {
-			background: transparent;
+			background-color: transparent;
 			.title {
 				color: $dark !important;
 			}
 
 			div.tap.active {
-				background: transparent;
+				background-color: transparent;
 				color: $primary-color !important;
 			}
 		}
@@ -395,14 +395,22 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 	.assets-layout {
 		.asset-select {
 			background-color: transparent !important;
+
+			.toggle-box.selected {
+				background-color: transparent !important;
+			}
 		}
 
 		.filter {
 			background-color: transparent !important;
 
 			.search-input .ant-input-group-addon {
-				background: transparent !important;
+				background-color: transparent !important;
 			}
 		}
+	}
+
+	.white-star > svg > path {
+		fill: $primary-color !important;
 	}
 }
