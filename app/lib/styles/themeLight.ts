@@ -41,6 +41,7 @@ const theme = {
 		bidRowBackgroundColor: '#d9f8f0',
 		askRowBackgroundColor: '#ffeaec',
 		orderTextColor: '#666666',
+		assetSymbolColor: '#000000',
 	},
 	sizes: {
 		lg: '992px',
