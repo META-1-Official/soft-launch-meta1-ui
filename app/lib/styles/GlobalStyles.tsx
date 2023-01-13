@@ -23,14 +23,16 @@ const GlobalStyles = (theme: any) => css`
 		color: ${theme.colors.themeOpositeColor};
 		background: ${theme.colors.sideBar} !important;
 		.ant-menu-item-selected,
+		.ant-menu-item-selected: hover,
 		.ant-menu-item-selected > a,
 		.ant-menu-item-selected > a:hover {
-			color: ${theme.colors.primaryColor} !important;
+			color: ${theme.colors.white} !important;
 		}
 		.ant-menu-item-selected {
 			background: ${theme.colors.menuActiveBackground} !important;
 		}
 		.ant-menu-item:hover {
+			background-color: transparent !important;
 			color: ${theme.colors.primaryColor} !important;
 		}
 		.ant-menu-item-disabled, .ant-menu-submenu-disabled {
@@ -48,8 +50,10 @@ const GlobalStyles = (theme: any) => css`
 	}
 	.ant-menu-horizontal {
 		border-bottom: 0px;
-		.ant-menu-item-selected {
+		.ant-menu-item-selected,
+		.ant-menu-item-selected: hover {
 			background-color: transparent !important;
+			color: ${theme.colors.primaryColor} !important;
 		}
 	}
 	.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item:hover::after,
