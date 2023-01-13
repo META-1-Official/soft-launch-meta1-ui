@@ -311,6 +311,14 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 	}
 
 	.buy-sell-tab {
+		.ant-tabs-nav {
+			.ant-tabs-nav-list {
+				.ant-tabs-tab.ant-tabs-tab-active {
+					background: transparent;
+				}
+			}
+		}
+
 		.ant-tabs-tabpane {
 			background: $white !important;
 		}
