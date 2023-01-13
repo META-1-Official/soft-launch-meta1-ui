@@ -272,7 +272,6 @@ class AccountRegistration extends React.Component {
 				console.log('[loadVideo] @114 - ', err);
 			}
 
-			this.setState({webcamEnabled: false, device: {}});
 			return Promise.resolve();
 		}
 	}
