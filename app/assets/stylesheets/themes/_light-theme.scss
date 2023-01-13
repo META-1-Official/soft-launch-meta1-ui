@@ -391,4 +391,18 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 			}
 		}
 	}
+
+	.assets-layout {
+		.asset-select {
+			background-color: transparent !important;
+		}
+
+		.filter {
+			background-color: transparent !important;
+
+			.search-input .ant-input-group-addon {
+				background: transparent !important;
+			}
+		}
+	}
 }
