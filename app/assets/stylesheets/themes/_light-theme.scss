@@ -359,4 +359,22 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 			color: $light-text-color !important;
 		}
 	}
+
+	.market-order-table-container {
+		.ant-table-wrapper {
+			table {
+				.ant-table-tbody {
+					.ant-table-cell {
+						div.td-content {
+							color: $primary-text-color !important;
+						}
+					}
+
+					.ant-table-row {
+						background: transparent;
+					}
+				}
+			}
+		}
+	}
 }
