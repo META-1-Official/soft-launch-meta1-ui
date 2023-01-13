@@ -119,7 +119,7 @@ class AuthRedirect extends React.Component {
 				console.log('[loadVideo] @104 - ', err);
 			}
 
-			this.setState({webcamEnabled: false, device: {}});
+			return Promise.resolve();
 		}
 	}
 
