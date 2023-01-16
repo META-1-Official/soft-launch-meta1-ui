@@ -116,12 +116,9 @@ class AccountRegistration extends React.Component {
 						this.setState({verifying: false});
 					} else {
 						const newName = response_verify.name + ',' + email;
-						const response_remove = await faceKIService.remove_user(
-							response_verify.name
-						);
 
-						if (!response_remove) {
-							toast('Something went wrong.');
+						if (!newName) {
+							toast('Can not generate new name.');
 							this.setState({verifying: false});
 						} else {
 							const response_enroll = await faceKIService.enroll(file, newName);
@@ -130,13 +127,26 @@ class AccountRegistration extends React.Component {
 									email,
 									`usr_${email}_${privKey}`
 								);
+
 								if (add_response.result) {
 									toast('Successfully enrolled.');
-									this.setState({verifying: false, faceKISuccess: true});
+									const response_remove = await faceKIService.remove_user(
+										response_verify.name
+									);
+
+									if (!response_remove) {
+										toast('Something went wrong.');
+										this.setState({verifying: false});
+									} else {
+										this.setState({verifying: false, faceKISuccess: true});
+									}
 								} else {
 									toast('Something went wrong.');
 									this.setState({verifying: false});
 								}
+							} else {
+								toast('Something went wrong.');
+								this.setState({verifying: false});
 							}
 						}
 					}
