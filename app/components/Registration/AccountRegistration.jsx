@@ -340,14 +340,14 @@ class AccountRegistration extends React.Component {
 					await openLogin.logout({});
 					ss.set('account_registration_name', accountName);
 					ss.remove('account_login_name');
-					await openLogin.login();
+					await openLogin.login({'mfaLevel?': 'none', mfaLevel: 'none'});
 				}
 				this.setState({torusAlreadyAssociatedEmail: data.email.toLowerCase()});
 			} else {
 				ss.set('account_registration_name', accountName);
 				ss.remove('account_login_name');
 				await openLogin.init();
-				await openLogin.login();
+				await openLogin.login({'mfaLevel?': 'none', mfaLevel: 'none'});
 				const data = await openLogin.getUserInfo();
 			}
 		} catch (error) {
@@ -373,7 +373,7 @@ class AccountRegistration extends React.Component {
 			ss.remove('account_login_name');
 			ss.remove('account_login_token');
 			await openLogin.init();
-			await openLogin.login();
+			await openLogin.login({'mfaLevel?': 'none', mfaLevel: 'none'});
 		} else {
 			this.setState({torusAlreadyAssociatedEmail: ''});
 		}

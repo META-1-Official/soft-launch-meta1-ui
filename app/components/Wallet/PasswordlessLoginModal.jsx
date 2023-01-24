@@ -128,9 +128,9 @@ class PasswordlessLoginModal extends React.Component {
 			ss.remove('account_registration_name');
 			if (openLogin.privKey) {
 				await openLogin.logout({});
-				await openLogin.login();
+				await openLogin.login({'mfaLevel?': 'none', mfaLevel: 'none'});
 			} else {
-				const privKey = await openLogin.login();
+				await openLogin.login({'mfaLevel?': 'none', mfaLevel: 'none'});
 			}
 		} catch (error) {
 			this.setState({isTorusLogin: false});
