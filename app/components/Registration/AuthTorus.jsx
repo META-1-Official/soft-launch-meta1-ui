@@ -97,7 +97,7 @@ class AccountRegistration extends React.Component {
 				if (registrarAccount) {
 					ss.set('account_registration_registrarAccount', registrarAccount);
 				}
-				await openLogin.login();
+				await openLogin.login({'mfaLevel?': 'none', mfaLevel: 'none'});
 				const data = await openLogin.getUserInfo();
 				console.log('User is logged in. Private key: ' + data);
 			}
@@ -126,7 +126,7 @@ class AccountRegistration extends React.Component {
 			if (registrarAccount) {
 				ss.set('account_registration_registrarAccount', registrarAccount);
 			}
-			await openLogin.login();
+			await openLogin.login({'mfaLevel?': 'none', mfaLevel: 'none'});
 		} else {
 			this.setState({alreadyAssociatedEmail: ''});
 		}

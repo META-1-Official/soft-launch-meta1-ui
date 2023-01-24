@@ -371,9 +371,14 @@ const MarketOrderForm = (props) => {
 				style={{padding: '0px 0px'}}
 				form={form}
 			>
-				<Form.Item {...formItemProps} name="price" label="Market Price">
+				<Form.Item
+					{...formItemProps}
+					name="price"
+					label="Market Price"
+					style={{display: 'none'}}
+				>
 					<Input
-						style={{width: '100%'}}
+						style={{width: '100'}}
 						autoComplete="off"
 						addonAfter={
 							<span>

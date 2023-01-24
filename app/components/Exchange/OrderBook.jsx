@@ -975,7 +975,12 @@ class OrderBook extends React.Component {
 			let innerClass = this.props.innerClass;
 
 			return (
-				<div className="order-book-panel">
+				<div
+					className="order-book-panel"
+					style={{
+						height: '100%',
+					}}
+				>
 					<OrderBookHeader
 						currentGroupOrderLimit={currentGroupOrderLimit}
 						onChange={this.props.handleGroupOrderLimitChange.bind(this)}
@@ -984,7 +989,7 @@ class OrderBook extends React.Component {
 						ref="order_book"
 						style={{
 							marginRight: this.props.smallScreen ? 0 : 0,
-							height: '100%',
+							height: 'calc(100% - 46px)',
 							width: '100%',
 							display: 'flex',
 							flexDirection: 'row',
@@ -1059,9 +1064,8 @@ class OrderBook extends React.Component {
 									id="bottom-order-table"
 									style={{
 										overflow: 'hidden',
-										maxHeight: this.props.chartHeight / 2 - 2,
 										lineHeight: '20px',
-										minHeight: '100%',
+										height: 'calc(100% - 33px)',
 									}}
 								>
 									<table
@@ -1086,7 +1090,12 @@ class OrderBook extends React.Component {
 		} else {
 			// Vertical orderbook
 			return (
-				<div className="order-book-panel">
+				<div
+					className="order-book-panel"
+					style={{
+						height: '100%',
+					}}
+				>
 					<OrderBookHeader
 						currentGroupOrderLimit={currentGroupOrderLimit}
 						onChange={this.props.handleGroupOrderLimitChange.bind(this)}

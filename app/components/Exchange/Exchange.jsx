@@ -3329,7 +3329,7 @@ class Exchange extends React.Component {
 							<div
 								className="grid-block"
 								style={{
-									minHeight: '350px',
+									maxHeight: '400px',
 									marginTop: '15px',
 									overflow: 'hidden',
 								}}
