@@ -76,12 +76,16 @@ class AccountRegistration extends React.Component {
 
 		this.setState({verifying: true});
 
-		const imageSrc = device.width
-			? this.webcamRef.current.getScreenshot({
-					width: device.width,
-					height: device.height,
-			  })
-			: this.webcamRef.current.getScreenshot();
+		// const imageSrc = device.width
+		// 	? this.webcamRef.current.getScreenshot({
+		// 			width: device.width,
+		// 			height: device.height,
+		// 	  })
+		// 	: this.webcamRef.current.getScreenshot();
+		const imageSrc = this.webcamRef.current.getScreenshot({
+			width: 1280,
+			height: 720,
+		});
 
 		if (!imageSrc) {
 			toast('Check your camera');
@@ -116,9 +120,12 @@ class AccountRegistration extends React.Component {
 						this.setState({verifying: false});
 					} else {
 						const newName = response_verify.name + ',' + email;
+						const response_remove = await faceKIService.remove_user(
+							response_verify.name
+						);
 
-						if (!newName) {
-							toast('Can not generate new name.');
+						if (!response_remove) {
+							toast('Something went wrong.');
 							this.setState({verifying: false});
 						} else {
 							const response_enroll = await faceKIService.enroll(file, newName);
@@ -127,26 +134,13 @@ class AccountRegistration extends React.Component {
 									email,
 									`usr_${email}_${privKey}`
 								);
-
 								if (add_response.result) {
 									toast('Successfully enrolled.');
-									const response_remove = await faceKIService.remove_user(
-										response_verify.name
-									);
-
-									if (!response_remove) {
-										toast('Something went wrong.');
-										this.setState({verifying: false});
-									} else {
-										this.setState({verifying: false, faceKISuccess: true});
-									}
+									this.setState({verifying: false, faceKISuccess: true});
 								} else {
 									toast('Something went wrong.');
 									this.setState({verifying: false});
 								}
-							} else {
-								toast('Something went wrong.');
-								this.setState({verifying: false});
 							}
 						}
 					}
@@ -288,6 +282,7 @@ class AccountRegistration extends React.Component {
 				console.log('[loadVideo] @114 - ', err);
 			}
 
+			this.setState({webcamEnabled: false, device: {}});
 			return Promise.resolve();
 		}
 	}
@@ -340,14 +335,14 @@ class AccountRegistration extends React.Component {
 					await openLogin.logout({});
 					ss.set('account_registration_name', accountName);
 					ss.remove('account_login_name');
-					await openLogin.login({'mfaLevel?': 'none', mfaLevel: 'none'});
+					await openLogin.login();
 				}
 				this.setState({torusAlreadyAssociatedEmail: data.email.toLowerCase()});
 			} else {
 				ss.set('account_registration_name', accountName);
 				ss.remove('account_login_name');
 				await openLogin.init();
-				await openLogin.login({'mfaLevel?': 'none', mfaLevel: 'none'});
+				await openLogin.login();
 				const data = await openLogin.getUserInfo();
 			}
 		} catch (error) {
@@ -373,7 +368,7 @@ class AccountRegistration extends React.Component {
 			ss.remove('account_login_name');
 			ss.remove('account_login_token');
 			await openLogin.init();
-			await openLogin.login({'mfaLevel?': 'none', mfaLevel: 'none'});
+			await openLogin.login();
 		} else {
 			this.setState({torusAlreadyAssociatedEmail: ''});
 		}

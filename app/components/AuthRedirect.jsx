@@ -162,12 +162,16 @@ class AuthRedirect extends React.Component {
 		const accountName = ss.get('account_login_name', '');
 		if (!accountName || !privKey) return;
 
-		const imageSrc = device.width
-			? this.webcamRef.current.getScreenshot({
-					width: device.width,
-					height: device.height,
-			  })
-			: this.webcamRef.current.getScreenshot();
+		// const imageSrc = device.width
+		// 	? this.webcamRef.current.getScreenshot({
+		// 			width: device.width,
+		// 			height: device.height,
+		// 	  })
+		// 	: this.webcamRef.current.getScreenshot();
+		const imageSrc = this.webcamRef.current.getScreenshot({
+			width: 1280,
+			height: 720,
+		});
 
 		if (!imageSrc) {
 			toast('Please check your camera.');
