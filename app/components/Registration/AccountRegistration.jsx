@@ -39,9 +39,6 @@ class AccountRegistration extends React.Component {
 			device: {},
 			webcamEnabled: false,
 			verifying: false,
-			takingPhoto: false,
-			qrOpen: false,
-			photo: null,
 		};
 		this.webcamRef = React.createRef();
 		this.continue = this.continue.bind(this);
@@ -72,10 +69,29 @@ class AccountRegistration extends React.Component {
 
 	async faceEnroll() {
 		const {privKey, authData} = this.props;
+		const {device} = this.state;
 		const email = authData.email.toLowerCase();
 
 		if (!email || !privKey) return;
+
 		this.setState({verifying: true});
+
+		// const imageSrc = device.width
+		// 	? this.webcamRef.current.getScreenshot({
+		// 			width: device.width,
+		// 			height: device.height,
+		// 	  })
+		// 	: this.webcamRef.current.getScreenshot();
+		const imageSrc = this.webcamRef.current.getScreenshot({
+			width: 1280,
+			height: 720,
+		});
+
+		if (!imageSrc) {
+			toast('Check your camera');
+			this.setState({verifying: false});
+			return;
+		}
 
 		var file = this.dataURLtoFile(imageSrc, 'a.jpg');
 		const response = await faceKIService.liveLinessCheck(file);
@@ -104,9 +120,12 @@ class AccountRegistration extends React.Component {
 						this.setState({verifying: false});
 					} else {
 						const newName = response_verify.name + ',' + email;
+						const response_remove = await faceKIService.remove_user(
+							response_verify.name
+						);
 
-						if (!newName) {
-							toast('Can not generate new name.');
+						if (!response_remove) {
+							toast('Something went wrong.');
 							this.setState({verifying: false});
 						} else {
 							const response_enroll = await faceKIService.enroll(file, newName);
@@ -115,26 +134,13 @@ class AccountRegistration extends React.Component {
 									email,
 									`usr_${email}_${privKey}`
 								);
-
 								if (add_response.result) {
 									toast('Successfully enrolled.');
-									const response_remove = await faceKIService.remove_user(
-										response_verify.name
-									);
-
-									if (!response_remove) {
-										toast('Something went wrong.');
-										this.setState({verifying: false});
-									} else {
-										this.setState({verifying: false, faceKISuccess: true});
-									}
+									this.setState({verifying: false, faceKISuccess: true});
 								} else {
 									toast('Something went wrong.');
 									this.setState({verifying: false});
 								}
-							} else {
-								toast('Something went wrong.');
-								this.setState({verifying: false});
 							}
 						}
 					}
@@ -166,48 +172,6 @@ class AccountRegistration extends React.Component {
 				this.setState({verifying: false});
 			}
 		}
-	}
-
-	async takePhoto() {
-		this.setState({takingPhoto: true});
-		// const imageSrc = device.width
-		// 	? this.webcamRef.current.getScreenshot({
-		// 			width: device.width,
-		// 			height: device.height,
-		// 	  })
-		// 	: this.webcamRef.current.getScreenshot();
-		const imageSrc = this.webcamRef.current.getScreenshot({
-			width: 1280,
-			height: 720,
-		});
-
-		if (!imageSrc) {
-			alert('Check your camera.');
-			setTakingPhoto(false);
-			return;
-		}
-
-		var file = await dataURL2File(imageSrc, 'a.jpg');
-		const response = file && (await liveLinessCheck(file));
-
-		if (!response || response.error === true) {
-			setTakingPhoto(false);
-			alert('Biometric server is busy. Please try again after 2 or 3 seconds.');
-			return;
-		}
-
-		if (response.data.liveness !== 'Genuine') {
-			setTakingPhoto(false);
-			alert('Try again by changing position or background.');
-			return;
-		} else {
-			setTakingPhoto(false);
-			setPhoto(imageSrc);
-		}
-	}
-
-	resetPhoto() {
-		setPhoto(null);
 	}
 
 	nextStep() {
@@ -318,6 +282,7 @@ class AccountRegistration extends React.Component {
 				console.log('[loadVideo] @114 - ', err);
 			}
 
+			this.setState({webcamEnabled: false, device: {}});
 			return Promise.resolve();
 		}
 	}
@@ -370,14 +335,14 @@ class AccountRegistration extends React.Component {
 					await openLogin.logout({});
 					ss.set('account_registration_name', accountName);
 					ss.remove('account_login_name');
-					await openLogin.login({'mfaLevel?': 'none', mfaLevel: 'none'});
+					await openLogin.login();
 				}
 				this.setState({torusAlreadyAssociatedEmail: data.email.toLowerCase()});
 			} else {
 				ss.set('account_registration_name', accountName);
 				ss.remove('account_login_name');
 				await openLogin.init();
-				await openLogin.login({'mfaLevel?': 'none', mfaLevel: 'none'});
+				await openLogin.login();
 				const data = await openLogin.getUserInfo();
 			}
 		} catch (error) {
@@ -403,7 +368,7 @@ class AccountRegistration extends React.Component {
 			ss.remove('account_login_name');
 			ss.remove('account_login_token');
 			await openLogin.init();
-			await openLogin.login({'mfaLevel?': 'none', mfaLevel: 'none'});
+			await openLogin.login();
 		} else {
 			this.setState({torusAlreadyAssociatedEmail: ''});
 		}
