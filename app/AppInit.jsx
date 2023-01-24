@@ -193,8 +193,6 @@ class AppInit extends React.Component {
 		}
 
 		if (accountName) {
-			AccountActions.setCurrentAccount.defer(accountName);
-
 			if (pathname.includes('account') || pathname.includes('currentDisplay')) {
 				contains = true;
 			}
@@ -241,6 +239,9 @@ class AppInit extends React.Component {
 					apiError: false,
 					syncError: null,
 				});
+
+				const accountName = ss.get('account_login_name', null);
+				if (accountName) AccountActions.setCurrentAccount.defer(accountName);
 			})
 			.catch((err) => {
 				console.log('willTransitionTo err:', err);
