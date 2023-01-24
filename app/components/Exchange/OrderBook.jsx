@@ -1059,7 +1059,9 @@ class OrderBook extends React.Component {
 									</table>
 								</div>
 								<div
-									className="grid-block"
+									className={`grid-block ${
+										bidRows.length < 11 ? 'table-height-auto' : ''
+									}`}
 									ref="hor_bids"
 									id="bottom-order-table"
 									style={{
