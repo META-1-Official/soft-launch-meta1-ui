@@ -39,6 +39,9 @@ class AccountRegistration extends React.Component {
 			device: {},
 			webcamEnabled: false,
 			verifying: false,
+			takingPhoto: false,
+			qrOpen: false,
+			photo: null,
 		};
 		this.webcamRef = React.createRef();
 		this.continue = this.continue.bind(this);
@@ -69,25 +72,10 @@ class AccountRegistration extends React.Component {
 
 	async faceEnroll() {
 		const {privKey, authData} = this.props;
-		const {device} = this.state;
 		const email = authData.email.toLowerCase();
 
 		if (!email || !privKey) return;
-
 		this.setState({verifying: true});
-
-		const imageSrc = device.width
-			? this.webcamRef.current.getScreenshot({
-					width: device.width,
-					height: device.height,
-			  })
-			: this.webcamRef.current.getScreenshot();
-
-		if (!imageSrc) {
-			toast('Check your camera');
-			this.setState({verifying: false});
-			return;
-		}
 
 		var file = this.dataURLtoFile(imageSrc, 'a.jpg');
 		const response = await faceKIService.liveLinessCheck(file);
@@ -178,6 +166,48 @@ class AccountRegistration extends React.Component {
 				this.setState({verifying: false});
 			}
 		}
+	}
+
+	async takePhoto() {
+		this.setState({takingPhoto: true});
+		// const imageSrc = device.width
+		// 	? this.webcamRef.current.getScreenshot({
+		// 			width: device.width,
+		// 			height: device.height,
+		// 	  })
+		// 	: this.webcamRef.current.getScreenshot();
+		const imageSrc = this.webcamRef.current.getScreenshot({
+			width: 1280,
+			height: 720,
+		});
+
+		if (!imageSrc) {
+			alert('Check your camera.');
+			setTakingPhoto(false);
+			return;
+		}
+
+		var file = await dataURL2File(imageSrc, 'a.jpg');
+		const response = file && (await liveLinessCheck(file));
+
+		if (!response || response.error === true) {
+			setTakingPhoto(false);
+			alert('Biometric server is busy. Please try again after 2 or 3 seconds.');
+			return;
+		}
+
+		if (response.data.liveness !== 'Genuine') {
+			setTakingPhoto(false);
+			alert('Try again by changing position or background.');
+			return;
+		} else {
+			setTakingPhoto(false);
+			setPhoto(imageSrc);
+		}
+	}
+
+	resetPhoto() {
+		setPhoto(null);
 	}
 
 	nextStep() {

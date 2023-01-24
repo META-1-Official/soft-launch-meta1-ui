@@ -20,4 +20,8 @@ const migrationApi = axios.create({
 	baseURL: `${process.env.LITE_WALLET_URL}`,
 });
 
-export {faceKIApi, kycApi, explorerApi, backUrlApi, migrationApi};
+const pollingApi = axios.create({
+	baseURL: `${process.env.LITE_WALLET_URL}`,
+});
+
+export {faceKIApi, kycApi, explorerApi, backUrlApi, migrationApi, pollingApi};
