@@ -137,6 +137,10 @@ class Exchange extends React.Component {
 			capture: false,
 			passive: true,
 		});
+
+		Apis.db.get_asset_limitation_value('META1').then((price) => {
+			this.setState({meta1AssetValue: price / 1000000000 + 0.00000001});
+		});
 	}
 
 	// Force Render
@@ -1940,6 +1944,7 @@ class Exchange extends React.Component {
 			chartZoom,
 			chartTools,
 			hideFunctionButtons,
+			meta1AssetValue,
 		} = this.state;
 		const {isFrozen, frozenAsset} = this.isMarketFrozen();
 
@@ -2228,6 +2233,14 @@ class Exchange extends React.Component {
 			</Tabs>
 		);
 
+		// Sell Market Order Tab Price calc
+		let sellMarketPrice = 0;
+		let lowestBidPrice = lowestBid?.getPrice();
+		if (meta1AssetValue && lowestBidPrice) {
+			sellMarketPrice =
+				meta1AssetValue > lowestBidPrice ? meta1AssetValue : lowestBidPrice;
+		}
+
 		let sellForm = isFrozen ? null : tinyScreen &&
 		  !this.state.mobileKey.includes('buySellTab') ? null : (
 			<Tabs
@@ -2273,7 +2286,7 @@ class Exchange extends React.Component {
 						baseAsset={base}
 						quoteAsset={quote}
 						historyUrl={this.props.history.location}
-						price={lowestBid?.getPrice()}
+						price={sellMarketPrice}
 					/>
 				</Tabs.TabPane>
 				<Tabs.TabPane
