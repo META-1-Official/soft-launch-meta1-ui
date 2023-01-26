@@ -273,6 +273,11 @@ const MarketOrderForm = (props) => {
 	};
 
 	const onChangeTotalPercentHandler = (percent) => {
+		if (!Number(props.price)) {
+			setTotalPercent(percent);
+			return;
+		}
+
 		setAmount(
 			(percent / 100) *
 				(Number(
