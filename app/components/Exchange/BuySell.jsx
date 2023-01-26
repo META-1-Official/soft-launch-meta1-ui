@@ -217,6 +217,11 @@ class BuySell extends React.Component {
 
 	onChangeTotalPercentHandler(percent) {
 		let marketPrice = this.props.price;
+		if (!Number(marketPrice)) {
+			this.setState({totalPercent: percent});
+			return;
+		}
+
 		if (this.props.price === '') {
 			marketPrice = this.props.marketPrice;
 		}
