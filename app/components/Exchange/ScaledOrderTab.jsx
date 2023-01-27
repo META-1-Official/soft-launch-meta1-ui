@@ -74,7 +74,8 @@ class ScaledOrderForm extends Component {
 			nextState.total !== this.state.total ||
 			nextState.orderCount !== this.state.orderCount ||
 			nextProps.baseAsset !== this.props.baseAsset ||
-			nextProps.quoteAsset !== this.props.quoteAsset
+			nextProps.quoteAsset !== this.props.quoteAsset ||
+			nextProps.locked_v2 !== this.props.locked_v2
 		);
 	}
 
@@ -121,7 +122,7 @@ class ScaledOrderForm extends Component {
 			? this.props.baseAssetBalance >= parseFloat(this.state.total)
 			: this.props.quoteAssetBalance >= parseFloat(formValues.amount);
 
-		if (!hasBalance) return false;
+		if (!hasBalance || this.props.locked_v2) return false;
 
 		const pathUrl = this.props.historyUrl.pathname;
 		if (pathUrl) {

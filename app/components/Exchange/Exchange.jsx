@@ -2235,6 +2235,7 @@ class Exchange extends React.Component {
 						baseAsset={base}
 						historyUrl={this.props.history.location}
 						price={buyMarketPrice}
+						locked_v2={this.props.locked_v2}
 					/>
 				</Tabs.TabPane>
 				<Tabs.TabPane
@@ -2324,6 +2325,7 @@ class Exchange extends React.Component {
 						hideFunctionButtons={hideFunctionButtons}
 						historyUrl={this.props.history.location}
 						marketPrice={latest && latest.getPrice()}
+						locked_v2={this.props.locked_v2}
 					/>
 				</Tabs.TabPane>
 				<Tabs.TabPane
@@ -2351,6 +2353,7 @@ class Exchange extends React.Component {
 						quoteAsset={quote}
 						baseAsset={base}
 						historyUrl={this.props.history.location}
+						locked_v2={this.props.locked_v2}
 					/>
 				</Tabs.TabPane>
 			</Tabs>
@@ -2402,6 +2405,7 @@ class Exchange extends React.Component {
 						quoteAsset={quote}
 						historyUrl={this.props.history.location}
 						price={sellMarketPrice}
+						locked_v2={this.props.locked_v2}
 					/>
 				</Tabs.TabPane>
 				<Tabs.TabPane
@@ -2491,6 +2495,7 @@ class Exchange extends React.Component {
 						hideFunctionButtons={hideFunctionButtons}
 						historyUrl={this.props.history.location}
 						marketPrice={latest && latest.getPrice()}
+						locked_v2={this.props.locked_v2}
 					/>
 				</Tabs.TabPane>
 
@@ -2518,6 +2523,7 @@ class Exchange extends React.Component {
 						baseAsset={base}
 						quoteAsset={quote}
 						historyUrl={this.props.history.location}
+						locked_v2={this.props.locked_v2}
 					/>
 				</Tabs.TabPane>
 			</Tabs>
