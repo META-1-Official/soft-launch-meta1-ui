@@ -39,6 +39,7 @@ class AccountRegistration extends React.Component {
 			device: {},
 			webcamEnabled: false,
 			verifying: false,
+			photoIndex: 0,
 		};
 		this.webcamRef = React.createRef();
 		this.continue = this.continue.bind(this);
@@ -49,7 +50,6 @@ class AccountRegistration extends React.Component {
 		this.proceedLoggingOut = this.proceedLoggingOut.bind(this);
 		this.proceedESign = this.proceedESign.bind(this);
 		this.proceedTorus = this.proceedTorus.bind(this);
-		this.faceEnroll = this.faceEnroll.bind(this);
 		this.nextStep = this.nextStep.bind(this);
 		this.backBtnClick = this.backBtnClick.bind(this);
 		this.handleImportBtn = this.handleImportBtn.bind(this);
@@ -67,110 +67,120 @@ class AccountRegistration extends React.Component {
 		return new File([u8arr], filename, {type: mime});
 	}
 
-	async faceEnroll() {
+	async checkAndEnroll() {
 		const {privKey, authData} = this.props;
-		const {device} = this.state;
+		const {photoIndex} = this.state;
 		const email = authData.email.toLowerCase();
 
 		if (!email || !privKey) return;
 
 		this.setState({verifying: true});
 
-		// const imageSrc = device.width
-		// 	? this.webcamRef.current.getScreenshot({
-		// 			width: device.width,
-		// 			height: device.height,
-		// 	  })
-		// 	: this.webcamRef.current.getScreenshot();
 		const imageSrc = this.webcamRef.current.getScreenshot({
 			width: 1280,
 			height: 720,
 		});
 
 		if (!imageSrc) {
-			toast('Check your camera');
+			toast('Please check your camera.');
 			this.setState({verifying: false});
 			return;
 		}
 
-		var file = this.dataURLtoFile(imageSrc, 'a.jpg');
+		var file = await this.dataURLtoFile(imageSrc, 'a.jpg');
 		const response = await faceKIService.liveLinessCheck(file);
+		this.setState({photoIndex: photoIndex + 1});
 
 		if (!response) {
 			toast('Something went wrong from Biometric server.');
-			this.setState({verifying: false});
+			this.setState({verifying: false, photoIndex: 0});
 			return;
 		}
 
-		if (response.data.liveness !== 'Genuine') {
+		if (response.data.liveness !== 'Genuine' && photoIndex === 10) {
 			toast('Try again by changing position or background.');
-			this.setState({verifying: false});
+			this.setState({verifying: false, photoIndex: 0});
+		} else if (response.data.liveness === 'Genuine') {
+			this.setState({photoIndex: 0});
+			await this.faceEnroll(file);
 		} else {
-			const response_verify = await faceKIService.verify(file);
-			if (response_verify.status === 'Verify OK') {
-				const nameArry = response_verify.name.split(',');
+			await this.checkAndEnroll();
+		}
+	}
 
-				if (nameArry.includes(email)) {
-					toast('You already enrolled and verified successfully.');
-					this.setState({verifying: false, faceKISuccess: true});
-				} else {
-					const response_user = await kycService.getUserKycProfile(email);
-					if (response_user) {
-						toast('This email already has been used for another user.');
-						this.setState({verifying: false});
-					} else {
-						const newName = response_verify.name + ',' + email;
-						const response_remove = await faceKIService.remove_user(
-							response_verify.name
-						);
+	async faceEnroll(file) {
+		const {privKey, authData} = this.props;
+		const email = authData.email.toLowerCase();
 
-						if (!response_remove) {
-							toast('Something went wrong.');
-							this.setState({verifying: false});
-						} else {
-							const response_enroll = await faceKIService.enroll(file, newName);
-							if (response_enroll.status === 'Enroll OK') {
-								const add_response = await kycService.postUserKycProfile(
-									email,
-									`usr_${email}_${privKey}`
-								);
-								if (add_response.result) {
-									toast('Successfully enrolled.');
-									this.setState({verifying: false, faceKISuccess: true});
-								} else {
-									toast('Something went wrong.');
-									this.setState({verifying: false});
-								}
-							}
-						}
-					}
-				}
-			} else if (response_verify.status === 'Verify Failed') {
+		if (!email || !privKey) return;
+
+		const response_verify = await faceKIService.verify(file);
+		if (response_verify.status === 'Verify OK') {
+			const nameArry = response_verify.name.split(',');
+
+			if (nameArry.includes(email)) {
+				toast('You already enrolled and verified successfully.');
+				this.setState({verifying: false, faceKISuccess: true});
+				this.nextStep();
+			} else {
 				const response_user = await kycService.getUserKycProfile(email);
 				if (response_user) {
 					toast('This email already has been used for another user.');
 					this.setState({verifying: false});
 				} else {
-					const response_enroll = await faceKIService.enroll(file, email);
-					if (response_enroll.status === 'Enroll OK') {
-						const add_response = await kycService.postUserKycProfile(
-							email,
-							`usr_${email}_${privKey}`
-						);
-						if (add_response.result) {
-							toast('Successfully enrolled.');
-							this.setState({verifying: false, faceKISuccess: true});
-						} else {
-							await faceKIService.remove_user(email);
-							toast('Something went wrong.');
-							this.setState({verifying: false});
+					const newName = response_verify.name + ',' + email;
+					const response_remove = await faceKIService.remove_user(
+						response_verify.name
+					);
+
+					if (!response_remove) {
+						toast('Something went wrong.');
+						this.setState({verifying: false});
+					} else {
+						const response_enroll = await faceKIService.enroll(file, newName);
+						if (response_enroll.status === 'Enroll OK') {
+							const add_response = await kycService.postUserKycProfile(
+								email,
+								`usr_${email}_${privKey}`
+							);
+							if (add_response.result) {
+								toast('Successfully enrolled.');
+								this.setState({verifying: false, faceKISuccess: true});
+								this.nextStep();
+							} else {
+								toast('Something went wrong.');
+								this.setState({verifying: false});
+							}
 						}
 					}
 				}
-			} else {
-				toast('Please try again.');
-				this.setState({verifying: false});
 			}
+		} else if (response_verify.status === 'Verify Failed') {
+			const response_user = await kycService.getUserKycProfile(email);
+			if (response_user) {
+				toast('This email already has been used for another user.');
+				this.setState({verifying: false});
+			} else {
+				const response_enroll = await faceKIService.enroll(file, email);
+				if (response_enroll.status === 'Enroll OK') {
+					const add_response = await kycService.postUserKycProfile(
+						email,
+						`usr_${email}_${privKey}`
+					);
+					if (add_response.result) {
+						toast('Successfully enrolled.');
+						this.setState({verifying: false, faceKISuccess: true});
+						this.nextStep();
+					} else {
+						await faceKIService.remove_user(email);
+						toast('Something went wrong.');
+						this.setState({verifying: false});
+					}
+				}
+			}
+		} else {
+			toast('Please try again.');
+			this.setState({verifying: false});
 		}
 	}
 
@@ -179,20 +189,16 @@ class AccountRegistration extends React.Component {
 		const accountName = ss.get('account_registration_name', '');
 		if (!accountName || !privKey) return;
 
-		if (this.state.faceKISuccess === true) {
-			this.loadVideo(false).then(() => {
-				this.setState({
-					accountName,
-					password: this.genKey(`${accountName}${privKey}`),
-					finalStep: true,
-					faceKIStep: false,
-					migrationStep: false,
-					firstStep: false,
-				});
+		this.loadVideo(false).then(() => {
+			this.setState({
+				accountName,
+				password: this.genKey(`${accountName}${privKey}`),
+				finalStep: true,
+				faceKIStep: false,
+				migrationStep: false,
+				firstStep: false,
 			});
-		} else {
-			toast('Please enroll first.');
-		}
+		});
 	}
 
 	backBtnClick() {
@@ -257,7 +263,7 @@ class AccountRegistration extends React.Component {
 
 	loadVideo(flag) {
 		const videoTag = document.querySelector('video');
-		console.log('[loadVideo] @11 - ', flag, videoTag);
+		console.log('[loadVideo]', flag, videoTag);
 		const features = {audio: false, video: true};
 
 		if (flag) {
@@ -624,7 +630,7 @@ class AccountRegistration extends React.Component {
 						}}
 					>
 						<Button
-							onClick={this.faceEnroll}
+							onClick={() => this.checkAndEnroll()}
 							style={{background: '#ffcc00', border: 'none'}}
 							disabled={
 								this.state.verifying
@@ -635,17 +641,6 @@ class AccountRegistration extends React.Component {
 							}
 						>
 							{this.state.verifying ? 'Verifying...' : 'Verify'}
-						</Button>
-						<Button
-							onClick={this.nextStep}
-							style={{
-								background: '#ffcc00',
-								border: 'none',
-								marginLeft: '10px',
-							}}
-							disabled={!this.state.faceKISuccess}
-						>
-							Next
 						</Button>
 					</div>
 				</div>

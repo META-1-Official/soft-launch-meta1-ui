@@ -138,7 +138,8 @@ const MarketOrderForm = (props) => {
 			!props.price ||
 			isNaN(Number(props.price)) ||
 			Number(props.price) <= 0 ||
-			!hasBalance
+			!hasBalance ||
+			props.locked_v2
 		)
 			return false;
 
@@ -273,6 +274,11 @@ const MarketOrderForm = (props) => {
 	};
 
 	const onChangeTotalPercentHandler = (percent) => {
+		if (!Number(props.price)) {
+			setTotalPercent(percent);
+			return;
+		}
+
 		setAmount(
 			(percent / 100) *
 				(Number(

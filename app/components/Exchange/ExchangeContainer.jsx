@@ -111,6 +111,9 @@ class ExchangeContainer extends React.Component {
 					currentGroupOrderLimit: () => {
 						return MarketsStore.getState().currentGroupLimit;
 					},
+					locked_v2: () => {
+						return WalletUnlockStore.getState().locked_v2;
+					},
 				}}
 			>
 				<ExchangeSubscriber

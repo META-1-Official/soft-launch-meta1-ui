@@ -65,6 +65,8 @@ class Exchange extends React.Component {
 				ask: 'Specific',
 			},
 			feeStatus: {},
+			backingAssetValue: 0,
+			backingAssetPolarity: true,
 		};
 
 		this._getWindowSize = debounce(this._getWindowSize.bind(this), 150);
@@ -137,6 +139,15 @@ class Exchange extends React.Component {
 			capture: false,
 			passive: true,
 		});
+
+		if (
+			this.props.quoteAsset.get('symbol') === 'META1' ||
+			this.props.baseAsset.get('symbol') === 'META1'
+		) {
+			this.calcBackingAssetValue();
+		} else {
+			this.setState({backingAssetValue: 0, backingAssetPolarity: true});
+		}
 	}
 
 	// Force Render
@@ -271,6 +282,7 @@ class Exchange extends React.Component {
 
 	componentWillReceiveProps(nextProps) {
 		this._initPsContainer();
+
 		if (
 			nextProps.quoteAsset !== this.props.quoteAsset ||
 			nextProps.baseAsset !== this.props.baseAsset ||
@@ -280,7 +292,17 @@ class Exchange extends React.Component {
 				[nextProps.coreAsset, nextProps.baseAsset, nextProps.quoteAsset],
 				nextProps.currentAccount
 			);
+
+			if (
+				nextProps.quoteAsset.get('symbol') === 'META1' ||
+				nextProps.baseAsset.get('symbol') === 'META1'
+			) {
+				this.calcBackingAssetValue();
+			} else {
+				this.setState({backingAssetValue: 0, backingAssetPolarity: true});
+			}
 		}
+
 		if (
 			nextProps.quoteAsset.get('symbol') !==
 				this.props.quoteAsset.get('symbol') ||
@@ -303,6 +325,50 @@ class Exchange extends React.Component {
 
 	componentWillUnmount() {
 		window.removeEventListener('resize', this._getWindowSize);
+	}
+
+	/*
+	 * Only check when selling or buying META1
+	 */
+	calcBackingAssetValue() {
+		const LOG_ID = '[calcBackingAssetValue]';
+
+		Apis.db.get_asset_limitation_value('META1').then((price) => {
+			const meta1_usdt = price / 1000000000;
+			let asset_usdt;
+
+			console.log(LOG_ID, 'META1 Backing Asset($): ', meta1_usdt);
+			const quoteAssetSymbol = this.props.quoteAsset.get('symbol');
+			const baseAssetSymbol = this.props.baseAsset.get('symbol');
+			const isQuoting = quoteAssetSymbol === 'META1';
+
+			Apis.db
+				.get_ticker('USDT', isQuoting ? baseAssetSymbol : quoteAssetSymbol)
+				.then((res) => {
+					asset_usdt = parseFloat(res.latest) || 1;
+					const ratio = isQuoting
+						? (meta1_usdt + 0.01) / asset_usdt
+						: asset_usdt / (meta1_usdt - 0.01);
+					console.log(
+						LOG_ID,
+						isQuoting ? baseAssetSymbol : quoteAssetSymbol,
+						': USDT',
+						asset_usdt
+					);
+					// console.log(LOG_ID, quoteAssetSymbol, ":", baseAssetSymbol, ratio);
+
+					if (isQuoting) {
+						console.log(LOG_ID, 'BUY/SELL price should be bigger than', ratio);
+					} else {
+						console.log(LOG_ID, 'BUY/SELL price should be lower than', ratio);
+					}
+
+					this.setState({
+						backingAssetValue: ratio,
+						backingAssetPolarity: isQuoting,
+					});
+				});
+		});
 	}
 
 	_getFeeAssets(quote, base, coreAsset) {
@@ -806,6 +872,7 @@ class Exchange extends React.Component {
 	) {
 		e.preventDefault();
 		let {highestBid, lowestAsk} = this.props.marketData;
+		const {backingAssetValue, backingAssetPolarity} = this.state;
 		let current = this.state[type === 'sell' ? 'ask' : 'bid'];
 
 		sellBalance = current.for_sale.clone(
@@ -826,12 +893,37 @@ class Exchange extends React.Component {
 			sellBalance.getAmount(),
 			coreBalance.getAmount()
 		);
+
 		if (!feeID) {
 			return notification.error({
 				message: counterpart.translate(
 					'notifications.exchange_insufficient_funds_for_fees'
 				),
 			});
+		}
+
+		if (backingAssetValue) {
+			let price;
+
+			if (type === 'buy') {
+				price = this.state.bid.price.toReal();
+			} else {
+				price = this.state.ask.price.toReal();
+			}
+
+			if (backingAssetPolarity) {
+				if (price <= backingAssetValue) {
+					return notification.error({
+						message: `Price should be higher than ${backingAssetValue}`,
+					});
+				}
+			} else {
+				if (price >= backingAssetValue) {
+					return notification.error({
+						message: `Price should be lower than ${backingAssetValue}`,
+					});
+				}
+			}
 		}
 
 		if (type === 'buy' && lowestAsk) {
@@ -1940,6 +2032,8 @@ class Exchange extends React.Component {
 			chartZoom,
 			chartTools,
 			hideFunctionButtons,
+			backingAssetValue,
+			backingAssetPolarity,
 		} = this.state;
 		const {isFrozen, frozenAsset} = this.isMarketFrozen();
 
@@ -2056,6 +2150,40 @@ class Exchange extends React.Component {
 		let isPanelActive = activePanels.length >= 1 ? true : false;
 		let isPredictionMarket = base.getIn(['bitasset', 'is_prediction_market']);
 
+		// Market Order Tab Price calc
+		let buyMarketPrice = highestAsk?.getPrice();
+		let sellMarketPrice = lowestBid?.getPrice();
+		if (backingAssetValue) {
+			if (buyMarketPrice) {
+				if (backingAssetPolarity) {
+					buyMarketPrice =
+						backingAssetValue > buyMarketPrice
+							? backingAssetValue
+							: buyMarketPrice;
+				} else {
+					buyMarketPrice =
+						backingAssetValue < buyMarketPrice
+							? backingAssetValue
+							: buyMarketPrice;
+				}
+			}
+
+			if (sellMarketPrice) {
+				if (backingAssetPolarity) {
+					buyMarketPrice =
+						backingAssetValue > buyMarketPrice
+							? backingAssetValue
+							: buyMarketPrice;
+				} else {
+					buyMarketPrice =
+						backingAssetValue < buyMarketPrice
+							? backingAssetValue
+							: buyMarketPrice;
+				}
+			}
+		}
+		// console.log(`Backing Asset value: ${backingAssetValue}, Buy Market: ${buyMarketPrice}, Sell Market: ${sellMarketPrice}`);
+
 		/***
 		 * Generate layout cards
 		 */
@@ -2106,7 +2234,8 @@ class Exchange extends React.Component {
 						quoteAsset={quote}
 						baseAsset={base}
 						historyUrl={this.props.history.location}
-						price={highestAsk?.getPrice()}
+						price={buyMarketPrice}
+						locked_v2={this.props.locked_v2}
 					/>
 				</Tabs.TabPane>
 				<Tabs.TabPane
@@ -2196,6 +2325,7 @@ class Exchange extends React.Component {
 						hideFunctionButtons={hideFunctionButtons}
 						historyUrl={this.props.history.location}
 						marketPrice={latest && latest.getPrice()}
+						locked_v2={this.props.locked_v2}
 					/>
 				</Tabs.TabPane>
 				<Tabs.TabPane
@@ -2223,6 +2353,7 @@ class Exchange extends React.Component {
 						quoteAsset={quote}
 						baseAsset={base}
 						historyUrl={this.props.history.location}
+						locked_v2={this.props.locked_v2}
 					/>
 				</Tabs.TabPane>
 			</Tabs>
@@ -2273,7 +2404,8 @@ class Exchange extends React.Component {
 						baseAsset={base}
 						quoteAsset={quote}
 						historyUrl={this.props.history.location}
-						price={lowestBid?.getPrice()}
+						price={sellMarketPrice}
+						locked_v2={this.props.locked_v2}
 					/>
 				</Tabs.TabPane>
 				<Tabs.TabPane
@@ -2363,6 +2495,7 @@ class Exchange extends React.Component {
 						hideFunctionButtons={hideFunctionButtons}
 						historyUrl={this.props.history.location}
 						marketPrice={latest && latest.getPrice()}
+						locked_v2={this.props.locked_v2}
 					/>
 				</Tabs.TabPane>
 
@@ -2390,6 +2523,7 @@ class Exchange extends React.Component {
 						baseAsset={base}
 						quoteAsset={quote}
 						historyUrl={this.props.history.location}
+						locked_v2={this.props.locked_v2}
 					/>
 				</Tabs.TabPane>
 			</Tabs>
@@ -3074,15 +3208,15 @@ class Exchange extends React.Component {
 							onClick={this._togglePanel.bind(this, 'left')}
 						>
 							{/* <AntIcon
-                                data-intro={translator.translate(
-                                    "walkthrough.panel_hide"
-                                )}
-                                type={
-                                    activePanels.includes("left")
-                                        ? "caret-left"
-                                        : "caret-right"
-                                }
-                            /> */}
+								data-intro={translator.translate(
+									"walkthrough.panel_hide"
+								)}
+								type={
+									activePanels.includes("left")
+										? "caret-left"
+										: "caret-right"
+								}
+							/> */}
 						</div>
 					) : null}
 				</div>
@@ -3127,21 +3261,21 @@ class Exchange extends React.Component {
 						)}
 					>
 						{/* <AntIcon
-                            style={{
-                                cursor: "pointer",
-                                fontSize: "1.4rem",
-                                marginRight: "0.6rem"
-                            }}
-                            onClick={this._togglePanel.bind(this, "right")}
-                            data-intro={translator.translate(
-                                "walkthrough.panel_hide"
-                            )}
-                            type={
-                                activePanels.includes("right")
-                                    ? "caret-right"
-                                    : "caret-left"
-                            }
-                        /> */}
+							style={{
+								cursor: "pointer",
+								fontSize: "1.4rem",
+								marginRight: "0.6rem"
+							}}
+							onClick={this._togglePanel.bind(this, "right")}
+							data-intro={translator.translate(
+								"walkthrough.panel_hide"
+							)}
+							type={
+								activePanels.includes("right")
+									? "caret-right"
+									: "caret-left"
+							}
+						/> */}
 					</Tooltip>
 				)}
 
