@@ -129,7 +129,8 @@ class BuySell extends React.Component {
 			nextProps.hideFunctionButtons !== this.props.hideFunctionButtons ||
 			nextState.isQuickDepositVisible !== this.state.isQuickDepositVisible ||
 			nextProps.base !== this.props.base ||
-			nextProps.quote !== this.props.quote
+			nextProps.quote !== this.props.quote ||
+			nextProps.locked_v2 !== this.props.locked_v2
 		);
 	}
 
@@ -611,7 +612,7 @@ class BuySell extends React.Component {
 
 		let noBalance = isPredictionMarket
 			? false
-			: !(balanceAmount.getAmount() > 0 && hasBalance);
+			: !(balanceAmount.getAmount() > 0 && hasBalance) || this.props.locked_v2;
 		let invalidPrice = !(price > 0);
 		let invalidAmount = !(amount > 0);
 
