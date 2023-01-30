@@ -2170,15 +2170,15 @@ class Exchange extends React.Component {
 
 			if (sellMarketPrice) {
 				if (backingAssetPolarity) {
-					buyMarketPrice =
-						backingAssetValue > buyMarketPrice
+					sellMarketPrice =
+						backingAssetValue > sellMarketPrice
 							? backingAssetValue
-							: buyMarketPrice;
+							: sellMarketPrice;
 				} else {
-					buyMarketPrice =
-						backingAssetValue < buyMarketPrice
+					sellMarketPrice =
+						backingAssetValue < sellMarketPrice
 							? backingAssetValue
-							: buyMarketPrice;
+							: sellMarketPrice;
 				}
 			}
 		}
