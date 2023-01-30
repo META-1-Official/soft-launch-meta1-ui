@@ -182,9 +182,6 @@ class OrderBookRowHorizontal extends React.Component {
 								? 'my-order'
 								: 'ask-order-tr'
 						}
-						style={{
-							backgroundSize: `${Math.random() * 100}% 100%`,
-						}}
 					>
 						<td
 							style={{
@@ -223,12 +220,9 @@ class OrderBookRowHorizontal extends React.Component {
 								? 'my-order'
 								: 'bid-order-tr'
 						}
-						style={{
-							backgroundSize: `${Math.random() * 100}% 100%`,
-						}}
 					>
 						<td
-							style={{color: '#FF2929', textAlign: 'left', paddingLeft: '2px'}}
+							style={{color: '#FF2929', textAlign: 'left', paddingLeft: '10px'}}
 							className="table-body-class"
 						>
 							<div className="overflow-hidden">{totalAmt}</div>
