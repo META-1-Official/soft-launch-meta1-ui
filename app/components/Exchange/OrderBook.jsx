@@ -171,7 +171,8 @@ class OrderBookRowHorizontal extends React.Component {
 					totalValueAsks.getAmount({real: true}),
 					totalAsset.get('precision')
 			  );
-		const totalAmt = Number(amount) * Number(price.props.price);
+		const amountWithoutComma = amount ? amount.replace(',', '') : amount;
+		const totalAmt = Number(amountWithoutComma) * Number(price.props.price);
 		return (
 			<Tooltip title={'Total: ' + totalAmt} placement="right">
 				{isBid ? (
