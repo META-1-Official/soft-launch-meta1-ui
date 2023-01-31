@@ -754,14 +754,18 @@ class OrderBook extends React.Component {
 				return b.getPrice() - a.getPrice();
 			});
 			tempAsks.sort((a, b) => {
-				return b.getPrice() - a.getPrice();
+				return a.getPrice() - b.getPrice();
 			});
 		} else if (!horizontal && orderBookReversed) {
 			tempBids.sort((a, b) => {
 				return a.getPrice() - b.getPrice();
 			});
 			tempAsks.sort((a, b) => {
-				return a.getPrice() - b.getPrice();
+				return b.getPrice() - a.getPrice();
+			});
+		} else {
+			tempAsks.sort((a, b) => {
+				return b.getPrice() - a.getPrice();
 			});
 		}
 
@@ -879,6 +883,7 @@ class OrderBook extends React.Component {
 						/>
 					);
 				});
+
 				// if (askRows.length < 100) {
 				// 	for (var i = 0; i < 100 - askRows.length; i++) {
 				// 		askRows.push(
