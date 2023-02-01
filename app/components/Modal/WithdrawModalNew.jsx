@@ -530,6 +530,7 @@ class WithdrawModalNew extends React.Component {
 	onAddressSelected(inputAddress) {
 		this.validateAddress(inputAddress);
 		this.setState({address: inputAddress});
+		this.setState(this._getAssetPairVariables());
 	}
 
 	_getBackingAssetProps() {
