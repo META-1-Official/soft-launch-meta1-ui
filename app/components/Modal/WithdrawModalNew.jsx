@@ -501,8 +501,9 @@ class WithdrawModalNew extends React.Component {
 			}
 			input = parseFloat(pasteValue.replace(',', '')) || 0;
 		}
-		this.setState({quantity: input});
-		this.setState(this._getAssetPairVariables());
+		this.setState({quantity: input}, () => {
+			this.setState(this._getAssetPairVariables());
+		});
 	}
 
 	onFocusAmount(e) {
