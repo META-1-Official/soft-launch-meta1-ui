@@ -171,7 +171,8 @@ class OrderBookRowHorizontal extends React.Component {
 					totalValueAsks.getAmount({real: true}),
 					totalAsset.get('precision')
 			  );
-		const totalAmt = Number(amount) * Number(price.props.price);
+		const amountWithoutComma = amount ? amount.replace(',', '') : amount;
+		const totalAmt = Number(amountWithoutComma) * Number(price.props.price);
 		return (
 			<Tooltip title={'Total: ' + totalAmt} placement="right">
 				{isBid ? (
@@ -182,9 +183,6 @@ class OrderBookRowHorizontal extends React.Component {
 								? 'my-order'
 								: 'ask-order-tr'
 						}
-						style={{
-							backgroundSize: `${Math.random() * 100}% 100%`,
-						}}
 					>
 						<td
 							style={{
@@ -223,12 +221,9 @@ class OrderBookRowHorizontal extends React.Component {
 								? 'my-order'
 								: 'bid-order-tr'
 						}
-						style={{
-							backgroundSize: `${Math.random() * 100}% 100%`,
-						}}
 					>
 						<td
-							style={{color: '#FF2929', textAlign: 'left', paddingLeft: '2px'}}
+							style={{color: '#FF2929', textAlign: 'left', paddingLeft: '10px'}}
 							className="table-body-class"
 						>
 							<div className="overflow-hidden">{totalAmt}</div>
@@ -754,14 +749,18 @@ class OrderBook extends React.Component {
 				return b.getPrice() - a.getPrice();
 			});
 			tempAsks.sort((a, b) => {
-				return b.getPrice() - a.getPrice();
+				return a.getPrice() - b.getPrice();
 			});
 		} else if (!horizontal && orderBookReversed) {
 			tempBids.sort((a, b) => {
 				return a.getPrice() - b.getPrice();
 			});
 			tempAsks.sort((a, b) => {
-				return a.getPrice() - b.getPrice();
+				return b.getPrice() - a.getPrice();
+			});
+		} else {
+			tempAsks.sort((a, b) => {
+				return b.getPrice() - a.getPrice();
 			});
 		}
 
@@ -879,6 +878,7 @@ class OrderBook extends React.Component {
 						/>
 					);
 				});
+
 				// if (askRows.length < 100) {
 				// 	for (var i = 0; i < 100 - askRows.length; i++) {
 				// 		askRows.push(
