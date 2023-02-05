@@ -1,6 +1,6 @@
 import BaseStore from './BaseStore';
 import alt from 'alt-instance';
-import OpenLogin from 'openlogin';
+import OpenLogin from '@toruslabs/openlogin';
 
 class AuthStore extends BaseStore {
 	constructor() {
@@ -62,6 +62,15 @@ class AuthStore extends BaseStore {
 				whiteLabel: {
 					name: 'META1',
 					dark: true,
+				},
+				loginConfig: {
+					sms_passwordless: {
+						name: 'sms_passwordless',
+						typeOfLogin: 'sms_passwordless',
+						showOnModal: false,
+						showOnDesktop: false,
+						showOnMobile: false,
+					},
 				},
 			});
 			this.setState({openLogin, isLoading: false, error: ''});
