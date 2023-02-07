@@ -111,6 +111,24 @@ class OrderBookRowVertical extends React.Component {
 
 const elemHeight = (elem) => (elem ? elem.getBoundingClientRect().height : 0);
 
+const toFixed = (x) => {
+	if (Math.abs(x) < 1.0) {
+		var e = parseInt(x.toString().split('e-')[1]);
+		if (e) {
+			x *= Math.pow(10, e - 1);
+			x = '0.' + new Array(e).join('0') + x.toString().substring(2);
+		}
+	} else {
+		var e = parseInt(x.toString().split('+')[1]);
+		if (e > 20) {
+			e -= 20;
+			x /= Math.pow(10, e);
+			x += new Array(e + 1).join('0');
+		}
+	}
+	return x;
+};
+
 class OrderBookRowHorizontal extends React.Component {
 	shouldComponentUpdate(np) {
 		return (
@@ -172,7 +190,9 @@ class OrderBookRowHorizontal extends React.Component {
 					totalAsset.get('precision')
 			  );
 		const amountWithoutComma = amount ? amount.replace(',', '') : amount;
-		const totalAmt = Number(amountWithoutComma) * Number(price.props.price);
+		const totalAmt = toFixed(
+			Number(amountWithoutComma) * Number(price.props.price)
+		);
 		return (
 			<Tooltip title={'Total: ' + totalAmt} placement="right">
 				{isBid ? (
