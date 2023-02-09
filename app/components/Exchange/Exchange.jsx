@@ -244,10 +244,9 @@ class Exchange extends React.Component {
 				assets.forEach((a, idx) => {
 					feeStatus[a.get('id')] = status[idx];
 				});
+
 				if (!utils.are_equal_shallow(this.state.feeStatus, feeStatus)) {
-					this.setState({
-						feeStatus,
-					});
+					this.setState({feeStatus});
 				}
 			})
 			.catch((err) => {
@@ -348,7 +347,7 @@ class Exchange extends React.Component {
 					asset_usdt = parseFloat(res.latest) || 1;
 					const ratio = isQuoting
 						? (meta1_usdt + 0.01) / asset_usdt
-						: asset_usdt / (meta1_usdt - 0.01);
+						: asset_usdt / (meta1_usdt + 0.01);
 					console.log(
 						LOG_ID,
 						isQuoting ? baseAssetSymbol : quoteAssetSymbol,
