@@ -96,7 +96,6 @@ class AuthRedirect extends React.Component {
 
 	loadVideo(flag) {
 		const videoTag = document.querySelector('video');
-		console.log('[loadVideo] @10 - ', flag, videoTag);
 		const features = {audio: false, video: true};
 
 		if (flag) {
@@ -115,9 +114,7 @@ class AuthRedirect extends React.Component {
 			try {
 				for (const track of videoTag.srcObject.getTracks()) track.stop();
 				videoTag.srcObject = null;
-			} catch (err) {
-				console.log('[loadVideo] @104 - ', err);
-			}
+			} catch (err) {}
 
 			return Promise.resolve();
 		}
@@ -156,16 +153,14 @@ class AuthRedirect extends React.Component {
 
 	async checkAndVerify() {
 		const {privKey, authData} = this.props;
-		const {photoIndex} = this.state;
+		const {photoIndex, authEmail} = this.state;
 		const accountName = ss.get('account_login_name', '');
 
-		if (!accountName || !privKey) return;
+		if (!accountName || !privKey || !authEmail) return;
 
 		this.setState({verifying: true});
 
-		const response_user = await kycService.getUserKycProfile(
-			authData.email.toLowerCase()
-		);
+		const response_user = await kycService.getUserKycProfile(authEmail);
 
 		if (!response_user?.member1Name) {
 			toast('Email and wallet name are not matched.');
@@ -215,13 +210,14 @@ class AuthRedirect extends React.Component {
 
 	async faceVerify(file) {
 		const {privKey, authData} = this.props;
+		const {authEmail} = this.state;
 		let msg = '';
 
 		const response_verify = await faceKIService.verify(file);
 		if (response_verify.status === 'Verify OK') {
 			const nameArry = response_verify.name.split(',');
 
-			if (nameArry.includes(authData.email.toLowerCase())) {
+			if (nameArry.includes(authEmail)) {
 				this.setState({faceKISuccess: true});
 				this.setState({verifying: false});
 				this.continueLogin();
@@ -319,7 +315,32 @@ class AuthRedirect extends React.Component {
 				this.props.history.push('/registration?mode=proceedRegistration');
 			}
 		} else if (logInUserName) {
-			this.setState({login: true});
+			if (authData.verifierId.includes('+')) {
+				const pn = authData.name.replace('+', '').replace('-', '');
+				const userFromAcc = await kycService.getUserKycProfileByAccount(login);
+
+				if (!userFromAcc) {
+					toast('We can not find your account in our esignature database.');
+					window.history.back();
+				}
+
+				let pnArry = userFromAcc.phoneNumber.replace(' ', '').split(',');
+
+				if (pnArry.includes(pn)) {
+					this.setState({
+						authEmail: userFromAcc.email.toLowerCase(),
+						login: true,
+					});
+				} else {
+					toast(
+						'The phone number you entered does not match the one on record for this wallet.'
+					);
+					window.history.back();
+				}
+			} else {
+				// if verifier is email address
+				this.setState({authEmail: authData.email.toLowerCase(), login: true});
+			}
 		} else {
 			this.props.history.push('/registration');
 		}

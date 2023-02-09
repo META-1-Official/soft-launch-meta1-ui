@@ -71,6 +71,7 @@ class AccountRegistration extends React.Component {
 	}
 
 	async renderTorusLogin() {
+		console.log('LOGIN');
 		const {accountNameValidity, registrarAccount, isLTM, accountName} =
 			this.state;
 		if (

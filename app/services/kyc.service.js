@@ -5,6 +5,11 @@ const getUserKycProfile = async (email) => {
 	return data;
 };
 
+const getUserKycProfileByAccount = async (acc) => {
+	const {data} = await kycApi.get('/users/acc', {params: {acc}});
+	return data;
+};
+
 const postUserKycProfile = async (email, facekiID) => {
 	const {data} = await kycApi.post('/users', {
 		email,
@@ -26,4 +31,5 @@ export default {
 	getUserKycProfile,
 	postUserKycProfile,
 	updateUserKycProfile,
+	getUserKycProfileByAccount,
 };
