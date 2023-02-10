@@ -1234,7 +1234,7 @@ class WithdrawModalNew extends React.Component {
 								<ConfigProvider renderEmpty={() => 'No address found'}>
 									<Select
 										showSearch
-										value={address}
+										value={address === '' ? undefined : address}
 										onSearch={this.onAddressChanged.bind(this)}
 										onSelect={this.onAddressSelected.bind(this)}
 										getPopupContainer={(triggerNode) => triggerNode.parentNode}
