@@ -79,7 +79,6 @@ class AuthStore extends BaseStore {
 			});
 
 			openLogin.configureAdapter(openloginAdapter);
-			await openLogin.init();
 
 			this.setState({openLogin, isLoading: false, error: ''});
 		} catch (error) {
