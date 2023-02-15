@@ -240,6 +240,7 @@ class AccountRegistration extends React.Component {
 		this.loadVideo(false);
 		ReactTooltip.rebuild();
 		if (this.props.location && this.props.location.search) {
+			console.log;
 			const param = qs.parse(this.props.location.search, {
 				ignoreQueryPrefix: true,
 			}).mode;
@@ -247,12 +248,17 @@ class AccountRegistration extends React.Component {
 				ignoreQueryPrefix: true,
 			}).eSignStatus;
 
+			const ref = qs.parse(this.props.location.search, {
+				ignoreQueryPrefix: true,
+			}).ref;
+
 			if (param === 'proceedRegistration' && openLogin && privKey && authData) {
 				this.proceedTorus();
 			} else if (eSignStatus === 'success') {
 				this.proceedESign();
-			} else {
-				this.props.history.push('/registration');
+			} else if (ref !== null) {
+				this.setState({firstStep: true});
+				setOpenLoginInstance();
 			}
 		} else {
 			this.setState({firstStep: true});
@@ -588,6 +594,7 @@ class AccountRegistration extends React.Component {
 				/>
 			);
 		} else {
+			console.log('AAAAA');
 			return (
 				<AccountRegistrationForm
 					continue={this.continue}
