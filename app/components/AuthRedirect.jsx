@@ -274,6 +274,9 @@ class AuthRedirect extends React.Component {
 	async generateAuthData() {
 		const {openLogin, setPrivKey, setAuthData} = this.props;
 		try {
+			await openLogin.init();
+
+			console.log('OpneLogin', openLogin);
 			if (openLogin) {
 				const data = await openLogin.getUserInfo();
 

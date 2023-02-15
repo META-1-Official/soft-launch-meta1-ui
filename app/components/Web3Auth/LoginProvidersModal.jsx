@@ -68,6 +68,8 @@ const LoginProvidersModal = (props) => {
 		}
 
 		try {
+			await web3auth.init();
+
 			if (web3auth.status === 'connected') {
 				await web3auth.logout();
 			}
