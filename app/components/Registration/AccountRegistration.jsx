@@ -17,6 +17,7 @@ import faceKIService from 'services/face-ki.service';
 import kycService from 'services/kyc.service';
 import migrationService from 'services/migration.service';
 import {toast} from 'react-toastify';
+import LoginProvidersModal from 'components/Web3Auth/LoginProvidersModal';
 
 const OvalImage = require('assets/oval/oval.png');
 
@@ -39,6 +40,7 @@ class AccountRegistration extends React.Component {
 			webcamEnabled: false,
 			verifying: false,
 			photoIndex: 0,
+			authModalOpen: false,
 		};
 		this.webcamRef = React.createRef();
 		this.continue = this.continue.bind(this);
@@ -323,35 +325,12 @@ class AccountRegistration extends React.Component {
 
 	async renderTorusLogin() {
 		const {accountName} = this.state;
-		try {
-			const {openLogin} = this.props;
-			localStorage.setItem('openlogin_store', '{}');
-			await openLogin.init();
 
-			if (openLogin.privKey) {
-				const privKey = openLogin.privKey;
-				const data = await openLogin.getUserInfo();
-				this.props.setPrivKey(privKey);
-				this.props.setAuthData(data);
-				if (!data.email) {
-					await openLogin.init();
-					await openLogin.logout({});
-					ss.set('account_registration_name', accountName);
-					ss.remove('account_login_name');
-					await openLogin.login();
-				}
-			} else {
-				ss.set('account_registration_name', accountName);
-				ss.remove('account_login_name');
-				await openLogin.init();
-				await openLogin.login();
-				const data = await openLogin.getUserInfo();
-			}
-		} catch (error) {
-			console.log('Torus Error:', error);
-			if (error.message === 'user canceled login')
-				this.setState({firstStep: true});
-		}
+		localStorage.setItem('openlogin_store', '{}');
+		ss.set('account_registration_name', accountName);
+		ss.remove('account_login_name');
+
+		this.setState({authModalOpen: true});
 	}
 
 	proceedESign() {
@@ -620,23 +599,33 @@ class AccountRegistration extends React.Component {
 
 	render() {
 		return (
-			<div className="no-margin grid-block registration-layout registration">
-				<div className="horizontal align-center text-center">
-					<div className="create-account-block">
-						{this.state.migrationStep && (
-							<div style={{cursor: 'pointer'}} onClick={this.backBtnClick}>
-								{'<< Back'}
-							</div>
-						)}
-						<Translate
-							component="h3"
-							className="registration-account-title"
-							content="registration.createByPassword"
-						/>
-						{this.renderScreen()}
+			<>
+				<div className="no-margin grid-block registration-layout registration">
+					<div className="horizontal align-center text-center">
+						<div className="create-account-block">
+							{this.state.migrationStep && (
+								<div style={{cursor: 'pointer'}} onClick={this.backBtnClick}>
+									{'<< Back'}
+								</div>
+							)}
+							<Translate
+								component="h3"
+								className="registration-account-title"
+								content="registration.createByPassword"
+							/>
+							{this.renderScreen()}
+						</div>
 					</div>
 				</div>
-			</div>
+				{this.state.authModalOpen && (
+					<LoginProvidersModal
+						open={this.state.authModalOpen}
+						setOpen={(val) => this.setState({authModalOpen: val})}
+						web3auth={this.props.openLogin}
+						authMode="login"
+					/>
+				)}
+			</>
 		);
 	}
 }

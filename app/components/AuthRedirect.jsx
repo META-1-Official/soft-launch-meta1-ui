@@ -42,6 +42,7 @@ class AuthRedirect extends React.Component {
 			photoIndex: 0,
 		};
 
+		this.generateAuthData = this.generateAuthData.bind(this);
 		this.authProceed = this.authProceed.bind(this);
 		this.onFinishConfirm = this.onFinishConfirm.bind(this);
 		this.createAccount = this.createAccount.bind(this);
@@ -74,7 +75,9 @@ class AuthRedirect extends React.Component {
 		if (!openLogin) {
 			setOpenLoginInstance();
 		}
-
+		if (openLogin && !privKey) {
+			this.generateAuthData();
+		}
 		if (loginAccountName && privKey) {
 			this.loadVideo(true);
 		}
@@ -82,7 +85,6 @@ class AuthRedirect extends React.Component {
 
 	loadVideo(flag) {
 		const videoTag = document.querySelector('video');
-		console.log('[loadVideo] @10 - ', flag, videoTag);
 		const features = {audio: false, video: true};
 
 		if (flag) {
@@ -102,7 +104,7 @@ class AuthRedirect extends React.Component {
 				for (const track of videoTag.srcObject.getTracks()) track.stop();
 				videoTag.srcObject = null;
 			} catch (err) {
-				console.log('[loadVideo] @104 - ', err);
+				console.log('[loadVideo] - ', err);
 			}
 
 			return Promise.resolve();
@@ -111,6 +113,9 @@ class AuthRedirect extends React.Component {
 
 	componentDidUpdate(prevProps, prevState) {
 		const {openLogin, privKey, authData} = this.props;
+		if (openLogin && !prevProps.openLogin) {
+			this.generateAuthData();
+		}
 		if (
 			privKey &&
 			authData &&
@@ -266,6 +271,22 @@ class AuthRedirect extends React.Component {
 		});
 	}
 
+	async generateAuthData() {
+		const {openLogin, setPrivKey, setAuthData} = this.props;
+		try {
+			if (openLogin) {
+				const data = await openLogin.getUserInfo();
+
+				setAuthData(data);
+				setPrivKey('web3authprivatekey');
+			} else {
+				this.props.history.push('/registration');
+			}
+		} catch (err) {
+			console.log('Something went wrong!', err);
+		}
+	}
+
 	async authProceed() {
 		const {privKey, authData} = this.props;
 		const {redirectFromESign} = this.state;
@@ -303,7 +324,6 @@ class AuthRedirect extends React.Component {
 	}
 
 	createAccount(name, password, email, phone_number, first_name, last_name) {
-		console.log('data: ', phone_number, name, password);
 		const {referralAccount} = AccountStore.getState();
 		const registrarAccount = ss.get(
 			'account_registration_registrarAccount',

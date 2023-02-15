@@ -21,9 +21,11 @@
 			font-weight: 700;
 		}
 	}
+
 	.show-balance {
 		color: #ffc000;
 	}
+
 	.modal__logo {
 		text-align: center;
 
@@ -223,23 +225,13 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		background-color: floralwhite;
-		height: 44rem;
-		left: calc(50% - 15rem);
-		top: calc(50% - 22rem);
-
-		@media (max-width: 650px) {
-			height: 100%;
-			left: 0;
-			top: 0;
-		}
+		width: 25rem !important;
 
 		.providerHeader {
 			display: flex;
 			flex-direction: column;
 			align-items: center;
 			width: 100%;
-			background: white;
 			padding-bottom: 20px;
 			box-shadow: 0 2px 20px -20px black;
 			padding-top: 20px;
@@ -258,15 +250,21 @@
 			font-weight: bold;
 			line-height: 0.8;
 			margin-bottom: 10px;
+			color: grey;
 		}
 
 		.descriptionText {
 			font-size: 1.2rem;
+			color: grey;
 		}
 
 		.contentWrapper {
-			padding: 30px;
 			width: 100%;
+		}
+
+		.ant-modal-content {
+			width: 100%;
+			padding-bottom: 30px;
 		}
 
 		.continueWithBtn {
@@ -358,19 +356,17 @@
 			margin-top: 1rem;
 			border: none;
 			color: #fff;
-			background-color: #0464f1;
+			background-color: #ffc000;
 			height: 70px;
 			border-radius: 5px;
 			font-size: 1.2rem;
 		}
 
 		.providersInput {
-			background-color: #fff;
 			border: none;
 			border-radius: 5px;
 			width: 100%;
 			height: 60px;
-			box-shadow: inset 0 0 20px #eee;
 			padding: 20px;
 			font-size: 1.2rem;
 		}
@@ -421,6 +417,7 @@
 			cursor: pointer;
 			display: flex;
 			justify-content: center;
+			height: 30px;
 
 			p {
 				font-size: 13px;
@@ -429,6 +426,12 @@
 					margin-left: 5px;
 				}
 			}
+		}
+
+		.errorText {
+			color: red;
+			font-size: 0.8rem;
+			width: 100%;
 		}
 	}
 

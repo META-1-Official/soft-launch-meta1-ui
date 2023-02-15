@@ -1,18 +1,18 @@
-const google = require('assets/icon-web3auth-providers/google.svg');
-const facebook = require('assets/icon-web3auth-providers/facebook.svg');
-const apple = require('assets/icon-web3auth-providers/apple.svg');
-const discord = require('assets/icon-web3auth-providers/discord.svg');
-const email = require('assets/icon-web3auth-providers/email.svg');
-const github = require('assets/icon-web3auth-providers/github.svg');
-const jwt = require('assets/icon-web3auth-providers/jwt.svg');
-const kakao = require('assets/icon-web3auth-providers/kakao.svg');
-const line = require('assets/icon-web3auth-providers/line.svg');
-const linkedin = require('assets/icon-web3auth-providers/linkedin.svg');
-const reddit = require('assets/icon-web3auth-providers/reddit.svg');
-const twitch = require('assets/icon-web3auth-providers/twitch.svg');
-const twitter = require('assets/icon-web3auth-providers/twitter.svg');
-const weibo = require('assets/icon-web3auth-providers/weibo.svg');
-const weixin = require('assets/icon-web3auth-providers/weixin.svg');
+const google = require('assets/providers/google.png');
+const facebook = require('assets/providers/facebook.png');
+const apple = require('assets/providers/apple.png');
+const discord = require('assets/providers/discord.png');
+const email = require('assets/providers/email.png');
+const github = require('assets/providers/github.png');
+const jwt = require('assets/providers/jwt.png');
+const kakao = require('assets/providers/kakao.png');
+const line = require('assets/providers/line.png');
+const linkedin = require('assets/providers/linkedin.png');
+const reddit = require('assets/providers/reddit.png');
+const twitch = require('assets/providers/twitch.png');
+const twitter = require('assets/providers/twitter.png');
+const weibo = require('assets/providers/weibo.png');
+const weixin = require('assets/providers/weixin.png');
 
 export const providers = [
 	{

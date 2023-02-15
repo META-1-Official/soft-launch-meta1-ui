@@ -44,7 +44,7 @@ class AccountRegistrationForm extends React.Component {
 			phone: '',
 			firstname: '',
 			lastname: '',
-			captcha: false,
+			captcha: true,
 			country: 227,
 			selectedCountryObj: {
 				id: 227,
@@ -567,7 +567,7 @@ class AccountRegistrationForm extends React.Component {
 						placeholder={counterpart.translate('account.name')}
 						initial_value={this.state.accountName}
 						label={
-							<span>
+							<span style={{display: 'flex', alignItems: 'center'}}>
 								<span className="vertical-middle">
 									{counterpart.translate('account.name')}
 								</span>
@@ -588,23 +588,6 @@ class AccountRegistrationForm extends React.Component {
 						}
 						noLabel
 					/>
-					{/* <Form.Item label={counterpart.translate('wallet.generated')}>
-						<div className="password-wrapper">
-							<Input
-								disabled={true}
-								style={{paddingRight: '50px'}}
-								rows={2}
-								id="password"
-								value={this.state.generatedPassword}
-							/>
-							<CopyButton
-								text={this.state.generatedPassword}
-								tip="tooltip.copy_password"
-								dataPlace="top"
-								className="button registration-layout--copy-password-btn"
-							/>
-						</div>
-					</Form.Item> */}
 					{firstAccount ? null : (
 						<div className="full-width-content form-group no-overflow">
 							<label htmlFor="account">

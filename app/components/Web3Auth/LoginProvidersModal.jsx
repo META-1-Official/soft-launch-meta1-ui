@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import {providers} from './providers';
 import {Modal} from 'antd';
 import {WALLET_ADAPTERS} from '@web3auth/base';
-// import MetaLoader from "../../UI/loader/Loader";
 
 const arrow = require('assets/arrow.jpg');
 const closeBtn = require('assets/close.png');
@@ -59,7 +58,7 @@ const LoginProvidersModal = (props) => {
 		props.phoneNumber || null
 	);
 	const [continueMode, setContinueMode] = useState(false);
-	const [loader, setLoader] = useState(false);
+	const [emailError, setEmailError] = useState(null);
 
 	const doAuth = async (provider) => {
 		const {web3auth} = props;
@@ -87,15 +86,8 @@ const LoginProvidersModal = (props) => {
 							: {},
 				}
 			);
-			if (web3authProvider) {
-				const data = await web3auth.getUserInfo();
-				setLoader(false);
-				props.setOpen(false);
-				props.goToFaceKi(data);
-			}
 		} catch (error) {
 			console.log('Error in Web3Auth', error);
-			setLoader(false);
 		}
 	};
 
@@ -108,20 +100,17 @@ const LoginProvidersModal = (props) => {
 	};
 
 	const handleContinueWithProvider = async (item) => {
-		setLoader(true);
 		await doAuth(item?.name);
 	};
 
 	const handleContinueWithEmail = async (e) => {
 		e.preventDefault();
-		setLoader(true);
 		console.log('Handle Continue With Email', email);
 		await doAuth('email_passwordless');
 	};
 
 	const handleContinueWithSms = async (e) => {
 		e.preventDefault();
-		setLoader(true);
 		console.log('Handle Continue With Mobile');
 		await doAuth('sms_passwordless');
 	};
@@ -129,97 +118,90 @@ const LoginProvidersModal = (props) => {
 	const handleEmailChange = async (e) => {
 		e.preventDefault();
 		setEmail(e.target.value);
-	};
-
-	const isMobile = () => {
-		return window.innerWidth < window.innerHeight;
+		if (
+			!/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i.test(
+				e.target.value
+			) &&
+			e.target.value.length !== 0
+		) {
+			setEmailError('Invalid Email');
+		} else {
+			setEmailError(null);
+		}
 	};
 
 	return (
 		<Modal
-			visible={true}
+			open={props.open}
 			className="auth-modal"
 			modalHeader=""
 			id="auth-modal"
-			overlay={true}
-			closable={false}
+			overlay
+			footer={null}
+			onCancel={handleClose}
+			maskClosable={false}
 		>
 			<div className="containerProvider">
-				{loader ? (
-					<div>Loading now</div>
-				) : (
-					<>
-						<div className="providerHeader">
-							<div className="closeBtnWrapper">
-								<img
-									src={closeBtn}
-									width={20}
-									height={20}
-									onClick={handleClose}
-								></img>
-							</div>
-							<p className="welcomeText">Welcome onboard</p>
-							<p className="descriptionText">
-								Select how you would like to continue
-							</p>
-						</div>
-						<div className="contentWrapper">
-							{/* <div className="continueWithBtn" onClick={handleContinueWith}>
+				<div className="providerHeader">
+					<p className="welcomeText">Welcome onboard</p>
+					<p className="descriptionText">
+						Select how you would like to continue
+					</p>
+				</div>
+				<div className="contentWrapper">
+					{/* <div className="continueWithBtn" onClick={handleContinueWith}>
                                     <div></div>
                                 </div> */}
-							<div
-								className={
-									moreProviders ? 'providersBlockMP' : 'providersBlock'
-								}
-							>
-								{moreProviders
-									? providers.map((item) => (
+					<div
+						className={moreProviders ? 'providersBlockMP' : 'providersBlock'}
+					>
+						{moreProviders
+							? providers.map((item) => (
+									<ProvidersBlock
+										item={item}
+										moreProviders={moreProviders}
+										key={item.id}
+										onClick={() => handleContinueWithProvider(item)}
+									/>
+							  ))
+							: providers.map((item, index) => {
+									if (index < 6) {
+										return (
 											<ProvidersBlock
 												item={item}
-												moreProviders={moreProviders}
 												key={item.id}
 												onClick={() => handleContinueWithProvider(item)}
 											/>
-									  ))
-									: providers.map((item, index) => {
-											if (index < 6) {
-												return (
-													<ProvidersBlock
-														item={item}
-														key={item.id}
-														onClick={() => handleContinueWithProvider(item)}
-													/>
-												);
-											}
-									  })}
-							</div>
-							<p style={{margin: 'auto', textAlign: 'center'}}>OR</p>
-							<div className="formContainer">
-								<div className="emailProvider">
-									<input
-										value={email}
-										className="providersInput"
-										placeholder={'Email'}
-										onChange={handleEmailChange}
-									/>
-									<button
-										className="providersButton"
-										type={'submit'}
-										onClick={handleContinueWithEmail}
-										disabled={!email || emailError}
-										style={!email || emailError ? {cursor: 'not-allowed'} : {}}
-									>
-										Continue with Email
-									</button>
-								</div>
-							</div>
-							<ProvidersCount
-								moreProviders={moreProviders}
-								setMoreProviders={setMoreProviders}
+										);
+									}
+							  })}
+					</div>
+					<p style={{margin: 'auto', textAlign: 'center'}}>OR</p>
+					<div className="formContainer">
+						<div className="emailProvider">
+							<input
+								value={email}
+								className="providersInput"
+								placeholder={'Email'}
+								onChange={handleEmailChange}
 							/>
+							{emailError && <p className="errorText"> {emailError}</p>}
+							<button
+								className="providersButton"
+								type={'submit'}
+								onClick={handleContinueWithEmail}
+								disabled={!email || emailError}
+								style={!email || emailError ? {cursor: 'not-allowed'} : {}}
+							>
+								Continue with Email
+							</button>
 						</div>
-					</>
-				)}
+					</div>
+					<ProvidersCount
+						moreProviders={moreProviders}
+						setMoreProviders={setMoreProviders}
+					/>
+				</div>
 			</div>
 		</Modal>
 	);

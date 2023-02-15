@@ -54,6 +54,7 @@ class AuthStore extends BaseStore {
 	}
 
 	async setOpenLoginInstance() {
+		console.log('setOPEN call');
 		try {
 			const openloginAdapter = new OpenloginAdapter({
 				adapterSettings: {
