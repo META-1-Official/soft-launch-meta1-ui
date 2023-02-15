@@ -356,7 +356,7 @@ module.exports = function (env) {
 					use: scssLoaders,
 				},
 				{
-					test: /\.(png|gif)$/,
+					test: /\.(png|gif|jpg)$/,
 					exclude: [
 						path.resolve(root_dir, 'app/assets/asset-symbols'),
 						path.resolve(root_dir, 'app/assets/language-dropdown/img'),
@@ -396,6 +396,7 @@ module.exports = function (env) {
 						{
 							loader: 'svgo-loader',
 							options: {
+								limit: 10000,
 								plugins: [
 									{cleanupAttrs: true},
 									{removeMetadata: true},

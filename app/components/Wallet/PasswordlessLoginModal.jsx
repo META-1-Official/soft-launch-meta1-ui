@@ -16,6 +16,7 @@ import {withRouter} from 'react-router-dom';
 import ls from 'lib/common/localStorage';
 import {MailOutlined} from '@ant-design/icons';
 import AccountActions from 'actions/AccountActions';
+import LoginProvidersModal from 'components/Web3Auth/LoginProvidersModal';
 
 const STORAGE_KEY = '__AuthData__';
 
@@ -28,8 +29,6 @@ class PasswordlessLoginModal extends React.Component {
 		this.state = this.initialState(props);
 		this.account_input = React.createRef();
 		this.login_btn_ref = React.createRef();
-
-		this.renderTorusLogin = this.renderTorusLogin.bind(this);
 	}
 
 	initialState = (props = this.props) => {
@@ -38,7 +37,7 @@ class PasswordlessLoginModal extends React.Component {
 			accountName: '',
 			isOpen: false,
 			hasError: true,
-			isTorusLogin: false,
+			authModalOpen: false,
 		};
 	};
 
@@ -113,30 +112,6 @@ class PasswordlessLoginModal extends React.Component {
 		}
 	}
 
-	renderTorusLogin = async () => {
-		const {accountName} = this.state;
-		if (!this.props.openLogin) {
-			return;
-		}
-		try {
-			this.setState({isTorusLogin: true});
-			const {openLogin} = this.props;
-			localStorage.setItem('openlogin_store', '{}');
-			await openLogin.init();
-			ss.set('account_login_name', accountName);
-
-			ss.remove('account_registration_name');
-			if (openLogin.privKey) {
-				await openLogin.logout({});
-				await openLogin.login({'mfaLevel?': 'none', mfaLevel: 'none'});
-			} else {
-				await openLogin.login({'mfaLevel?': 'none', mfaLevel: 'none'});
-			}
-		} catch (error) {
-			this.setState({isTorusLogin: false});
-		}
-	};
-
 	handleLogin = (e) => {
 		if (e) e.preventDefault();
 		const {accountName} = this.state;
@@ -147,7 +122,13 @@ class PasswordlessLoginModal extends React.Component {
 			return;
 		}
 		AccountActions.setPasswordlessAccount(accountName);
-		this.renderTorusLogin();
+		this.handleModalClose();
+
+		localStorage.setItem('openlogin_store', '{}');
+		ss.set('account_login_name', accountName);
+		ss.remove('account_registration_name');
+
+		this.setState({authModalOpen: true});
 	};
 
 	handleAccountNameChange = (accountName) => {
@@ -161,75 +142,81 @@ class PasswordlessLoginModal extends React.Component {
 	render() {
 		const {accountName, isOpen} = this.state;
 		return (
-			<Modal
-				visible={this.state.isModalVisible}
-				className="unlock_wallet_modal2"
-				id={this.props.modalId}
-				closeable={true}
-				ref="modal"
-				overlay={true}
-				overlayClose={false}
-				modalHeader="header.unlock_short"
-				leftHeader
-				zIndex={1001}
-				footer={null}
-				onCancel={this.handleModalClose}
-			>
-				<Title className="header-title1">META1 Wallet Login</Title>
-				<div className="header-title2">
-					Login with Wallet name(Cloud wallet)
-				</div>
-				<Form
-					className="full-width"
-					layout="vertical"
-					class="registration-form"
+			<>
+				<Modal
+					open={this.state.isModalVisible}
+					className="unlock_wallet_modal2"
+					id={this.props.modalId}
+					closeable={true}
+					ref="modal"
+					overlay={true}
+					overlayClose={false}
+					modalHeader="header.unlock_short"
+					leftHeader
+					zIndex={1001}
+					footer={null}
+					onCancel={this.handleModalClose}
 				>
-					<div className="info-form">
-						<DisableChromeAutocomplete />
-
-						<AccountSelector
-							label="account.name"
-							inputRef={this.account_input} // needed for ref forwarding to Input
-							accountName={accountName}
-							account={accountName}
-							onChange={this.handleAccountNameChange}
-							onAccountChanged={() => {}}
-							setHasError={this.setHasError}
-							size={60}
-							hideImage
-							placeholder=""
-							useHR
-							labelClass="login-label"
-							reserveErrorSpace
-							enterSubmitEvent={() => {
-								this.login_btn_ref.current.click();
-							}}
-						/>
+					<Title className="header-title1">META1 Wallet Login</Title>
+					<div className="header-title2">
+						Login with Wallet name(Cloud wallet)
 					</div>
-				</Form>
-
-				<div className="footer-wrapper">
-					<Button
-						htmlType="submit"
-						type="primary"
-						onClick={this.handleLogin}
-						className="login-btn"
-						disabled={
-							!this.state.accountName ||
-							this.state.accountName === '' ||
-							this.state.isTorusLogin === true
-						}
-						ref={this.login_btn_ref}
+					<Form
+						className="full-width"
+						layout="vertical"
+						class="registration-form"
 					>
-						{this.state.isTorusLogin
-							? counterpart.translate('registration.wait')
-							: counterpart.translate('header.unlock_short')}
-					</Button>
-					<div className="redirect">
-						Or create your <a href="/registration">wallet</a>
+						<div className="info-form">
+							<DisableChromeAutocomplete />
+
+							<AccountSelector
+								label="account.name"
+								inputRef={this.account_input} // needed for ref forwarding to Input
+								accountName={accountName}
+								account={accountName}
+								onChange={this.handleAccountNameChange}
+								onAccountChanged={() => {}}
+								setHasError={this.setHasError}
+								size={60}
+								hideImage
+								placeholder=""
+								useHR
+								labelClass="login-label"
+								reserveErrorSpace
+								enterSubmitEvent={() => {
+									this.login_btn_ref.current.click();
+								}}
+							/>
+						</div>
+					</Form>
+
+					<div className="footer-wrapper">
+						<Button
+							htmlType="submit"
+							type="primary"
+							onClick={this.handleLogin}
+							className="login-btn"
+							disabled={
+								!this.state.accountName || this.state.accountName === ''
+							}
+							ref={this.login_btn_ref}
+						>
+							Login
+						</Button>
+						<div className="redirect">
+							Or create your <a href="/registration">wallet</a>
+						</div>
 					</div>
-				</div>
-			</Modal>
+				</Modal>
+				{this.state.authModalOpen && (
+					<LoginProvidersModal
+						open={this.state.authModalOpen}
+						setOpen={(val) => this.setState({authModalOpen: val})}
+						web3auth={this.props.openLogin}
+						authMode="login"
+					/>
+				)}
+			</>
 		);
 	}
 }

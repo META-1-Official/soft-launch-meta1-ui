@@ -31,7 +31,6 @@ class AuthRedirect extends React.Component {
 	constructor() {
 		super();
 		this.state = {
-			skipCreationFlow: false,
 			passwordError: false,
 			redirectFromESign: false,
 			login: false,
@@ -47,8 +46,6 @@ class AuthRedirect extends React.Component {
 		this.authProceed = this.authProceed.bind(this);
 		this.onFinishConfirm = this.onFinishConfirm.bind(this);
 		this.createAccount = this.createAccount.bind(this);
-		this.skipFreshCreationAndProceed =
-			this.skipFreshCreationAndProceed.bind(this);
 		this.validateLogin = this.validateLogin.bind(this);
 		this.proceedESignRedirect = this.proceedESignRedirect.bind(this);
 		this.continueLogin = this.continueLogin.bind(this);
@@ -69,14 +66,7 @@ class AuthRedirect extends React.Component {
 			const eSignSuccess = qs.parse(this.props.location.search, {
 				ignoreQueryPrefix: true,
 			}).signature;
-			if (
-				param === 'existingEmailCreation' &&
-				openLogin &&
-				privKey &&
-				authData
-			) {
-				this.skipFreshCreationAndProceed();
-			} else if (eSignSuccess === 'success') {
+			if (eSignSuccess === 'success') {
 				this.proceedESignRedirect();
 			} else {
 				this.props.history.push('/registration');
@@ -88,7 +78,6 @@ class AuthRedirect extends React.Component {
 		if (openLogin && !privKey) {
 			this.generateAuthData();
 		}
-
 		if (loginAccountName && privKey) {
 			this.loadVideo(true);
 		}
@@ -96,7 +85,6 @@ class AuthRedirect extends React.Component {
 
 	loadVideo(flag) {
 		const videoTag = document.querySelector('video');
-		console.log('[loadVideo] @10 - ', flag, videoTag);
 		const features = {audio: false, video: true};
 
 		if (flag) {
@@ -116,7 +104,7 @@ class AuthRedirect extends React.Component {
 				for (const track of videoTag.srcObject.getTracks()) track.stop();
 				videoTag.srcObject = null;
 			} catch (err) {
-				console.log('[loadVideo] @104 - ', err);
+				console.log('[loadVideo] - ', err);
 			}
 
 			return Promise.resolve();
@@ -125,14 +113,12 @@ class AuthRedirect extends React.Component {
 
 	componentDidUpdate(prevProps, prevState) {
 		const {openLogin, privKey, authData} = this.props;
-		const {skipCreationFlow} = this.state;
-		if (openLogin && !prevProps.openLogin && !skipCreationFlow) {
+		if (openLogin && !prevProps.openLogin) {
 			this.generateAuthData();
 		}
 		if (
 			privKey &&
 			authData &&
-			!skipCreationFlow &&
 			((privKey && !prevProps.privKey) || (authData && !prevProps.authData))
 		) {
 			this.authProceed();
@@ -279,11 +265,6 @@ class AuthRedirect extends React.Component {
 		}
 	}
 
-	skipFreshCreationAndProceed() {
-		this.setState({skipCreationFlow: true});
-		this.authProceed();
-	}
-
 	proceedESignRedirect() {
 		this.setState({redirectFromESign: true}, () => {
 			this.props.setOpenLoginInstance();
@@ -293,12 +274,11 @@ class AuthRedirect extends React.Component {
 	async generateAuthData() {
 		const {openLogin, setPrivKey, setAuthData} = this.props;
 		try {
-			await openLogin.init();
-			if (openLogin.privKey) {
-				const privKey = openLogin.privKey;
+			if (openLogin) {
 				const data = await openLogin.getUserInfo();
-				setPrivKey(privKey);
+
 				setAuthData(data);
+				setPrivKey('web3authprivatekey');
 			} else {
 				this.props.history.push('/registration');
 			}
@@ -344,7 +324,6 @@ class AuthRedirect extends React.Component {
 	}
 
 	createAccount(name, password, email, phone_number, first_name, last_name) {
-		console.log('data: ', phone_number, name, password);
 		const {referralAccount} = AccountStore.getState();
 		const registrarAccount = ss.get(
 			'account_registration_registrarAccount',
