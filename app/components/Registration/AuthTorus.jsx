@@ -40,21 +40,11 @@ class AccountRegistration extends React.Component {
 			isLTM: false,
 			privateKey: '',
 			userData: null,
-			alreadyAssociatedEmail: '',
 		};
 		this.renderTorusLogin = this.renderTorusLogin.bind(this);
 		this.onAccountNameChange = this.onAccountNameChange.bind(this);
 		this.onRegistrarAccountChange = this.onRegistrarAccountChange.bind(this);
-		this.proceedWithExistingEmail = this.proceedWithExistingEmail.bind(this);
-		this.proceedLoggingOut = this.proceedLoggingOut.bind(this);
 	}
-
-	// componentWillMount() {
-	//     SettingsActions.changeSetting({
-	//         setting: "passwordLogin",
-	//         value: true
-	//     });
-	// }
 
 	componentDidMount() {
 		ReactTooltip.rebuild();
@@ -105,50 +95,6 @@ class AccountRegistration extends React.Component {
 			console.log('Error in Torus Render', error);
 		}
 	}
-
-	proceedWithExistingEmail() {
-		const {registrarAccount, accountName} = this.state;
-		ss.set('account_registration_name', accountName);
-		ss.remove('account_login_name');
-		if (registrarAccount) {
-			ss.set('account_registration_registrarAccount', registrarAccount);
-		}
-		this.props.history.push('/auth-proceed?mode=existingEmailCreation');
-	}
-
-	async proceedLoggingOut() {
-		const {openLogin} = this.props;
-		const {registrarAccount, accountName} = this.state;
-		if (openLogin) {
-			await openLogin.logout({});
-			ss.set('account_registration_name', accountName);
-			ss.remove('account_login_name');
-			if (registrarAccount) {
-				ss.set('account_registration_registrarAccount', registrarAccount);
-			}
-			await openLogin.login({'mfaLevel?': 'none', mfaLevel: 'none'});
-		} else {
-			this.setState({alreadyAssociatedEmail: ''});
-		}
-	}
-
-	// postWallet(email, accountName) {
-	//     fetch("https://meta1.io/api/link", {
-	//         method: "POST",
-	//         headers: {
-	//             Accept: "application/json, text/plain, */*",
-	//             "Content-Type": "application/json",
-	//             "X-Requested-With": "XMLHttpRequest"
-	//         },
-	//         body: JSON.stringify({
-	//             userId: email,
-	//             walletId: accountName
-	//         })
-	//     }).then(response => {
-	//         alert("You have successfully created your wallet account.");
-	//         console.log(response);
-	//     });
-	// }
 
 	onAccountNameChange(e) {
 		const state = {...this.state};
@@ -203,84 +149,67 @@ class AccountRegistration extends React.Component {
 						{this.props.faucetAddress && <div>(Testnet)</div>}
 					</div>
 					<div className="desc1">Secured Wallet Creation</div>
-					{/* <div className="desc2">Click Get Started to continue</div> */}
-					{alreadyAssociatedEmail ? (
-						<React.Fragment>
-							<div className="desc2">
-								Your email <strong>{alreadyAssociatedEmail}</strong> is already
-								linked to Meta exchange.
-							</div>
-							<div className="btn-container dual-btns">
-								<Button type="primary" onClick={this.proceedWithExistingEmail}>
-									Continue using previous Email
-								</Button>
-								<Button type="danger" onClick={this.proceedLoggingOut}>
-									LogOut and Use different Email
-								</Button>
-							</div>
-						</React.Fragment>
-					) : (
-						<React.Fragment>
-							<AccountNameInput
-								cheapNameOnly={firstAccount}
-								onChange={this.onAccountNameChange}
-								accountShouldNotExist
-								placeholder={counterpart.translate('account.name')}
-								label={
-									<span>
-										<span className="vertical-middle">
-											{counterpart.translate('account.name')}
-										</span>
-										&nbsp;
-										<Tooltip
-											title={counterpart.translate(
-												'tooltip.registration.accountName'
-											)}
-										>
-											<span>
-												<Icon
-													name="question-in-circle"
-													className="icon-14px question-icon vertical-middle"
-												/>
-											</span>
-										</Tooltip>
+
+					<React.Fragment>
+						<AccountNameInput
+							cheapNameOnly={firstAccount}
+							onChange={this.onAccountNameChange}
+							accountShouldNotExist
+							placeholder={counterpart.translate('account.name')}
+							label={
+								<span>
+									<span className="vertical-middle">
+										{counterpart.translate('account.name')}
 									</span>
-								}
-								noLabel
-							/>
-							{firstAccount ? null : (
-								<div className="full-width-content form-group no-overflow">
-									<label htmlFor="account">
-										<Translate content="account.pay_from" />
-									</label>
-									<AccountSelect
-										id="account"
-										account_names={myAccounts}
-										onChange={this.onRegistrarAccountChange}
-									/>
-									{registrarAccount && !isLTM ? (
-										<div style={{textAlign: 'left'}} className="facolor-error">
-											<Translate content="wallet.must_be_ltm" />
-										</div>
-									) : null}
-								</div>
-							)}
-							<div className="btn-container">
-								<Button
-									type="primary"
-									disabled={
-										isLoading ||
-										!openLogin ||
-										!accountNameValidity ||
-										(registrarAccount && !isLTM)
-									}
-									onClick={this.renderTorusLogin}
-								>
-									Get Started
-								</Button>
+									&nbsp;
+									<Tooltip
+										title={counterpart.translate(
+											'tooltip.registration.accountName'
+										)}
+									>
+										<span>
+											<Icon
+												name="question-in-circle"
+												className="icon-14px question-icon vertical-middle"
+											/>
+										</span>
+									</Tooltip>
+								</span>
+							}
+							noLabel
+						/>
+						{firstAccount ? null : (
+							<div className="full-width-content form-group no-overflow">
+								<label htmlFor="account">
+									<Translate content="account.pay_from" />
+								</label>
+								<AccountSelect
+									id="account"
+									account_names={myAccounts}
+									onChange={this.onRegistrarAccountChange}
+								/>
+								{registrarAccount && !isLTM ? (
+									<div style={{textAlign: 'left'}} className="facolor-error">
+										<Translate content="wallet.must_be_ltm" />
+									</div>
+								) : null}
 							</div>
-						</React.Fragment>
-					)}
+						)}
+						<div className="btn-container">
+							<Button
+								type="primary"
+								disabled={
+									isLoading ||
+									!openLogin ||
+									!accountNameValidity ||
+									(registrarAccount && !isLTM)
+								}
+								onClick={this.renderTorusLogin}
+							>
+								Get Started
+							</Button>
+						</div>
+					</React.Fragment>
 				</div>
 			</Layout>
 		);

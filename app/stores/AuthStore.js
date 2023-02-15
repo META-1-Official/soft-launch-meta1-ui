@@ -1,6 +1,8 @@
 import BaseStore from './BaseStore';
 import alt from 'alt-instance';
-import OpenLogin from '@toruslabs/openlogin';
+import {Web3AuthCore} from '@web3auth/core';
+import {CHAIN_NAMESPACES} from '@web3auth/base';
+import {OpenloginAdapter} from '@web3auth/openlogin-adapter';
 
 class AuthStore extends BaseStore {
 	constructor() {
@@ -29,7 +31,6 @@ class AuthStore extends BaseStore {
 		this.setOpenLoginInstance = this.setOpenLoginInstance.bind(this);
 		this.setError = this.setError.bind(this);
 		this.setAccountName = this.setAccountName.bind(this);
-		// this.setOpenLoginInstance();
 	}
 
 	setLoading(isLoading) {
@@ -52,27 +53,33 @@ class AuthStore extends BaseStore {
 		this.setState({accountName});
 	}
 
-	setOpenLoginInstance() {
+	async setOpenLoginInstance() {
 		try {
-			const openLogin = new OpenLogin({
-				clientId: process.env.TORUS_PROJECT_ID,
-				network: process.env.TORUS_NETWORK,
-				uxMode: 'redirect',
-				redirectUrl: window.location.origin + '/auth-proceed',
-				whiteLabel: {
-					name: 'META1',
-					dark: true,
-				},
-				loginConfig: {
-					sms_passwordless: {
-						name: 'sms_passwordless',
-						typeOfLogin: 'sms_passwordless',
-						showOnModal: false,
-						showOnDesktop: false,
-						showOnMobile: false,
+			const openloginAdapter = new OpenloginAdapter({
+				adapterSettings: {
+					uxMode: 'redirect',
+					redirectUrl: window.location.origin + '/auth-proceed',
+					whiteLabel: {
+						name: 'META1',
+						defaultLanguage: 'en',
+						dark: true,
 					},
 				},
 			});
+
+			const openLogin = new Web3AuthCore({
+				clientId: process.env.TORUS_PROJECT_ID,
+				web3AuthNetwork: process.env.TORUS_NETWORK,
+				chainConfig: {
+					chainNamespace: CHAIN_NAMESPACES.EIP155,
+					rpcTarget: 'https://rpc.ankr.com/eth',
+					chainId: '0x1',
+				},
+			});
+
+			openLogin.configureAdapter(openloginAdapter);
+			await openLogin.init();
+
 			this.setState({openLogin, isLoading: false, error: ''});
 		} catch (error) {
 			this.setState({

@@ -30,7 +30,6 @@ class AccountRegistration extends React.Component {
 			accountName: '',
 			password: '',
 			firstStep: false,
-			torusAlreadyAssociatedEmail: false,
 			finalStep: false,
 			faceKIStep: false,
 			migrationStep: false,
@@ -46,8 +45,6 @@ class AccountRegistration extends React.Component {
 		this.toggleConfirmed = this.toggleConfirmed.bind(this);
 		this.renderScreen = this.renderScreen.bind(this);
 		this.renderTorusLogin = this.renderTorusLogin.bind(this);
-		this.proceedWithExistingEmail = this.proceedWithExistingEmail.bind(this);
-		this.proceedLoggingOut = this.proceedLoggingOut.bind(this);
 		this.proceedESign = this.proceedESign.bind(this);
 		this.proceedTorus = this.proceedTorus.bind(this);
 		this.nextStep = this.nextStep.bind(this);
@@ -343,7 +340,6 @@ class AccountRegistration extends React.Component {
 					ss.remove('account_login_name');
 					await openLogin.login();
 				}
-				this.setState({torusAlreadyAssociatedEmail: data.email.toLowerCase()});
 			} else {
 				ss.set('account_registration_name', accountName);
 				ss.remove('account_login_name');
@@ -355,28 +351,6 @@ class AccountRegistration extends React.Component {
 			console.log('Torus Error:', error);
 			if (error.message === 'user canceled login')
 				this.setState({firstStep: true});
-		}
-	}
-
-	proceedWithExistingEmail() {
-		const {accountName} = this.state;
-		ss.set('account_registration_name', accountName);
-		ss.remove('account_login_name');
-		this.props.history.push('/auth-proceed?mode=existingEmailCreation');
-	}
-
-	async proceedLoggingOut() {
-		const {openLogin} = this.props;
-		const {accountName} = this.state;
-		if (openLogin) {
-			await openLogin.logout({});
-			ss.set('account_registration_name', accountName);
-			ss.remove('account_login_name');
-			ss.remove('account_login_token');
-			await openLogin.init();
-			await openLogin.login();
-		} else {
-			this.setState({torusAlreadyAssociatedEmail: ''});
 		}
 	}
 
@@ -431,27 +405,7 @@ class AccountRegistration extends React.Component {
 			finalStep,
 			migrationStep,
 		} = this.state;
-		// if (firstStep) {
-		// 	return <AccountRegistrationForm continue={this.continue} />;
-		// } else if (torusAlreadyAssociatedEmail) {
-		if (torusAlreadyAssociatedEmail) {
-			return (
-				<React.Fragment>
-					<div className="desc2">
-						Your email <strong>{torusAlreadyAssociatedEmail}</strong> is already
-						linked to Meta exchange.
-					</div>
-					<div className="btn-container dual-btns">
-						<Button type="primary" onClick={this.proceedWithExistingEmail}>
-							Continue using previous Email
-						</Button>
-						<Button type="danger" onClick={this.proceedLoggingOut}>
-							LogOut and Use different Email
-						</Button>
-					</div>
-				</React.Fragment>
-			);
-		} else if (migrationStep) {
+		if (migrationStep) {
 			return (
 				<div
 					style={{

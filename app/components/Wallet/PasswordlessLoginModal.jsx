@@ -16,6 +16,7 @@ import {withRouter} from 'react-router-dom';
 import ls from 'lib/common/localStorage';
 import {MailOutlined} from '@ant-design/icons';
 import AccountActions from 'actions/AccountActions';
+import LoginProvidersModal from 'components/Web3Auth/LoginProvidersModal';
 
 const STORAGE_KEY = '__AuthData__';
 
@@ -161,7 +162,8 @@ class PasswordlessLoginModal extends React.Component {
 	render() {
 		const {accountName, isOpen} = this.state;
 		return (
-			<Modal
+			<>
+				{/* <Modal
 				visible={this.state.isModalVisible}
 				className="unlock_wallet_modal2"
 				id={this.props.modalId}
@@ -229,7 +231,9 @@ class PasswordlessLoginModal extends React.Component {
 						Or create your <a href="/registration">wallet</a>
 					</div>
 				</div>
-			</Modal>
+			</Modal> */}
+				<LoginProvidersModal />
+			</>
 		);
 	}
 }

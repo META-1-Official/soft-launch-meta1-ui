@@ -356,7 +356,7 @@ module.exports = function (env) {
 					use: scssLoaders,
 				},
 				{
-					test: /\.(png|gif)$/,
+					test: /\.(png|gif|jpg)$/,
 					exclude: [
 						path.resolve(root_dir, 'app/assets/asset-symbols'),
 						path.resolve(root_dir, 'app/assets/language-dropdown/img'),
@@ -384,24 +384,12 @@ module.exports = function (env) {
 					],
 				},
 				{
-					test: /.*\.svg$/,
-					exclude: [
-						path.resolve(root_dir, 'app/assets/model-type-images'),
-						path.resolve(root_dir, 'app/assets/bin-file'),
-					],
+					test: /\.svg$/,
 					use: [
 						{
-							loader: 'svg-inline-loader',
-						},
-						{
-							loader: 'svgo-loader',
+							loader: 'svg-url-loader',
 							options: {
-								plugins: [
-									{cleanupAttrs: true},
-									{removeMetadata: true},
-									{removeXMLNS: true},
-									{removeViewBox: false},
-								],
+								limit: 10000,
 							},
 						},
 					],

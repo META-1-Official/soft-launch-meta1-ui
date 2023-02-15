@@ -31,7 +31,6 @@ class AuthRedirect extends React.Component {
 	constructor() {
 		super();
 		this.state = {
-			skipCreationFlow: false,
 			passwordError: false,
 			redirectFromESign: false,
 			login: false,
@@ -43,12 +42,9 @@ class AuthRedirect extends React.Component {
 			photoIndex: 0,
 		};
 
-		this.generateAuthData = this.generateAuthData.bind(this);
 		this.authProceed = this.authProceed.bind(this);
 		this.onFinishConfirm = this.onFinishConfirm.bind(this);
 		this.createAccount = this.createAccount.bind(this);
-		this.skipFreshCreationAndProceed =
-			this.skipFreshCreationAndProceed.bind(this);
 		this.validateLogin = this.validateLogin.bind(this);
 		this.proceedESignRedirect = this.proceedESignRedirect.bind(this);
 		this.continueLogin = this.continueLogin.bind(this);
@@ -69,14 +65,7 @@ class AuthRedirect extends React.Component {
 			const eSignSuccess = qs.parse(this.props.location.search, {
 				ignoreQueryPrefix: true,
 			}).signature;
-			if (
-				param === 'existingEmailCreation' &&
-				openLogin &&
-				privKey &&
-				authData
-			) {
-				this.skipFreshCreationAndProceed();
-			} else if (eSignSuccess === 'success') {
+			if (eSignSuccess === 'success') {
 				this.proceedESignRedirect();
 			} else {
 				this.props.history.push('/registration');
@@ -84,9 +73,6 @@ class AuthRedirect extends React.Component {
 		}
 		if (!openLogin) {
 			setOpenLoginInstance();
-		}
-		if (openLogin && !privKey) {
-			this.generateAuthData();
 		}
 
 		if (loginAccountName && privKey) {
@@ -125,14 +111,9 @@ class AuthRedirect extends React.Component {
 
 	componentDidUpdate(prevProps, prevState) {
 		const {openLogin, privKey, authData} = this.props;
-		const {skipCreationFlow} = this.state;
-		if (openLogin && !prevProps.openLogin && !skipCreationFlow) {
-			this.generateAuthData();
-		}
 		if (
 			privKey &&
 			authData &&
-			!skipCreationFlow &&
 			((privKey && !prevProps.privKey) || (authData && !prevProps.authData))
 		) {
 			this.authProceed();
@@ -279,32 +260,10 @@ class AuthRedirect extends React.Component {
 		}
 	}
 
-	skipFreshCreationAndProceed() {
-		this.setState({skipCreationFlow: true});
-		this.authProceed();
-	}
-
 	proceedESignRedirect() {
 		this.setState({redirectFromESign: true}, () => {
 			this.props.setOpenLoginInstance();
 		});
-	}
-
-	async generateAuthData() {
-		const {openLogin, setPrivKey, setAuthData} = this.props;
-		try {
-			await openLogin.init();
-			if (openLogin.privKey) {
-				const privKey = openLogin.privKey;
-				const data = await openLogin.getUserInfo();
-				setPrivKey(privKey);
-				setAuthData(data);
-			} else {
-				this.props.history.push('/registration');
-			}
-		} catch (err) {
-			console.log('Something went wrong!', err);
-		}
 	}
 
 	async authProceed() {
