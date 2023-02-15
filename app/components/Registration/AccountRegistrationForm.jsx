@@ -241,7 +241,9 @@ class AccountRegistrationForm extends React.Component {
 	}
 
 	isValid() {
-		const firstAccount = AccountStore.getMyAccounts().length === 0;
+		// const firstAccount = AccountStore.getMyAccounts().length === 0;
+		const firstAccount = true;
+
 		let valid = this.state.validAccountName && this.state.captcha;
 
 		if (!WalletDb.getWallet()) {
@@ -256,7 +258,9 @@ class AccountRegistrationForm extends React.Component {
 	renderAccountCreateForm() {
 		const {registrarAccount} = this.state;
 		const myAccounts = AccountStore.getMyAccounts();
-		const firstAccount = myAccounts.length === 0;
+		// const firstAccount = myAccounts.length === 0;
+		const firstAccount = true;
+
 		const valid = this.isValid();
 		let isLTM = false;
 		const registrar = registrarAccount
@@ -588,23 +592,6 @@ class AccountRegistrationForm extends React.Component {
 						}
 						noLabel
 					/>
-					{/* <Form.Item label={counterpart.translate('wallet.generated')}>
-						<div className="password-wrapper">
-							<Input
-								disabled={true}
-								style={{paddingRight: '50px'}}
-								rows={2}
-								id="password"
-								value={this.state.generatedPassword}
-							/>
-							<CopyButton
-								text={this.state.generatedPassword}
-								tip="tooltip.copy_password"
-								dataPlace="top"
-								className="button registration-layout--copy-password-btn"
-							/>
-						</div>
-					</Form.Item> */}
 					{firstAccount ? null : (
 						<div className="full-width-content form-group no-overflow">
 							<label htmlFor="account">
@@ -655,7 +642,8 @@ class AccountRegistrationForm extends React.Component {
 
 	renderAccountCreateText() {
 		const myAccounts = AccountStore.getMyAccounts();
-		const firstAccount = myAccounts.length === 0;
+		// const firstAccount = myAccounts.length === 0;
+		const firstAccount = true;
 
 		return (
 			<div className="header-text">
