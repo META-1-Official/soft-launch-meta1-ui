@@ -68,15 +68,12 @@ const LoginProvidersModal = (props) => {
 		}
 
 		try {
-			await web3auth.init();
-
 			if (web3auth.status === 'connected') {
 				await web3auth.logout();
 			}
 
-			const web3authProvider = await web3auth.connectTo(
-				WALLET_ADAPTERS.OPENLOGIN,
-				{
+			web3auth.init().then((res) => {
+				web3auth.connectTo(WALLET_ADAPTERS.OPENLOGIN, {
 					mfaLevel: 'none',
 					loginProvider: provider,
 					extraLoginOptions:
@@ -86,8 +83,8 @@ const LoginProvidersModal = (props) => {
 										provider === 'email_passwordless' ? email : phoneNumber,
 							  }
 							: {},
-				}
-			);
+				});
+			});
 		} catch (error) {
 			console.log('Error in Web3Auth', error);
 		}
