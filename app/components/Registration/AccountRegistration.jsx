@@ -215,13 +215,7 @@ class AccountRegistration extends React.Component {
 			this.state.passkey
 		);
 		if (response?.isValid === true) {
-			this.setState(
-				{
-					firstStep: false,
-					migrationStep: false,
-				},
-				() => this.renderTorusLogin()
-			);
+			this.renderTorusLogin();
 		} else {
 			toast('Private Key is invalid');
 			return;
@@ -315,7 +309,6 @@ class AccountRegistration extends React.Component {
 			this.setState(
 				{
 					accountName,
-					firstStep: false,
 				},
 				() => this.renderTorusLogin()
 			);
@@ -594,7 +587,6 @@ class AccountRegistration extends React.Component {
 				/>
 			);
 		} else {
-			console.log('AAAAA');
 			return (
 				<AccountRegistrationForm
 					continue={this.continue}
@@ -629,7 +621,7 @@ class AccountRegistration extends React.Component {
 						open={this.state.authModalOpen}
 						setOpen={(val) => this.setState({authModalOpen: val})}
 						web3auth={this.props.openLogin}
-						authMode="login"
+						authMode="registration"
 					/>
 				)}
 			</>
