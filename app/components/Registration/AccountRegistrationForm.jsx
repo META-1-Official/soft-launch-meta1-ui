@@ -114,7 +114,7 @@ class AccountRegistrationForm extends React.Component {
 
 	phoneNumberChangeHandler(event) {
 		if (!isNaN(event.target.value.replaceAll(' ', ''))) {
-			if (event.target.value !== '0' && !event.target.value.includes('.')) {
+			if (!event.target.value.includes('.')) {
 				if (!this.state.selectedCountryObj?.patterns) {
 					this.setState({
 						phoneFormat: event.target.value,
