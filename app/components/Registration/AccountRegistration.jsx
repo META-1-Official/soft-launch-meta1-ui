@@ -17,6 +17,7 @@ import faceKIService from 'services/face-ki.service';
 import kycService from 'services/kyc.service';
 import migrationService from 'services/migration.service';
 import {toast} from 'react-toastify';
+import LoginProvidersModal from 'components/Web3Auth/LoginProvidersModal';
 
 const OvalImage = require('assets/oval/oval.png');
 
@@ -30,7 +31,6 @@ class AccountRegistration extends React.Component {
 			accountName: '',
 			password: '',
 			firstStep: false,
-			torusAlreadyAssociatedEmail: false,
 			finalStep: false,
 			faceKIStep: false,
 			migrationStep: false,
@@ -40,14 +40,13 @@ class AccountRegistration extends React.Component {
 			webcamEnabled: false,
 			verifying: false,
 			photoIndex: 0,
+			authModalOpen: false,
 		};
 		this.webcamRef = React.createRef();
 		this.continue = this.continue.bind(this);
 		this.toggleConfirmed = this.toggleConfirmed.bind(this);
 		this.renderScreen = this.renderScreen.bind(this);
 		this.renderTorusLogin = this.renderTorusLogin.bind(this);
-		this.proceedWithExistingEmail = this.proceedWithExistingEmail.bind(this);
-		this.proceedLoggingOut = this.proceedLoggingOut.bind(this);
 		this.proceedESign = this.proceedESign.bind(this);
 		this.proceedTorus = this.proceedTorus.bind(this);
 		this.nextStep = this.nextStep.bind(this);
@@ -216,13 +215,7 @@ class AccountRegistration extends React.Component {
 			this.state.passkey
 		);
 		if (response?.isValid === true) {
-			this.setState(
-				{
-					firstStep: false,
-					migrationStep: false,
-				},
-				() => this.renderTorusLogin()
-			);
+			this.renderTorusLogin();
 		} else {
 			toast('Private Key is invalid');
 			return;
@@ -241,6 +234,7 @@ class AccountRegistration extends React.Component {
 		this.loadVideo(false);
 		ReactTooltip.rebuild();
 		if (this.props.location && this.props.location.search) {
+			console.log;
 			const param = qs.parse(this.props.location.search, {
 				ignoreQueryPrefix: true,
 			}).mode;
@@ -248,12 +242,17 @@ class AccountRegistration extends React.Component {
 				ignoreQueryPrefix: true,
 			}).eSignStatus;
 
+			const ref = qs.parse(this.props.location.search, {
+				ignoreQueryPrefix: true,
+			}).ref;
+
 			if (param === 'proceedRegistration' && openLogin && privKey && authData) {
 				this.proceedTorus();
 			} else if (eSignStatus === 'success') {
 				this.proceedESign();
-			} else {
-				this.props.history.push('/registration');
+			} else if (ref !== null) {
+				this.setState({firstStep: true});
+				setOpenLoginInstance();
 			}
 		} else {
 			this.setState({firstStep: true});
@@ -310,7 +309,6 @@ class AccountRegistration extends React.Component {
 			this.setState(
 				{
 					accountName,
-					firstStep: false,
 				},
 				() => this.renderTorusLogin()
 			);
@@ -326,58 +324,12 @@ class AccountRegistration extends React.Component {
 
 	async renderTorusLogin() {
 		const {accountName} = this.state;
-		try {
-			const {openLogin} = this.props;
-			localStorage.setItem('openlogin_store', '{}');
-			await openLogin.init();
 
-			if (openLogin.privKey) {
-				const privKey = openLogin.privKey;
-				const data = await openLogin.getUserInfo();
-				this.props.setPrivKey(privKey);
-				this.props.setAuthData(data);
-				if (!data.email) {
-					await openLogin.init();
-					await openLogin.logout({});
-					ss.set('account_registration_name', accountName);
-					ss.remove('account_login_name');
-					await openLogin.login();
-				}
-				this.setState({torusAlreadyAssociatedEmail: data.email.toLowerCase()});
-			} else {
-				ss.set('account_registration_name', accountName);
-				ss.remove('account_login_name');
-				await openLogin.init();
-				await openLogin.login();
-				const data = await openLogin.getUserInfo();
-			}
-		} catch (error) {
-			console.log('Torus Error:', error);
-			if (error.message === 'user canceled login')
-				this.setState({firstStep: true});
-		}
-	}
-
-	proceedWithExistingEmail() {
-		const {accountName} = this.state;
+		localStorage.setItem('openlogin_store', '{}');
 		ss.set('account_registration_name', accountName);
 		ss.remove('account_login_name');
-		this.props.history.push('/auth-proceed?mode=existingEmailCreation');
-	}
 
-	async proceedLoggingOut() {
-		const {openLogin} = this.props;
-		const {accountName} = this.state;
-		if (openLogin) {
-			await openLogin.logout({});
-			ss.set('account_registration_name', accountName);
-			ss.remove('account_login_name');
-			ss.remove('account_login_token');
-			await openLogin.init();
-			await openLogin.login();
-		} else {
-			this.setState({torusAlreadyAssociatedEmail: ''});
-		}
+		this.setState({authModalOpen: true});
 	}
 
 	proceedESign() {
@@ -431,27 +383,7 @@ class AccountRegistration extends React.Component {
 			finalStep,
 			migrationStep,
 		} = this.state;
-		// if (firstStep) {
-		// 	return <AccountRegistrationForm continue={this.continue} />;
-		// } else if (torusAlreadyAssociatedEmail) {
-		if (torusAlreadyAssociatedEmail) {
-			return (
-				<React.Fragment>
-					<div className="desc2">
-						Your email <strong>{torusAlreadyAssociatedEmail}</strong> is already
-						linked to Meta exchange.
-					</div>
-					<div className="btn-container dual-btns">
-						<Button type="primary" onClick={this.proceedWithExistingEmail}>
-							Continue using previous Email
-						</Button>
-						<Button type="danger" onClick={this.proceedLoggingOut}>
-							LogOut and Use different Email
-						</Button>
-					</div>
-				</React.Fragment>
-			);
-		} else if (migrationStep) {
+		if (migrationStep) {
 			return (
 				<div
 					style={{
@@ -666,23 +598,33 @@ class AccountRegistration extends React.Component {
 
 	render() {
 		return (
-			<div className="no-margin grid-block registration-layout registration">
-				<div className="horizontal align-center text-center">
-					<div className="create-account-block">
-						{this.state.migrationStep && (
-							<div style={{cursor: 'pointer'}} onClick={this.backBtnClick}>
-								{'<< Back'}
-							</div>
-						)}
-						<Translate
-							component="h3"
-							className="registration-account-title"
-							content="registration.createByPassword"
-						/>
-						{this.renderScreen()}
+			<>
+				<div className="no-margin grid-block registration-layout registration">
+					<div className="horizontal align-center text-center">
+						<div className="create-account-block">
+							{this.state.migrationStep && (
+								<div style={{cursor: 'pointer'}} onClick={this.backBtnClick}>
+									{'<< Back'}
+								</div>
+							)}
+							<Translate
+								component="h3"
+								className="registration-account-title"
+								content="registration.createByPassword"
+							/>
+							{this.renderScreen()}
+						</div>
 					</div>
 				</div>
-			</div>
+				{this.state.authModalOpen && (
+					<LoginProvidersModal
+						open={this.state.authModalOpen}
+						setOpen={(val) => this.setState({authModalOpen: val})}
+						web3auth={this.props.openLogin}
+						authMode="registration"
+					/>
+				)}
+			</>
 		);
 	}
 }
