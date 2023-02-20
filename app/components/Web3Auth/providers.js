@@ -1,18 +1,18 @@
-const google = require('assets/providers/google.png');
-const facebook = require('assets/providers/facebook.png');
-const apple = require('assets/providers/apple.png');
-const discord = require('assets/providers/discord.png');
-const email = require('assets/providers/email.png');
-const github = require('assets/providers/github.png');
-const jwt = require('assets/providers/jwt.png');
-const kakao = require('assets/providers/kakao.png');
-const line = require('assets/providers/line.png');
-const linkedin = require('assets/providers/linkedin.png');
-const reddit = require('assets/providers/reddit.png');
-const twitch = require('assets/providers/twitch.png');
-const twitter = require('assets/providers/twitter.png');
-const weibo = require('assets/providers/weibo.png');
-const weixin = require('assets/providers/weixin.png');
+import google from '../../images/iconProviders/google.svg';
+import facebook from '../../images/iconProviders/facebook.svg';
+import apple from '../../images/iconProviders/apple.svg';
+import discord from '../../images/iconProviders/discord.svg';
+import email from '../../images/iconProviders/email.svg';
+import github from '../../images/iconProviders/github.svg';
+import jwt from '../../images/iconProviders/jwt.svg';
+import kakao from '../../images/iconProviders/kakao.svg';
+import line from '../../images/iconProviders/line.svg';
+import linkedin from '../../images/iconProviders/linkedin.svg';
+import reddit from '../../images/iconProviders/reddit.svg';
+import twitch from '../../images/iconProviders/twitch.svg';
+import twitter from '../../images/iconProviders/twitter.svg';
+import weibo from '../../images/iconProviders/weibo.svg';
+import weixin from '../../images/iconProviders/weixin.svg';
 
 export const providers = [
 	{
@@ -26,9 +26,9 @@ export const providers = [
 		image: facebook,
 	},
 	// {
-	// 	id: 3,
-	// 	name: 'reddit',
-	// 	image: reddit,
+	//     id: 3,
+	//     name: 'reddit',
+	//     image: reddit
 	// },
 	{
 		id: 4,
@@ -36,9 +36,9 @@ export const providers = [
 		image: discord,
 	},
 	// {
-	// 	id: 5,
-	// 	name: 'twitch',
-	// 	image: twitch,
+	//     id: 5,
+	//     name: 'twitch',
+	//     image: twitch
 	// },
 	{
 		id: 6,
@@ -46,9 +46,9 @@ export const providers = [
 		image: apple,
 	},
 	// {
-	// 	id: 7,
-	// 	name: 'line',
-	// 	image: line,
+	//     id: 7,
+	//     name: 'line',
+	//     image: line
 	// },
 	{
 		id: 8,
@@ -76,9 +76,9 @@ export const providers = [
 		image: weibo,
 	},
 	// {
-	// 	id: 13,
-	// 	name: 'wechat',
-	// 	image: weixin,
+	//     id: 13,
+	//     name: 'wechat',
+	//     image: weixin
 	// },
 	{
 		id: 14,
