@@ -274,8 +274,6 @@ class AuthRedirect extends React.Component {
 	async generateAuthData() {
 		const {openLogin, setPrivKey, setAuthData} = this.props;
 		try {
-			console.log('@1', openLogin, openLogin.status);
-
 			if (openLogin && openLogin.status === 'connected') {
 				const data = await openLogin.getUserInfo();
 
@@ -397,6 +395,7 @@ class AuthRedirect extends React.Component {
 	}
 
 	handleModalClose = () => {
+		this.setState({login: false});
 		this.props.history.push('/market/META1_USDT');
 	};
 
@@ -405,8 +404,7 @@ class AuthRedirect extends React.Component {
 			<React.Fragment>
 				{this.state.login && (
 					<Modal
-						visible={true}
-						closeable={false}
+						open={true}
 						ref="modal"
 						overlay={false}
 						modalHeader="header.unlock_short"
@@ -420,11 +418,14 @@ class AuthRedirect extends React.Component {
 							justifyContent: 'center',
 						}}
 						className="custom-auth-faceki"
-						onCancel={this.handleModalClose}
+						closable={false}
+						maskClosable={false}
 					>
-						<h5>
-							We will setup your Biometric two factor authentication, to ensure
-							the security of your wallet
+						<h4 style={{textAlign: 'center', fontWeight: 'bold'}}>
+							Authenticate Your Face
+						</h4>
+						<h5 style={{textAlign: 'center', fontSize: 16}}>
+							To log into your wallet, please complete biometric authentication
 						</h5>
 						<br />
 						{this.state.webcamEnabled && (
@@ -433,10 +434,15 @@ class AuthRedirect extends React.Component {
 									position: 'relative',
 								}}
 							>
-								<div className="flex_container">
-									<div className="position-head color-black">
-										Position your face in the oval
+								<div className="flex-container">
+									<div className="flex-container-first">
+										<div className="position-head color-black">
+											Position your face in the oval
+										</div>
 									</div>
+									<button className="btn-x" onClick={this.handleModalClose}>
+										X
+									</button>
 								</div>
 								<Webcam
 									audio={false}
@@ -473,6 +479,9 @@ class AuthRedirect extends React.Component {
 									</span>
 									<div className="span-class color-black">
 										Min camera resolution must be 720p
+									</div>
+									<div className="span-class color-black">
+										Verifying will take 10 seconds as maximum
 									</div>
 								</div>
 							</div>
