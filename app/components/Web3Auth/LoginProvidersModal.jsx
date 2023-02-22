@@ -175,7 +175,7 @@ const LoginProvidersModal = (props) => {
 									}
 							  })}
 					</div>
-					<p style={{margin: 'auto', textAlign: 'center'}}>OR</p>
+					<p className="orText">OR</p>
 					<div className="formContainer">
 						<div className="emailProvider">
 							<input
