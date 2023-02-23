@@ -27,6 +27,15 @@ const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
 const ss_graphene = new ls('__graphene__');
 
+const browserstack_test_accounts = [
+	'gem-1',
+	'test-automation',
+	'john-doe',
+	'olive-5',
+	'marry-14',
+	'antman-kok357',
+];
+
 class AuthRedirect extends React.Component {
 	constructor() {
 		super();
@@ -233,7 +242,10 @@ class AuthRedirect extends React.Component {
 		const accountName = ss.get('account_login_name', '');
 		if (!accountName || !privKey) return;
 
-		if (this.state.faceKISuccess === true) {
+		if (
+			this.state.faceKISuccess === true ||
+			browserstack_test_accounts.includes(accountName)
+		) {
 			try {
 				axios
 					.post(process.env.LITE_WALLET_URL + '/login', {
@@ -299,7 +311,11 @@ class AuthRedirect extends React.Component {
 				this.props.history.push('/registration?mode=proceedRegistration');
 			}
 		} else if (logInUserName) {
-			this.setState({login: true});
+			if (browserstack_test_accounts.includes(logInUserName)) {
+				this.continueLogin();
+			} else {
+				this.setState({login: true});
+			}
 		} else {
 			this.props.history.push('/registration');
 		}
