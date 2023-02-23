@@ -17,7 +17,7 @@ if (__PERFORMANCE_DEVTOOL__) {
 
 const rootEl = document.getElementById('content');
 const render = () => {
-	Tap.init('30344-f2b126');
+	Tap.init(process.env.TAPFILIATE_ACCOUNT_ID);
 
 	ReactDOM.render(
 		<ThemeProvider theme={themeDark}>

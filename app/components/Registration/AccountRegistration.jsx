@@ -475,9 +475,12 @@ class AccountRegistration extends React.Component {
 						justifyContent: 'center',
 					}}
 				>
-					<h5>
-						We will setup your Biometric two factor authentication, to ensure
-						the security of your wallet
+					<h4 style={{textAlign: 'center', fontWeight: 'bold'}}>
+						Bio-Metric 2 Factor Authentication
+					</h4>
+					<h5 style={{textAlign: 'center', fontSize: 16}}>
+						Next, we will setup your Biometric two factor authentication, to
+						ensure the security of your wallet
 					</h5>
 					<br />
 					{this.state.webcamEnabled && (
@@ -543,13 +546,16 @@ class AccountRegistration extends React.Component {
 								}}
 							/>
 							<div className="flex_container flex-padding">
-								<span className="span-class color-black custom-margin-bottom-zero">
+								<span className="span-class color-black">
 									{!this.state.faceKISuccess
 										? 'Press verify to begin enrollment'
 										: 'Verification Successful!'}
 								</span>
-								<div className="span-class color-black custom-margin-bottom-zero">
+								<div className="span-class color-black">
 									Min camera resolution must be 720p
+								</div>
+								<div className="span-class color-black">
+									Verifying will take 10 seconds as maximum
 								</div>
 							</div>
 						</div>
@@ -607,11 +613,13 @@ class AccountRegistration extends React.Component {
 									{'<< Back'}
 								</div>
 							)}
-							<Translate
-								component="h3"
-								className="registration-account-title"
-								content="registration.createByPassword"
-							/>
+							{this.state.faceKIStep === false && (
+								<Translate
+									component="h3"
+									className="registration-account-title"
+									content="registration.createByPassword"
+								/>
+							)}
 							{this.renderScreen()}
 						</div>
 					</div>

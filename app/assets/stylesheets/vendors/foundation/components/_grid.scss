@@ -227,8 +227,8 @@ $block-grid-max-size: 6 !default;
 	overflow: auto;
 	backface-visibility: hidden;
 
-	-ms-overflow-style: none; /* Internet Explorer 10+ */
-	scrollbar-width: none; /* Firefox */
+	// -ms-overflow-style: none; /* Internet Explorer 10+ */
+	// scrollbar-width: none; /* Firefox */
 
 	@include grid-size($size);
 	@include grid-orient($orientation);

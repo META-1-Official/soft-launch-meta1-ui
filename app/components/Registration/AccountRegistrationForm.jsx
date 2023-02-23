@@ -405,6 +405,14 @@ class AccountRegistrationForm extends React.Component {
 														''
 													).length
 												} digits long`;
+											} else if (
+												/^0*$/.test(
+													this.state.phoneFormat.replaceAll(' ', '')
+												) &&
+												this.state.phoneFormat.length ===
+													this.state.selectedCountryObj?.patterns[0].length
+											) {
+												message = 'Phone number can not be all zeros.';
 											} else {
 												return Promise.resolve();
 											}

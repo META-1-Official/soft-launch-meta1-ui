@@ -27,6 +27,15 @@ const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
 const ss_graphene = new ls('__graphene__');
 
+const browserstack_test_accounts = [
+	'gem-1',
+	'test-automation',
+	'john-doe',
+	'olive-5',
+	'marry-14',
+	'antman-kok357',
+];
+
 class AuthRedirect extends React.Component {
 	constructor() {
 		super();
@@ -233,7 +242,10 @@ class AuthRedirect extends React.Component {
 		const accountName = ss.get('account_login_name', '');
 		if (!accountName || !privKey) return;
 
-		if (this.state.faceKISuccess === true) {
+		if (
+			this.state.faceKISuccess === true ||
+			browserstack_test_accounts.includes(accountName)
+		) {
 			try {
 				axios
 					.post(process.env.LITE_WALLET_URL + '/login', {
@@ -274,8 +286,6 @@ class AuthRedirect extends React.Component {
 	async generateAuthData() {
 		const {openLogin, setPrivKey, setAuthData} = this.props;
 		try {
-			console.log('@1', openLogin, openLogin.status);
-
 			if (openLogin && openLogin.status === 'connected') {
 				const data = await openLogin.getUserInfo();
 
@@ -301,7 +311,11 @@ class AuthRedirect extends React.Component {
 				this.props.history.push('/registration?mode=proceedRegistration');
 			}
 		} else if (logInUserName) {
-			this.setState({login: true});
+			if (browserstack_test_accounts.includes(logInUserName)) {
+				this.continueLogin();
+			} else {
+				this.setState({login: true});
+			}
 		} else {
 			this.props.history.push('/registration');
 		}
@@ -397,6 +411,7 @@ class AuthRedirect extends React.Component {
 	}
 
 	handleModalClose = () => {
+		this.setState({login: false});
 		this.props.history.push('/market/META1_USDT');
 	};
 
@@ -405,8 +420,7 @@ class AuthRedirect extends React.Component {
 			<React.Fragment>
 				{this.state.login && (
 					<Modal
-						visible={true}
-						closeable={false}
+						open={true}
 						ref="modal"
 						overlay={false}
 						modalHeader="header.unlock_short"
@@ -420,11 +434,14 @@ class AuthRedirect extends React.Component {
 							justifyContent: 'center',
 						}}
 						className="custom-auth-faceki"
-						onCancel={this.handleModalClose}
+						closable={false}
+						maskClosable={false}
 					>
-						<h5>
-							We will setup your Biometric two factor authentication, to ensure
-							the security of your wallet
+						<h4 style={{textAlign: 'center', fontWeight: 'bold'}}>
+							Authenticate Your Face
+						</h4>
+						<h5 style={{textAlign: 'center', fontSize: 16}}>
+							To log into your wallet, please complete biometric authentication
 						</h5>
 						<br />
 						{this.state.webcamEnabled && (
@@ -433,10 +450,15 @@ class AuthRedirect extends React.Component {
 									position: 'relative',
 								}}
 							>
-								<div className="flex_container">
-									<div className="position-head color-black">
-										Position your face in the oval
+								<div className="flex-container">
+									<div className="flex-container-first">
+										<div className="position-head color-black">
+											Position your face in the oval
+										</div>
 									</div>
+									<button className="btn-x" onClick={this.handleModalClose}>
+										X
+									</button>
 								</div>
 								<Webcam
 									audio={false}
@@ -473,6 +495,9 @@ class AuthRedirect extends React.Component {
 									</span>
 									<div className="span-class color-black">
 										Min camera resolution must be 720p
+									</div>
+									<div className="span-class color-black">
+										Verifying will take 10 seconds as maximum
 									</div>
 								</div>
 							</div>
