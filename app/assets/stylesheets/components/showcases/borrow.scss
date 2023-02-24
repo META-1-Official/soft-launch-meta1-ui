@@ -1,0 +1,17 @@
+.darkTheme {
+	.ant-card {
+		background-color: black;
+
+		p {
+			color: #cecece;
+		}
+
+		div.ant-steps-item-title {
+			color: #cecece !important;
+		}
+
+		.ant-steps-item-wait .ant-steps-icon-dot {
+			background-color: #cecece !important;
+		}
+	}
+}

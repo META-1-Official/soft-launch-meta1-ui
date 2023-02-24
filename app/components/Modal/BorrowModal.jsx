@@ -786,11 +786,21 @@ class BorrowModalContent extends React.Component {
 		);
 	}
 }
-BorrowModalContent = BindToChainState(BorrowModalContent);
 
-BorrowModalContent = debounceRender(BorrowModalContent, 50, {
-	leading: false,
-});
+// BorrowModalContent = connect(BorrowModalContent, {
+// 	listenTo() {
+// 		return [SettingsStore];
+// 	},
+// 	getProps() {
+// 		return {
+// 			settings: SettingsStore.getState().settings,
+// 		};
+// 	},
+// });
+
+// BorrowModalContent = debounceRender(BorrowModalContent, 50, {
+// 	leading: false,
+// });
 
 /* This wrapper class appears to be necessary because the decorator eats the show method from refs */
 export default class ModalWrapper extends React.Component {
@@ -813,8 +823,8 @@ export default class ModalWrapper extends React.Component {
 	}
 
 	render() {
-		let {quoteAssetObj, backingAssetObj, accountObj} = this.props;
-		let accountObjBalance = accountObj.get('balances').toJS();
+		const {quoteAssetObj, backingAssetObj, accountObj} = this.props;
+		const accountObjBalance = accountObj.get('balances').toJS();
 		let coreBalance, bitAssetBalance;
 
 		if (accountObjBalance) {
@@ -829,7 +839,7 @@ export default class ModalWrapper extends React.Component {
 			}
 		}
 
-		return this.props.visible ? (
+		return (
 			<BorrowModalContent
 				visible={this.props.visible}
 				hideModal={this.props.hideModal}
@@ -847,6 +857,6 @@ export default class ModalWrapper extends React.Component {
 				disableHelp={this.state.smallScreen}
 				accountObj={accountObj}
 			/>
-		) : null;
+		);
 	}
 }

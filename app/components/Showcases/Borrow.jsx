@@ -7,6 +7,7 @@ import AssetWrapper from '../Utility/AssetWrapper';
 import {connect} from 'alt-react';
 import {ChainStore} from 'meta1-vision-js';
 import WalletUnlockActions from 'actions/WalletUnlockActions';
+import {toast} from 'react-toastify';
 
 import BorrowModal from '../Modal/BorrowModal';
 import AccountStore from '../../stores/AccountStore';
@@ -51,16 +52,8 @@ class Borrow extends Component {
 	showBorrowModal() {
 		// needs a known account
 		if (!this.props.currentAccount) {
-			WalletUnlockActions.unlock()
-				.then(() => {
-					this.setState({
-						isBorrowBaseModalVisible: true,
-					});
-				})
-				.catch(() => {})
-				.finally(() => {
-					WalletUnlockActions.lock();
-				});
+			toast('Please login or get this page from explorer');
+			return;
 		} else {
 			this.setState({
 				isBorrowBaseModalVisible: true,
@@ -141,13 +134,14 @@ class Borrow extends Component {
 									marginBottom: '1rem',
 								}}
 								assets={[
-									'1.3.113',
-									'1.3.120',
-									'1.3.121',
-									'1.3.1325',
-									'1.3.105',
-									'1.3.106',
-									'1.3.103',
+									'1.3.0',
+									'1.3.1',
+									'1.3.2',
+									'1.3.3',
+									'1.3.4',
+									'1.3.5',
+									'1.3.6',
+									'1.3.7',
 								]}
 								value={this.state.selectedAsset}
 								onChange={this.onAssetChange.bind(this)}
@@ -189,7 +183,7 @@ class Borrow extends Component {
 			>
 				<Card
 					style={{
-						borderRadius: '50px',
+						borderRadius: '15px',
 						width: '70%',
 						maxWidth: '70rem',
 						paddingTop: '1rem',
@@ -322,19 +316,20 @@ class Borrow extends Component {
 					<BorrowModal
 						visible={this.state.isBorrowBaseModalVisible}
 						hideModal={this.hideBorrowModal}
-						quoteAssetObj={selectedAssetObject.get('id')}
-						backingAssetObj={selectedAssetObject.getIn([
-							'bitasset',
-							'options',
-							'short_backing_asset',
-						])}
+						quoteAssetObj={selectedAssetObject}
+						backingAssetObj={
+							selectedAssetObject.getIn([
+								'bitasset',
+								'options',
+								'short_backing_asset',
+							]) || ChainStore.getAsset('1.3.0')
+						}
 						accountObj={currentAccount}
 					/>
 				)}
 			</div>
 		);
 	}
-
 	componentDidMount() {
 		this.focusDiv();
 	}
