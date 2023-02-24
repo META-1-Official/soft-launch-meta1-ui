@@ -27,6 +27,7 @@ import ls from './lib/common/localStorage';
 import {Router} from 'react-router-dom';
 import history from 'lib/common/history';
 import BodyClassName from 'components/BodyClassName';
+import * as Sentry from '@sentry/react';
 
 const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
@@ -114,6 +115,24 @@ class AppInit extends React.Component {
 
 		const thiz = this;
 		const saveLog = (type, log) => {
+			if (typeof log[0] === 'object') Sentry.captureException(log[0]);
+			else if (typeof log[0] === 'string') {
+				const errorMessage = JSON.stringify(
+					Array.from(log).join(' ')
+				).replaceAll('"', '');
+				if (
+					type === 'error' ||
+					log[0].toLowerCase().indexOf('error') > -1 ||
+					log[0].toLowerCase().indexOf('fail') > -1
+				)
+					if (log.length > 1)
+						if (typeof log[1] === 'object') {
+							Sentry.captureException(log[1]);
+						} else Sentry.captureMessage(errorMessage, 'error');
+					else Sentry.captureMessage(errorMessage, 'error');
+				else Sentry.captureMessage(errorMessage);
+			}
+
 			if (
 				log.length > 1 &&
 				typeof log[1] === 'string' &&
@@ -121,7 +140,7 @@ class AppInit extends React.Component {
 			) {
 				return;
 			}
-			thiz.saveExtendedLog(type, Array.from(log));
+			// thiz.saveExtendedLog(type, Array.from(log));
 			if (thiz.mounted) {
 				console[`str${type}`].apply(console, log);
 			}
@@ -162,7 +181,7 @@ class AppInit extends React.Component {
 
 	componentWillMount() {
 		// if (!__DEV__) {
-		// 	this._enablePersistingLog();
+		this._enablePersistingLog();
 		// }
 
 		const openRoutes = [
