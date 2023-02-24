@@ -18,7 +18,7 @@ if (__PERFORMANCE_DEVTOOL__) {
 }
 
 Sentry.init({
-	dsn: 'https://b1a1b9eec8bf452b8750a9b2a21b342b@o4504452886560768.ingest.sentry.io/4504713148039169',
+	dsn: process.env.SENTRY_DSN,
 	integrations: [new BrowserTracing()],
 
 	// Set tracesSampleRate to 1.0 to capture 100%

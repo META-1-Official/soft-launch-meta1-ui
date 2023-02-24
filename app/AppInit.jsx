@@ -180,9 +180,9 @@ class AppInit extends React.Component {
 	}
 
 	componentWillMount() {
-		// if (!__DEV__) {
-		this._enablePersistingLog();
-		// }
+		if (!__DEV__) {
+			this._enablePersistingLog();
+		}
 
 		const openRoutes = [
 			'/login',
