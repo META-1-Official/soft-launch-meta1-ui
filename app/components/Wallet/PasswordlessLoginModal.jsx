@@ -17,11 +17,23 @@ import ls from 'lib/common/localStorage';
 import {MailOutlined} from '@ant-design/icons';
 import AccountActions from 'actions/AccountActions';
 import LoginProvidersModal from 'components/Web3Auth/LoginProvidersModal';
+import axios from 'axios';
+import kycService from 'services/kyc.service';
 
 const STORAGE_KEY = '__AuthData__';
-
 const ss = new ls(STORAGE_KEY);
+const ss_graphene = new ls('__graphene__');
 const {Text, Title} = Typography;
+
+const browserstack_test_accounts = [
+	'gem-1',
+	'test-automation',
+	'john-doe',
+	'olive-5',
+	'marry-14',
+	'antman-kok357',
+	'mary-14',
+];
 
 class PasswordlessLoginModal extends React.Component {
 	constructor(props) {
@@ -112,7 +124,7 @@ class PasswordlessLoginModal extends React.Component {
 		}
 	}
 
-	handleLogin = (e) => {
+	handleLogin = async (e) => {
 		if (e) e.preventDefault();
 		const {accountName} = this.state;
 		if (!accountName) {
@@ -128,7 +140,29 @@ class PasswordlessLoginModal extends React.Component {
 		ss.set('account_login_name', accountName);
 		ss.remove('account_registration_name');
 
-		this.setState({authModalOpen: true});
+		if (browserstack_test_accounts.includes(accountName)) {
+			const user = await kycService.getUserKycProfileByAccount(accountName);
+			axios
+				.post(process.env.LITE_WALLET_URL + '/login', {
+					accountName: accountName,
+					email: user?.email,
+				})
+				.then((response) => {
+					ss.set('account_login_name', accountName);
+					ss.set('account_login_token', response.data['token']);
+					ss_graphene.set('currentAccount', accountName);
+					ss_graphene.set('passwordlessAccount', accountName);
+					AccountActions.setCurrentAccount.defer(accountName);
+					WalletUnlockActions.unlock_v2().finally(() => {
+						this.props.history.push(`/account/${accountName}/`);
+					});
+					setTimeout(() => {
+						WalletUnlockActions.lock_v2().finally(() => {
+							this.props.history.push('/market/META1_USDT');
+						});
+					}, 24 * 60 * 60 * 1000); // Auto timeout in 24 hrs
+				});
+		} else this.setState({authModalOpen: true});
 	};
 
 	handleAccountNameChange = (accountName) => {
