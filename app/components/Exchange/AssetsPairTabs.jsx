@@ -640,7 +640,7 @@ class AssetsPairTabs extends React.Component {
 			}
 			const price = utils.format_number(
 				finalPrice,
-				finalPrice > 1000 ? 0 : finalPrice > 10 ? 2 : precision
+				finalPrice > 1000 ? 0 : finalPrice > 10 ? 2 : 6
 			);
 
 			// Change
