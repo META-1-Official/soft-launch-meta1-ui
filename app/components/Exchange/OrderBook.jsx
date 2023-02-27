@@ -126,7 +126,7 @@ const toFixed = (x) => {
 			x += new Array(e + 1).join('0');
 		}
 	}
-	return x;
+	return x.toFixed(6);
 };
 
 class OrderBookRowHorizontal extends React.Component {
@@ -212,7 +212,7 @@ class OrderBookRowHorizontal extends React.Component {
 							}}
 							className="table-body-class"
 						>
-							<div className="overflow-hidden">{amount}</div>
+							<div className="overflow-hidden">{Number(amount).toFixed(6)}</div>
 						</td>
 						<td
 							style={{
@@ -221,7 +221,9 @@ class OrderBookRowHorizontal extends React.Component {
 								paddingRight: '10px',
 							}}
 						>
-							<div className="overflow-hidden">{price}</div>
+							<div className="overflow-hidden" style={{textAlign: 'center'}}>
+								{price}
+							</div>
 						</td>
 						<td
 							style={{
@@ -256,7 +258,9 @@ class OrderBookRowHorizontal extends React.Component {
 								textAlign: 'right',
 							}}
 						>
-							<div className="overflow-hidden">{price}</div>
+							<div className="overflow-hidden" style={{textAlign: 'center'}}>
+								{price}
+							</div>
 						</td>
 						<td
 							style={{
@@ -265,7 +269,7 @@ class OrderBookRowHorizontal extends React.Component {
 								paddingRight: '10px',
 							}}
 						>
-							<div className="overflow-hidden">{amount}</div>
+							<div className="overflow-hidden">{Number(amount).toFixed(6)}</div>
 						</td>
 					</tr>
 				)}
