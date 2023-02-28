@@ -276,7 +276,6 @@ class RecentTransactions extends React.Component {
 
 						this.setState({limit: count, total: count});
 					}
-					this.setState({fetchingAccountHistory: false});
 				}
 			}
 		}
