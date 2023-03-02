@@ -4,12 +4,14 @@ import utils from 'common/utils';
 class PriceText extends React.Component {
 	render() {
 		let {price, preFormattedPrice, quote, base} = this.props;
-		if (!price && !preFormattedPrice) return <span>0.0</span>;
+		if (!price && !preFormattedPrice) {
+			return <span>0.000000</span>;
+		}
 		let formattedPrice = !!preFormattedPrice
 			? preFormattedPrice
 			: utils.price_to_text(price, quote, base);
 
-		let decimal = formattedPrice.dec ?? '' + formattedPrice.trailing ?? '';
+		let decimal = (formattedPrice.dec ?? '') + (formattedPrice.trailing ?? '');
 
 		return (
 			<span>

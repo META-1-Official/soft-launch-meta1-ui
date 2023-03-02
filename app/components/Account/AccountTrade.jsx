@@ -733,10 +733,7 @@ class AccountTrade extends React.Component {
 			if (highPrecisionAssets.indexOf(baseAssetSymbol) !== -1) {
 				precision = 8;
 			}
-			const price = utils.format_number(
-				finalPrice,
-				finalPrice > 1000 ? 0 : finalPrice > 10 ? 2 : precision
-			);
+			const price = utils.format_number(finalPrice, finalPrice > 1000 ? 0 : 6);
 
 			// Change
 			let change = utils.format_number(
