@@ -219,6 +219,7 @@ class RecentTransactions extends React.Component {
 	}
 
 	async _getHistory(accountsList) {
+		this.setState({fetchingAccountHistory: true});
 		let history = [];
 
 		let seen_ops = new Set();
@@ -279,7 +280,7 @@ class RecentTransactions extends React.Component {
 			}
 		}
 
-		this.setState({history});
+		this.setState({history, fetchingAccountHistory: false});
 	}
 
 	_filterHistory(accountsList, filterOp, customFilter) {

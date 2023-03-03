@@ -60,7 +60,9 @@ const AllHistoryViewRow = ({fill, base, quote}) => {
 				style={{color: 'rgba(255, 255, 255, 0.5)', textAlign: 'left'}}
 				className="table-body-class"
 			>
-				<div className="overflow-hidden">{fill.amountToReceive()}</div>
+				<div className="overflow-hidden">
+					{Number(fill.amountToReceive()).toFixed(6)}
+				</div>
 			</td>
 		</tr>
 	);

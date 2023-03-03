@@ -139,15 +139,17 @@ class FormattedAsset extends React.Component {
 			if (this.props.fromExchange) {
 				this.props.balanceHandler(value);
 			}
-			if (decimals > 0)
+			if (decimals > 0) {
 				formattedValue = (
 					<FormattedNumber
 						value={value}
-						minimumFractionDigits={Math.max(decimals, 0)}
-						maximumFractionDigits={Math.max(decimals, 0)}
+						// minimumFractionDigits={Math.max(decimals, 0)}
+						// maximumFractionDigits={Math.max(decimals, 0)}
+						minimumFractionDigits={6}
+						maximumFractionDigits={6}
 					/>
 				);
-			else formattedValue = parseFloat(value.toFixed(5));
+			} else formattedValue = parseFloat(value.toFixed(6));
 
 			if (pulsate) {
 				if (typeof pulsate !== 'object') pulsate = {};

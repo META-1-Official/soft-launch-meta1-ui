@@ -5,6 +5,8 @@ import {Global, ThemeProvider} from '@emotion/react';
 import themeDark from './lib/styles/themeDark';
 import GlobalStyles from 'lib/styles/GlobalStyles';
 import Tap from '@tapfiliate/tapfiliate-js';
+import * as Sentry from '@sentry/react';
+import {BrowserTracing} from '@sentry/tracing';
 
 import {ToastContainer} from 'react-toastify';
 
@@ -15,9 +17,19 @@ if (__PERFORMANCE_DEVTOOL__) {
 	registerObserver();
 }
 
+Sentry.init({
+	dsn: process.env.SENTRY_DSN,
+	integrations: [new BrowserTracing()],
+
+	// Set tracesSampleRate to 1.0 to capture 100%
+	// of transactions for performance monitoring.
+	// We recommend adjusting this value in production
+	tracesSampleRate: 1.0,
+});
+
 const rootEl = document.getElementById('content');
 const render = () => {
-	Tap.init('30344-f2b126');
+	Tap.init(process.env.TAPFILIATE_ACCOUNT_ID);
 
 	ReactDOM.render(
 		<ThemeProvider theme={themeDark}>

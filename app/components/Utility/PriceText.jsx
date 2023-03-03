@@ -9,34 +9,15 @@ class PriceText extends React.Component {
 			? preFormattedPrice
 			: utils.price_to_text(price, quote, base);
 
-		if (formattedPrice.full >= 1) {
-			return (
-				<span>
-					&nbsp;&nbsp;
-					<span className="price-integer">{formattedPrice.int}.</span>
-					<span className="price-integer">{formattedPrice.dec ?? ''}</span>
-					<span className="price-decimal">{formattedPrice.trailing ?? ''}</span>
-				</span>
-			);
-		} else if (formattedPrice.full >= 0.1) {
-			return (
-				<span>
-					&nbsp;&nbsp;
-					<span className="price-decimal">{formattedPrice.int}.</span>
-					<span className="price-integer">{formattedPrice.dec ?? ''}</span>
-					<span className="price-decimal">{formattedPrice.trailing ?? ''}</span>
-				</span>
-			);
-		} else {
-			return (
-				<span>
-					&nbsp;&nbsp;
-					<span className="price-decimal">{formattedPrice.int}.</span>
-					<span className="price-integer">{formattedPrice.dec ?? ''}</span>
-					<span className="price-decimal">{formattedPrice.trailing ?? ''}</span>
-				</span>
-			);
-		}
+		let decimal = formattedPrice.dec ?? '' + formattedPrice.trailing ?? '';
+
+		return (
+			<span>
+				&nbsp;&nbsp;
+				<span className="price-decimal">{formattedPrice.int}.</span>
+				<span className="price-integer">{decimal.substring(0, 6)}</span>
+			</span>
+		);
 	}
 }
 
