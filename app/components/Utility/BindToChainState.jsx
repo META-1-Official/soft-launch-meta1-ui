@@ -509,6 +509,17 @@ function BindToChainState(Component, options = {}) {
 
 				const referred_user = ss.get('referred_user_id', 'null');
 
+				console.log(
+					'@TAPFILIATE@',
+					accountObj,
+					'-',
+					accountObj.get('name'),
+					'-',
+					accountObj.get('history'),
+					'-',
+					referred_user
+				);
+
 				if (
 					referred_user === accountObj.get('name') &&
 					referred_user !== 'null'
