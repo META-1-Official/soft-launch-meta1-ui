@@ -509,17 +509,6 @@ function BindToChainState(Component, options = {}) {
 
 				const referred_user = ss.get('referred_user_id', 'null');
 
-				console.log(
-					'@TAPFILIATE@',
-					accountObj,
-					'-',
-					accountObj.get('name'),
-					'-',
-					accountObj.get('history'),
-					'-',
-					referred_user
-				);
-
 				if (
 					referred_user === accountObj.get('name') &&
 					referred_user !== 'null'
@@ -532,7 +521,10 @@ function BindToChainState(Component, options = {}) {
 							.toJS()
 							.filter((op) => !seen_ops.has(op.id) && seen_ops.add(op.id));
 
+						console.log('@1', parsed);
+
 						parsed.slice(0, 25).forEach((o) => {
+							console.log('@2', o);
 							checkConversion(o, referred_user);
 						});
 					}
