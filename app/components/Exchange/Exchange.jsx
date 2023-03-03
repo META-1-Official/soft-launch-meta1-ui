@@ -2235,6 +2235,7 @@ class Exchange extends React.Component {
 						historyUrl={this.props.history.location}
 						price={buyMarketPrice}
 						locked_v2={this.props.locked_v2}
+						total={totals.ask}
 					/>
 				</Tabs.TabPane>
 				<Tabs.TabPane
@@ -2405,6 +2406,7 @@ class Exchange extends React.Component {
 						historyUrl={this.props.history.location}
 						price={sellMarketPrice}
 						locked_v2={this.props.locked_v2}
+						total={totals.bid}
 					/>
 				</Tabs.TabPane>
 				<Tabs.TabPane
