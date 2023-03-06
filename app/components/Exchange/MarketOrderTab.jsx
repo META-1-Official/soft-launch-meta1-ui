@@ -254,11 +254,12 @@ const MarketOrderForm = (props) => {
 	const handleSubmit = (amount) => {
 		// Liquidity check
 		if (amount > props.total) {
-			toast(
-				`Your amount is over than the liquidity (${
-					props.total
-				} ${props.quoteAsset.get('symbol')})`
-			);
+			const msg = `Current available liquidity is ${
+				props.total
+			} ${props.quoteAsset.get('symbol')}, please adjust amount to ${
+				props.total
+			} ${props.quoteAsset.get('symbol')} or below.`;
+			toast(msg);
 			return;
 		}
 
