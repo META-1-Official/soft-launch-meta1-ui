@@ -126,7 +126,7 @@ const toFixed = (x) => {
 			x += new Array(e + 1).join('0');
 		}
 	}
-	return x.toFixed(6);
+	return Number(x).toFixed(6);
 };
 
 class OrderBookRowHorizontal extends React.Component {

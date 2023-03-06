@@ -9,7 +9,7 @@ class PriceText extends React.Component {
 			? preFormattedPrice
 			: utils.price_to_text(price, quote, base);
 
-		let decimal = formattedPrice.dec ?? '' + formattedPrice.trailing ?? '';
+		let decimal = (formattedPrice.dec ?? '') + (formattedPrice.trailing ?? '');
 
 		return (
 			<span>
