@@ -193,6 +193,7 @@ class OrderBookRowHorizontal extends React.Component {
 		const totalAmt = toFixed(
 			Number(amountWithoutComma) * Number(price.props.price)
 		);
+
 		return (
 			<Tooltip title={'Total: ' + totalAmt} placement="right">
 				{isBid ? (
@@ -212,7 +213,9 @@ class OrderBookRowHorizontal extends React.Component {
 							}}
 							className="table-body-class"
 						>
-							<div className="overflow-hidden">{Number(amount).toFixed(6)}</div>
+							<div className="overflow-hidden">
+								{Number(amountWithoutComma).toFixed(6)}
+							</div>
 						</td>
 						<td
 							style={{
@@ -269,7 +272,9 @@ class OrderBookRowHorizontal extends React.Component {
 								paddingRight: '10px',
 							}}
 						>
-							<div className="overflow-hidden">{Number(amount).toFixed(6)}</div>
+							<div className="overflow-hidden">
+								{Number(amountWithoutComma).toFixed(6)}
+							</div>
 						</td>
 					</tr>
 				)}
