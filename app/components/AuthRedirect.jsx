@@ -34,6 +34,9 @@ const browserstack_test_accounts = [
 	'olive-5',
 	'marry-14',
 	'antman-kok357',
+	'mary-14',
+	'bond-03',
+	'rock-64',
 ];
 
 class AuthRedirect extends React.Component {

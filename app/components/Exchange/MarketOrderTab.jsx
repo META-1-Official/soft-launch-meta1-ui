@@ -15,6 +15,7 @@ import walletIcon from '../../assets/icons/walleticon.png';
 import Immutable from 'immutable';
 import {BalanceValueComponent} from 'components/Utility/EquivalentValueComponent';
 import ExchangeInput from './ExchangeInput';
+import {toast} from 'react-toastify';
 
 const MarketOrderForm = (props) => {
 	const [feeAssets, setFeeAssets] = useState([]);
@@ -251,6 +252,19 @@ const MarketOrderForm = (props) => {
 	};
 
 	const handleSubmit = (amount) => {
+		const liquidty = parseFloat((props.total - 0.0001).toFixed(3));
+
+		// Liquidity check
+		if (amount > props.total) {
+			const msg = `Current available liquidity is ${liquidty} ${props.quoteAsset.get(
+				'symbol'
+			)}, please adjust amount to ${liquidty} ${props.quoteAsset.get(
+				'symbol'
+			)} or below.`;
+			toast(msg);
+			return;
+		}
+
 		prepareOrders(Number(amount));
 	};
 
@@ -424,7 +438,12 @@ const MarketOrderForm = (props) => {
 					/>
 				</Form.Item>
 
-				<Form.Item {...formItemProps} name="totalBalance" label="Total">
+				<Form.Item
+					{...formItemProps}
+					name="totalBalance"
+					label="Total"
+					style={{display: 'none'}}
+				>
 					<Input
 						style={{width: '100%'}}
 						autoComplete="off"

@@ -9,12 +9,12 @@ const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
 
 // track customer
-export const checkCustomer = (customerId) => {
-	Tap.customer(customerId);
+export const checkCustomer = async (customerId) => {
+	await Tap.customer(customerId);
 };
 
 // track conversion
-export const checkConversion = (o, referred_user) => {
+export const checkConversion = async (o, referred_user) => {
 	const ops = Object.keys(ChainTypes?.operations);
 
 	ops.push(
@@ -25,11 +25,13 @@ export const checkConversion = (o, referred_user) => {
 		'asset_price_publish_operation'
 	);
 
-	const dynGlobalObject = ChainStore.getObject('2.1.0');
+	const dynGlobalObject = await ChainStore.getObject('2.1.0');
 	const lastIrreversibleBlockNum = dynGlobalObject.get(
 		'last_irreversible_block_num'
 	);
 	let trxTypes = counterpart.translate('transaction.trxTypes');
+
+	console.log('@00', trxTypes, ops[o.op[0]], lastIrreversibleBlockNum);
 
 	if (
 		trxTypes[ops[o.op[0]]] !== 'Transfer' ||
@@ -38,36 +40,36 @@ export const checkConversion = (o, referred_user) => {
 	)
 		return;
 
+	const fromAcc = await ChainStore.getAccount(o.op[1].from);
+	const asset = await ChainStore.getAsset(o.op[1].amount.asset_id);
+	const toAcc = await ChainStore.getAccount(o.op[1].to);
+
 	const info = [
 		{
 			type: 'account',
-			details: ChainStore.getAccount(o.op[1].from)
-				? ChainStore.getAccount(o.op[1].from).toJS()
-				: {},
+			details: fromAcc ? fromAcc.toJS() : {},
 			arg: 'from',
 		},
 		{
 			type: 'amount',
 			value: o.op[1].amount,
-			details: ChainStore.getAsset(o.op[1].amount.asset_id)
-				? ChainStore.getAsset(o.op[1].amount.asset_id).toJS()
-				: {},
+			details: asset ? asset.toJS() : {},
 		},
 		{
 			type: 'account',
-			details: ChainStore.getAccount(o.op[1].to)
-				? ChainStore.getAccount(o.op[1].to).toJS()
-				: {},
+			details: toAcc ? toAcc.toJS() : {},
 			arg: 'to',
 		},
 	];
+
+	console.log('@11', info);
 
 	if (referred_user === info[2].details.name && info[1].details.symbol) {
 		const precision = utils.get_asset_precision(info[1].details.precision);
 		const decimalOffset = o.op[1].amount.asset_id.asset_id === '1.3.0' ? 5 : 0;
 		const decimals = Math.max(0, precision - decimalOffset);
 
-		Tap.conversion(`${o.id}`, info[1].value.amount / decimals, {
+		await Tap.conversion(`${o.id}`, info[1].value.amount / decimals, {
 			customer_id: info[2].details.name,
 			meta_data: {
 				raw_amount: info[1].value.amount,
@@ -80,6 +82,8 @@ export const checkConversion = (o, referred_user) => {
 				received_id: info[2].details.id,
 			},
 		});
+
+		console.log('Conversion Created');
 		ss.remove('referred_user_id');
 	}
 };

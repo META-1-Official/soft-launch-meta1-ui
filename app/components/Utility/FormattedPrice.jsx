@@ -183,8 +183,10 @@ class FormattedPrice extends React.Component {
 			formatted_value = (
 				<FormattedNumber
 					value={value}
-					minimumFractionDigits={Math.max(2, decimals)}
-					maximumFractionDigits={Math.max(2, decimals)}
+					// minimumFractionDigits={Math.max(2, decimals)}
+					// maximumFractionDigits={Math.max(2, decimals)}
+					minimumFractionDigits={6}
+					maximumFractionDigits={6}
 				/>
 			);
 

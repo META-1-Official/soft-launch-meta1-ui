@@ -265,9 +265,13 @@ class AccountRegistrationConfirm extends React.Component {
 			last_name,
 			private_key
 		)
-			.then((res) => {
+			.then(async (res) => {
 				AccountActions.setPasswordAccount(name);
 				this.trackSignup(res);
+
+				await axios.post(process.env.LITE_WALLET_URL + '/signUp', {
+					accountName: name,
+				});
 
 				if (this.state.registrarAccount) {
 					FetchChain('getAccount', name).then(() => {

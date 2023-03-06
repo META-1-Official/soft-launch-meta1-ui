@@ -521,7 +521,10 @@ function BindToChainState(Component, options = {}) {
 							.toJS()
 							.filter((op) => !seen_ops.has(op.id) && seen_ops.add(op.id));
 
+						console.log('@1', parsed);
+
 						parsed.slice(0, 25).forEach((o) => {
+							console.log('@2', o);
 							checkConversion(o, referred_user);
 						});
 					}
