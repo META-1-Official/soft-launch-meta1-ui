@@ -33,7 +33,6 @@ const browserstack_test_accounts = [
 	'john-doe',
 	'olive-5',
 	'marry-14',
-	'antman-kok357',
 	'mary-14',
 	'bond-03',
 	'rock-64',
