@@ -8,36 +8,21 @@
 		<meta name='viewport' content='width=device-width' />
 		<meta name='format-detection' content='telephone=no' />
 		<title>{{title}}</title>
-		<meta
-			http-equiv='Content-Security-Policy'
-			content="default-src 'self' blob:; worker-src 'self' blob:; frame-src 'self' *; script-src https://cdnjs.cloudflare.com/ * 'self' 'unsafe-eval' 'unsafe-inline'; style-src * 'unsafe-inline'; connect-src 'self' *; font-src 'self' data: https://at.alicdn.com; img-src 'self' * data:;"
-		/>
+		{{!
+	<meta http-equiv='Content-Security-Policy'
+		content="default-src 'self' blob:; worker-src 'self' blob:; frame-src 'self' *; script-src https://cdnjs.cloudflare.com/ * 'self' 'unsafe-eval' 'unsafe-inline'; style-src * 'unsafe-inline'; connect-src 'self' *; font-src 'self' data: https://at.alicdn.com; img-src 'self' * data:;" />
+	}}
 
 		<link rel='icon' type='image/x-icon' href='favicon.ico' />
 		<style>
-			body { background-color: #2a2a2a; -ms-overflow-style: none; /* Internet
-			Explorer 10+ */ scrollbar-width: none; /* Firefox */ }
-			body::-webkit-scrollbar { display: none /* Safari and Chrome */ }
+			body { background-color: #2a2a2a; -ms-overflow-style: none;
+			scrollbar-width: none; } body::-webkit-scrollbar { display: none }
 			.centerDiv { width: 140px; border-radius: 5px; color: lightgrey; padding:
 			10px; height: 50px; position: absolute; margin-top: -25px; margin-left:
 			-70px; top: 50%; left: 50%; font-family: "HelveticaNeue-Light", "Helvetica
 			Neue Light", " Helvetica Neue", Helvetica, Arial, " Lucida Grande",
 			sans-serif; font-weight: 100; font-size: 44px; }
 		</style>
-		{{#if ELECTRON}}
-			<script>
-				var ref = encodeURIComponent(document.referrer); if (window.process &&
-				window.process.versions && window.process.versions['electron']) {
-				window.electron = window.process.versions['electron']; window.remote =
-				require('electron').remote; window._$guid$_ =
-				window.remote.getGlobal('guid'); window.app_version =
-				window.remote.getGlobal('version'); ref = 'lw-' +
-				window.process.platform + '-' + window.app_version + '-' +
-				window.remote.getGlobal('guid'); window.onload = function (e) { var
-				content = document.getElementById("content"); if (content)
-				content.className = "electron " + window.process.platform; } }
-			</script>
-		{{/if}}
 	</head>
 
 	<body>
@@ -69,8 +54,8 @@
 			your local wallet and import it using the Chrome Browser."); var linkText
 			= document.createTextNode("Google Chrome"); var closeLinkText =
 			document.createTextNode("×"); var btnText = document.createTextNode("I
-			UNDERSTAND"); linkWrapper.classList.add("outdated - browser__link -
-			wrapper"); link.appendChild(linkText); link.setAttribute("href",
+			UNDERSTAND "); linkWrapper.classList.add(" outdated - browser__link -
+			wrapper "); link.appendChild(linkText); link.setAttribute("href ",
 			"https://www.google.com/chrome/browser/desktop/");
 			link.setAttribute("target", "_blank"); linkWrapper.appendChild(link);
 			closeLink.classList.add("outdated-browser__close");
