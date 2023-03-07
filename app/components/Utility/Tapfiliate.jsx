@@ -35,7 +35,7 @@ export const checkConversion = async (o, referred_user) => {
 
 	if (
 		trxTypes[ops[o.op[0]]] !== 'Transfer' ||
-		o.block_num > lastIrreversibleBlockNum ||
+		// o.block_num > lastIrreversibleBlockNum ||
 		!referred_user
 	)
 		return;
