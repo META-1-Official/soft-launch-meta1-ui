@@ -30,6 +30,7 @@ import utils from 'common/utils';
 import ChartjsAreaChart from '../Graph/Graph';
 import ls from '../../lib/common/localStorage';
 import history from 'lib/common/history';
+import {withTheme} from '@emotion/react';
 
 const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
@@ -329,7 +330,7 @@ class AssetsPairTabs extends React.Component {
 									<span
 										style={{
 											fontSize: '14px',
-											color: '#D0D0D0',
+											color: this.props.theme.colors.assetSymbolColor,
 										}}
 									>
 										<strong>{quoteAssetSymbol}</strong>
@@ -533,7 +534,7 @@ class AssetsPairTabs extends React.Component {
 									fontSize: '14px',
 									minWidth: '50px',
 									textAlign: 'right',
-									color: '#D0D0D0',
+									color: this.props.theme.colors.assetSymbolColor,
 								}}
 							>
 								{price}
@@ -640,7 +641,7 @@ class AssetsPairTabs extends React.Component {
 			}
 			const price = utils.format_number(
 				finalPrice,
-				finalPrice > 1000 ? 0 : finalPrice > 10 ? 2 : 6
+				finalPrice > 1000 ? 0 : finalPrice > 10 ? 2 : precision
 			);
 
 			// Change
@@ -757,6 +758,8 @@ AssetsPairTabs = AssetWrapper(AssetsPairTabs, {
 	asList: true,
 	withDynamic: true,
 });
+
+AssetsPairTabs = withTheme(AssetsPairTabs);
 
 export default connect(AssetsPairTabs, {
 	listenTo() {
