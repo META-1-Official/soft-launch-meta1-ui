@@ -18,12 +18,14 @@ import {Tooltip} from 'antd';
 import getLocale from 'browser-locale';
 import Icon from 'components/Icon/Icon';
 import utils from 'common/utils';
+import {useTheme} from '@emotion/react';
 
 const AllHistoryViewRow = ({fill, base, quote}) => {
+	const theme = useTheme();
 	const isMarket = fill.id.indexOf('5.0') !== -1 ? true : false;
 	const timestamp = isMarket ? (
 		<td
-			style={{color: 'rgba(255, 255, 255, 0.5)', textAlign: 'left'}}
+			style={{color: theme.colors.orderTextColor, textAlign: 'left'}}
 			className="table-body-class time-class"
 		>
 			<Tooltip title={fill.time.toString()} placement="left">
@@ -46,7 +48,13 @@ const AllHistoryViewRow = ({fill, base, quote}) => {
 	);
 
 	return (
-		<tr style={{background: fill.isBid ? '#091613' : '#1D0D0F'}}>
+		<tr
+			style={{
+				background: fill.isBid
+					? theme.colors.bidRowBackgroundColor
+					: theme.colors.askRowBackgroundColor,
+			}}
+		>
 			{timestamp}
 			<td
 				style={{color: fill.isBid ? '#009D55' : '#FF2929', textAlign: 'left'}}
