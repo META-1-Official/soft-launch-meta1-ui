@@ -19,6 +19,7 @@ const theme = {
 		buttonGreenColor: '#009d55',
 		inputBackgroundColor: '#15171b',
 		inputTextColor: '#919293',
+		inputBorderColor: '#1C1F27',
 		tagCancelColor: '#823637',
 		tagSuccessColor: '#127655',
 		tagInfoColor: '#2b4d79',
