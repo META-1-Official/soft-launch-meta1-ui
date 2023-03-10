@@ -693,7 +693,6 @@ div.account-overview {
 			.ant-table {
 				background: black;
 				border-radius: 4px;
-				border: 1px solid #1c1f27;
 
 				.ant-table-thead {
 					.ant-table-cell {
@@ -854,9 +853,6 @@ div.tabs-container {
 
 // Open Orders page
 .open-orders {
-	border-radius: 3px;
-	border: 1px solid #1c1f27;
-
 	.grid-wrapper {
 		margin-bottom: 0;
 	}
@@ -877,7 +873,6 @@ div.tabs-container {
 
 	table {
 		border-collapse: collapse;
-		border: 1px solid #1c1f27;
 		border-radius: 3px;
 		background-color: #0a0b0d;
 
@@ -964,7 +959,6 @@ div.tabs-container {
 		font-weight: 400;
 		font-size: 24px;
 		line-height: 36px;
-		color: #ffffff;
 	}
 
 	.header-selector {
@@ -991,10 +985,6 @@ div.tabs-container {
 					svg {
 						width: 15px;
 						height: 15px;
-
-						path {
-							fill: rgba(255, 255, 255, 0.5);
-						}
 					}
 				}
 			}
@@ -1002,13 +992,8 @@ div.tabs-container {
 	}
 
 	.ant-table {
-		background: black;
-
 		.ant-table-container {
 			.ant-table-content {
-				border: 1px solid #1c1f27;
-				border-radius: 4px;
-
 				.ant-table-thead {
 					height: 50px;
 					font-size: 14px;
@@ -1102,11 +1087,7 @@ div.account-trade {
 			}
 
 			.ant-table {
-				background-color: #0a0b0d;
-
 				.ant-table-cell {
-					background-color: #0a0b0d;
-
 					.chart {
 						width: 100px;
 						height: 100%;
@@ -2079,7 +2060,8 @@ div.account-notification {
 	left: auto !important;
 	right: 45px;
 	top: 166px !important;
-	background-color: #15171b;
+	border-radius: 8px;
+
 	.ant-checkbox-group-item {
 		display: block;
 		margin-right: 0;

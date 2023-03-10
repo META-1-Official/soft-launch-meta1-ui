@@ -1,7 +1,6 @@
 @import 'theme-template';
 
 // variables
-
 $light-text-color: #fff;
 $dark-text-color: rgb(255, 255, 255);
 $primary-text-color: #ffffff;
@@ -45,6 +44,7 @@ $header-color: #000000; // do not touch
 
 $button-mix1: #874002;
 $button-mix2: #d5ba48;
+
 // Account table view colors
 $account-header: #1f1f1f; // do not touch
 $account-cells: black; // do not touch
@@ -135,15 +135,12 @@ $tabs-item--active--border-color: $primary-color;
 $tabs-content-background-color: $primary-dark;
 
 // Selector
-
 $selector-active-border-color: $primary-color;
 $selector-active-text-color: $primary-color;
-
 $selector-border-color: lighten($primary-dark, 5%);
 $selector-text-color: lighten($primary-dark, 35%);
 
 // Header Menu
-
 $header-menu--active--icon-background: $primary-dark;
 $header-menu--active--box-shadow: 0 4px 9px 0 #00000015;
 $header-menu-background-color: lighten($primary-dark, 5%);
@@ -238,4 +235,23 @@ $header-menu-item--hover--background-color: lighten($primary-dark, 10%);
 		$dark-help-text,
 		$settings-label-color
 	);
+
+	.custom-dropdown-class {
+		background-color: #15171b;
+	}
+
+	.react-datepicker-wrapper {
+		input {
+			background-color: #15171b;
+		}
+	}
+	.account-trade {
+		.ant-table {
+			background-color: #0a0b0d;
+
+			.ant-table-cell {
+				background-color: #0a0b0d;
+			}
+		}
+	}
 }

@@ -126,15 +126,12 @@ $tabs-item--active--border-color: $primary-color;
 $tabs-content-background-color: $white;
 
 // Selector
-
 $selector-active-border-color: $primary-color;
 $selector-active-text-color: $primary-color;
-
 $selector-border-color: $dark-3;
 $selector-text-color: $dark-1;
 
 // Header Menu
-
 $header-menu--active--icon-background: $white;
 $header-menu--active--box-shadow: 0 4px 9px 0 #00000015;
 $header-menu-background-color: #fff;
@@ -237,13 +234,20 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 	thead[class*='ant-table-thead'] th {
 		background-color: #f5f6fa !important;
 	}
+
 	div[class*='ant-table-footer'] {
 		background-color: #f5f6fa !important;
 		color: white;
 	}
 
+	.custom-dropdown-class {
+		background-color: #ffffff;
+		border: 1px solid #eaeaea;
+	}
+
 	div.account-overview {
 		background-color: #ffffff;
+
 		.portfolio {
 			background-color: #f5f6fa;
 
@@ -265,6 +269,15 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 
 				.hide-switch {
 					color: rgba(0, 0, 0, 0.6);
+				}
+			}
+		}
+
+		.recent-transactions {
+			.react-datepicker-wrapper {
+				input {
+					background-color: #ffffff;
+					border: 1px solid #eaeaea;
 				}
 			}
 		}
@@ -294,6 +307,64 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 
 			.dropdown-btn-class {
 				background-color: #f5f6fa !important;
+			}
+		}
+	}
+
+	.account-trade {
+		div.filter {
+			border-left: 1px solid #eaeaea !important;
+			border-right: 1px solid #eaeaea !important;
+			border-top: 1px solid #eaeaea !important;
+			border-radius: 3px;
+			border-bottom-right-radius: 0px;
+			border-bottom-left-radius: 0px;
+			padding: 15px;
+
+			div.ant-select {
+				margin-top: 7px;
+			}
+		}
+
+		div.select {
+			border-left: 1px solid #eaeaea !important;
+			border-right: 1px solid #eaeaea !important;
+			background-color: #f5f6fa !important;
+
+			.toggle-box {
+				&.selected {
+					border-top: 2px #dea702 solid;
+					color: #dea702;
+					background-color: #ffffff;
+				}
+			}
+		}
+
+		.ant-table-container {
+			padding-bottom: 100px;
+			border: none !important;
+
+			table > thead {
+				th {
+					border-bottom: 1px solid #eaeaea !important;
+					padding-left: 15px;
+
+					.header-text .anticon {
+						float: right;
+					}
+				}
+
+				span {
+					text-transform: uppercase;
+				}
+			}
+		}
+
+		.ant-table {
+			background-color: white;
+
+			.ant-table-cell {
+				background-color: white !important;
 			}
 		}
 	}
@@ -381,6 +452,7 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 	.order-book-panel {
 		.header {
 			background-color: transparent;
+
 			.title {
 				color: $dark !important;
 			}

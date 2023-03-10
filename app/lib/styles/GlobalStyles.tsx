@@ -119,6 +119,7 @@ const GlobalStyles = (theme: any) => css`
 	.ant-table {
 		color: ${theme.colors.themeOpositeColor}; 
 		border: 1px solid ${theme.colors.borderColor};
+		background: ${theme.colors.background}
 	}
 	.ant-table-thead {
 		th.ant-table-column-sort {
@@ -254,9 +255,12 @@ const GlobalStyles = (theme: any) => css`
 			border-radius: 6px;
 		}
 		.ant-input-group-addon {
-			background-color: ${theme.colors.inputBackgroundColor};
 			border: none;
+			background: transparent;
  		}
+		.ant-input-wrapper {
+			border: 1px solid ${theme.colors.inputBorderColor};
+		}
 	}
 	.ant-modal-header {
 		background: transparent;
@@ -329,23 +333,6 @@ const GlobalStyles = (theme: any) => css`
 	.ant-form-item-has-error :not(.ant-input-disabled):not(.ant-input-borderless).ant-input, .ant-form-item-has-error :not(.ant-input-affix-wrapper-disabled):not(.ant-input-affix-wrapper-borderless).ant-input-affix-wrapper, .ant-form-item-has-error :not(.ant-input-number-affix-wrapper-disabled):not(.ant-input-number-affix-wrapper-borderless).ant-input-number-affix-wrapper, .ant-form-item-has-error :not(.ant-input-disabled):not(.ant-input-borderless).ant-input:hover, .ant-form-item-has-error :not(.ant-input-affix-wrapper-disabled):not(.ant-input-affix-wrapper-borderless).ant-input-affix-wrapper:hover, .ant-form-item-has-error :not(.ant-input-number-affix-wrapper-disabled):not(.ant-input-number-affix-wrapper-borderless).ant-input-number-affix-wrapper:hover {
 		background: ${theme.colors.black};
 	}
-	.ant-select-item-option-content {
-		color: ${theme.colors.inputTextColor};
-		&:hover{
-			background: ${theme.colors.black};
-		}
-	}
-
-	.ant-select-item-option-active.customOption  {
-		background: white !important;
-		& > .ant-select-item-option-content {
-		  background: transparent !important
-		}
-	}
-
-	.ant-select-item-option-selected.customOption:not(.ant-select-item-option-active) {
-		background: transparent !important;
-	}
 	  
 	.ant-select-disabled.ant-select:not(.ant-select-customize-input) .ant-select-selector {
 		background-color: ${theme.colors.dropdownBackgroundColor};
@@ -357,10 +344,7 @@ const GlobalStyles = (theme: any) => css`
 		color: ${theme.colors.themeOpositeColor};
 	 	border: 1px solid ${theme.colors.borderColor};
 	}
-	.ant-select-item-option-active:not(.ant-select-item-option-disabled) {
-		background: ${theme.colors.black} ;   
-	}
-
+	
 	.ant-select-arrow {
 		color: ${theme.colors.themeOpositeColor};
 	}
