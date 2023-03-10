@@ -12,6 +12,8 @@ import {BrowserTracing} from '@sentry/tracing';
 import SettingsStore from 'stores/SettingsStore';
 import {useState, useEffect} from 'react';
 
+import {ToastContainer} from 'react-toastify';
+
 import 'react-toastify/dist/ReactToastify.css';
 
 if (__PERFORMANCE_DEVTOOL__) {
@@ -47,6 +49,7 @@ const Root = () => {
 				styles={GlobalStyles(theme === 'darkTheme' ? themeDark : themeLight)}
 			/>
 			<AppInit />
+			<ToastContainer theme={theme === 'darkTheme' ? 'dark' : 'light'} />
 		</ThemeProvider>
 	);
 };

@@ -38,6 +38,21 @@ const browserstack_test_accounts = [
 	'rock-64',
 ];
 
+const errorCase = {
+	'Camera Not Found': 'Please check your camera.',
+	'Not Matched': 'Email and wallet name are not matched.',
+	'Verify Failed':
+		'We can not verify you because you never enrolled with your face yet.',
+	'No Users':
+		'You never enrolled with your face yet. Please enroll first via signup process.',
+	'Spoof Detected': 'Spoof detected. Are you trying with your real live face?',
+	'Face not Detected':
+		'Face not detected. Try again by changing position or background.',
+	'Invalid Email':
+		'Bio-metric verification failed for this email. Please use an email that has been linked to your biometric verification / enrollment.',
+	'Biometic Server Error': 'Something went wrong from Biometric server.',
+};
+
 class AuthRedirect extends React.Component {
 	constructor() {
 		super();
@@ -139,7 +154,7 @@ class AuthRedirect extends React.Component {
 		}
 	}
 
-	dataURLtoFile(dataurl, filename) {
+	async dataURLtoFile(dataurl, filename) {
 		var arr = dataurl.split(','),
 			mime = arr[0].match(/:(.*?);/)[1],
 			bstr = atob(arr[1]),
@@ -151,91 +166,76 @@ class AuthRedirect extends React.Component {
 		return new File([u8arr], filename, {type: mime});
 	}
 
+	isMobile() {
+		return window.innerWidth < window.innerHeight;
+	}
+
 	async checkAndVerify() {
 		const {privKey, authData} = this.props;
-		const {photoIndex} = this.state;
+		const {photoIndex, device} = this.state;
 		const accountName = ss.get('account_login_name', '');
 
 		if (!accountName || !privKey) return;
 
 		this.setState({verifying: true});
 
-		const response_user = await kycService.getUserKycProfile(
-			authData.email.toLowerCase()
-		);
+		if (photoIndex === 0) {
+			const response_user = await kycService.getUserKycProfile(
+				authData.email.toLowerCase()
+			);
 
-		if (!response_user?.member1Name) {
-			toast('Email and wallet name are not matched.');
-			this.setState({verifying: false});
-			return;
-		} else {
-			const walletArry = response_user.member1Name.split(',');
-
-			if (!walletArry.includes(accountName)) {
-				toast('Email and wallet name are not matched.');
+			if (!response_user?.member1Name) {
+				toast(errorCase['Not Matched']);
 				this.setState({verifying: false});
 				return;
+			} else {
+				const walletArry = response_user.member1Name.split(',');
+
+				if (!walletArry.includes(accountName)) {
+					toast(errorCase['Not Matched']);
+					this.setState({verifying: false});
+					return;
+				}
 			}
 		}
 
-		const imageSrc = this.webcamRef.current.getScreenshot({
-			width: 1280,
-			height: 720,
-		});
+		var sizeForSreenShot =
+			this.isMobile() && device.width
+				? {width: device.width, height: device.height}
+				: {width: 1280, height: 720};
+		const imageSrc = this.webcamRef.current.getScreenshot(sizeForSreenShot);
 
 		if (!imageSrc) {
-			toast('Please check your camera.');
+			toast(errorCase['Camera Not Found']);
 			this.setState({verifying: false});
 			return;
 		}
 
 		var file = await this.dataURLtoFile(imageSrc, 'a.jpg');
-		const response = await faceKIService.liveLinessCheck(file);
+		const response = await faceKIService.verify(file);
 		this.setState({photoIndex: photoIndex + 1});
 
 		if (!response) {
-			toast('Something went wrong from Biometric server.');
+			toast(errorCase['Biometic Server Error']);
 			this.setState({verifying: false, photoIndex: 0});
 			return;
 		}
 
-		if (response.data.liveness !== 'Genuine' && photoIndex === 10) {
-			toast('Try again by changing position or background.');
+		if (response.status !== 'Verify OK' && photoIndex === 5) {
+			toast(errorCase[response.status]);
 			this.setState({verifying: false, photoIndex: 0});
-		} else if (response.data.liveness === 'Genuine') {
-			this.setState({photoIndex: 0});
-			await this.faceVerify(file);
-		} else {
-			await this.checkAndVerify();
-		}
-	}
-
-	async faceVerify(file) {
-		const {privKey, authData} = this.props;
-		let msg = '';
-
-		const response_verify = await faceKIService.verify(file);
-		if (response_verify.status === 'Verify OK') {
-			const nameArry = response_verify.name.split(',');
+		} else if (response.status === 'Verify OK') {
+			const nameArry = response.name.split(',');
 
 			if (nameArry.includes(authData.email.toLowerCase())) {
-				this.setState({faceKISuccess: true});
-				this.setState({verifying: false});
+				this.setState({faceKISuccess: true, verifying: false});
 				this.continueLogin();
 			} else {
-				msg =
-					'Bio-metric verification failed for this email. Please use an email that has been linked to your biometric verification / enrollment.';
-				toast(msg);
-				this.setState({verifying: false});
+				toast(errorCase['Invalid Email']);
+				this.setState({verifying: false, photoIndex: 0});
 			}
-		} else if (response_verify.status === 'Verify Failed') {
-			msg =
-				'We can not verify you because you never enrolled with your face yet.';
-			toast(msg);
-			this.setState({verifying: false});
 		} else {
-			toast('Please try again.');
-			this.setState({verifying: false});
+			await this.checkAndVerify();
 		}
 	}
 
