@@ -234,14 +234,6 @@ export default class ExchangeHeader extends React.Component {
 								title="icons.fi_star.market"
 							/>
 						</a>
-						{/* <AntIcon
-							style={{marginRight: 0}}
-							id="center-item"
-							onClick={this.props.showPriceAlertModal}
-							type={'bell'}
-							className={`exchange--price-alert--show-modal ${PriceAlertBellClassName}`}
-							data-intro={translator.translate('walkthrough.price_alerts')}
-						/> */}
 						<Link
 							id="center-item"
 							style={{marginLeft: 0}}
