@@ -141,7 +141,7 @@ class WithdrawModalNew extends React.Component {
 		return {selectedAsset, selectedGateway, gateFee};
 	}
 
-	componentWillReceiveProps(np) {
+	UNSAFE_componentWillReceiveProps(np) {
 		this.setState(this._getAssetPairVariables(np));
 
 		if (this.state.address != '') {

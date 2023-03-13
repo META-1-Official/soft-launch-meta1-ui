@@ -24,7 +24,7 @@ class BalanceClaimByAsset extends Component {
 		this.existing_keys = keySeq;
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		var keys = PrivateKeyStore.getState().keys;
 		var keySeq = keys.keySeq();
 		if (!keySeq.equals(this.existing_keys)) {

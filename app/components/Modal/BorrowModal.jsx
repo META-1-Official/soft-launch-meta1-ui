@@ -119,7 +119,7 @@ class BorrowModalContent extends React.Component {
 		);
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		const {debtAmount, collateral, collateral_ratio} = this.state;
 
 		if (

@@ -45,7 +45,7 @@ class MarketGroup extends React.Component {
 		};
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		if (nextProps.findMarketTab !== this.props.findMarketTab) {
 			this.setState(this._getInitialState(nextProps));
 		}
@@ -407,7 +407,7 @@ class MyMarkets extends React.Component {
 		clearTimeout(this.timer);
 	}
 
-	componentWillReceiveProps(np) {
+	UNSAFE_componentWillReceiveProps(np) {
 		if (this.props.myMarketTab && !np.myMarketTab) {
 			if (this.refs.findSearchInput) this.refs.findSearchInput.focus();
 		}

@@ -96,7 +96,7 @@ class WalletUnlockModal extends React.Component {
 		};
 	};
 
-	componentWillReceiveProps(np) {
+	UNSAFE_componentWillReceiveProps(np) {
 		const {walletSelected, restoringBackup, accountName} = this.state;
 		const {
 			currentWallet: newCurrentWallet,

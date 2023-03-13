@@ -136,7 +136,7 @@ class TransactionConfirm extends React.Component {
 		TransactionConfirmActions.proposeFeePayingAccount(fee_paying_account);
 	}
 
-	componentWillReceiveProps(np) {
+	UNSAFE_componentWillReceiveProps(np) {
 		if (np.broadcast && np.included && !this.props.included && !np.error) {
 			notify.addNotification.defer({
 				children: (

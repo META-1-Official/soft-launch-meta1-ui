@@ -17,7 +17,7 @@ class ShowcaseGrid extends Component {
 		});
 	}
 
-	componentWillReceiveProps(np) {
+	UNSAFE_componentWillReceiveProps(np) {
 		if (np.currentAccount !== this.props.currentAccount) {
 			this.setState({
 				currentAccount: ChainStore.getAccount(np.currentAccount),

@@ -99,7 +99,7 @@ class AccountRegistrationForm extends React.Component {
 		}
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		if (nextProps.visibility != this.state.visibility) {
 			this.setState({visibility: nextProps.visibility, captcha: false}, () => {
 				if (

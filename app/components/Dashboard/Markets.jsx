@@ -71,7 +71,7 @@ class FeaturedMarkets extends React.Component {
 		this.update();
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		this.update(nextProps);
 	}
 

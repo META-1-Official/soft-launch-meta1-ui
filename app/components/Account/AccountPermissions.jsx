@@ -53,7 +53,7 @@ class AccountPermissions extends React.Component {
 		}
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		if (nextProps.account !== this.props.account)
 			this.updateAccountData(nextProps.account);
 	}

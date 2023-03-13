@@ -69,7 +69,7 @@ class PredictionMarkets extends Component {
 		this._checkAssets(this.props.assets);
 	}
 
-	componentWillReceiveProps(np) {
+	UNSAFE_componentWillReceiveProps(np) {
 		if (np.assets !== this.props.assets) {
 			this._checkAssets(np.assets);
 		}

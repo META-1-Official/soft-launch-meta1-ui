@@ -100,7 +100,7 @@ class Settings extends React.Component {
 		}
 	}
 
-	componentWillReceiveProps(np) {
+	UNSAFE_componentWillReceiveProps(np) {
 		if (
 			np.settings.get('passwordLogin') !==
 			this.props.settings.get('passwordLogin')

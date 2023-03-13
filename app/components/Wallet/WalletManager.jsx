@@ -261,7 +261,7 @@ class ChangeActiveWallet extends Component {
 		this.setState({current_wallet});
 	}
 
-	componentWillReceiveProps(np) {
+	UNSAFE_componentWillReceiveProps(np) {
 		if (np.current_wallet !== this.state.current_wallet) {
 			this.setState({current_wallet: np.current_wallet});
 		}

@@ -207,7 +207,7 @@ class FeeAssetSelector extends React.Component {
 		}
 	}
 
-	componentWillReceiveProps(np, ns) {
+	UNSAFE_componentWillReceiveProps(np, ns) {
 		// don't do async loading in componentWillReceiveProps
 	}
 

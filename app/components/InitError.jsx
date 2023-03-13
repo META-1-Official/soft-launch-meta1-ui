@@ -21,7 +21,7 @@ class InitError extends React.Component {
 		this.handleModalClose = this.handleModalClose.bind(this);
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		if (
 			nextProps.rpc_connection_status === 'open' &&
 			nextProps.apiServer !== this.props.apiServer

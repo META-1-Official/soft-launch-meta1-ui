@@ -50,7 +50,7 @@ class AccountVotingProxy extends React.Component {
 		this.onProxyAccountChange = this.onProxyAccountChange.bind(this);
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		if (!this.state.current_proxy_input) {
 			this.setState({
 				current_proxy_input: nextProps.proxyAccount

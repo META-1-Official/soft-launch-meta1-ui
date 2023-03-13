@@ -162,7 +162,7 @@ class Header extends React.Component {
 		document.body.removeEventListener('click', this.onBodyClick);
 	}
 
-	componentWillReceiveProps(np) {
+	UNSAFE_componentWillReceiveProps(np) {
 		if (
 			np.passwordLogin !== this.props.passwordLogin &&
 			this.state.active.includes('/settings/')

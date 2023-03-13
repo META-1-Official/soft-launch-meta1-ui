@@ -50,7 +50,7 @@ class AccountPage extends React.Component {
 		}
 	}
 
-	componentWillReceiveProps(np) {
+	UNSAFE_componentWillReceiveProps(np) {
 		if (np.account) {
 			const npName = np.account.get('name');
 			const currentName = this.props.account && this.props.account.get('name');

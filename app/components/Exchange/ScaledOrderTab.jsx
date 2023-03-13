@@ -50,7 +50,7 @@ class ScaledOrderForm extends Component {
 		}
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		if (
 			nextProps.quoteAsset.get('symbol') !==
 				this.props.quoteAsset.get('symbol') ||

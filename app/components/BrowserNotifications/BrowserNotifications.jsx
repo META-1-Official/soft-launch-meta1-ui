@@ -22,7 +22,7 @@ class BrowserNotifications extends React.Component {
 		}
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		// if browser notifications disabled on settings we can skip all checks
 		if (!nextProps.settings.get('browser_notifications').allow) {
 			console.log('browser notifications disabled by settings');

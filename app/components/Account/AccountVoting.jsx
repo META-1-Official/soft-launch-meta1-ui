@@ -100,7 +100,7 @@ class AccountVoting extends React.Component {
 		);
 	}
 
-	componentWillReceiveProps(np) {
+	UNSAFE_componentWillReceiveProps(np) {
 		if (np.account !== this.props.account) {
 			const proxyId = np.proxy.get('id');
 			let newState = {

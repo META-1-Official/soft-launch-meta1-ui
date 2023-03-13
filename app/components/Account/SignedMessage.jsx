@@ -81,7 +81,7 @@ class SignedMessage extends React.Component {
 		this._verifyMessage(this.state.message);
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		let signedMessage = nextProps.message;
 		if (
 			signedMessage != undefined &&

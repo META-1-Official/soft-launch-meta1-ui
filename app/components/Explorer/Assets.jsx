@@ -115,7 +115,7 @@ class Assets extends React.Component {
 		}
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		if (nextProps.assets !== this.props.assets) {
 			this._checkAssets(nextProps.assets);
 		}

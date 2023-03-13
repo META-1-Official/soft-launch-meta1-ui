@@ -210,7 +210,7 @@ class SendModal extends React.Component {
 		return true;
 	}
 
-	componentWillReceiveProps(np) {
+	UNSAFE_componentWillReceiveProps(np) {
 		if (
 			np.currentAccount !== this.state.from_name &&
 			np.currentAccount !== this.props.currentAccount

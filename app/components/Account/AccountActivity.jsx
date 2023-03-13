@@ -1,9 +1,9 @@
+import {MobileOutlined} from '@ant-design/icons';
+import {Button, Table} from 'antd';
+import PageHeader from 'components/PageHeader/PageHeader';
 import React from 'react';
 import BindToChainState from '../Utility/BindToChainState';
-import PageHeader from 'components/PageHeader/PageHeader';
 import SectionBlock from './SectionBlock';
-import {Table, Button, Icon} from 'antd';
-import {MobileOutlined} from '@ant-design/icons';
 
 const Subsection = ({
 	title1,
@@ -196,7 +196,7 @@ const AccountActivity = () => {
 			title: '',
 			dataIndex: 'cancel',
 			key: 'cancel',
-			render: (data) => <CancelButton />,
+			render: () => <CancelButton />,
 			width: '26px',
 		},
 	];

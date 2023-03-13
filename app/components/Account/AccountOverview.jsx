@@ -128,7 +128,7 @@ class AccountOverview extends React.Component {
 		});
 	}
 
-	componentWillReceiveProps(np) {
+	UNSAFE_componentWillReceiveProps(np) {
 		const currentDisplay = np.history.location.search.replace(
 			'?currentDisplay=',
 			''

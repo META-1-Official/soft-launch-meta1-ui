@@ -87,7 +87,7 @@ class HelpContent extends React.PureComponent {
 		window._onClickLink = this.onClickLink.bind(this);
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		const newRoute = nextProps.pathUrl;
 
 		this.updateMenu(newRoute);

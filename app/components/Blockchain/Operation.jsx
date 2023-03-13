@@ -204,7 +204,7 @@ class Operation extends React.Component {
 		csvExportMode: PropTypes.bool,
 	};
 
-	componentWillReceiveProps(np) {
+	UNSAFE_componentWillReceiveProps(np) {
 		if (np.marketDirections !== this.props.marketDirections) {
 			this.forceUpdate();
 		}

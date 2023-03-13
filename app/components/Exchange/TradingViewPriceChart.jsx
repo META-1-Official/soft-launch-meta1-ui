@@ -154,7 +154,7 @@ class TradingViewPriceChart extends React.Component {
 		this._onWheel = this._onWheel.bind(this);
 	}
 
-	componentWillReceiveProps(np) {
+	UNSAFE_componentWillReceiveProps(np) {
 		if (!np.marketReady) return;
 		if (!this.props.dataFeed && np.dataFeed) {
 			loadTradingView(np);

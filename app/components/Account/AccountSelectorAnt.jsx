@@ -74,7 +74,7 @@ class AccountSelector extends React.Component {
 		if (!this.props.typeahead && accountName) this.onInputChanged(accountName);
 	}
 
-	componentWillReceiveProps(newProps) {
+	UNSAFE_componentWillReceiveProps(newProps) {
 		if (newProps.account && newProps.account !== this.props.account) {
 			if (this.props.onAccountChanged)
 				this.props.onAccountChanged(newProps.account);

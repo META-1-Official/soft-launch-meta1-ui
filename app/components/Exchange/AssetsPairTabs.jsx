@@ -61,7 +61,7 @@ class AssetsPairTabs extends React.Component {
 		};
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		this._checkAssets(nextProps.assets);
 
 		if (
