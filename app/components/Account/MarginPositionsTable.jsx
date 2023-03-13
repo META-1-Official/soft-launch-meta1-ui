@@ -44,7 +44,7 @@ class ListGenerator extends React.Component {
 			prevState.assetsPropsCount != nextProps.bitAssets.length ||
 			prevState.ordersJson != callOrdersJson
 		) {
-			let assets = new Array();
+			let assets = [];
 			// construct map of bitassets
 			let assetsMap = {};
 			// index to track asset info
