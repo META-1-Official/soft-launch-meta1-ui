@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import counterpart from 'counterpart';
 import {Modal, Button} from 'antd';
 

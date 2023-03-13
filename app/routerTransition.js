@@ -1003,10 +1003,10 @@ class DirectPinger {
 			try {
 				let connection = new WebSocket(url);
 				connection.openTime = hirestime();
-				connection.onerror = (event) => {
+				connection.onerror = () => {
 					resolve(null);
 				};
-				connection.onopen = (event) => {
+				connection.onopen = () => {
 					connection.onmessage = function () {
 						this.closeTime = connection.openTime(hirestime.MS);
 						connection.close();

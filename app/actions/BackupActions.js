@@ -1,8 +1,8 @@
+import WalletActions from 'actions/WalletActions';
 import alt from 'alt-instance';
 import iDB from 'idb-instance';
 import {compress, decompress} from 'lzma';
-import {PrivateKey, PublicKey, Aes, key} from 'meta1-vision-js';
-import WalletActions from 'actions/WalletActions';
+import {Aes, key, PrivateKey, PublicKey} from 'meta1-vision-js';
 
 class BackupActions {
 	incommingWebFile(file) {

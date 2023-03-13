@@ -1,18 +1,15 @@
 import iDB from '../src/idb-instance';
 import fakeIndexedDB from 'fake-indexeddb';
 
-import BackupActions, {
+import {
 	createWalletObject,
 	createWalletBackup,
 	decryptWalletBackup,
 } from 'actions/BackupActions';
-import AccountActions from '../src/actions/AccountActions';
 import WalletActions from '../src/actions/WalletActions';
 import WalletDb from '../src/stores/WalletDb';
 
 import ApiInstances from '../app/api/ApiInstances';
-import WalletApi from '../app/api/WalletApi';
-import ApplicationApi from '../app/api/ApplicationApi';
 import PrivateKey from '../src/ecc/key_private';
 
 import th from './test_helper';
@@ -64,8 +61,7 @@ describe('wallet_actions', () => {
 					import_account_names: ['nathan'],
 					public_key_string: private_key.toPublicKey().toPublicKeyString(),
 				};
-				WalletDb.importKeys([private_key_obj]).then((result) => {
-					// console.log("importKeys", result)
+				WalletDb.importKeys([private_key_obj]).then(() => {
 					done();
 				});
 			})
@@ -74,7 +70,6 @@ describe('wallet_actions', () => {
 
 	it('wallet_backups', (done) => {
 		var suffix = secureRandom.randomBuffer(2).toString('hex').toLowerCase();
-		var public_name = 'default_' + suffix;
 		helper
 			.test_wallet(suffix)
 			.then(() => {
@@ -114,7 +109,6 @@ describe('wallet_actions', () => {
 
 	it('wallet_create', (done) => {
 		var suffix = secureRandom.randomBuffer(2).toString('hex').toLowerCase();
-		var public_name = 'default_' + suffix;
 		helper
 			.test_wallet(suffix)
 			.then(() => {

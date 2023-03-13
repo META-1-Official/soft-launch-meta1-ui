@@ -208,7 +208,7 @@ function getMeta1DepositAddressJSGateway(symbol) {
 		fetch(
 			`${process.env.GATEWAY_META1_JS_URL}/api-gateways/` + symbol.toLowerCase()
 		)
-			.then((response) => {
+			.then(() => {
 				fetch(
 					`${process.env.GATEWAY_META1_JS_URL}/api/wallet/init/` +
 						symbol.toLowerCase(),
@@ -301,7 +301,7 @@ export function requestDepositAddress({
 					};
 					if (stateCallback) stateCallback(address);
 				})
-				.catch((err) => {
+				.catch((error) => {
 					console.log('error: ', error);
 					delete depositRequests[body_string];
 					if (stateCallback) stateCallback(null);

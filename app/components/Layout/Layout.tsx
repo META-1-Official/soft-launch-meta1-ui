@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Layout} from 'antd';
 import Header from './Header';
-import {useTheme} from '@emotion/react';
 import SideBar from './SideBar';
 
 const {Content, Footer} = Layout;
@@ -15,7 +14,6 @@ const AppLayout = ({children, location, height}: IAppLayout, others) => {
 	const [collapsed, setcollapsed] = useState<boolean>(true);
 	const [currentLink, setCurrentLink] = useState<string>('');
 
-	const theme: any = useTheme();
 	const toggle = (value: boolean) => setcollapsed(value);
 
 	const pathSnippets = location.pathname.split('/').filter((i) => i);

@@ -1,12 +1,12 @@
-import WalletDb from 'stores/WalletDb';
-import WalletUnlockActions from 'actions/WalletUnlockActions';
 import CachedPropertyActions from 'actions/CachedPropertyActions';
+import WalletUnlockActions from 'actions/WalletUnlockActions';
+import alt from 'alt-instance';
 import ApplicationApi from 'api/ApplicationApi';
 import axios from 'axios';
-import {TransactionBuilder, FetchChain} from 'meta1-vision-js';
-import {Apis, ChainConfig} from 'meta1-vision-ws';
-import alt from 'alt-instance';
+import {FetchChain, TransactionBuilder} from 'meta1-vision-js';
+import {ChainConfig} from 'meta1-vision-ws';
 import SettingsStore from 'stores/SettingsStore';
+import WalletDb from 'stores/WalletDb';
 
 class WalletActions {
 	/** Restore and make active a new wallet_object. */
@@ -387,7 +387,7 @@ class WalletActions {
 		});
 
 		return WalletDb.process_transaction(tr, null, true)
-			.then((result) => {})
+			.then(() => {})
 			.catch((err) => {
 				console.log('vesting_balance_withdraw err:', err);
 			});
@@ -399,9 +399,6 @@ class WalletActions {
 	importBalance(account_name_or_id, balances, broadcast) {
 		return (dispatch) => {
 			return new Promise((resolve, reject) => {
-				let db = Apis.instance().db_api();
-				let address_publickey_map = {};
-
 				let account_lookup = FetchChain('getAccount', account_name_or_id);
 				let unlock = WalletUnlockActions.unlock();
 

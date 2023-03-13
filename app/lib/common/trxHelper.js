@@ -8,7 +8,6 @@ import {
 } from 'meta1-vision-js';
 import {Price, Asset} from 'common/MarketClasses';
 const {operations} = ChainTypes;
-import chainIds from 'chain/chainIds';
 
 const ADDRESS_PREFIX =
 	process.env.CURRENT_NET === 'MAIN_NET'

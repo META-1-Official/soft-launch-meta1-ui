@@ -100,7 +100,7 @@ const ChartjsAreaChart = (props: any) => {
 						enabled: false,
 						custom: customTooltips,
 						callbacks: {
-							labelColor(tooltipItem, chart) {
+							labelColor() {
 								return {
 									backgroundColor: datasets.map((item) => item.borderColor),
 									borderColor: 'transparent',

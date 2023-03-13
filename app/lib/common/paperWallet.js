@@ -82,12 +82,8 @@ export const _createPaperWalletAsPDFNew = function (
 		qrSize = 50,
 		textMarginLeft = qrSize + 7,
 		qrMargin = 5,
-		qrRightPos = width - qrSize - qrMargin,
-		textWidth = width - qrSize * 2 - qrMargin * 2 - 3,
-		textHeight = 8,
-		logoWidth = (width * 3) / 4,
-		logoHeight = logoWidth / 2.8, //  logo original width/height=2.8
-		logoPositionX = (width - logoWidth) / 2;
+		textHeight = 8;
+
 	let rowHeight = 110;
 	const keys = [activeKeys, ownerkeys, memoKey];
 	const keysName = ['Active Key', 'Owner Key', 'Memo Key'];
@@ -187,12 +183,8 @@ export const _createPaperWalletAsPDF = function (
 		qrSize = 50,
 		textMarginLeft = qrSize + 7,
 		qrMargin = 5,
-		qrRightPos = width - qrSize - qrMargin,
-		textWidth = width - qrSize * 2 - qrMargin * 2 - 3,
-		textHeight = 8,
-		logoWidth = (width * 3) / 4,
-		logoHeight = logoWidth / 2.8, //  logo original width/height=2.8
-		logoPositionX = (width - logoWidth) / 2;
+		textHeight = 8;
+
 	let rowHeight = 110;
 	const keys = [activeKeys, ownerkeys, memoKey];
 	const keysName = ['Active Key', 'Owner Key', 'Memo Key'];
