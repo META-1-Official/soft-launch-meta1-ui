@@ -167,7 +167,7 @@ function BindToChainState(Component, options = {}) {
 			});
 		}
 
-		componentWillMount() {
+		UNSAFE_componentWillMount() {
 			ChainStore.subscribe(this.update);
 			this.update();
 		}

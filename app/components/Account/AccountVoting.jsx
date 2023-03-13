@@ -67,7 +67,7 @@ class AccountVoting extends React.Component {
 		this._getVoteObjects = this._getVoteObjects.bind(this);
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		accountUtils.getFinalFeeAsset(this.props.account, 'account_update');
 		ChainStore.fetchAllWorkers();
 		this.getBudgetObject();

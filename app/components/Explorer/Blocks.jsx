@@ -99,7 +99,7 @@ class Blocks extends React.Component {
 		}
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		window.addEventListener('resize', this._updateHeight, {
 			capture: false,
 			passive: true,

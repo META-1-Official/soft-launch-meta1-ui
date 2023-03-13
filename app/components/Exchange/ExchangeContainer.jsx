@@ -154,7 +154,7 @@ class ExchangeSubscriber extends React.Component {
 		this._subToMarket = this._subToMarket.bind(this);
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		if (this.props.quoteAsset === null || this.props.baseAsset === null) {
 			return;
 		}

@@ -116,7 +116,7 @@ class Exchange extends React.Component {
 	// Life Cycle Functions //
 	// ******************** //
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		window.addEventListener('resize', this._setDimensions, {
 			capture: false,
 			passive: true,

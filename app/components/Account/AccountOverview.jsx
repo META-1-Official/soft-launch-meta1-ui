@@ -97,7 +97,7 @@ class AccountOverview extends React.Component {
 		});
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		this._checkMarginStatus();
 
 		var qd = {};

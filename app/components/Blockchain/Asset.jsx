@@ -82,7 +82,7 @@ class Asset extends React.Component {
 		};
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		this._getMarginCollateral();
 	}
 

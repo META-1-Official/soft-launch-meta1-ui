@@ -74,7 +74,7 @@ class BackupRestore extends Component {
 		};
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		BackupActions.reset();
 	}
 
@@ -203,7 +203,7 @@ class NewWalletName extends Component {
 		};
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		let has_current_wallet = !!this.props.wallet.current_wallet;
 		if (!has_current_wallet) {
 			let walletName = 'default';
@@ -285,7 +285,7 @@ class NewWalletName extends Component {
 NewWalletName = connect(NewWalletName, connectObject);
 
 class Download extends Component {
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		try {
 			this.isFileSaverSupported = !!new Blob();
 		} catch (e) {}

@@ -18,7 +18,7 @@ class Personalize extends React.Component {
 		this.setChartHeight = this.setChartHeight.bind(this);
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		this.setState({
 			smallScreen: window.innerWidth <= 800,
 		});

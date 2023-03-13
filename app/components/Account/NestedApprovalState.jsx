@@ -196,7 +196,7 @@ class FirstLevel extends React.Component {
 		this._updateState = this._updateState.bind(this);
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		this._updateState();
 
 		ChainStore.subscribe(this._updateState);

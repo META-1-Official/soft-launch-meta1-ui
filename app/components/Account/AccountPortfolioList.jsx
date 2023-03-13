@@ -97,7 +97,7 @@ class AccountPortfolioList extends React.Component {
 		this.toggleSortOrder = this.toggleSortOrder.bind(this);
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		this.refCheckInterval = setInterval(this._checkRefAssignments);
 		this.state.prod = setInterval(this.state.prod);
 		this.state.changes = setInterval(this.state.changes);

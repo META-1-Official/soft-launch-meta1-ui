@@ -11,7 +11,7 @@ class ShowcaseGrid extends Component {
 		this.state = {currentAccount: null};
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		this.setState({
 			currentAccount: ChainStore.getAccount(this.props.currentAccount),
 		});

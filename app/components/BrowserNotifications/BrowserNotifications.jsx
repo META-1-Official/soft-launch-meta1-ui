@@ -16,7 +16,7 @@ class BrowserNotifications extends React.Component {
 		settings: PropTypes.object,
 	};
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		if (Notify.needsPermission) {
 			Notify.requestPermission();
 		}

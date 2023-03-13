@@ -71,7 +71,7 @@ class AccountRegistrationForm extends React.Component {
 		this.accountNameInput = null;
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		SettingsActions.changeSetting({
 			setting: 'passwordLogin',
 			value: true,

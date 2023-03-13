@@ -33,7 +33,7 @@ class MarketsTable extends React.Component {
 		this.update(nextProps);
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		this.update();
 		ChainStore.subscribe(this.update);
 	}

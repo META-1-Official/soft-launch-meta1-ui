@@ -93,7 +93,7 @@ class HelpContent extends React.PureComponent {
 		this.updateMenu(newRoute);
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		const newRoute = this.props.pathUrl;
 
 		this.updateMenu(newRoute);

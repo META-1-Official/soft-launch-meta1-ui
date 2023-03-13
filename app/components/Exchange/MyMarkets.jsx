@@ -364,7 +364,7 @@ class MyMarkets extends React.Component {
 		);
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		if (this.props.setMinWidth) {
 			window.addEventListener('resize', this._setMinWidth, {
 				capture: false,

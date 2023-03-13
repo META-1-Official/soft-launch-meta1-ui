@@ -15,7 +15,7 @@ class Pulsate extends React.Component {
 		this.update(nextProps);
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		this.update(this.props);
 	}
 

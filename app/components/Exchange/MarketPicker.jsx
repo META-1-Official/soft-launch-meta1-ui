@@ -217,7 +217,7 @@ class MarketPickerWrapper extends Component {
 			});
 		}, 300);
 	}
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		if (this.props.quoteAsset === null || this.props.baseAsset === null) {
 			return;
 		}
@@ -370,7 +370,7 @@ class MarketPicker extends Component {
 		};
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		this.setState({
 			smallScreen: window.innerWidth <= 800,
 		});

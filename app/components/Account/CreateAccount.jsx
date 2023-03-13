@@ -45,7 +45,7 @@ class CreateAccount extends React.Component {
 		this.scrollToInput = this.scrollToInput.bind(this);
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		SettingsActions.changeSetting({
 			setting: 'passwordLogin',
 			value: false,

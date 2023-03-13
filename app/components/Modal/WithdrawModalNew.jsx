@@ -97,7 +97,7 @@ class WithdrawModalNew extends React.Component {
 		this.onClose = this.onClose.bind(this);
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		let initialState = {};
 
 		let coinToGatewayMapping = _getCoinToGatewayMapping.call(

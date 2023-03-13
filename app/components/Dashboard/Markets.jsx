@@ -67,7 +67,7 @@ class FeaturedMarkets extends React.Component {
 		return !utils.are_equal_shallow(nextProps, this.props);
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		this.update();
 	}
 

@@ -222,7 +222,7 @@ class AccountRegistration extends React.Component {
 		}
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		SettingsActions.changeSetting({
 			setting: 'passwordlessLogin',
 			value: true,

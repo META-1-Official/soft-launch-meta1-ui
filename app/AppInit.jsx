@@ -34,7 +34,7 @@ const ss = new ls(STORAGE_KEY);
 const ss_graphene = new ls('__graphene__');
 
 class RootIntl extends React.Component {
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		IntlActions.switchLocale(this.props.locale);
 	}
 
@@ -179,7 +179,7 @@ class AppInit extends React.Component {
 		this.persistentLogEnabled = true;
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		if (!__DEV__) {
 			this._enablePersistingLog();
 		}

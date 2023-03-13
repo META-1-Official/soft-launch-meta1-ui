@@ -41,7 +41,7 @@ class LoginSelector extends React.Component {
 		this.handleLanguageSelect = this.handleLanguageSelect.bind(this);
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		isIncognito((incognito) => {
 			if (!this.unmounted) {
 				this.setState({incognito});

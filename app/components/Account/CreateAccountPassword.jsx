@@ -50,7 +50,7 @@ class CreateAccountPassword extends React.Component {
 		this.scrollToInput = this.scrollToInput.bind(this);
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		if (!WalletDb.getWallet()) {
 			SettingsActions.changeSetting({
 				setting: 'passwordLogin',

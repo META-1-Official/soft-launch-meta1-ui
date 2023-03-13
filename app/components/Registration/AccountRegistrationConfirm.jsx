@@ -82,7 +82,7 @@ class AccountRegistrationConfirm extends React.Component {
 		);
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		this.setState({
 			email: ss.get('email'),
 			phone: ss.get('phone'),

@@ -256,7 +256,7 @@ class ChangeActiveWallet extends Component {
 		this.state = {};
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		let current_wallet = this.props.current_wallet;
 		this.setState({current_wallet});
 	}

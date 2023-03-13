@@ -126,7 +126,7 @@ class Header extends React.Component {
 		});
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		this.unlisten = this.props.history.listen((newState) => {
 			if (this.unlisten && this.state.active !== newState.pathname) {
 				this.setState({

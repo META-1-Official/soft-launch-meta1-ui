@@ -65,7 +65,7 @@ class PredictionMarkets extends Component {
 			this.handleInvalidAssetsChecked.bind(this);
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		this._checkAssets(this.props.assets);
 	}
 

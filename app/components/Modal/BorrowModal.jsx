@@ -806,7 +806,7 @@ export default class ModalWrapper extends React.Component {
 		this.props.showModal();
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		this.setState({
 			smallScreen: window.innerHeight <= 800,
 		});

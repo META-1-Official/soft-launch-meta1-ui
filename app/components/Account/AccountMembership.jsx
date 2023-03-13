@@ -54,7 +54,7 @@ class AccountMembership extends React.Component {
 		AccountActions.upgradeAccount(id, lifetime);
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		accountUtils.getFinalFeeAsset(this.props.account, 'account_upgrade');
 	}
 

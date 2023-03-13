@@ -53,7 +53,7 @@ class MarketStatsCheck extends React.Component {
 			.filter((a) => !!a);
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		this._startUpdates(this.props);
 	}
 

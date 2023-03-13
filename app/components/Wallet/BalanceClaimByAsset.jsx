@@ -17,7 +17,7 @@ class BalanceClaimByAsset extends Component {
 
 	static getPropsFromStores() {}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		var keys = PrivateKeyStore.getState().keys;
 		var keySeq = keys.keySeq();
 		BalanceClaimActiveActions.setPubkeys(keySeq);

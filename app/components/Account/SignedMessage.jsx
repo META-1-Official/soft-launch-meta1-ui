@@ -77,7 +77,7 @@ class SignedMessage extends React.Component {
 		}
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		this._verifyMessage(this.state.message);
 	}
 

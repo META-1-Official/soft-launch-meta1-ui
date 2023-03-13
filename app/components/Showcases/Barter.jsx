@@ -91,7 +91,7 @@ export default class Barter extends Component {
 		this.onTrxIncluded = this.onTrxIncluded.bind(this);
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		let currentAccount = AccountStore.getState().currentAccount;
 		if (!this.state.from_name) this.setState({from_name: currentAccount});
 		estimateFeeAsync('proposal_create').then((fee) => {

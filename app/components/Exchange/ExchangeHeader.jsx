@@ -21,7 +21,7 @@ export default class ExchangeHeader extends React.Component {
 			selectedMarketPickerAsset: props.selectedMarketPickerAsset,
 		};
 	}
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		if (this.props.quoteAsset === null || this.props.baseAsset === null) {
 			return;
 		}
