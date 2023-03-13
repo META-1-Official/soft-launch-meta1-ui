@@ -57,7 +57,8 @@
         "package-win": "npm run prepackage && build  -p never --windows",
         "package-mac": "npm run prepackage && build  -p never --mac dmg",
         "postpackage": "node write_digest.js",
-        "scam": "node scamParser.js"
+        "scam": "node scamParser.js",
+        "lint": "eslint . --fix"
     },
     "jest": {
         "scriptPreprocessor": "<rootDir>/__tests__/jest-preprocessor.js",

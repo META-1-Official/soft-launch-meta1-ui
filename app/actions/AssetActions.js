@@ -307,9 +307,7 @@ class AssetActions {
 		tr.add_type_operation('asset_create', operationJSON);
 		return (dispatch) => {
 			return WalletDb.process_transaction(tr, null, true)
-				.then((result) => {
-					// console.log("asset create result:", result);
-					// this.dispatch(account_id);
+				.then(() => {
 					dispatch(true);
 				})
 				.catch((error) => {

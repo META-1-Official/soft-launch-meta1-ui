@@ -70,7 +70,7 @@ class BrainkeyStoreImpl extends BaseStore {
 			brnkey: '',
 			account_ids: Immutable.Set(),
 		};
-		this.derived_keys = new Array();
+		this.derived_keys = [];
 		// Compared with ChainStore.account_ids_by_key
 		this.account_ids_by_key = null;
 	}

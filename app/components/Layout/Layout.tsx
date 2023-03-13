@@ -19,7 +19,7 @@ const AppLayout = ({children, location, height}: IAppLayout, others) => {
 	const toggle = (value: boolean) => setcollapsed(value);
 
 	const pathSnippets = location.pathname.split('/').filter((i) => i);
-	let qd = {};
+	const qd = {};
 	location.search
 		.substr(1)
 		.split('&')

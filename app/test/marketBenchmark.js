@@ -1,5 +1,5 @@
-var Benchmark = require('benchmark');
-var marketClasses = require('./MarketClasses');
+const Benchmark = require('benchmark');
+const marketClasses = require('./MarketClasses');
 
 const asset1 = {asset_id: '1.3.0', precision: 5};
 const asset2 = {asset_id: '1.3.121', precision: 4}; // bitUSD
