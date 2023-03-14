@@ -247,13 +247,6 @@ class Header extends React.Component {
 				.catch(() => {});
 		} else {
 			WalletUnlockActions.lock_v2();
-			if (!WalletUnlockStore.getState().rememberMe) {
-				// if (!isPersistantType()) {
-				// 	setLocalStorageType('persistant');
-				// }
-				// AccountActions.setPasswordAccount(null);
-				// AccountStore.tryToSetCurrentAccount();
-			}
 		}
 
 		this._closeAccountNotifications();
@@ -354,12 +347,6 @@ class Header extends React.Component {
 
 		if (!insideAccountDropdown) this._closeAccountsListDropdown();
 	}
-
-	handleRefresh = () => {
-		// by calling this method react re-renders the component
-		console.log('handle refresh');
-		this.setState({});
-	};
 
 	handleHeaderLink = (e) => {
 		const {lastMarket, currentAccount, passwordLogin} = this.props;
