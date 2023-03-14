@@ -14,7 +14,7 @@ import ResetSettings from './ResetSettings';
 import BackupSettings from './BackupSettings';
 import AccessSettings from './AccessSettings';
 import {set} from 'lodash-es';
-import {getAllowedLogins, getFaucet} from '../../branding';
+import {getFaucet} from '../../branding';
 import FaucetSettings from './FaucetSettings';
 
 const {Title} = Typography;
@@ -40,27 +40,27 @@ class Settings extends React.Component {
 			// 'viewOnlyMode',
 		];
 
-		let generalGroup = [
-			{
-				title: '',
-				options: ['locale', 'unit'],
-			},
-			{
-				title: 'Default Fee Paying Asset',
-				options: ['fee_asset'],
-			},
-			{
-				title: 'Browser Notifications',
-				options: [
-					'browser_notifications',
-					'showSettles',
-					'walletLockTimeout',
-					'themes',
-					'showAssetPercent',
-					'viewOnlyMode',
-				],
-			},
-		];
+		// let generalGroup = [
+		// 	{
+		// 		title: '',
+		// 		options: ['locale', 'unit'],
+		// 	},
+		// 	{
+		// 		title: 'Default Fee Paying Asset',
+		// 		options: ['fee_asset'],
+		// 	},
+		// 	{
+		// 		title: 'Browser Notifications',
+		// 		options: [
+		// 			'browser_notifications',
+		// 			'showSettles',
+		// 			'walletLockTimeout',
+		// 			'themes',
+		// 			'showAssetPercent',
+		// 			'viewOnlyMode',
+		// 		],
+		// 	},
+		// ];
 
 		// disable that the user can change login method if only one is allowed
 

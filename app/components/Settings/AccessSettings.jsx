@@ -216,12 +216,12 @@ class ApiNode extends React.Component {
 
 		let hidden = !!node.hidden;
 
-		let location =
-			!!node.location &&
-			typeof node.location === 'object' &&
-			'translate' in node.location
-				? counterpart.translate(node.location.translate)
-				: node.location;
+		// let location =
+		// 	!!node.location &&
+		// 	typeof node.location === 'object' &&
+		// 	'translate' in node.location
+		// 		? counterpart.translate(node.location.translate)
+		// 		: node.location;
 
 		//let title = !!location ? location : "";
 		/*if (!!node.country) {

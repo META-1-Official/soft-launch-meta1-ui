@@ -67,6 +67,7 @@ class Invoice extends React.Component {
 		};
 		compress(JSON.stringify(invoice), 9, (result, error) => {
 			console.log(bs58.encode(Buffer.from(result)));
+			console.log(error);
 		});
 	}
 
@@ -102,6 +103,11 @@ class Invoice extends React.Component {
 	}
 
 	UNSAFE_componentWillReceiveProps(nextProps, nextContext) {
+		console.log(
+			'Invoice UNSAFE_componentWillReceiveProps',
+			nextProps,
+			nextContext
+		);
 		if (this.state.pay_from_name == null && this.props.currentAccount) {
 			// check if current account has already paid
 			let paymentOperation = this._findPayment();
