@@ -2842,15 +2842,7 @@ class Exchange extends React.Component {
 		 */
 
 		let buySellTab = (
-			<div
-				key={`actionCard_${actionCardIndex++}`}
-				style={{
-					border: '1px solid #1C1F27',
-					borderRadius: '5px',
-					marginTop: '15px',
-				}}
-				className="buy-sell-tab"
-			>
+			<div key={`actionCard_${actionCardIndex++}`} className="buy-sell-tab">
 				<Tabs
 					defaultActiveKey="buy"
 					activeKey={tabBuySell}
@@ -2955,19 +2947,8 @@ class Exchange extends React.Component {
 				<div
 					key={`actionCard_${actionCardIndex++}`}
 					className="my-open-orders-res"
-					style={{
-						border: '1px solid #1C1F27',
-						borderRadius: '5px',
-						display: 'flex',
-						flexDirection: 'column',
-						minHeight: 400,
-					}}
 				>
 					<Tabs
-						style={{
-							borderTop: '2px solid black',
-							height: '100%',
-						}}
 						activeKey={panelTabsActive[2]}
 						onChange={this._setPanelTabInGroup.bind(this, 2)}
 					>
@@ -3316,12 +3297,7 @@ class Exchange extends React.Component {
 			<div className="grid-block" style={{padding: '10px'}}>
 				{!this.props.marketReady ? <LoadingIndicator /> : null}
 				<div className="grid-block vertical assets-layout page-layout">
-					<div
-						style={{
-							border: '1px solid #1C1F27',
-							borderRadius: '5px',
-						}}
-					>
+					<div className="asset-pair-tabs-wrapper">
 						<AssetsPairTabs account={this.props.currentAccount} />
 					</div>
 				</div>
@@ -3434,7 +3410,6 @@ class Exchange extends React.Component {
 											style={{
 												flexGrow: '2',
 												display: 'inline-block',
-												borderBottom: '2px solid black',
 											}}
 										>
 											{tradingViewChart}
@@ -3472,10 +3447,6 @@ class Exchange extends React.Component {
 								<div
 									className="orders-trade-form grid-block shrink no-overflow"
 									style={{
-										flexGrow: '1',
-										display: 'inline-block',
-										border: '1px solid #1C1F27',
-										borderRadius: '5px',
 										width: '67%',
 										marginRight: '1%',
 									}}
@@ -3485,11 +3456,7 @@ class Exchange extends React.Component {
 								<div
 									className="orders-trade-form"
 									style={{
-										flexGrow: '1',
-										display: 'inline-block',
 										position: 'relative',
-										border: '1px solid #1C1F27',
-										borderRadius: '5px',
 										width: '33%',
 									}}
 								>

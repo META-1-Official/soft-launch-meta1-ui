@@ -207,14 +207,7 @@ export default class ExchangeHeader extends React.Component {
 			: '';
 
 		return (
-			<div
-				className="grid-block shrink no-padding overflow-visible top-bar"
-				style={{
-					border: '1px solid #1C1F27',
-					borderTopLeftRadius: '5px',
-					borderTopRightRadius: '5px',
-				}}
-			>
+			<div className="grid-block shrink no-padding overflow-visible top-bar">
 				<div className="grid-block overflow-visible">
 					<div className="grid-block shrink">
 						<a
@@ -257,14 +250,7 @@ export default class ExchangeHeader extends React.Component {
 								title="icons.shuffle"
 							/>
 						</Link>
-						<div
-							style={{
-								padding: '12px',
-								borderRight: '1px solid black',
-								borderLeft: '1px solid black',
-								height: '100%',
-							}}
-						>
+						<div className="market-picker">
 							{!hasPrediction ? (
 								<div
 									style={{
