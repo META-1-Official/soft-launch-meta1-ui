@@ -5,7 +5,6 @@ import WalletActions from 'actions/WalletActions';
 import BackupActions from 'actions/BackupActions';
 import WalletManagerStore from 'stores/WalletManagerStore';
 import Translate from 'react-translate-component';
-import cname from 'classnames';
 import counterpart from 'counterpart';
 import {Switch, Route} from 'react-router-dom';
 import {ExistingAccountOptions} from './ExistingAccount';

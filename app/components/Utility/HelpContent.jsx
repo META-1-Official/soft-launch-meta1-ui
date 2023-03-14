@@ -5,7 +5,6 @@ import utils from 'common/utils';
 import {withRouter} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import sanitize from 'sanitize';
-import {css} from '@emotion/react';
 
 let req = require.context('../../help', true, /\.md/);
 let HelpData = {};

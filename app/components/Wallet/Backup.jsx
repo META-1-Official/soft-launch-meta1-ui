@@ -79,9 +79,6 @@ class BackupRestore extends Component {
 	}
 
 	render() {
-		let new_wallet = this.props.wallet.new_wallet;
-		let has_new_wallet = this.props.wallet.wallet_names.has(new_wallet);
-		let restored = has_new_wallet;
 		const wallet_types = (
 			<Link to="/help/introduction/wallets">
 				{counterpart.translate('wallet.wallet_types')}
@@ -109,7 +106,7 @@ class BackupRestore extends Component {
 				/>
 				{new FileReader().readAsBinaryString ? null : (
 					<p className="error">
-						Warning! You browser doesn't support some some file operations
+						Warning! You browser doesn&apos;t support some some file operations
 						required to restore backup, we recommend you to use Chrome or
 						Firefox browsers to restore your backup.
 					</p>

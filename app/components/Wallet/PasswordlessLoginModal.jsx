@@ -7,14 +7,13 @@ import AccountStore from 'stores/AccountStore';
 import AuthStore from 'stores/AuthStore';
 import WalletUnlockActions from 'actions/WalletUnlockActions';
 import {Apis} from 'meta1-vision-ws';
-import {Modal, Button, Form, Input, notification, Typography} from 'antd';
+import {Modal, Button, Form, notification, Typography} from 'antd';
 import utils from 'common/utils';
 import AccountSelector from '../Account/AccountSelectorAnt';
 import counterpart from 'counterpart';
 import {DisableChromeAutocomplete} from './WalletUnlockModalLib';
 import {withRouter} from 'react-router-dom';
 import ls from 'lib/common/localStorage';
-import {MailOutlined} from '@ant-design/icons';
 import AccountActions from 'actions/AccountActions';
 import LoginProvidersModal from 'components/Web3Auth/LoginProvidersModal';
 import axios from 'axios';
@@ -23,7 +22,7 @@ import kycService from 'services/kyc.service';
 const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
 const ss_graphene = new ls('__graphene__');
-const {Text, Title} = Typography;
+const {Title} = Typography;
 
 const browserstack_test_accounts = [
 	'gem-1',
@@ -178,7 +177,7 @@ class PasswordlessLoginModal extends React.Component {
 	};
 
 	render() {
-		const {accountName, isOpen} = this.state;
+		const {accountName} = this.state;
 		return (
 			<>
 				<Modal

@@ -12,7 +12,6 @@ class Dropdown extends React.Component {
 	};
 
 	constructor(props) {
-		const scroll_length = props.scroll_length;
 		super(props);
 		this.state = {
 			active: false,

@@ -1,8 +1,4 @@
 import React from 'react';
-import {FormattedRelative} from 'react-intl';
-import {ChainStore} from 'meta1-vision-js';
-import PropTypes from 'prop-types';
-import {Tooltip} from 'antd';
 import {useTheme} from '@emotion/react';
 
 const SectionHeader = ({title}) => {

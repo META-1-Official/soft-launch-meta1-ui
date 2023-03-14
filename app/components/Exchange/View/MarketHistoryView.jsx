@@ -2,7 +2,6 @@ import React from 'react';
 import Translate from 'react-translate-component';
 import cnames from 'classnames';
 import TransitionWrapper from '../../Utility/TransitionWrapper';
-import AssetName from '../../Utility/AssetName';
 import SectionHeader from 'components/Utility/SectionHeader';
 import {Table} from 'antd';
 

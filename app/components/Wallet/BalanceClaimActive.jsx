@@ -23,6 +23,10 @@ class BalanceClaimActive extends Component {
 	}
 
 	UNSAFE_componentWillReceiveProps(nextProps) {
+		console.log(
+			'BalanceClaimActive UNSAFE_componentWillReceiveProps',
+			nextProps
+		);
 		let keys = PrivateKeyStore.getState().keys;
 		let keySeq = keys.keySeq();
 		if (!keySeq.equals(this.existing_keys)) {

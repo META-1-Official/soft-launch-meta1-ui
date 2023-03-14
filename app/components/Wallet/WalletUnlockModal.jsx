@@ -31,7 +31,6 @@ import utils from 'common/utils';
 import AccountSelector from '../Account/AccountSelectorAnt';
 import {PrivateKey} from 'meta1-vision-js';
 import {saveAs} from 'file-saver';
-import LoginTypeSelector from './LoginTypeSelector';
 import counterpart from 'counterpart';
 import {
 	WalletSelector,
@@ -54,7 +53,7 @@ import Icon from '../Icon/Icon';
 const STORAGE_KEY = '__AuthData__';
 
 const ss = new ls(STORAGE_KEY);
-const {Text, Title} = Typography;
+const {Title} = Typography;
 class WalletUnlockModal extends React.Component {
 	constructor(props) {
 		super(props);
@@ -97,11 +96,8 @@ class WalletUnlockModal extends React.Component {
 	};
 
 	UNSAFE_componentWillReceiveProps(np) {
-		const {walletSelected, restoringBackup, accountName} = this.state;
-		const {
-			currentWallet: newCurrentWallet,
-			passwordAccount: newPasswordAccount,
-		} = np;
+		const {walletSelected, restoringBackup} = this.state;
+		const {currentWallet: newCurrentWallet} = np;
 
 		const newState = {};
 		// Updating the accountname through the listener breaks UX (#2335)
@@ -509,7 +505,6 @@ class WalletUnlockModal extends React.Component {
 			customError,
 			accountName,
 			stopAskingForBackup,
-			isOpen,
 		} = this.state;
 
 		const noWalletNames = !(walletNames.size > 0);
@@ -539,8 +534,6 @@ class WalletUnlockModal extends React.Component {
 					Login with Wallet name (Cloud wallet)
 				</div>
 				<Form className="full-width" layout="vertical">
-					{/* <LoginTypeSelector type={passwordLogin} /> */}
-					{/* <LoginTypeSelector /> */}
 					{passwordLogin || passwordlessLogin ? (
 						<div className="info-form">
 							<DisableChromeAutocomplete />
