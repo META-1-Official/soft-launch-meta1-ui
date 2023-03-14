@@ -11,7 +11,7 @@ import bs58 from 'common/base58';
 import utils from 'common/utils';
 import PrintReceiptButton from './PrintReceiptButton.jsx';
 import Translate from 'react-translate-component';
-import {Form, Button, Row, Col, Divider, Card, Tooltip} from 'antd';
+import {Button, Row, Col, Card, Tooltip} from 'antd';
 import sanitize from 'sanitize';
 import counterpart from 'counterpart';
 import {bindToCurrentAccount, hasLoaded} from '../Utility/BindToCurrentAccount';
@@ -66,7 +66,6 @@ class Invoice extends React.Component {
 			note: 'Something the merchant wants to say to the user',
 		};
 		compress(JSON.stringify(invoice), 9, (result, error) => {
-			let a = bs58;
 			console.log(bs58.encode(Buffer.from(result)));
 		});
 	}
@@ -140,9 +139,8 @@ class Invoice extends React.Component {
 						const amount = op[1].amount.amount;
 						const asset_id = op[1].amount.asset_id;
 
-						const invoice = this.state.invoice;
-
 						console.log(
+							from,
 							find_to,
 							to,
 							find_asset_id,

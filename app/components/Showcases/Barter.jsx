@@ -625,7 +625,7 @@ export default class Barter extends Component {
 		);
 	}
 
-	handleMemoOpen = (type, index) => (e) => {
+	handleMemoOpen = (type, index) => () => {
 		const memos = Object.assign({}, this.state.memo);
 		memos[type][index] = {message: '', shown: true};
 		this.setState({memo: memos});
@@ -733,7 +733,7 @@ export default class Barter extends Component {
 					peer: peer1Text,
 				})}
 				<br />
-				{peer1.map((item) => {
+				{peer1.map((item, key) => {
 					if (item.warning) {
 						return (
 							<React.Fragment>
