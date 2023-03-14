@@ -53,6 +53,7 @@ const AllHistoryViewRow = ({fill, base, quote}) => {
 				background: fill.isBid
 					? theme.colors.bidRowBackgroundColor
 					: theme.colors.askRowBackgroundColor,
+				borderBottom: '1px solid ' + theme.colors.borderColor,
 			}}
 		>
 			{timestamp}

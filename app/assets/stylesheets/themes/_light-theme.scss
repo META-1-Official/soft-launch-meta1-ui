@@ -38,6 +38,8 @@ $positive-color: #528c0a;
 $negative-color: rgba(225, 66, 74, 1);
 $row-accent-color: #ffffff;
 $header-color: #dcdcdc;
+$border-color: #eaeaea;
+$bg-color-lightblue: #f5f6fa;
 
 // Account table view colors
 $account-header: #eaeaea;
@@ -232,24 +234,24 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 	}
 
 	thead[class*='ant-table-thead'] th {
-		background-color: #f5f6fa !important;
+		background-color: $bg-color-lightblue !important;
 	}
 
 	div[class*='ant-table-footer'] {
-		background-color: #f5f6fa !important;
+		background-color: $bg-color-lightblue !important;
 		color: white;
 	}
 
 	.custom-dropdown-class {
 		background-color: #ffffff;
-		border: 1px solid #eaeaea;
+		border: 1px solid $border-color;
 	}
 
 	div.account-overview {
 		background-color: #ffffff;
 
 		.portfolio {
-			background-color: #f5f6fa;
+			background-color: $bg-color-lightblue !important;
 
 			.estimated-balance {
 				> p {
@@ -277,7 +279,7 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 			.react-datepicker-wrapper {
 				input {
 					background-color: #ffffff;
-					border: 1px solid #eaeaea;
+					border: 1px solid $border-color;
 				}
 			}
 		}
@@ -306,16 +308,16 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 			}
 
 			.dropdown-btn-class {
-				background-color: #f5f6fa !important;
+				background-color: $bg-color-lightblue !important;
 			}
 		}
 	}
 
 	.account-trade {
 		div.filter {
-			border-left: 1px solid #eaeaea !important;
-			border-right: 1px solid #eaeaea !important;
-			border-top: 1px solid #eaeaea !important;
+			border-left: 1px solid $border-color !important;
+			border-right: 1px solid $border-color !important;
+			border-top: 1px solid $border-color !important;
 			border-radius: 3px;
 			border-bottom-right-radius: 0px;
 			border-bottom-left-radius: 0px;
@@ -327,9 +329,9 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 		}
 
 		div.select {
-			border-left: 1px solid #eaeaea !important;
-			border-right: 1px solid #eaeaea !important;
-			background-color: #f5f6fa !important;
+			border-left: 1px solid $border-color !important;
+			border-right: 1px solid $border-color !important;
+			background-color: $bg-color-lightblue !important;
 
 			.toggle-box {
 				&.selected {
@@ -346,7 +348,7 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 
 			table > thead {
 				th {
-					border-bottom: 1px solid #eaeaea !important;
+					border-bottom: 1px solid $border-color !important;
 					padding-left: 15px;
 
 					.header-text .anticon {
@@ -381,11 +383,38 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 		}
 	}
 
+	.orders-trade-form {
+		border: 1px solid $border-color;
+
+		.table.order-table > thead > tr > th {
+			border-bottom: 1px solid $border-color !important;
+		}
+
+		.ask-order-tr {
+			background-color: rgb(217, 248, 240);
+			border-bottom: 1px solid white;
+		}
+
+		.bid-order-tr {
+			background-color: rgb(255, 234, 236);
+			border-bottom: 1px solid white;
+		}
+	}
+
+	.my-open-orders-res {
+		border: 1px solid $border-color;
+	}
+
 	.buy-sell-tab {
+		border: 1px solid $border-color;
+
 		.ant-tabs-nav {
+			background-color: $bg-color-lightblue;
+			border-bottom: 1px solid $border-color;
+
 			.ant-tabs-nav-list {
 				.ant-tabs-tab.ant-tabs-tab-active {
-					background-color: transparent;
+					background-color: white;
 				}
 			}
 		}
@@ -414,8 +443,21 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 
 				.ant-input[disabled] {
 					background: $panel-bg-color !important;
+					border-left: 1px solid rgba(86, 97, 118, 0.3);
 				}
 			}
+		}
+	}
+
+	.buy-form {
+		.ant-tabs-nav {
+			background: transparent !important;
+		}
+	}
+
+	.sell-form {
+		.ant-tabs-nav {
+			background: transparent !important;
 		}
 	}
 
@@ -432,6 +474,8 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 	}
 
 	.market-order-table-container {
+		border-top: 1px solid $border-color;
+
 		.ant-table-wrapper {
 			table {
 				.ant-table-tbody {
@@ -451,25 +495,35 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 
 	.order-book-panel {
 		.header {
-			background-color: transparent;
+			background-color: $bg-color-lightblue !important;
 
 			.title {
 				color: $dark !important;
 			}
 
 			div.tap.active {
-				background-color: transparent;
+				background-color: white;
 				color: $primary-color !important;
 			}
 		}
 	}
 
 	.assets-layout {
+		.asset-pair-tabs-wrapper {
+			border: 1px solid $border-color !important;
+			border-radius: 5px;
+		}
+
 		.asset-select {
 			background-color: transparent !important;
 
 			.toggle-box.selected {
 				background-color: transparent !important;
+			}
+
+			.toggle-box {
+				background-color: $bg-color-lightblue !important;
+				border: 1px solid $border-color !important;
 			}
 		}
 
@@ -478,6 +532,90 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 
 			.search-input .ant-input-group-addon {
 				background-color: transparent !important;
+			}
+		}
+	}
+
+	.info-layout {
+		.top-bar {
+			border: 1px solid $border-color;
+		}
+
+		.market-picker {
+			border-right: 1px solid $border-color;
+			border-left: 1px solid $border-color;
+		}
+	}
+
+	// backing assets page
+	.backing-assets {
+		.content-body {
+			background: transparent;
+			border: 1px solid $border-color;
+		}
+
+		.list-wrapper {
+			.search-input {
+				background: transparent;
+
+				.ant-input-affix-wrapper {
+					background: #21252f;
+
+					input {
+						background: white;
+					}
+
+					&.ant-input-affix-wrapper-focused {
+						border: none;
+					}
+				}
+
+				.ant-input-group-addon {
+					background: transparent;
+					border-radius: 4px;
+				}
+			}
+
+			.ant-tabs {
+				.ant-tabs-nav {
+					background: $bg-color-lightblue;
+					border-top: 1px solid $border-color;
+
+					.ant-tabs-tab {
+						font-size: 16px;
+						color: #969ba6;
+						width: 136px;
+						display: flex;
+						justify-content: center;
+
+						&.ant-tabs-tab-active {
+							border-top: 3px solid #ffc000 !important;
+						}
+					}
+				}
+
+				.ant-list-items {
+					.ant-list-item {
+						border-bottom: 1px solid $border-color;
+
+						.ant-avatar {
+							width: 92px;
+							height: 85px;
+						}
+					}
+
+					.progress {
+						width: 170px;
+
+						.ant-progress-inner {
+							height: 10px;
+
+							.ant-progress-bg {
+								height: 10px !important;
+							}
+						}
+					}
+				}
 			}
 		}
 	}

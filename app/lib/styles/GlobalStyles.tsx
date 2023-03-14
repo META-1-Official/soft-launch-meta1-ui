@@ -260,6 +260,7 @@ const GlobalStyles = (theme: any) => css`
  		}
 		.ant-input-wrapper {
 			border: 1px solid ${theme.colors.inputBorderColor};
+			border-radius: 3px;
 		}
 	}
 	.ant-modal-header {
