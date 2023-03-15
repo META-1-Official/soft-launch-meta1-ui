@@ -76,7 +76,7 @@ const Explorer = Loadable({
 const PredictionMarketsPage = Loadable({
 	loader: () =>
 		import(
-			/* webpackChunkName: "pm" */ './components/PredictionMarkets/PMAssetsContainer'
+			/* webpackChunkName: "pm" */ './components/PredictionMarkets/PredictionMarkets'
 		),
 	loading: LoadingIndicator,
 });

@@ -504,7 +504,7 @@ class PredictionMarkets extends Component {
 
 		AssetActions.assetGlobalSettle(asset, account, price).then(() => {
 			let pause = new Promise((resolve) => setTimeout(resolve, 1000));
-			pause.then((result) => {
+			pause.then(() => {
 				this.updateAsset(asset.symbol);
 			});
 		});

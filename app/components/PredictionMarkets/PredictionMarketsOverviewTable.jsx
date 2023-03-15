@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import counterpart from 'counterpart';
 import LinkToAssetById from '../Utility/LinkToAssetById';
 import LinkToAccountById from '../Utility/LinkToAccountById';
-import {Table, Button} from 'antd';
+import {Button} from 'antd';
 import {ChainStore} from 'meta1-vision-js';
 import PaginatedList from 'components/Utility/PaginatedList';
 import ChainTypes from '../Utility/ChainTypes';
@@ -343,7 +343,7 @@ class PredictionMarketsOverviewTable extends Component {
 		];
 	}
 
-	_decideRowClassName(row, index) {
+	_decideRowClassName() {
 		return this.props.selectedPredictionMarket ? 'selected-row' : '';
 	}
 

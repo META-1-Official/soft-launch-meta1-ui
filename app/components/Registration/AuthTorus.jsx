@@ -1,10 +1,6 @@
 import React from 'react';
 import Translate from 'react-translate-component';
-// import ReactTooltip from "react-tooltip";
 import utils from 'common/utils';
-// import SettingsActions from "actions/SettingsActions";
-// import WalletDb from "stores/WalletDb";
-// import WalletUnlockActions from "actions/WalletUnlockActions";
 import {connect} from 'alt-react';
 import {Layout, Button, Tooltip} from 'antd';
 import {RingLoader} from 'react-spinners';
@@ -25,10 +21,6 @@ import AccountSelect from '../Forms/AccountSelect';
 const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
 
-// import AccountRegistrationForm from "./AccountRegistrationForm";
-// import AccountRegistrationConfirm from "./AccountRegistrationConfirm";
-
-// const { Content } = Layout;
 const logo = getLogo();
 class AccountRegistration extends React.Component {
 	constructor() {
