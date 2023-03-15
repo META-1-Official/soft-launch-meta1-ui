@@ -43,7 +43,7 @@ class DepthHighChart extends React.Component {
 		}
 	}
 
-	componentWillUpdate() {
+	UNSAFE_componentWillUpdate() {
 		if (this.props.centerRef) {
 			this.tempScroll = this.props.centerRef.scrollTop;
 		}

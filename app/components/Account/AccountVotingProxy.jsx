@@ -70,7 +70,7 @@ class AccountVotingProxy extends React.Component {
 	/*
 	 * Ensure that state is cleared when new proxy props are passed down
 	 */
-	componentWillUpdate(nextProps) {
+	UNSAFE_componentWillUpdate(nextProps) {
 		let newProxy = nextProps.existingProxy.get('name');
 		let oldProxy = this.props.existingProxy.get('name');
 
