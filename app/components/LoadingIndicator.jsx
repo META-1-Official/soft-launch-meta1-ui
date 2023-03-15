@@ -1,15 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import {HashLoader} from "react-spinners";
-import {css} from '@emotion/core';
-
-const override = css`
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	margin-right: -50%;
-	transform: translate(-50%, -50%);
-`;
 
 const MetaLoader = (props) => {
 	const {size} = props;

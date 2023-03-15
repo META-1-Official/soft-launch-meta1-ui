@@ -1,11 +1,6 @@
 import React from 'react';
 import {connect} from 'alt-react';
-import {
-	CaretDownOutlined,
-	ConsoleSqlOutlined,
-	QuestionCircleOutlined,
-	UserOutlined,
-} from '@ant-design/icons';
+import {CaretDownOutlined, QuestionCircleOutlined} from '@ant-design/icons';
 import {
 	Layout,
 	Menu,
@@ -32,17 +27,10 @@ import WalletDb from 'stores/WalletDb';
 import WalletUnlockStore from 'stores/WalletUnlockStore';
 import WalletUnlockActions from 'actions/WalletUnlockActions';
 import WalletManagerStore from 'stores/WalletManagerStore';
-import cnames from 'classnames';
-import TotalBalanceValue from '../Utility/TotalBalanceValue';
 import ReactTooltip from 'react-tooltip';
 import {Apis} from 'meta1-vision-ws';
-import AccountImage from '../Account/AccountImage';
 import {ChainStore} from 'meta1-vision-js';
-import {List} from 'immutable';
 import {withRouter} from 'react-router-dom';
-import AccountBrowsingMode from '../Account/AccountBrowsingMode';
-import {setLocalStorageType, isPersistantType} from 'lib/common/localStorage';
-import chainIds from 'chain/chainIds';
 import ls from '../../lib/common/localStorage';
 import {isEmpty} from 'lodash-es';
 
@@ -52,7 +40,6 @@ import StyledButton from 'components/Button/Button';
 import migrationService from 'services/migration.service';
 
 var logo = getLogo();
-const CHAINID_SHORT = chainIds[process.env.CURRENT_NET].substr(0, 8);
 
 const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
@@ -330,17 +317,11 @@ class Header extends React.Component {
 
 	onBodyClick(e) {
 		let el = e.target;
-		let insideMenuDropdown = false;
 		let insideAccountDropdown = false;
 
 		do {
 			if (el.classList && el.classList.contains('account-dropdown-wrapper')) {
 				insideAccountDropdown = true;
-				break;
-			}
-
-			if (el.classList && el.classList.contains('menu-dropdown-wrapper')) {
-				insideMenuDropdown = true;
 				break;
 			}
 		} while ((el = el.parentNode));
@@ -349,9 +330,8 @@ class Header extends React.Component {
 	}
 
 	handleHeaderLink = (e) => {
-		const {lastMarket, currentAccount, passwordLogin} = this.props;
+		const {lastMarket, currentAccount} = this.props;
 		const {key} = e;
-		let isLogged = false;
 
 		// Need refactor
 		const accountName = ss.get('account_login_name', null);
@@ -428,30 +408,12 @@ class Header extends React.Component {
 	};
 
 	render() {
-		let {active} = this.state;
-
-		let {
-			currentAccount,
-			starredAccounts,
-			passwordLogin,
-			passwordAccount,
-			height,
-		} = this.props;
+		let {currentAccount, starredAccounts} = this.props;
 
 		let tradingAccounts = AccountStore.getMyAccounts();
-		let maxHeight = Math.max(40, height - 67 - 36) + 'px';
 
 		const a = ChainStore.getAccount(currentAccount);
 		const showAccountLinks = !!a;
-		const isMyAccount = !a
-			? false
-			: AccountStore.isMyAccount(a) ||
-			  (passwordLogin && currentAccount === passwordAccount);
-		const enableDepositWithdraw =
-			!!a &&
-			Apis.instance() &&
-			Apis.instance().chain_id &&
-			Apis.instance().chain_id.substr(0, 8) === CHAINID_SHORT;
 
 		if (starredAccounts.size) {
 			for (let i = tradingAccounts.length - 1; i >= 0; i--) {
@@ -464,81 +426,6 @@ class Header extends React.Component {
 					tradingAccounts.push(account.name);
 				}
 			});
-		}
-
-		let myAccounts = AccountStore.getMyAccounts();
-		let myAccountCount = myAccounts.length;
-
-		let walletBalance =
-			myAccounts.length && this.props.currentAccount ? (
-				<div className="total-value" onClick={this._toggleAccountDropdownMenu}>
-					<TotalBalanceValue.AccountWrapper
-						hiddenAssets={this.props.hiddenAssets}
-						accounts={List([this.props.currentAccount])}
-						noTip
-						style={{minHeight: 15}}
-					/>
-				</div>
-			) : null;
-
-		let createAccountLink = myAccountCount === 0 ? true : null;
-
-		// let lock_unlock = ((!!this.props.current_wallet) || passwordLogin) ? (
-		//     <div className="grp-menu-item" >
-		//     { this.props.locked ?
-		//         <a style={{padding: "1rem"}} href onClick={this._toggleLock.bind(this)} data-class="unlock-tooltip" data-offset="{'left': 50}" data-tip={locked_tip} data-place="bottom" data-html><Icon className="icon-14px" name="locked" title="icons.locked.common" /></a>
-		//         : <a style={{padding: "1rem"}} href onClick={this._toggleLock.bind(this)} data-class="unlock-tooltip" data-offset="{'left': 50}" data-tip={unlocked_tip} data-place="bottom" data-html><Icon className="icon-14px" name="unlocked" title="icons.unlocked.common" /></a> }
-		//     </div>
-		// ) : null;
-
-		let tradeUrl = this.props.lastMarket
-			? `/market/${this.props.lastMarket}`
-			: '/market/META1_USDT';
-
-		// Account selector: Only active inside the exchange
-		let account_display_name, accountsList;
-		if (currentAccount) {
-			account_display_name =
-				currentAccount.length > 20
-					? `${currentAccount.slice(0, 20)}..`
-					: currentAccount;
-			if (tradingAccounts.indexOf(currentAccount) < 0 && isMyAccount) {
-				tradingAccounts.push(currentAccount);
-			}
-			if (tradingAccounts.length >= 1) {
-				accountsList = tradingAccounts
-					.sort()
-					.filter((name) => name !== currentAccount)
-					.map((name) => {
-						return (
-							<li
-								key={name}
-								className={cnames({
-									active: active.replace('/account/', '').indexOf(name) === 0,
-								})}
-								onClick={this._accountClickHandler.bind(this, name)}
-							>
-								<div style={{paddingTop: 0}} className="table-cell">
-									<AccountImage
-										style={{position: 'relative', top: 4}}
-										size={{height: 20, width: 20}}
-										account={name}
-									/>
-								</div>
-								<div className="table-cell" style={{paddingLeft: 10}}>
-									<a
-										className={
-											'text lower-case' +
-											(name === account_display_name ? ' current-account' : '')
-										}
-									>
-										{name}
-									</a>
-								</div>
-							</li>
-						);
-					});
-			}
 		}
 
 		const avatarMenu = (
@@ -578,26 +465,6 @@ class Header extends React.Component {
 				>
 					<Text>Send</Text>
 				</Menu.Item>
-				{/* <Menu.Item
-					key="buySell"
-					css={(theme) => ({
-						[`@media (min-width: ${theme.sizes.lg})`]: {
-							display: 'none',
-						},
-					})}
-				>
-					<Text>Buy / Sell</Text>
-				</Menu.Item>
-				<Menu.Item
-					key="sendReceive"
-					css={(theme) => ({
-						[`@media (min-width: ${theme.sizes.lg})`]: {
-							display: 'none',
-						},
-					})}
-				>
-					<Text>Send / Receive</Text>
-				</Menu.Item> */}
 				<Menu.Item
 					key="withdraw"
 					style={this.props.locked_v2 ? {cursor: 'not-allowed'} : {}}

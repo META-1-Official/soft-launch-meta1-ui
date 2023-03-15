@@ -6,8 +6,6 @@ import {Link} from 'react-router-dom';
 import Translate from 'react-translate-component';
 import TranslateWithLinks from './Utility/TranslateWithLinks';
 import {isIncognito} from 'feature_detect';
-import SettingsActions from 'actions/SettingsActions';
-import WalletUnlockActions from 'actions/WalletUnlockActions';
 import SettingsStore from 'stores/SettingsStore';
 import IntlActions from 'actions/IntlActions';
 import AccountRegistrationForm from './Registration/AccountRegistrationForm';
@@ -16,16 +14,6 @@ import {getWalletName, getLogo} from 'branding';
 import {Select, Row, Col} from 'antd';
 var logo = getLogo();
 import {AiOutlineGlobal} from 'react-icons/ai';
-
-const FlagImage = ({flag, width = 50, height = 50}) => {
-	return (
-		<img
-			height={height}
-			width={width}
-			src={`${__BASE_URL__}language-dropdown/${flag.toUpperCase()}.png`}
-		/>
-	);
-};
 
 class LoginSelector extends React.Component {
 	constructor(props) {

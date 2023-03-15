@@ -1106,7 +1106,7 @@ export default connect(HtlcModal, {
 	listenTo() {
 		return [SettingsStore];
 	},
-	getProps(props) {
+	getProps() {
 		return {
 			fee_asset_symbol: SettingsStore.getState().settings.get('fee_asset'),
 		};

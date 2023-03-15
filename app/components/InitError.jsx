@@ -36,7 +36,7 @@ class InitError extends React.Component {
 		});
 	}
 
-	triggerModal(e) {
+	triggerModal() {
 		this.setState({
 			isModalVisible: true,
 		});
