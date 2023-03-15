@@ -144,11 +144,9 @@ class AccountNameInput extends React.Component {
 			'has-error': false,
 		});
 		let warning = this.state.warning;
-		// let {noLabel} = this.props;
 
 		return (
 			<div className={class_name}>
-				{/* {noLabel ? null : <label><Translate content="account.name" /></label>} */}
 				<section>
 					<label className="left-label">{this.props.placeholder}</label>
 					<input
