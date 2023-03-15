@@ -122,12 +122,7 @@ class AccountRegistration extends React.Component {
 
 	render() {
 		const {isLoading, openLogin} = this.props;
-		const {
-			accountNameValidity,
-			registrarAccount,
-			isLTM,
-			alreadyAssociatedEmail,
-		} = this.state;
+		const {accountNameValidity, registrarAccount, isLTM} = this.state;
 		const myAccounts = AccountStore.getMyAccounts();
 		const firstAccount = myAccounts.length === 0;
 

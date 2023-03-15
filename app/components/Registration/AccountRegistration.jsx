@@ -8,10 +8,9 @@ import utils from 'common/utils';
 import SettingsActions from 'actions/SettingsActions';
 import AccountRegistrationForm from './AccountRegistrationForm';
 import AccountRegistrationConfirm from './AccountRegistrationConfirm';
-import {ArrowLeftOutlined} from '@ant-design/icons';
 import AuthStore from '../../stores/AuthStore';
 import ls from '../../lib/common/localStorage';
-import {Form, Input, Button, Tooltip} from 'antd';
+import {Input, Button} from 'antd';
 import Webcam from 'react-webcam';
 import faceKIService from 'services/face-ki.service';
 import kycService from 'services/kyc.service';
@@ -26,7 +25,7 @@ const ss = new ls(STORAGE_KEY);
 
 class AccountRegistration extends React.Component {
 	constructor(props) {
-		super();
+		super(props);
 		this.state = {
 			accountName: '',
 			password: '',
@@ -376,13 +375,7 @@ class AccountRegistration extends React.Component {
 	}
 
 	renderScreen() {
-		const {
-			firstStep,
-			faceKIStep,
-			torusAlreadyAssociatedEmail,
-			finalStep,
-			migrationStep,
-		} = this.state;
+		const {firstStep, faceKIStep, finalStep, migrationStep} = this.state;
 		if (migrationStep) {
 			return (
 				<div
