@@ -5,7 +5,7 @@ import DepositWithdrawAssetSelector from '../DepositWithdraw/DepositWithdrawAsse
 import Translate from 'react-translate-component';
 import ExchangeInput from 'components/Exchange/ExchangeInput';
 import AssetName from '../Utility/AssetName';
-import {extend, debounce} from 'lodash-es';
+import {extend} from 'lodash-es';
 import GatewayStore from 'stores/GatewayStore';
 import AssetStore from 'stores/AssetStore';
 import MarketsStore from 'stores/MarketsStore';
