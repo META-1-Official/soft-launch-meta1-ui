@@ -18,7 +18,7 @@ import GatewayStore from 'stores/GatewayStore';
 import SettingsActions from 'actions/SettingsActions';
 import ZfApi from 'react-foundation-apps/src/utils/foundation-api';
 import SendModal from '../Modal/SendModal';
-import WithdrawModal from '../Modal/WithdrawModalNew';
+import WithdrawModal from '../Modal/WithdrawModal';
 import DepositModal from '../Modal/DepositModal';
 import Icon from '../Icon/Icon';
 import Translate from 'react-translate-component';

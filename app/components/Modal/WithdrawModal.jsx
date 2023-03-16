@@ -53,7 +53,7 @@ const gatewayBoolCheck = 'withdrawalAllowed';
 const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
 
-class WithdrawModalNew extends React.Component {
+class WithdrawalModal extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -1352,7 +1352,7 @@ class WithdrawModalNew extends React.Component {
 	}
 }
 
-const ConnectedWithdrawModal = connect(WithdrawModalNew, {
+const ConnectedWithdrawModal = connect(WithdrawalModal, {
 	listenTo() {
 		return [GatewayStore, AssetStore, SettingsStore, MarketsStore];
 	},
