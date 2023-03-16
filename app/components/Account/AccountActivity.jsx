@@ -77,7 +77,7 @@ const AccountActivity = () => {
 			title: '',
 			dataIndex: 'cancel',
 			key: 'cancel',
-			render: (data) => <CancelButton />,
+			render: () => <CancelButton />,
 			width: '26px',
 		},
 	];
@@ -122,7 +122,7 @@ const AccountActivity = () => {
 			title: '',
 			dataIndex: 'cancel',
 			key: 'cancel',
-			render: (data) => <CancelButton />,
+			render: () => <CancelButton />,
 			width: '26px',
 		},
 	];

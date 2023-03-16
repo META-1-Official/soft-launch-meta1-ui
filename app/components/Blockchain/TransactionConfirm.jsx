@@ -13,7 +13,7 @@ import {ChainStore} from 'meta1-vision-js';
 import utils from 'common/utils';
 import Operation from 'components/Blockchain/Operation';
 import notify from 'actions/NotificationActions';
-import {Modal, Button, Alert, Switch} from 'antd';
+import {Modal, Button, Alert} from 'antd';
 import {LoadingOutlined} from '@ant-design/icons';
 import {ChainTypes} from 'meta1-vision-js';
 let {operations} = ChainTypes;
@@ -177,12 +177,7 @@ class TransactionConfirm extends React.Component {
 		if (!this.props.transaction || this.props.closed) {
 			return null;
 		}
-		let button_group,
-			footer,
-			header,
-			confirmButtonClass = 'button';
-		if (this.props.propose && !this.props.fee_paying_account)
-			confirmButtonClass += ' disabled';
+		let footer, header;
 
 		if (this.props.error || this.props.included) {
 			header = this.props.error

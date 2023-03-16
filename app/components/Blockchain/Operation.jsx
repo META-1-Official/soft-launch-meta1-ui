@@ -1,7 +1,6 @@
 import React from 'react';
 import FormattedAsset from '../Utility/FormattedAsset';
 import {Link} from 'react-router-dom';
-import classNames from 'classnames';
 import Translate from 'react-translate-component';
 import counterpart from 'counterpart';
 import utils from 'common/utils';
@@ -119,7 +118,7 @@ class Row extends React.Component {
 
 		return (
 			<tr
-				css={(theme) => ({
+				css={() => ({
 					border: `1px solid gray`,
 				})}
 			>

@@ -6,7 +6,6 @@ import {withRouter} from 'react-router-dom';
 import SyncError from './components/SyncError';
 import LoadingIndicator from './components/LoadingIndicator';
 import BrowserNotifications from './components/BrowserNotifications/BrowserNotificationsContainer';
-// import Header from 'components/Layout/Header';
 import ReactTooltip from 'react-tooltip';
 import NotificationSystem from 'react-notification-system';
 import TransactionConfirm from './components/Blockchain/TransactionConfirm';
@@ -22,13 +21,10 @@ import {DEFAULT_NOTIFICATION_DURATION} from 'services/Notification';
 import Loadable from 'react-loadable';
 import NewsHeadline from 'components/Layout/NewsHeadline';
 import Onramperwallet from 'components/Wallet/Onramperwallet';
-// import LoginSelector from "./components/LoginSelector";
 import Login from './components/Login/Login';
-import RegistrationSelector from './components/Registration/RegistrationSelector';
 import WalletRegistration from './components/Registration/WalletRegistration';
 import AccountRegistration from './components/Registration/AccountRegistration';
 import {CreateWalletFromBrainkey} from './components/Wallet/WalletCreate';
-// import ShowcaseGrid from "./components/Showcases/ShowcaseGrid";
 import PriceAlertNotifications from './components/PriceAlertNotifications';
 import {updateGatewayBackers} from 'common/gatewayUtils';
 
@@ -415,7 +411,7 @@ class App extends React.Component {
 
 	render() {
 		let {incognito, incognitoWarningDismissed} = this.state;
-		let {walletMode, theme, location, match, ...others} = this.props;
+		let {walletMode, theme, location, ...others} = this.props;
 		let content = null;
 		if (this.state.syncFail) {
 			content = <SyncError />;

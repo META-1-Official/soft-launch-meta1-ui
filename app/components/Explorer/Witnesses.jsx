@@ -23,76 +23,6 @@ const volumeIcon = require('assets/explorer/volume.png');
 const baseExplorerUrl = process.env.EXPLORER_META1_URL;
 
 const {Text} = Typography;
-class WitnessRow extends React.Component {
-	static propTypes = {
-		witness: ChainTypes.ChainAccount.isRequired,
-	};
-
-	_onRowClick(e) {
-		e.preventDefault();
-		this.props.history.push(`/account/${this.props.witness.get('name')}`);
-	}
-
-	// componentWillUnmount() {
-	//     ChainStore.unSubFrom("witnesses", ChainStore.getWitnessById( this.props.witness.get("id") ).get("id"));
-	// }
-
-	render() {
-		let {witness, isCurrent, rank} = this.props;
-		let witness_data = ChainStore.getWitnessById(this.props.witness.get('id'));
-		if (!witness_data) return null;
-		let total_votes = witness_data.get('total_votes');
-
-		let witness_aslot = witness_data.get('last_aslot');
-		let color = {};
-		if (this.props.most_recent - witness_aslot > 100) {
-			color = {borderLeft: '1px solid #FCAB53'};
-		} else {
-			color = {borderLeft: '1px solid #009D55'};
-		}
-		let last_aslot_time = new Date(
-			Date.now() -
-				(this.props.most_recent - witness_aslot) *
-					ChainStore.getObject('2.0.0').getIn([
-						'parameters',
-						'block_interval',
-					]) *
-					1000
-		);
-
-		let currentClass = isCurrent ? 'active-witness' : '';
-
-		let missed = witness_data.get('total_missed');
-		let missedClass = classNames(
-			'txtlabel',
-			{success: missed <= 500},
-			{info: missed > 500 && missed <= 1250},
-			{warning: missed > 1250 && missed <= 2000},
-			{error: missed >= 200}
-		);
-
-		return (
-			<tr className={currentClass} onClick={this._onRowClick.bind(this)}>
-				<td>{rank}</td>
-				<td style={color}>{witness.get('name')}</td>
-				<td>
-					<TimeAgo time={new Date(last_aslot_time)} />
-				</td>
-				<td>{witness_data.get('last_confirmed_block_num')}</td>
-				<td className={missedClass}>{missed}</td>
-				<td>
-					<FormattedAsset
-						amount={witness_data.get('total_votes')}
-						asset="1.3.0"
-						decimalOffset={5}
-					/>
-				</td>
-			</tr>
-		);
-	}
-}
-WitnessRow = BindToChainState(WitnessRow);
-WitnessRow = withRouter(WitnessRow);
 
 class WitnessList extends React.Component {
 	static propTypes = {
@@ -103,7 +33,6 @@ class WitnessList extends React.Component {
 		super();
 		this.state = {
 			sortBy: 'rank',
-			inverseSort: true,
 		};
 
 		this.handleBlockIdClick = this.handleBlockIdClick.bind(this);
@@ -113,10 +42,6 @@ class WitnessList extends React.Component {
 	_setSort(field) {
 		this.setState({
 			sortBy: field,
-			inverseSort:
-				field === this.state.sortBy
-					? !this.state.inverseSort
-					: this.state.inverseSort,
 		});
 	}
 
@@ -136,8 +61,7 @@ class WitnessList extends React.Component {
 	}
 
 	render() {
-		let {witnesses, current, cardView, witnessList} = this.props;
-		let {sortBy, inverseSort} = this.state;
+		let {witnesses, current, witnessList} = this.props;
 		let most_recent_aslot = 0;
 		let ranks = {};
 
@@ -226,26 +150,26 @@ class WitnessList extends React.Component {
 				});
 		}
 
-		const urlValid = (item) => {
-			const regex =
-				/(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
-			return regex.test(item);
-		};
+		// const urlValid = (item) => {
+		// 	const regex =
+		// 		/(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
+		// 	return regex.test(item);
+		// };
 
-		const urlRender = (item) => {
-			return (
-				<Popover
-					content={
-						<a href={item} target="_blank" rel="noopener noreferrer">
-							{item}
-						</a>
-					}
-					trigger={'hover'}
-				>
-					<AiOutlineLink />
-				</Popover>
-			);
-		};
+		// const urlRender = (item) => {
+		// 	return (
+		// 		<Popover
+		// 			content={
+		// 				<a href={item} target="_blank" rel="noopener noreferrer">
+		// 					{item}
+		// 				</a>
+		// 			}
+		// 			trigger={'hover'}
+		// 		>
+		// 			<AiOutlineLink />
+		// 		</Popover>
+		// 	);
+		// };
 
 		const keyRender = (item) => {
 			return (

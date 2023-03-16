@@ -68,14 +68,6 @@ class AppInit extends React.Component {
 		this.persistentLogEnabled = false;
 	}
 
-	/**
-	 * Global error catching and forwarding to log handler
-	 * @param error
-	 */
-	componentDidCatch(error) {
-		// this.saveExtendedLog('error', [error]);
-	}
-
 	componentDidUpdate(nextProps, nextState) {
 		LogsActions.setLog(nextState.extendeLogText);
 	}
@@ -232,7 +224,7 @@ class AppInit extends React.Component {
 			};
 			axios
 				.post(process.env.LITE_WALLET_URL + '/verifyToken', {}, config)
-				.then((response) => {})
+				.then(() => {})
 				.catch((error) => {
 					console.log('error', error);
 					WalletUnlockActions.lock_v2().finally(() => {

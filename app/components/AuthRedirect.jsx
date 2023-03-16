@@ -1,11 +1,9 @@
 import React from 'react';
-// import {withRouter} from "react-router-dom";
 import {connect} from 'alt-react';
 import {ChainStore} from 'meta1-vision-js';
 import {PrivateKey, FetchChain, key} from 'meta1-vision-js/es';
 import qs from 'qs';
 import axios from 'axios';
-import {Helmet} from 'react-helmet';
 import {Modal} from 'antd';
 import AuthStore from '../stores/AuthStore';
 import AccountStore from '../stores/AccountStore';
@@ -14,12 +12,11 @@ import WalletDb from '../stores/WalletDb';
 import WalletUnlockStore from '../stores/WalletUnlockStore';
 import TransactionConfirmStore from '../stores/TransactionConfirmStore';
 import WalletUnlockActions from '../actions/WalletUnlockActions';
-import LoadingIndicator from './LoadingIndicator';
 import ls from '../lib/common/localStorage';
 import faceKIService from '../services/face-ki.service';
 import kycService from 'services/kyc.service';
 import Webcam from 'react-webcam';
-import {Form, Input, Button, Tooltip} from 'antd';
+import {Button} from 'antd';
 import {toast} from 'react-toastify';
 const OvalImage = require('assets/oval/oval.png');
 
@@ -82,7 +79,7 @@ class AuthRedirect extends React.Component {
 	}
 
 	componentDidMount() {
-		const {openLogin, privKey, authData, setOpenLoginInstance} = this.props;
+		const {openLogin, privKey, setOpenLoginInstance} = this.props;
 		const loginAccountName = ss.get('account_login_name', '');
 
 		if (this.props.location && this.props.location.search) {

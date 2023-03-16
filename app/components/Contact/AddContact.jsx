@@ -1,4 +1,4 @@
-import {Button, Divider, Table} from 'antd';
+import {Button, Table} from 'antd';
 import SearchInput from 'components/Utility/SearchInput';
 import React from 'react';
 const DUMMY_DATA = [
@@ -78,7 +78,7 @@ const DUMMY_DATA = [
 ];
 class AddContact extends React.Component {
 	constructor(props) {
-		super();
+		super(props);
 		this.state = {
 			contactData: DUMMY_DATA,
 			searchTerm: '',
@@ -147,7 +147,7 @@ class AddContact extends React.Component {
 				colSpan: 1,
 				key: 'addBtn',
 				className: 'col-btn',
-				render: (rowData) => {
+				render: () => {
 					return (
 						<div>
 							<Button type="primary" className="add-contact-btn">

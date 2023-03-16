@@ -1,14 +1,4 @@
 import React from 'react';
-import {Asset} from '../lib/common/MarketClasses';
-import swal from 'sweetalert';
-import {ChainStore, key} from 'meta1-vision-js';
-import WalletUnlockActions from '../actions/WalletUnlockActions';
-import ReactTooltip from 'react-tooltip';
-import PrivateKeyStore from '../stores/PrivateKeyStore';
-import WalletDb from '../stores/WalletDb';
-import AccountStore from '../stores/AccountStore';
-import SettingsActions from '../actions/SettingsActions';
-import authenticator from 'authenticator';
 
 class Confirm extends React.Component {
 	constructor() {
@@ -20,9 +10,7 @@ class Confirm extends React.Component {
 	}
 
 	componentDidMount() {
-		// this.setState({ confirmCode : this.props.match.params.confirmCode  });
-		console.log(this.props.match.params.confirmCode);
-		console.log('this.props.match.params.confirmCode');
+		console.log('confirmCode', this.props.match.params.confirmCode);
 
 		fetch(
 			`${process.env.GATEWAY_URL}/api/user/verify/` +
@@ -50,8 +38,6 @@ class Confirm extends React.Component {
 	}
 
 	render() {
-		console.log(this.props.match.params);
-
 		return (
 			<div className="grid-container page-layout help-content-layout">
 				<div className="grid-block page-layout">

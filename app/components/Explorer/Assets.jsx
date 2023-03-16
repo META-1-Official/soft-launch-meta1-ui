@@ -8,7 +8,6 @@ import Immutable from 'immutable';
 import Translate from 'react-translate-component';
 import LinkToAccountById from '../Utility/LinkToAccountById';
 import assetUtils from 'common/asset_utils';
-import counterpart from 'counterpart';
 import FormattedAsset from '../Utility/FormattedAsset';
 import AssetName from '../Utility/AssetName';
 import {ChainStore} from 'meta1-vision-js';
@@ -146,7 +145,6 @@ class Assets extends React.Component {
 		let {assets} = this.props;
 		let {activeFilter} = this.state;
 
-		let placeholder = counterpart.translate('markets.filter').toUpperCase();
 		let coreAsset = ChainStore.getAsset('1.3.0');
 
 		let pm;
