@@ -1,0 +1,145 @@
+.searchContainer {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 25px;
+	justify-content: flex-start;
+}
+
+.searchCard {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	max-width: 370px;
+	height: 420px;
+	border: 1px solid #1c1f27;
+	border-radius: 0.625em;
+	box-sizing: border-box;
+	background: #15171b;
+	padding: 0.5em 1.5em;
+}
+
+.searchCardHeader {
+	height: 50px;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.searchCardHeaderText {
+	font-weight: 600;
+	font-size: 20px;
+	line-height: 2.5em;
+	color: #ffffff;
+}
+
+.searchCardMain {
+	height: 350px;
+	justify-content: space-between;
+	display: flex;
+	flex-direction: column;
+	padding: 1em 0;
+}
+
+.searchCardMainDescription {
+	display: flex;
+}
+
+.searchCardMainDescriptionText {
+	font-weight: 300;
+	color: #cecece;
+	max-width: 340px;
+	min-height: 120px;
+}
+
+.sampleInputBlock {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+}
+
+.sampleInputText {
+	font-weight: 300;
+	font-size: 15px;
+	color: #cecece;
+}
+
+.sampleInputTextBlock {
+	display: flex;
+	align-items: center;
+	max-height: 0;
+}
+
+.sampleInputTextYellow {
+	margin-left: 5px;
+	color: #ffc000;
+	font-weight: 400;
+}
+
+.sampleInputDescription {
+	color: #ffffff;
+}
+
+.downBlock {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
+
+.autocomplete {
+	outline: none;
+	border-radius: 5px;
+	width: 100%;
+}
+
+.input {
+	outline: none;
+	background-color: #212530;
+	width: 100%;
+	padding: 10px;
+	color: #cecece;
+	font-size: 18px;
+	border: 0;
+	box-sizing: content-box;
+	border-radius: 5px;
+}
+
+.downInputBlock {
+	display: flex;
+	flex-direction: row;
+	margin-bottom: 20px;
+}
+
+.downInputSelect {
+	display: flex;
+	border-radius: 0 5px 5px 0;
+	background-color: #212530;
+	padding-right: 5px;
+	align-items: center;
+}
+
+.downInputSelectImg {
+}
+
+.downButton {
+	color: rgba(0, 0, 0, 0.87);
+	background-color: #ffc000;
+	font-family: 'Poppins', sans-serif;
+	font-weight: 600;
+	font-size: 0.775rem;
+	line-height: 3.75;
+	text-transform: uppercase;
+	min-width: 62px;
+	padding: 6px 45px;
+	border-radius: 4px;
+}
+
+.searchWalletsContainer {
+	background-color: #fff2cf;
+	width: 20%;
+	display: flex;
+	flex-direction: column;
+	position: absolute;
+	margin-top: 50px;
+}
+
+.searchWalletsText {
+	color: #000;
+}

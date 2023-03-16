@@ -781,6 +781,9 @@
 		"account": {
 			"title": "Wallet"
 		},
+		"search": {
+			"title": "Search"
+		},
 		"accounts": {
 			"filter": "Filter wallets",
 			"filter_contacts": "Filter contacts",

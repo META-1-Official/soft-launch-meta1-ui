@@ -9,6 +9,7 @@ import counterpart from 'counterpart';
 import MarketsContainer from '../Exchange/MarketsContainer';
 import {Tabs} from 'antd';
 import ls from '../../lib/common/localStorage';
+import Search from './Search/Search';
 
 const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
@@ -24,6 +25,12 @@ class Explorer extends React.Component {
 					link: '/explorer/blocks',
 					translate: 'explorer.blocks.title',
 					content: BlocksContainer,
+				},
+				{
+					name: 'search',
+					link: '/explorer/search',
+					translate: 'explorer.search.title',
+					content: Search,
 				},
 				{
 					name: 'assets',
