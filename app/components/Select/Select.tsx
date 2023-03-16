@@ -19,8 +19,8 @@ const StyledSelect = ({children, ...rest}: IStyledSelect) => {
 				'&&& .ant-select-selector': {
 					backgroundColor: theme.colors.inputBackgroundColor,
 					color: theme.colors.inputTextColor,
-					borderRadius: '6px',
-					border: `1px solid #1c1f27`,
+					borderRadius: '5px',
+					border: `1px solid ${theme.colors.inputBorderColor}`,
 				},
 				'& .ant-select-arrow': {
 					color: theme.colors.primaryColor,
