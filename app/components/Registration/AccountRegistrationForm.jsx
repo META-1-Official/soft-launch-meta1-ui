@@ -16,11 +16,11 @@ import Icon from '../Icon/Icon';
 import {Form, Input, Button, Tooltip, Select} from 'antd';
 import ReCAPTCHA from 'react-google-recaptcha';
 import WalletUnlockActions from 'actions/WalletUnlockActions';
+import countryCodes from 'constants/countryCode.json';
 import {UserOutlined} from '@ant-design/icons';
 import ls from '../../lib/common/localStorage';
 const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
-import countryCodes from '../Utility/countryCode.json';
 
 const ALLOW_PHONE_NUMBER_KEY = ['Backspace', 'Tab', 'ArrowRight', 'ArrowLeft'];
 

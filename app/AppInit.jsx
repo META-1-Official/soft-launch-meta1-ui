@@ -8,7 +8,7 @@ import WalletManagerStore from 'stores/WalletManagerStore';
 import AccountStore from 'stores/AccountStore';
 import SettingsStore from 'stores/SettingsStore';
 import IntlStore from 'stores/IntlStore';
-import intlData from './components/Utility/intlData';
+import intlData from 'constants/intlData';
 import alt from 'alt-instance';
 import {connect, supplyFluxContext} from 'alt-react';
 import {IntlProvider} from 'react-intl';

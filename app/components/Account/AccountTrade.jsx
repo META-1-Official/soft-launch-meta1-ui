@@ -23,7 +23,7 @@ import MarketsActions from 'actions/MarketsActions';
 import MarketsStore from 'stores/MarketsStore';
 import utils from 'common/utils';
 import ChartjsAreaChart from '../Graph/Graph';
-import {getAssetIcon} from '../utils/asset';
+import {getAssetIcon} from 'constants/assets';
 import {withRouter} from 'react-router-dom';
 
 const SORT_TYPE_MULTIPLE = 'multiple';

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Table} from 'antd';
 import {FaArrowRight, FaArrowUp, FaArrowDown} from 'react-icons/fa';
-import {getAssetIcon} from '../../utils/asset';
+import {getAssetIcon} from 'constants/assets';
 import {connect} from 'alt-react';
 import MarketsStore from 'stores/MarketsStore';
 

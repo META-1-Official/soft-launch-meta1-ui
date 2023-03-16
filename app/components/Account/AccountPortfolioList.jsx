@@ -30,7 +30,7 @@ import AssetName from '../Utility/AssetName';
 import TranslateWithLinks from '../Utility/TranslateWithLinks';
 import StyledButton from 'components/Button/Button';
 import {FaQuestionCircle} from 'react-icons/fa';
-import {getAssetIcon, getAssetFullName} from '../utils/asset';
+import {getAssetIcon, getAssetFullName} from 'constants/assets';
 import DepositModal from '../Modal/DepositModal';
 
 const SORT_TYPE_MULTIPLE = 'multiple';
