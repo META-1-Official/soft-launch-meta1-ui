@@ -686,6 +686,86 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 		}
 	}
 
+	// Settings Page
+	.settings {
+		.ant-menu {
+			background: transparent !important;
+		}
+
+		.ant-typography {
+			span {
+				color: $primary-text-color;
+			}
+		}
+
+		.general-tab {
+			.general-header {
+				border-bottom: 1px solid $border-color;
+			}
+
+			.setting-entry {
+				background: $bg-color-lightblue;
+
+				.ant-form-item-label > label {
+					color: rgba(0, 0, 0, 0.7);
+				}
+
+				.ant-form-item-control {
+					.fee-asset-wrapper {
+						.current-fee-asset {
+							color: rgba(0, 0, 0, 0.5);
+						}
+
+						button {
+							border: 1px solid $border-color;
+
+							span {
+								color: white;
+							}
+						}
+					}
+					.settings-notifications {
+						.settings-notifications-item {
+							color: rgba(0, 0, 0, 0.5);
+
+							.ant-checkbox-inner {
+								&::after {
+									border-color: black;
+								}
+							}
+						}
+
+						.external-link {
+							.settings-notifications-no-browser-support {
+								color: darkred;
+							}
+						}
+					}
+				}
+
+				.ant-select-selector {
+					.ant-select-selection-item {
+						color: rgba(0, 0, 0, 0.4);
+
+						span {
+							color: rgba(0, 0, 0, 0.4);
+						}
+					}
+				}
+			}
+		}
+
+		.node-tab {
+			.nodes-header {
+				border-bottom: 1px solid $border-color;
+
+				.automatic {
+					color: $primary-text-color;
+				}
+			}
+		}
+	}
+
 	.white-star > svg > path {
 		fill: $primary-color !important;
 	}
