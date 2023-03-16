@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {providers} from './providers';
+import {providers} from 'constants/providers';
 import {Modal} from 'antd';
 import {WALLET_ADAPTERS} from '@web3auth/base';
 
