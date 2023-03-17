@@ -193,7 +193,6 @@ const GlobalStyles = (theme: any) => css`
 		}
 
 		.ant-empty-description {
-			color:rgba(255, 255, 255, 0.5) !important;
 			font-size: 20px;
 			margin-top: 20px;
 		}

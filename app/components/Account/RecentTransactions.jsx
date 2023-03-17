@@ -121,11 +121,6 @@ class RecentTransactions extends React.Component {
 	}
 
 	componentDidMount() {
-		if (!this.props.fullHeight) {
-			let t = this.refs.transactions;
-			this._setHeaderHeight();
-		}
-
 		let {accountsList, customFilter, filter} = this.props;
 
 		this._getHistory(accountsList);
@@ -146,16 +141,6 @@ class RecentTransactions extends React.Component {
 		} else {
 			this.setState({
 				esNode: newValue,
-			});
-		}
-	}
-
-	_setHeaderHeight() {
-		let height = this.refs.header.offsetHeight;
-
-		if (height !== this.state.headerHeight) {
-			this.setState({
-				headerHeight: height,
 			});
 		}
 	}
@@ -696,19 +681,6 @@ class RecentTransactions extends React.Component {
 				style={style}
 			>
 				<div className="generic-bordered-box">
-					{this.props.dashboard ? null : (
-						<div ref="header">
-							<div className="block-content-header">
-								<span>
-									{this.props.title ? (
-										this.props.title
-									) : (
-										<Translate content="account.recent" />
-									)}
-								</span>
-							</div>
-						</div>
-					)}
 					<div className="header-selector">
 						<div className="header-selector-body">
 							<div style={{display: 'flex', justifyContent: 'center'}}>
