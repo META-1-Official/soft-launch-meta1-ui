@@ -48,8 +48,12 @@ const theme = {
 		blockHeaderColor: '#1c1f27',
 	},
 	sizes: {
-		lg: '992px',
+		xs: '480px',
 		sm: '576px',
+		md: '768px',
+		lg: '992px',
+		xl: '1200px',
+		xxl: '1600px',
 	},
 };
 
