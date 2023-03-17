@@ -97,7 +97,7 @@ const AccountPermissionsMigrate = (props) => {
 						border: inUse ? 'none' : '1px solid #1C1F27',
 						borderRadius: '4px',
 						height: '32px',
-						width: '75px',
+						width: '100px',
 						fontSize: '16px',
 						fontWeight: '600',
 						display: type === 2 && inUse ? 'none' : 'unset',

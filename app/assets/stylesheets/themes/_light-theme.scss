@@ -275,15 +275,6 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 			}
 		}
 
-		.recent-transactions {
-			.react-datepicker-wrapper {
-				input {
-					background-color: #ffffff;
-					border: 1px solid $border-color;
-				}
-			}
-		}
-
 		.tab-controller {
 			button {
 				&.primary {
@@ -547,7 +538,19 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 		}
 	}
 
-	// backing assets page
+	// Transaction History page
+	.recent-transactions {
+		.react-datepicker-wrapper {
+			input,
+			input:hover,
+			input:focus {
+				background-color: #ffffff !important;
+				border: 1px solid $border-color !important;
+			}
+		}
+	}
+
+	// Backing assets page
 	.backing-assets {
 		.content-body {
 			background: transparent;
@@ -724,6 +727,7 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 							}
 						}
 					}
+
 					.settings-notifications {
 						.settings-notifications-item {
 							color: rgba(0, 0, 0, 0.5);
@@ -761,6 +765,181 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 
 				.automatic {
 					color: $primary-text-color;
+				}
+			}
+		}
+	}
+
+	// Permission page
+	div.account-permissions {
+		.content {
+			background: transparent;
+			border: 1px solid $border-color;
+
+			.tab-header {
+				border-bottom: 1px solid $border-color;
+
+				p {
+					color: $primary-text-color !important;
+				}
+			}
+
+			.tab-content {
+				background: transparent;
+
+				.content-wrapper {
+					background: white;
+					border: 1px solid $border-color;
+
+					.threshold {
+						color: rgba(0, 0, 0, 0.7);
+
+						input {
+							background: white;
+							border: 1px solid $border-color;
+							color: rgba(0, 0, 0, 0.4);
+						}
+					}
+
+					.pubkey-input {
+						.content-area {
+							.header-area {
+								label {
+									color: rgba(0, 0, 0, 0.7);
+								}
+							}
+						}
+
+						.input-area {
+							background: transparent;
+							border: 1px solid $border-color;
+
+							input {
+								background: white;
+								color: rgba(0, 0, 0, 0.6);
+							}
+						}
+					}
+
+					.permission-list {
+						label {
+							color: rgba(0, 0, 0, 0.7);
+						}
+
+						.ant-form-item-control-input-content {
+							.input-wrapper {
+								input {
+									background: white;
+									border: 1px solid $border-color;
+									color: rgba(0, 0, 0, 0.4);
+
+									&::placeholder {
+										color: rgba(0, 0, 0, 0.4);
+									}
+								}
+							}
+
+							button {
+								span {
+									color: white;
+								}
+							}
+						}
+
+						.table-wrapper {
+							border: 1px solid $border-color;
+
+							.table {
+								thead {
+									background: $bg-color-lightblue;
+									border-bottom: 1px solid $border-color;
+
+									th {
+										color: rgba(0, 0, 0, 0.6);
+									}
+								}
+
+								tr {
+									td {
+										border-bottom: 1px solid $border-color;
+									}
+								}
+							}
+						}
+					}
+
+					.cloud-wallet-key-section {
+						label > span {
+							color: rgba(0, 0, 0, 0.7);
+						}
+
+						.gen-password-field {
+							background: white;
+							border: 1px solid #ffc000;
+						}
+
+						.account-selector {
+							.generated-password-section {
+								input {
+									background: white;
+									border: 1px solid $border-color;
+								}
+							}
+
+							.confirm-password-section {
+								input {
+									background: white;
+									border: 1px solid $border-color;
+								}
+							}
+						}
+
+						.key-status {
+							.key-stats-wrapper {
+								background: transparent;
+								border: 1px solid $border-color;
+
+								.key-name {
+									color: rgba(0, 0, 0, 0.7);
+								}
+
+								button {
+									background: transparent !important;
+									color: black;
+									border: 1px solid black !important;
+								}
+
+								button:focus {
+									background: #ffc000 !important;
+									border: none !important;
+								}
+							}
+
+							.in-not-use {
+								background: transparent;
+							}
+						}
+					}
+				}
+			}
+
+			.divider {
+				border-bottom: 1px solid $border-color;
+			}
+
+			.recent-activity {
+				.ant-table-wrapper {
+					.ant-table-content {
+						table {
+							thead {
+								background: transparent;
+							}
+						}
+					}
+
+					.ant-table-empty {
+						background: transparent;
+					}
 				}
 			}
 		}
