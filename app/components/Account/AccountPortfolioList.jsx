@@ -15,7 +15,6 @@ import {connect} from 'alt-react';
 import SettingsStore from 'stores/SettingsStore';
 import MarketsStore from 'stores/MarketsStore';
 import Icon from '../Icon/Icon';
-import PulseIcon from '../Icon/PulseIcon';
 import utils from 'common/utils';
 import SendModal from '../Modal/SendModal';
 import SettingsActions from 'actions/SettingsActions';
@@ -24,7 +23,7 @@ import ZfApi from 'react-foundation-apps/src/utils/foundation-api';
 import ReserveAssetModal from '../Modal/ReserveAssetModal';
 import CustomTable from '../Utility/CustomTable';
 import MarketUtils from 'common/market_utils';
-import {Radio, Switch, Tooltip} from 'antd';
+import {Switch, Tooltip} from 'antd';
 import Translate from 'react-translate-component';
 import AssetName from '../Utility/AssetName';
 import TranslateWithLinks from '../Utility/TranslateWithLinks';
@@ -596,15 +595,8 @@ class AccountPortfolioList extends React.Component {
 	}
 
 	_renderBalances(balanceList, optionalAssets, visible) {
-		const {
-			coreSymbol,
-			preferredUnit,
-			settings,
-			hiddenAssets,
-			orders,
-			hideZeroBalance,
-			filterValue,
-		} = this.props;
+		const {coreSymbol, preferredUnit, orders, hideZeroBalance, filterValue} =
+			this.props;
 
 		const renderBorrow = (asset, account) => {
 			let isBitAsset = asset && asset.has('bitasset_data_id');
@@ -688,7 +680,6 @@ class AccountPortfolioList extends React.Component {
 
 			let {isBitAsset, borrowLink} = renderBorrow(asset, this.props.account);
 
-			const includeAsset = !hiddenAssets.includes(asset_type);
 			const hasBalance = !!balanceObject.get('balance');
 			const hasOnOrder = !!orders[asset_type];
 

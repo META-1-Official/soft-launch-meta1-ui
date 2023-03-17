@@ -1,20 +1,10 @@
 import React from 'react';
 import Translate from 'react-translate-component';
 import utils from 'common/utils';
-import AssetName from '../Utility/AssetName';
 
 class AccountOrderRowDescription extends React.Component {
 	render() {
 		let {base, quote, order} = this.props;
-		const isBid = order.isBid();
-
-		let quoteColor = !isBid
-			? 'value negative quote-asset'
-			: 'value positive quote-asset';
-		let baseColor = isBid
-			? 'value negative base-asset'
-			: 'value positive base-asset';
-
 		return (
 			<Translate
 				content={

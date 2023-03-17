@@ -6,7 +6,6 @@ import ChainTypes from '../Utility/ChainTypes';
 import BindToChainState from '../Utility/BindToChainState';
 import Statistics from './Statistics';
 import AccountActions from 'actions/AccountActions';
-import TimeAgo from '../Utility/TimeAgo';
 import HelpContent from '../Utility/HelpContent';
 import accountUtils from 'common/account_utils';
 import {getWalletName} from 'branding';

@@ -1,6 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import Translate from 'react-translate-component';
+// import PropTypes from 'prop-types';
 import counterpart from 'counterpart';
 import SignedMessageAction from '../../actions/SignedMessageAction';
 

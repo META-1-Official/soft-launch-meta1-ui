@@ -4,7 +4,7 @@ import Translate from 'react-translate-component';
 import JoinCommitteeModal from '../../Modal/JoinCommitteeModal';
 import VotingAccountsList from '../VotingAccountsList';
 import cnames from 'classnames';
-import {Input, Button} from 'antd';
+import {Button} from 'antd';
 import SearchInput from '../../Utility/SearchInput';
 
 export default class Committee extends Component {

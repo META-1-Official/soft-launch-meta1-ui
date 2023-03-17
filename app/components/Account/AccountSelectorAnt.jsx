@@ -11,12 +11,10 @@ import {
 } from 'meta1-vision-js';
 import ChainTypes from '../Utility/ChainTypes';
 import BindToChainState from '../Utility/BindToChainState';
-import classnames from 'classnames';
 import counterpart from 'counterpart';
-import Icon from '../Icon/Icon';
 import accountUtils from 'common/account_utils';
 import PropTypes from 'prop-types';
-import {Form, Input, Tooltip} from 'antd';
+import {Form, Input} from 'antd';
 import styled from '@emotion/styled';
 
 /**
@@ -222,14 +220,8 @@ class AccountSelector extends React.Component {
 			account,
 			allowPubKey,
 			typeahead,
-			disableActionButton,
 			contacts,
 			myActiveAccounts,
-			noPlaceHolder,
-			useHR,
-			labelClass,
-			reserveErrorSpace,
-			disabled,
 		} = this.props;
 
 		const inputType = this.getInputType(accountName);
@@ -350,51 +342,6 @@ class AccountSelector extends React.Component {
 		typeAheadAccounts.sort((a, b) => {
 			if (a.label > b.label) return 1;
 			else return -1;
-		});
-
-		let linked_status = !this.props.account ? null : myActiveAccounts.has(
-				account.get('name')
-		  ) || contacts.has(account.get('name')) ? (
-			<Tooltip
-				placement="top"
-				title={counterpart.translate('tooltip.follow_user')}
-				onClick={this._onRemoveContact.bind(this)}
-			>
-				<span className="tooltip green">
-					<Icon
-						style={{
-							position: 'absolute',
-							top: '-0.15em',
-							right: '.2em',
-						}}
-						name="user"
-						title="icons.user.following"
-					/>
-				</span>
-			</Tooltip>
-		) : (
-			<Tooltip
-				placement="top"
-				title={counterpart.translate('tooltip.follow_user_add')}
-				onClick={this._onAddContact.bind(this)}
-			>
-				<span className="tooltip">
-					<Icon
-						style={{
-							position: 'absolute',
-							top: '-0.05em',
-							right: '.2em',
-						}}
-						name="plus-circle"
-						title="icons.plus_circle.add_contact"
-					/>
-				</span>
-			</Tooltip>
-		);
-
-		let action_class = classnames('button', {
-			disabled:
-				!(account || inputType === 'pubkey') || error || disableActionButton,
 		});
 
 		if (this.props.setHasError) this.props.setHasError(!!error);

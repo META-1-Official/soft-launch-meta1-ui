@@ -19,7 +19,7 @@ import Icon from '../Icon/Icon';
 import accountUtils from 'common/account_utils';
 import cnames from 'classnames';
 import PropTypes from 'prop-types';
-import {Tooltip, Button, Input, Select, Form} from 'antd';
+import {Tooltip, Input, Select, Form} from 'antd';
 import {FaUserAlt} from 'react-icons/fa';
 import {
 	AiFillWarning,
@@ -27,7 +27,6 @@ import {
 	AiOutlineStar,
 	AiFillStar,
 	AiOutlineWarning,
-	AiOutlineEdit,
 } from 'react-icons/ai';
 import {LoadingOutlined} from '@ant-design/icons';
 import StyledButton from 'components/Button/Button';
@@ -438,14 +437,14 @@ class AccountSelector extends React.Component {
 			selectedAccount,
 			disabledAction,
 			disabledInput,
-			editableInput,
+			// editableInput,
 			linked_status;
 
-		editableInput = !!lockedState
-			? false
-			: this.props.editable != null
-			? this.props.editable
-			: undefined;
+		// editableInput = !!lockedState
+		// 	? false
+		// 	: this.props.editable != null
+		// 	? this.props.editable
+		// 	: undefined;
 
 		disabledInput = !!lockedState
 			? true
@@ -638,25 +637,25 @@ class AccountSelector extends React.Component {
 			/>
 		);
 
-		let lockedStateContainer = !lockedState ? null : (
-			<Tooltip title={counterpart.translate('tooltip.unlock_account_name')}>
-				<div
-					style={{
-						lineHeight: '2rem',
-						marginLeft: '10px',
-						cursor: 'pointer',
-					}}
-					onClick={() => this.setState({locked: false})}
-				>
-					<AiOutlineEdit
-						css={(theme) => ({
-							fontSize: '1rem',
-							color: theme.colors.themeOpositeColor,
-						})}
-					/>
-				</div>
-			</Tooltip>
-		);
+		// let lockedStateContainer = !lockedState ? null : (
+		// 	<Tooltip title={counterpart.translate('tooltip.unlock_account_name')}>
+		// 		<div
+		// 			style={{
+		// 				lineHeight: '2rem',
+		// 				marginLeft: '10px',
+		// 				cursor: 'pointer',
+		// 			}}
+		// 			onClick={() => this.setState({locked: false})}
+		// 		>
+		// 			<AiOutlineEdit
+		// 				css={(theme) => ({
+		// 					fontSize: '1rem',
+		// 					color: theme.colors.themeOpositeColor,
+		// 				})}
+		// 			/>
+		// 		</div>
+		// 	</Tooltip>
+		// );
 
 		let rightLabelContainer =
 			!this.props.label || !selectedAccount ? null : (

@@ -1,5 +1,4 @@
 import React from 'react';
-import AssetActions from 'actions/AssetActions';
 import AccountSelector from '../Account/AccountSelector';
 import LinkToAccountById from '../Utility/LinkToAccountById';
 import Translate from 'react-translate-component';

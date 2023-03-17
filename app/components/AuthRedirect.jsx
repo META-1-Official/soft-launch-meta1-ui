@@ -83,12 +83,6 @@ class AuthRedirect extends React.Component {
 		const loginAccountName = ss.get('account_login_name', '');
 
 		if (this.props.location && this.props.location.search) {
-			const param = qs.parse(this.props.location.search, {
-				ignoreQueryPrefix: true,
-			}).mode;
-			const jwt = qs.parse(this.props.location.search, {
-				ignoreQueryPrefix: true,
-			}).token;
 			const eSignSuccess = qs.parse(this.props.location.search, {
 				ignoreQueryPrefix: true,
 			}).signature;
@@ -302,7 +296,6 @@ class AuthRedirect extends React.Component {
 	}
 
 	async authProceed() {
-		const {privKey, authData} = this.props;
 		const {redirectFromESign} = this.state;
 		const regUserName = ss.get('account_registration_name', '');
 		const logInUserName = ss.get('account_login_name', '');

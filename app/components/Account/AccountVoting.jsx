@@ -567,9 +567,6 @@ class AccountVoting extends React.Component {
 		const accountHasProxy = !!prev_proxy_account_id;
 		let preferredUnit = this.props.settings.get('unit') || '1.3.0';
 		let hasProxy = !!this.state.proxy_account_id; // this.props.account.getIn(["options", "voting_account"]) !== "1.2.5";
-		let publish_buttons_class = cnames('button', {
-			disabled: !this.isChanged(),
-		});
 		let {globalObject, account} = this.props;
 		let budgetObject;
 		if (this.state.lastBudgetObject) {
