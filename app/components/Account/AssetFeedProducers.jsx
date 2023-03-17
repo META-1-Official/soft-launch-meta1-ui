@@ -4,7 +4,7 @@ import LinkToAccountById from '../Utility/LinkToAccountById';
 import Translate from 'react-translate-component';
 import Icon from '../Icon/Icon';
 
-export default class AccountFeedProducers extends React.Component {
+export default class AssetFeedProducers extends React.Component {
 	constructor(props) {
 		super(props);
 
