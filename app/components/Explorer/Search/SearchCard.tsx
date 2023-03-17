@@ -56,11 +56,11 @@ const SearchCard: FC<Props> = ({
 	const linkTo = (): string => {
 		switch (slug) {
 			case 'block':
-				return `/explorer/blocks/${value}`;
+				return `/block/${value}`;
 			case 'asset':
-				return `/explorer/assets/${value}`;
+				return `/asset/${value}`;
 			case 'wallet':
-				return `/explorer/accounts/${value}`;
+				return `/account/${value}`;
 			case 'transaction':
 				return `/explorer/txs/${value}`;
 			case 'object':
