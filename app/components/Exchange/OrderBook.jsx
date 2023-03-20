@@ -410,12 +410,12 @@ class OrderBookHeader extends React.Component {
 			<div className="header">
 				<div className="title">Order Book</div>
 
-				<div
+				{/* <div
 					className={this.props.currentGroupOrderLimit ? 'tap' : 'tap active'}
 					onClick={() => this.props.onChange(0)}
 				>
 					Market Depth
-				</div>
+				</div> */}
 			</div>
 		);
 	}
@@ -744,7 +744,12 @@ class OrderBook extends React.Component {
 			groupedBids,
 			groupedAsks,
 			flipOrderBook,
+			marketStats,
+			latest,
 		} = this.props;
+
+		// Market stats
+		const dayChange = marketStats.get('change');
 
 		let {showAllAsks, showAllBids, rowCount, displaySpreadAsPercentage} =
 			this.state;
@@ -1018,69 +1023,17 @@ class OrderBook extends React.Component {
 						ref="order_book"
 						style={{
 							marginRight: this.props.smallScreen ? 0 : 0,
-							height: 'calc(100% - 46px)',
-							width: '100%',
 							display: 'flex',
-							flexDirection: 'row',
-							justifyContent: 'space-between',
+							flexDirection: 'column',
 						}}
 						className={cnames(wrapperClass)}
 					>
 						<div
 							style={{
-								overflow: 'hidden',
-								color: '#FF2929',
-							}}
-							className={cnames(
-								innerClass,
-								flipOrderBook ? 'order-1' : 'order-2'
-							)}
-						>
-							{/*ask div */}
-							<div style={{height: '100%'}}>
-								<div className="market-right-padding-only">
-									<table className="table order-table table-hover fixed-table text-right">
-										{rightHeader}
-									</table>
-								</div>
-								<div
-									id="top-order-table"
-									className="grid-block"
-									ref="hor_asks"
-									style={{
-										overflow: 'hidden',
-										maxHeight: this.props.chartHeight / 2 - 2,
-										lineHeight: '20px',
-										minHeight: '93%',
-									}}
-								>
-									<table
-										className="table order-table no-stripes table-hover fixed-table text-right no-overflow"
-										style={{height: '100%'}}
-									>
-										<TransitionWrapper
-											ref="askTransition"
-											className="orderbook clickable"
-											component="tbody"
-											transitionName="newrow"
-											id="top-order-rows"
-										>
-											{askRows.reverse()}
-										</TransitionWrapper>
-									</table>
-								</div>
-							</div>
-						</div>
-
-						<div
-							style={{
 								color: '#70a800',
 							}}
-							className={cnames(
-								innerClass,
-								flipOrderBook ? 'order-2' : 'order-1'
-							)}
 						>
+							{/* sell */}
 							<div style={{height: '100%'}}>
 								<div className="market-right-padding-only">
 									<table className="table order-table table-hover fixed-table text-right">
@@ -1110,6 +1063,61 @@ class OrderBook extends React.Component {
 											transitionName="newrow"
 										>
 											{bidRows}
+										</TransitionWrapper>
+									</table>
+								</div>
+							</div>
+						</div>
+						<div className="orderbook-divider">
+							<span
+								style={{
+									color: dayChange > 0 ? 'rgb(0, 157, 85)' : 'rgb(255, 41, 41)',
+									fontSize: '20px',
+								}}
+							>
+								{Number(latest).toFixed(6)}
+							</span>
+							<span style={{marginLeft: '5px', fontSize: '14px'}}>
+								= {Number(latest).toFixed(6)} {base.get('symbol')}
+							</span>
+						</div>
+
+						<div
+							style={{
+								overflow: 'hidden',
+								color: '#FF2929',
+							}}
+						>
+							{/*buy div */}
+							<div style={{height: '100%'}}>
+								<div className="market-right-padding-only">
+									<table className="table order-table table-hover fixed-table text-right">
+										{rightHeader}
+									</table>
+								</div>
+								<div
+									id="top-order-table"
+									className="grid-block"
+									ref="hor_asks"
+									style={{
+										overflow: 'hidden',
+										maxHeight: this.props.chartHeight / 2 - 2,
+										lineHeight: '20px',
+										minHeight: '93%',
+									}}
+								>
+									<table
+										className="table order-table no-stripes table-hover fixed-table text-right no-overflow"
+										style={{height: '100%'}}
+									>
+										<TransitionWrapper
+											ref="askTransition"
+											className="orderbook clickable"
+											component="tbody"
+											transitionName="newrow"
+											id="top-order-rows"
+										>
+											{askRows.reverse()}
 										</TransitionWrapper>
 									</table>
 								</div>

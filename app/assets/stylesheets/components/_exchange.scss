@@ -1734,14 +1734,14 @@ form.hide-container {
 .order-book-panel {
 	.overflow-hidden {
 		overflow: hidden !important;
-		font-size: 10px !important;
+		font-size: 14px !important;
 	}
 	.header-font-size {
-		font-size: 10px !important;
+		font-size: 14px !important;
 	}
 	.header {
 		background: #1c1f27;
-		font-size: 16px;
+		font-size: 14px;
 		height: 46px;
 		width: 100%;
 		color: white;
@@ -1769,6 +1769,13 @@ form.hide-container {
 				}
 			}
 		}
+	}
+	.orderbook-divider {
+		border-top: 1px solid #1c1f27;
+		border-bottom: 1px solid #1c1f27;
+		padding: 10px;
+		display: flex;
+		align-items: center;
 	}
 	.table-height-auto {
 		height: auto !important;
@@ -1845,6 +1852,6 @@ form.hide-container {
 .market-history-custom {
 	.overflow-hidden {
 		overflow: hidden !important;
-		font-size: 10px !important;
+		font-size: 14px !important;
 	}
 }

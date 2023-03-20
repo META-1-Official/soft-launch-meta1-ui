@@ -2558,9 +2558,10 @@ class Exchange extends React.Component {
 					quoteSymbol={quoteSymbol}
 					onClick={this._orderbookClick.bind(this)}
 					horizontal={!verticalOrderBook || smallScreen ? true : false}
-					flipOrderBook={flipOrderBook}
+					flipOrderBook={false}
 					orderBookReversed={orderBookReversed}
 					marketReady={marketReady}
+					marketStats={marketStats}
 					currentAccount={this.props.currentAccount.get('id')}
 					handleGroupOrderLimitChange={this._onGroupOrderLimitChange.bind(this)}
 					trackedGroupsConfig={trackedGroupsConfig}
@@ -2878,11 +2879,11 @@ class Exchange extends React.Component {
 								{myTrade}
 							</Tabs.TabPane>
 						);
-						// groupTabs[panelTabs[a]].push(
-						// 	<Tabs.TabPane tab="Fund" key="fund">
-						// 		{myTrade}
-						// 	</Tabs.TabPane>
-						// );
+						groupTabs[panelTabs[a]].push(
+							<Tabs.TabPane tab="Fund" key="fund">
+								{myTrade}
+							</Tabs.TabPane>
+						);
 					}
 					if (a == 'open_settlement' && settlementOrders !== null) {
 						groupTabs[panelTabs[a]].push(
@@ -3265,7 +3266,7 @@ class Exchange extends React.Component {
 								<div
 									className="orders-trade-form grid-block shrink no-overflow"
 									style={{
-										width: '67%',
+										width: '50%',
 										marginRight: '1%',
 									}}
 								>
@@ -3275,7 +3276,7 @@ class Exchange extends React.Component {
 									className="orders-trade-form"
 									style={{
 										position: 'relative',
-										width: '33%',
+										width: '50%',
 									}}
 								>
 									{groupTabs[1]}
