@@ -49,7 +49,7 @@
 }
 
 .assets-layout {
-	width: 30%;
+	width: 40%;
 	display: flex;
 	flex-direction: column;
 	margin-right: 15px;
@@ -190,7 +190,7 @@
 }
 
 .control-layout {
-	width: 40%;
+	width: 80%;
 	margin-left: 15px;
 }
 
@@ -374,6 +374,7 @@ p.order-table-title {
 		background: transparent;
 		border: none;
 		color: rgba(255, 255, 255, 0.5);
+
 		span {
 			color: rgba(255, 255, 255, 0.5);
 			display: flex;
@@ -387,8 +388,9 @@ p.order-table-title {
 		height: 0;
 	}
 
-	.ant-form-item-has-error
-		:not(.ant-input-disabled):not(.ant-input-borderless).ant-input {
+	.ant-form-item-has-error:not(.ant-input-disabled):not(
+			.ant-input-borderless
+		).ant-input {
 		background: transparent !important;
 		border-left: 1px solid;
 		border-color: rgba(86, 97, 118, 0.3);
@@ -487,45 +489,57 @@ p.order-table-title {
 	border-bottom: 1px solid #1c1f27;
 }
 
-.orders-trade-form {
-	flex-grow: 1;
-	display: inline-block;
-	border-radius: 5px;
-	border: 1px solid #1c1f27;
+.orders-and-trade {
+	display: flex;
+	height: 550px;
+
+	.orders-trade-form {
+		flex-grow: 1;
+		display: inline-block;
+		border-radius: 5px;
+		border: 1px solid #1c1f27;
+	}
 }
 
-.my-open-orders-res {
+.action-cards {
+	max-height: 30rem;
+	margin-top: 15px;
+	overflow: hidden;
 	border: 1px solid #1c1f27;
 	border-radius: 5px;
-	display: flex;
-	flex-direction: column;
-	min-height: 400px;
 
-	.ant-table {
-		border-left: none;
-		border-right: none;
-	}
+	.my-open-orders-res {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
 
-	.ant-tabs-nav {
-		padding-left: 16px;
-		margin: 0 !important;
+		.ant-table {
+			border-left: none;
+			border-right: none;
+		}
 
-		.ant-tabs-nav-list {
-			width: unset !important;
+		.ant-tabs-nav {
+			padding-left: 16px;
+			margin: 0 !important;
 
-			.ant-tabs-tab {
-				text-align: center;
-				display: flex;
-				justify-content: center;
-				border-bottom: none !important;
-			}
+			.ant-tabs-nav-list {
+				width: unset !important;
+				height: 40px;
 
-			.ant-tabs-ink-bar {
-				display: none;
-			}
+				.ant-tabs-tab {
+					text-align: center;
+					display: flex;
+					justify-content: center;
+					border-bottom: none !important;
+				}
 
-			.ant-tabs-tab.ant-tabs-tab-active {
-				border-bottom: none !important;
+				.ant-tabs-ink-bar {
+					display: none;
+				}
+
+				.ant-tabs-tab.ant-tabs-tab-active {
+					border-bottom: none !important;
+				}
 			}
 		}
 	}
@@ -1041,6 +1055,7 @@ input[type='number']::-webkit-outer-spin-button {
 
 .market-right-padding-only {
 	max-height: 380px;
+
 	table td:nth-last-child(1) {
 		padding: 0 1rem 0 0 !important;
 	}
@@ -1346,8 +1361,6 @@ form.hide-container {
 }
 
 .market-order-table-container {
-	border-top: 1px solid rgb(28, 31, 39);
-
 	.ant-table-wrapper {
 		width: 100% !important;
 
@@ -1375,19 +1388,38 @@ form.hide-container {
 					&:first-of-type {
 						padding-left: 0px !important;
 					}
+
 					&:last-child {
 						text-align: -webkit-center;
 						text-align: -moz-center;
 					}
 				}
+
 				.ant-table-row {
-					background: #15171b;
 					height: 64px;
 					border: 1px solid #1c1f27;
 				}
 			}
 		}
 	}
+}
+
+.td-content-common-text {
+	color: white;
+	text-align: center;
+}
+
+.td-content-divider {
+	border-bottom: 1px solid #566176;
+	width: 45px;
+	height: 0px;
+	margin-top: 5;
+	margin-bottom: 5;
+}
+
+.td-content-second-text {
+	color: #715c5c;
+	text-align: center;
 }
 
 .vertical-panel {
@@ -1732,13 +1764,18 @@ form.hide-container {
 
 // Order Book Panel
 .order-book-panel {
+	display: flex;
+	flex-direction: column;
+
 	.overflow-hidden {
 		overflow: hidden !important;
 		font-size: 14px !important;
 	}
+
 	.header-font-size {
 		font-size: 14px !important;
 	}
+
 	.header {
 		background: #1c1f27;
 		font-size: 14px;
@@ -1770,6 +1807,7 @@ form.hide-container {
 			}
 		}
 	}
+
 	.orderbook-divider {
 		border-top: 1px solid #1c1f27;
 		border-bottom: 1px solid #1c1f27;
@@ -1777,6 +1815,7 @@ form.hide-container {
 		display: flex;
 		align-items: center;
 	}
+
 	.table-height-auto {
 		height: auto !important;
 	}
@@ -1824,9 +1863,11 @@ form.hide-container {
 		max-width: 15px;
 		margin-right: 6px;
 	}
+
 	.per_item {
 		cursor: pointer;
 	}
+
 	.active_item {
 		color: #fff !important;
 	}
@@ -1849,6 +1890,7 @@ form.hide-container {
 		}
 	}
 }
+
 .market-history-custom {
 	.overflow-hidden {
 		overflow: hidden !important;

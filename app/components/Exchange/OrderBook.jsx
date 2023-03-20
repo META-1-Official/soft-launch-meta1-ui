@@ -195,7 +195,7 @@ class OrderBookRowHorizontal extends React.Component {
 		);
 
 		return (
-			<Tooltip title={'Total: ' + totalAmt} placement="right">
+			<>
 				{isBid ? (
 					<tr
 						onClick={this.props.onClick}
@@ -213,9 +213,14 @@ class OrderBookRowHorizontal extends React.Component {
 							}}
 							className="table-body-class"
 						>
-							<div className="overflow-hidden">
-								{Number(amountWithoutComma).toFixed(6)}
-							</div>
+							<Tooltip
+								title={'Volume: ' + Number(amountWithoutComma)}
+								placement="left"
+							>
+								<div className="overflow-hidden">
+									{Number(amountWithoutComma).toFixed(6)}
+								</div>
+							</Tooltip>
 						</td>
 						<td
 							style={{
@@ -224,9 +229,11 @@ class OrderBookRowHorizontal extends React.Component {
 								paddingRight: '10px',
 							}}
 						>
-							<div className="overflow-hidden" style={{textAlign: 'center'}}>
-								{price}
-							</div>
+							<Tooltip title={'Price: ' + order.getPrice()} placement="top">
+								<div className="overflow-hidden" style={{textAlign: 'center'}}>
+									{price}
+								</div>
+							</Tooltip>
 						</td>
 						<td
 							style={{
@@ -235,7 +242,9 @@ class OrderBookRowHorizontal extends React.Component {
 								paddingRight: '10px',
 							}}
 						>
-							<div className="overflow-hidden">{totalAmt}</div>
+							<Tooltip title={'Total: ' + totalAmt} placement="right">
+								<div className="overflow-hidden">{totalAmt}</div>
+							</Tooltip>
 						</td>
 					</tr>
 				) : (
@@ -251,7 +260,14 @@ class OrderBookRowHorizontal extends React.Component {
 							style={{color: '#FF2929', textAlign: 'left', paddingLeft: '10px'}}
 							className="table-body-class"
 						>
-							<div className="overflow-hidden">{totalAmt}</div>
+							<Tooltip
+								title={'Volume: ' + Number(amountWithoutComma)}
+								placement="left"
+							>
+								<div className="overflow-hidden">
+									{Number(amountWithoutComma).toFixed(6)}
+								</div>
+							</Tooltip>
 						</td>
 						<td
 							style={{
@@ -261,9 +277,11 @@ class OrderBookRowHorizontal extends React.Component {
 								textAlign: 'right',
 							}}
 						>
-							<div className="overflow-hidden" style={{textAlign: 'center'}}>
-								{price}
-							</div>
+							<Tooltip title={'Price: ' + order.getPrice()} placement="top">
+								<div className="overflow-hidden" style={{textAlign: 'center'}}>
+									{price}
+								</div>
+							</Tooltip>
 						</td>
 						<td
 							style={{
@@ -272,13 +290,13 @@ class OrderBookRowHorizontal extends React.Component {
 								paddingRight: '10px',
 							}}
 						>
-							<div className="overflow-hidden">
-								{Number(amountWithoutComma).toFixed(6)}
-							</div>
+							<Tooltip title={'Total: ' + totalAmt} placement="right">
+								<div className="overflow-hidden">{totalAmt}</div>
+							</Tooltip>
 						</td>
 					</tr>
 				)}
-			</Tooltip>
+			</>
 		);
 	}
 }
@@ -947,7 +965,7 @@ class OrderBook extends React.Component {
 				askRows.splice(rowCount, askRows.length);
 			}
 
-			let leftHeader = (
+			let tableHeader = (
 				<thead>
 					<tr key="top-header" className="top-header">
 						<th
@@ -963,9 +981,7 @@ class OrderBook extends React.Component {
 								textAlign: 'center',
 							}}
 						>
-							<span className="header-sub-title header-font-size">
-								BUY PRICE
-							</span>
+							<span className="header-sub-title header-font-size">PRICE</span>
 						</th>
 						<th
 							style={{
@@ -973,33 +989,6 @@ class OrderBook extends React.Component {
 							}}
 						>
 							<span className="header-sub-title header-font-size">TOTAL</span>
-						</th>
-					</tr>
-				</thead>
-			);
-
-			let rightHeader = (
-				<thead>
-					<tr key="top-header" className="top-header">
-						<th
-							style={{
-								textAlign: 'left',
-							}}
-						>
-							<span className="header-sub-title header-font-size">TOTAL</span>
-						</th>
-						<th style={{textAlign: 'center'}}>
-							<span className="header-sub-title header-font-size">
-								SELL PRICE
-							</span>
-						</th>
-						<th
-							style={{
-								width: '33.5%',
-								textAlign: 'right',
-							}}
-						>
-							<span className="header-sub-title header-font-size">VOLUME</span>
 						</th>
 					</tr>
 				</thead>
@@ -1022,22 +1011,22 @@ class OrderBook extends React.Component {
 					<div
 						ref="order_book"
 						style={{
-							marginRight: this.props.smallScreen ? 0 : 0,
 							display: 'flex',
 							flexDirection: 'column',
+							height: '100%',
 						}}
 						className={cnames(wrapperClass)}
 					>
 						<div
 							style={{
 								color: '#70a800',
+								height: '50%',
 							}}
 						>
-							{/* sell */}
 							<div style={{height: '100%'}}>
 								<div className="market-right-padding-only">
 									<table className="table order-table table-hover fixed-table text-right">
-										{leftHeader}
+										{tableHeader}
 									</table>
 								</div>
 								<div
@@ -1086,15 +1075,10 @@ class OrderBook extends React.Component {
 							style={{
 								overflow: 'hidden',
 								color: '#FF2929',
+								height: '50%',
 							}}
 						>
-							{/*buy div */}
 							<div style={{height: '100%'}}>
-								<div className="market-right-padding-only">
-									<table className="table order-table table-hover fixed-table text-right">
-										{rightHeader}
-									</table>
-								</div>
 								<div
 									id="top-order-table"
 									className="grid-block"

@@ -68,32 +68,11 @@ class MarketsOrderView extends React.Component {
 												paddingLeft: '15px',
 											}}
 										>
-											<div
-												style={{
-													fontSize: '15px',
-													fontWeight: 400,
-													color: 'white',
-													textAlign: 'center',
-												}}
-											>
+											<div className="td-content-common-text">
 												{row.baseSymbol}
 											</div>
-											<div
-												style={{
-													borderBottom: '1px solid #566176',
-													width: '45px',
-													height: '0px',
-													marginTop: 5,
-													marginBottom: 5,
-												}}
-											></div>
-											<div
-												style={{
-													fontSize: '12px',
-													color: '#715C5C',
-													textAlign: 'center',
-												}}
-											>
+											<div className="td-content-divider"></div>
+											<div className="td-content-second-text">
 												{row.quoteSymbol}
 											</div>
 										</div>
@@ -108,32 +87,11 @@ class MarketsOrderView extends React.Component {
 								render={(row) => {
 									return (
 										<div className="td-content">
-											<div
-												style={{
-													fontSize: '15px',
-													fontWeight: 400,
-													color: 'white',
-													textAlign: 'center',
-												}}
-											>
+											<div className="td-content-common-text">
 												{row.receiveAmount}
 											</div>
-											<div
-												style={{
-													borderBottom: '1px solid #566176',
-													width: '45px',
-													height: '0px',
-													marginTop: 5,
-													marginBottom: 5,
-												}}
-											></div>
-											<div
-												style={{
-													fontSize: '12px',
-													color: '#715C5C',
-													textAlign: 'center',
-												}}
-											>
+											<div className="td-content-divider"></div>
+											<div className="td-content-second-text">
 												{row.payAmount}
 											</div>
 										</div>
@@ -148,9 +106,7 @@ class MarketsOrderView extends React.Component {
 								render={(row) => {
 									return (
 										<div className="td-content">
-											<div style={{color: '#715C5C', textAlign: 'center'}}>
-												{row}
-											</div>
+											<div className="td-content-second-text">{row}</div>
 										</div>
 									);
 								}}
@@ -163,14 +119,7 @@ class MarketsOrderView extends React.Component {
 								render={(row) => {
 									return (
 										<div className="td-content">
-											<div
-												style={{
-													color: 'white',
-													fontSize: '15px',
-													fontWeight: 400,
-													textAlign: 'center',
-												}}
-											>
+											<div className="td-content-common-text">
 												{Number(row).toLocaleString('en')}
 											</div>
 										</div>

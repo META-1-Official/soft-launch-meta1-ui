@@ -2879,11 +2879,11 @@ class Exchange extends React.Component {
 								{myTrade}
 							</Tabs.TabPane>
 						);
-						groupTabs[panelTabs[a]].push(
-							<Tabs.TabPane tab="Fund" key="fund">
-								{myTrade}
-							</Tabs.TabPane>
-						);
+						// groupTabs[panelTabs[a]].push(
+						// 	<Tabs.TabPane tab="Fund" key="fund">
+						// 		{myTrade}
+						// 	</Tabs.TabPane>
+						// );
 					}
 					if (a == 'open_settlement' && settlementOrders !== null) {
 						groupTabs[panelTabs[a]].push(
@@ -2956,15 +2956,6 @@ class Exchange extends React.Component {
 		if (!smallScreen) {
 			// actionCards.push(groupStandalone);
 			actionCards.push(groupTabbed2);
-
-			if (!verticalOrderForm) {
-				actionCards.push(buySellTab);
-				// actionCards.push(buyForm);
-				// actionCards.push(sellForm);
-			}
-			if (verticalOrderBook || verticalOrderForm) {
-				actionCards.push(emptyDiv);
-			}
 		}
 
 		/***
@@ -3254,39 +3245,34 @@ class Exchange extends React.Component {
 								</div>
 							) : null}
 
-							{/* Order book */}
-							<div
-								className="grid-block"
-								style={{
-									maxHeight: '400px',
-									marginTop: '15px',
-									overflow: 'hidden',
-								}}
-							>
-								<div
-									className="orders-trade-form grid-block shrink no-overflow"
-									style={{
-										width: '50%',
-										marginRight: '1%',
-									}}
-								>
-									{orderBook}
-								</div>
-								<div
-									className="orders-trade-form"
-									style={{
-										position: 'relative',
-										width: '50%',
-									}}
-								>
-									{groupTabs[1]}
-								</div>
-							</div>
+							<div className="grid-block action-cards">{actionCards}</div>
 						</div>
 					</div>
 				</div>
 				<div className="grid-block vertical control-layout page-layout">
-					{actionCards}
+					<div className="orders-and-trade">
+						<div
+							className="orders-trade-form grid-block shrink no-overflow"
+							style={{
+								width: '50%',
+								marginRight: '1%',
+							}}
+						>
+							{orderBook}
+						</div>
+
+						<div
+							className="orders-trade-form"
+							style={{
+								position: 'relative',
+								width: '50%',
+							}}
+						>
+							{groupTabs[1]}
+						</div>
+					</div>
+
+					{buySellTab}
 				</div>
 
 				{quoteIsBitAsset &&
