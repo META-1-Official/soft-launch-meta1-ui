@@ -195,7 +195,7 @@ class OrderBookRowHorizontal extends React.Component {
 		);
 
 		return (
-			<Tooltip title={'Total: ' + totalAmt} placement="right">
+			<>
 				{isBid ? (
 					<tr
 						onClick={this.props.onClick}
@@ -213,9 +213,14 @@ class OrderBookRowHorizontal extends React.Component {
 							}}
 							className="table-body-class"
 						>
-							<div className="overflow-hidden">
-								{Number(amountWithoutComma).toFixed(6)}
-							</div>
+							<Tooltip
+								title={'Volume: ' + Number(amountWithoutComma)}
+								placement="left"
+							>
+								<div className="overflow-hidden">
+									{Number(amountWithoutComma).toFixed(6)}
+								</div>
+							</Tooltip>
 						</td>
 						<td
 							style={{
@@ -224,9 +229,11 @@ class OrderBookRowHorizontal extends React.Component {
 								paddingRight: '10px',
 							}}
 						>
-							<div className="overflow-hidden" style={{textAlign: 'center'}}>
-								{price}
-							</div>
+							<Tooltip title={'Price: ' + order.getPrice()} placement="top">
+								<div className="overflow-hidden" style={{textAlign: 'center'}}>
+									{price}
+								</div>
+							</Tooltip>
 						</td>
 						<td
 							style={{
@@ -235,7 +242,9 @@ class OrderBookRowHorizontal extends React.Component {
 								paddingRight: '10px',
 							}}
 						>
-							<div className="overflow-hidden">{totalAmt}</div>
+							<Tooltip title={'Total: ' + totalAmt} placement="right">
+								<div className="overflow-hidden">{totalAmt}</div>
+							</Tooltip>
 						</td>
 					</tr>
 				) : (
@@ -251,7 +260,14 @@ class OrderBookRowHorizontal extends React.Component {
 							style={{color: '#FF2929', textAlign: 'left', paddingLeft: '10px'}}
 							className="table-body-class"
 						>
-							<div className="overflow-hidden">{totalAmt}</div>
+							<Tooltip
+								title={'Volume: ' + Number(amountWithoutComma)}
+								placement="left"
+							>
+								<div className="overflow-hidden">
+									{Number(amountWithoutComma).toFixed(6)}
+								</div>
+							</Tooltip>
 						</td>
 						<td
 							style={{
@@ -261,9 +277,11 @@ class OrderBookRowHorizontal extends React.Component {
 								textAlign: 'right',
 							}}
 						>
-							<div className="overflow-hidden" style={{textAlign: 'center'}}>
-								{price}
-							</div>
+							<Tooltip title={'Price: ' + order.getPrice()} placement="top">
+								<div className="overflow-hidden" style={{textAlign: 'center'}}>
+									{price}
+								</div>
+							</Tooltip>
 						</td>
 						<td
 							style={{
@@ -272,13 +290,13 @@ class OrderBookRowHorizontal extends React.Component {
 								paddingRight: '10px',
 							}}
 						>
-							<div className="overflow-hidden">
-								{Number(amountWithoutComma).toFixed(6)}
-							</div>
+							<Tooltip title={'Total: ' + totalAmt} placement="right">
+								<div className="overflow-hidden">{totalAmt}</div>
+							</Tooltip>
 						</td>
 					</tr>
 				)}
-			</Tooltip>
+			</>
 		);
 	}
 }
@@ -410,12 +428,12 @@ class OrderBookHeader extends React.Component {
 			<div className="header">
 				<div className="title">Order Book</div>
 
-				<div
+				{/* <div
 					className={this.props.currentGroupOrderLimit ? 'tap' : 'tap active'}
 					onClick={() => this.props.onChange(0)}
 				>
 					Market Depth
-				</div>
+				</div> */}
 			</div>
 		);
 	}
@@ -744,7 +762,12 @@ class OrderBook extends React.Component {
 			groupedBids,
 			groupedAsks,
 			flipOrderBook,
+			marketStats,
+			latest,
 		} = this.props;
+
+		// Market stats
+		const dayChange = marketStats.get('change');
 
 		let {showAllAsks, showAllBids, rowCount, displaySpreadAsPercentage} =
 			this.state;
@@ -942,7 +965,7 @@ class OrderBook extends React.Component {
 				askRows.splice(rowCount, askRows.length);
 			}
 
-			let leftHeader = (
+			let tableHeader = (
 				<thead>
 					<tr key="top-header" className="top-header">
 						<th
@@ -958,9 +981,7 @@ class OrderBook extends React.Component {
 								textAlign: 'center',
 							}}
 						>
-							<span className="header-sub-title header-font-size">
-								BUY PRICE
-							</span>
+							<span className="header-sub-title header-font-size">PRICE</span>
 						</th>
 						<th
 							style={{
@@ -968,33 +989,6 @@ class OrderBook extends React.Component {
 							}}
 						>
 							<span className="header-sub-title header-font-size">TOTAL</span>
-						</th>
-					</tr>
-				</thead>
-			);
-
-			let rightHeader = (
-				<thead>
-					<tr key="top-header" className="top-header">
-						<th
-							style={{
-								textAlign: 'left',
-							}}
-						>
-							<span className="header-sub-title header-font-size">TOTAL</span>
-						</th>
-						<th style={{textAlign: 'center'}}>
-							<span className="header-sub-title header-font-size">
-								SELL PRICE
-							</span>
-						</th>
-						<th
-							style={{
-								width: '33.5%',
-								textAlign: 'right',
-							}}
-						>
-							<span className="header-sub-title header-font-size">VOLUME</span>
 						</th>
 					</tr>
 				</thead>
@@ -1017,74 +1011,22 @@ class OrderBook extends React.Component {
 					<div
 						ref="order_book"
 						style={{
-							marginRight: this.props.smallScreen ? 0 : 0,
-							height: 'calc(100% - 46px)',
-							width: '100%',
 							display: 'flex',
-							flexDirection: 'row',
-							justifyContent: 'space-between',
+							flexDirection: 'column',
+							height: '100%',
 						}}
 						className={cnames(wrapperClass)}
 					>
 						<div
 							style={{
-								overflow: 'hidden',
-								color: '#FF2929',
-							}}
-							className={cnames(
-								innerClass,
-								flipOrderBook ? 'order-1' : 'order-2'
-							)}
-						>
-							{/*ask div */}
-							<div style={{height: '100%'}}>
-								<div className="market-right-padding-only">
-									<table className="table order-table table-hover fixed-table text-right">
-										{rightHeader}
-									</table>
-								</div>
-								<div
-									id="top-order-table"
-									className="grid-block"
-									ref="hor_asks"
-									style={{
-										overflow: 'hidden',
-										maxHeight: this.props.chartHeight / 2 - 2,
-										lineHeight: '20px',
-										minHeight: '93%',
-									}}
-								>
-									<table
-										className="table order-table no-stripes table-hover fixed-table text-right no-overflow"
-										style={{height: '100%'}}
-									>
-										<TransitionWrapper
-											ref="askTransition"
-											className="orderbook clickable"
-											component="tbody"
-											transitionName="newrow"
-											id="top-order-rows"
-										>
-											{askRows.reverse()}
-										</TransitionWrapper>
-									</table>
-								</div>
-							</div>
-						</div>
-
-						<div
-							style={{
 								color: '#70a800',
+								height: '50%',
 							}}
-							className={cnames(
-								innerClass,
-								flipOrderBook ? 'order-2' : 'order-1'
-							)}
 						>
 							<div style={{height: '100%'}}>
 								<div className="market-right-padding-only">
 									<table className="table order-table table-hover fixed-table text-right">
-										{leftHeader}
+										{tableHeader}
 									</table>
 								</div>
 								<div
@@ -1110,6 +1052,56 @@ class OrderBook extends React.Component {
 											transitionName="newrow"
 										>
 											{bidRows}
+										</TransitionWrapper>
+									</table>
+								</div>
+							</div>
+						</div>
+						<div className="orderbook-divider">
+							<span
+								style={{
+									color: dayChange > 0 ? 'rgb(0, 157, 85)' : 'rgb(255, 41, 41)',
+									fontSize: '20px',
+								}}
+							>
+								{Number(latest).toFixed(6)}
+							</span>
+							<span style={{marginLeft: '5px', fontSize: '14px'}}>
+								= {Number(latest).toFixed(6)} {base.get('symbol')}
+							</span>
+						</div>
+
+						<div
+							style={{
+								overflow: 'hidden',
+								color: '#FF2929',
+								height: '50%',
+							}}
+						>
+							<div style={{height: '100%'}}>
+								<div
+									id="top-order-table"
+									className="grid-block"
+									ref="hor_asks"
+									style={{
+										overflow: 'hidden',
+										maxHeight: this.props.chartHeight / 2 - 2,
+										lineHeight: '20px',
+										minHeight: '93%',
+									}}
+								>
+									<table
+										className="table order-table no-stripes table-hover fixed-table text-right no-overflow"
+										style={{height: '100%'}}
+									>
+										<TransitionWrapper
+											ref="askTransition"
+											className="orderbook clickable"
+											component="tbody"
+											transitionName="newrow"
+											id="top-order-rows"
+										>
+											{askRows.reverse()}
 										</TransitionWrapper>
 									</table>
 								</div>

@@ -383,25 +383,27 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 		}
 	}
 
-	.orders-trade-form {
-		border: 1px solid $border-color;
+	.orders-and-trade {
+		.orders-trade-form {
+			border: 1px solid $border-color;
 
-		.table.order-table > thead > tr > th {
-			border-bottom: 1px solid $border-color !important;
-		}
+			.table.order-table > thead > tr > th {
+				border-bottom: 1px solid $border-color !important;
+			}
 
-		.ask-order-tr {
-			background-color: rgb(217, 248, 240);
-			border-bottom: 1px solid $border-color;
-		}
+			.ask-order-tr {
+				background-color: rgb(217, 248, 240);
+				border-bottom: 1px solid $border-color;
+			}
 
-		.bid-order-tr {
-			background-color: rgb(255, 234, 236);
-			border-bottom: 1px solid $border-color;
+			.bid-order-tr {
+				background-color: rgb(255, 234, 236);
+				border-bottom: 1px solid $border-color;
+			}
 		}
 	}
 
-	.my-open-orders-res {
+	.action-cards {
 		border: 1px solid $border-color;
 	}
 
@@ -474,8 +476,6 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 	}
 
 	.market-order-table-container {
-		border-top: 1px solid $border-color;
-
 		.ant-table-wrapper {
 			table {
 				.ant-table-tbody {
@@ -493,6 +493,10 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 		}
 	}
 
+	.td-content-common-text {
+		color: black;
+	}
+
 	.order-book-panel {
 		.header {
 			background-color: $bg-color-lightblue !important;
@@ -505,6 +509,10 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 				background-color: white;
 				color: $primary-color !important;
 			}
+		}
+		.orderbook-divider {
+			border-top: 1px solid $border-color;
+			border-bottom: 1px solid $border-color;
 		}
 	}
 

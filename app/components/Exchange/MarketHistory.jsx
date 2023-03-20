@@ -98,28 +98,20 @@ const MarketHistoryViewRow = ({fill, base, quote}) => {
 					}}
 				>
 					<div
+						className="td-content-common-text"
 						style={{
 							fontSize: '15px',
 							fontWeight: 400,
-							color: 'white',
 							textAlign: 'center',
 						}}
 					>
 						{base_symbol}
 					</div>
+					<div className="td-content-divider"></div>
 					<div
-						style={{
-							borderBottom: '1px solid #566176',
-							width: '100%',
-							height: '0px',
-							marginTop: 5,
-							marginBottom: 5,
-						}}
-					></div>
-					<div
+						className="td-content-second-text"
 						style={{
 							fontSize: '12px',
-							color: '#715C5C',
 							textAlign: 'center',
 						}}
 					>
@@ -129,28 +121,20 @@ const MarketHistoryViewRow = ({fill, base, quote}) => {
 			</td>
 			<td>
 				<div
+					className="td-content-common-text"
 					style={{
 						fontSize: '15px',
 						fontWeight: 400,
-						color: 'white',
 						textAlign: 'center',
 					}}
 				>
 					{receive_amount}
 				</div>
+				<div className="td-content-divider"></div>
 				<div
-					style={{
-						borderBottom: '1px solid #566176',
-						width: '100%',
-						height: '0px',
-						marginTop: 5,
-						marginBottom: 5,
-					}}
-				></div>
-				<div
+					className="td-content-second-text"
 					style={{
 						fontSize: '12px',
-						color: '#715C5C',
 						textAlign: 'center',
 					}}
 				>
@@ -159,7 +143,7 @@ const MarketHistoryViewRow = ({fill, base, quote}) => {
 			</td>
 			<td>
 				<div className="td-content">
-					<div style={{color: '#715C5C'}}>
+					<div className="td-content-second-text">
 						{Number(fill.getPrice()).toLocaleString('en')}
 					</div>
 				</div>
@@ -167,8 +151,8 @@ const MarketHistoryViewRow = ({fill, base, quote}) => {
 			<td>
 				<div className="td-content" style={{alignItems: 'flex-end'}}>
 					<div
+						className="td-content-common-text"
 						style={{
-							color: 'white',
 							fontSize: '15px',
 							fontWeight: 400,
 							textAlign: 'right',

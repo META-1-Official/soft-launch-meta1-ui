@@ -73,7 +73,7 @@ class MarketHistoryView extends React.Component {
 					ref="history"
 					id="market-orders-view-container"
 					style={{
-						minHeight: 320,
+						minHeight: 450,
 						overflow: 'hidden',
 						lineHeight: '18px',
 					}}
@@ -121,32 +121,11 @@ class MarketHistoryView extends React.Component {
 											borderLeftWidth: '8px',
 										}}
 									>
-										<div
-											style={{
-												fontSize: '15px',
-												fontWeight: 400,
-												color: 'white',
-												textAlign: 'left',
-											}}
-										>
+										<div className="td-content-common-text">
 											{row.baseSymbol}
 										</div>
-										<div
-											style={{
-												borderBottom: '1px solid #566176',
-												width: '45px',
-												height: '0px',
-												marginTop: 5,
-												marginBottom: 5,
-											}}
-										></div>
-										<div
-											style={{
-												fontSize: '12px',
-												color: '#715C5C',
-												textAlign: 'center',
-											}}
-										>
+										<div className="td-content-divider" />
+										<div className="td-content-second-text">
 											{row.quoteSymbol}
 										</div>
 									</div>
@@ -161,32 +140,11 @@ class MarketHistoryView extends React.Component {
 							render={(row) => {
 								return (
 									<div className="td-content">
-										<div
-											style={{
-												fontSize: '15px',
-												fontWeight: 400,
-												color: 'white',
-												textAlign: 'center',
-											}}
-										>
+										<div className="td-content-common-text">
 											{row.receiveAmount}
 										</div>
-										<div
-											style={{
-												borderBottom: '1px solid #566176',
-												width: '45px',
-												height: '0px',
-												marginTop: 5,
-												marginBottom: 5,
-											}}
-										></div>
-										<div
-											style={{
-												fontSize: '12px',
-												color: '#715C5C',
-												textAlign: 'center',
-											}}
-										>
+										<div className="td-content-divider"></div>
+										<div className="td-content-second-text">
 											{row.payAmount}
 										</div>
 									</div>
@@ -196,22 +154,12 @@ class MarketHistoryView extends React.Component {
 						<Table.Column
 							dataIndex="price"
 							title={
-								<div className="market-order-table-text-header text-left">
-									Price
-								</div>
+								<div className="market-order-table-text-header">Price</div>
 							}
 							render={(row) => {
 								return (
 									<div>
-										<div
-											style={{
-												color: 'white',
-												textAlign: 'left',
-												paddingLeft: '10px',
-											}}
-										>
-											{row}
-										</div>
+										<div className="td-content-common-text">{row}</div>
 									</div>
 								);
 							}}
@@ -219,22 +167,12 @@ class MarketHistoryView extends React.Component {
 						<Table.Column
 							dataIndex="total"
 							title={
-								<div className="market-order-table-text-header text-right">
-									Total
-								</div>
+								<div className="market-order-table-text-header">Total</div>
 							}
 							render={(row) => {
 								return (
 									<div>
-										<div
-											style={{
-												color: 'white',
-												fontSize: '15px',
-												fontWeight: 400,
-												textAlign: 'right',
-												paddingRight: '10px',
-											}}
-										>
+										<div className="td-content-common-text">
 											{Number(row).toFixed(8)}
 										</div>
 									</div>
