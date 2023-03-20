@@ -1,7 +1,7 @@
 import {Apis} from 'meta1-vision-ws';
 import {ChainStore, FetchChain} from 'meta1-vision-js';
 import {Tabs} from 'antd';
-import {Collapse, Tooltip, notification} from 'antd';
+import {Collapse, notification} from 'antd';
 import cnames from 'classnames';
 import translator from 'counterpart';
 import {debounce} from 'lodash-es';
@@ -11,7 +11,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import SettingsActions from 'actions/SettingsActions';
 import MarketsActions from 'actions/MarketsActions';
-import assetUtils from 'common/asset_utils';
 import market_utils from 'common/market_utils';
 import {Asset, Price, LimitOrderCreate} from 'common/MarketClasses';
 import {checkFeeStatusAsync} from 'common/trxHelper';
@@ -34,7 +33,6 @@ import DepthHighChart from './DepthHighChart';
 import LoadingIndicator from '../LoadingIndicator';
 import BorrowModal from '../Modal/BorrowModal';
 import AccountNotifications from '../Notifier/NotifierContainer';
-import TranslateWithLinks from '../Utility/TranslateWithLinks';
 import PriceAlert from './PriceAlert';
 import counterpart from 'counterpart';
 import AssetsPairTabs from './AssetsPairTabs';
@@ -2017,11 +2015,8 @@ class Exchange extends React.Component {
 			tabVerticalPanel,
 			hidePanel,
 			hideScrollbars,
-			buyModalType,
-			depositModalType,
 			autoScroll,
 			activePanels,
-			panelWidth,
 			mirrorPanels,
 			panelTabsActive,
 			panelTabs,
@@ -2034,7 +2029,7 @@ class Exchange extends React.Component {
 			backingAssetValue,
 			backingAssetPolarity,
 		} = this.state;
-		const {isFrozen, frozenAsset} = this.isMarketFrozen();
+		const {isFrozen} = this.isMarketFrozen();
 
 		let centerContainerWidth = width;
 		if (this.refs.center) {
@@ -2127,27 +2122,13 @@ class Exchange extends React.Component {
 			base.getIn(['bitasset', 'is_prediction_market']) ||
 			quote.getIn(['bitasset', 'is_prediction_market']);
 
-		let description = null;
-
-		if (hasPrediction) {
-			description = quoteAsset.getIn(['options', 'description']);
-			description = assetUtils.parseDescription(description).main;
-		}
-
 		let smallScreen = width < 850 ? true : false;
 		let tinyScreen = width < 640 ? true : false;
-
-		const minChartHeight = 300;
-		const thisChartHeight = Math.max(
-			this.state.height > 1100 ? chartHeight : chartHeight - 125,
-			minChartHeight
-		);
 
 		let expirationType = this.state.expirationType;
 		let expirationCustomTime = this.state.expirationCustomTime;
 
 		let isPanelActive = activePanels.length >= 1 ? true : false;
-		let isPredictionMarket = base.getIn(['bitasset', 'is_prediction_market']);
 
 		// Market Order Tab Price calc
 		let buyMarketPrice = highestAsk?.getPrice();
@@ -2612,8 +2593,6 @@ class Exchange extends React.Component {
 					hideFunctionButtons={hideFunctionButtons}
 				/>
 			);
-
-		panelWidth = 350;
 
 		let marketHistory =
 			tinyScreen && !this.state.mobileKey.includes('marketHistory') ? null : (
@@ -3115,202 +3094,6 @@ class Exchange extends React.Component {
 				</Collapse>
 			);
 		}
-
-		/***
-		 * Generate Panels
-		 */
-		let leftPanel = null;
-		let rightPanel = null;
-		let leftPanelContainer = null;
-		let rightPanelContainer = null;
-		let enableToggleLeft = false;
-		let enableToggleRight = false;
-
-		if (!smallScreen) {
-			if (verticalOrderBook) {
-				leftPanel = (
-					<div
-						className="left-order-book no-padding no-overflow"
-						style={{
-							display: 'block',
-							height: 'calc(100vh - 170px)',
-							width: panelWidth,
-						}}
-					>
-						{orderBook}
-					</div>
-				);
-			}
-
-			if (verticalOrderForm) {
-				leftPanel = (
-					<div
-						className="left-order-book no-padding no-overflow"
-						style={{
-							display: 'block',
-							height: 'calc(100vh - 170px)',
-							width: 300,
-						}}
-					>
-						{buySellTab}
-					</div>
-				);
-			}
-
-			rightPanel = (
-				<div
-					className="left-order-book no-padding no-overflow"
-					style={{display: 'block'}}
-					key={`actionCard_${actionCardIndex++}`}
-				>
-					<div
-						className="v-align no-padding align-center grid-block footer shrink column"
-						data-intro={translator.translate('walkthrough.my_markets')}
-					>
-						<Tabs
-							defaultActiveKey="my-market"
-							activeKey={tabVerticalPanel}
-							onChange={this._setTabVerticalPanel.bind(this)}
-						>
-							<Tabs.TabPane
-								tab={translator.translate('exchange.market_name')}
-								key="my-market"
-							/>
-							<Tabs.TabPane
-								tab={translator.translate('exchange.more')}
-								key="find-market"
-							/>
-						</Tabs>
-					</div>
-					{myMarkets}
-				</div>
-			);
-
-			if ((!mirrorPanels && leftPanel) || (mirrorPanels && rightPanel)) {
-				enableToggleLeft = true;
-			}
-			if ((!mirrorPanels && rightPanel) || (mirrorPanels && leftPanel)) {
-				enableToggleRight = true;
-			}
-
-			leftPanelContainer = (
-				<div className="grid-block left-column shrink no-overflow">
-					{activePanels.includes('left')
-						? mirrorPanels
-							? rightPanel
-							: leftPanel
-						: null}
-					{enableToggleLeft ? (
-						<div
-							style={{
-								width: 'auto',
-								paddingTop: 'calc(50vh - 80px)',
-							}}
-							onClick={this._togglePanel.bind(this, 'left')}
-						>
-							{/* <AntIcon
-								data-intro={translator.translate(
-									"walkthrough.panel_hide"
-								)}
-								type={
-									activePanels.includes("left")
-										? "caret-left"
-										: "caret-right"
-								}
-							/> */}
-						</div>
-					) : null}
-				</div>
-			);
-
-			rightPanelContainer = (
-				<div
-					style={{
-						position: 'absolute',
-						right: '0',
-						height: '100%',
-						zIndex: '1',
-					}}
-					className="grid-block left-column shrink no-overflow"
-				>
-					{enableToggleRight ? (
-						<div onClick={this._togglePanel.bind(this, 'right')} />
-					) : null}
-					{activePanels.includes('right')
-						? !mirrorPanels
-							? rightPanel
-							: leftPanel
-						: null}
-				</div>
-			);
-		}
-
-		let tradingChartHeader = (
-			<div
-				className={'exchange--chart-control'}
-				style={{
-					height: 0,
-					position: 'absolute',
-					top: '10px',
-					right: '20px',
-				}}
-			>
-				{!smallScreen && (
-					<Tooltip
-						title={counterpart.translate(
-							'exchange.settings.tooltip.show_markets'
-						)}
-					>
-						{/* <AntIcon
-							style={{
-								cursor: "pointer",
-								fontSize: "1.4rem",
-								marginRight: "0.6rem"
-							}}
-							onClick={this._togglePanel.bind(this, "right")}
-							data-intro={translator.translate(
-								"walkthrough.panel_hide"
-							)}
-							type={
-								activePanels.includes("right")
-									? "caret-right"
-									: "caret-left"
-							}
-						/> */}
-					</Tooltip>
-				)}
-
-				{chartType == 'price_chart' && (
-					<Tooltip
-						title={counterpart.translate(
-							'exchange.settings.tooltip.chart_tools'
-						)}
-					>
-						{/* <AntIcon
-							style={{
-								cursor: 'pointer',
-								fontSize: '1.4rem',
-								marginRight: '0.6rem',
-							}}
-							onClick={this._chartTools.bind(this)}
-							type="tool"
-						/> */}
-					</Tooltip>
-				)}
-
-				<Tooltip
-					title={
-						chartType == 'market_depth'
-							? counterpart.translate(
-									'exchange.settings.tooltip.show_price_chart'
-							  )
-							: counterpart.translate(
-									'exchange.settings.tooltip.show_market_depth'
-							  )
-					}
-				/>
-			</div>
-		);
 
 		return (
 			<div className="grid-block" style={{padding: '10px'}}>

@@ -140,16 +140,9 @@ class OrderBookRowHorizontal extends React.Component {
 	}
 
 	render() {
-		let {order, quote, base, position, quoteTotal} = this.props;
+		let {order, quote, base} = this.props;
 
 		const isBid = order.isBid();
-		const isCall = order.isCall();
-
-		let integerClass = isCall
-			? 'orderHistoryCall'
-			: isBid
-			? 'orderHistoryBid'
-			: 'orderHistoryAsk';
 
 		let price = (
 			<PriceText price={order.getPrice()} quote={quote} base={base} />
@@ -172,22 +165,6 @@ class OrderBookRowHorizontal extends React.Component {
 		// 			order.amountToReceive().getAmount({real: true}),
 		// 			base.get('precision')
 		// 	  );
-		const totalValueBids = quoteTotal
-			? order.totalToReceive()
-			: order.totalForSale();
-		const totalValueAsks = quoteTotal
-			? order.totalForSale()
-			: order.totalToReceive();
-		const totalAsset = quoteTotal ? quote : base;
-		const total = isBid
-			? utils.format_number(
-					totalValueBids.getAmount({real: true}),
-					totalAsset.get('precision')
-			  )
-			: utils.format_number(
-					totalValueAsks.getAmount({real: true}),
-					totalAsset.get('precision')
-			  );
 		const amountWithoutComma = amount ? amount.replace(',', '') : amount;
 		const totalAmt = toFixed(
 			Number(amountWithoutComma) * Number(price.props.price)
@@ -343,8 +320,6 @@ class GroupedOrderBookRowHorizontal extends React.Component {
 	render() {
 		let {order, quote, base, position, quoteTotal} = this.props;
 		const isBid = order.isBid();
-
-		let integerClass = isBid ? 'orderHistoryBid' : 'orderHistoryAsk';
 
 		let price = (
 			<PriceText price={order.getPrice()} quote={quote} base={base} />
@@ -549,7 +524,7 @@ class OrderBook extends React.Component {
 		return true;
 	}
 
-	componentDidUpdate(prevProps, prevState, snapshot) {
+	componentDidUpdate(prevProps) {
 		const nextProps = this.props;
 		// Change of market or direction
 		if (
@@ -731,14 +706,10 @@ class OrderBook extends React.Component {
 			lowestAsk,
 			quote,
 			base,
-			totalAsks,
-			totalBids,
 			quoteSymbol,
 			baseSymbol,
 			horizontal,
-			trackedGroupsConfig,
 			currentGroupOrderLimit,
-			handleGroupOrderLimitChange,
 			orderBookReversed,
 			groupedBids,
 			groupedAsks,
@@ -909,9 +880,6 @@ class OrderBook extends React.Component {
 			}
 		}
 		if (this.props.horizontal) {
-			let totalBidsLength = bidRows.length;
-			let totalAsksLength = askRows.length;
-
 			if (!showAllBids) {
 				bidRows.splice(rowCount, bidRows.length);
 			}

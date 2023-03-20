@@ -137,7 +137,7 @@ const AssetExplorerDetails = ({history}) => {
 							</Col>
 							<Col xs={24} sm={18} lg={15}>
 								<div
-									css={(theme) => ({
+									css={() => ({
 										marginBottom: '2rem',
 									})}
 								>
@@ -200,7 +200,7 @@ const AssetExplorerDetails = ({history}) => {
 									</Col>
 								</Row>
 								<div
-									css={(theme) => ({
+									css={() => ({
 										fontSize: '15px',
 										padding: '1rem 0rem',
 									})}
@@ -287,7 +287,7 @@ const AssetExplorerDetails = ({history}) => {
 					</Text>
 					<div className="progress-wrapper">
 						<Text
-							css={(theme) => ({
+							css={() => ({
 								color: 'white',
 								textAlign: 'right',
 								fontSize: '16px',

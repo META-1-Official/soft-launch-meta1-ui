@@ -100,7 +100,7 @@ const AssetExplorer = ({history}) => {
 									</Text>
 									<br />
 									<Text
-										css={(theme) => ({
+										css={() => ({
 											color: 'white',
 											fontWeight: 'bold',
 											fontSize: '18px',
@@ -141,7 +141,7 @@ const AssetExplorer = ({history}) => {
 									}}
 								>
 									<Text
-										css={(theme) => ({
+										css={() => ({
 											color: percent > 50 ? '#0F923A' : '#FFC000',
 											float: 'right',
 											width: '170px',

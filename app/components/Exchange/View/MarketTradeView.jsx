@@ -16,8 +16,6 @@ class MarketTradeView extends React.Component {
 			// Strings
 			data,
 			tinyScreen,
-			marketStats,
-			allMarketStats,
 		} = this.props;
 
 		return (
@@ -219,7 +217,7 @@ MarketTradeView = connect(MarketTradeView, {
 	listenTo() {
 		return [MarketsStore];
 	},
-	getProps(props) {
+	getProps() {
 		return {
 			allMarketStats: MarketsStore.getState().allMarketStats,
 		};

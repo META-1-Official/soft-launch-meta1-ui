@@ -1,16 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Ps from 'perfect-scrollbar';
-import OpenSettleOrders from './OpenSettleOrders';
 import MarketsActions from 'actions/MarketsActions';
-import Translate from 'react-translate-component';
 import SettingsActions from 'actions/SettingsActions';
 import {ChainStore, ChainTypes as grapheneChainTypes} from 'meta1-vision-js';
 const {operations} = grapheneChainTypes;
 import {LimitOrder, CallOrder, FillOrder} from 'common/MarketClasses';
 import ReactTooltip from 'react-tooltip';
 import {MarketTradeView} from './View/MarketTradeView';
-import utils from 'common/utils';
 
 class MyTrade extends React.Component {
 	constructor(props) {
@@ -209,21 +206,10 @@ class MyTrade extends React.Component {
 	}
 
 	render() {
-		let {
-			base,
-			quote,
-			quoteSymbol,
-			baseSymbol,
-			settleOrders,
-			myHistory,
-			settings,
-		} = this.props;
-		let {activeTab, showAll, rowCount} = this.state;
+		let {base, quote, myHistory} = this.props;
+		let {activeTab} = this.state;
 
 		if (!base || !quote) return null;
-
-		let contentContainer;
-		let footerContainer;
 
 		/* Users Open Orders Tab (default) */
 		let rows = [];
@@ -257,9 +243,7 @@ class MyTrade extends React.Component {
 					const order = new FillOrder(trx.toJS(), assets, quote.get('id'));
 					const price = order.getPrice();
 					const isBid = order.isBid;
-					const payAmount = order.amountToPay();
 					const receiveAmount = order.amountToReceive();
-					const total = parseFloat(payAmount) * price;
 
 					let marketId = this.props.history?.location?.pathname.split('/')[2];
 

@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Ps from 'perfect-scrollbar';
-import OpenSettleOrders from './OpenSettleOrders';
+// import OpenSettleOrders from './OpenSettleOrders';
 import MarketsActions from 'actions/MarketsActions';
 import Translate from 'react-translate-component';
 import SettingsActions from 'actions/SettingsActions';
 import {ChainStore} from 'meta1-vision-js';
-import {LimitOrder, CallOrder, FillOrder} from 'common/MarketClasses';
+import {LimitOrder, CallOrder} from 'common/MarketClasses';
 import ReactTooltip from 'react-tooltip';
 import {MarketsOrderView} from './View/MarketOrdersView';
 import utils from 'common/utils';
@@ -208,8 +208,8 @@ class MarketOrders extends React.Component {
 	}
 
 	render() {
-		let {base, quote, quoteSymbol, baseSymbol, settleOrders} = this.props;
-		let {activeTab, showAll, rowCount} = this.state;
+		let {base, quote, quoteSymbol, baseSymbol} = this.props;
+		let {activeTab} = this.state;
 
 		if (!base || !quote) return null;
 

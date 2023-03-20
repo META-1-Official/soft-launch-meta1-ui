@@ -202,9 +202,9 @@ export default class ExchangeHeader extends React.Component {
 			!!this.state.selectedMarketPickerAsset &&
 			this.state.selectedMarketPickerAsset == baseSymbol;
 
-		let PriceAlertBellClassName = this.props.hasAnyPriceAlert
-			? 'exchange--price-alert--show-modal--active'
-			: '';
+		// let PriceAlertBellClassName = this.props.hasAnyPriceAlert
+		// 	? 'exchange--price-alert--show-modal--active'
+		// 	: '';
 
 		return (
 			<div

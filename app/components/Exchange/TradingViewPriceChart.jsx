@@ -14,7 +14,7 @@ import {AiOutlineDelete} from 'react-icons/ai';
 
 class TradingViewPriceChart extends React.Component {
 	constructor(props) {
-		super();
+		super(props);
 		this.state = {
 			showSaveModal: false,
 			showLoadModal: false,
@@ -29,8 +29,6 @@ class TradingViewPriceChart extends React.Component {
 	loadTradingView(props) {
 		const {dataFeed} = props;
 		let themeColors = colors[props.theme];
-		const that = this;
-
 		if (!dataFeed) return;
 
 		if (__DEV__)
@@ -204,11 +202,11 @@ class TradingViewPriceChart extends React.Component {
 		);
 	}
 
-	_onWheel(e) {
+	_onWheel() {
 		console.log('Test wheel interception');
 	}
 
-	onSubmitConfirmation(e) {
+	onSubmitConfirmation() {
 		const {layoutName} = this;
 		const error = this.props.charts.some(
 			(chart) =>

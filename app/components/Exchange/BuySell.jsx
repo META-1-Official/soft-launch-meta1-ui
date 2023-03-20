@@ -12,19 +12,16 @@ import PriceText from '../Utility/PriceText';
 import AssetName from '../Utility/AssetName';
 import {Asset} from 'common/MarketClasses';
 import ExchangeInput from './ExchangeInput';
-import assetUtils from 'common/asset_utils';
-import {DatePicker} from 'antd';
-import moment from 'moment';
+// import assetUtils from 'common/asset_utils';
+// import {DatePicker} from 'antd';
+// import moment from 'moment';
 import Icon from '../Icon/Icon';
 import SettleModal from '../Modal/SettleModal';
-import {Button, Select, Popover, Tooltip} from 'antd';
+import {Button, Tooltip} from 'antd';
 import ReactTooltip from 'react-tooltip';
-import AccountStore from '../../stores/AccountStore';
 import walletIcon from '../../assets/icons/walleticon.png';
-import Immutable from 'immutable';
-import {ChainStore} from 'meta1-vision-js';
 import {BalanceValueComponent} from '../Utility/EquivalentValueComponent';
-import EquivalentPrice from '../Utility/EquivalentPrice';
+
 class BuySell extends React.Component {
 	static propTypes = {
 		balance: ChainTypes.ChainObject,
@@ -42,7 +39,7 @@ class BuySell extends React.Component {
 	};
 
 	constructor(props) {
-		super();
+		super(props);
 		this.state = {
 			forceReRender: false,
 			isSettleModalVisible: false,
@@ -257,17 +254,13 @@ class BuySell extends React.Component {
 			currentPriceObject,
 			feeAsset,
 			feeAssets,
-			hasFeeBalance,
 			hideHeader,
 			verticalOrderForm,
-			account,
 		} = this.props;
-		const {expirationCustomTime} = this.props;
+		// const {expirationCustomTime} = this.props;
 
 		let account_balances = this.props.account.get('balances');
 
-		let includedBalancesList = Immutable.List(),
-			hiddenBalancesList = Immutable.List();
 		var symbolType = new Map();
 
 		symbolType.set('META1', '1.3.0');
@@ -310,20 +303,6 @@ class BuySell extends React.Component {
 			/>
 		);
 
-		const priceData = (
-			<EquivalentPrice
-				fromAsset={this.props.historyUrl.pathname.split('/')[2].split('_')[0]}
-				pulsate={{reverse: true, fill: 'forwards'}}
-				hide_symbols
-				priceHandler={(data) => {
-					this.setState({
-						currencyPrice: data,
-						globalCurrencyBalance: data,
-					});
-				}}
-				fromExchange={true}
-			/>
-		);
 		let clientWidth = this.refs.order_form
 			? this.refs.order_form.clientWidth
 			: 0;
@@ -342,265 +321,257 @@ class BuySell extends React.Component {
 			asset_id: this.props.balanceId,
 		});
 
-		const maxBaseMarketFee = new Asset({
-			amount: base.getIn(['options', 'max_market_fee']),
-			asset_id: base.get('asset_id'),
-			precision: base.get('precision'),
-		});
-		const maxQuoteMarketFee = new Asset({
-			amount: quote.getIn(['options', 'max_market_fee']),
-			asset_id: quote.get('asset_id'),
-			precision: quote.get('precision'),
-		});
-		const baseMarketFeePercent =
-			base.getIn(['options', 'market_fee_percent']) / 100 + '%';
-		const quoteMarketFeePercent =
-			quote.getIn(['options', 'market_fee_percent']) / 100 + '%';
-		const quoteFee = !amount
-			? 0
-			: Math.min(
-					maxQuoteMarketFee.getAmount({real: true}),
-					(amount * quote.getIn(['options', 'market_fee_percent'])) / 10000
-			  ).toFixed(maxQuoteMarketFee.precision);
-		const baseFee = !amount
-			? 0
-			: Math.min(
-					maxBaseMarketFee.getAmount({real: true}),
-					(total * base.getIn(['options', 'market_fee_percent'])) / 10000
-			  ).toFixed(maxBaseMarketFee.precision);
-		const baseFlagBooleans = assetUtils.getFlagBooleans(
-			base.getIn(['options', 'flags']),
-			base.has('bitasset_data_id')
-		);
-		const quoteFlagBooleans = assetUtils.getFlagBooleans(
-			quote.getIn(['options', 'flags']),
-			quote.has('bitasset_data_id')
-		);
+		// const maxBaseMarketFee = new Asset({
+		// 	amount: base.getIn(['options', 'max_market_fee']),
+		// 	asset_id: base.get('asset_id'),
+		// 	precision: base.get('precision'),
+		// });
+		// const maxQuoteMarketFee = new Asset({
+		// 	amount: quote.getIn(['options', 'max_market_fee']),
+		// 	asset_id: quote.get('asset_id'),
+		// 	precision: quote.get('precision'),
+		// });
+		// const baseMarketFeePercent =
+		// 	base.getIn(['options', 'market_fee_percent']) / 100 + '%';
+		// const quoteMarketFeePercent =
+		// 	quote.getIn(['options', 'market_fee_percent']) / 100 + '%';
+		// const quoteFee = !amount
+		// 	? 0
+		// 	: Math.min(
+		// 			maxQuoteMarketFee.getAmount({real: true}),
+		// 			(amount * quote.getIn(['options', 'market_fee_percent'])) / 10000
+		// 	  ).toFixed(maxQuoteMarketFee.precision);
+		// const baseFee = !amount
+		// 	? 0
+		// 	: Math.min(
+		// 			maxBaseMarketFee.getAmount({real: true}),
+		// 			(total * base.getIn(['options', 'market_fee_percent'])) / 10000
+		// 	  ).toFixed(maxBaseMarketFee.precision);
+		// const baseFlagBooleans = assetUtils.getFlagBooleans(
+		// 	base.getIn(['options', 'flags']),
+		// 	base.has('bitasset_data_id')
+		// );
+		// const quoteFlagBooleans = assetUtils.getFlagBooleans(
+		// 	quote.getIn(['options', 'flags']),
+		// 	quote.has('bitasset_data_id')
+		// );
 
-		const {name: baseName, prefix: basePrefix} = utils.replaceName(
-			this.props.base
-		);
-		var baseMarketFee = baseFlagBooleans['charge_market_fee'] ? (
-			verticalOrderForm ? (
-				<Tooltip
-					title={counterpart.translate('tooltip.market_fee', {
-						percent: baseMarketFeePercent,
-						asset: (basePrefix || '') + baseName,
-					})}
-				>
-					<div className="grid-block no-overflow shrink limit-order-input-wrapper">
-						<div className="small-12 buy-sell-label">
-							<Translate content="explorer.asset.summary.market_fee" />,{' '}
-							{baseMarketFeePercent}
-						</div>
-						<div className="inputAddon limit-order-input">
-							<ExchangeInput
-								placeholder="0.0"
-								id="baseMarketFee"
-								defaultValue={baseFee}
-								value={baseFee}
-								addonAfter={
-									<span>
-										<AssetName noTip name={base.get('symbol')} />
-									</span>
-								}
-							/>
-						</div>
-					</div>
-				</Tooltip>
-			) : singleColumnForm ? (
-				<Tooltip
-					title={counterpart.translate('tooltip.market_fee', {
-						percent: baseMarketFeePercent,
-						asset: (basePrefix || '') + baseName,
-					})}
-				>
-					<div className="grid-block no-overflow shrink limit-order-input-wrapper">
-						<div className="small-3 buy-sell-label">
-							<Translate content="explorer.asset.summary.market_fee" />,{' '}
-							{baseMarketFeePercent}
-						</div>
-						<div className="inputAddon limit-order-input">
-							<ExchangeInput
-								placeholder="0.0"
-								id="baseMarketFee"
-								defaultValue={baseFee}
-								value={baseFee}
-								addonAfter={
-									<span>
-										<AssetName noTip name={base.get('symbol')} />
-									</span>
-								}
-							/>
-						</div>
-					</div>
-				</Tooltip>
-			) : (
-				<Tooltip
-					title={counterpart.translate('tooltip.market_fee', {
-						percent: baseMarketFeePercent,
-						asset: (basePrefix || '') + baseName,
-					})}
-				>
-					<div className="grid-block no-overflow shrink limit-order-input-wrapper">
-						<div className="small-12 buy-sell-label">
-							<Translate content="explorer.asset.summary.market_fee" />,{' '}
-							{baseMarketFeePercent}
-						</div>
-						<div className="inputAddon limit-order-input">
-							<ExchangeInput
-								placeholder="0.0"
-								id="baseMarketFee"
-								defaultValue={baseFee}
-								value={baseFee}
-								addonAfter={
-									<span>
-										<AssetName noTip name={base.get('symbol')} />
-									</span>
-								}
-							/>
-						</div>
-					</div>
-				</Tooltip>
-			)
-		) : null;
+		// const {name: baseName, prefix: basePrefix} = utils.replaceName(
+		// 	this.props.base
+		// );
+		// var baseMarketFee = baseFlagBooleans['charge_market_fee'] ? (
+		// 	verticalOrderForm ? (
+		// 		<Tooltip
+		// 			title={counterpart.translate('tooltip.market_fee', {
+		// 				percent: baseMarketFeePercent,
+		// 				asset: (basePrefix || '') + baseName,
+		// 			})}
+		// 		>
+		// 			<div className="grid-block no-overflow shrink limit-order-input-wrapper">
+		// 				<div className="small-12 buy-sell-label">
+		// 					<Translate content="explorer.asset.summary.market_fee" />,{' '}
+		// 					{baseMarketFeePercent}
+		// 				</div>
+		// 				<div className="inputAddon limit-order-input">
+		// 					<ExchangeInput
+		// 						placeholder="0.0"
+		// 						id="baseMarketFee"
+		// 						defaultValue={baseFee}
+		// 						value={baseFee}
+		// 						addonAfter={
+		// 							<span>
+		// 								<AssetName noTip name={base.get('symbol')} />
+		// 							</span>
+		// 						}
+		// 					/>
+		// 				</div>
+		// 			</div>
+		// 		</Tooltip>
+		// 	) : singleColumnForm ? (
+		// 		<Tooltip
+		// 			title={counterpart.translate('tooltip.market_fee', {
+		// 				percent: baseMarketFeePercent,
+		// 				asset: (basePrefix || '') + baseName,
+		// 			})}
+		// 		>
+		// 			<div className="grid-block no-overflow shrink limit-order-input-wrapper">
+		// 				<div className="small-3 buy-sell-label">
+		// 					<Translate content="explorer.asset.summary.market_fee" />,{' '}
+		// 					{baseMarketFeePercent}
+		// 				</div>
+		// 				<div className="inputAddon limit-order-input">
+		// 					<ExchangeInput
+		// 						placeholder="0.0"
+		// 						id="baseMarketFee"
+		// 						defaultValue={baseFee}
+		// 						value={baseFee}
+		// 						addonAfter={
+		// 							<span>
+		// 								<AssetName noTip name={base.get('symbol')} />
+		// 							</span>
+		// 						}
+		// 					/>
+		// 				</div>
+		// 			</div>
+		// 		</Tooltip>
+		// 	) : (
+		// 		<Tooltip
+		// 			title={counterpart.translate('tooltip.market_fee', {
+		// 				percent: baseMarketFeePercent,
+		// 				asset: (basePrefix || '') + baseName,
+		// 			})}
+		// 		>
+		// 			<div className="grid-block no-overflow shrink limit-order-input-wrapper">
+		// 				<div className="small-12 buy-sell-label">
+		// 					<Translate content="explorer.asset.summary.market_fee" />,{' '}
+		// 					{baseMarketFeePercent}
+		// 				</div>
+		// 				<div className="inputAddon limit-order-input">
+		// 					<ExchangeInput
+		// 						placeholder="0.0"
+		// 						id="baseMarketFee"
+		// 						defaultValue={baseFee}
+		// 						value={baseFee}
+		// 						addonAfter={
+		// 							<span>
+		// 								<AssetName noTip name={base.get('symbol')} />
+		// 							</span>
+		// 						}
+		// 					/>
+		// 				</div>
+		// 			</div>
+		// 		</Tooltip>
+		// 	)
+		// ) : null;
 
-		const {name: quoteName, prefix: quotePrefix} = utils.replaceName(
-			this.props.quote
-		);
-		var quoteMarketFee = quoteFlagBooleans['charge_market_fee'] ? (
-			verticalOrderForm ? (
-				<Tooltip
-					title={counterpart.translate('tooltip.market_fee', {
-						percent: quoteMarketFeePercent,
-						asset: (quotePrefix || '') + quoteName,
-					})}
-				>
-					<div className="grid-block no-overflow shrink limit-order-input-wrapper">
-						<div className="small-12 buy-sell-label">
-							<Translate content="explorer.asset.summary.market_fee" />,{' '}
-							{quoteMarketFeePercent}
-						</div>
-						<div className="inputAddon limit-order-input">
-							<ExchangeInput
-								placeholder="0.0"
-								id="quoteMarketFee"
-								defaultValue={quoteFee}
-								value={quoteFee}
-								addonAfter={
-									<span>
-										<AssetName
-											style={{width: 100}}
-											noTip
-											name={quote.get('symbol')}
-										/>
-									</span>
-								}
-							/>
-						</div>
-					</div>
-				</Tooltip>
-			) : singleColumnForm ? (
-				<Tooltip
-					title={counterpart.translate('tooltip.market_fee', {
-						percent: quoteMarketFeePercent,
-						asset: (quotePrefix || '') + quoteName,
-					})}
-				>
-					<div className="grid-block no-overflow shrink limit-order-input-wrapper">
-						<div className="small-3 buy-sell-label">
-							<Translate content="explorer.asset.summary.market_fee" />,{' '}
-							{quoteMarketFeePercent}
-						</div>
-						<div className="inputAddon limit-order-input">
-							<ExchangeInput
-								placeholder="0.0"
-								id="quoteMarketFee"
-								defaultValue={quoteFee}
-								value={quoteFee}
-								addonAfter={
-									<span>
-										<AssetName
-											style={{width: 100}}
-											noTip
-											name={quote.get('symbol')}
-										/>
-									</span>
-								}
-							/>
-						</div>
-					</div>
-				</Tooltip>
-			) : (
-				<Tooltip
-					title={counterpart.translate('tooltip.market_fee', {
-						percent: quoteMarketFeePercent,
-						asset: (quotePrefix || '') + quoteName,
-					})}
-				>
-					<div className="grid-block no-overflow shrink limit-order-input-wrapper">
-						<div className="small-12 buy-sell-label">
-							<Translate content="explorer.asset.summary.market_fee" />,{' '}
-							{quoteMarketFeePercent}
-						</div>
-						<div className="inputAddon limit-order-input">
-							<ExchangeInput
-								placeholder="0.0"
-								id="quoteMarketFee"
-								defaultValue={quoteFee}
-								value={quoteFee}
-								addonAfter={
-									<span>
-										<AssetName
-											style={{width: 100}}
-											noTip
-											name={quote.get('symbol')}
-										/>
-									</span>
-								}
-							/>
-						</div>
-					</div>
-				</Tooltip>
-			)
-		) : null;
+		// const {name: quoteName, prefix: quotePrefix} = utils.replaceName(
+		// 	this.props.quote
+		// );
+		// var quoteMarketFee = quoteFlagBooleans['charge_market_fee'] ? (
+		// 	verticalOrderForm ? (
+		// 		<Tooltip
+		// 			title={counterpart.translate('tooltip.market_fee', {
+		// 				percent: quoteMarketFeePercent,
+		// 				asset: (quotePrefix || '') + quoteName,
+		// 			})}
+		// 		>
+		// 			<div className="grid-block no-overflow shrink limit-order-input-wrapper">
+		// 				<div className="small-12 buy-sell-label">
+		// 					<Translate content="explorer.asset.summary.market_fee" />,{' '}
+		// 					{quoteMarketFeePercent}
+		// 				</div>
+		// 				<div className="inputAddon limit-order-input">
+		// 					<ExchangeInput
+		// 						placeholder="0.0"
+		// 						id="quoteMarketFee"
+		// 						defaultValue={quoteFee}
+		// 						value={quoteFee}
+		// 						addonAfter={
+		// 							<span>
+		// 								<AssetName
+		// 									style={{width: 100}}
+		// 									noTip
+		// 									name={quote.get('symbol')}
+		// 								/>
+		// 							</span>
+		// 						}
+		// 					/>
+		// 				</div>
+		// 			</div>
+		// 		</Tooltip>
+		// 	) : singleColumnForm ? (
+		// 		<Tooltip
+		// 			title={counterpart.translate('tooltip.market_fee', {
+		// 				percent: quoteMarketFeePercent,
+		// 				asset: (quotePrefix || '') + quoteName,
+		// 			})}
+		// 		>
+		// 			<div className="grid-block no-overflow shrink limit-order-input-wrapper">
+		// 				<div className="small-3 buy-sell-label">
+		// 					<Translate content="explorer.asset.summary.market_fee" />,{' '}
+		// 					{quoteMarketFeePercent}
+		// 				</div>
+		// 				<div className="inputAddon limit-order-input">
+		// 					<ExchangeInput
+		// 						placeholder="0.0"
+		// 						id="quoteMarketFee"
+		// 						defaultValue={quoteFee}
+		// 						value={quoteFee}
+		// 						addonAfter={
+		// 							<span>
+		// 								<AssetName
+		// 									style={{width: 100}}
+		// 									noTip
+		// 									name={quote.get('symbol')}
+		// 								/>
+		// 							</span>
+		// 						}
+		// 					/>
+		// 				</div>
+		// 			</div>
+		// 		</Tooltip>
+		// 	) : (
+		// 		<Tooltip
+		// 			title={counterpart.translate('tooltip.market_fee', {
+		// 				percent: quoteMarketFeePercent,
+		// 				asset: (quotePrefix || '') + quoteName,
+		// 			})}
+		// 		>
+		// 			<div className="grid-block no-overflow shrink limit-order-input-wrapper">
+		// 				<div className="small-12 buy-sell-label">
+		// 					<Translate content="explorer.asset.summary.market_fee" />,{' '}
+		// 					{quoteMarketFeePercent}
+		// 				</div>
+		// 				<div className="inputAddon limit-order-input">
+		// 					<ExchangeInput
+		// 						placeholder="0.0"
+		// 						id="quoteMarketFee"
+		// 						defaultValue={quoteFee}
+		// 						value={quoteFee}
+		// 						addonAfter={
+		// 							<span>
+		// 								<AssetName
+		// 									style={{width: 100}}
+		// 									noTip
+		// 									name={quote.get('symbol')}
+		// 								/>
+		// 							</span>
+		// 						}
+		// 					/>
+		// 				</div>
+		// 			</div>
+		// 		</Tooltip>
+		// 	)
+		// ) : null;
 
-		var emptyCell = !verticalOrderForm ? (
-			<div
-				style={{visibility: 'hidden'}}
-				className="grid-block no-overflow shrink limit-order-input-wrapper"
-			>
-				<div className="small-3 buy-sell-label">
-					<Translate content="explorer.asset.summary.market_fee" />
-				</div>
-				<div className="inputAddon limit-order-input">
-					<ExchangeInput
-						placeholder="0.0"
-						id="emptyPlaceholder"
-						defaultValue="0"
-						addonAfter={
-							<span>
-								<AssetName
-									style={{width: 100}}
-									noTip
-									name={quote.get('symbol')}
-								/>
-							</span>
-						}
-					/>
-				</div>
-			</div>
-		) : null;
+		// var emptyCell = !verticalOrderForm ? (
+		// 	<div
+		// 		style={{visibility: 'hidden'}}
+		// 		className="grid-block no-overflow shrink limit-order-input-wrapper"
+		// 	>
+		// 		<div className="small-3 buy-sell-label">
+		// 			<Translate content="explorer.asset.summary.market_fee" />
+		// 		</div>
+		// 		<div className="inputAddon limit-order-input">
+		// 			<ExchangeInput
+		// 				placeholder="0.0"
+		// 				id="emptyPlaceholder"
+		// 				defaultValue="0"
+		// 				addonAfter={
+		// 					<span>
+		// 						<AssetName
+		// 							style={{width: 100}}
+		// 							noTip
+		// 							name={quote.get('symbol')}
+		// 						/>
+		// 					</span>
+		// 				}
+		// 			/>
+		// 		</div>
+		// 	</div>
+		// ) : null;
 
 		const isBid = type === 'bid';
-		let marketFee =
-			isBid && quoteMarketFee
-				? quoteMarketFee
-				: !isBid && baseMarketFee
-				? baseMarketFee
-				: quoteMarketFee || baseMarketFee
-				? emptyCell
-				: null;
 
 		let hasBalance = isBid
 			? balanceAmount.getAmount({real: true}) >= parseFloat(total)
@@ -699,16 +670,16 @@ class BuySell extends React.Component {
 			feeAsset = feeAssets[0];
 			feeAssets.splice(1, 1);
 		}
-		let index = 0;
-		let options = feeAssets.map((asset) => {
-			let {name, prefix} = utils.replaceName(asset);
-			return (
-				<Select.Option key={asset.get('id')} value={index++}>
-					{prefix}
-					{name}
-				</Select.Option>
-			);
-		});
+		// let index = 0;
+		// let options = feeAssets.map((asset) => {
+		// 	let {name, prefix} = utils.replaceName(asset);
+		// 	return (
+		// 		<Select.Option key={asset.get('id')} value={index++}>
+		// 			{prefix}
+		// 			{name}
+		// 		</Select.Option>
+		// 	);
+		// });
 
 		// Subtract fee from amount to sell
 		let balanceToAdd;
@@ -721,25 +692,25 @@ class BuySell extends React.Component {
 			balanceToAdd = balanceAmount;
 		}
 
-		let dataIntro = isBid
-			? counterpart.translate('walkthrough.buy_form')
-			: counterpart.translate('walkthrough.sell_form');
+		// let dataIntro = isBid
+		// 	? counterpart.translate('walkthrough.buy_form')
+		// 	: counterpart.translate('walkthrough.sell_form');
 
-		let expirationTip;
+		// let expirationTip;
 
-		if (this.props.expirationType !== 'SPECIFIC') {
-			expirationTip = this.props.expirations[this.props.expirationType].get();
-		}
+		// if (this.props.expirationType !== 'SPECIFIC') {
+		// 	expirationTip = this.props.expirations[this.props.expirationType].get();
+		// }
 
-		const expirationsOptionsList = Object.keys(this.props.expirations).map(
-			(key) => (
-				<Select.Option value={key} key={key}>
-					{key === 'SPECIFIC' && expirationCustomTime !== 'Specific'
-						? moment(expirationCustomTime).format('Do MMM YYYY hh:mm A')
-						: this.props.expirations[key].title}
-				</Select.Option>
-			)
-		);
+		// const expirationsOptionsList = Object.keys(this.props.expirations).map(
+		// 	(key) => (
+		// 		<Select.Option value={key} key={key}>
+		// 			{key === 'SPECIFIC' && expirationCustomTime !== 'Specific'
+		// 				? moment(expirationCustomTime).format('Do MMM YYYY hh:mm A')
+		// 				: this.props.expirations[key].title}
+		// 		</Select.Option>
+		// 	)
+		// );
 
 		const containerClass = 'small-12';
 		let formContent;
@@ -1214,8 +1185,6 @@ class BuySell extends React.Component {
 		// check if globally settled
 		const isGloballySettled =
 			isBitAsset && otherAsset.get('bitasset').get('settlement_fund') > 0;
-
-		const currentAccount = AccountStore.getState().currentAccount;
 
 		return (
 			<div className={cnames(this.props.className)} style={this.props.styles}>

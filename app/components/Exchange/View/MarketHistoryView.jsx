@@ -7,21 +7,8 @@ import {Table} from 'antd';
 
 class MarketHistoryView extends React.Component {
 	render() {
-		let {
-			className,
-			innerClass,
-			innerStyle,
-			noHeader,
-			headerStyle,
-			activeTab,
-			quoteSymbol,
-			baseSymbol,
-			tinyScreen,
-			totalRows,
-			historyRows,
-			showAll,
-			data,
-		} = this.props;
+		let {className, innerClass, innerStyle, activeTab, tinyScreen, data} =
+			this.props;
 
 		const emptyRow = (
 			<tr>

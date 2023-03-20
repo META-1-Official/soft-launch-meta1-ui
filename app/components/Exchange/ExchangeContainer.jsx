@@ -148,7 +148,7 @@ class ExchangeSubscriber extends React.Component {
 	};
 
 	constructor(props) {
-		super();
+		super(props);
 		this.state = {sub: null};
 
 		this._subToMarket = this._subToMarket.bind(this);
