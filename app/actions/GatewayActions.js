@@ -93,7 +93,7 @@ class GatewayActions {
 							backer,
 						});
 					})
-					.catch((err) => {
+					.catch(() => {
 						clearTimeout(fetchCoinsTimeout);
 						delete inProgress['fetchCoinsSimple_' + backer];
 

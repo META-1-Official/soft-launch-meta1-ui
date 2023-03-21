@@ -119,7 +119,7 @@ class BorrowModalContent extends React.Component {
 		);
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		const {debtAmount, collateral, collateral_ratio} = this.state;
 
 		if (
@@ -806,7 +806,7 @@ export default class ModalWrapper extends React.Component {
 		this.props.showModal();
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		this.setState({
 			smallScreen: window.innerHeight <= 800,
 		});

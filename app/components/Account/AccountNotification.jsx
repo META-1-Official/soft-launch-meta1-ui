@@ -2,7 +2,7 @@ import React from 'react';
 import BindToChainState from '../Utility/BindToChainState';
 import PageHeader from 'components/PageHeader/PageHeader';
 import {ClockCircleOutlined} from '@ant-design/icons';
-import {Button, List} from 'antd';
+import {List} from 'antd';
 
 const renderListItem = (item, index) => (
 	<List.Item

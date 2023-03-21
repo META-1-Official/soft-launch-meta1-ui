@@ -38,7 +38,7 @@ const Root = () => {
 	);
 
 	useEffect(() => {
-		SettingsStore.listen(function (state) {
+		SettingsStore.listen(function () {
 			setTheme(SettingsStore.getState().settings.get('themes'));
 		});
 	}, []);

@@ -5,7 +5,6 @@ import utils from 'common/utils';
 import {withRouter} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import sanitize from 'sanitize';
-import {css} from '@emotion/react';
 
 let req = require.context('../../help', true, /\.md/);
 let HelpData = {};
@@ -87,13 +86,13 @@ class HelpContent extends React.PureComponent {
 		window._onClickLink = this.onClickLink.bind(this);
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		const newRoute = nextProps.pathUrl;
 
 		this.updateMenu(newRoute);
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		const newRoute = this.props.pathUrl;
 
 		this.updateMenu(newRoute);

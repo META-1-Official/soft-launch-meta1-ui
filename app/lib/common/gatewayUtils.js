@@ -1,12 +1,7 @@
 import {Apis} from 'meta1-vision-ws';
 import GatewayActions from 'actions/GatewayActions';
-import {
-	availableBridges,
-	availableGateways,
-	gatewayPrefixes,
-} from 'common/gateways';
+import {availableGateways, gatewayPrefixes} from 'common/gateways';
 import counterpart from 'counterpart';
-import {isGatewayTemporarilyDisabled} from '../chain/onChainConfig';
 
 export function getGatewayName(asset) {
 	if (asset.get('issuer') === '1.2.0') {

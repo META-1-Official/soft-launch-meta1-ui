@@ -75,7 +75,7 @@ class AccountsSettings extends React.Component {
 	}
 
 	render() {
-		let {myAccounts, hiddenAccounts} = this.props;
+		let {myAccounts} = this.props;
 
 		const columns = this._buildColumns();
 		const dataSource = this._buildDataSource(myAccounts.sort());

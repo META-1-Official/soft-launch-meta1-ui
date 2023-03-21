@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Input} from 'antd';
 import counterpart from 'counterpart';
-import {FaSearch, FaRegTimesCircle} from 'react-icons/fa';
+import {FaSearch} from 'react-icons/fa';
 
 const searchInput = React.createRef();
 export default function SearchInput({
@@ -48,18 +48,6 @@ export default function SearchInput({
 					})}
 				/>
 			}
-			// suffix={
-			// 	onClear ? (
-			// 		<FaRegTimesCircle
-			// 			onClick={onClear}
-			// 			type="close"
-			// 			// always include DOM the icon, otherwise user looses focus when it appears and input resizes
-			// 			className={value ? 'cursor-pointer' : 'hide'}
-			// 		/>
-			// 	) : (
-			// 		<span />
-			// 	)
-			// }
 			{...other}
 		/>
 	);

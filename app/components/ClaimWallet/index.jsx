@@ -1,6 +1,6 @@
-import {Component, useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import migrationService from 'services/migration.service';
-import {Button, Col, Input, Modal, Row, Space} from 'antd';
+import {Col, Input, Row, Space} from 'antd';
 import StyledButton from 'components/Button/Button';
 import {toast} from 'react-toastify';
 import './claimWallet.scss';

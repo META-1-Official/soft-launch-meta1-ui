@@ -1,33 +1,23 @@
 import React from 'react';
 import {connect} from 'alt-react';
-import moment from 'moment';
 import {ChainStore} from 'meta1-vision-js';
 import {Map, List} from 'immutable';
 import SettingsActions from 'actions/SettingsActions';
 import SettingsStore from 'stores/SettingsStore';
 import AssetStore from 'stores/AssetStore';
 import AssetActions from 'actions/AssetActions';
-import {Table, Select} from 'antd';
+import {Table} from 'antd';
 import {
-	ArrowRightOutlined,
-	ArrowUpOutlined,
-	ArrowDownOutlined,
-	StarOutlined,
 	CaretUpFilled,
 	CaretDownFilled,
 	CaretRightFilled,
 } from '@ant-design/icons';
-import AltContainer from 'alt-container';
 import AssetWrapper from '../Utility/AssetWrapper';
-import PageHeader from 'components/PageHeader/PageHeader';
 import SearchInput from '../Utility/SearchInput';
-import Translate from 'react-translate-component';
 import Icon from '../Icon/Icon';
 import MarketsActions from 'actions/MarketsActions';
 import MarketsStore from 'stores/MarketsStore';
-import marketUtils from 'common/market_utils';
 import utils from 'common/utils';
-import ChartjsAreaChart from '../Graph/Graph';
 import ls from '../../lib/common/localStorage';
 import history from 'lib/common/history';
 import {withTheme} from '@emotion/react';
@@ -61,7 +51,7 @@ class AssetsPairTabs extends React.Component {
 		};
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		this._checkAssets(nextProps.assets);
 
 		if (
@@ -74,7 +64,7 @@ class AssetsPairTabs extends React.Component {
 		}
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		this._checkAssets(this.props.assets, true);
 	}
 
@@ -116,16 +106,11 @@ class AssetsPairTabs extends React.Component {
 			else if (resolution === '1w') newBucketSize = 3600;
 
 			MarketsActions.changeBucketSize(newBucketSize);
-			const from = moment()
-				.subtract(parseInt(resolution.slice(0, -1)), resolution.slice(-1))
-				.valueOf();
-			const to = moment().valueOf();
 
 			assetPairs.map((assetPair, index) => {
 				const quoteAsset = assetPair.quoteAsset;
 				const baseAsset = assetPair.baseAsset;
 
-				const marketName = marketUtils.getMarketName(baseAsset, quoteAsset);
 				MarketsActions.unSubscribeMarket(
 					quoteAsset.get('id'),
 					baseAsset.get('id')
@@ -137,8 +122,6 @@ class AssetsPairTabs extends React.Component {
 							newBucketSize
 						).then(() => {
 							let bars = MarketsStore.getState().priceData;
-							let quoteAsset1 = MarketsStore.getState().quoteAsset;
-							let baseAsset1 = MarketsStore.getState().baseAsset;
 
 							const marketBarIndex = marketBars.findIndex(
 								(marketBar) =>
@@ -254,8 +237,6 @@ class AssetsPairTabs extends React.Component {
 	}
 
 	_buildColumns() {
-		const {selectedResolution} = this.state;
-
 		return [
 			{
 				title: (
@@ -549,7 +530,6 @@ class AssetsPairTabs extends React.Component {
 	_buildDataSource(assets) {
 		if (assets.size === 0) return [];
 
-		const {starredMarkets} = this.props;
 		const {baseAssetSymbol, selectedAsset, searchTerm} = this.state;
 		const _dataSource = [];
 
@@ -679,13 +659,9 @@ class AssetsPairTabs extends React.Component {
 	}
 
 	render() {
-		const {account, assets} = this.props;
-		const {baseAssetSymbol, selectedAsset, isFetchingMarketInfo} = this.state;
+		const {assets} = this.props;
+		const {baseAssetSymbol, isFetchingMarketInfo} = this.state;
 		const canChangeBaseAsset = isFetchingMarketInfo ? 'disabled' : '';
-
-		const assetOptions = assets.map((asset) => (
-			<Select.Option key={asset.symbol}>{asset.symbol}</Select.Option>
-		));
 
 		const toggleBoxes = [];
 		assets.map((asset) => {

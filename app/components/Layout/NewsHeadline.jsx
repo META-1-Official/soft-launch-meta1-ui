@@ -5,7 +5,7 @@ import SettingsActions from 'actions/SettingsActions';
 import {connect} from 'alt-react';
 import SettingsStore from 'stores/SettingsStore';
 import {hash} from 'meta1-vision-js';
-import {getNotifications, getGateways} from '../../lib/chain/onChainConfig';
+import {getNotifications} from '../../lib/chain/onChainConfig';
 import {AiOutlineClose} from 'react-icons/ai';
 
 const getNewsItemHash = (news) => {

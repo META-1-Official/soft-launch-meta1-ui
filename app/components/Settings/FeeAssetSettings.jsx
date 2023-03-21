@@ -67,7 +67,7 @@ export default connect(FeeAssetSettings, {
 	listenTo() {
 		return [SettingsStore];
 	},
-	getProps(props) {
+	getProps() {
 		return {
 			fee_asset: SettingsStore.getState().settings.get('fee_asset'),
 		};

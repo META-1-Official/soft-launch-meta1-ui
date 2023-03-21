@@ -2,27 +2,13 @@ import React from 'react';
 import Translate from 'react-translate-component';
 import cnames from 'classnames';
 import TransitionWrapper from '../../Utility/TransitionWrapper';
-import AssetName from '../../Utility/AssetName';
 import SectionHeader from 'components/Utility/SectionHeader';
 import {Table} from 'antd';
 
 class MarketHistoryView extends React.Component {
 	render() {
-		let {
-			className,
-			innerClass,
-			innerStyle,
-			noHeader,
-			headerStyle,
-			activeTab,
-			quoteSymbol,
-			baseSymbol,
-			tinyScreen,
-			totalRows,
-			historyRows,
-			showAll,
-			data,
-		} = this.props;
+		let {className, innerClass, innerStyle, activeTab, tinyScreen, data} =
+			this.props;
 
 		const emptyRow = (
 			<tr>

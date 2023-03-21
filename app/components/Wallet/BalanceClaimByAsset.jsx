@@ -17,14 +17,18 @@ class BalanceClaimByAsset extends Component {
 
 	static getPropsFromStores() {}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		var keys = PrivateKeyStore.getState().keys;
 		var keySeq = keys.keySeq();
 		BalanceClaimActiveActions.setPubkeys(keySeq);
 		this.existing_keys = keySeq;
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
+		console.log(
+			'BalanceClaimByAsset UNSAFE_componentWillReceiveProps',
+			nextProps
+		);
 		var keys = PrivateKeyStore.getState().keys;
 		var keySeq = keys.keySeq();
 		if (!keySeq.equals(this.existing_keys)) {

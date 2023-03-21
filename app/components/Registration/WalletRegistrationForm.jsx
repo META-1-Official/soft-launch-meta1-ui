@@ -10,7 +10,6 @@ import AccountStore from 'stores/AccountStore';
 import WalletDb from 'stores/WalletDb';
 import TransactionConfirmStore from 'stores/TransactionConfirmStore';
 import utils from 'common/utils';
-import AccountSelect from '../Forms/AccountSelect';
 import AccountNameInput from './../Forms/AccountNameInputStyleGuide';
 import PasswordInput from './../Forms/PasswordInputStyleGuide';
 import Icon from '../Icon/Icon';
@@ -94,7 +93,7 @@ class WalletRegistrationForm extends React.Component {
 		this.setState({registrarAccount});
 	}
 
-	onSubmit(e) {
+	onSubmit() {
 		if (!this.isValid()) {
 			return;
 		}
@@ -204,7 +203,7 @@ class WalletRegistrationForm extends React.Component {
 				<Select
 					placeholder={counterpart.translate('account.select_placeholder')}
 					style={{width: '100%'}}
-					value={this.state.registrarAccount}
+					value={registrarAccount}
 					onChange={this.onRegistrarAccountChange}
 					getPopupContainer={(triggerNode) => triggerNode.parentNode}
 				>

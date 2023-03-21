@@ -6,7 +6,6 @@ import CopyButton from '../Utility/CopyButton';
 import html2canvas from 'html2canvas';
 import {Modal, Button, Tooltip} from 'antd';
 import counterpart from 'counterpart';
-import Icon from '../Icon/Icon';
 
 class ReportModal extends React.Component {
 	constructor(props) {

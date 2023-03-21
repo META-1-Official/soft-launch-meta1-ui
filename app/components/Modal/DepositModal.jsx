@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react';
 import counterpart from 'counterpart';
 import {Modal, Button, Tabs, Tooltip} from 'antd';
 import {CopyOutlined} from '@ant-design/icons';
-import CopyButton from '../Utility/CopyButton';
 import AccountStore from 'stores/AccountStore';
 import QRCode from 'qrcode.react';
 import {toast} from 'react-toastify';
@@ -44,14 +43,10 @@ const DepositModalContent = (props) => {
 		if (props.assetType) setAssetType(props.assetType);
 	}, [props.assetType]);
 
-	const onClose = () => {
-		props.hideModal();
-	};
-
 	const getDepositAddress = () => {
 		setDepositAddress('');
 		fetch(api_gateway_url)
-			.then((response) => {
+			.then(() => {
 				fetch(wallet_init_url, {
 					method: 'POST',
 					headers: {
@@ -65,11 +60,11 @@ const DepositModalContent = (props) => {
 				})
 					.then((res) => res.json())
 					.then((response) => {
-						let address = response.address;
 						setDepositAddress(response.address);
 					});
 			})
 			.catch((error) => {
+				console.error(error);
 				setDepositAddress('Gateway is down');
 			});
 	};
@@ -157,12 +152,6 @@ const DepositModalContent = (props) => {
 
 const DepositModal = (props) => {
 	const [open, setOpen] = useState(false);
-
-	const show = () => {
-		setOpen(true, () => {
-			props.hideModalMeta();
-		});
-	};
 
 	const onClose = () => {
 		props.hideModalMeta();

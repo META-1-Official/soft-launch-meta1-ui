@@ -4,7 +4,7 @@ import {connect} from 'alt-react';
 import AccountStore from 'stores/AccountStore';
 import Translate from 'react-translate-component';
 import counterpart from 'counterpart';
-import {ChainStore, key} from 'meta1-vision-js/es';
+import {ChainStore} from 'meta1-vision-js/es';
 import ReactTooltip from 'react-tooltip';
 import utils from 'common/utils';
 import SettingsActions from 'actions/SettingsActions';
@@ -13,15 +13,14 @@ import AccountNameInput from './../Forms/AccountNameInputStyleGuide';
 import AccountSelect from '../Forms/AccountSelect';
 import LoadingIndicator from '../LoadingIndicator';
 import Icon from '../Icon/Icon';
-import CopyButton from '../Utility/CopyButton';
 import {Form, Input, Button, Tooltip, Select} from 'antd';
 import ReCAPTCHA from 'react-google-recaptcha';
 import WalletUnlockActions from 'actions/WalletUnlockActions';
-import {MailOutlined, UserOutlined, PhoneOutlined} from '@ant-design/icons';
+import countryCodes from 'constants/countryCode.json';
+import {UserOutlined} from '@ant-design/icons';
 import ls from '../../lib/common/localStorage';
 const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
-import countryCodes from '../Utility/countryCode.json';
 
 const ALLOW_PHONE_NUMBER_KEY = ['Backspace', 'Tab', 'ArrowRight', 'ArrowLeft'];
 
@@ -62,7 +61,6 @@ class AccountRegistrationForm extends React.Component {
 		this.populateData = this.populateData.bind(this);
 		this.onRegistrarAccountChange = this.onRegistrarAccountChange.bind(this);
 		this.onAccountNameChange = this.onAccountNameChange.bind(this);
-		this.onConfirmation = this.onConfirmation.bind(this);
 		this.onPhoneChange = this.onPhoneChange.bind(this);
 		this.onLastnameChange = this.onLastnameChange.bind(this);
 		this.onFirstnameChange = this.onFirstnameChange.bind(this);
@@ -71,7 +69,7 @@ class AccountRegistrationForm extends React.Component {
 		this.accountNameInput = null;
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		SettingsActions.changeSetting({
 			setting: 'passwordLogin',
 			value: true,
@@ -99,7 +97,7 @@ class AccountRegistrationForm extends React.Component {
 		}
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		if (nextProps.visibility != this.state.visibility) {
 			this.setState({visibility: nextProps.visibility, captcha: false}, () => {
 				if (
@@ -219,7 +217,7 @@ class AccountRegistrationForm extends React.Component {
 		this.setState({firstname: value});
 	}
 
-	onSubmit(e) {
+	onSubmit() {
 		ss.set('phone', this.state.phone);
 		ss.set('firstname', this.state.firstname);
 		ss.set('lastname', this.state.lastname);
@@ -230,14 +228,6 @@ class AccountRegistrationForm extends React.Component {
 				accountName: this.state.accountName,
 			});
 		}
-	}
-
-	onConfirmation(e) {
-		const value = e.currentTarget.value;
-		// this.setState({
-		// 	confirmPassword: value,
-		// 	passwordConfirmed: value === this.state.generatedPassword,
-		// });
 	}
 
 	isValid() {
@@ -649,7 +639,7 @@ class AccountRegistrationForm extends React.Component {
 	}
 
 	renderAccountCreateText() {
-		const myAccounts = AccountStore.getMyAccounts();
+		// const myAccounts = AccountStore.getMyAccounts();
 		// const firstAccount = myAccounts.length === 0;
 		const firstAccount = true;
 

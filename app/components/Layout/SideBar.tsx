@@ -10,13 +10,11 @@ import {
 	WalletOutlined,
 	ApartmentOutlined,
 	InteractionOutlined,
-	FileProtectOutlined,
 } from '@ant-design/icons';
 import {toast} from 'react-toastify';
 import {useTheme} from '@emotion/react';
 import Translate from 'react-translate-component';
 import history from '../../lib/common/history'; // lib/common/history';
-import AccountStore from '../../stores/AccountStore';
 import ls from '../../lib/common/localStorage';
 
 const STORAGE_KEY = '__AuthData__';
@@ -158,7 +156,6 @@ const SideBar = ({collapsed, currentLink, toggle}: ISideBar) => {
 				screens['xs'] === true ? toggle(true) : toggle(false);
 			}}
 			className={collapsed ? 'none' : null}
-			// collapsed={collapsed}
 		>
 			<Menu
 				css={{

@@ -15,7 +15,6 @@ import {Tabs} from 'antd';
 import HelpContent from '../Utility/HelpContent';
 import {RecentTransactions} from './RecentTransactions';
 import {notification, Typography, Button} from 'antd';
-import PageHeader from 'components/PageHeader/PageHeader';
 
 const {Title} = Typography;
 
@@ -31,7 +30,7 @@ class AccountPermissions extends React.Component {
 		this.onReset = this.onReset.bind(this);
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		this.updateAccountData(this.props.account);
 		accountUtils.getFinalFeeAsset(this.props.account, 'account_update');
 
@@ -53,7 +52,7 @@ class AccountPermissions extends React.Component {
 		}
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		if (nextProps.account !== this.props.account)
 			this.updateAccountData(nextProps.account);
 	}
@@ -362,7 +361,6 @@ class AccountPermissions extends React.Component {
 			this.isValidPubKey(this.state.memo_key)
 				? ''
 				: ' disabled';
-		let reset_button_disabled = this.isChanged() ? '' : 'disabled';
 
 		let accountsList = Immutable.Set();
 		accountsList = accountsList.add(this.props.account.get('id'));

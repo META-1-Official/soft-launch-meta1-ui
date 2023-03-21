@@ -414,7 +414,7 @@ class AccountWrapper extends React.Component {
 		this.props.accounts.forEach((account) => {
 			if (account) {
 				account.get('orders') &&
-					account.get('orders').forEach((orderID, key) => {
+					account.get('orders').forEach((orderID) => {
 						let order = ChainStore.getObject(orderID);
 						if (order) {
 							let orderAsset = order.getIn(['sell_price', 'base', 'asset_id']);
@@ -427,7 +427,7 @@ class AccountWrapper extends React.Component {
 					});
 
 				account.get('call_orders') &&
-					account.get('call_orders').forEach((callID, key) => {
+					account.get('call_orders').forEach((callID) => {
 						let position = ChainStore.getObject(callID);
 						if (position) {
 							let collateralAsset = position.getIn([

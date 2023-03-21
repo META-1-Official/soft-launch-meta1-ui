@@ -7,10 +7,8 @@ import ChainTypes from '../Utility/ChainTypes';
 import BindToChainState from '../Utility/BindToChainState';
 import {connect} from 'alt-react';
 import accountUtils from 'common/account_utils';
-import {List, Set} from 'immutable';
-import Page404 from '../Page404/Page404';
+import {List} from 'immutable';
 import {Route, Switch, Redirect} from 'react-router-dom';
-import WalletUnlockActions from 'actions/WalletUnlockActions';
 import ls from '../../lib/common/localStorage';
 
 /* Nested routes */
@@ -41,8 +39,6 @@ class AccountPage extends React.Component {
 	}
 
 	componentDidMount() {
-		const {currentAccount, history, location} = this.props;
-
 		if (this.props.account) {
 			AccountActions.setCurrentAccount.defer(this.props.account.get('name'));
 			// Fetch possible fee assets here to avoid async issues later (will resolve assets)
@@ -50,7 +46,7 @@ class AccountPage extends React.Component {
 		}
 	}
 
-	componentWillReceiveProps(np) {
+	UNSAFE_componentWillReceiveProps(np) {
 		if (np.account) {
 			const npName = np.account.get('name');
 			const currentName = this.props.account && this.props.account.get('name');

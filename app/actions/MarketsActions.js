@@ -1,14 +1,13 @@
 import alt from 'alt-instance';
 import WalletApi from 'api/WalletApi';
-import WalletDb from 'stores/WalletDb';
+import accountUtils from 'common/account_utils';
+import marketUtils from 'common/market_utils';
+import Immutable from 'immutable';
 import {ChainStore} from 'meta1-vision-js';
 import {Apis} from 'meta1-vision-ws';
-import marketUtils from 'common/market_utils';
-import accountUtils from 'common/account_utils';
-import Immutable from 'immutable';
+import WalletDb from 'stores/WalletDb';
 
 let subs = {};
-let currentBucketSize;
 let marketStats = {};
 let statTTL = 60 * 1 * 1000; // 1 minute
 
@@ -164,7 +163,6 @@ class MarketsActions {
 					subBatchResults = subBatchResults.concat(subResult);
 
 					dispatchSubTimeout = setTimeout(() => {
-						let hasLimitOrder = false;
 						let onlyLimitOrder = true;
 						let hasFill = false;
 
@@ -178,9 +176,7 @@ class MarketsActions {
 							result.forEach((notification) => {
 								if (typeof notification === 'string') {
 									let split = notification.split('.');
-									if (split.length >= 2 && split[1] === '7') {
-										hasLimitOrder = true;
-									} else {
+									if (split.length < 2 || split[1] != '7') {
 										onlyLimitOrder = false;
 									}
 								} else {
@@ -337,7 +333,6 @@ class MarketsActions {
 			};
 
 			dispatch({switchMarket: true});
-			currentBucketSize = bucketSize;
 			currentGroupLimit = groupedOrderLimit;
 			let callPromise = null,
 				settlePromise = null;
@@ -550,7 +545,7 @@ class MarketsActions {
 
 		return (dispatch) => {
 			return WalletDb.process_transaction(tr, null, true)
-				.then((result) => {
+				.then(() => {
 					dispatch(true);
 					return true;
 				})
@@ -583,7 +578,7 @@ class MarketsActions {
 		});
 
 		return WalletDb.process_transaction(tr, null, true)
-			.then((result) => {
+			.then(() => {
 				return true;
 			})
 			.catch((error) => {
@@ -630,7 +625,7 @@ class MarketsActions {
 		tr.add_type_operation('limit_order_create', order.toObject());
 
 		return WalletDb.process_transaction(tr, null, true)
-			.then((result) => {
+			.then(() => {
 				return true;
 			})
 			.catch((error) => {
@@ -742,7 +737,7 @@ class MarketsActions {
 					});
 				})
 				.catch((err) => {
-					console.log('current node api does not support grouped orders.');
+					console.log('current node api does not support grouped orders.', err);
 					dispatch({
 						trackedGroupsConfig: [],
 					});

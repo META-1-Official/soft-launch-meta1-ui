@@ -134,7 +134,7 @@ class Tabs extends React.Component {
 		});
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		let nextSetting = nextProps.viewSettings.get(nextProps.setting);
 		if (nextSetting !== this.props.viewSettings.get(this.props.setting)) {
 			this.setState({

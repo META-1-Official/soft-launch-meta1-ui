@@ -3,7 +3,7 @@ import {Component} from 'react';
 import PropTypes from 'prop-types';
 import zxcvbnAsync from 'zxcvbn-async';
 import counterpart from 'counterpart';
-import {Button, Progress, Form, Input} from 'antd';
+import {Progress, Form, Input} from 'antd';
 
 class PasswordInput extends Component {
 	static propTypes = {

@@ -22,7 +22,7 @@ class ResolvemyActiveAccountsChainState extends Component {
 		if (!child)
 			return (
 				<span>
-					{myActiveAccounts.map((a) => (
+					{myActiveAccounts.map((a, key) => (
 						<br>{a.toJS()}</br>
 					))}
 				</span>

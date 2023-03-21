@@ -6,10 +6,8 @@ import ChainTypes from '../Utility/ChainTypes';
 import BindToChainState from '../Utility/BindToChainState';
 import Statistics from './Statistics';
 import AccountActions from 'actions/AccountActions';
-import TimeAgo from '../Utility/TimeAgo';
 import HelpContent from '../Utility/HelpContent';
 import accountUtils from 'common/account_utils';
-import {Tabs, Tab} from '../Utility/Tabs';
 import {getWalletName} from 'branding';
 import {getWalletURL} from '../../branding';
 
@@ -54,7 +52,7 @@ class AccountMembership extends React.Component {
 		AccountActions.upgradeAccount(id, lifetime);
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		accountUtils.getFinalFeeAsset(this.props.account, 'account_upgrade');
 	}
 
@@ -92,15 +90,6 @@ class AccountMembership extends React.Component {
 			10000;
 
 		let member_status = ChainStore.getAccountMemberStatus(this.props.account);
-		let membership = 'account.member.' + member_status;
-		let expiration = null;
-		if (member_status === 'annual')
-			expiration = (
-				<span>
-					(<Translate content="account.member.expires" />{' '}
-					<TimeAgo time={account.membership_expiration_date} />)
-				</span>
-			);
 		let expiration_date = account.membership_expiration_date;
 		if (expiration_date === '1969-12-31T23:59:59') expiration_date = 'Never';
 		else if (expiration_date === '1970-01-01T00:00:00') expiration_date = 'N/A';

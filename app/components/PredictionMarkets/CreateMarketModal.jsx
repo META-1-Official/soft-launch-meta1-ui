@@ -1,5 +1,5 @@
 import React from 'react';
-import {Modal, Input, Form, Button, Tooltip, DatePicker} from 'antd';
+import {Modal, Input, Form, Button, Tooltip, DatePicker, Icon} from 'antd';
 import PropTypes from 'prop-types';
 import Translate from 'react-translate-component';
 import AssetSelect from '../Utility/AssetSelect';
@@ -100,7 +100,7 @@ export default class CreateMarketModal extends Modal {
 			description
 		);
 		creationPromise
-			.then((result) => {
+			.then(() => {
 				this.setState({inProgress: false});
 				console.log(
 					'... AssetActions.createAsset(account_id, update)',

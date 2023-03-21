@@ -203,13 +203,13 @@ const MarketUtils = {
 		let basePrecision = utils.get_asset_precision(
 			base.toJS ? base.get('precision') : base.precision
 		);
-		let pricePrecision = order.call_price
-			? quote.toJS
-				? quote.get('precision')
-				: quote.precision
-			: base.toJS
-			? base.get('precision')
-			: base.precision;
+		// let pricePrecision = order.call_price
+		// 	? quote.toJS
+		// 		? quote.get('precision')
+		// 		: quote.precision
+		// 	: base.toJS
+		// 	? base.get('precision')
+		// 	: base.precision;
 
 		let buy, sell;
 		let callPrice;

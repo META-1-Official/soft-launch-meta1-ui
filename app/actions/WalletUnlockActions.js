@@ -30,7 +30,7 @@ class WalletUnlockActions {
 			return new Promise((resolve, reject) => {
 				dispatch({resolve_v2: resolve, reject_v2: reject});
 			})
-				.then((was_unlocked) => {})
+				.then(() => {})
 				.catch((params) => {
 					throw params;
 				});
@@ -65,7 +65,7 @@ class WalletUnlockActions {
 		return (dispatch) => {
 			return new Promise((resolve_v2) => {
 				dispatch({resolve_v2});
-			}).then((was_unlocked) => {
+			}).then(() => {
 				localStorage.clear();
 			});
 		};

@@ -3,7 +3,6 @@ import {FetchChain} from 'meta1-vision-js';
 import moment from 'moment-timezone';
 import MarketsActions from 'actions/MarketsActions';
 import utils from 'common/utils';
-import {ConsoleSqlOutlined} from '@ant-design/icons';
 
 class SymbolInfo {
 	constructor(options) {
@@ -297,10 +296,6 @@ class DataFeed {
 		 */
 		// MarketsStore.unsubscribe("subscribeBars");
 		// this.latestBar = null;
-	}
-
-	calculateHistoryDepth(resolution, resolutionBack, intervalBack) {
-		return undefined;
 	}
 
 	getServerTime(callback) {

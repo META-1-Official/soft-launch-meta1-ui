@@ -79,7 +79,7 @@ class MarketPickerWrapper extends Component {
 		this.refs.marketPicker_input.focus();
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		if (nextProps.marketPickerAsset !== this.props.marketPickerAsset)
 			this.setState(this.initialState());
 
@@ -217,7 +217,7 @@ class MarketPickerWrapper extends Component {
 			});
 		}, 300);
 	}
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		if (this.props.quoteAsset === null || this.props.baseAsset === null) {
 			return;
 		}
@@ -370,13 +370,13 @@ class MarketPicker extends Component {
 		};
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		this.setState({
 			smallScreen: window.innerWidth <= 800,
 		});
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		if (
 			this.props.quoteAsset.get('id') !== nextProps.quoteAsset.get('id') ||
 			this.props.baseAsset.get('id') !== nextProps.baseAsset.get('id')

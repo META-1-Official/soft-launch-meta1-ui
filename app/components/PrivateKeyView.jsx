@@ -6,7 +6,7 @@ import PrivateKeyStore from 'stores/PrivateKeyStore';
 import QrcodeModal from './Modal/QrcodeModal';
 import counterpart from 'counterpart';
 import PropTypes from 'prop-types';
-import {Modal, Button, Input} from 'antd';
+import {Modal, Button} from 'antd';
 import CopyButton from './Utility/CopyButton';
 
 export default class PrivateKeyView extends Component {

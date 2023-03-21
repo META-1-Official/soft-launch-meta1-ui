@@ -34,7 +34,7 @@ class DepthHighChart extends React.Component {
 		this.reflowChart(500);
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		if (
 			this.refs.depthChart &&
 			nextProps.activePanels !== this.props.activePanels
@@ -43,7 +43,7 @@ class DepthHighChart extends React.Component {
 		}
 	}
 
-	componentWillUpdate() {
+	UNSAFE_componentWillUpdate() {
 		if (this.props.centerRef) {
 			this.tempScroll = this.props.centerRef.scrollTop;
 		}

@@ -2,41 +2,23 @@ import React from 'react';
 import Immutable from 'immutable';
 import Translate from 'react-translate-component';
 import TotalBalanceValue from '../Utility/TotalBalanceValue';
-import MarginPositionsTable from './MarginPositionsTable';
 import {RecentTransactions} from './RecentTransactions';
-import Proposals from 'components/Account/Proposals';
 import {ChainStore} from 'meta1-vision-js';
-import SettingsActions from 'actions/SettingsActions';
 import utils from 'common/utils';
 import accountUtils from 'common/account_utils';
-import {Tabs, Tab} from '../Utility/Tabs';
 import AccountOrders from './AccountOrders';
-import cnames from 'classnames';
 import TranslateWithLinks from '../Utility/TranslateWithLinks';
 import {checkMarginStatus} from 'common/accountHelper';
 import BalanceWrapper from './BalanceWrapper';
 import AccountTreemap from './AccountTreemap';
 import AssetWrapper from '../Utility/AssetWrapper';
 import AccountPortfolioList from './AccountPortfolioList';
-import {Market24HourChangeComponent} from '../Utility/MarketChangeComponent';
 import {Link} from 'react-router-dom';
-import {
-	Space,
-	Switch,
-	Tooltip,
-	Select,
-	Menu,
-	Checkbox,
-	Button,
-	CheckboxGroup,
-	Dropdown,
-} from 'antd';
-const {Option} = Select;
+import {Space, Switch, Menu, Checkbox, Dropdown} from 'antd';
 import counterpart from 'counterpart';
 import SearchInput from '../Utility/SearchInput';
 import PageHeader from 'components/PageHeader/PageHeader';
 import StyledButton from 'components/Button/Button';
-import AssetStore from 'stores/AssetStore';
 import {FormattedNumber} from 'react-intl';
 import {
 	ArrowRightOutlined,
@@ -46,7 +28,6 @@ import {
 	CaretDownFilled,
 	CaretUpOutlined,
 } from '@ant-design/icons';
-import MarketsStore from 'stores/MarketsStore';
 
 class AccountOverview extends React.Component {
 	constructor(props) {
@@ -97,7 +78,7 @@ class AccountOverview extends React.Component {
 		});
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		this._checkMarginStatus();
 
 		var qd = {};
@@ -128,7 +109,7 @@ class AccountOverview extends React.Component {
 		});
 	}
 
-	componentWillReceiveProps(np) {
+	UNSAFE_componentWillReceiveProps(np) {
 		const currentDisplay = np.history.location.search.replace(
 			'?currentDisplay=',
 			''
@@ -306,10 +287,6 @@ class AccountOverview extends React.Component {
 			)
 		).toFixed(2);
 
-		let portfolioHiddenAssetsBalance = (
-			<TotalBalanceValue noTip balances={hiddenBalancesList} hide_asset />
-		);
-
 		let portfolioActiveAssetsBalance = (
 			<TotalBalanceValue noTip balances={includedBalancesList} hide_asset />
 		);
@@ -321,32 +298,6 @@ class AccountOverview extends React.Component {
 				hide_asset
 			/>
 		);
-		let marginValue = (
-			<TotalBalanceValue
-				noTip
-				balances={Immutable.List()}
-				debt={debt}
-				collateral={collateral}
-				hide_asset
-			/>
-		);
-		let debtValue = (
-			<TotalBalanceValue
-				noTip
-				balances={Immutable.List()}
-				debt={debt}
-				hide_asset
-			/>
-		);
-		let collateralValue = (
-			<TotalBalanceValue
-				noTip
-				balances={Immutable.List()}
-				collateral={collateral}
-				hide_asset
-			/>
-		);
-
 		const totalValueText = (
 			<TranslateWithLinks
 				noLink
@@ -397,7 +348,7 @@ class AccountOverview extends React.Component {
 
 		// add unicode non-breaking space as subtext to Activity Tab to ensure that all titles are aligned
 		// horizontally
-		const hiddenSubText = '\u00a0';
+		// const hiddenSubText = '\u00a0';
 
 		const onNavButtonClick = (selectedDisplay) => {
 			this.setState({currentDisplay: selectedDisplay});
@@ -637,7 +588,7 @@ class AccountOverview extends React.Component {
 					</div>
 				</div>
 				<div
-					css={(theme) => ({
+					css={() => ({
 						padding: '1rem  2rem',
 					})}
 				>
@@ -645,7 +596,7 @@ class AccountOverview extends React.Component {
 						<>
 							<div
 								className="portfolio header-selector"
-								css={(theme) => ({
+								css={() => ({
 									marginBottom: '1rem',
 								})}
 							>

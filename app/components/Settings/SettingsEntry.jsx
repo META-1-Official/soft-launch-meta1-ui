@@ -4,10 +4,9 @@ import Translate from 'react-translate-component';
 import AssetName from '../Utility/AssetName';
 import Notify from 'notifyjs';
 import FeeAssetSettings from './FeeAssetSettings';
-import {Checkbox, Select, Typography, Input, Form} from 'antd';
+import {Checkbox, Select, Input, Form} from 'antd';
 import StyledSelect from 'components/Select/Select';
 
-const {Text} = Typography;
 const FormItem = Form.Item;
 const Option = Select.Option;
 

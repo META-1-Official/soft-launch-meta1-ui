@@ -21,12 +21,12 @@ export default class ExchangeHeader extends React.Component {
 			selectedMarketPickerAsset: props.selectedMarketPickerAsset,
 		};
 	}
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		if (this.props.quoteAsset === null || this.props.baseAsset === null) {
 			return;
 		}
 	}
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		this.setState({
 			selectedMarketPickerAsset: nextProps.selectedMarketPickerAsset,
 		});
@@ -202,9 +202,9 @@ export default class ExchangeHeader extends React.Component {
 			!!this.state.selectedMarketPickerAsset &&
 			this.state.selectedMarketPickerAsset == baseSymbol;
 
-		let PriceAlertBellClassName = this.props.hasAnyPriceAlert
-			? 'exchange--price-alert--show-modal--active'
-			: '';
+		// let PriceAlertBellClassName = this.props.hasAnyPriceAlert
+		// 	? 'exchange--price-alert--show-modal--active'
+		// 	: '';
 
 		return (
 			<div className="grid-block shrink no-padding overflow-visible top-bar">

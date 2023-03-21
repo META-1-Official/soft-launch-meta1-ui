@@ -99,7 +99,7 @@ class Blocks extends React.Component {
 		}
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		window.addEventListener('resize', this._updateHeight, {
 			capture: false,
 			passive: true,
@@ -110,7 +110,7 @@ class Blocks extends React.Component {
 		window.removeEventListener('resize', this._updateHeight);
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		if (nextProps.latestBlocks.size === 0) {
 			return this._getInitialBlocks();
 		} else if (!this.state.animateEnter) {

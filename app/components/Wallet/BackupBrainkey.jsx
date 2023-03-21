@@ -86,7 +86,6 @@ export default class BackupBrainkey extends Component {
 		}
 
 		if (!content) {
-			var valid = this.state.password && this.state.password !== '';
 			content = (
 				<span>
 					<label>
@@ -129,7 +128,7 @@ export default class BackupBrainkey extends Component {
 		);
 	}
 
-	onComplete(brnkey) {
+	onComplete() {
 		this.setState({verified: true});
 		WalletActions.setBrainkeyBackupDate();
 	}

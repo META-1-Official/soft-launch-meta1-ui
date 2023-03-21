@@ -1,7 +1,7 @@
 import React from 'react';
 import {Table} from 'antd';
 import {FaArrowRight, FaArrowUp, FaArrowDown} from 'react-icons/fa';
-import {getAssetIcon} from '../../utils/asset';
+import {getAssetIcon} from 'constants/assets';
 import {connect} from 'alt-react';
 import MarketsStore from 'stores/MarketsStore';
 import {Tooltip} from 'antd';
@@ -17,8 +17,6 @@ class MarketTradeView extends React.Component {
 			// Strings
 			data,
 			tinyScreen,
-			marketStats,
-			allMarketStats,
 		} = this.props;
 
 		return (
@@ -222,7 +220,7 @@ MarketTradeView = connect(MarketTradeView, {
 	listenTo() {
 		return [MarketsStore];
 	},
-	getProps(props) {
+	getProps() {
 		return {
 			allMarketStats: MarketsStore.getState().allMarketStats,
 		};

@@ -12,7 +12,6 @@ class Dropdown extends React.Component {
 	};
 
 	constructor(props) {
-		const scroll_length = props.scroll_length;
 		super(props);
 		this.state = {
 			active: false,
@@ -49,7 +48,7 @@ class Dropdown extends React.Component {
 		this.listener = false;
 	}
 
-	componentWillReceiveProps(np) {
+	UNSAFE_componentWillReceiveProps(np) {
 		if (np.entries.length === 1) {
 			this._removeListener();
 		} else if (np.entries.length > 1) {

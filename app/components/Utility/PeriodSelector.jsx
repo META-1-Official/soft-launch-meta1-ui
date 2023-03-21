@@ -1,11 +1,6 @@
 import React from 'react';
 import Translate from 'react-translate-component';
-import FormattedAsset from './FormattedAsset';
 import FloatingDropdown from './FloatingDropdown';
-import Immutable from 'immutable';
-import counterpart from 'counterpart';
-import AssetWrapper from './AssetWrapper';
-import utils from 'common/utils';
 import PropTypes from 'prop-types';
 
 class PeriodSelector extends React.Component {

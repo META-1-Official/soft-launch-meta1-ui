@@ -12,7 +12,6 @@ import AssetName from '../Utility/AssetName';
 import Icon from '../Icon/Icon';
 import {Select, Tooltip} from 'antd';
 import {animateScroll} from 'react-scroll';
-import SectionHeader from '../Utility/SectionHeader.jsx';
 /**
  * @array: orderRows
  * @bool: noOrders
@@ -141,16 +140,9 @@ class OrderBookRowHorizontal extends React.Component {
 	}
 
 	render() {
-		let {order, quote, base, position, quoteTotal} = this.props;
+		let {order, quote, base} = this.props;
 
 		const isBid = order.isBid();
-		const isCall = order.isCall();
-
-		let integerClass = isCall
-			? 'orderHistoryCall'
-			: isBid
-			? 'orderHistoryBid'
-			: 'orderHistoryAsk';
 
 		let price = (
 			<PriceText price={order.getPrice()} quote={quote} base={base} />
@@ -173,22 +165,6 @@ class OrderBookRowHorizontal extends React.Component {
 		// 			order.amountToReceive().getAmount({real: true}),
 		// 			base.get('precision')
 		// 	  );
-		const totalValueBids = quoteTotal
-			? order.totalToReceive()
-			: order.totalForSale();
-		const totalValueAsks = quoteTotal
-			? order.totalForSale()
-			: order.totalToReceive();
-		const totalAsset = quoteTotal ? quote : base;
-		const total = isBid
-			? utils.format_number(
-					totalValueBids.getAmount({real: true}),
-					totalAsset.get('precision')
-			  )
-			: utils.format_number(
-					totalValueAsks.getAmount({real: true}),
-					totalAsset.get('precision')
-			  );
 		const amountWithoutComma = amount ? amount.replace(',', '') : amount;
 		const totalAmt = toFixed(
 			Number(amountWithoutComma) * Number(price.props.price)
@@ -362,8 +338,6 @@ class GroupedOrderBookRowHorizontal extends React.Component {
 	render() {
 		let {order, quote, base, position, quoteTotal} = this.props;
 		const isBid = order.isBid();
-
-		let integerClass = isBid ? 'orderHistoryBid' : 'orderHistoryAsk';
 
 		let price = (
 			<PriceText price={order.getPrice()} quote={quote} base={base} />
@@ -568,7 +542,7 @@ class OrderBook extends React.Component {
 		return true;
 	}
 
-	componentDidUpdate(prevProps, prevState, snapshot) {
+	componentDidUpdate(prevProps) {
 		const nextProps = this.props;
 		// Change of market or direction
 		if (
@@ -750,14 +724,10 @@ class OrderBook extends React.Component {
 			lowestAsk,
 			quote,
 			base,
-			totalAsks,
-			totalBids,
 			quoteSymbol,
 			baseSymbol,
 			horizontal,
-			trackedGroupsConfig,
 			currentGroupOrderLimit,
-			handleGroupOrderLimitChange,
 			orderBookReversed,
 			groupedBids,
 			groupedAsks,
@@ -930,33 +900,9 @@ class OrderBook extends React.Component {
 						/>
 					);
 				});
-
-				// if (askRows.length < 100) {
-				// 	for (var i = 0; i < 100 - askRows.length; i++) {
-				// 		askRows.push(
-				// 			<tr style={{background: '#091613'}}>
-				// 				<td className="orderHistoryAsk">-</td>
-				// 				<td className="column-hide-xs">-</td>
-				// 			</tr>
-				// 		);
-				// 	}
-				// }
-				// if (bidRows.length < 100) {
-				// 	for (var i = 0; i < 100 - bidRows.length; i++) {
-				// 		bidRows.push(
-				// 			<tr style={{background: '#1D0D0F'}}>
-				// 				<td className="orderHistoryBid">-</td>
-				// 				<td className="column-hide-xs">-</td>
-				// 			</tr>
-				// 		);
-				// 	}
-				// }
 			}
 		}
 		if (this.props.horizontal) {
-			let totalBidsLength = bidRows.length;
-			let totalAsksLength = askRows.length;
-
 			if (!showAllBids) {
 				bidRows.splice(rowCount, bidRows.length);
 			}
@@ -1194,9 +1140,6 @@ class OrderBook extends React.Component {
 										<span style={{width: 75}}>
 											{!this.props.hideFunctionButtons ? (
 												<Icon
-													//data-intro={translator.translate(
-													//    "walkthrough.vertical_lock"
-													//)}
 													className="lock-unlock clickable icon-fill"
 													onClick={this.toggleAutoScroll}
 													name={this.state.autoScroll ? 'locked' : 'unlocked'}

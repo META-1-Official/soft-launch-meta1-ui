@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState} from 'react';
 import PasswordInput from './../Forms/PasswordInput';
 import WalletDb from 'stores/WalletDb';
 import Translate from 'react-translate-component';

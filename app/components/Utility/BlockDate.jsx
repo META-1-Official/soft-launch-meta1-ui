@@ -24,7 +24,7 @@ class BlockDate extends React.Component {
 		component: 'span',
 	};
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		if (!this.props.blockHeader)
 			BlockchainActions.getHeader.defer(this.props.block_number);
 	}

@@ -1,6 +1,6 @@
 import React from 'react';
 import Translate from 'react-translate-component';
-import {ChainStore, FetchChain} from 'meta1-vision-js';
+import {ChainStore} from 'meta1-vision-js';
 import AmountSelector from '../Utility/AmountSelector';
 import AccountStore from 'stores/AccountStore';
 import AccountSelector from '../Account/AccountSelector';
@@ -16,7 +16,6 @@ import counterpart from 'counterpart';
 import {connect} from 'alt-react';
 import SettingsStore from 'stores/SettingsStore';
 import {Modal, Button, Tooltip} from 'antd';
-import moment from 'moment';
 import ApplicationApi from '../../api/ApplicationApi';
 import {AiFillExclamationCircle} from 'react-icons/ai';
 
@@ -79,7 +78,7 @@ class DirectDebitClaimModal extends React.Component {
 			memo ? new Buffer(memo, 'utf-8') : memo,
 			feeAsset ? feeAsset.get('id') : fee_asset_id
 		)
-			.then((result) => {
+			.then(() => {
 				this.props.hideModal();
 			})
 			.catch((err) => {
@@ -359,10 +358,8 @@ class DirectDebitClaimModal extends React.Component {
 			from_account,
 			to_account,
 			asset,
-			asset_id,
 			feeAmount,
 			amount,
-			error,
 			memo,
 			feeAsset,
 			fee_asset_id,

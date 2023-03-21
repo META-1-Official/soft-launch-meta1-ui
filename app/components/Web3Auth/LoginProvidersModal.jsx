@@ -1,10 +1,9 @@
 import React, {useState} from 'react';
-import {providers} from './providers';
+import {providers} from 'constants/providers';
 import {Modal} from 'antd';
 import {WALLET_ADAPTERS} from '@web3auth/base';
 
 const arrow = require('assets/arrow.jpg');
-const closeBtn = require('assets/close.png');
 
 const ProvidersBlock = ({item, moreProviders, onClick}) => {
 	return (
@@ -57,7 +56,6 @@ const LoginProvidersModal = (props) => {
 	const [phoneNumber, setMobilePhoneNumber] = useState(
 		props.phoneNumber || null
 	);
-	const [continueMode, setContinueMode] = useState(false);
 	const [emailError, setEmailError] = useState(null);
 
 	const doAuth = async (provider) => {
@@ -72,7 +70,7 @@ const LoginProvidersModal = (props) => {
 				await web3auth.logout();
 			}
 
-			web3auth.init().then((res) => {
+			web3auth.init().then(() => {
 				web3auth.connectTo(WALLET_ADAPTERS.OPENLOGIN, {
 					mfaLevel: 'none',
 					loginProvider: provider,
@@ -94,10 +92,6 @@ const LoginProvidersModal = (props) => {
 		props.setOpen(false);
 	};
 
-	const handleContinueWith = async () => {
-		console.log('Handle Continue With');
-	};
-
 	const handleContinueWithProvider = async (item) => {
 		await doAuth(item?.name);
 	};
@@ -106,12 +100,6 @@ const LoginProvidersModal = (props) => {
 		e.preventDefault();
 		console.log('Handle Continue With Email', email);
 		await doAuth('email_passwordless');
-	};
-
-	const handleContinueWithSms = async (e) => {
-		e.preventDefault();
-		console.log('Handle Continue With Mobile');
-		await doAuth('sms_passwordless');
 	};
 
 	const handleEmailChange = async (e) => {
@@ -148,9 +136,6 @@ const LoginProvidersModal = (props) => {
 					</p>
 				</div>
 				<div className="contentWrapper">
-					{/* <div className="continueWithBtn" onClick={handleContinueWith}>
-                                    <div></div>
-                                </div> */}
 					<div
 						className={moreProviders ? 'providersBlockMP' : 'providersBlock'}
 					>

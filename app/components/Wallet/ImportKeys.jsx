@@ -512,8 +512,7 @@ class ImportKeys extends Component {
 		}
 		let keys_to_account = this.state.keys_to_account;
 		for (let private_plainhex of Object.keys(keys_to_account)) {
-			let {account_names, public_key_string} =
-				keys_to_account[private_plainhex];
+			let {public_key_string} = keys_to_account[private_plainhex];
 			if (dups[public_key_string]) delete keys_to_account[private_plainhex];
 		}
 		WalletUnlockActions.unlock()
@@ -542,7 +541,7 @@ class ImportKeys extends Component {
 		}
 		this.reset();
 		WalletDb.importKeysWorker(private_key_objs)
-			.then((result) => {
+			.then(() => {
 				ImportKeysStore.importing(false);
 				let import_count = private_key_objs.length;
 
@@ -691,9 +690,6 @@ class ImportKeys extends Component {
 		}
 
 		let filtering = this.state.genesis_filtering;
-		let was_filtered =
-			!!this.state.genesis_filter_status.length &&
-			this.state.genesis_filter_finished;
 		let account_rows = null;
 
 		if (this.state.genesis_filter_status.length) {

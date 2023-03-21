@@ -25,7 +25,6 @@ const BodyClassName = (props: IProps) => {
 		};
 	});
 
-	/* ComponentWillReceiveProps */
 	useEffect(() => {
 		const currentClassName = _getList(props.className);
 		const nextClassName = _getList(prevPropsClassName.current);

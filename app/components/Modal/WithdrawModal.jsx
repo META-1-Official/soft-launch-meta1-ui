@@ -5,7 +5,7 @@ import DepositWithdrawAssetSelector from '../DepositWithdraw/DepositWithdrawAsse
 import Translate from 'react-translate-component';
 import ExchangeInput from 'components/Exchange/ExchangeInput';
 import AssetName from '../Utility/AssetName';
-import {extend, debounce} from 'lodash-es';
+import {extend} from 'lodash-es';
 import GatewayStore from 'stores/GatewayStore';
 import AssetStore from 'stores/AssetStore';
 import MarketsStore from 'stores/MarketsStore';
@@ -53,7 +53,7 @@ const gatewayBoolCheck = 'withdrawalAllowed';
 const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
 
-class WithdrawModalNew extends React.Component {
+class WithdrawalModal extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -97,7 +97,7 @@ class WithdrawModalNew extends React.Component {
 		this.onClose = this.onClose.bind(this);
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		let initialState = {};
 
 		let coinToGatewayMapping = _getCoinToGatewayMapping.call(
@@ -141,7 +141,7 @@ class WithdrawModalNew extends React.Component {
 		return {selectedAsset, selectedGateway, gateFee};
 	}
 
-	componentWillReceiveProps(np) {
+	UNSAFE_componentWillReceiveProps(np) {
 		this.setState(this._getAssetPairVariables(np));
 
 		if (this.state.address != '') {
@@ -163,7 +163,7 @@ class WithdrawModalNew extends React.Component {
 		}
 	}
 
-	componentWillUpdate(nextProps, nextState) {
+	UNSAFE_componentWillUpdate(nextProps, nextState) {
 		const {preferredCurrency, assets} = nextProps;
 		const {selectedAsset, quantity, selectedGateway} = nextState;
 
@@ -1352,7 +1352,7 @@ class WithdrawModalNew extends React.Component {
 	}
 }
 
-const ConnectedWithdrawModal = connect(WithdrawModalNew, {
+const ConnectedWithdrawModal = connect(WithdrawalModal, {
 	listenTo() {
 		return [GatewayStore, AssetStore, SettingsStore, MarketsStore];
 	},

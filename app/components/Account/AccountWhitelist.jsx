@@ -102,7 +102,7 @@ class AccountList extends React.Component {
 					<td
 						style={{padding: '1rem 0'}}
 						colSpan={removeButton ? 4 : 3}
-						css={(theme) => ({
+						css={() => ({
 							backgroundColor: 'transparent !important',
 						})}
 					>
@@ -143,7 +143,7 @@ class AccountList extends React.Component {
 		return (
 			<table
 				className="table compact dashboard-table"
-				css={(theme) => ({
+				css={() => ({
 					backgroundColor: 'transparent',
 				})}
 			>

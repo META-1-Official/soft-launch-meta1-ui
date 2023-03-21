@@ -167,7 +167,7 @@ function BindToChainState(Component, options = {}) {
 			});
 		}
 
-		componentWillMount() {
+		UNSAFE_componentWillMount() {
 			ChainStore.subscribe(this.update);
 			this.update();
 		}
@@ -176,7 +176,7 @@ function BindToChainState(Component, options = {}) {
 			ChainStore.unsubscribe(this.update);
 		}
 
-		componentWillReceiveProps(next_props) {
+		UNSAFE_componentWillReceiveProps(next_props) {
 			if (options && options.all_props) {
 				this.chain_objects = reject(
 					Object.keys(next_props),

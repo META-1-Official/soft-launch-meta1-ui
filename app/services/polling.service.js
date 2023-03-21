@@ -43,4 +43,10 @@ const removeQRPoll = async (qr_hash) => {
 	}
 };
 
-export default {createQRPoll, findQRPoll, setQRPollVerified, findQRPoll};
+export default {
+	createQRPoll,
+	findQRPoll,
+	setQRPollVerified,
+	findQRPoll,
+	removeQRPoll,
+};

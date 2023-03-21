@@ -11,7 +11,7 @@ import Translate from 'react-translate-component';
 import {Input, Table, Switch, Button} from 'antd';
 import AccountOrderRowDescription from './AccountOrderRowDescription';
 import CollapsibleTable from '../Utility/CollapsibleTable';
-import {groupBy, sumBy, meanBy} from 'lodash-es';
+import {groupBy, meanBy} from 'lodash-es';
 import {FormattedNumber} from 'react-intl';
 import cnames from 'classnames';
 import moment from 'moment';
@@ -20,10 +20,8 @@ import {Link} from 'react-router-dom';
 import {MarketPrice} from '../Utility/MarketPrice';
 import FormattedPrice from '../Utility/FormattedPrice';
 import AssetName from '../Utility/AssetName';
-import {EquivalentValueComponent} from '../Utility/EquivalentValueComponent';
 import utils from 'common/utils';
 import asset_utils from 'common/asset_utils';
-import {FaChartBar} from 'react-icons/fa';
 
 class AccountOrders extends React.Component {
 	constructor(props) {
@@ -193,40 +191,9 @@ class AccountOrders extends React.Component {
 			// };
 		};
 
-		let firstDataItem,
-			operation,
-			forText,
-			baseAsset,
-			quoteAsset,
-			baseName,
-			quoteName,
-			averagePrice,
-			marketPrice,
-			value;
+		let firstDataItem, averagePrice, marketPrice;
 
 		const isSettle = type === 'settle';
-
-		let getBaseAsset = (dataItem) =>
-			dataItem.order[
-				dataItem.isBid ? 'amountToReceive' : 'amountForSale'
-			]().getAmount({real: true});
-		let formatBaseAsset = (baseAsset) =>
-			utils.format_number(
-				baseAsset,
-				firstDataItem.base.get('precision'),
-				false
-			);
-
-		let getQuoteAsset = (dataItem) =>
-			dataItem.order[
-				dataItem.isBid ? 'amountForSale' : 'amountToReceive'
-			]().getAmount({real: true});
-		let formatQuoteAsset = (quoteAsset) =>
-			utils.format_number(
-				quoteAsset,
-				firstDataItem.quote.get('precision'),
-				false
-			);
 
 		let formatMarketPrice = (dataItem) => (
 			<MarketPrice
@@ -241,36 +208,6 @@ class AccountOrders extends React.Component {
 		if (areAssetsGrouped) {
 			// Assuming that first element always exist because data items were passed as grouped
 			firstDataItem = groupedDataItems[0];
-
-			operation = counterpart.translate(
-				'exchange.' +
-					(!isSettle ? (firstDataItem.isBid ? 'buy' : 'sell') : 'settlement_of')
-			);
-
-			forText = counterpart.translate('transaction.for');
-
-			baseAsset = formatBaseAsset(sumBy(groupedDataItems, getBaseAsset));
-			quoteAsset = formatQuoteAsset(sumBy(groupedDataItems, getQuoteAsset));
-
-			let quoteColor = !firstDataItem.isBid
-				? 'value negative'
-				: 'value positive';
-			let baseColor = firstDataItem.isBid ? 'value negative' : 'value positive';
-
-			baseName = (
-				<AssetName
-					noTip
-					customClass={quoteColor}
-					name={firstDataItem.quote.get('symbol')}
-				/>
-			);
-			quoteName = (
-				<AssetName
-					noTip
-					customClass={baseColor}
-					name={firstDataItem.base.get('symbol')}
-				/>
-			);
 
 			averagePrice = meanBy(groupedDataItems, (dataItem) => {
 				let price = dataItem.order.sellPrice().toReal(true);
@@ -292,23 +229,6 @@ class AccountOrders extends React.Component {
 			);
 
 			marketPrice = formatMarketPrice(firstDataItem);
-
-			let valueAmount = sumBy(groupedDataItems, (dataItem) =>
-				dataItem.order.amountForSale().getAmount()
-			);
-
-			value = (
-				<div>
-					<EquivalentValueComponent
-						hide_asset
-						amount={valueAmount}
-						fromAsset={firstDataItem.order.amountForSale().asset_id}
-						noDecimals={true}
-						toAsset={firstDataItem.preferredUnit}
-					/>{' '}
-					<AssetName name={firstDataItem.preferredUnit} />
-				</div>
-			);
 		}
 
 		// Conditional array items: https://stackoverflow.com/a/47771259
