@@ -962,8 +962,6 @@ div.tabs-container {
 	}
 
 	.header-selector {
-		margin-bottom: 20px;
-
 		.header-selector-body {
 			display: flex;
 			justify-content: space-between;
@@ -986,6 +984,15 @@ div.tabs-container {
 						width: 15px;
 						height: 15px;
 					}
+				}
+			}
+
+			.react-datepicker-wrapper {
+				input,
+				input:hover,
+				input:focus {
+					background-color: #15171b;
+					border: 1px solid #1c1f27;
 				}
 			}
 		}
@@ -1419,7 +1426,6 @@ div.account-permissions {
 							background: #15171b;
 							font-size: 14px;
 							color: rgba(255, 255, 255, 0.6);
-							width: 100vw;
 						}
 					}
 				}
@@ -1653,9 +1659,6 @@ div.account-permissions {
 
 			.ant-table-wrapper {
 				.ant-table-content {
-					border: 1px solid #1c1f27;
-					border-radius: 4px;
-
 					table {
 						thead {
 							background: #15171b;
@@ -1805,12 +1808,11 @@ div.messages {
 					> div > h4 {
 						margin-top: 30px;
 						background-color: rgba(21, 23, 27, 0.4) !important;
-						border-bottom: 1px solid rgba(28, 31, 39, 0.4);
-						border-top: 1px solid rgba(28, 31, 39, 0.4);
+						border: 1px solid rgba(28, 31, 39, 0.4);
+						border-radius: 0;
 
 						&:first-of-type {
 							margin-top: 0px;
-							border-top: unset !important;
 						}
 					}
 
