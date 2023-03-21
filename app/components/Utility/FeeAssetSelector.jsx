@@ -4,7 +4,7 @@ import Immutable from 'immutable';
 import counterpart from 'counterpart';
 import AssetWrapper from './AssetWrapper';
 import PropTypes from 'prop-types';
-import {Form, Input, Tooltip} from 'antd';
+import {Form, Input, Button, Tooltip} from 'antd';
 import AssetSelect from './AssetSelect';
 import {FetchChain} from 'meta1-vision-js';
 import SetDefaultFeeAssetModal from '../Modal/SetDefaultFeeAssetModal';
@@ -207,7 +207,7 @@ class FeeAssetSelector extends React.Component {
 		}
 	}
 
-	UNSAFE_componentWillReceiveProps(np, ns) {
+	componentWillReceiveProps(np, ns) {
 		// don't do async loading in componentWillReceiveProps
 	}
 
@@ -264,7 +264,7 @@ class FeeAssetSelector extends React.Component {
 							suffix={this.state.error ? changeDefaultButton : undefined}
 							css={(theme) => ({
 								'&&': {
-									backgroundColor: theme.colors.inputBackgroundColor,
+									backgroundColor: theme.colors.dropdownBackgroundColor,
 									border: 'none',
 									color: theme.colors.inputTextColor,
 									borderRadius: '6px',

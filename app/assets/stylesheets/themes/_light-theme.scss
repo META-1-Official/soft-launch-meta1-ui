@@ -1032,6 +1032,119 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 		}
 	}
 
+	// Global ant modal
+	.ant-modal {
+		// send modal
+		&.send-propose-modal {
+			.ant-modal-content {
+				.ant-modal-body {
+					.ant-tabs-nav-list {
+						.ant-tabs-tab {
+							border-bottom: 1px solid $border-color;
+						}
+					}
+
+					form {
+						.account-selector-wrapper {
+							border: 1px solid $border-color;
+							border-radius: 5px;
+							.selector-label {
+								background: transparent;
+								border-right: 1px solid $border-color;
+							}
+
+							.ant-form-item {
+								.ant-select-selector {
+									background: transparent;
+									border: none;
+								}
+
+								.ant-input {
+									background: transparent;
+									border-right: 1px solid $border-color;
+									color: $dark;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// Withdraw modal
+	.withdraw_modal_new {
+		.ant-modal-title {
+			color: #ffc000 !important;
+		}
+	}
+
+	.withdraw-modal-body {
+		.account-selector-wrapper {
+			background: transparent;
+			border: 1px solid $border-color;
+			border-radius: 5px;
+
+			.selector-label {
+				background: transparent;
+				border-right: 1px solid $border-color;
+				color: #666666;
+			}
+
+			.ant-select-selector {
+				background: transparent;
+				border: none !important;
+			}
+		}
+
+		.address-form {
+			> span {
+				color: #666666;
+			}
+		}
+
+		.amount-selector-field {
+			.ant-form-item-control {
+				.ant-input-group-compact {
+					border: 1px solid $border-color;
+					border-radius: 5px;
+					background-color: transparent;
+
+					.ant-input {
+						border-right: 2px solid $border-color;
+					}
+				}
+			}
+		}
+
+		.withdraw-fee-selector {
+			.ant-input-group-wrapper {
+				border: 1px solid $border-color;
+				border-radius: 5px;
+				background-color: transparent;
+
+				.ant-input-group-addon {
+					background: transparent;
+					border: none;
+				}
+			}
+		}
+
+		.ant-input {
+			background: transparent;
+			color: #666666;
+		}
+
+		#baseMarketFee {
+			color: #666666;
+		}
+
+		.ant-select-selector {
+			background: transparent;
+			border: none !important;
+		}
+	}
+
 	.white-star > svg > path {
 		fill: $primary-color !important;
 	}

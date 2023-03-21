@@ -264,11 +264,11 @@ const GlobalStyles = (theme: any) => css`
 	}
 	.ant-modal-header {
 		background: transparent;
-		border-bottom: 1px solid #1C1F27;
+		border-bottom: 1px solid ${theme.colors.borderColor};
 
 		.ant-modal-title {
 			font-size: 20px;
-			color: white;
+			color: ${theme.colors.themeOpositeColor};
 		}
 	}
 	.ant-modal-content {
