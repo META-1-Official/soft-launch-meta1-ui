@@ -16,7 +16,12 @@ import utils from 'common/utils';
 import counterpart from 'counterpart';
 import {connect} from 'alt-react';
 import {getWalletName} from 'branding';
-import {Form, Modal, Tooltip, Input, Tabs} from 'antd';
+import {Form, Modal, Button, Tooltip, Input, Space, Tabs} from 'antd';
+import swal from 'sweetalert';
+import WalletUnlockActions from '../../actions/WalletUnlockActions';
+import ReactTooltip from 'react-tooltip';
+import PrivateKeyStore from '../../stores/PrivateKeyStore';
+import WalletDb from '../../stores/WalletDb';
 import StyledButton from 'components/Button/Button';
 import ls from '../../lib/common/localStorage';
 
@@ -205,7 +210,7 @@ class SendModal extends React.Component {
 		return true;
 	}
 
-	UNSAFE_componentWillReceiveProps(np) {
+	componentWillReceiveProps(np) {
 		if (
 			np.currentAccount !== this.state.from_name &&
 			np.currentAccount !== this.props.currentAccount
@@ -361,7 +366,8 @@ class SendModal extends React.Component {
 	}
 
 	onPropose = () => {
-		let {propose, orig_account, from_account, from_name} = this.state;
+		let {propose, orig_account, to_account, to_name, from_account, from_name} =
+			this.state;
 
 		// Store Original Account
 		if (!propose) {
@@ -478,11 +484,11 @@ class SendModal extends React.Component {
 			<div
 				className="content-block"
 				style={{textAlign: 'center'}}
-				css={() => ({
+				css={(theme) => ({
 					display: 'flex',
 					justifyContent: 'center',
 					marginBottom: '1rem',
-					color: '#CACACA',
+					color: theme.colors.descriptionTextColor,
 				})}
 			>
 				<Translate
