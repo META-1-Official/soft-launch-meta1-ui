@@ -9,7 +9,7 @@ class Help extends React.Component {
 		const path = toPairs(this.props.match.params)
 			.map((p) => p[1])
 			.join('/');
-
+		let isDesktop = window.matchMedia('(min-width: 1000px)').matches;
 		return (
 			<>
 				<PageHeader title="Learn" showDivider level={2} />
@@ -25,22 +25,43 @@ class Help extends React.Component {
 							overflow: 'auto',
 						})}
 					>
-						<Col xs={24} sm={8} lg={6}>
+						<Col xs={24} sm={24} lg={6}>
 							<div
 								className="help-toc"
 								css={(theme) => ({
 									padding: '20px',
-									height: '100%',
+									height: isDesktop ? '100%' : 'fit-content',
 									ul: {
 										listStyle: 'none !important',
-										height: `100%`,
+										height: isDesktop ? `100%` : '44px',
 										backgroundColor: theme.colors.helpSideBarColor,
+										width: isDesktop ? '' : window.width,
+										display: isDesktop ? '' : 'flex',
+										overflowX: isDesktop ? '' : 'scroll',
+										overflowY: isDesktop ? '' : 'hidden',
+										margin: isDesktop ? '' : '0px',
 									},
 									li: {
-										border: `1px solid ${theme.colors.borderColor}`,
+										border: isDesktop
+											? `1px solid ${theme.colors.borderColor}`
+											: '',
 										padding: '0',
+										float: 'left',
+										width: isDesktop ? '100%' : 'unset',
+										div: {
+											width: !isDesktop ? '120px !important' : '',
+											display: !isDesktop ? 'flex !important' : '',
+											justifyContent: !isDesktop ? 'center' : '',
+											width: !isDesktop ? '120px' : '',
+											padding: !isDesktop ? '6px 19px 6px !important' : '',
+
+											a: {
+												whiteSpace: !isDesktop ? 'nowrap' : '',
+											},
+										},
 									},
 									a: {
+										display: isDesktop ? '' : 'block',
 										color: theme.colors.themeOpositeColor,
 										'&: hover': {
 											color: `${theme.colors.primaryColor} !important`,
