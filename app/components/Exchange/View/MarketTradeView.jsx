@@ -4,6 +4,7 @@ import {FaArrowRight, FaArrowUp, FaArrowDown} from 'react-icons/fa';
 import {getAssetIcon} from 'constants/assets';
 import {connect} from 'alt-react';
 import MarketsStore from 'stores/MarketsStore';
+import {Tooltip} from 'antd';
 
 class MarketTradeView extends React.Component {
 	render() {
@@ -61,9 +62,8 @@ class MarketTradeView extends React.Component {
 												height="21px"
 											/>
 											<div
+												className="td-content-common-text"
 												style={{
-													fontSize: '15px',
-													color: 'white',
 													textAlign: 'left',
 													lineHeight: '18px',
 													marginLeft: '8px',
@@ -90,21 +90,23 @@ class MarketTradeView extends React.Component {
 								sortDirections={['descend', 'ascend']}
 								render={(row) => {
 									return (
-										<div
-											style={{
-												fontSize: '14px',
-												color:
-													row.change > 0
-														? '#009D55'
-														: row.change < 0
-														? '#FF2929'
-														: 'white',
-												textAlign: 'right',
-												lineHeight: '16px',
-											}}
-										>
-											{row.value}
-										</div>
+										<Tooltip title={Number(row.value)} placement="top">
+											<div
+												style={{
+													color:
+														row.change > 0
+															? '#009D55'
+															: row.change < 0
+															? '#FF2929'
+															: 'white',
+													textAlign: 'center',
+													lineHeight: '16px',
+													fontSize: '14px',
+												}}
+											>
+												{Number(row.value).toFixed(6)}
+											</div>
+										</Tooltip>
 									);
 								}}
 							/>
@@ -126,8 +128,9 @@ class MarketTradeView extends React.Component {
 											style={{
 												display: 'flex',
 												flexDirection: 'row',
-												alignItems: 'center',
+												justifyContent: 'center',
 												marginLeft: '20px',
+												alignItems: 'center',
 											}}
 										>
 											{row.change > 0 && (
@@ -165,7 +168,7 @@ class MarketTradeView extends React.Component {
 
 											<div
 												style={{
-													fontSize: '12px',
+													fontSize: '14px',
 													color:
 														row.change > 0
 															? '#009D55'
@@ -191,8 +194,8 @@ class MarketTradeView extends React.Component {
 									return (
 										<div className="td-content">
 											<div
+												className="td-content-common-text"
 												style={{
-													color: 'white',
 													fontSize: '14px',
 													fontWeight: 400,
 													textAlign: 'right',

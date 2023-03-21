@@ -41,7 +41,7 @@ class Help extends React.Component {
 										padding: '0',
 									},
 									a: {
-										color: 'white !important',
+										color: theme.colors.themeOpositeColor,
 										'&: hover': {
 											color: `${theme.colors.primaryColor} !important`,
 											backgroundColor: 'transparent !important',

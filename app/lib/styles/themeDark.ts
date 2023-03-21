@@ -16,6 +16,8 @@ const theme = {
 		borderColor: '#1c1f27',
 		buttonWhiteColor: '#e6f7ff',
 		buttonRedColor: '#ff2929',
+		inactiveButtonTextColor: 'white',
+		primaryButtonTextColor: '#000000',
 		buttonGreenColor: '#009d55',
 		inputBackgroundColor: '#15171b',
 		inputTextColor: '#919293',
@@ -43,10 +45,15 @@ const theme = {
 		askRowBackgroundColor: '#1D0D0F',
 		orderTextColor: 'rgba(255, 255, 255, 0.5)',
 		assetSymbolColor: '#D0D0D0',
+		blockHeaderColor: '#1c1f27',
 	},
 	sizes: {
-		lg: '992px',
+		xs: '480px',
 		sm: '576px',
+		md: '768px',
+		lg: '992px',
+		xl: '1200px',
+		xxl: '1600px',
 	},
 };
 

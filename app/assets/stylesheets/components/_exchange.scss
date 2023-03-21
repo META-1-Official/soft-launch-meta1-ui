@@ -49,15 +49,18 @@
 }
 
 .assets-layout {
-	width: 30%;
+	width: 40%;
 	display: flex;
 	flex-direction: column;
 	margin-right: 15px;
 	height: 100%;
 
+	.asset-pair-tabs-wrapper {
+		border: 1px solid #1c1f27;
+		border-radius: 5px;
+	}
+
 	.asset-select {
-		border-left: 1px solid #1c1f27;
-		border-right: 1px solid #1c1f27;
 		background-color: #16171b !important;
 		overflow-x: auto;
 		white-space: nowrap;
@@ -102,8 +105,6 @@
 
 		.search-input {
 			width: 100% !important;
-			border: 1px solid #1c1f27;
-			border-radius: 3px;
 
 			.ant-input-affix-wrapper {
 				background: black;
@@ -122,6 +123,10 @@
 	.table {
 		.ant-pagination {
 			justify-content: center;
+		}
+
+		.ant-table {
+			border: none !important;
 		}
 	}
 }
@@ -169,10 +174,23 @@
 		padding-bottom: 0 !important;
 		border-top: none;
 	}
+
+	.top-bar {
+		border: 1px solid #1c1f27;
+		border-top-left-radius: 5px;
+		border-top-right-radius: 5px;
+	}
+
+	.market-picker {
+		padding: 12px;
+		border-right: 1px solid #1c1f27;
+		border-left: 1px solid #1c1f27;
+		height: 100%;
+	}
 }
 
 .control-layout {
-	width: 40%;
+	width: 80%;
 	margin-left: 15px;
 }
 
@@ -356,6 +374,7 @@ p.order-table-title {
 		background: transparent;
 		border: none;
 		color: rgba(255, 255, 255, 0.5);
+
 		span {
 			color: rgba(255, 255, 255, 0.5);
 			display: flex;
@@ -369,8 +388,9 @@ p.order-table-title {
 		height: 0;
 	}
 
-	.ant-form-item-has-error
-		:not(.ant-input-disabled):not(.ant-input-borderless).ant-input {
+	.ant-form-item-has-error:not(.ant-input-disabled):not(
+			.ant-input-borderless
+		).ant-input {
 		background: transparent !important;
 		border-left: 1px solid;
 		border-color: rgba(86, 97, 118, 0.3);
@@ -461,48 +481,74 @@ p.order-table-title {
 
 .ask-order-tr {
 	background-color: rgb(9, 22, 19);
+	border-bottom: 1px solid #1c1f27;
 }
 
 .bid-order-tr {
 	background-color: rgb(29, 13, 15);
+	border-bottom: 1px solid #1c1f27;
 }
 
-.my-open-orders-res {
-	.ant-tabs-nav {
-		padding-left: 16px;
-		margin: 0 !important;
+.orders-and-trade {
+	display: flex;
+	height: 550px;
 
-		.ant-tabs-nav-list {
-			width: unset !important;
+	.orders-trade-form {
+		flex-grow: 1;
+		display: inline-block;
+		border-radius: 5px;
+		border: 1px solid #1c1f27;
+	}
+}
 
-			.ant-tabs-tab {
-				text-align: center;
-				display: flex;
-				justify-content: center;
-				border-bottom: none !important;
-			}
+.action-cards {
+	max-height: 30rem;
+	margin-top: 15px;
+	overflow: hidden;
+	border: 1px solid #1c1f27;
+	border-radius: 5px;
 
-			.ant-tabs-ink-bar {
-				display: none;
-			}
+	.my-open-orders-res {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
 
-			.ant-tabs-tab.ant-tabs-tab-active {
-				border-bottom: none !important;
+		.ant-table {
+			border-left: none;
+			border-right: none;
+		}
+
+		.ant-tabs-nav {
+			padding-left: 16px;
+			margin: 0 !important;
+
+			.ant-tabs-nav-list {
+				width: unset !important;
+				height: 40px;
+
+				.ant-tabs-tab {
+					text-align: center;
+					display: flex;
+					justify-content: center;
+					border-bottom: none !important;
+				}
+
+				.ant-tabs-ink-bar {
+					display: none;
+				}
+
+				.ant-tabs-tab.ant-tabs-tab-active {
+					border-bottom: none !important;
+				}
 			}
 		}
 	}
 }
 
 .buy-form {
-	.ant-tabs-tab {
-		width: none;
-	}
-
 	.ant-tabs-nav-list {
-		width: unset !important;
-
 		.ant-tabs-tab {
-			width: unset !important;
+			width: 50px !important;
 			text-align: center;
 			display: flex;
 			justify-content: center;
@@ -519,15 +565,9 @@ p.order-table-title {
 }
 
 .sell-form {
-	.ant-tabs-tab {
-		width: none;
-	}
-
 	.ant-tabs-nav-list {
-		width: unset !important;
-
 		.ant-tabs-tab {
-			width: unset !important;
+			width: 50px !important;
 			text-align: center;
 			display: flex;
 			justify-content: center;
@@ -544,8 +584,13 @@ p.order-table-title {
 }
 
 .buy-sell-tab {
+	border: 1px solid #1c1f27;
+	border-radius: 5px;
+	margin-top: 15px;
+
 	.ant-tabs-nav {
 		margin: 0;
+		border-bottom: 1px solid #1c1f27;
 
 		.ant-tabs-ink-bar {
 			display: none;
@@ -704,10 +749,6 @@ p.order-table-title {
 .left-orderbook-header {
 	width: 100%;
 	font-size: 0.75rem;
-}
-
-.top-header {
-	padding-bottom: 0.25rem;
 }
 
 .bottom-header {
@@ -1014,6 +1055,7 @@ input[type='number']::-webkit-outer-spin-button {
 
 .market-right-padding-only {
 	max-height: 380px;
+
 	table td:nth-last-child(1) {
 		padding: 0 1rem 0 0 !important;
 	}
@@ -1319,8 +1361,6 @@ form.hide-container {
 }
 
 .market-order-table-container {
-	border-top: 1px solid rgb(28, 31, 39);
-
 	.ant-table-wrapper {
 		width: 100% !important;
 
@@ -1348,19 +1388,38 @@ form.hide-container {
 					&:first-of-type {
 						padding-left: 0px !important;
 					}
+
 					&:last-child {
 						text-align: -webkit-center;
 						text-align: -moz-center;
 					}
 				}
+
 				.ant-table-row {
-					background: #15171b;
 					height: 64px;
 					border: 1px solid #1c1f27;
 				}
 			}
 		}
 	}
+}
+
+.td-content-common-text {
+	color: white;
+	text-align: center;
+}
+
+.td-content-divider {
+	border-bottom: 1px solid #566176;
+	width: 45px;
+	height: 0px;
+	margin-top: 5;
+	margin-bottom: 5;
+}
+
+.td-content-second-text {
+	color: #715c5c;
+	text-align: center;
 }
 
 .vertical-panel {
@@ -1467,13 +1526,11 @@ form.hide-container {
 
 	.title1 {
 		font-size: 24px;
-		color: #cecece;
 		margin-bottom: 10px;
 	}
 
 	.title2 {
 		font-size: 20px;
-		color: white;
 		margin-bottom: 10px;
 
 		.golden {
@@ -1483,7 +1540,6 @@ form.hide-container {
 
 	.title3 {
 		font-size: 16px;
-		color: #cecece;
 	}
 
 	.list-wrapper {
@@ -1526,7 +1582,6 @@ form.hide-container {
 				height: 60px;
 				background: #15171b;
 				border-top: 1px solid #212530;
-				// border-bottom: 1px solid #212530;
 				padding-left: 20px;
 
 				.ant-tabs-tab {
@@ -1709,16 +1764,21 @@ form.hide-container {
 
 // Order Book Panel
 .order-book-panel {
+	display: flex;
+	flex-direction: column;
+
 	.overflow-hidden {
 		overflow: hidden !important;
-		font-size: 10px !important;
+		font-size: 14px !important;
 	}
+
 	.header-font-size {
-		font-size: 10px !important;
+		font-size: 14px !important;
 	}
+
 	.header {
 		background: #1c1f27;
-		font-size: 16px;
+		font-size: 14px;
 		height: 46px;
 		width: 100%;
 		color: white;
@@ -1747,6 +1807,15 @@ form.hide-container {
 			}
 		}
 	}
+
+	.orderbook-divider {
+		border-top: 1px solid #1c1f27;
+		border-bottom: 1px solid #1c1f27;
+		padding: 10px;
+		display: flex;
+		align-items: center;
+	}
+
 	.table-height-auto {
 		height: auto !important;
 	}
@@ -1794,9 +1863,11 @@ form.hide-container {
 		max-width: 15px;
 		margin-right: 6px;
 	}
+
 	.per_item {
 		cursor: pointer;
 	}
+
 	.active_item {
 		color: #fff !important;
 	}
@@ -1819,9 +1890,10 @@ form.hide-container {
 		}
 	}
 }
+
 .market-history-custom {
 	.overflow-hidden {
 		overflow: hidden !important;
-		font-size: 10px !important;
+		font-size: 14px !important;
 	}
 }

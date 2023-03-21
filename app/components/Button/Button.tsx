@@ -21,7 +21,7 @@ const StyledButton = ({
 	if (buttonType === 'primary') {
 		backgroundColor = theme.colors.primaryColor;
 		border = `1px solid ${theme.colors.primaryColor}`;
-		color = 'black';
+		color = theme.colors.primaryButtonTextColor;
 	} else if (buttonType === 'white') {
 		backgroundColor = 'transparent';
 		border = `1px solid ${theme.colors.buttonWhiteColor}`;

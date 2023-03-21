@@ -74,9 +74,6 @@ class Exchange extends React.Component {
 		this._handleCustomExpirationChange =
 			this._handleCustomExpirationChange.bind(this);
 
-		this.showPersonalizeModal = this.showPersonalizeModal.bind(this);
-		this.hidePersonalizeModal = this.hidePersonalizeModal.bind(this);
-
 		this.showConfirmSellOrderModal = this.showConfirmSellOrderModal.bind(this);
 		this.hideConfirmSellOrderModal = this.hideConfirmSellOrderModal.bind(this);
 
@@ -624,13 +621,11 @@ class Exchange extends React.Component {
 		return {
 			isDepositBridgeModelLoaded: false,
 			isDepositModalLoaded: false,
-			isPersonalizeModalLoaded: false,
 			isMarketPickerModalLoaded: false,
 			isBorrowQuoteModalLoaded: false,
 			isBorrowBaseModalLoaded: false,
 			isDepositBridgeModalVisible: false,
 			isDepositModalVisible: false,
-			isPersonalizeModalVisible: false,
 			isMarketPickerModalVisible: false,
 			isBorrowQuoteModalVisible: false,
 			isBorrowBaseModalVisible: false,
@@ -698,19 +693,6 @@ class Exchange extends React.Component {
 	hideMarketPickerModal() {
 		this.setState({
 			isMarketPickerModalVisible: false,
-		});
-	}
-
-	showPersonalizeModal() {
-		this.setState({
-			isPersonalizeModalVisible: true,
-			isPersonalizeModalLoaded: true,
-		});
-	}
-
-	hidePersonalizeModal() {
-		this.setState({
-			isPersonalizeModalVisible: false,
 		});
 	}
 
@@ -1439,19 +1421,6 @@ class Exchange extends React.Component {
 		});
 
 		this.setState({verticalOrderForm: !this.state.verticalOrderForm});
-	}
-
-	_togglePersonalize() {
-		if (!this.state.isPersonalizeModalVisible) {
-			this.setState({
-				isPersonalizeModalVisible: !this.state.isPersonalizeModalVisible,
-				isPersonalizeModalLoaded: true,
-			});
-		} else {
-			this.setState({
-				isPersonalizeModalVisible: !this.state.isPersonalizeModalVisible,
-			});
-		}
 	}
 
 	_toggleScrollbars() {
@@ -2570,9 +2539,10 @@ class Exchange extends React.Component {
 					quoteSymbol={quoteSymbol}
 					onClick={this._orderbookClick.bind(this)}
 					horizontal={!verticalOrderBook || smallScreen ? true : false}
-					flipOrderBook={flipOrderBook}
+					flipOrderBook={false}
 					orderBookReversed={orderBookReversed}
 					marketReady={marketReady}
+					marketStats={marketStats}
 					currentAccount={this.props.currentAccount.get('id')}
 					handleGroupOrderLimitChange={this._onGroupOrderLimitChange.bind(this)}
 					trackedGroupsConfig={trackedGroupsConfig}
@@ -2821,15 +2791,7 @@ class Exchange extends React.Component {
 		 */
 
 		let buySellTab = (
-			<div
-				key={`actionCard_${actionCardIndex++}`}
-				style={{
-					border: '1px solid #1C1F27',
-					borderRadius: '5px',
-					marginTop: '15px',
-				}}
-				className="buy-sell-tab"
-			>
+			<div key={`actionCard_${actionCardIndex++}`} className="buy-sell-tab">
 				<Tabs
 					defaultActiveKey="buy"
 					activeKey={tabBuySell}
@@ -2896,6 +2858,11 @@ class Exchange extends React.Component {
 								{myTrade}
 							</Tabs.TabPane>
 						);
+						// groupTabs[panelTabs[a]].push(
+						// 	<Tabs.TabPane tab="Fund" key="fund">
+						// 		{myTrade}
+						// 	</Tabs.TabPane>
+						// );
 					}
 					if (a == 'open_settlement' && settlementOrders !== null) {
 						groupTabs[panelTabs[a]].push(
@@ -2934,19 +2901,8 @@ class Exchange extends React.Component {
 				<div
 					key={`actionCard_${actionCardIndex++}`}
 					className="my-open-orders-res"
-					style={{
-						border: '1px solid #1C1F27',
-						borderRadius: '5px',
-						display: 'flex',
-						flexDirection: 'column',
-						minHeight: 400,
-					}}
 				>
 					<Tabs
-						style={{
-							borderTop: '2px solid black',
-							height: '100%',
-						}}
 						activeKey={panelTabsActive[2]}
 						onChange={this._setPanelTabInGroup.bind(this, 2)}
 					>
@@ -2977,134 +2933,15 @@ class Exchange extends React.Component {
 		 */
 		let actionCards = [];
 		if (!smallScreen) {
-			actionCards.push(groupStandalone);
+			// actionCards.push(groupStandalone);
 			actionCards.push(groupTabbed2);
-
-			if (!verticalOrderForm) {
-				actionCards.push(buySellTab);
-				// actionCards.push(buyForm);
-				// actionCards.push(sellForm);
-			}
-			if (verticalOrderBook || verticalOrderForm) {
-				actionCards.push(emptyDiv);
-			}
-		} else if (!tinyScreen) {
-			actionCards.push(groupStandalone);
-			actionCards.push(groupTabbed2);
-			actionCards.push(buyForm);
-			actionCards.push(sellForm);
-			actionCards.push(
-				<div
-					className="order-10 small-12"
-					key={`actionCard_${actionCardIndex++}`}
-				>
-					<Tabs
-						defaultActiveKey="my-market"
-						activeKey={tabVerticalPanel}
-						onChange={this._setTabVerticalPanel.bind(this)}
-					>
-						<Tabs.TabPane
-							tab={translator.translate('exchange.market_name')}
-							key="my-market"
-						/>
-						<Tabs.TabPane
-							tab={translator.translate('exchange.more')}
-							key="find-market"
-						/>
-					</Tabs>
-					{myMarkets}
-				</div>
-			);
-		} else {
-			actionCards = (
-				<Collapse
-					activeKey={this.state.mobileKey}
-					onChange={this._onChangeMobilePanel.bind(this)}
-				>
-					<Collapse.Panel
-						header={translator.translate('exchange.price_history')}
-						key="tradingViewChart"
-					>
-						{tradingViewChart}
-					</Collapse.Panel>
-					<Collapse.Panel
-						header={translator.translate('exchange.order_depth')}
-						key="deptHighChart"
-					>
-						{deptHighChart}
-					</Collapse.Panel>
-					<Collapse.Panel
-						header={translator.translate('exchange.buy_sell')}
-						key="buySellTab"
-					>
-						{buySellTab}
-					</Collapse.Panel>
-					<Collapse.Panel
-						header={translator.translate('exchange.order_book')}
-						key="orderBook"
-					>
-						{orderBook}
-					</Collapse.Panel>
-					<Collapse.Panel
-						header={translator.translate('exchange.history')}
-						key="marketHistory"
-					>
-						{marketHistory}
-					</Collapse.Panel>
-					{settlementOrders !== null ? (
-						<Collapse.Panel
-							header={translator.translate('exchange.settle_orders')}
-							key="settlementOrders"
-						>
-							{settlementOrders}
-						</Collapse.Panel>
-					) : null}
-					<Collapse.Panel
-						header={translator.translate('exchange.my_history')}
-						key="myMarketHistory"
-					>
-						{myMarketHistory}
-					</Collapse.Panel>
-					<Collapse.Panel
-						header={translator.translate('exchange.my_orders')}
-						key="myOpenOrders"
-					>
-						{myOpenOrders}
-					</Collapse.Panel>
-					<Collapse.Panel
-						header={translator.translate('exchange.market_name')}
-						key="myMarkets"
-					>
-						<Tabs
-							defaultActiveKey="my-market"
-							activeKey={tabVerticalPanel}
-							onChange={this._setTabVerticalPanel.bind(this)}
-						>
-							<Tabs.TabPane
-								tab={translator.translate('exchange.market_name')}
-								key="my-market"
-							/>
-							<Tabs.TabPane
-								tab={translator.translate('exchange.more')}
-								key="find-market"
-							/>
-						</Tabs>
-						{myMarkets}
-					</Collapse.Panel>
-				</Collapse>
-			);
 		}
 
 		return (
 			<div className="grid-block" style={{padding: '10px'}}>
 				{!this.props.marketReady ? <LoadingIndicator /> : null}
 				<div className="grid-block vertical assets-layout page-layout">
-					<div
-						style={{
-							border: '1px solid #1C1F27',
-							borderRadius: '5px',
-						}}
-					>
+					<div className="asset-pair-tabs-wrapper">
 						<AssetsPairTabs account={this.props.currentAccount} />
 					</div>
 				</div>
@@ -3127,7 +2964,6 @@ class Exchange extends React.Component {
 						marketStats={marketStats}
 						selectedMarketPickerAsset={this.state.marketPickerAsset}
 						onToggleMarketPicker={this._toggleMarketPicker.bind(this)}
-						onTogglePersonalize={this._togglePersonalize.bind(this)}
 						showVolumeChart={showVolumeChart}
 					/>
 					{this.state.isMarketPickerModalVisible ||
@@ -3141,56 +2977,6 @@ class Exchange extends React.Component {
 							{...this.props}
 						/>
 					) : null}
-
-					{this.state.isPersonalizeModalVisible ||
-					this.state.isPersonalizeModalLoaded ? (
-						<Personalize
-							visible={this.state.isPersonalizeModalVisible}
-							showModal={this.showPersonalizeModal}
-							hideModal={this.hidePersonalizeModal}
-							viewSettings={this.props.viewSettings}
-							chartType={chartType}
-							chartHeight={chartHeight}
-							onTogglePersonalize={this._togglePersonalize.bind(this)}
-							onChangeChartHeight={this.onChangeChartHeight.bind(this)}
-							handleGroupOrderLimitChange={this._onGroupOrderLimitChange.bind(
-								this
-							)}
-							trackedGroupsConfig={trackedGroupsConfig}
-							currentGroupOrderLimit={currentGroupOrderLimit}
-							verticalOrderBook={verticalOrderBook}
-							hideScrollbars={hideScrollbars}
-							mirrorPanels={mirrorPanels}
-							panelTabs={panelTabs}
-							singleColumnOrderForm={singleColumnOrderForm}
-							buySellTop={buySellTop}
-							flipBuySell={flipBuySell}
-							flipOrderBook={flipOrderBook}
-							tinyScreen={tinyScreen}
-							smallScreen={smallScreen}
-							orderBookReversed={orderBookReversed}
-							chartZoom={chartZoom}
-							chartTools={chartTools}
-							hideFunctionButtons={hideFunctionButtons}
-							onMoveOrderBook={this._moveOrderBook.bind(this)}
-							onMirrorPanels={this._mirrorPanels.bind(this)}
-							onToggleScrollbars={this._toggleScrollbars.bind(this)}
-							onSetAutoscroll={this._setAutoscroll.bind(this)}
-							onToggleChart={this._toggleChart.bind(this)}
-							onSetPanelTabs={this._setPanelTabs.bind(this)}
-							onToggleSingleColumnOrderForm={this._toggleSingleColumnOrderForm.bind(
-								this
-							)}
-							onToggleBuySellPosition={this._toggleBuySellPosition.bind(this)}
-							onFlipBuySell={this._flipBuySell.bind(this)}
-							onFlipOrderBook={this._flipOrderBook.bind(this)}
-							onOrderBookReversed={this._orderBookReversed.bind(this)}
-							onChartZoom={this._chartZoom.bind(this)}
-							onChartTools={this._chartTools.bind(this)}
-							onHideFunctionButtons={this._hideFunctionButtons.bind(this)}
-						/>
-					) : null}
-
 					<AccountNotifications />
 
 					<div
@@ -3217,7 +3003,6 @@ class Exchange extends React.Component {
 											style={{
 												flexGrow: '2',
 												display: 'inline-block',
-												borderBottom: '2px solid black',
 											}}
 										>
 											{tradingViewChart}
@@ -3243,47 +3028,34 @@ class Exchange extends React.Component {
 								</div>
 							) : null}
 
-							{/* Order book */}
-							<div
-								className="grid-block"
-								style={{
-									maxHeight: '400px',
-									marginTop: '15px',
-									overflow: 'hidden',
-								}}
-							>
-								<div
-									className="orders-trade-form grid-block shrink no-overflow"
-									style={{
-										flexGrow: '1',
-										display: 'inline-block',
-										border: '1px solid #1C1F27',
-										borderRadius: '5px',
-										width: '67%',
-										marginRight: '1%',
-									}}
-								>
-									{orderBook}
-								</div>
-								<div
-									className="orders-trade-form"
-									style={{
-										flexGrow: '1',
-										display: 'inline-block',
-										position: 'relative',
-										border: '1px solid #1C1F27',
-										borderRadius: '5px',
-										width: '33%',
-									}}
-								>
-									{groupTabs[1]}
-								</div>
-							</div>
+							<div className="grid-block action-cards">{actionCards}</div>
 						</div>
 					</div>
 				</div>
 				<div className="grid-block vertical control-layout page-layout">
-					{actionCards}
+					<div className="orders-and-trade">
+						<div
+							className="orders-trade-form grid-block shrink no-overflow"
+							style={{
+								width: '50%',
+								marginRight: '1%',
+							}}
+						>
+							{orderBook}
+						</div>
+
+						<div
+							className="orders-trade-form"
+							style={{
+								position: 'relative',
+								width: '50%',
+							}}
+						>
+							{groupTabs[1]}
+						</div>
+					</div>
+
+					{buySellTab}
 				</div>
 
 				{quoteIsBitAsset &&

@@ -7,7 +7,7 @@ const SectionHeader = ({title}) => {
 	return (
 		<div
 			style={{
-				background: `${theme.colors.background}`,
+				background: `${theme.colors.blockHeaderColor}`,
 				fontSize: '16px',
 				height: '46px',
 				width: '100%',

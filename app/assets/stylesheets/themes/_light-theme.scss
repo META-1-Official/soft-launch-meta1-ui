@@ -38,6 +38,8 @@ $positive-color: #528c0a;
 $negative-color: rgba(225, 66, 74, 1);
 $row-accent-color: #ffffff;
 $header-color: #dcdcdc;
+$border-color: #eaeaea;
+$bg-color-lightblue: #f5f6fa;
 
 // Account table view colors
 $account-header: #eaeaea;
@@ -232,24 +234,24 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 	}
 
 	thead[class*='ant-table-thead'] th {
-		background-color: #f5f6fa !important;
+		background-color: $bg-color-lightblue !important;
 	}
 
 	div[class*='ant-table-footer'] {
-		background-color: #f5f6fa !important;
+		background-color: $bg-color-lightblue !important;
 		color: white;
 	}
 
 	.custom-dropdown-class {
 		background-color: #ffffff;
-		border: 1px solid #eaeaea;
+		border: 1px solid $border-color;
 	}
 
 	div.account-overview {
 		background-color: #ffffff;
 
 		.portfolio {
-			background-color: #f5f6fa;
+			background-color: $bg-color-lightblue !important;
 
 			.estimated-balance {
 				> p {
@@ -269,15 +271,6 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 
 				.hide-switch {
 					color: rgba(0, 0, 0, 0.6);
-				}
-			}
-		}
-
-		.recent-transactions {
-			.react-datepicker-wrapper {
-				input {
-					background-color: #ffffff;
-					border: 1px solid #eaeaea;
 				}
 			}
 		}
@@ -306,16 +299,16 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 			}
 
 			.dropdown-btn-class {
-				background-color: #f5f6fa !important;
+				background-color: $bg-color-lightblue !important;
 			}
 		}
 	}
 
 	.account-trade {
 		div.filter {
-			border-left: 1px solid #eaeaea !important;
-			border-right: 1px solid #eaeaea !important;
-			border-top: 1px solid #eaeaea !important;
+			border-left: 1px solid $border-color !important;
+			border-right: 1px solid $border-color !important;
+			border-top: 1px solid $border-color !important;
 			border-radius: 3px;
 			border-bottom-right-radius: 0px;
 			border-bottom-left-radius: 0px;
@@ -327,9 +320,9 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 		}
 
 		div.select {
-			border-left: 1px solid #eaeaea !important;
-			border-right: 1px solid #eaeaea !important;
-			background-color: #f5f6fa !important;
+			border-left: 1px solid $border-color !important;
+			border-right: 1px solid $border-color !important;
+			background-color: $bg-color-lightblue !important;
 
 			.toggle-box {
 				&.selected {
@@ -346,7 +339,7 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 
 			table > thead {
 				th {
-					border-bottom: 1px solid #eaeaea !important;
+					border-bottom: 1px solid $border-color !important;
 					padding-left: 15px;
 
 					.header-text .anticon {
@@ -381,11 +374,40 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 		}
 	}
 
+	.orders-and-trade {
+		.orders-trade-form {
+			border: 1px solid $border-color;
+
+			.table.order-table > thead > tr > th {
+				border-bottom: 1px solid $border-color !important;
+			}
+
+			.ask-order-tr {
+				background-color: rgb(217, 248, 240);
+				border-bottom: 1px solid $border-color;
+			}
+
+			.bid-order-tr {
+				background-color: rgb(255, 234, 236);
+				border-bottom: 1px solid $border-color;
+			}
+		}
+	}
+
+	.action-cards {
+		border: 1px solid $border-color;
+	}
+
 	.buy-sell-tab {
+		border: 1px solid $border-color;
+
 		.ant-tabs-nav {
+			background-color: $bg-color-lightblue;
+			border-bottom: 1px solid $border-color;
+
 			.ant-tabs-nav-list {
 				.ant-tabs-tab.ant-tabs-tab-active {
-					background-color: transparent;
+					background-color: white;
 				}
 			}
 		}
@@ -414,8 +436,21 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 
 				.ant-input[disabled] {
 					background: $panel-bg-color !important;
+					border-left: 1px solid rgba(86, 97, 118, 0.3);
 				}
 			}
+		}
+	}
+
+	.buy-form {
+		.ant-tabs-nav {
+			background: transparent !important;
+		}
+	}
+
+	.sell-form {
+		.ant-tabs-nav {
+			background: transparent !important;
 		}
 	}
 
@@ -449,27 +484,45 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 		}
 	}
 
+	.td-content-common-text {
+		color: black;
+	}
+
 	.order-book-panel {
 		.header {
-			background-color: transparent;
+			background-color: $bg-color-lightblue !important;
 
 			.title {
 				color: $dark !important;
 			}
 
 			div.tap.active {
-				background-color: transparent;
+				background-color: white;
 				color: $primary-color !important;
 			}
+		}
+		.orderbook-divider {
+			border-top: 1px solid $border-color;
+			border-bottom: 1px solid $border-color;
 		}
 	}
 
 	.assets-layout {
+		.asset-pair-tabs-wrapper {
+			border: 1px solid $border-color !important;
+			border-radius: 5px;
+		}
+
 		.asset-select {
 			background-color: transparent !important;
 
 			.toggle-box.selected {
 				background-color: transparent !important;
+			}
+
+			.toggle-box {
+				background-color: $bg-color-lightblue !important;
+				border: 1px solid $border-color !important;
 			}
 		}
 
@@ -479,6 +532,503 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 			.search-input .ant-input-group-addon {
 				background-color: transparent !important;
 			}
+		}
+	}
+
+	.info-layout {
+		.top-bar {
+			border: 1px solid $border-color;
+		}
+
+		.market-picker {
+			border-right: 1px solid $border-color;
+			border-left: 1px solid $border-color;
+		}
+	}
+
+	// Transaction History page
+	.recent-transactions {
+		.react-datepicker-wrapper {
+			input,
+			input:hover,
+			input:focus {
+				background-color: #ffffff !important;
+				border: 1px solid $border-color !important;
+			}
+		}
+	}
+
+	// Backing assets page
+	.backing-assets {
+		.content-body {
+			background: transparent;
+			border: 1px solid $border-color;
+		}
+
+		.list-wrapper {
+			.search-input {
+				background: transparent;
+
+				.ant-input-affix-wrapper {
+					background: #21252f;
+
+					input {
+						background: white;
+					}
+
+					&.ant-input-affix-wrapper-focused {
+						border: none;
+					}
+				}
+
+				.ant-input-group-addon {
+					background: transparent;
+					border-radius: 4px;
+				}
+			}
+
+			.ant-tabs {
+				.ant-tabs-nav {
+					background: $bg-color-lightblue;
+					border-top: 1px solid $border-color;
+
+					.ant-tabs-tab {
+						font-size: 16px;
+						color: #969ba6;
+						width: 136px;
+						display: flex;
+						justify-content: center;
+
+						&.ant-tabs-tab-active {
+							border-top: 3px solid #ffc000 !important;
+						}
+					}
+				}
+
+				.ant-list-items {
+					.ant-list-item {
+						border-bottom: 1px solid $border-color;
+
+						.ant-avatar {
+							width: 92px;
+							height: 85px;
+						}
+					}
+
+					.progress {
+						width: 170px;
+
+						.ant-progress-inner {
+							height: 10px;
+
+							.ant-progress-bg {
+								height: 10px !important;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// Activity page
+	div.account-activity {
+		div.content {
+			div.section {
+				background: $bg-color;
+				border: 1px solid $border-color;
+
+				.header-title {
+					background: $bg-color-lightblue;
+					color: $dark;
+				}
+
+				.close-text {
+					color: $primary-text-color;
+				}
+			}
+
+			div.table {
+				.ant-table-wrapper {
+					.ant-table-container {
+						table > thead {
+							background: transparent;
+						}
+					}
+
+					.ant-table {
+						background-color: transparent;
+					}
+
+					td.ant-table-cell {
+						color: $primary-text-color;
+					}
+				}
+			}
+		}
+	}
+
+	// Member Stats Page
+	.member-stats {
+		background-color: transparent !important;
+
+		.tabs-container {
+			hr {
+				border-color: $border-color !important;
+				background-color: transparent !important;
+			}
+
+			div.button {
+				color: black !important;
+				border: 2px solid black;
+			}
+
+			.content-block {
+				.left {
+					border: 1px solid $border-color;
+
+					.grid-content {
+						> h4,
+						> div > h4 {
+							background-color: $bg-color-lightblue !important;
+							border-bottom: 1px solid $border-color;
+							border-top: 1px solid $border-color;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// Notification Page
+	div.account-notification {
+		.content-body {
+			.list-wrapper {
+				background: transparent;
+				border: 1px solid $border-color;
+
+				.ant-list-items {
+					.ant-list-item {
+						border-bottom: 1px solid $border-color;
+
+						.description {
+							color: $primary-text-color;
+						}
+
+						.footer {
+							background: transparent;
+							color: $dark;
+						}
+					}
+
+					.ant-list-item:last-child {
+						border-bottom: 1px solid $border-color;
+					}
+				}
+			}
+		}
+	}
+
+	// Settings Page
+	.settings {
+		.ant-menu {
+			background: transparent !important;
+		}
+
+		.ant-typography {
+			span {
+				color: $primary-text-color;
+			}
+		}
+
+		.general-tab {
+			.general-header {
+				border-bottom: 1px solid $border-color;
+			}
+
+			.setting-entry {
+				background: $bg-color-lightblue;
+
+				.ant-form-item-label > label {
+					color: rgba(0, 0, 0, 0.7);
+				}
+
+				.ant-form-item-control {
+					.fee-asset-wrapper {
+						.current-fee-asset {
+							color: rgba(0, 0, 0, 0.5);
+						}
+
+						button {
+							border: 1px solid $border-color;
+
+							span {
+								color: white;
+							}
+						}
+					}
+					.settings-notifications {
+						.settings-notifications-item {
+							color: rgba(0, 0, 0, 0.5);
+
+							.ant-checkbox-inner {
+								&::after {
+									border-color: black;
+								}
+							}
+						}
+
+						.external-link {
+							.settings-notifications-no-browser-support {
+								color: darkred;
+							}
+						}
+					}
+				}
+
+				.ant-select-selector {
+					.ant-select-selection-item {
+						color: rgba(0, 0, 0, 0.4);
+
+						span {
+							color: rgba(0, 0, 0, 0.4);
+						}
+					}
+				}
+			}
+		}
+
+		.node-tab {
+			.nodes-header {
+				border-bottom: 1px solid $border-color;
+
+				.automatic {
+					color: $primary-text-color;
+				}
+			}
+		}
+	}
+
+	// Permission page
+	div.account-permissions {
+		.content {
+			background: transparent;
+			border: 1px solid $border-color;
+
+			.tab-header {
+				border-bottom: 1px solid $border-color;
+
+				p {
+					color: $primary-text-color !important;
+				}
+			}
+
+			.tab-content {
+				background: transparent;
+
+				.content-wrapper {
+					background: white;
+					border: 1px solid $border-color;
+
+					.threshold {
+						color: rgba(0, 0, 0, 0.7);
+
+						input {
+							background: white;
+							border: 1px solid $border-color;
+							color: rgba(0, 0, 0, 0.4);
+						}
+					}
+
+					.pubkey-input {
+						.content-area {
+							.header-area {
+								label {
+									color: rgba(0, 0, 0, 0.7);
+								}
+							}
+						}
+
+						.input-area {
+							background: transparent;
+							border: 1px solid $border-color;
+
+							input {
+								background: white;
+								color: rgba(0, 0, 0, 0.6);
+							}
+						}
+					}
+
+					.permission-list {
+						label {
+							color: rgba(0, 0, 0, 0.7);
+						}
+
+						.ant-form-item-control-input-content {
+							.input-wrapper {
+								input {
+									background: white;
+									border: 1px solid $border-color;
+									color: rgba(0, 0, 0, 0.4);
+
+									&::placeholder {
+										color: rgba(0, 0, 0, 0.4);
+									}
+								}
+							}
+
+							button {
+								span {
+									color: white;
+								}
+							}
+						}
+
+						.table-wrapper {
+							border: 1px solid $border-color;
+
+							.table {
+								thead {
+									background: $bg-color-lightblue;
+									border-bottom: 1px solid $border-color;
+
+									th {
+										color: rgba(0, 0, 0, 0.6);
+									}
+								}
+
+								tr {
+									td {
+										border-bottom: 1px solid $border-color;
+									}
+								}
+							}
+						}
+					}
+
+					.cloud-wallet-key-section {
+						label > span {
+							color: rgba(0, 0, 0, 0.7);
+						}
+
+						.gen-password-field {
+							background: white;
+							border: 1px solid #ffc000;
+						}
+
+						.account-selector {
+							.generated-password-section {
+								input {
+									background: white;
+									border: 1px solid $border-color;
+								}
+							}
+
+							.confirm-password-section {
+								input {
+									background: white;
+									border: 1px solid $border-color;
+								}
+							}
+						}
+
+						.key-status {
+							.key-stats-wrapper {
+								background: transparent;
+								border: 1px solid $border-color;
+
+								.key-name {
+									color: rgba(0, 0, 0, 0.7);
+								}
+
+								button {
+									background: transparent !important;
+									color: black;
+									border: 1px solid black !important;
+								}
+
+								button:focus {
+									background: #ffc000 !important;
+									border: none !important;
+								}
+							}
+
+							.in-not-use {
+								background: transparent;
+							}
+						}
+					}
+				}
+			}
+
+			.divider {
+				border-bottom: 1px solid $border-color;
+			}
+
+			.recent-activity {
+				.ant-table-wrapper {
+					.ant-table-content {
+						table {
+							thead {
+								background: transparent;
+							}
+						}
+					}
+
+					.ant-table-empty {
+						background: transparent;
+					}
+				}
+			}
+		}
+	}
+
+	// Contact Page
+	.add-contact {
+		background: transparent;
+
+		.input-box-search input {
+			background: #fafbfd;
+			border: none;
+		}
+
+		.ant-table-content {
+			background: transparent;
+
+			table {
+				tr {
+					border: 1px solid $border-color;
+
+					td {
+						color: rgba(0, 0, 0, 0.7);
+					}
+				}
+			}
+		}
+
+		.ant-table-container {
+			background: transparent;
+		}
+
+		table > thead {
+			background: transparent !important;
+			border: 1px solid $border-color;
+			border-radius: 5px;
+		}
+
+		.ant-table-content table tr th {
+			background-color: white !important;
+		}
+
+		span.span_1 {
+			color: $dark;
+		}
+
+		button.add-contact-btn {
+			background: #ffc000;
+			border: none;
+			color: white;
 		}
 	}
 

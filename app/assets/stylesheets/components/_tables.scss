@@ -20,7 +20,7 @@
 	}
 
 	.table.order-table > thead > tr > th {
-		border-bottom: 2px solid #1c1f27 !important;
+		border-bottom: 1px solid #1c1f27;
 		padding: 10px 10px !important;
 		text-transform: uppercase;
 		font-weight: normal;
@@ -35,10 +35,6 @@
 
 	.table.order-table > tbody > tr > td ~ .table-body-class {
 		text-align: left !important;
-	}
-
-	.table.order-table > tbody > tr {
-		border: 1px solid black;
 	}
 
 	.table > tbody.orderbook > tr > td {

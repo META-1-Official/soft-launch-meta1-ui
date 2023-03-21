@@ -78,7 +78,7 @@ class PubKeyInput extends React.Component {
 						/>
 					</div>
 					<div className="input-area">
-						<span className="inline-label">
+						<span className="inline-label" style={{width: '100%'}}>
 							<input
 								type="text"
 								className={has_private ? 'my-key' : ''}

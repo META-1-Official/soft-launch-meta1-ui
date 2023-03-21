@@ -79,7 +79,7 @@ class AutoSelectionNode extends React.Component {
 				<div css={{display: 'flex', alignItems: 'center'}}>
 					<Translate
 						component="div"
-						style={{paddingRight: '1rem', fontSize: '15px', color: '#CECECE'}}
+						className="automatic"
 						content="settings.automatic"
 						totalNodes={totalNodes}
 					/>

@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {Col, Row, List, Avatar, Progress, Tabs, Typography} from 'antd';
 import PageHeader from 'components/PageHeader/PageHeader';
 import {getBankingAssetsLogo, getGoldImage} from 'branding';
-import theme from '../../lib/styles/themeDark';
+import {useTheme} from '@emotion/react';
 import SearchInput from '../Utility/SearchInput';
 import {Apis} from 'meta1-vision-ws';
 
@@ -10,6 +10,8 @@ const {Text} = Typography;
 const {TabPane} = Tabs;
 
 const AssetExplorer = ({history}) => {
+	const theme = useTheme();
+
 	const bankingAssetsLogo = getBankingAssetsLogo();
 	const [backingAssets, setBackingAssets] = useState([]);
 	const [searchQuery, setSearchQuery] = useState('');
@@ -87,25 +89,25 @@ const AssetExplorer = ({history}) => {
 						avatar={<Avatar src={getGoldImage()} className="asset-img" />}
 						description={
 							<Row>
-								<Col xs={24} sm={12} css={{paddingLeft: '1rem'}}>
+								<Col xs={24} sm={12} style={{paddingLeft: '1rem'}}>
 									<Text
 										onClick={() => onDescriptionClick(pid)}
-										css={(theme) => ({
+										style={{
 											color: theme.colors.descriptionTextColor,
 											fontSize: '16px',
 											cursor: 'pointer',
-										})}
+										}}
 									>
 										{description}
 									</Text>
 									<br />
 									<Text
-										css={() => ({
-											color: 'white',
+										style={{
+											color: theme.colors.themeOpositeColor,
 											fontWeight: 'bold',
 											fontSize: '18px',
 											lineHeight: '45x',
-										})}
+										}}
 									>
 										${Number(descriptionAmount).toLocaleString()}
 									</Text>
@@ -113,7 +115,7 @@ const AssetExplorer = ({history}) => {
 								<Col
 									xs={24}
 									sm={6}
-									css={{
+									style={{
 										textAlign: 'center',
 										display: 'flex',
 										flexDirection: 'row',
@@ -121,11 +123,11 @@ const AssetExplorer = ({history}) => {
 									}}
 								>
 									<Text
-										css={(theme) => ({
+										style={{
 											color: theme.colors.bankingAssetsStatusColor,
 											fontSize: '16px',
 											width: '100%',
-										})}
+										}}
 									>
 										{status}
 									</Text>
@@ -134,21 +136,21 @@ const AssetExplorer = ({history}) => {
 								<Col
 									xs={24}
 									sm={6}
-									css={{
+									style={{
 										display: 'flex',
 										flexDirection: 'column',
 										justifyContent: 'center',
 									}}
 								>
 									<Text
-										css={() => ({
+										style={{
 											color: percent > 50 ? '#0F923A' : '#FFC000',
 											float: 'right',
 											width: '170px',
 											textAlign: 'right',
 											fontSize: '15px',
 											marginBottom: '10px',
-										})}
+										}}
 									>
 										{percent}%
 									</Text>
@@ -172,19 +174,32 @@ const AssetExplorer = ({history}) => {
 		<div className="backing-assets">
 			<PageHeader title="Backing Assets" level={3} showDivider />
 			<div className="content-body">
-				<Row align="middle" gutter={[16, 16]} css={{padding: '30px'}}>
+				<Row align="middle" gutter={[16, 16]} style={{padding: '30px'}}>
 					<Col xs={4} sm={3}>
 						<img src={bankingAssetsLogo} />
 					</Col>
-					<Col xs={20} sm={19} css={{display: 'flex', flexDirection: 'column'}}>
-						<Text className="title1">
+					<Col
+						xs={20}
+						sm={19}
+						style={{display: 'flex', flexDirection: 'column'}}
+					>
+						<Text
+							className="title1"
+							style={{color: theme.colors.descriptionTextColor}}
+						>
 							Explore assets assigned to META1 coin on the META blockchain{' '}
 						</Text>
-						<Text className="title2">
+						<Text
+							className="title2"
+							style={{color: theme.colors.themeOpositeColor}}
+						>
 							META1 Coin Current Asset Value:{' '}
-							<Text className="golden">${meta1Price.toFixed(2)}</Text>
+							<Text className="golden">${meta1Price.toFixed(6)}</Text>
 						</Text>
-						<Text className="title3">
+						<Text
+							className="title3"
+							style={{color: theme.colors.descriptionTextColor}}
+						>
 							Asset Assignment statistics, history & data
 						</Text>
 					</Col>
