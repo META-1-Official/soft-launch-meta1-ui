@@ -107,10 +107,6 @@ class RecentTransactions extends React.Component {
 	}
 
 	componentDidMount() {
-		if (!this.props.fullHeight) {
-			this._setHeaderHeight();
-		}
-
 		let {accountsList} = this.props;
 
 		this._getHistory(accountsList);
