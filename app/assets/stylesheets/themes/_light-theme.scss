@@ -1070,6 +1070,52 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 				}
 			}
 		}
+
+		&.deposit-modal {
+			.ant-modal-content {
+				.ant-modal-body {
+					.ant-tabs-tabpane {
+						.qr-wrapper {
+							background: transparent;
+							border: 1px solid $border-color;
+						}
+
+						.minimum-deposit {
+							color: rgba(0, 0, 0, 0.8);
+						}
+
+						.address {
+							background: transparent;
+							border: 1px solid $border-color;
+
+							.address-text {
+								color: #666666;
+							}
+
+							.copy-btn {
+								.btn-text {
+									color: white;
+								}
+
+								.copy-icon {
+									path {
+										fill: white;
+									}
+								}
+							}
+						}
+
+						.alert-wrapper {
+							.alert-body {
+								> div {
+									color: rgba(0, 0, 0, 0.8);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 
 	// Withdraw modal
@@ -1142,6 +1188,112 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 		.ant-select-selector {
 			background: transparent;
 			border: none !important;
+		}
+	}
+
+	// account registration
+	div.registration {
+		.create-account-block {
+			background: transparent;
+			border: 1px solid $border-color;
+
+			.checkbox-group {
+				.checkbox-text {
+					color: $dark;
+
+					&.active {
+						color: rgba(206, 206, 206, 0.5);
+					}
+				}
+
+				.reset-this {
+					color: $dark;
+
+					&.active {
+						color: rgba(206, 206, 206, 0.5);
+					}
+				}
+			}
+
+			.button-wrapper {
+				.create-acc-btn {
+					span {
+						color: #440000 !important;
+					}
+				}
+			}
+
+			.registration-form {
+				.header-text {
+					p {
+						color: #666666;
+					}
+				}
+
+				.form-body {
+					.info-form {
+						.form-blocks {
+							.ant-form-item {
+								.ant-input-affix-wrapper {
+									border: 1px solid $border-color;
+
+									.ant-input-prefix {
+										color: #666666;
+										border-right: 1px solid $border-color;
+									}
+								}
+							}
+						}
+					}
+
+					.continue-btn {
+						color: white;
+					}
+
+					.redirect {
+						color: $dark;
+					}
+				}
+			}
+
+			.desc1,
+			.desc2 {
+				color: #f5f5f5;
+			}
+		}
+
+		.phone-display-flex {
+			.phone-number-before-select {
+				color: #bfbfbf;
+				background: transparent !important;
+				cursor: pointer;
+				border: 1px solid $border-color;
+			}
+			.phone-number-code {
+				color: $dark;
+			}
+			.ant-select-selector {
+				background-color: transparent !important;
+			}
+		}
+		.select-box-country {
+			background-color: white;
+			.ant-select-item-option-selected {
+				.option-header-register {
+					color: white !important;
+				}
+			}
+			.option-header-register:hover {
+				color: white !important;
+			}
+		}
+	}
+
+	// Layout
+	.registration-layout {
+		input {
+			background: transparent;
+			border: 1px solid $border-color;
 		}
 	}
 
