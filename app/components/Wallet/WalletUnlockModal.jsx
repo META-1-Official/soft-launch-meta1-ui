@@ -528,11 +528,9 @@ class WalletUnlockModal extends React.Component {
 				footer={null}
 				onCancel={this.handleModalClose}
 			>
-				<Title className="header-title1">META1 Wallet Login</Title>
-				<div className="header-title2">
-					{/*Login with Wallet name (Cloud wallet) and Key file (Local wallet)*/}
-					Login with Wallet name (Cloud wallet)
-				</div>
+				<Title className="header-title1">
+					META1 Wallet Passkey Confirmation
+				</Title>
 				<Form className="full-width" layout="vertical">
 					{passwordLogin || passwordlessLogin ? (
 						<div className="info-form">
@@ -725,15 +723,8 @@ class WalletUnlockModal extends React.Component {
 							this.state.password === ''
 						}
 					>
-						{counterpart.translate(
-							this.shouldUseBackupLogin()
-								? 'wallet.backup_login'
-								: 'header.unlock_short'
-						)}
+						Continue
 					</Button>
-					<div className="redirect">
-						Or create your <a href="/registration">wallet</a>
-					</div>
 				</div>
 			</Modal>
 		);
