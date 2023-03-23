@@ -1,5 +1,6 @@
 import React from 'react';
-import {Modal, Input, Form, Button, Tooltip, DatePicker, Icon} from 'antd';
+import {Modal, Input, Form, Button, Tooltip, DatePicker} from 'antd';
+import Icon from '@ant-design/icons';
 import PropTypes from 'prop-types';
 import Translate from 'react-translate-component';
 import AssetSelect from '../Utility/AssetSelect';
