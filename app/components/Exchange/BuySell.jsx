@@ -1214,20 +1214,6 @@ class BuySell extends React.Component {
 									]}
 								/>
 							</span>
-							{/* <span>{buttonText} <AssetName dataPlace="top" name={quote.get("symbol")} /></span> */}
-							{this.props.onFlip && !this.props.hideFunctionButtons ? (
-								<span
-									onClick={this.props.onFlip}
-									style={{
-										cursor: 'pointer',
-										fontSize: '1rem',
-									}}
-									className="flip-arrow"
-								>
-									{' '}
-									&#8646;
-								</span>
-							) : null}
 							{this.props.moveOrderForm && !this.props.hideFunctionButtons ? (
 								<Icon
 									onClick={this.props.moveOrderForm}

@@ -164,10 +164,6 @@ class Exchange extends React.Component {
 
 		if (
 			!utils.are_equal_shallow(this.state.activePanels, ns.activePanels) ||
-			!utils.are_equal_shallow(
-				this.state.verticalOrderBook,
-				ns.verticalOrderBook
-			) ||
 			np.quoteAsset !== this.props.quoteAsset ||
 			np.baseAsset !== this.props.baseAsset
 		) {
@@ -640,14 +636,9 @@ class Exchange extends React.Component {
 			autoScroll: ws.get('global_AutoScroll', true),
 			buyFeeAssetIdx: ws.get('buyFeeAssetIdx', 0),
 			sellFeeAssetIdx: ws.get('sellFeeAssetIdx', 0),
-			verticalOrderBook: ws.get('verticalOrderBook', false),
-			verticalOrderForm: ws.get('verticalOrderForm', false),
 			hidePanel: ws.get('hidePanel', false),
 			hideScrollbars: ws.get('hideScrollbars', false),
 			singleColumnOrderForm: ws.get('singleColumnOrderForm', true),
-			flipOrderBook: ws.get('flipOrderBook', false),
-			flipBuySell: ws.get('flipBuySell', false),
-			orderBookReversed: ws.get('orderBookReversed', false),
 			chartType: ws.get('chartType', 'price_chart'),
 			chartHeight: chart_height,
 			chartZoom: ws.get('chartZoom', true),
@@ -1332,44 +1323,6 @@ class Exchange extends React.Component {
 		}, 100);
 	};
 
-	_flipBuySell() {
-		this.setState({
-			flipBuySell: !this.state.flipBuySell,
-		});
-
-		SettingsActions.changeViewSetting({
-			flipBuySell: !this.state.flipBuySell,
-		});
-	}
-
-	/***
-	 * Toggle Buy/Sell order UX
-	 * Horizontal order book only
-	 */
-	_flipOrderBook = () => {
-		SettingsActions.changeViewSetting({
-			flipOrderBook: !this.state.flipOrderBook,
-		});
-
-		this.setState({
-			flipOrderBook: !this.state.flipOrderBook,
-		});
-	};
-
-	/***
-	 * Toggle order book to switch place of buy and sell orders
-	 * Vertical order book only
-	 */
-	_orderBookReversed = () => {
-		SettingsActions.changeViewSetting({
-			orderBookReversed: !this.state.orderBookReversed,
-		});
-
-		this.setState({
-			orderBookReversed: !this.state.orderBookReversed,
-		});
-	};
-
 	_hideFunctionButtons = () => {
 		SettingsActions.changeViewSetting({
 			hideFunctionButtons: !this.state.hideFunctionButtons,
@@ -1379,14 +1332,6 @@ class Exchange extends React.Component {
 			hideFunctionButtons: !this.state.hideFunctionButtons,
 		});
 	};
-
-	_toggleOpenBuySell() {
-		SettingsActions.changeViewSetting({
-			buySellOpen: !this.state.buySellOpen,
-		});
-
-		this.setState({buySellOpen: !this.state.buySellOpen});
-	}
 
 	_toggleMarketPicker(asset) {
 		let showMarketPicker = !!asset ? true : false;
@@ -1837,11 +1782,8 @@ class Exchange extends React.Component {
 		let {
 			bid,
 			ask,
-			verticalOrderBook,
-			verticalOrderForm,
 			chartHeight,
 			chartType,
-			flipBuySell,
 			buyDiff,
 			sellDiff,
 			width,
@@ -1855,8 +1797,6 @@ class Exchange extends React.Component {
 			panelTabsActive,
 			panelTabs,
 			singleColumnOrderForm,
-			flipOrderBook,
-			orderBookReversed,
 			chartZoom,
 			chartTools,
 			hideFunctionButtons,
@@ -2054,7 +1994,6 @@ class Exchange extends React.Component {
 						onDeposit={this._onDeposit.bind(this, 'bid')}
 						currentAccount={currentAccount}
 						isOpen={this.state.buySellOpen}
-						onToggleOpen={this._toggleOpenBuySell.bind(this)}
 						parentWidth={centerContainerWidth}
 						styles={{
 							padding: 5,
@@ -2111,8 +2050,6 @@ class Exchange extends React.Component {
 							'bitasset',
 							'is_prediction_market',
 						])}
-						onFlip={!flipBuySell ? this._flipBuySell.bind(this) : null}
-						verticalOrderForm={!smallScreen ? verticalOrderForm : false}
 						isPanelActive={isPanelActive}
 						activePanels={activePanels}
 						singleColumnOrderForm={singleColumnOrderForm}
@@ -2201,7 +2138,6 @@ class Exchange extends React.Component {
 						onDeposit={this._onDeposit.bind(this, 'ask')}
 						currentAccount={currentAccount}
 						isOpen={this.state.buySellOpen}
-						onToggleOpen={this._toggleOpenBuySell.bind(this)}
 						parentWidth={centerContainerWidth}
 						styles={{
 							padding: 5,
@@ -2258,8 +2194,6 @@ class Exchange extends React.Component {
 							'bitasset',
 							'is_prediction_market',
 						])}
-						onFlip={flipBuySell ? this._flipBuySell.bind(this) : null}
-						verticalOrderForm={!smallScreen ? verticalOrderForm : false}
 						isPanelActive={isPanelActive}
 						activePanels={activePanels}
 						singleColumnOrderForm={singleColumnOrderForm}
@@ -2355,9 +2289,7 @@ class Exchange extends React.Component {
 				baseSymbol={baseSymbol}
 				quoteSymbol={quoteSymbol}
 				onClick={this._orderbookClick.bind(this)}
-				horizontal={!verticalOrderBook || smallScreen ? true : false}
-				flipOrderBook={false}
-				orderBookReversed={orderBookReversed}
+				horizontal={true}
 				marketReady={marketReady}
 				marketStats={marketStats}
 				currentAccount={this.props.currentAccount.get('id')}
@@ -2370,7 +2302,6 @@ class Exchange extends React.Component {
 				smallScreen={smallScreen}
 				hideScrollbars={hideScrollbars}
 				autoScroll={autoScroll}
-				onFlipOrderBook={this._flipOrderBook.bind(this)}
 				hideFunctionButtons={hideFunctionButtons}
 			/>
 		);
@@ -2404,17 +2335,7 @@ class Exchange extends React.Component {
 			tinyScreen && !this.state.mobileKey.includes('myMarketHistory') ? null : (
 				<MarketHistory
 					key={`actionCard_${actionCardIndex++}`}
-					className={cnames(
-						panelTabs['my_history'] == 0
-							? centerContainerWidth > 1200
-								? 'medium-6 large-6 xlarge-4'
-								: centerContainerWidth > 800
-								? 'medium-6'
-								: ''
-							: 'medium-12',
-						'no-padding no-overflow small-12',
-						verticalOrderBook || verticalOrderForm ? 'order-4' : 'order-3'
-					)}
+					className="no-padding no-overflow"
 					innerStyle={{
 						paddingBottom: !tinyScreen ? '0' : '0',
 					}}
@@ -2436,17 +2357,7 @@ class Exchange extends React.Component {
 		let myTrade = (
 			<MyTrade
 				key={`actionCard_${actionCardIndex++}`}
-				className={cnames(
-					panelTabs['my_trade'] == 0
-						? centerContainerWidth > 1200
-							? 'medium-6 large-6 xlarge-4'
-							: centerContainerWidth > 800
-							? 'medium-6'
-							: ''
-						: 'medium-12',
-					'no-padding no-overflow small-12',
-					verticalOrderBook || verticalOrderForm ? 'order-4' : 'order-3'
-				)}
+				className="no-padding no-overflow"
 				innerStyle={{
 					paddingBottom: !tinyScreen ? '0' : '0',
 				}}
@@ -2469,17 +2380,7 @@ class Exchange extends React.Component {
 		let myFund = (
 			<MyTrade
 				key={`actionCard_${actionCardIndex++}`}
-				className={cnames(
-					panelTabs['my_trade'] == 0
-						? centerContainerWidth > 1200
-							? 'medium-6 large-6 xlarge-4'
-							: centerContainerWidth > 800
-							? 'medium-6'
-							: ''
-						: 'medium-12',
-					'no-padding no-overflow small-12',
-					verticalOrderBook || verticalOrderForm ? 'order-4' : 'order-3'
-				)}
+				className="no-padding no-overflow"
 				innerStyle={{
 					paddingBottom: !tinyScreen ? '0' : '0',
 				}}
@@ -2526,7 +2427,6 @@ class Exchange extends React.Component {
 				quoteSymbol={quoteSymbol}
 				activeTab={'my_orders'}
 				onCancel={this._cancelLimitOrder.bind(this)}
-				flipMyOrders={this.props.viewSettings.get('flipMyOrders')}
 				feedPrice={this.props.feedPrice}
 				smallScreen={smallScreen}
 				tinyScreen={tinyScreen}
@@ -2562,7 +2462,6 @@ class Exchange extends React.Component {
 					quoteSymbol={quoteSymbol}
 					activeTab={'open_settlement'}
 					onCancel={this._cancelLimitOrder.bind(this)}
-					flipMyOrders={this.props.viewSettings.get('flipMyOrders')}
 					feedPrice={this.props.feedPrice}
 					smallScreen={smallScreen}
 					tinyScreen={tinyScreen}
@@ -2701,13 +2600,7 @@ class Exchange extends React.Component {
 		let emptyDiv =
 			groupTabsCount > 2 ? null : (
 				<div
-					className={cnames(
-						centerContainerWidth > 1200 &&
-							(verticalOrderBook || verticalOrderBook)
-							? 'xlarge-order-6 xlarge-8 order-9'
-							: '',
-						'small-12 grid-block orderbook no-padding align-spaced no-overflow wrap'
-					)}
+					className="small-12 grid-block orderbook no-padding align-spaced no-overflow wrap"
 					key={`actionCard_${actionCardIndex++}`}
 					style={{height: '100%'}}
 				>
