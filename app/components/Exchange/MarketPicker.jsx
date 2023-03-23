@@ -366,14 +366,7 @@ class MarketPicker extends Component {
 
 		this.state = {
 			open: false,
-			smallScreen: false,
 		};
-	}
-
-	UNSAFE_componentWillMount() {
-		this.setState({
-			smallScreen: window.innerWidth <= 800,
-		});
 	}
 
 	UNSAFE_componentWillReceiveProps(nextProps) {

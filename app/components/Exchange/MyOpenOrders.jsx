@@ -358,7 +358,6 @@ class MarketOrders extends React.Component {
 				headerStyle={this.props.headerStyle}
 				// Bools
 				noHeader={this.props.noHeader}
-				tinyScreen={this.props.tinyScreen}
 				// Strings
 				activeTab={activeTab}
 				baseSymbol={baseSymbol}
