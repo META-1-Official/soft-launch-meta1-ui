@@ -160,7 +160,6 @@ class ExchangeSubscriber extends React.Component {
 		}
 		if (this.props.quoteAsset.toJS && this.props.baseAsset.toJS) {
 			this._subToMarket(this.props);
-			// this._addMarket(this.props.quoteAsset.get("symbol"), this.props.baseAsset.get("symbol"));
 		}
 
 		emitter.on(

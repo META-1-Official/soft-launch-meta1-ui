@@ -324,7 +324,7 @@ class MarketsActions {
 								});
 							})
 							.catch((error) => {
-								console.log('Error in MarketsActions.subscribeMarket: ', error);
+								// console.log('Error in MarketsActions.subscribeMarket: ', error);
 							});
 					}, subBatchTime);
 				} else {
