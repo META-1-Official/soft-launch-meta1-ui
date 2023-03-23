@@ -35,7 +35,6 @@ import MyTrade from './MyTrade';
 import MarketPicker from './MarketPicker';
 import ConfirmOrderModal from './ConfirmOrderModal';
 import TradingViewPriceChart from './TradingViewPriceChart';
-import DepthHighChart from './DepthHighChart';
 import LoadingIndicator from '../LoadingIndicator';
 import BorrowModal from '../Modal/BorrowModal';
 import AccountNotifications from '../Notifier/NotifierContainer';
@@ -51,13 +50,11 @@ import {ChainStore, FetchChain} from 'meta1-vision-js';
 
 class Exchange extends React.Component {
 	static propTypes = {
-		marketCallOrders: PropTypes.object.isRequired,
 		activeMarketHistory: PropTypes.object.isRequired,
 		viewSettings: PropTypes.object.isRequired,
 	};
 
 	static defaultProps = {
-		marketCallOrders: [],
 		activeMarketHistory: {},
 		viewSettings: {},
 	};
@@ -337,13 +334,10 @@ class Exchange extends React.Component {
 	 * Only check when selling or buying META1
 	 */
 	calcBackingAssetValue() {
-		const LOG_ID = '[calcBackingAssetValue]';
-
 		Apis.db.get_asset_limitation_value('META1').then((price) => {
 			const meta1_usdt = price / 1000000000;
 			let asset_usdt;
 
-			console.log(LOG_ID, 'META1 Backing Asset($): ', meta1_usdt);
 			const quoteAssetSymbol = this.props.quoteAsset.get('symbol');
 			const baseAssetSymbol = this.props.baseAsset.get('symbol');
 			const isQuoting = quoteAssetSymbol === 'META1';
@@ -355,19 +349,6 @@ class Exchange extends React.Component {
 					const ratio = isQuoting
 						? (meta1_usdt + 0.01) / asset_usdt
 						: asset_usdt / (meta1_usdt + 0.01);
-					console.log(
-						LOG_ID,
-						isQuoting ? baseAssetSymbol : quoteAssetSymbol,
-						': USDT',
-						asset_usdt
-					);
-					// console.log(LOG_ID, quoteAssetSymbol, ":", baseAssetSymbol, ratio);
-
-					if (isQuoting) {
-						console.log(LOG_ID, 'BUY/SELL price should be bigger than', ratio);
-					} else {
-						console.log(LOG_ID, 'BUY/SELL price should be lower than', ratio);
-					}
 
 					this.setState({
 						backingAssetValue: ratio,
@@ -398,12 +379,10 @@ class Exchange extends React.Component {
 		let sellAssets = [coreAsset, quote === coreAsset ? base : quote];
 		addMissingAsset(sellAssets, quote);
 		addMissingAsset(sellAssets, base);
-		// let sellFeeAsset;
 
 		let buyAssets = [coreAsset, base === coreAsset ? quote : base];
 		addMissingAsset(buyAssets, quote);
 		addMissingAsset(buyAssets, base);
-		// let buyFeeAsset;
 
 		let balances = {};
 
@@ -507,7 +486,7 @@ class Exchange extends React.Component {
 	}
 
 	getPriceAlertRules() {
-		//getting rules based on market pairs
+		// getting rules based on market pairs
 
 		let rules = this.props.priceAlert.filter((rule) => {
 			return (
@@ -659,7 +638,6 @@ class Exchange extends React.Component {
 			buyDiff: false,
 			sellDiff: false,
 			autoScroll: ws.get('global_AutoScroll', true),
-			buySellTop: ws.get('buySellTop', true),
 			buyFeeAssetIdx: ws.get('buyFeeAssetIdx', 0),
 			sellFeeAssetIdx: ws.get('sellFeeAssetIdx', 0),
 			verticalOrderBook: ws.get('verticalOrderBook', false),
@@ -1228,41 +1206,65 @@ class Exchange extends React.Component {
 		}
 	}
 
-	_depthChartClick(base, quote, e) {
-		e.preventDefault();
-		let {bid, ask} = this.state;
-
-		bid.price = new Price({
-			base: this.state.bid.for_sale,
-			quote: this.state.bid.to_receive,
-			real: e.xAxis[0].value,
-		});
-		bid.priceText = bid.price.toReal();
-
-		ask.price = new Price({
-			base: this.state.ask.to_receive,
-			quote: this.state.ask.for_sale,
-			real: e.xAxis[0].value,
-		});
-		ask.priceText = ask.price.toReal();
-		let newState = {
-			bid,
-			ask,
-			depthLine: bid.price.toReal(),
-		};
-
-		this._setForSale(bid, true) || this._setReceive(bid, true);
-		this._setReceive(ask) || this._setForSale(ask);
-
-		this._setPriceText(bid, true);
-		this._setPriceText(ask, false);
-
-		this.setState(newState);
-	}
-
 	_setAutoscroll(value) {
 		this.setState({
 			autoScroll: value,
+		});
+	}
+
+	_setTabBuySell(tab) {
+		this.setState({
+			tabBuySell: tab,
+		});
+		SettingsActions.changeViewSetting({
+			tabBuySell: tab,
+		});
+	}
+
+	_setPanelTabInGroup(group, activetab) {
+		let {panelTabsActive} = this.state;
+
+		Object.keys(panelTabsActive).map((a) => {
+			if (a == group) {
+				panelTabsActive[a] = activetab;
+			}
+		});
+
+		this.setState({
+			panelTabsActive: panelTabsActive,
+			forceReRender: true, // Requires to forcefully re-render for tab to stick
+		});
+
+		SettingsActions.changeViewSetting({
+			panelTabsActive: panelTabsActive,
+		});
+	}
+
+	_setPanelTabs(panelName, newTabsId) {
+		let {panelTabs, panelTabsActive} = this.state;
+
+		let newState = {
+			panelTabs: panelTabs,
+			panelTabsActive: panelTabsActive,
+		};
+
+		// Set new Tabs ID for Panel
+		Object.keys(panelTabs).map((thisPanelName) => {
+			newState.panelTabs[thisPanelName] =
+				thisPanelName == panelName ? newTabsId : panelTabs[thisPanelName];
+		});
+
+		// Reset all Active Panel Tabs
+		Object.keys(panelTabsActive).map((thisTabId) => {
+			newState.panelTabsActive[thisTabId] = '';
+		});
+
+		this.setState({
+			newState,
+		});
+
+		SettingsActions.changeViewSetting({
+			...newState,
 		});
 	}
 
@@ -1291,16 +1293,6 @@ class Exchange extends React.Component {
 
 		SettingsActions.changeViewSetting({
 			activePanels: newState,
-		});
-	}
-
-	_toggleChart(value) {
-		this.setState({
-			chartType: value,
-		});
-
-		SettingsActions.changeViewSetting({
-			chartType: value,
 		});
 	}
 
@@ -1409,62 +1401,6 @@ class Exchange extends React.Component {
 		});
 	}
 
-	_moveOrderBook() {
-		// Unpin OrderForm
-		if (this.state.verticalOrderForm) {
-			this._moveOrderForm();
-		}
-
-		SettingsActions.changeViewSetting({
-			verticalOrderBook: !this.state.verticalOrderBook,
-		});
-
-		this.setState({verticalOrderBook: !this.state.verticalOrderBook});
-	}
-
-	_moveOrderForm() {
-		// Unpin OrderBook
-		if (this.state.verticalOrderBook) {
-			this._moveOrderBook();
-		}
-
-		SettingsActions.changeViewSetting({
-			verticalOrderForm: !this.state.verticalOrderForm,
-		});
-
-		this.setState({verticalOrderForm: !this.state.verticalOrderForm});
-	}
-
-	_toggleScrollbars() {
-		SettingsActions.changeViewSetting({
-			hideScrollbars: !this.state.hideScrollbars,
-		});
-
-		this.setState({
-			hideScrollbars: !this.state.hideScrollbars,
-		});
-	}
-
-	_toggleSingleColumnOrderForm() {
-		SettingsActions.changeViewSetting({
-			singleColumnOrderForm: !this.state.singleColumnOrderForm,
-		});
-
-		this.setState({
-			singleColumnOrderForm: !this.state.singleColumnOrderForm,
-		});
-	}
-
-	_mirrorPanels() {
-		this.setState({
-			mirrorPanels: !this.state.mirrorPanels,
-		});
-
-		SettingsActions.changeViewSetting({
-			mirrorPanels: !this.state.mirrorPanels,
-		});
-	}
-
 	_currentPriceClick(type, price) {
 		const isBid = type === 'bid';
 		let current = this.state[type];
@@ -1558,71 +1494,6 @@ class Exchange extends React.Component {
 		);
 	}
 
-	_setTabVerticalPanel(tab) {
-		this.setState({
-			tabVerticalPanel: tab,
-		});
-		SettingsActions.changeViewSetting({
-			tabVerticalPanel: tab,
-		});
-	}
-
-	_setTabBuySell(tab) {
-		this.setState({
-			tabBuySell: tab,
-		});
-		SettingsActions.changeViewSetting({
-			tabBuySell: tab,
-		});
-	}
-
-	_setPanelTabInGroup(group, activetab) {
-		let {panelTabsActive} = this.state;
-
-		Object.keys(panelTabsActive).map((a) => {
-			if (a == group) {
-				panelTabsActive[a] = activetab;
-			}
-		});
-
-		this.setState({
-			panelTabsActive: panelTabsActive,
-			forceReRender: true, // Requires to forcefully re-render for tab to stick
-		});
-
-		SettingsActions.changeViewSetting({
-			panelTabsActive: panelTabsActive,
-		});
-	}
-
-	_setPanelTabs(panelName, newTabsId) {
-		let {panelTabs, panelTabsActive} = this.state;
-
-		let newState = {
-			panelTabs: panelTabs,
-			panelTabsActive: panelTabsActive,
-		};
-
-		// Set new Tabs ID for Panel
-		Object.keys(panelTabs).map((thisPanelName) => {
-			newState.panelTabs[thisPanelName] =
-				thisPanelName == panelName ? newTabsId : panelTabs[thisPanelName];
-		});
-
-		// Reset all Active Panel Tabs
-		Object.keys(panelTabsActive).map((thisTabId) => {
-			newState.panelTabsActive[thisTabId] = '';
-		});
-
-		this.setState({
-			newState,
-		});
-
-		SettingsActions.changeViewSetting({
-			...newState,
-		});
-	}
-
 	onChangeFeeAsset(type, value) {
 		if (type === 'buy') {
 			this.setState({
@@ -1660,16 +1531,6 @@ class Exchange extends React.Component {
 
 		SettingsActions.changeViewSetting({
 			chartHeight: newHeight,
-		});
-	}
-
-	_toggleBuySellPosition() {
-		this.setState({
-			buySellTop: !this.state.buySellTop,
-		});
-
-		SettingsActions.changeViewSetting({
-			buySellTop: !this.state.buySellTop,
 		});
 	}
 
@@ -1869,12 +1730,6 @@ class Exchange extends React.Component {
 		return {isFrozen: false};
 	}
 
-	_toggleMiniChart() {
-		SettingsActions.changeViewSetting({
-			miniDepthChart: !this.props.miniDepthChart,
-		});
-	}
-
 	_onChangeMobilePanel(val) {
 		this.setState({
 			mobileKey: val,
@@ -1945,7 +1800,6 @@ class Exchange extends React.Component {
 		let {
 			currentAccount,
 			marketLimitOrders,
-			marketCallOrders,
 			marketData,
 			activeMarketHistory,
 			invertedCalls,
@@ -1991,7 +1845,6 @@ class Exchange extends React.Component {
 			buyDiff,
 			sellDiff,
 			width,
-			buySellTop,
 			tabBuySell,
 			tabVerticalPanel,
 			hidePanel,
@@ -2159,16 +2012,7 @@ class Exchange extends React.Component {
 				}}
 				onChange={this.handleOrderTypeTabChange.bind(this, 'bid')}
 				defaultActiveKey={'limit'}
-				className={cnames(
-					'middle-content',
-					flipBuySell
-						? `order-${buySellTop ? 3 : 3} large-order-${
-								buySellTop ? 3 : 5
-						  } sell-form`
-						: `order-${buySellTop ? 2 : 2} large-order-${
-								buySellTop ? 2 : 4
-						  } buy-form`
-				)}
+				className="buy-form"
 			>
 				<Tabs.TabPane
 					style={{fontSize: '10px'}}
@@ -2268,16 +2112,6 @@ class Exchange extends React.Component {
 							'is_prediction_market',
 						])}
 						onFlip={!flipBuySell ? this._flipBuySell.bind(this) : null}
-						onTogglePosition={
-							this.state.buySellTop && !verticalOrderBook
-								? this._toggleBuySellPosition.bind(this)
-								: null
-						}
-						moveOrderForm={
-							!smallScreen && (!flipBuySell || verticalOrderForm)
-								? this._moveOrderForm.bind(this)
-								: null
-						}
 						verticalOrderForm={!smallScreen ? verticalOrderForm : false}
 						isPanelActive={isPanelActive}
 						activePanels={activePanels}
@@ -2325,20 +2159,7 @@ class Exchange extends React.Component {
 				onChange={this.handleOrderTypeTabChange.bind(this, 'ask')}
 				animated={false}
 				defaultActiveKey={'limit'}
-				style={{
-					flexGrow: 1,
-					minWidth: '290px',
-				}}
-				className={cnames(
-					'middle-content',
-					flipBuySell
-						? `order-${buySellTop ? 6 : 2} large-order-${
-								buySellTop ? 6 : 4
-						  } buy-form`
-						: `order-${buySellTop ? 2 : 3} large-order-${
-								buySellTop ? 2 : 5
-						  } sell-form`
-				)}
+				className="sell-form"
 			>
 				<Tabs.TabPane
 					tab={counterpart.translate('exchange.market')}
@@ -2438,16 +2259,6 @@ class Exchange extends React.Component {
 							'is_prediction_market',
 						])}
 						onFlip={flipBuySell ? this._flipBuySell.bind(this) : null}
-						onTogglePosition={
-							this.state.buySellTop && !verticalOrderBook
-								? this._toggleBuySellPosition.bind(this)
-								: null
-						}
-						moveOrderForm={
-							!smallScreen && (flipBuySell || verticalOrderForm)
-								? this._moveOrderForm.bind(this)
-								: null
-						}
 						verticalOrderForm={!smallScreen ? verticalOrderForm : false}
 						isPanelActive={isPanelActive}
 						activePanels={activePanels}
@@ -2531,7 +2342,6 @@ class Exchange extends React.Component {
 				latest={latest && latest.getPrice()}
 				changeClass={changeClass}
 				orders={marketLimitOrders}
-				calls={marketCallOrders}
 				invertedCalls={invertedCalls}
 				combinedBids={combinedBids}
 				combinedAsks={combinedAsks}
@@ -2557,10 +2367,6 @@ class Exchange extends React.Component {
 				groupedBids={groupedBids}
 				groupedAsks={groupedAsks}
 				isPanelActive={activePanels.length >= 1}
-				onTogglePosition={
-					!this.state.buySellTop ? this._toggleBuySellPosition.bind(this) : null
-				}
-				moveOrderBook={!smallScreen ? this._moveOrderBook.bind(this) : null}
 				smallScreen={smallScreen}
 				hideScrollbars={hideScrollbars}
 				autoScroll={autoScroll}
@@ -2784,41 +2590,10 @@ class Exchange extends React.Component {
 			/>
 		);
 
-		let deptHighChart = (
-			<DepthHighChart
-				marketReady={marketReady}
-				orders={marketLimitOrders}
-				showCallLimit={showCallLimit}
-				call_orders={marketCallOrders}
-				flat_asks={flatAsks}
-				flat_bids={flatBids}
-				flat_calls={showCallLimit ? flatCalls : []}
-				flat_settles={this.props.settings.get('showSettles') && flatSettles}
-				settles={marketSettleOrders}
-				invertedCalls={invertedCalls}
-				totalBids={totals.bid}
-				totalAsks={totals.ask}
-				base={base}
-				quote={quote}
-				height={chartHeight + 8}
-				isPanelActive={isPanelActive}
-				onClick={this._depthChartClick.bind(this, base, quote)}
-				feedPrice={!hasPrediction && feedPrice && feedPrice.toReal()}
-				spread={spread}
-				LCP={showCallLimit ? lowestCallPrice : null}
-				hasPrediction={hasPrediction}
-				noFrame={false}
-				theme={this.props.settings.get('themes')}
-				centerRef={this.refs.center}
-				activePanels={activePanels}
-			/>
-		);
-
 		/***
 		 * Generate tabs based on Layout
 		 *
 		 */
-
 		let buySellTab = (
 			<div key={`actionCard_${actionCardIndex++}`} className="buy-sell-tab">
 				<Tabs
@@ -3018,23 +2793,6 @@ class Exchange extends React.Component {
 											}}
 										>
 											{tradingViewChart}
-										</div>
-									) : null}
-
-									{/* Market depth chart */}
-									{chartType && chartType == 'market_depth' ? (
-										<div
-											className="grid-block vertical no-padding shrink"
-											id="market-charts"
-											style={{
-												flexGrow: '2',
-												width: '280px',
-												minHeight: '280px',
-												display: 'inline-block',
-												borderBottom: '2px solid black',
-											}}
-										>
-											{deptHighChart}
 										</div>
 									) : null}
 								</div>

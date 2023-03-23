@@ -154,7 +154,6 @@ class AssetsPairTabs extends React.Component {
 						});
 					})
 					.catch((e) => {
-						console.log('Error: Failed to subscribe market, ', e);
 						this.setState({isFetchingMarketInfo: false, marketBars});
 					});
 			});

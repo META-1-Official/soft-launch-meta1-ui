@@ -257,7 +257,6 @@ class BuySell extends React.Component {
 			hideHeader,
 			verticalOrderForm,
 		} = this.props;
-		// const {expirationCustomTime} = this.props;
 
 		let account_balances = this.props.account.get('balances');
 
@@ -1227,20 +1226,6 @@ class BuySell extends React.Component {
 								>
 									{' '}
 									&#8646;
-								</span>
-							) : null}
-							{this.props.onTogglePosition &&
-							!this.props.hideFunctionButtons ? (
-								<span
-									onClick={this.props.onTogglePosition}
-									style={{
-										cursor: 'pointer',
-										fontSize: '1rem',
-									}}
-									className="flip-arrow"
-								>
-									{' '}
-									&#8645;
 								</span>
 							) : null}
 							{this.props.moveOrderForm && !this.props.hideFunctionButtons ? (
