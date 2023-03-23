@@ -270,16 +270,12 @@ class MyTrade extends React.Component {
 		return (
 			<MarketTradeView
 				ref="view"
-				// Styles and Classes
 				style={this.props.style}
 				className={this.props.className}
 				innerClass={this.props.innerClass}
 				innerStyle={this.props.innerStyle}
 				headerStyle={this.props.headerStyle}
-				// Bools
 				noHeader={this.props.noHeader}
-				tinyScreen={this.props.tinyScreen}
-				// Containers
 				data={rows}
 			/>
 		);

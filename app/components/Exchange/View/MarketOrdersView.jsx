@@ -6,19 +6,14 @@ import Icon from '../../Icon/Icon';
 class MarketsOrderView extends React.Component {
 	render() {
 		let {
-			// Styles and Classes
 			style,
 			className,
 			innerClass,
 			innerStyle,
 			headerStyle,
-
-			// Bools
 			noHeader,
-			// Strings
 			activeTab,
 			data,
-			tinyScreen,
 			footerContainer,
 			cancelOrder,
 		} = this.props;
@@ -41,7 +36,6 @@ class MarketsOrderView extends React.Component {
 						className="market-order-table-container grid-block no-overflow"
 						style={{
 							overflow: 'hidden',
-							minHeight: tinyScreen ? 228 : 0,
 							maxHeight: 375,
 							lineHeight: '13px',
 						}}

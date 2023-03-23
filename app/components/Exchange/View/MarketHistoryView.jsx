@@ -7,8 +7,7 @@ import {Table} from 'antd';
 
 class MarketHistoryView extends React.Component {
 	render() {
-		let {className, innerClass, innerStyle, activeTab, tinyScreen, data} =
-			this.props;
+		let {className, innerClass, innerStyle, activeTab, data} = this.props;
 
 		const emptyRow = (
 			<tr>
@@ -84,7 +83,6 @@ class MarketHistoryView extends React.Component {
 					className="market-order-table-container grid-block no-overflow"
 					style={{
 						overflow: 'hidden',
-						minHeight: tinyScreen ? 260 : 0,
 						lineHeight: '13px',
 					}}
 				>

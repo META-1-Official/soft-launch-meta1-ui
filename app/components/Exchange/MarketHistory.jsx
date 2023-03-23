@@ -481,7 +481,6 @@ class MarketHistory extends React.Component {
 				chartHeight={this.props.chartHeight}
 				quoteSymbol={quoteSymbol}
 				baseSymbol={baseSymbol}
-				tinyScreen={this.props.tinyScreen}
 				historyRows={historyRows}
 				totalRows={totalRows}
 				showAll={showAll}

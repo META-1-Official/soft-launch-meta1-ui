@@ -647,7 +647,6 @@ class Exchange extends React.Component {
 			currentPeriod: ws.get('currentPeriod', 3600 * 24 * 30 * 3), // 3 months
 			showMarketPicker: false,
 			activePanels: ws.get('activePanels', ['left']),
-			mobileKey: [''],
 			forceReRender: 0,
 			panelWidth: 0,
 			mirrorPanels: ws.get('mirrorPanels', false),
@@ -1675,12 +1674,6 @@ class Exchange extends React.Component {
 		return {isFrozen: false};
 	}
 
-	_onChangeMobilePanel(val) {
-		this.setState({
-			mobileKey: val,
-		});
-	}
-
 	_getOrders() {
 		const {currentAccount, baseAsset, quoteAsset, feedPrice} = this.props;
 		const orders = currentAccount.get('orders'),
@@ -1827,8 +1820,6 @@ class Exchange extends React.Component {
 			true
 		);
 
-		hideScrollbars = tinyScreen ? true : hideScrollbars;
-
 		if (quoteAsset.size && baseAsset.size && currentAccount.size) {
 			base = baseAsset;
 			quote = quoteAsset;
@@ -1895,9 +1886,6 @@ class Exchange extends React.Component {
 		let hasPrediction =
 			base.getIn(['bitasset', 'is_prediction_market']) ||
 			quote.getIn(['bitasset', 'is_prediction_market']);
-
-		let smallScreen = width < 850 ? true : false;
-		let tinyScreen = width < 640 ? true : false;
 
 		let expirationType = this.state.expirationType;
 		let expirationCustomTime = this.state.expirationCustomTime;
@@ -2240,12 +2228,11 @@ class Exchange extends React.Component {
 				className="left-order-book no-overflow order-9"
 				style={{
 					minWidth: 350,
-					height: smallScreen ? 680 : 'calc(100vh - 167px)',
-					padding: smallScreen ? 10 : 0,
+					height: 'calc(100vh - 167px)',
+					padding: 0,
 				}}
 				headerStyle={{
 					width: '100%',
-					display: !smallScreen ? 'display: none' : '',
 				}}
 				noHeader={true}
 				listHeight={this.state.height - 450}
@@ -2299,68 +2286,53 @@ class Exchange extends React.Component {
 				groupedBids={groupedBids}
 				groupedAsks={groupedAsks}
 				isPanelActive={activePanels.length >= 1}
-				smallScreen={smallScreen}
 				hideScrollbars={hideScrollbars}
 				autoScroll={autoScroll}
 				hideFunctionButtons={hideFunctionButtons}
 			/>
 		);
 
-		let marketHistory =
-			tinyScreen && !this.state.mobileKey.includes('marketHistory') ? null : (
-				<MarketHistory
-					key={`actionCard_${actionCardIndex++}`}
-					innerStyle={{
-						paddingBottom: !tinyScreen ? '0' : '0',
-						height: '100%',
-					}}
-					noHeader={panelTabs['history'] == 0 ? false : true}
-					history={activeMarketHistory}
-					currentAccount={currentAccount}
-					myHistory={currentAccount.get('history')}
-					base={base}
-					quote={quote}
-					chartHeight={chartHeight}
-					baseSymbol={baseSymbol}
-					quoteSymbol={quoteSymbol}
-					activeTab={'history'}
-					tinyScreen={tinyScreen}
-					isPanelActive={isPanelActive}
-					hideScrollbars={hideScrollbars}
-					feedPrice={this.props.feedPrice}
-				/>
-			);
+		let marketHistory = (
+			<MarketHistory
+				key={`actionCard_${actionCardIndex++}`}
+				noHeader={panelTabs['history'] == 0 ? false : true}
+				history={activeMarketHistory}
+				currentAccount={currentAccount}
+				myHistory={currentAccount.get('history')}
+				base={base}
+				quote={quote}
+				chartHeight={chartHeight}
+				baseSymbol={baseSymbol}
+				quoteSymbol={quoteSymbol}
+				activeTab={'history'}
+				isPanelActive={isPanelActive}
+				hideScrollbars={hideScrollbars}
+				feedPrice={this.props.feedPrice}
+			/>
+		);
 
-		let myMarketHistory =
-			tinyScreen && !this.state.mobileKey.includes('myMarketHistory') ? null : (
-				<MarketHistory
-					key={`actionCard_${actionCardIndex++}`}
-					className="no-padding no-overflow"
-					innerStyle={{
-						paddingBottom: !tinyScreen ? '0' : '0',
-					}}
-					noHeader={panelTabs['my_history'] == 0 ? false : true}
-					history={activeMarketHistory}
-					currentAccount={currentAccount}
-					myHistory={currentAccount.get('history')}
-					base={base}
-					quote={quote}
-					baseSymbol={baseSymbol}
-					quoteSymbol={quoteSymbol}
-					activeTab={'my_history'}
-					tinyScreen={tinyScreen}
-					isPanelActive={isPanelActive}
-					hideScrollbars={hideScrollbars}
-				/>
-			);
+		let myMarketHistory = (
+			<MarketHistory
+				key={`actionCard_${actionCardIndex++}`}
+				className="no-padding no-overflow"
+				noHeader={panelTabs['my_history'] == 0 ? false : true}
+				history={activeMarketHistory}
+				currentAccount={currentAccount}
+				myHistory={currentAccount.get('history')}
+				base={base}
+				quote={quote}
+				baseSymbol={baseSymbol}
+				quoteSymbol={quoteSymbol}
+				activeTab={'my_history'}
+				isPanelActive={isPanelActive}
+				hideScrollbars={hideScrollbars}
+			/>
+		);
 
 		let myTrade = (
 			<MyTrade
 				key={`actionCard_${actionCardIndex++}`}
 				className="no-padding no-overflow"
-				innerStyle={{
-					paddingBottom: !tinyScreen ? '0' : '0',
-				}}
 				noHeader={panelTabs['my_trade'] == 0 ? false : true}
 				currentAccount={currentAccount}
 				base={base}
@@ -2368,7 +2340,6 @@ class Exchange extends React.Component {
 				baseSymbol={baseSymbol}
 				quoteSymbol={quoteSymbol}
 				activeTab={'my_trade'}
-				tinyScreen={tinyScreen}
 				isPanelActive={isPanelActive}
 				hideScrollbars={hideScrollbars}
 				myHistory={currentAccount.get('history')}
@@ -2381,9 +2352,6 @@ class Exchange extends React.Component {
 			<MyTrade
 				key={`actionCard_${actionCardIndex++}`}
 				className="no-padding no-overflow"
-				innerStyle={{
-					paddingBottom: !tinyScreen ? '0' : '0',
-				}}
 				noHeader={panelTabs['my_trade'] == 0 ? false : true}
 				currentAccount={currentAccount}
 				base={base}
@@ -2391,7 +2359,6 @@ class Exchange extends React.Component {
 				baseSymbol={baseSymbol}
 				quoteSymbol={quoteSymbol}
 				activeTab={'my_trade'}
-				tinyScreen={tinyScreen}
 				isPanelActive={isPanelActive}
 				hideScrollbars={hideScrollbars}
 				myHistory={currentAccount.get('history')}
@@ -2404,19 +2371,7 @@ class Exchange extends React.Component {
 			<MarketOrders
 				key={`actionCard_${actionCardIndex++}`}
 				style={{marginBottom: 0}}
-				className={cnames(
-					panelTabs['my_orders'] == 0
-						? centerContainerWidth > 1200
-							? 'medium-6 large-6 xlarge-4'
-							: centerContainerWidth > 800
-							? 'medium-12'
-							: ''
-						: 'medium-12',
-					'no-padding no-overflow small-12 order-7'
-				)}
-				innerStyle={{
-					paddingBottom: '0',
-				}}
+				className="no-padding no-overflow small-12 order-7"
 				noHeader={panelTabs['my_orders'] == 0 ? false : true}
 				orders={marketLimitOrders}
 				settleOrders={marketSettleOrders}
@@ -2428,8 +2383,6 @@ class Exchange extends React.Component {
 				activeTab={'my_orders'}
 				onCancel={this._cancelLimitOrder.bind(this)}
 				feedPrice={this.props.feedPrice}
-				smallScreen={smallScreen}
-				tinyScreen={tinyScreen}
 				hidePanel={hidePanel}
 				isPanelActive={isPanelActive}
 				hideScrollbars={hideScrollbars}
@@ -2440,18 +2393,7 @@ class Exchange extends React.Component {
 			marketSettleOrders.size === 0 ? null : (
 				<MarketOrders
 					key={`actionCard_${actionCardIndex++}`}
-					style={{marginBottom: !tinyScreen ? 0 : 0}}
-					className={cnames(
-						panelTabs['open_settlement'] == 0
-							? centerContainerWidth > 1200
-								? 'medium-6 large-6 xlarge-4'
-								: centerContainerWidth > 800
-								? 'medium-6'
-								: ''
-							: 'medium-12',
-						'no-padding no-overflow small-12 order-8'
-					)}
-					innerStyle={{paddingBottom: !tinyScreen ? '0' : '0'}}
+					className="no-padding no-overflow small-12 order-8"
 					noHeader={panelTabs['open_settlement'] == 0 ? false : true}
 					orders={marketLimitOrders}
 					settleOrders={marketSettleOrders}
@@ -2463,8 +2405,6 @@ class Exchange extends React.Component {
 					activeTab={'open_settlement'}
 					onCancel={this._cancelLimitOrder.bind(this)}
 					feedPrice={this.props.feedPrice}
-					smallScreen={smallScreen}
-					tinyScreen={tinyScreen}
 					hidePanel={hidePanel}
 					isPanelActive={isPanelActive}
 					hideScrollbars={hideScrollbars}
@@ -2483,9 +2423,9 @@ class Exchange extends React.Component {
 				bucketSize={bucketSize}
 				currentPeriod={this.state.currentPeriod}
 				chartHeight={chartHeight + 22}
-				chartZoom={tinyScreen ? false : chartZoom}
-				chartTools={tinyScreen ? false : chartTools}
-				mobile={tinyScreen}
+				chartZoom={chartZoom}
+				chartTools={chartTools}
+				mobile={false}
 			/>
 		);
 
@@ -2612,10 +2552,7 @@ class Exchange extends React.Component {
 		 * Generate layout grid based on Screen Size
 		 */
 		let actionCards = [];
-		if (!smallScreen) {
-			// actionCards.push(groupStandalone);
-			actionCards.push(groupTabbed2);
-		}
+		actionCards.push(groupTabbed2);
 
 		return (
 			<div className="grid-block" style={{padding: '10px'}}>
@@ -2667,29 +2604,22 @@ class Exchange extends React.Component {
 							className="grid-block vertical no-padding ps-container"
 							id="CenterContent"
 							ref="center"
-							data-intro={
-								tinyScreen
-									? counterpart.translate('walkthrough.collapsed_items')
-									: null
-							}
 						>
-							{!tinyScreen ? (
-								<div className="tiny-screen-flex">
-									{/* Price history chart */}
-									{chartType && chartType == 'price_chart' ? (
-										<div
-											className="grid-block shrink no-overflow"
-											id="market-charts"
-											style={{
-												flexGrow: '2',
-												display: 'inline-block',
-											}}
-										>
-											{tradingViewChart}
-										</div>
-									) : null}
-								</div>
-							) : null}
+							<div className="tiny-screen-flex">
+								{/* Price history chart */}
+								{chartType && chartType == 'price_chart' ? (
+									<div
+										className="grid-block shrink no-overflow"
+										id="market-charts"
+										style={{
+											flexGrow: '2',
+											display: 'inline-block',
+										}}
+									>
+										{tradingViewChart}
+									</div>
+								) : null}
+							</div>
 
 							<div className="grid-block action-cards">{actionCards}</div>
 						</div>

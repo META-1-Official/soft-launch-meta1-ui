@@ -842,7 +842,6 @@ export default class Barter extends Component {
 			to_error,
 		} = this.state;
 		let {from_asset_types, to_asset_types} = this._getAvailableAssets();
-		let smallScreen = window.innerWidth < 850 ? true : false;
 		let assetFromList = [];
 		let assetToList = [];
 		let assetFromSymbol = '';
@@ -1506,69 +1505,36 @@ export default class Barter extends Component {
 				}}
 			>
 				<Card>
-					{smallScreen ? (
-						<div>
+					<div>
+						<Row>
+							<Col style={{padding: '10px'}}>{intro}</Col>
+						</Row>
+						<Row>
+							<Col span={12} style={{padding: '10px'}}>
+								{account_from}
+							</Col>
+							<Col span={12} style={{padding: '10px'}}>
+								{account_to}
+							</Col>
+						</Row>
+						<Row>
+							<Col style={{padding: '10px'}}>{offers}</Col>
+						</Row>
+						{escrow && (
 							<Row>
-								<Col style={{padding: '10px'}}>{intro}</Col>
+								<Col style={{padding: '10px'}}>{escrow}</Col>
 							</Row>
-							<Row>
-								<Col style={{padding: '10px'}}>{account_from}</Col>
-							</Row>
-							<Row>
-								<Col style={{padding: '10px'}}>{account_to}</Col>
-							</Row>
-							<Row>
-								<Col style={{padding: '10px'}}>{offers}</Col>
-							</Row>
-							{escrow && (
-								<Row>
-									<Col style={{padding: '10px'}}>{escrow}</Col>
-								</Row>
-							)}
-							<Row>
-								<Col style={{padding: '10px'}}>{totalFeeFrom}</Col>
-							</Row>
-							<Row>
-								<Col style={{padding: '10px'}}>{totalFeeTo}</Col>
-							</Row>
-							{feeForEscrow != null && (
-								<Row>
-									<Col style={{padding: '10px'}}>{feeForEscrow}</Col>
-								</Row>
-							)}
-						</div>
-					) : (
-						<div>
-							<Row>
-								<Col style={{padding: '10px'}}>{intro}</Col>
-							</Row>
-							<Row>
-								<Col span={12} style={{padding: '10px'}}>
-									{account_from}
-								</Col>
-								<Col span={12} style={{padding: '10px'}}>
-									{account_to}
-								</Col>
-							</Row>
-							<Row>
-								<Col style={{padding: '10px'}}>{offers}</Col>
-							</Row>
-							{escrow && (
-								<Row>
-									<Col style={{padding: '10px'}}>{escrow}</Col>
-								</Row>
-							)}
-							<Row>
-								<Col span={12} style={{padding: '10px'}}>
-									{totalFeeFrom}
-								</Col>
-								<Col span={12} style={{padding: '10px'}}>
-									{totalFeeTo}
-									{feeForEscrow}
-								</Col>
-							</Row>
-						</div>
-					)}
+						)}
+						<Row>
+							<Col span={12} style={{padding: '10px'}}>
+								{totalFeeFrom}
+							</Col>
+							<Col span={12} style={{padding: '10px'}}>
+								{totalFeeTo}
+								{feeForEscrow}
+							</Col>
+						</Row>
+					</div>
 					<div className="barter-footer">
 						<Tooltip
 							title={counterpart.translate('showcases.barter.propose_tooltip')}

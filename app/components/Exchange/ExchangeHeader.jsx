@@ -255,7 +255,7 @@ export default class ExchangeHeader extends React.Component {
 								<div
 									style={{
 										padding: '0 5px',
-										fontSize: this.props.tinyScreen ? '13px' : '18px',
+										fontSize: '18px',
 									}}
 								>
 									<span

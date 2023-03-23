@@ -8,16 +8,7 @@ import {Tooltip} from 'antd';
 
 class MarketTradeView extends React.Component {
 	render() {
-		let {
-			// Styles and Classes
-			style,
-			className,
-			innerClass,
-			innerStyle,
-			// Strings
-			data,
-			tinyScreen,
-		} = this.props;
+		let {style, className, innerClass, innerStyle, data} = this.props;
 
 		return (
 			<div style={style} key="trade" className={className}>
@@ -26,7 +17,6 @@ class MarketTradeView extends React.Component {
 						className="market-order-table-container grid-block no-overflow"
 						style={{
 							overflow: 'hidden',
-							minHeight: tinyScreen ? 260 : 0,
 							lineHeight: '13px',
 						}}
 					>
