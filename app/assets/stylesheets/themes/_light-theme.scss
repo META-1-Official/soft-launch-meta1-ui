@@ -501,6 +501,7 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 				color: $primary-color !important;
 			}
 		}
+
 		.orderbook-divider {
 			border-top: 1px solid $border-color;
 			border-bottom: 1px solid $border-color;
@@ -668,6 +669,43 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 		}
 	}
 
+	// Message page
+	div.messages {
+		background-color: transparent !important;
+
+		.service-selector {
+			ul.account-overview li {
+				background-color: transparent;
+
+				a {
+					background-color: transparent !important;
+				}
+
+				&.is-active {
+					border-bottom: 3px solid #ffc000 !important;
+
+					a {
+						color: #ffc000 !important;
+					}
+				}
+			}
+		}
+
+		.tab-content {
+			background-color: transparent !important;
+			border: 1px solid $border-color;
+
+			textarea {
+				background-color: transparent !important;
+				border: 1px solid $border-color;
+			}
+
+			button.button {
+				color: white;
+			}
+		}
+	}
+
 	// Member Stats Page
 	.member-stats {
 		background-color: transparent !important;
@@ -693,6 +731,44 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 							background-color: $bg-color-lightblue !important;
 							border-bottom: 1px solid $border-color;
 							border-top: 1px solid $border-color;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// white list page
+	.account-whitelist {
+		background: transparent;
+
+		.ant-tabs {
+			.ant-tabs-nav-list {
+				background: transparent !important;
+			}
+
+			.ant-tabs-content-holder {
+				.ant-tabs-tabpane {
+					.table {
+						button {
+							color: white;
+						}
+					}
+
+					.account-selector-wrapper {
+						background: transparent;
+						border: 1px solid $border-color;
+
+						.ant-form-item-control {
+							button {
+								span {
+									color: white;
+								}
+							}
+
+							.ant-select-selector {
+								background: transparent;
+							}
 						}
 					}
 				}
@@ -767,6 +843,7 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 							}
 						}
 					}
+
 					.settings-notifications {
 						.settings-notifications-item {
 							color: rgba(0, 0, 0, 0.5);
@@ -1048,6 +1125,7 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 						.account-selector-wrapper {
 							border: 1px solid $border-color;
 							border-radius: 5px;
+
 							.selector-label {
 								background: transparent;
 								border-right: 1px solid $border-color;
@@ -1114,6 +1192,58 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 						}
 					}
 				}
+			}
+		}
+
+		&.passwordless_unlock_modal,
+		&.unlock_wallet_modal2 {
+			.header-title1 {
+				color: $dark;
+			}
+
+			.header-title2 {
+				color: #cecece;
+			}
+
+			form {
+				#username {
+					color: #919293 !important;
+				}
+
+				.info-form {
+					.ant-input-affix-wrapper {
+						height: 50px !important;
+
+						&:hover {
+							border: 1px solid $border-color;
+						}
+
+						&:focus {
+							border: 1px solid $border-color;
+						}
+					}
+				}
+
+				.password-field {
+					background: transparent;
+					border: 1px solid $border-color;
+				}
+			}
+
+			.footer-wrapper {
+				.login-btn {
+					span {
+						color: white !important;
+					}
+				}
+
+				.redirect {
+					color: $dark;
+				}
+			}
+
+			.desc2 {
+				color: #666666;
 			}
 		}
 	}
@@ -1269,20 +1399,25 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 				cursor: pointer;
 				border: 1px solid $border-color;
 			}
+
 			.phone-number-code {
 				color: $dark;
 			}
+
 			.ant-select-selector {
 				background-color: transparent !important;
 			}
 		}
+
 		.select-box-country {
 			background-color: white;
+
 			.ant-select-item-option-selected {
 				.option-header-register {
 					color: white !important;
 				}
 			}
+
 			.option-header-register:hover {
 				color: white !important;
 			}

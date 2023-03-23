@@ -1693,12 +1693,6 @@ div.messages {
 		border-bottom: unset !important;
 
 		ul.account-overview li {
-			border-bottom: 3px solid #0a0b0d !important;
-
-			&:hover {
-				border-bottom: 3px solid #0a0b0d !important;
-			}
-
 			a {
 				background-color: #0a0b0d !important;
 
@@ -1745,6 +1739,7 @@ div.messages {
 
 		textarea {
 			background-color: #15171b !important;
+			border: 1px solid #1c1f27;
 			padding: 15px 25px;
 			margin: 0 !important;
 		}
