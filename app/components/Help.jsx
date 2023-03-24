@@ -9,7 +9,6 @@ class Help extends React.Component {
 		const path = toPairs(this.props.match.params)
 			.map((p) => p[1])
 			.join('/');
-
 		return (
 			<>
 				<PageHeader title="Learn" showDivider level={2} />
@@ -25,20 +24,15 @@ class Help extends React.Component {
 							overflow: 'auto',
 						})}
 					>
-						<Col xs={24} sm={8} lg={6}>
+						<Col xs={24} sm={24} lg={6}>
 							<div
-								className="help-toc"
+								className="help-toc menu"
 								css={(theme) => ({
-									padding: '20px',
-									height: '100%',
 									ul: {
-										listStyle: 'none !important',
-										height: `100%`,
 										backgroundColor: theme.colors.helpSideBarColor,
 									},
 									li: {
 										border: `1px solid ${theme.colors.borderColor}`,
-										padding: '0',
 									},
 									a: {
 										color: theme.colors.themeOpositeColor,
@@ -53,7 +47,7 @@ class Help extends React.Component {
 							</div>
 						</Col>
 						<Col
-							sm={16}
+							sm={24}
 							lg={18}
 							xs={24}
 							css={() => ({
