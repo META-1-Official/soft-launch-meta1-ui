@@ -5,6 +5,7 @@ import utils from 'common/utils';
 import {withRouter} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import sanitize from 'sanitize';
+import {css} from '@emotion/react';
 
 let req = require.context('../../help', true, /\.md/);
 let HelpData = {};
@@ -53,6 +54,7 @@ function adjust_links(str, newRoute) {
 					padding: 6px 0px 6px 2rem; cursor: pointer; display: inline-block; width: 100%;
 					${page === newRoute ? 'border-right: 2px solid yellow;' : ''}
 				"
+				class="${page === newRoute ? 'selected' : ''}"
 				href="${__HASH_HISTORY__ ? '#' : ''}${page}"
 				onclick="_onClickLink(event)"
 			>
@@ -86,13 +88,13 @@ class HelpContent extends React.PureComponent {
 		window._onClickLink = this.onClickLink.bind(this);
 	}
 
-	UNSAFE_componentWillReceiveProps(nextProps) {
+	componentWillReceiveProps(nextProps) {
 		const newRoute = nextProps.pathUrl;
 
 		this.updateMenu(newRoute);
 	}
 
-	UNSAFE_componentWillMount() {
+	componentWillMount() {
 		const newRoute = this.props.pathUrl;
 
 		this.updateMenu(newRoute);
