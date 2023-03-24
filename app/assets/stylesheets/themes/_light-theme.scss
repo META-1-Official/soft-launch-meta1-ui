@@ -1424,6 +1424,24 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 		}
 	}
 
+	// Onramer Widget
+	.onramper-wrapper {
+		background: transparent;
+		height: 100%;
+
+		.onramper-wallet {
+			width: 500px;
+			margin: 0 auto;
+			margin-top: 60px;
+			border-radius: 4px;
+			border: 1px solid $border-color;
+
+			iframe {
+				width: 100%;
+			}
+		}
+	}
+
 	// Layout
 	.registration-layout {
 		input {

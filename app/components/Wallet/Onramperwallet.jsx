@@ -8,10 +8,10 @@ const Onramperwallet = () => {
 	const defaultAmount = 500;
 	const defaultFiat = 'USD';
 	const defaultCrypto = 'BTC';
-	const apiKey = 'pk_prod_k6LKERIMdGDE8geCxOApKSCy6mnfF5CuhI4TLZj55Wc0';
+	const apiKey = process.env.ONRAMPER_API_KEY;
 	const onlyCryptos = 'BTC,ETH,USDT,LTC,XLM';
 	const onlyFiat = 'USD,EUR';
-	const baseURL = 'https://widget.onramper.com/';
+	const baseURL = process.env.ONRAMPER_URL;
 	const title = 'META1';
 
 	return (
