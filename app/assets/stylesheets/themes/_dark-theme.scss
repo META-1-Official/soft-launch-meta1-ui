@@ -254,4 +254,20 @@ $header-menu-item--hover--background-color: lighten($primary-dark, 10%);
 			}
 		}
 	}
+	.onramper-wrapper {
+		background: #0a0b0d;
+		height: 100%;
+
+		.onramper-wallet {
+			width: 500px;
+			margin: 0 auto;
+			margin-top: 60px;
+			border-radius: 4px;
+			border: 1px solid rgba(28, 31, 39, 0.4);
+
+			iframe {
+				width: 100%;
+			}
+		}
+	}
 }
