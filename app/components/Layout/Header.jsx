@@ -583,6 +583,18 @@ class Header extends React.Component {
 										<Menu.Item key="explorer">
 											<Translate component="span" content="header.explorer" />
 										</Menu.Item>
+										<Menu.Item key="explorer2">
+											<Link
+												to={{pathname: process.env.EXPLORER_META1_URL}}
+												target="_blank"
+												style={{color: '#fff'}}
+											>
+												<Translate
+													component="span"
+													content="header.explorer2"
+												/>
+											</Link>
+										</Menu.Item>
 									</Menu>
 								</Col>
 							</Row>
