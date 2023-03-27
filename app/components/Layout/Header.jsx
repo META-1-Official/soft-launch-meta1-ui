@@ -618,22 +618,32 @@ class Header extends React.Component {
 										<img style={{height: 35}} src={logo} />
 									</a>
 								</Col>
-								{this.props.theme.colors.themeOpositeColor !== '#ffff' ? (
-									<Col xs={17} sm={19}>
-										{menu}
-									</Col>
-								) : (
-									<div
-										style={{
-											width: '1.5rem',
-											height: '1.5rem',
-											cursor: 'pointer',
-										}}
-										onClick={this.showDrawerMenu}
-									>
-										<img src={sun} alt="light theme" />
-									</div>
-								)}
+								<Col
+									xs={17}
+									sm={19}
+									css={(theme) => ({
+										[`@media (max-width: ${theme.sizes.medium})`]: {
+											display: 'none',
+										},
+									})}
+								>
+									{menu}
+								</Col>
+								<div
+									style={{
+										width: '1.5rem',
+										height: '1.5rem',
+										cursor: 'pointer',
+									}}
+									onClick={this.showDrawerMenu}
+									css={(theme) => ({
+										[`@media (min-width: ${theme.sizes.medium})`]: {
+											display: 'none',
+										},
+									})}
+								>
+									<img src={sun} alt="light theme" />
+								</div>
 								{menuDrawer}
 							</Row>
 						</Col>

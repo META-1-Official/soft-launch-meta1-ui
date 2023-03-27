@@ -53,11 +53,12 @@ const theme = {
 		blockHeaderColor: '#f6f5fa',
 	},
 	sizes: {
-		small: '0px',
-		medium: '640px',
-		large: '1200px',
-		xlarge: '1440px',
-		xxlarge: '1920px',
+		xs: '480px',
+		sm: '576px',
+		md: '768px',
+		lg: '992px',
+		xl: '1200px',
+		xxl: '1600px',
 	},
 };
 
