@@ -4,7 +4,7 @@ import ZfApi from 'react-foundation-apps/src/utils/foundation-api';
 import Translate from 'react-translate-component';
 import counterpart from 'counterpart';
 import ReactTooltip from 'react-tooltip';
-import {withRouter} from 'react-router-dom';
+import {withRouter, Link} from 'react-router-dom';
 import {useTheme} from '@emotion/react';
 import {isEmpty} from 'lodash-es';
 
