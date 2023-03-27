@@ -1450,6 +1450,11 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 		}
 	}
 
+	.explorer {
+		.blockchain-tab {
+		}
+	}
+
 	.white-star > svg > path {
 		fill: $primary-color !important;
 	}
