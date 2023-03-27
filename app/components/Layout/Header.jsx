@@ -1,5 +1,22 @@
 import React from 'react';
 import {connect} from 'alt-react';
+import ZfApi from 'react-foundation-apps/src/utils/foundation-api';
+import Translate from 'react-translate-component';
+import counterpart from 'counterpart';
+import ReactTooltip from 'react-tooltip';
+import {withRouter} from 'react-router-dom';
+import {useTheme} from '@emotion/react';
+import {isEmpty} from 'lodash-es';
+
+// Custom components
+import SendModal from '../Modal/SendModal';
+import WithdrawModal from '../Modal/WithdrawModal';
+import DepositModal from '../Modal/DepositModal';
+import Icon from '../Icon/Icon';
+import StyledButton from 'components/Button/Button';
+import {getLogo} from 'branding';
+
+// Antd
 import {CaretDownOutlined, QuestionCircleOutlined} from '@ant-design/icons';
 import {
 	Layout,
@@ -11,41 +28,37 @@ import {
 	Avatar,
 	notification,
 } from 'antd';
+
+// Actions & Stores - Flux
 import AccountActions from 'actions/AccountActions';
+import SettingsActions from 'actions/SettingsActions';
 import AccountStore from 'stores/AccountStore';
 import SettingsStore from 'stores/SettingsStore';
 import GatewayStore from 'stores/GatewayStore';
-import SettingsActions from 'actions/SettingsActions';
-import ZfApi from 'react-foundation-apps/src/utils/foundation-api';
-import SendModal from '../Modal/SendModal';
-import WithdrawModal from '../Modal/WithdrawModal';
-import DepositModal from '../Modal/DepositModal';
-import Icon from '../Icon/Icon';
-import Translate from 'react-translate-component';
-import counterpart from 'counterpart';
 import WalletDb from 'stores/WalletDb';
 import WalletUnlockStore from 'stores/WalletUnlockStore';
 import WalletUnlockActions from 'actions/WalletUnlockActions';
 import WalletManagerStore from 'stores/WalletManagerStore';
-import ReactTooltip from 'react-tooltip';
-import {Apis} from 'meta1-vision-ws';
-import {ChainStore} from 'meta1-vision-js';
-import {withRouter, Link} from 'react-router-dom';
-import ls from '../../lib/common/localStorage';
-import {isEmpty} from 'lodash-es';
 
-import {getLogo} from 'branding';
-import StyledButton from 'components/Button/Button';
-
+// API Services
 import migrationService from 'services/migration.service';
 
-var logo = getLogo();
+// Meta1 SDKs
+import {Apis} from 'meta1-vision-ws';
+import {ChainStore} from 'meta1-vision-js';
 
+// Storage
+import ls from '../../lib/common/localStorage';
 const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
 
+// Global constants
 const {Header: AntdHeader} = Layout;
 const {Text} = Typography;
+const logo = getLogo();
+const sun = require('assets/sun.png');
+const moon = require('assets/moon.png');
+
 class Header extends React.Component {
 	constructor(props) {
 		super();
@@ -491,24 +504,6 @@ class Header extends React.Component {
 							questions */
 						</Text>
 					</Menu.Item>
-					{/* <Menu.Item key="advanced-trezor">
-						<Text>
-							<Translate
-								style={{textTransform: 'capitalize'}}
-								component="span"
-								content="explorer.assets.trezor"
-							/>
-						</Text>
-					</Menu.Item>
-					<Menu.Item key="advanced-ledger-nano">
-						<Text>
-							<Translate
-								style={{textTransform: 'capitalize'}}
-								component="span"
-								content="explorer.assets.ledger"
-							/>
-						</Text>
-					</Menu.Item> */}
 					<Menu.Item
 						key="comment-no-hardware-wallet-support"
 						className="comment none"
@@ -543,6 +538,19 @@ class Header extends React.Component {
 		);
 
 		const {headerMenu} = this.state;
+
+		const horizontalDivider = (
+			<div
+				css={(theme) => ({
+					width: '1px',
+					background: theme.colors.borderColor,
+					marginLeft: '10px',
+					marginRight: '10px',
+					height: '40px',
+				})}
+			/>
+		);
+
 		return (
 			<>
 				<AntdHeader>
@@ -650,7 +658,6 @@ class Header extends React.Component {
 								>
 									<StyledButton
 										buttonType="transparent"
-										style={{marginRight: '20px'}}
 										onClick={this._showSend.bind(this)}
 									>
 										Send / Receive
@@ -675,17 +682,19 @@ class Header extends React.Component {
 										</span>
 									)}
 								</div>
-
+								{horizontalDivider}
 								<Dropdown overlay={avatarMenu}>
-									<span>
-										<Avatar
-											css={(theme) => ({
-												'&& .ant-avatar': {
-													backgroundColor: theme.colors.primaryColor,
-													cursor: 'pointer',
-												},
-											})}
-											src="https://cdn.vectorstock.com/i/1000x1000/19/45/user-avatar-icon-sign-symbol-vector-4001945.webp"
+									<span
+										style={{
+											display: 'flex',
+											alignItems: 'center',
+										}}
+									>
+										<Icon
+											className="lock-unlock"
+											size="2x"
+											name="avatar"
+											title="icons.avatar.common"
 										/>
 										<CaretDownOutlined
 											style={{
@@ -698,6 +707,15 @@ class Header extends React.Component {
 										/>
 									</span>
 								</Dropdown>
+								{horizontalDivider}
+								<div
+									style={{
+										width: '1.5rem',
+										height: '1.5rem',
+									}}
+								>
+									<img src={sun} alt="light theme" />
+								</div>
 							</div>
 						</Col>
 					</Row>

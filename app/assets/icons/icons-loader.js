@@ -70,6 +70,7 @@ let icons = [
 	'wallet',
 	'prediction',
 	'prediction-large',
+	'avatar',
 ];
 
 let iconsMap = {};
