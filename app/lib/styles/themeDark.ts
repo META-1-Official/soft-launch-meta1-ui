@@ -1,10 +1,14 @@
 const theme = {
+	mode: 'dark',
 	colors: {
 		primaryColor: '#ffc000',
 		themeOpositeColor: '#ffff',
 		background: '#1f1a17',
 		footerBackground: '#15171b',
 		explorerBackground: '#0c0e11',
+		cardBackgroundColor: '#15171b',
+		logoBackgroundColor: '#000000',
+		graphColor: '#000000',
 		footerTextColor: '#566176',
 		sideBar: '#0a0b0d',
 		menuActiveBackground: '#15171b',
@@ -26,6 +30,7 @@ const theme = {
 		tagSuccessColor: '#127655',
 		tagInfoColor: '#2b4d79',
 		tagWarningColor: '#856916',
+		tableHeaderColor: '15171b',
 		tableColumnColor: '#15171b',
 		tableColumnHoverColor: '#15171beb',
 		tableActivePagination: '#0a0b0d',

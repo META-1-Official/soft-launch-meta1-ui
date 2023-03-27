@@ -59,6 +59,9 @@ class TransactionLabel extends React.Component {
 							: theme.colors.tagInfoColor,
 					borderRadius: '5px',
 					color: 'white',
+					minWidth: '120px',
+					textAlign: 'center',
+					textTransform: 'capitalize',
 				})}
 			>
 				{trxTypes[ops[this.props.type]]}
@@ -118,16 +121,12 @@ class Row extends React.Component {
 
 		return (
 			<tr
-				css={() => ({
-					border: `1px solid gray`,
+				css={(theme) => ({
+					border: `1px solid ${theme.colors.borderColor}`,
 				})}
 			>
-				&nbsp;
 				{this.props.includeOperationId ? (
-					<td style={{textAlign: 'left'}}>
-						{/* {this.props.block}#{this.props.txIndex}<br /> */}
-						{this.props.operationId}
-					</td>
+					<td style={{textAlign: 'left'}}>{this.props.operationId}</td>
 				) : null}
 				{hideOpLabel ? null : (
 					<td style={{textAlign: 'left'}} className="left-td column-hide-tiny">
@@ -146,22 +145,11 @@ class Row extends React.Component {
 						</Tooltip>
 					</td>
 				)}
-				<td style={{padding: '8px 5px', textAlign: 'left'}}>
+				<td style={{textAlign: 'left'}}>
 					<div>
 						<span>{this.props.info}</span>
 					</div>
 					<div style={{fontSize: 14, paddingTop: 5}}>
-						{/*<span>{counterpart.translate("explorer.block.title").toLowerCase()} <Link to={`/block/${block}`}>{utils.format_number(block, 0)}</Link></span>*/}
-						{/*{!this.props.hideFee ? (
-                            <span className="facolor-fee">
-                                {" "}
-                                -{" "}
-                                <FormattedAsset
-                                    amount={fee.amount}
-                                    asset={fee.asset_id}
-                                />
-                            </span>
-                        ) : null}*/}
 						{pending ? <span> - {pending}</span> : null}
 					</div>
 				</td>
@@ -175,7 +163,6 @@ class Row extends React.Component {
 						<BlockTime block_number={block} fullDate={this.props.fullDate} />
 					) : null}
 				</td>
-				&nbsp;
 			</tr>
 		);
 	}

@@ -431,9 +431,9 @@ class Assets extends React.Component {
 							>
 								<div>
 									<Text
-										css={() => ({
+										css={(theme) => ({
 											fontSize: '1.2rem',
-											color: 'white',
+											color: theme.colors.themeOpositeColor,
 											fontWeight: 700,
 										})}
 									>
@@ -451,9 +451,9 @@ class Assets extends React.Component {
 							>
 								<div>
 									<Text
-										css={() => ({
+										css={(theme) => ({
 											fontSize: '1.2rem',
-											color: 'white',
+											color: theme.colors.themeOpositeColor,
 											fontWeight: 700,
 										})}
 									>
@@ -470,9 +470,9 @@ class Assets extends React.Component {
 							>
 								<div>
 									<Text
-										css={() => ({
+										css={(theme) => ({
 											fontSize: '1.2rem',
-											color: 'white',
+											color: theme.colors.themeOpositeColor,
 											fontWeight: 700,
 										})}
 									>
@@ -491,9 +491,9 @@ class Assets extends React.Component {
 							>
 								<div>
 									<Text
-										css={() => ({
+										css={(theme) => ({
 											fontSize: '1.2rem',
-											color: 'white',
+											color: theme.colors.themeOpositeColor,
 											fontWeight: 700,
 										})}
 									>
@@ -511,9 +511,9 @@ class Assets extends React.Component {
 							>
 								<div>
 									<Text
-										css={() => ({
+										css={(theme) => ({
 											fontSize: '1.2rem',
-											color: 'white',
+											color: theme.colors.themeOpositeColor,
 											fontWeight: 700,
 										})}
 									>
@@ -530,9 +530,9 @@ class Assets extends React.Component {
 							>
 								<div>
 									<Text
-										css={() => ({
+										css={(theme) => ({
 											fontSize: '1.2rem',
-											color: 'white',
+											color: theme.colors.themeOpositeColor,
 											fontWeight: 700,
 										})}
 									>
