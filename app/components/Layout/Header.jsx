@@ -5,7 +5,7 @@ import Translate from 'react-translate-component';
 import counterpart from 'counterpart';
 import ReactTooltip from 'react-tooltip';
 import {withRouter, Link} from 'react-router-dom';
-import {useTheme} from '@emotion/react';
+import {withTheme} from '@emotion/react';
 import {isEmpty} from 'lodash-es';
 
 // Custom components
@@ -26,6 +26,7 @@ import {
 	Dropdown,
 	Typography,
 	Avatar,
+	Drawer,
 	notification,
 } from 'antd';
 
@@ -70,6 +71,7 @@ class Header extends React.Component {
 			hasWithdrawalModalBeenShown: false,
 			migratable: false,
 			oldUser: false,
+			drawerOpen: false,
 		};
 
 		this._accountNotificationActiveKeys = [];
@@ -125,6 +127,14 @@ class Header extends React.Component {
 			isWithdrawModalVisible: false,
 		});
 	}
+
+	showDrawerMenu = () => {
+		this.setState({drawerOpen: true});
+	};
+
+	hideDrawerMenu = () => {
+		this.setState({drawerOpen: false});
+	};
 
 	UNSAFE_componentWillMount() {
 		this.unlisten = this.props.history.listen((newState) => {
@@ -537,6 +547,44 @@ class Header extends React.Component {
 			</Menu>
 		);
 
+		const menu = (
+			<Menu
+				mode="horizontal"
+				onClick={this.handleHeaderLink}
+				selectedKeys={[this.props.currentLink]}
+			>
+				<Menu.Item key="dashboard">Dashboard</Menu.Item>
+				<Menu.Item key="market">
+					<Translate component="span" content="header.exchange" />
+				</Menu.Item>
+				<Menu.Item key="explorer">
+					<Translate component="span" content="header.explorer" />
+				</Menu.Item>
+				<Menu.Item key="explorer2">
+					<Link
+						to={{pathname: process.env.EXPLORER_META1_URL}}
+						target="_blank"
+						style={{color: '#fff'}}
+					>
+						<Translate component="span" content="header.explorer2" />
+					</Link>
+				</Menu.Item>
+			</Menu>
+		);
+
+		const menuDrawer = (
+			<Drawer
+				title="Menu"
+				placement="right"
+				closable={false}
+				onClose={this.hideDrawerMenu}
+				open={this.state.drawerOpen}
+				key="right"
+			>
+				{menu}
+			</Drawer>
+		);
+
 		const {headerMenu} = this.state;
 
 		const horizontalDivider = (
@@ -570,33 +618,23 @@ class Header extends React.Component {
 										<img style={{height: 35}} src={logo} />
 									</a>
 								</Col>
-								<Col xs={17} sm={19}>
-									<Menu
-										mode="horizontal"
-										onClick={this.handleHeaderLink}
-										selectedKeys={[this.props.currentLink]}
+								{this.props.theme.colors.themeOpositeColor !== '#ffff' ? (
+									<Col xs={17} sm={19}>
+										{menu}
+									</Col>
+								) : (
+									<div
+										style={{
+											width: '1.5rem',
+											height: '1.5rem',
+											cursor: 'pointer',
+										}}
+										onClick={this.showDrawerMenu}
 									>
-										<Menu.Item key="dashboard">Dashboard</Menu.Item>
-										<Menu.Item key="market">
-											<Translate component="span" content="header.exchange" />
-										</Menu.Item>
-										<Menu.Item key="explorer">
-											<Translate component="span" content="header.explorer" />
-										</Menu.Item>
-										<Menu.Item key="explorer2">
-											<Link
-												to={{pathname: process.env.EXPLORER_META1_URL}}
-												target="_blank"
-												style={{color: '#fff'}}
-											>
-												<Translate
-													component="span"
-													content="header.explorer2"
-												/>
-											</Link>
-										</Menu.Item>
-									</Menu>
-								</Col>
+										<img src={sun} alt="light theme" />
+									</div>
+								)}
+								{menuDrawer}
 							</Row>
 						</Col>
 
@@ -788,4 +826,4 @@ Header = connect(Header, {
 	},
 });
 
-export default withRouter(Header);
+export default withRouter(withTheme(Header));
