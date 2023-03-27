@@ -30,7 +30,7 @@ import WalletManagerStore from 'stores/WalletManagerStore';
 import ReactTooltip from 'react-tooltip';
 import {Apis} from 'meta1-vision-ws';
 import {ChainStore} from 'meta1-vision-js';
-import {withRouter} from 'react-router-dom';
+import {withRouter, Link} from 'react-router-dom';
 import ls from '../../lib/common/localStorage';
 import {isEmpty} from 'lodash-es';
 
@@ -574,6 +574,18 @@ class Header extends React.Component {
 										</Menu.Item>
 										<Menu.Item key="explorer">
 											<Translate component="span" content="header.explorer" />
+										</Menu.Item>
+										<Menu.Item key="explorer2">
+											<Link
+												to={{pathname: process.env.EXPLORER_META1_URL}}
+												target="_blank"
+												style={{color: '#fff'}}
+											>
+												<Translate
+													component="span"
+													content="header.explorer2"
+												/>
+											</Link>
 										</Menu.Item>
 									</Menu>
 								</Col>
