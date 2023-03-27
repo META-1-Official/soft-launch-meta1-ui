@@ -69,6 +69,14 @@ const Explorer = Loadable({
 	loading: LoadingIndicator,
 });
 
+const Explorer2 = Loadable({
+	loader: () =>
+		import(
+			/* webpackChunkName: "explorer" */ './components/Explorer/Explorer2'
+		),
+	loading: LoadingIndicator,
+});
+
 const PredictionMarketsPage = Loadable({
 	loader: () =>
 		import(
@@ -467,6 +475,7 @@ class App extends React.Component {
 						{/* Explorer routes */}
 						<Route path="/explorer/:tab" component={Explorer} />
 						<Route path="/explorer" component={Explorer} />
+						<Route path="/explorer2" component={Explorer2} />
 						<Route path="/asset/:symbol" component={Asset} />
 						<Route exact path="/block/:height" component={Block} />
 						<Route exact path="/block/:height/:txIndex" component={Block} />

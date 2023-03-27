@@ -357,6 +357,8 @@ class Header extends React.Component {
 			this._onNavigate(`${tradeUrl}`, this, true);
 		} else if (key === 'explorer') {
 			this._onNavigate('/explorer/blocks', this, true);
+		} else if (key === 'explorer2') {
+			this._onNavigate('/explorer2', this, true);
 		} else if (key === 'get-help') {
 			window.open('https://support.meta1coin.vision');
 		} else if (key === 'withdraw') {
@@ -574,6 +576,9 @@ class Header extends React.Component {
 										</Menu.Item>
 										<Menu.Item key="explorer">
 											<Translate component="span" content="header.explorer" />
+										</Menu.Item>
+										<Menu.Item key="explorer2">
+											<Translate component="span" content="header.explorer2" />
 										</Menu.Item>
 									</Menu>
 								</Col>
