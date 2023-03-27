@@ -71,7 +71,7 @@ class Explorer extends React.Component {
 				activeKey={this.props.location.pathname}
 				animated={false}
 				style={{height: '100%', width: '100%'}}
-				className="custom-padding-left"
+				className="explorer custom-padding-left"
 				onChange={onChange}
 			>
 				{this.state.tabs.map((tab) => {
