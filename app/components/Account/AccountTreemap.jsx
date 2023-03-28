@@ -127,11 +127,6 @@ class AccountTreemap extends React.Component {
 				spacingRight: 0,
 				spacingBottom: 0,
 			},
-			// colorAxis: {
-			//     min: 0,
-			//     minColor: "#ffffff",
-			//     maxColor: ReactHighcharts.Highcharts.getOptions().colors[0]
-			// },
 			credits: {
 				enabled: false,
 			},

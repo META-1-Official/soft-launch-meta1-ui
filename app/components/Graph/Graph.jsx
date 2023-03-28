@@ -7,8 +7,6 @@ const ChartjsAreaChart = (props) => {
 	const {labels, options, width, height, layout, id} = props;
 	const theme = useTheme();
 
-	console.log('TEHE', theme);
-
 	const datasets = [
 		{
 			data: [15, 10, 20, 35, 40, 30, 35, 40, 20, 50, 50, 70],
