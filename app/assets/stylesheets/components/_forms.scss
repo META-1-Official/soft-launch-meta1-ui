@@ -222,13 +222,14 @@ div.transfer-input {
 	&.active .dropdown {
 		border-bottom: 1px solid #15171b;
 		max-height: 400px;
+		width: 250px;
 	}
 
 	ul.dropdown {
 		/* Size & position */
 		min-width: 200px;
 		position: absolute;
-		top: 2.4rem;
+		top: 3.1rem;
 		right: 0;
 		z-index: 999;
 		margin-left: 0;
