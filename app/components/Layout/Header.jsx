@@ -622,7 +622,7 @@ class Header extends React.Component {
 									xs={17}
 									sm={19}
 									css={(theme) => ({
-										[`@media (max-width: ${theme.sizes.medium})`]: {
+										[`@media (max-width: ${theme.sizes.md})`]: {
 											display: 'none',
 										},
 									})}
@@ -637,7 +637,7 @@ class Header extends React.Component {
 									}}
 									onClick={this.showDrawerMenu}
 									css={(theme) => ({
-										[`@media (min-width: ${theme.sizes.medium})`]: {
+										[`@media (min-width: ${theme.sizes.md})`]: {
 											display: 'none',
 										},
 									})}
