@@ -1147,14 +1147,14 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 	textarea#{$ant-fix},
 	input[role='combobox']#{$ant-fix},
 	select[role='combobox']#{$ant-fix} {
-		background-color: black;
-		border: 0;
+		background-color: $bg-color;
+		border: 1px solid $border-color;
 		color: $primary-text-color;
 		&:hover,
 		&:focus,
 		&:active,
 		&:disabled {
-			background-color: black;
+			background-color: $bg-color;
 		}
 		&:focus {
 			border-color: #aaa;
@@ -2375,77 +2375,6 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 				&:hover {
 					fill: $bs-blue;
 					cursor: pointer;
-				}
-			}
-		}
-	}
-	.calendarContainer {
-		// restyle of react-datepicker2
-		box-shadow: none;
-		background-color: $panel-bg-color;
-		border: 0;
-		color: $light-text-color;
-		button svg {
-			fill: $light-text-color;
-		}
-		.dayWrapper button:hover {
-			color: $light-text-color;
-			@include radialGradient($button-mix2, $button-mix1);
-			border-radius: 5px;
-		}
-		.dayWrapper button[disabled] {
-			@include radialGradient($button-mix2, $button-mix1);
-			border-radius: 5px;
-			color: darken(#aaa, 20%);
-		}
-		.monthsList {
-			button {
-				border: 0;
-				@include radialGradient($button-mix2, $button-mix1);
-				border-radius: 5px;
-				&:hover {
-					background-color: $input-background;
-				}
-			}
-		}
-		.time-table {
-			line-height: 38px;
-		}
-		input.rc-time-picker-input {
-			background: $input-background;
-			color: $light-text-color;
-			&:hover {
-				border-color: $input-background;
-				background-color: $input-background;
-				color: $light-text-color;
-			}
-			cursor: pointer;
-		}
-		.heading {
-			.title {
-				line-height: 28px;
-				border-color: $panel-bg-color;
-			}
-			> button {
-				line-height: 30px;
-				@include radialGradient($button-mix2, $button-mix1);
-				border-radius: 5px;
-				border-color: $button-mix1;
-				&:hover {
-					border-color: $panel-bg-color;
-					background-color: $input-background;
-				}
-				&.prev,
-				&.next {
-					line-height: 28px;
-				}
-				&.prev {
-					float: left;
-					transform: rotate(-180deg);
-				}
-				&.next {
-					float: right;
-					transform: rotate(-180deg);
 				}
 			}
 		}

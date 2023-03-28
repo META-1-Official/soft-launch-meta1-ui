@@ -2,7 +2,8 @@ const theme = {
 	mode: 'dark',
 	colors: {
 		primaryColor: '#ffc000',
-		themeOpositeColor: '#ffff',
+		textColor: '#fff',
+		themeOpositeColor: '#fff',
 		background: '#1f1a17',
 		footerBackground: '#15171b',
 		explorerBackground: '#0c0e11',
@@ -53,11 +54,12 @@ const theme = {
 		blockHeaderColor: '#1c1f27',
 	},
 	sizes: {
-		small: '0px',
-		medium: '640px',
-		large: '1200px',
-		xlarge: '1440px',
-		xxlarge: '1920px',
+		xs: '480px',
+		sm: '576px',
+		md: '768px',
+		lg: '992px',
+		xl: '1200px',
+		xxl: '1600px',
 	},
 };
 

@@ -1,14 +1,17 @@
 .card {
 	border-radius: 0;
 	border: none;
+
 	> h4 {
 		margin: 0;
 		padding-top: 0.2rem;
 		padding-bottom: 0.2rem;
 	}
+
 	> .card-content {
 		margin: 1rem;
 	}
+
 	margin-bottom: 1rem;
 }
 
@@ -18,13 +21,16 @@
 
 .account-card {
 	padding: 0 1rem 0 0 !important;
+
 	.balances {
 		margin: 0;
 		padding: 0;
 		list-style: none;
 		margin-left: 78px;
 	}
+
 	cursor: pointer;
+
 	&.worker-card {
 		cursor: auto;
 	}
@@ -40,9 +46,47 @@
 }
 
 .asset-card {
-	padding: 0 1rem 0 0 !important;
 	margin: 0 0 2rem 0;
+	border: 1px solid #1c1f27;
+	border-radius: 5px;
+
+	.ant-card {
+		background: black;
+		border-bottom: 1px solid #1c1f27;
+		border-radius: 0px;
+		color: white;
+		height: 60px;
+
+		.ant-card-body {
+			display: flex;
+			align-items: center;
+			padding-left: 10px;
+			height: 100%;
+		}
+	}
+
 	.card-divider {
 		margin-bottom: 1rem;
+	}
+
+	table {
+		thead {
+			border-bottom: 1px solid #1c1f27;
+			background-color: #15171b;
+
+			tr {
+				th {
+					padding: 5px;
+				}
+			}
+		}
+
+		tbody {
+			border-bottom: 1px solid #1c1f27;
+
+			&:last-child {
+				border-bottom: none;
+			}
+		}
 	}
 }
