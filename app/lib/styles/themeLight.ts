@@ -14,7 +14,7 @@ const theme = {
 		sideBar: '#ffffff',
 		menuActiveBackground: '#ffc000',
 		white: '#fff',
-		black: '#ffffff',
+		backgroundColor: '#ffffff',
 		nodeInactiveColor: '#666666',
 		descriptionTextColor: '#666666',
 		settingBlockColor: '#f5f6fa',

@@ -59,6 +59,7 @@ const {Text} = Typography;
 const logo = getLogo();
 const sun = require('assets/sun.png');
 const moon = require('assets/moon.png');
+const hamburger = require('assets/hambuger.png');
 
 class Header extends React.Component {
 	constructor(props) {
@@ -428,6 +429,9 @@ class Header extends React.Component {
 		}
 
 		this.setState({headerMenu: key});
+		if (this.state.drawerOpen === true) {
+			this.setState({drawerOpen: false});
+		}
 	};
 
 	render() {
@@ -547,9 +551,9 @@ class Header extends React.Component {
 			</Menu>
 		);
 
-		const menu = (
+		const renderMenu = (mode) => (
 			<Menu
-				mode="horizontal"
+				mode={mode}
 				onClick={this.handleHeaderLink}
 				selectedKeys={[this.props.currentLink]}
 			>
@@ -576,12 +580,12 @@ class Header extends React.Component {
 			<Drawer
 				title="Menu"
 				placement="right"
-				closable={false}
+				closable={true}
 				onClose={this.hideDrawerMenu}
 				open={this.state.drawerOpen}
 				key="right"
 			>
-				{menu}
+				{renderMenu('vertical')}
 			</Drawer>
 		);
 
@@ -608,9 +612,27 @@ class Header extends React.Component {
 						type="flex"
 						align="middle"
 					>
-						<Col xs={20} sm={12}>
-							<Row>
-								<Col xs={6} sm={5} className="logo-wrapper">
+						<Col xs={12} sm={12} md={10} lg={12}>
+							<Row align={'middle'}>
+								<div
+									style={{
+										width: '1.5rem',
+										height: '1.5rem',
+										cursor: 'pointer',
+										alignSelf: 'center',
+										marginTop: '1rem',
+										marginRight: '0.5rem',
+									}}
+									onClick={this.showDrawerMenu}
+									css={(theme) => ({
+										[`@media (min-width: 794px)`]: {
+											display: 'none',
+										},
+									})}
+								>
+									<img src={hamburger} alt="menu" />
+								</div>
+								<Col lg={5} className="logo-wrapper">
 									<a
 										href="/home"
 										onClick={this._onNavigate.bind(this, '/home/')}
@@ -621,34 +643,21 @@ class Header extends React.Component {
 								<Col
 									xs={17}
 									sm={19}
+									md={17}
+									lg={19}
 									css={(theme) => ({
 										[`@media (max-width: ${theme.sizes.md})`]: {
 											display: 'none',
 										},
 									})}
 								>
-									{menu}
+									{renderMenu('horizontal')}
 								</Col>
-								<div
-									style={{
-										width: '1.5rem',
-										height: '1.5rem',
-										cursor: 'pointer',
-									}}
-									onClick={this.showDrawerMenu}
-									css={(theme) => ({
-										[`@media (min-width: ${theme.sizes.md})`]: {
-											display: 'none',
-										},
-									})}
-								>
-									<img src={sun} alt="light theme" />
-								</div>
 								{menuDrawer}
 							</Row>
 						</Col>
 
-						<Col xs={4} sm={12}>
+						<Col xs={12} sm={12} md={14} lg={12}>
 							<div
 								css={{
 									display: 'flex',
@@ -662,10 +671,9 @@ class Header extends React.Component {
 											headerMenu === 'help'
 												? theme.colors.primaryColor
 												: theme.colors.white,
-										marginRight: '15px',
 										cursor: 'pointer',
-										[`@media (max-width: ${theme.sizes.lg})`]: {
-											display: 'none',
+										[`@media (min-width: ${theme.sizes.md})`]: {
+											marginRight: '15px',
 										},
 									})}
 									onClick={() => this.handleHeaderLink({key: 'get-help'})}
@@ -674,13 +682,29 @@ class Header extends React.Component {
 										css={(theme) => ({
 											color: theme.colors.white,
 											marginRight: '10px',
+											[`@media (max-width: ${theme.sizes.md})`]: {
+												color: theme.colors.primaryColor,
+												marginRight: 0,
+												svg: {
+													width: '30px',
+													height: '30px',
+												},
+											},
 										})}
 									/>
-									Get help
+									<span
+										css={(theme) => ({
+											[`@media (max-width: ${theme.sizes.md})`]: {
+												display: 'none',
+											},
+										})}
+									>
+										Get help
+									</span>
 								</Text>
 								<div
 									css={(theme) => ({
-										[`@media (max-width: ${theme.sizes.lg})`]: {
+										[`@media (max-width: ${theme.sizes.md})`]: {
 											display: 'none',
 										},
 									})}
@@ -699,7 +723,7 @@ class Header extends React.Component {
 
 								<div
 									css={(theme) => ({
-										[`@media (max-width: ${theme.sizes.lg})`]: {
+										[`@media (max-width: ${theme.sizes.md})`]: {
 											display: 'none',
 										},
 									})}

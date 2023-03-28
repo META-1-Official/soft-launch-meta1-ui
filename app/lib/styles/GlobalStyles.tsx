@@ -27,7 +27,7 @@ const GlobalStyles = (theme: any) => css`
 		.ant-menu-item-selected > a,
 		.ant-menu-item-selected > a:hover {
 			color: ${theme.colors.white} !important;
-		}
+		}		
 		.ant-menu-item-selected {
 			background: ${theme.colors.menuActiveBackground} !important;
 		}
@@ -39,9 +39,11 @@ const GlobalStyles = (theme: any) => css`
 			color: grey  !important;
 			background: none;
 			cursor: not-allowed;
-		}
+		}		
 	}
-
+	.ant-menu-vertical {
+		border-right: 1px solid ${theme.colors.borderColor};
+	}
 	.ant-menu-inline {
 		border-right: 1px solid ${theme.colors.borderColor};
 		.ant-menu-item:after {
@@ -54,6 +56,10 @@ const GlobalStyles = (theme: any) => css`
 		.ant-menu-item-selected: hover {
 			background-color: transparent !important;
 			color: ${theme.colors.primaryColor} !important;
+		}
+		.ant-menu-submenu {
+			display: flex;
+			align-items: center;
 		}
 	}
 	.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item:hover::after,
@@ -113,7 +119,7 @@ const GlobalStyles = (theme: any) => css`
 			border-top: 2px solid ${theme.colors.primaryColor} !important;
 			z-index: 2;
 			border-bottom: none !important;
-			background-color: ${theme.colors.black}
+			background-color: ${theme.colors.backgroundColor}
 		}
 	}
 	.ant-table {
@@ -139,7 +145,7 @@ const GlobalStyles = (theme: any) => css`
 	}
 
 	.ant-table-tbody {
-		background: ${theme.colors.black}; !important;
+		background: ${theme.colors.backgroundColor}; !important;
 		.ant-table-cell {
 			.ant-empty-description {
 				color: ${theme.colors.themeOpositeColor};;
@@ -272,7 +278,7 @@ const GlobalStyles = (theme: any) => css`
 		}
 	}
 	.ant-modal-content {
-		background: ${theme.colors.black};
+		background: ${theme.colors.backgroundColor};
 		border: 1px solid ${theme.colors.borderColor};
 		border-radius: 8px;
 
@@ -331,7 +337,7 @@ const GlobalStyles = (theme: any) => css`
 	}
 
 	.ant-form-item-has-error :not(.ant-input-disabled):not(.ant-input-borderless).ant-input, .ant-form-item-has-error :not(.ant-input-affix-wrapper-disabled):not(.ant-input-affix-wrapper-borderless).ant-input-affix-wrapper, .ant-form-item-has-error :not(.ant-input-number-affix-wrapper-disabled):not(.ant-input-number-affix-wrapper-borderless).ant-input-number-affix-wrapper, .ant-form-item-has-error :not(.ant-input-disabled):not(.ant-input-borderless).ant-input:hover, .ant-form-item-has-error :not(.ant-input-affix-wrapper-disabled):not(.ant-input-affix-wrapper-borderless).ant-input-affix-wrapper:hover, .ant-form-item-has-error :not(.ant-input-number-affix-wrapper-disabled):not(.ant-input-number-affix-wrapper-borderless).ant-input-number-affix-wrapper:hover {
-		background: ${theme.colors.black};
+		background: ${theme.colors.backgroundColor};
 	}
 	  
 	.ant-select-disabled.ant-select:not(.ant-select-customize-input) .ant-select-selector {
@@ -347,6 +353,48 @@ const GlobalStyles = (theme: any) => css`
 	
 	.ant-select-arrow {
 		color: ${theme.colors.themeOpositeColor};
+	}
+
+	.ant-drawer-content {
+		background-color: ${theme.colors.backgroundColor};
+		color: ${theme.colors.themeOpositeColor};
+
+		.ant-drawer-header {
+			border-bottom: 1px solid ${theme.colors.borderColor};
+
+			.ant-drawer-header-title {
+				svg {
+					color: ${theme.colors.themeOpositeColor};
+				}
+				.ant-drawer-title {
+					color: ${theme.colors.themeOpositeColor};
+				}
+			}
+		};
+
+		.ant-drawer-body {
+			ul {
+				border-right: transparent;
+
+				li {
+					text-align: center;
+					background:  ${theme.colors.primaryColor};
+					border-radius: 5px;
+
+					span {
+						color: black;
+					}
+				}
+			}
+			.ant-menu-item-selected {
+				background:  ${theme.colors.primaryColor} !important;
+				border: 1px solid black;
+			}
+			.ant-menu-item:hover {
+				background-color:  ${theme.colors.primaryColor} !important;
+				border: 1px solid black;
+			}
+		}
 	}
 `;
 export default GlobalStyles;

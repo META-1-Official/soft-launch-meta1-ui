@@ -21,36 +21,12 @@ const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
 
 const {Sider} = Layout;
-
-interface ISideBar {
-	collapsed: boolean;
-	toggle: (boolean) => void;
-	currentLink: string;
-}
 const {useBreakpoint} = Grid;
 
-const SideBar = ({collapsed, currentLink, toggle}: ISideBar) => {
-	const theme: any = useTheme();
+const SideBar = ({collapsed, currentLink, toggle}) => {
+	const theme = useTheme();
 	const screens = useBreakpoint();
 
-	/* Old logic */
-	// let accountName =
-	// 	AccountStore.getState().currentAccount ||
-	// 	AccountStore.getState().passwordAccount;
-	// accountName =
-	// 	accountName && accountName !== 'null' ? accountName : 'committee-account';
-
-	// const checkCurrentAccount =
-	// 	AccountStore.getState().currentAccount ||
-	// 	AccountStore.getState().passwordAccount;
-
-	// const enableNavLinks = checkCurrentAccount
-	// 	? checkCurrentAccount === null
-	// 		? false
-	// 		: true
-	// 	: false;
-
-	/* New logic */
 	const accountName = ss.get('account_login_name', '');
 	const token = ss.get('account_login_token', '');
 	const enableNavLinks = accountName && token;
@@ -112,7 +88,7 @@ const SideBar = ({collapsed, currentLink, toggle}: ISideBar) => {
 		},
 	];
 
-	const sideMenuClick = (e: any) => {
+	const sideMenuClick = (e) => {
 		let link = e.key;
 
 		if (e.key === 'account') {
@@ -151,11 +127,12 @@ const SideBar = ({collapsed, currentLink, toggle}: ISideBar) => {
 					backgroundColor: 'black',
 				},
 			}}
-			breakpoint="sm"
+			breakpoint="md"
 			onBreakpoint={() => {
-				screens['xs'] === true ? toggle(true) : toggle(false);
+				screens['sm'] === true ? toggle(true) : toggle(false);
 			}}
 			className={collapsed ? 'none' : null}
+			collapsedWidth={50}
 		>
 			<Menu
 				css={{

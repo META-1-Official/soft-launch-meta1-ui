@@ -360,7 +360,7 @@ class AccountSelector extends React.Component {
 							}}
 							css={(theme) => ({
 								'&&': {
-									backgroundColor: theme.colors.black,
+									backgroundColor: theme.colors.backgroundColor,
 									border: `1px solid ${theme.colors.borderColor}`,
 									color: 'white',
 									borderRadius: '4px',
