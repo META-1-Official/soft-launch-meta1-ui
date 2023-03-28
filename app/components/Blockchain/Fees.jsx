@@ -102,7 +102,7 @@ class FeeGroup extends React.Component {
 
 			let opId = feeStruct[0];
 			let fee = feeStruct[1];
-			console.log(opID, fee);
+
 			let operation_name = ops[opId];
 			let feename = trxTypes[operation_name];
 
