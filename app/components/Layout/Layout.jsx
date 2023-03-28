@@ -4,17 +4,12 @@ import Header from './Header';
 import SideBar from './SideBar';
 
 const {Content, Footer} = Layout;
-interface IAppLayout {
-	children: React.ReactNode;
-	height: number;
-	location: any;
-}
 
-const AppLayout = ({children, location, height}: IAppLayout, others) => {
-	const [collapsed, setcollapsed] = useState<boolean>(true);
-	const [currentLink, setCurrentLink] = useState<string>('');
+const AppLayout = ({children, location, height}, others) => {
+	const [collapsed, setcollapsed] = useState(true);
+	const [currentLink, setCurrentLink] = useState('');
 
-	const toggle = (value: boolean) => setcollapsed(value);
+	const toggle = (value) => setcollapsed(value);
 
 	const pathSnippets = location.pathname.split('/').filter((i) => i);
 	const qd = {};
@@ -47,6 +42,8 @@ const AppLayout = ({children, location, height}: IAppLayout, others) => {
 			}
 		} else if (pathSnippets.includes('learn')) {
 			link = pathSnippets[0];
+		} else if (pathSnippets.includes('registration')) {
+			link = 'registration';
 		} else {
 			link = pathSnippets[0];
 		}
@@ -56,7 +53,7 @@ const AppLayout = ({children, location, height}: IAppLayout, others) => {
 
 	useEffect(() => {
 		setCurrentLink(link);
-		if (link === 'market') {
+		if (link === 'market' || link === 'registration') {
 			setcollapsed(true);
 		} else {
 			setcollapsed(false);
@@ -71,22 +68,16 @@ const AppLayout = ({children, location, height}: IAppLayout, others) => {
 					zIndex: 1,
 					width: '100%',
 					display: 'flex',
-					backgroundColor: `${theme.colors.black}`,
+					backgroundColor: `${theme.colors.backgroundColor}`,
 					lineHeight: '3rem',
 					padding: '0px 9px',
 				},
 				'&& .ant-layout-content': {
-					backgroundColor: `${theme.colors.black}`,
+					backgroundColor: `${theme.colors.backgroundColor}`,
 				},
 			})}
 		>
-			{/* <Icon
-				className="trigger"
-				type={collapsed ? 'menu-unfold' : 'menu-fold'}
-				onClick={toggle}
-			/> */}
 			<Header currentLink={currentLink} height={height} {...others} />
-
 			<Content>
 				<Layout>
 					<SideBar
@@ -98,7 +89,7 @@ const AppLayout = ({children, location, height}: IAppLayout, others) => {
 				</Layout>
 			</Content>
 
-			<Footer>META1 © 2022</Footer>
+			<Footer>META1 © 2023</Footer>
 		</Layout>
 	);
 };

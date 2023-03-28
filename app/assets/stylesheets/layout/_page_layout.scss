@@ -15,6 +15,7 @@ $footerLightTextColor: #566176;
 
 		.ant-layout-header {
 			height: 3rem;
+			background-color: #0a0b0d;
 		}
 
 		> .ant-layout-content {
@@ -53,7 +54,7 @@ $footerLightTextColor: #566176;
 			height: 2rem;
 			position: 'fixed';
 			bottom: 0;
-			zindex: 1;
+			z-index: 1;
 			width: 100%;
 			text-align: center;
 			background-color: $footerDarkBackground !important;
@@ -73,6 +74,7 @@ $footerLightTextColor: #566176;
 
 		.ant-layout-header {
 			height: 3rem;
+			background-color: white;
 		}
 
 		> .ant-layout-content {
@@ -111,7 +113,7 @@ $footerLightTextColor: #566176;
 			height: 2rem;
 			position: 'fixed';
 			bottom: 0;
-			zindex: 1;
+			z-index: 1;
 			width: 100%;
 			text-align: center;
 			background-color: $footerLightBackground !important;

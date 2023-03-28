@@ -632,7 +632,7 @@ class WalletUnlockModal extends React.Component {
 								<Input
 									css={(theme) => ({
 										'&&': {
-											backgroundColor: theme.colors.black,
+											backgroundColor: theme.colors.backgroundColor,
 											border: `1px solid ${theme.colors.borderColor}`,
 											color: theme.colors.inputTextColor,
 											borderRadius: '4px',
