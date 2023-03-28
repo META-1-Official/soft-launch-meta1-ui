@@ -2,6 +2,7 @@ const theme = {
 	mode: 'light',
 	colors: {
 		primaryColor: '#ffc000',
+		textColor: '#666666',
 		themeOpositeColor: '#000000',
 		background: '#ffffff',
 		footerBackground: '#aaaaaa',

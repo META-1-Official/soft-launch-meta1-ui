@@ -564,7 +564,7 @@ class Header extends React.Component {
 					<Link
 						to={{pathname: process.env.EXPLORER_META1_URL}}
 						target="_blank"
-						style={{color: '#fff'}}
+						style={{color: this.props.theme.mode === 'dark' ? '#fff' : '#000'}}
 					>
 						<Translate component="span" content="header.explorer2" />
 					</Link>

@@ -2,7 +2,8 @@ const theme = {
 	mode: 'dark',
 	colors: {
 		primaryColor: '#ffc000',
-		themeOpositeColor: '#ffff',
+		textColor: '#fff',
+		themeOpositeColor: '#fff',
 		background: '#1f1a17',
 		footerBackground: '#15171b',
 		explorerBackground: '#0c0e11',
