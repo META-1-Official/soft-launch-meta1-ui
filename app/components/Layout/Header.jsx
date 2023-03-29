@@ -786,7 +786,14 @@ class Header extends React.Component {
 										height: '1.5rem',
 									}}
 								>
-									<img src={sun} alt="light theme" />
+									<img
+										src={this.props.theme.mode === 'dark' ? sun : moon}
+										alt={
+											this.props.theme.mode === 'dark'
+												? 'light theme'
+												: 'dark theme'
+										}
+									/>
 								</div>
 							</div>
 						</Col>
