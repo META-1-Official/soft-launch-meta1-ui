@@ -607,10 +607,10 @@ class AccountRegistrationForm extends React.Component {
 							) : null}
 						</div>
 					)}
-					{/*<ReCAPTCHA*/}
-					{/*	sitekey={`${process.env.RECAPTCHA_SITE_KEY}`}*/}
-					{/*	onChange={this.caChange.bind(this)}*/}
-					{/*/>*/}
+					<ReCAPTCHA
+						sitekey={`${process.env.RECAPTCHA_SITE_KEY}`}
+						onChange={this.caChange.bind(this)}
+					/>
 					<br></br>
 					{this.state.loading ? (
 						<LoadingIndicator type="three-bounce" />
