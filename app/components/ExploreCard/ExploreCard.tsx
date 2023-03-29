@@ -53,6 +53,8 @@ const ExploreCard = ({
 				<div
 					css={() => ({
 						marginLeft: '1rem',
+						width: '100%',
+						paddingRight: '2rem',
 					})}
 				>
 					<Translate

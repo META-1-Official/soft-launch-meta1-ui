@@ -51,9 +51,9 @@ class BlockTimeAgo extends React.Component {
 			<div>
 				<Text
 					className={textClass}
-					css={() => ({
+					css={(theme) => ({
 						fontSize: '1.2rem',
-						color: 'white',
+						color: theme.colors.descriptionTextColor,
 						fontWeight: 700,
 					})}
 				>
