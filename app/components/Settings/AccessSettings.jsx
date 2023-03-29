@@ -645,7 +645,7 @@ class AccessSettings extends React.Component {
 						/>
 					</div>
 				</div>
-				<div style={{padding: '1rem 1.5rem'}}>
+				<div className="node-content">
 					<div className="active-node">
 						{renderNode(connectedNode, connectedNode)}
 					</div>
