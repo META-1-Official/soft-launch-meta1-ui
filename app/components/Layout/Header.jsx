@@ -263,6 +263,16 @@ class Header extends React.Component {
 		this._closeAccountNotifications();
 	}
 
+	_toggleTheme() {
+		const currentTheme = SettingsStore.getState().settings.get('themes');
+
+		SettingsActions.changeSetting({
+			setting: 'themes',
+			value: currentTheme === 'darkTheme' ? 'lightTheme' : 'darkTheme',
+		});
+		window.location.reload();
+	}
+
 	_onNavigate(route, e, fromMenu, claimWalletFlag = false) {
 		!fromMenu && e.preventDefault();
 
@@ -785,8 +795,16 @@ class Header extends React.Component {
 										width: '1.5rem',
 										height: '1.5rem',
 									}}
+									onClick={this._toggleTheme}
 								>
-									<img src={sun} alt="light theme" />
+									<img
+										src={this.props.theme.mode === 'dark' ? sun : moon}
+										alt={
+											this.props.theme.mode === 'dark'
+												? 'light theme'
+												: 'dark theme'
+										}
+									/>
 								</div>
 							</div>
 						</Col>
