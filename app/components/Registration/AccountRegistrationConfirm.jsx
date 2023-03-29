@@ -12,6 +12,7 @@ import {FetchChain, ChainStore} from 'meta1-vision-js/es';
 import WalletUnlockActions from 'actions/WalletUnlockActions';
 import axios from 'axios';
 import {Button, Input, Checkbox, Form, Modal, Typography} from 'antd';
+import sendXApi from '../../api/sendxApi';
 import CopyButton from '../Utility/CopyButton';
 import ls from '../../lib/common/localStorage';
 
@@ -45,6 +46,7 @@ class AccountRegistrationConfirm extends React.Component {
 			confirmedTerms2: false,
 			confirmedTerms3: false,
 			confirmedTerms4: false,
+			emailSubscription: false,
 			isErrored: false,
 			name: '',
 			password: '',
@@ -57,6 +59,7 @@ class AccountRegistrationConfirm extends React.Component {
 		this.toggleConfirmedTerms2 = this.toggleConfirmedTerms2.bind(this);
 		this.toggleConfirmedTerms3 = this.toggleConfirmedTerms3.bind(this);
 		this.toggleConfirmedTerms4 = this.toggleConfirmedTerms4.bind(this);
+		this.toggleEmailSubscription = this.toggleEmailSubscription.bind(this);
 		this.verifyESign = this.verifyESign.bind(this);
 		this.createAccount = this.createAccount.bind(this);
 		this.onCreateAccount = this.onCreateAccount.bind(this);
@@ -71,6 +74,7 @@ class AccountRegistrationConfirm extends React.Component {
 			nextState.confirmedTerms2 !== this.state.confirmedTerms2 ||
 			nextState.confirmedTerms3 !== this.state.confirmedTerms3 ||
 			nextState.confirmedTerms4 !== this.state.confirmedTerms4 ||
+			nextState.emailSubscription !== this.state.emailSubscription ||
 			nextState.downloadPaperWalletModal !==
 				this.state.downloadPaperWalletModal ||
 			nextState.copyPasswordModal !== this.state.copyPasswordModal
@@ -87,6 +91,7 @@ class AccountRegistrationConfirm extends React.Component {
 			confirmedTerms: ss.get('confirmedTerms', false),
 			confirmedTerms2: ss.get('confirmedTerms2', false),
 			confirmedTerms3: ss.get('confirmedTerms3', false),
+			emailSubscription: ss.get('emailSubscription', false),
 		});
 	}
 
@@ -245,6 +250,21 @@ class AccountRegistrationConfirm extends React.Component {
 		ss.remove('confirmedTerms');
 		ss.remove('confirmedTerms2');
 		ss.remove('account_registration_name');
+		const emailSubscription = ss.get('emailSubscription', false);
+		if (emailSubscription) {
+			sendXApi
+				.subscribe({
+					email,
+					tags: ['MEMBERS'],
+					firstName: first_name,
+					lastName: last_name,
+					customFields: {mobile: phone_number},
+				})
+				.then(() => {
+					console.log('Subscription completed!');
+				});
+		}
+		ss.remove('emailSubscription');
 		AccountActions.createAccountWithPassword(
 			name,
 			password,
@@ -423,6 +443,17 @@ class AccountRegistrationConfirm extends React.Component {
 		}
 	}
 
+	toggleEmailSubscription(e) {
+		this.setState(
+			{
+				emailSubscription: e.target.checked,
+			},
+			() => {
+				ss.set('emailSubscription', e.target.checked);
+			}
+		);
+	}
+
 	render() {
 		return (
 			<>
@@ -536,6 +567,21 @@ class AccountRegistrationConfirm extends React.Component {
 							}`}
 						>
 							&nbsp;&nbsp;&nbsp;&nbsp;Sign META Association Membership Agreement
+						</button>
+
+						<br />
+
+						<Checkbox
+							checked={this.state.emailSubscription}
+							onChange={this.toggleEmailSubscription}
+						></Checkbox>
+
+						<button
+							className={`reset-this terms ${
+								this.state.emailSubscription ? 'active' : ''
+							}`}
+						>
+							&nbsp;&nbsp;&nbsp;&nbsp;Subscribe for exclusive news and offers
 						</button>
 
 						<div id="myModal" class="custom-modal">
