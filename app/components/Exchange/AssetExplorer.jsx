@@ -89,7 +89,7 @@ const AssetExplorer = ({history}) => {
 						avatar={<Avatar src={getGoldImage()} className="asset-img" />}
 						description={
 							<Row>
-								<Col xs={24} sm={12} style={{paddingLeft: '1rem'}}>
+								<Col xs={24} sm={12} className="container">
 									<Text
 										onClick={() => onDescriptionClick(pid)}
 										style={{
@@ -123,10 +123,9 @@ const AssetExplorer = ({history}) => {
 									}}
 								>
 									<Text
+										className="content"
 										style={{
 											color: theme.colors.bankingAssetsStatusColor,
-											fontSize: '16px',
-											width: '100%',
 										}}
 									>
 										{status}
@@ -143,13 +142,9 @@ const AssetExplorer = ({history}) => {
 									}}
 								>
 									<Text
+										className="percentage-content"
 										style={{
 											color: percent > 50 ? '#0F923A' : '#FFC000',
-											float: 'right',
-											width: '170px',
-											textAlign: 'right',
-											fontSize: '15px',
-											marginBottom: '10px',
 										}}
 									>
 										{percent}%
@@ -174,15 +169,11 @@ const AssetExplorer = ({history}) => {
 		<div className="backing-assets">
 			<PageHeader title="Backing Assets" level={3} showDivider />
 			<div className="content-body">
-				<Row align="middle" gutter={[16, 16]} style={{padding: '30px'}}>
+				<Row align="middle" gutter={[16, 16]} className="header">
 					<Col xs={4} sm={3}>
 						<img src={bankingAssetsLogo} />
 					</Col>
-					<Col
-						xs={20}
-						sm={19}
-						style={{display: 'flex', flexDirection: 'column'}}
-					>
+					<Col xs={20} sm={19} className="header-content">
 						<Text
 							className="title1"
 							style={{color: theme.colors.descriptionTextColor}}

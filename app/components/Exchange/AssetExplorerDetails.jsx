@@ -127,12 +127,12 @@ const AssetExplorerDetails = ({history}) => {
 						</Text>
 					</div>
 					<div className="info-body">
-						<Row align="middle">
-							<Col xs={24} sm={6} lg={9}>
+						<Row className="info-details" align="middle">
+							<Col xs={24} sm={24} lg={24}>
 								<img
 									src={getGoldImage()}
 									css={{marginLeft: '10px', marginRight: '10px'}}
-									width={'365px'}
+									className="info-img"
 								/>
 							</Col>
 							<Col xs={24} sm={18} lg={15}>
@@ -144,9 +144,8 @@ const AssetExplorerDetails = ({history}) => {
 									<Text
 										css={(theme) => ({
 											color: `${theme.colors.helpTextColor} !important`,
-											fontSize: '16px',
-											lineHeight: '24px',
 										})}
+										className="info-content"
 									>
 										{asset?.options.description}
 									</Text>
@@ -160,18 +159,10 @@ const AssetExplorerDetails = ({history}) => {
 										lineHeight: '1.5rem',
 									})}
 								>
-									<Col
-										xs={12}
-										sm={9}
-										css={{color: 'rgba(206, 206, 206, 0.6)', fontSize: '16px'}}
-									>
+									<Col xs={12} sm={9} className="info-content-value">
 										Custodian:
 									</Col>
-									<Col
-										xs={12}
-										sm={9}
-										css={{color: 'rgba(206, 206, 206, 0.6)', fontSize: '16px'}}
-									>
+									<Col xs={12} sm={9} className="info-content-value">
 										{' '}
 										{asset?.options.custodian}
 									</Col>
@@ -184,18 +175,10 @@ const AssetExplorerDetails = ({history}) => {
 										lineHeight: '1.5rem',
 									})}
 								>
-									<Col
-										xs={12}
-										sm={9}
-										css={{color: 'rgba(206, 206, 206, 0.6)', fontSize: '16px'}}
-									>
+									<Col xs={12} sm={9} className="info-content-value">
 										Contact Email:
 									</Col>
-									<Col
-										xs={12}
-										sm={9}
-										css={{color: 'rgba(206, 206, 206, 0.6)', fontSize: '16px'}}
-									>
+									<Col xs={12} sm={9} className="info-content-value">
 										{asset?.options.owner_contact_email}
 									</Col>
 								</Row>
@@ -208,9 +191,8 @@ const AssetExplorerDetails = ({history}) => {
 									<a
 										css={(theme) => ({
 											color: `${theme.colors.primaryColor} !important`,
-											textDecoration: 'underline',
-											fontSize: '16px',
 										})}
+										className="document-link"
 										href={asset?.options.detailed_document_link}
 									>
 										Document Link
