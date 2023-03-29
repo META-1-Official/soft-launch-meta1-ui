@@ -441,9 +441,11 @@ class AuthRedirect extends React.Component {
 						<br />
 						{this.state.webcamEnabled && (
 							<div
-								style={{
+								css={(theme) => ({
 									position: 'relative',
-								}}
+									border: `1px solid ${theme.colors.borderColor}`,
+									borderRadius: '3px',
+								})}
 							>
 								<div className="flex-container">
 									<div className="flex-container-first">

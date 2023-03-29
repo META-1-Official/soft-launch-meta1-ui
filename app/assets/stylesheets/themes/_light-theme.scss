@@ -1248,6 +1248,40 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 				color: #666666;
 			}
 		}
+
+		&.auth-modal {
+			.providerHeader {
+				box-shadow: none;
+			}
+
+			.orText {
+				color: #666666;
+			}
+
+			.providerBlockWrapper {
+				border: 1px solid $border-color;
+			}
+
+			.providerBlockWrapperMP {
+				border: 1px solid $border-color;
+			}
+
+			.providersInput {
+				border: 1px solid $border-color;
+			}
+
+			.providersBlockBrand {
+				border: 1px solid $border-color;
+			}
+
+			.providersBlockBrandMP {
+				border: 1px solid $border-color;
+			}
+
+			.providersCount {
+				border: 1px solid $border-color;
+			}
+		}
 	}
 
 	// Withdraw modal
@@ -1334,7 +1368,7 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 					color: $dark;
 
 					&.active {
-						color: rgba(206, 206, 206, 0.5);
+						color: rgba(0, 0, 0, 0.5);
 					}
 				}
 
@@ -1342,7 +1376,7 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 					color: $dark;
 
 					&.active {
-						color: rgba(206, 206, 206, 0.5);
+						color: rgba(0, 0, 0, 0.5);
 					}
 				}
 			}
@@ -1446,6 +1480,15 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 
 	// Layout
 	.registration-layout {
+		.password-wrapper {
+			border: 1px solid $border-color;
+
+			.ant-input:disabled {
+				background: transparent;
+				color: rgba(0, 0, 0, 0.5);
+			}
+		}
+
 		input {
 			background: transparent;
 			border: 1px solid $border-color;
@@ -1523,6 +1566,57 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 					&:last-child {
 						border-bottom: none;
 					}
+				}
+			}
+		}
+	}
+
+	// Menu
+	ul.header-menu {
+		li {
+			background: transparent;
+
+			&.level-1 {
+				background: transparent;
+			}
+
+			&.level-2 {
+				background: transparent;
+			}
+
+			&:hover {
+				background: $bg-color-lightblue;
+			}
+
+			span {
+				color: #666666;
+			}
+
+			> div.ant-dropdown-menu-submenu-title {
+				span.ant-dropdown-menu-submenu-expand-icon {
+					> span {
+						color: #666666;
+					}
+				}
+			}
+		}
+
+		.disable-li-text span {
+			color: #808080 !important;
+		}
+	}
+
+	.advanced-submenu {
+		ul {
+			li {
+				background: transparent;
+
+				&:hover {
+					background: $bg-color-lightblue;
+				}
+
+				span {
+					color: #666666;
 				}
 			}
 		}
