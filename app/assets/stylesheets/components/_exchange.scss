@@ -491,7 +491,7 @@ p.order-table-title {
 
 .orders-and-trade {
 	display: flex;
-	height: 550px;
+	height: 870px;
 
 	.orders-trade-form {
 		flex-grow: 1;
@@ -1522,17 +1522,37 @@ form.hide-container {
 		background: #0a0b0d;
 		border: 1px solid #1c1f27;
 		border-radius: 4px;
+		.header {
+			padding: '30px';
+			@media screen and (max-width: 870px) {
+				flex-direction: column;
+				align-items: baseline;
+				margin-bottom: 16px;
+				margin-left: 6px !important;
+			}
+			.header-content {
+				display: flex;
+				flex-direction: column;
+			}
+		}
 	}
 
 	.title1 {
 		font-size: 24px;
 		margin-bottom: 10px;
+		@media screen and (max-width: 870px) {
+			font-size: 16px !important;
+			line-height: 1.5 !important;
+		}
 	}
 
 	.title2 {
 		font-size: 20px;
 		margin-bottom: 10px;
-
+		@media screen and (max-width: 870px) {
+			font-size: 12px !important;
+			line-height: 1.5 !important;
+		}
 		.golden {
 			color: #ffc000;
 		}
@@ -1540,8 +1560,48 @@ form.hide-container {
 
 	.title3 {
 		font-size: 16px;
+		@media screen and (max-width: 870px) {
+			font-size: 11px !important;
+			line-height: 1.5 !important;
+		}
 	}
-
+	.ant-typography {
+		@media screen and (max-width: 870px) {
+			font-size: 12px;
+			//width: unset !important;
+		}
+		@media screen and (max-width: 650px) {
+			display: flex;
+			justify-content: left;
+		}
+	}
+	.percentage-content {
+		float: right !important;
+		width: 170px;
+		text-align: right;
+		font-size: 15px;
+		@media screen and (max-width: 870px) {
+			width: 119px;
+		}
+		@media screen and (max-width: 650px) {
+			width: 100%;
+			display: inline;
+			margin-left: 10px;
+		}
+		@media screen and (max-width: 650px) {
+			margin-left: 14px;
+		}
+	}
+	.content {
+		font-size: 16px;
+		width: 100%;
+	}
+	.container {
+		padding-left: '1rem';
+		@media screen and (max-width: 650px) {
+			padding-left: 1px;
+		}
+	}
 	.list-wrapper {
 		position: relative;
 
@@ -1556,7 +1616,12 @@ form.hide-container {
 			height: 50px;
 			align-items: center;
 			display: flex;
-
+			@media (max-width: 870px) {
+				height: unset !important;
+				width: 95% !important;
+				right: 17px !important;
+				top: 50px !important;
+			}
 			.ant-input-affix-wrapper {
 				background: #21252f;
 
@@ -1583,23 +1648,41 @@ form.hide-container {
 				background: #15171b;
 				border-top: 1px solid #212530;
 				padding-left: 20px;
-
+				@media (max-width: 870px) {
+					height: 40px !important;
+					padding-left: 6px !important;
+				}
 				.ant-tabs-tab {
 					font-size: 16px;
 					color: #969ba6;
 					width: 136px;
 					display: flex;
 					justify-content: center;
+					@media (max-width: 870px) {
+						font-size: 14px !important;
+						width: 90px !important;
+					}
 
 					&.ant-tabs-tab-active {
 						border-top: 3px solid #ffc000 !important;
 					}
 				}
 			}
-
+			.ant-list-item-meta {
+				@media (max-width: 650px) {
+					flex-direction: column;
+				}
+			}
+			.ant-list-item-meta-content {
+				@media (max-width: 650px) {
+					width: 100%;
+				}
+			}
 			.ant-list-items {
 				margin-top: 10px;
-
+				@media (max-width: 870px) {
+					margin-top: 40px !important;
+				}
 				.ant-list-item {
 					padding: 20px;
 					border-bottom: 1px solid #1c1f27;
@@ -1612,6 +1695,18 @@ form.hide-container {
 
 				.progress {
 					width: 170px;
+					margin-top: 20px;
+					@media (max-width: 870px) {
+						width: 119px;
+					}
+					@media (max-width: 650px) {
+						width: 80%;
+						margin-top: -17px;
+						margin-right: 10px;
+					}
+					@media (max-width: 380px) {
+						width: 70%;
+					}
 
 					.ant-progress-inner {
 						height: 10px;
@@ -1634,6 +1729,13 @@ form.hide-container {
 	.header-wrapper {
 		padding: 3rem;
 		text-align: center;
+		@media (max-width: 850px) {
+			padding: 0.5rem;
+			margin-top: 20px;
+			h3 {
+				font-size: 18px !important;
+			}
+		}
 	}
 
 	.main-body {
@@ -1646,17 +1748,65 @@ form.hide-container {
 			flex-direction: row;
 			align-items: center;
 			padding: 30px;
+			@media (max-width: 850px) {
+				padding: 0.5rem;
+				span {
+					font-size: 13px !important;
+					word-wrap: break-word;
+				}
+			}
 		}
-
+		.info-content {
+			font-size: 16px;
+			line-height: 24px;
+			@media (max-width: 850px) {
+				font-size: 13px;
+				word-wrap: break-word;
+			}
+		}
+		.info-content-value {
+			color: rgba(206, 206, 206, 0.6);
+			font-size: 16px;
+			@media (max-width: 850px) {
+				font-size: 13px;
+				word-wrap: break-word;
+			}
+		}
+		.document-link {
+			text-decoration: underline;
+			font-size: 16px;
+			@media (max-width: 850px) {
+				font-size: 13px;
+			}
+		}
 		.info-body {
 			background: #15171b;
 			border-bottom-left-radius: 10px;
 			border-bottom-right-radius: 10px;
 			padding: 30px;
-
+			@media (max-width: 850px) {
+				padding: 15px;
+			}
 			.info-text {
 				font-size: 16px;
 				color: #cecece;
+				@media (max-width: 850px) {
+					font-size: 13px;
+				}
+			}
+			.info-details {
+				@media (max-width: 650px) {
+					flex-direction: column;
+					align-items: baseline;
+				}
+				.info-img {
+					width: 365px;
+					padding: 20px;
+					@media (max-width: 850px) {
+						width: 50%;
+						margin: 0px;
+					}
+				}
 			}
 		}
 
@@ -1671,10 +1821,25 @@ form.hide-container {
 			align-items: center;
 			justify-content: space-between;
 
+			@media (max-width: 850px) {
+				padding: 15px;
+				flex-direction: column !important;
+				gap: 20px;
+				span {
+					font-size: 18px;
+					width: 96%;
+				}
+			}
 			.progress-wrapper {
 				display: flex;
 				flex-direction: row;
 				align-items: center;
+				@media (max-width: 850px) {
+					width: 100%;
+					span {
+						width: 50px;
+					}
+				}
 
 				.progress {
 					width: 170px;
