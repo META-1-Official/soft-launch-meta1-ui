@@ -83,6 +83,7 @@ class AccountsSettings extends React.Component {
 		return (
 			<div className="account-settings">
 				<div
+					className="account-header"
 					css={(theme) => ({
 						padding: '1rem 1.5rem',
 						borderBottom: `1px solid ${theme.colors.borderColor}`,
