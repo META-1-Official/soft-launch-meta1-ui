@@ -60,6 +60,52 @@ $footerLightTextColor: #566176;
 			background-color: $footerDarkBackground !important;
 			padding: 9px 50px !important;
 			color: $footerDarkTextColor !important;
+			border-top: 1px solid #1c1f27;
+		}
+
+		.exchange-footer {
+			position: relative;
+			height: 60px;
+			background-color: #ffc000 !important;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 0px !important;
+
+			.logo-wrapper {
+				position: absolute;
+				top: -40px;
+				left: 0;
+				display: flex;
+				justify-content: center;
+				width: 100%;
+
+				.footer-logo {
+					width: 70px;
+				}
+			}
+
+			.icon-button {
+				z-index: 100;
+				.anticon {
+					font-size: 24px;
+					margin-bottom: 5px;
+					color: black;
+				}
+
+				.ant-typography {
+					font-size: 16px;
+				}
+			}
+
+			.normal-button {
+				width: 100px;
+				height: 40px;
+				color: black;
+				display: flex;
+				flex-direction: column;
+				justify-content: end;
+			}
 		}
 	}
 }
@@ -119,6 +165,52 @@ $footerLightTextColor: #566176;
 			background-color: $footerLightBackground !important;
 			padding: 9px 50px !important;
 			color: $footerLightTextColor !important;
+			border-top: 1px solid #eaeaea;
+		}
+
+		.exchange-footer {
+			position: relative;
+			height: 60px;
+			background-color: #ffc000 !important;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 0px !important;
+
+			.logo-wrapper {
+				position: absolute;
+				top: -40px;
+				left: 0;
+				display: flex;
+				justify-content: center;
+				width: 100%;
+
+				.footer-logo {
+					width: 70px;
+				}
+			}
+
+			.icon-button {
+				z-index: 100;
+				.anticon {
+					font-size: 24px;
+					margin-bottom: 5px;
+					color: black;
+				}
+
+				.ant-typography {
+					font-size: 16px;
+				}
+			}
+
+			.normal-button {
+				width: 100px;
+				height: 40px;
+				color: black;
+				display: flex;
+				flex-direction: column;
+				justify-content: end;
+			}
 		}
 	}
 }
@@ -253,6 +345,7 @@ div.bordered-header {
 		position: static !important;
 		margin-right: 10px;
 	}
+
 	.close-icon {
 		position: absolute;
 		top: 8px;
@@ -268,9 +361,11 @@ div.bordered-header {
 .search-input {
 	.ant-input-suffix {
 		right: 0px !important;
+
 		.anticon {
 			width: 32px;
 			height: 32px;
+
 			svg {
 				margin: 9px;
 			}
@@ -373,6 +468,7 @@ ul.header-menu {
 	.disable-li-text span {
 		color: #808080 !important;
 	}
+
 	.claim-wallet-background {
 		background-color: #ffc000 !important;
 	}
