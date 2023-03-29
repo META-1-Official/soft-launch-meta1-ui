@@ -428,7 +428,11 @@ class AccountRegistrationConfirm extends React.Component {
 			<>
 				<Form layout={'vertical'}>
 					<div
-						style={{color: '#CECECE', fontSize: '14px', marginBottom: '45px'}}
+						css={(theme) => ({
+							color: theme.colors.descriptionTextColor,
+							fontSize: '14px',
+							marginBottom: '45px',
+						})}
 					>
 						<Translate
 							component="p"

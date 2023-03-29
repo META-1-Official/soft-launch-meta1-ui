@@ -334,7 +334,7 @@ class AccountRegistration extends React.Component {
 	proceedESign() {
 		const {privKey, authData} = this.props;
 		ss.set('confirmedTerms4Token', 'success');
-		ss.set('email', authData.email.toLowerCase());
+		ss.set('email', authData?.email?.toLowerCase());
 		const accountName = ss.get('account_registration_name', '');
 		if (!accountName || !privKey) return;
 
@@ -387,29 +387,34 @@ class AccountRegistration extends React.Component {
 					}}
 				>
 					<div
-						style={{
+						css={(theme) => ({
 							fontSize: '24px',
-							color: 'white',
+							color: theme.colors.textColor,
 							marginBottom: '15px',
 							marginTop: '50px',
-						}}
+						})}
 					>
 						Import Legacy Wallet
 					</div>
 					<div
-						style={{
-							color: 'white',
-							marginBottom: '50px',
+						css={(theme) => ({
+							color: theme.colors.textColor,
+							marginBottom: '30px',
 							lineHeight: 1.2,
-							marginBottom: '10px',
-						}}
+						})}
 					>
 						This wallet is existing in the LEGACY META Blockchain and so it
 						should be imported instead of being created. If you own this wallet,
 						you can continue to import. In other case, you need to go back and
 						create the wallet with the different wallet name.
 					</div>
-					<div style={{color: 'white', marginBottom: '50px', lineHeight: 1.2}}>
+					<div
+						css={(theme) => ({
+							color: theme.colors.textColor,
+							marginBottom: '30px',
+							lineHeight: 1.2,
+						})}
+					>
 						To import your original wallet from the LEGACY META Blockchain
 						please enter your LEGACY wallet ID and passkey for that wallet
 						below.
@@ -478,9 +483,11 @@ class AccountRegistration extends React.Component {
 					<br />
 					{this.state.webcamEnabled && (
 						<div
-							style={{
+							css={(theme) => ({
 								position: 'relative',
-							}}
+								border: `1px solid ${theme.colors.borderColor}`,
+								borderRadius: '3px',
+							})}
 						>
 							<div className="flex-container-new">
 								<div className="flex-container-first">

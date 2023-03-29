@@ -77,12 +77,6 @@ const PredictionMarketsPage = Loadable({
 	loading: LoadingIndicator,
 });
 
-const Arts = Loadable({
-	loader: () =>
-		import(/* webpackChunkName: "arts" */ './components/Arts/Arts.js'),
-	loading: LoadingIndicator,
-});
-
 const AccountPage = Loadable({
 	loader: () =>
 		import(
@@ -449,11 +443,11 @@ class App extends React.Component {
 						<Route path="/contact/add" component={AddContact} />
 
 						<Route path="/invoice/:data" component={Invoice} />
-						<Route path="/create-account" component={AccountRegistration} />
-						<Route path="/login" component={Login} />
+						{/* <Route path="/create-account" component={AccountRegistration} /> */}
+						{/* <Route path="/login" component={Login} /> */}
 						<Route path="/registration" exact component={AccountRegistration} />
 						<Route path="/auth-proceed" component={AuthRedirect} />
-						<Route
+						{/* <Route
 							path="/registration/local"
 							exact
 							component={WalletRegistration}
@@ -462,8 +456,7 @@ class App extends React.Component {
 							path="/registration/cloud"
 							exact
 							component={AccountRegistration}
-						/>
-						<Route path="/arts" component={Arts} />
+						/> */}
 						{/* Explorer routes */}
 						<Route path="/explorer/:tab" component={Explorer} />
 						<Route path="/explorer" component={Explorer} />
@@ -490,7 +483,7 @@ class App extends React.Component {
 
 						<Route path="/create-worker" component={CreateWorker} />
 
-						<Route path="/Onramperwallet" component={Onramperwallet} />
+						<Route path="/onramperwallet" component={Onramperwallet} />
 
 						<Route
 							exact

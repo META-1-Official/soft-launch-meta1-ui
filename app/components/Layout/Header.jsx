@@ -769,13 +769,13 @@ class Header extends React.Component {
 											title="icons.avatar.common"
 										/>
 										<CaretDownOutlined
-											style={{
-												color: '#fff',
+											css={(theme) => ({
+												color: theme.colors.themeOpositeColor,
 												fontSize: '11px',
 												cursor: 'pointer',
 												opacity: '50%',
 												marginLeft: '0.5rem',
-											}}
+											})}
 										/>
 									</span>
 								</Dropdown>
