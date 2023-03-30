@@ -474,12 +474,12 @@ class App extends React.Component {
 							/>*/}
 
 						{/* Wallet backup/restore routes */}
-						<Route path="/wallet" component={WalletManager} />
-						<Route
+						{/* <Route path="/wallet" component={WalletManager} /> */}
+						{/* <Route
 							path="/create-wallet-brainkey"
 							component={CreateWalletFromBrainkey}
-						/>
-						<Route path="/existing-account" component={ExistingAccount} />
+						/> */}
+						{/* <Route path="/existing-account" component={ExistingAccount} /> */}
 
 						<Route path="/create-worker" component={CreateWorker} />
 
@@ -504,8 +504,8 @@ class App extends React.Component {
 						<Route exact path="/learn/:path1" component={Help} />
 						<Route exact path="/learn/:path1/:path2" component={Help} />
 						<Route exact path="/learn/:path1/:path2/:path3" component={Help} />
-						<Route path="/htlc" component={Htlc} />
-						<Route path="/prediction" component={PredictionMarketsPage} />
+						{/* <Route path="/htlc" component={Htlc} />
+						<Route path="/prediction" component={PredictionMarketsPage} /> */}
 						<Route path="/claimWallet" component={ClaimWallet} />
 						<Redirect
 							path={'/voting'}
