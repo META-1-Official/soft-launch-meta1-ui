@@ -1303,6 +1303,35 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 		}
 	}
 
+	// transfer modal
+	.modal--transaction-confirm {
+		.ant-modal-header {
+			.ant-modal-title {
+				color: #171a25;
+			}
+		}
+
+		.ant-modal-body {
+			table {
+				td {
+					span {
+						color: #666666;
+
+						&.txtlabel.info {
+							color: #666666 !important;
+						}
+					}
+				}
+			}
+
+			.propose-from {
+				select {
+					background-color: transparent !important;
+				}
+			}
+		}
+	}
+
 	// Withdraw modal
 	.withdraw_modal_new {
 		.ant-modal-title {

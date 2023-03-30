@@ -127,6 +127,11 @@ const GlobalStyles = (theme: any) => css`
 		border: 1px solid ${theme.colors.borderColor};
 		background: ${theme.colors.background}
 	}
+	.ant-table-expanded-row-fixed {
+		width: 100% !important;
+		padding: 0 !important;
+		margin: 0 !important;
+	}
 	.ant-table-thead {
 		th.ant-table-column-sort {
 			background: ${theme.colors.tableColumnColor};

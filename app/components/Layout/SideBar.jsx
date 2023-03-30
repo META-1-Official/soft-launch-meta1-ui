@@ -121,6 +121,7 @@ const SideBar = ({collapsed, currentLink, toggle}) => {
 		<Sider
 			style={{
 				backgroundColor: theme.colors.sideBar,
+				display: currentLink === 'market' ? 'none' : 'unset',
 			}}
 			css={{
 				'&& .ant-menu': {

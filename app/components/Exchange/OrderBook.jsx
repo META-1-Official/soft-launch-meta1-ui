@@ -964,10 +964,13 @@ class OrderBook extends React.Component {
 						className={cnames(wrapperClass)}
 					>
 						<div
-							style={{
+							css={(theme) => ({
 								color: '#70a800',
 								height: '50%',
-							}}
+								[`@media (max-width: 768px)`]: {
+									height: 'unset',
+								},
+							})}
 						>
 							<div style={{height: '100%'}}>
 								<div className="market-right-padding-only">
@@ -1018,11 +1021,14 @@ class OrderBook extends React.Component {
 						</div>
 
 						<div
-							style={{
+							css={(theme) => ({
 								overflow: 'hidden',
 								color: '#FF2929',
 								height: '50%',
-							}}
+								[`@media (max-width: 768px)`]: {
+									height: 'unset',
+								},
+							})}
 						>
 							<div style={{height: '100%'}}>
 								<div

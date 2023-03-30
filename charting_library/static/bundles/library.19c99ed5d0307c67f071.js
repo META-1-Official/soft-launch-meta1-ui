@@ -53045,7 +53045,7 @@ function(t, e, i) {
                 var e, i, o, n, r, s = this.mainSeries()
                     .bars();
                 s.isEmpty() || (e = this.timeScale(), i = e.baseIndex(), o = c(s.lastIndex()), n = e.visibleBars()
-                    .contains(i), t && t.earliestRow.index > 0 && !n && (r = o - i, e.setRightOffset(e.rightOffset() - r)), e.setBaseIndex(
+                    ?.contains(i), t && t.earliestRow.index > 0 && !n && (r = o - i, e.setRightOffset(e.rightOffset() - r)), e.setBaseIndex(
                         o))
             }, l.prototype.recalculatePane = function(t) {
                 t && t.recalculate()

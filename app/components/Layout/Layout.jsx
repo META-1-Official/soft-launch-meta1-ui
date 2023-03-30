@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Layout, Button, Typography} from 'antd';
+import SettingsActions from 'actions/SettingsActions';
 import Header from './Header';
 import SideBar from './SideBar';
 
@@ -86,6 +87,8 @@ const AppLayout = ({children, location, height}, others) => {
 		</div>
 	);
 
+	const handleClick = (val) => {};
+
 	const renderFooter = () => {
 		return (
 			<>
@@ -113,28 +116,28 @@ const AppLayout = ({children, location, height}, others) => {
 							<IconButton
 								icon={<DatabaseOutlined />}
 								text="market"
-								onClick={() => console.log('market selected')}
+								onClick={() => handleClick('market')}
 							/>
 							<IconButton
 								icon={<BarChartOutlined />}
 								text="chart"
-								onClick={() => console.log('chart selected')}
+								onClick={() => handleClick('chart')}
 							/>
 							<div
 								className="normal-button"
-								onClick={() => console.log('buy/sell selected')}
+								onClick={() => handleClick('buy/sell')}
 							>
 								Buy/Sell
 							</div>
 							<IconButton
 								icon={<SlidersOutlined />}
 								text="trade"
-								onClick={() => console.log('trade selected')}
+								onClick={() => handleClick('trade')}
 							/>
 							<IconButton
 								icon={<SyncOutlined />}
 								text="orders"
-								onClick={() => console.log('orders selected')}
+								onClick={() => handleClick('orders')}
 							/>
 						</Footer>
 					</div>

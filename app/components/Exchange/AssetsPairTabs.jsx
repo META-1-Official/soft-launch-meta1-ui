@@ -388,90 +388,6 @@ class AssetsPairTabs extends React.Component {
 					);
 				},
 			},
-			/* These lines are commented to solve layout issues with 
-			// the left side panel Pair Change and Price
-			{
-				title: (
-					<div
-						style={{
-							fontSize: '12px',
-							color: '#979797',
-							textAlign: 'center',
-							marginLeft: '-0px',
-							paddingLeft: '0px',
-						}}
-					>
-						Change
-					</div>
-				),
-				colSpan: 0,
-				dataIndex: 'rateChange',
-				key: 'rateChange',
-				sorter: (a, b) => {
-					return Number(a.rateChange) > Number(b.rateChange)
-						? 1
-						: Number(a.rateChange) < Number(b.rateChange)
-						? -1
-						: 0;
-				},
-				render: (rateChange) => {
-					let className =
-						rateChange === '0.00'
-							? ''
-							: rateChange > 0
-							? 'change-up'
-							: 'change-down';
-					return (
-						<div
-							className="change"
-							style={{
-								marginTop: '25px',
-								paddingTop: '10px',
-								marginLeft: '-0px',
-								display: 'none',
-							}}
-						>
-							{className === 'change-up' && (
-								<>
-									<CaretUpFilled
-										className={className}
-										style={{fontSize: '12px'}}
-									/>
-									<span
-										className={className}
-										style={{fontSize: '12px'}}
-									>{`+${rateChange} %`}</span>
-								</>
-							)}
-							{className === 'change-down' && (
-								<>
-									<CaretDownFilled
-										className={className}
-										style={{fontSize: '12px'}}
-									/>
-									<span
-										className={className}
-										style={{fontSize: '12px'}}
-									>{`${rateChange} %`}</span>
-								</>
-							)}
-							{className === '' && (
-								<>
-									<CaretRightFilled
-										className={className}
-										style={{fontSize: '12px'}}
-									/>
-									<span
-										className={className}
-										style={{fontSize: '12px'}}
-									>{`${rateChange} %`}</span>
-								</>
-							)}
-						</div>
-					);
-				},
-			},
-			*/
 			{
 				title: (
 					<div
@@ -640,23 +556,6 @@ class AssetsPairTabs extends React.Component {
 		return _dataSource;
 	}
 
-	handleWindowChange(windowHeight) {
-		//DEBUG console.log("height: " + window.innerHeight);
-
-		let rows = this.state.rowsOnPage;
-		if (windowHeight >= 1050) {
-			rows = '11';
-		}
-		if (windowHeight >= 738 && windowHeight < 1050) {
-			rows = '8';
-		}
-		if (windowHeight < 737) {
-			rows = '5';
-		}
-
-		return rows;
-	}
-
 	render() {
 		const {assets} = this.props;
 		const {baseAssetSymbol, isFetchingMarketInfo} = this.state;
@@ -718,7 +617,6 @@ class AssetsPairTabs extends React.Component {
 							pagination={{
 								size: 'small',
 								position: 'bottomCenter',
-								pageSize: Number(this.handleWindowChange(window.innerHeight)),
 							}}
 						/>
 					</div>
