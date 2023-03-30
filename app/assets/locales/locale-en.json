@@ -2370,7 +2370,7 @@
 		"collateral": "Collateral",
 		"collateral_target": "Target Collateral",
 		"committee_member_create": "Created the committee member",
-		"confirm": "Please confirm the transaction",
+		"confirm": "Transaction Confirmation",
 		"create_key": "Created a public key",
 		"csv": "Export to .csv",
 		"csv_tip": "Download full wallet history as a comma separated .csv file using Cointracking.info or raw format",

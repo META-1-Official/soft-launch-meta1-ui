@@ -316,10 +316,6 @@ class Exchange extends React.Component {
 					nextProps.baseAsset.get('symbol'),
 			});
 		}
-
-		// if (this.props.sub && nextProps.bucketSize !== this.props.bucketSize) {
-		//     return this._changeBucketSize(nextProps.bucketSize);
-		// }
 	}
 
 	componentWillUnmount() {
@@ -623,7 +619,6 @@ class Exchange extends React.Component {
 			isPriceAlertModalVisible: false,
 			isScaledOrderModalVisible: false,
 			isConfirmSellOrderModalLoaded: false,
-			tabVerticalPanel: ws.get('tabVerticalPanel', 'my-market'),
 			tabBuySell: ws.get('tabBuySell', 'buy'),
 			buySellOpen: ws.get('buySellOpen', true),
 			bid,
@@ -633,7 +628,6 @@ class Exchange extends React.Component {
 			favorite: false,
 			buyDiff: false,
 			sellDiff: false,
-			autoScroll: ws.get('global_AutoScroll', true),
 			buyFeeAssetIdx: ws.get('buyFeeAssetIdx', 0),
 			sellFeeAssetIdx: ws.get('sellFeeAssetIdx', 0),
 			hidePanel: ws.get('hidePanel', false),
@@ -660,6 +654,7 @@ class Exchange extends React.Component {
 				1: 'my_history',
 				2: 'my_orders',
 			}),
+			currentSection: 'chart',
 		};
 	}
 
@@ -1196,12 +1191,6 @@ class Exchange extends React.Component {
 		}
 	}
 
-	_setAutoscroll(value) {
-		this.setState({
-			autoScroll: value,
-		});
-	}
-
 	_setTabBuySell(tab) {
 		this.setState({
 			tabBuySell: tab,
@@ -1360,10 +1349,6 @@ class Exchange extends React.Component {
 
 	_orderbookClick(order) {
 		const isBid = order.isBid();
-		/*
-		 * Because we are using a bid order to construct an ask and vice versa,
-		 * totalToReceive becomes forSale, and totalForSale becomes toReceive
-		 */
 		let forSale = order.totalToReceive({noCache: true});
 		// let toReceive = order.totalForSale({noCache: true});
 		let toReceive = forSale.times(order.sellPrice());
@@ -1781,10 +1766,8 @@ class Exchange extends React.Component {
 			sellDiff,
 			width,
 			tabBuySell,
-			tabVerticalPanel,
 			hidePanel,
 			hideScrollbars,
-			autoScroll,
 			activePanels,
 			mirrorPanels,
 			panelTabsActive,
@@ -1795,6 +1778,7 @@ class Exchange extends React.Component {
 			hideFunctionButtons,
 			backingAssetValue,
 			backingAssetPolarity,
+			currentSection,
 		} = this.state;
 		const {isFrozen} = this.isMarketFrozen();
 
@@ -2252,7 +2236,7 @@ class Exchange extends React.Component {
 				current={`${quoteSymbol}_${baseSymbol}`}
 				location={this.props.location}
 				history={this.props.history}
-				activeTab={tabVerticalPanel ? tabVerticalPanel : 'my-market'}
+				activeTab={'my-market'}
 			/>
 		);
 
@@ -2287,7 +2271,6 @@ class Exchange extends React.Component {
 				groupedAsks={groupedAsks}
 				isPanelActive={activePanels.length >= 1}
 				hideScrollbars={hideScrollbars}
-				autoScroll={autoScroll}
 				hideFunctionButtons={hideFunctionButtons}
 			/>
 		);
@@ -2540,7 +2523,7 @@ class Exchange extends React.Component {
 		let emptyDiv =
 			groupTabsCount > 2 ? null : (
 				<div
-					className="small-12 grid-block orderbook no-padding align-spaced no-overflow wrap"
+					className="small-12 orderbook no-padding align-spaced no-overflow wrap"
 					key={`actionCard_${actionCardIndex++}`}
 					style={{height: '100%'}}
 				>
@@ -2555,34 +2538,68 @@ class Exchange extends React.Component {
 		actionCards.push(groupTabbed2);
 
 		return (
-			<div className="grid-block" style={{padding: '10px'}}>
+			<div
+				css={(theme) => ({
+					padding: '10px',
+					display: 'flex',
+					height: '100%',
+				})}
+			>
 				{!this.props.marketReady ? <LoadingIndicator /> : null}
-				<div className="grid-block vertical assets-layout page-layout">
+				<div
+					className="assets-layout"
+					css={() => ({
+						[`@media (max-width: 768px)`]: {
+							display: this.state.currentSection !== 'market' ? 'none' : 'flex',
+							width: '100%',
+						},
+					})}
+				>
 					<div className="asset-pair-tabs-wrapper">
 						<AssetsPairTabs account={this.props.currentAccount} />
 					</div>
 				</div>
-				<div className="grid-block vertical page-layout info-layout">
-					<ExchangeHeader
-						hasAnyPriceAlert={this.props.hasAnyPriceAlert}
-						showPriceAlertModal={this.showPriceAlertModal}
-						account={this.props.currentAccount}
-						quoteAsset={quoteAsset}
-						baseAsset={baseAsset}
-						hasPrediction={hasPrediction}
-						starredMarkets={starredMarkets}
-						lowestAsk={lowestAsk}
-						highestBid={highestBid}
-						lowestCallPrice={lowestCallPrice}
-						showCallLimit={showCallLimit}
-						feedPrice={feedPrice}
-						marketReady={marketReady}
-						latestPrice={latest && latest.getPrice()}
-						marketStats={marketStats}
-						selectedMarketPickerAsset={this.state.marketPickerAsset}
-						onToggleMarketPicker={this._toggleMarketPicker.bind(this)}
-						showVolumeChart={showVolumeChart}
-					/>
+				<div
+					className="info-layout"
+					css={() => ({
+						[`@media (max-width: 768px)`]: {
+							display:
+								this.state.currentSection !== 'chart' &&
+								this.state.currentSection !== 'orders'
+									? 'none'
+									: 'unset',
+						},
+					})}
+				>
+					<div
+						css={() => ({
+							[`@media (max-width: 768px)`]: {
+								display:
+									this.state.currentSection !== 'chart' ? 'none' : 'flex',
+							},
+						})}
+					>
+						<ExchangeHeader
+							hasAnyPriceAlert={this.props.hasAnyPriceAlert}
+							showPriceAlertModal={this.showPriceAlertModal}
+							account={this.props.currentAccount}
+							quoteAsset={quoteAsset}
+							baseAsset={baseAsset}
+							hasPrediction={hasPrediction}
+							starredMarkets={starredMarkets}
+							lowestAsk={lowestAsk}
+							highestBid={highestBid}
+							lowestCallPrice={lowestCallPrice}
+							showCallLimit={showCallLimit}
+							feedPrice={feedPrice}
+							marketReady={marketReady}
+							latestPrice={latest && latest.getPrice()}
+							marketStats={marketStats}
+							selectedMarketPickerAsset={this.state.marketPickerAsset}
+							onToggleMarketPicker={this._toggleMarketPicker.bind(this)}
+							showVolumeChart={showVolumeChart}
+						/>
+					</div>
 					{this.state.isMarketPickerModalVisible ||
 					this.state.isMarketPickerModalLoaded ? (
 						<MarketPicker
@@ -2597,58 +2614,97 @@ class Exchange extends React.Component {
 					<AccountNotifications />
 
 					<div
-						style={{paddingTop: 0}}
-						className={cnames('grid-block main-content vertical no-overflow')}
+						css={(theme) => ({
+							height: 'calc(100% - 45px)',
+							display: 'flex',
+							justifyContent: 'space-between',
+							flexDirection: 'column',
+							width: '100%',
+							[`@media (max-width: 1443px)`]: {
+								height: 'calc(100% - 85px)',
+							},
+							[`@media (max-width: 768px)`]: {
+								height:
+									this.state.currentSection === 'chart'
+										? 'calc(100% - 45px)'
+										: '100%',
+								display:
+									this.state.currentSection !== 'chart' &&
+									this.state.currentSection !== 'orders'
+										? 'none'
+										: 'flex',
+							},
+							[`@media (max-width: 520px)`]: {
+								height:
+									this.state.currentSection === 'chart'
+										? 'calc(100% - 85px)'
+										: '100%',
+								display:
+									this.state.currentSection !== 'chart' &&
+									this.state.currentSection !== 'orders'
+										? 'none'
+										: 'flex',
+							},
+						})}
 					>
 						<div
-							className="grid-block vertical no-padding ps-container"
-							id="CenterContent"
-							ref="center"
+							className="trade-view-chart-wrapper"
+							css={(theme) => ({
+								[`@media (max-width: 768px)`]: {
+									display:
+										this.state.currentSection !== 'chart' ? 'none' : 'unset',
+								},
+							})}
 						>
-							<div className="tiny-screen-flex">
-								{/* Price history chart */}
-								{chartType && chartType == 'price_chart' ? (
-									<div
-										className="grid-block shrink no-overflow"
-										id="market-charts"
-										style={{
-											flexGrow: '2',
-											display: 'inline-block',
-										}}
-									>
-										{tradingViewChart}
-									</div>
-								) : null}
-							</div>
-
-							<div className="grid-block action-cards">{actionCards}</div>
+							{tradingViewChart}
+						</div>
+						<div
+							className="action-cards"
+							css={(theme) => ({
+								[`@media (max-width: 768px)`]: {
+									display:
+										this.state.currentSection !== 'orders' ? 'none' : 'unset',
+								},
+							})}
+						>
+							{actionCards}
 						</div>
 					</div>
 				</div>
-				<div className="grid-block vertical control-layout page-layout">
-					<div className="orders-and-trade">
-						<div
-							className="orders-trade-form grid-block shrink no-overflow"
-							style={{
-								width: '50%',
-								marginRight: '1%',
-							}}
-						>
-							{orderBook}
-						</div>
-
-						<div
-							className="orders-trade-form"
-							style={{
-								position: 'relative',
-								width: '50%',
-							}}
-						>
-							{groupTabs[1]}
-						</div>
+				<div
+					className="control-layout"
+					css={(theme) => ({
+						[`@media (max-width: 768px)`]: {
+							display:
+								this.state.currentSection !== 'trade' &&
+								this.state.currentSection !== 'buy-sell'
+									? 'none'
+									: 'flex',
+						},
+					})}
+				>
+					<div
+						className="orders-and-trade"
+						css={(theme) => ({
+							[`@media (max-width: 768px)`]: {
+								display:
+									this.state.currentSection !== 'trade' ? 'none' : 'flex',
+							},
+						})}
+					>
+						<div className="orders-trade-form">{orderBook}</div>
+						<div className="orders-trade-form">{groupTabs[1]}</div>
 					</div>
-
-					{buySellTab}
+					<div
+						css={(theme) => ({
+							[`@media (max-width: 768px)`]: {
+								display:
+									this.state.currentSection !== 'buy-sell' ? 'none' : 'unset',
+							},
+						})}
+					>
+						{buySellTab}
+					</div>
 				</div>
 
 				{quoteIsBitAsset &&

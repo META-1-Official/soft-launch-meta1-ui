@@ -111,10 +111,9 @@ $footerLightTextColor: #566176;
 			.logo-wrapper {
 				position: absolute;
 				top: -40px;
-				left: 0;
+				left: calc(50% - 35px);
 				display: flex;
 				justify-content: center;
-				width: 100%;
 
 				.footer-logo {
 					width: 70px;

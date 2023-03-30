@@ -32,18 +32,10 @@ class MarketsOrderView extends React.Component {
 						</div>
 					)}
 
-					<div
-						className="market-order-table-container grid-block no-overflow"
-						style={{
-							overflow: 'hidden',
-							maxHeight: 375,
-							lineHeight: '13px',
-						}}
-					>
+					<div className="market-order-table-container">
 						<Table
 							dataSource={data}
 							pagination={false}
-							scroll={{y: 330, x: 350}}
 							showSorterTooltip={false}
 						>
 							<Table.Column

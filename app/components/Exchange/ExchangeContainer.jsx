@@ -283,7 +283,7 @@ class ExchangeSubscriber extends React.Component {
 			return <Page404 subtitle="market_not_found_subtitle" />;
 
 		return (
-			<div css={{paddingBottom: '2rem'}}>
+			<div style={{height: '100%'}}>
 				<Exchange
 					{...this.props}
 					sub={this.state.sub}

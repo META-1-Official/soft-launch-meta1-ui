@@ -80,18 +80,13 @@ class MarketHistoryView extends React.Component {
 		const myOrders = (
 			<>
 				<div
-					className="market-order-table-container grid-block no-overflow"
+					className="market-order-table-container"
 					style={{
 						overflow: 'hidden',
 						lineHeight: '13px',
 					}}
 				>
-					<Table
-						dataSource={data}
-						pagination={false}
-						scroll={{y: 452, x: 350}}
-						showSorterTooltip={false}
-					>
+					<Table dataSource={data} pagination={false} showSorterTooltip={false}>
 						<Table.Column
 							dataIndex="pair"
 							title={<div className="market-order-table-text-header">Pair</div>}
