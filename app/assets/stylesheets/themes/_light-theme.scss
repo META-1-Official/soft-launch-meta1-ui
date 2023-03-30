@@ -634,6 +634,25 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 		}
 	}
 
+	.backing-asset-detail {
+		.main-body {
+			.title-wrapper {
+				background-color: transparent;
+			}
+			.info-content-value {
+				color: $light-text-color;
+			}
+			.info-body {
+				background: transparent;
+				border: 1px solid $border-color;
+				border-radius: 5px;
+				.info-text {
+					color: $light-text-color;
+				}
+			}
+		}
+	}
+
 	// Activity page
 	div.account-activity {
 		div.content {

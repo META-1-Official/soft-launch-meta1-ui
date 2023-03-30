@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {Tabs} from 'antd';
+import {Tabs, Button} from 'antd';
 import Translate from 'react-translate-component';
 import LinkToAccountById from '../Utility/LinkToAccountById';
 import LinkToAssetById from '../Utility/LinkToAssetById';
@@ -359,7 +359,7 @@ class Asset extends React.Component {
 
 		let {name, prefix} = utils.replaceName(originalAsset);
 		return (
-			<div style={{overflow: 'visible'}}>
+			<div className="asset-header" style={{overflow: 'visible'}}>
 				<HelpContent
 					path={'assets/' + asset.symbol}
 					alt_path="assets/Asset"
@@ -372,12 +372,20 @@ class Asset extends React.Component {
 				/>
 				{short_name ? <p>{short_name}</p> : null}
 
-				<Link
-					className="button market-button"
-					to={`/market/${asset.symbol}_${preferredMarket}`}
+				<Button
+					onClick={() => {
+						window.location.href = `/market/${asset.symbol}_${preferredMarket}`;
+					}}
+					style={{
+						background: '#ffc000',
+						color: 'black',
+						fontWeight: '500',
+						border: 'none',
+						borderRadius: '5px',
+					}}
 				>
-					<Translate content="exchange.market" />
-				</Link>
+					{`Go Market (${asset.symbol} / ${preferredMarket})`}
+				</Button>
 			</div>
 		);
 	}
@@ -505,47 +513,54 @@ class Asset extends React.Component {
 				<div className="card-divider">
 					<AssetName name={asset.symbol} />
 				</div>
-				<table className="table key-value-table table-hover">
-					<tbody>
-						<tr>
-							<td>
-								<Translate content="explorer.asset.summary.asset_type" />
-							</td>
-							<td> {this._assetType(asset)} </td>
-						</tr>
-						{isPrediction && predictionRows}
-						<tr>
-							<td>
-								<Translate content="explorer.asset.summary.issuer" />
-							</td>
-							<td>
-								<LinkToAccountById account={asset.issuer} />
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<Translate content="explorer.assets.precision" />
-							</td>
-							<td> {asset.precision} </td>
-						</tr>
-						{asset.bitasset ? (
+				<div
+					css={(theme) => ({
+						borderTop: `1px solid ${theme.colors.borderColor}`,
+						padding: '1rem',
+					})}
+				>
+					<table className="table">
+						<tbody>
 							<tr>
 								<td>
-									<Translate content="explorer.assets.backing_asset" />
+									<Translate content="explorer.asset.summary.asset_type" />
+								</td>
+								<td> {this._assetType(asset)} </td>
+							</tr>
+							{isPrediction && predictionRows}
+							<tr>
+								<td>
+									<Translate content="explorer.asset.summary.issuer" />
 								</td>
 								<td>
-									<LinkToAssetById
-										asset={asset.bitasset.options.short_backing_asset}
-									/>
+									<LinkToAccountById account={asset.issuer} />
 								</td>
 							</tr>
-						) : null}
-						{currentSupply}
-						{stealthSupply}
-						{marketFee}
-						{marketFeeReferralReward}
-					</tbody>
-				</table>
+							<tr>
+								<td>
+									<Translate content="explorer.assets.precision" />
+								</td>
+								<td> {asset.precision} </td>
+							</tr>
+							{asset.bitasset ? (
+								<tr>
+									<td>
+										<Translate content="explorer.assets.backing_asset" />
+									</td>
+									<td>
+										<LinkToAssetById
+											asset={asset.bitasset.options.short_backing_asset}
+										/>
+									</td>
+								</tr>
+							) : null}
+							{currentSupply}
+							{stealthSupply}
+							{marketFee}
+							{marketFeeReferralReward}
+						</tbody>
+					</table>
+				</div>
 				<br />
 				{this.renderFlagIndicators(flagBooleans, bitNames)}
 			</div>

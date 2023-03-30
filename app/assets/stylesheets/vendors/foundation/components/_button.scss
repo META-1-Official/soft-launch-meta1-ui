@@ -34,21 +34,6 @@ $button-tag-selector: false !default;
 	margin: $button-margin;
 	font-size: $button-font-size;
 	border-radius: $button-radius;
-	// Dropdown arrow
-	// TODO: Change to class and mixin because now the toggle is 'fa-open' which is too generic
-
-	// &[data-popup-toggle] {
-	// position: relative;
-	// padding-right: 2em; // Placeholder
-	// &::after {
-	// @include css-triangle(6px, black, top);
-	// position: absolute;
-
-	// right: 0.7em;
-	// top: 50%;
-	// margin-top: -3px;
-	// }
-	// }
 }
 @mixin button-size($size: medium, $expand: false) {
 	$size: $button-font-size * map-get($button-sizes, $size);
