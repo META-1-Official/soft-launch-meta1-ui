@@ -255,7 +255,7 @@ class AccountRegistrationConfirm extends React.Component {
 			sendXApi
 				.subscribe({
 					email,
-					tags: ['MEMBERS'],
+					tags: [process.env.NODE_ENV === 'production' ? 'MEMBERS' : 'DEV2'],
 					firstName: first_name,
 					lastName: last_name,
 					customFields: {mobile: phone_number},
