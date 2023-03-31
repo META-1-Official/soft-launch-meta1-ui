@@ -485,10 +485,7 @@ class AccountOrders extends React.Component {
 		});
 
 		return (
-			<div
-				className="grid-content no-overflow no-padding open-orders"
-				style={{paddingBottom: 15}}
-			>
+			<div className="open-orders" style={{paddingBottom: 15}}>
 				<div
 					className="header-selector none"
 					style={{display: 'inline-block', width: '100%'}}
@@ -513,7 +510,7 @@ class AccountOrders extends React.Component {
 					</div>
 				</div>
 
-				<div>
+				<div className="open-orders-table-wrapper">
 					{settleOrdersCount > 0 && (
 						<div className="header-selector">
 							<Translate content="account.market_orders" />
