@@ -12,8 +12,8 @@
 	transform: scale(1.4);
 }
 
-body.darkTheme .ant-tabs .ant-tabs-bottom-content.ant-tabs-content-animated,
-body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
+.ant-tabs .ant-tabs-bottom-content.ant-tabs-content-animated,
+.ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 	height: 100% !important;
 }
 
@@ -408,9 +408,6 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 		width: 100%;
 	}
 	.settings-input {
-		/* !important to overwrite styles for Inputs on User Settings. By default inputs take styles from
-    .block-list and it uses on many places. To keep everything OK and do not break something I just do
-    overwrite for Inputs on settings and keep default styles for inputs on another places. */
 		color: $settings-select-color !important;
 		height: 36px !important;
 		background-color: $settings-select-bg !important;
@@ -494,9 +491,6 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 			color: $primary-text-color;
 		}
 	}
-	// select:hover {
-	// background-color: $panel-bg-color;
-	// }
 
 	.label.success {
 		color: white;
@@ -2853,7 +2847,7 @@ div.customizable-column--selector--dropdown {
 	}
 }
 
-body.darkTheme .walletbtn {
+.walletbtn {
 	position: relative;
 	a {
 		position: absolute;

@@ -6,7 +6,6 @@ interface IProps {
 }
 
 const BodyClassName = (props: IProps) => {
-	const prevPropsClassName = useRef(props.className);
 	const _getList = (className: string) => {
 		return className.length ? className.split(' ') : [];
 	};
@@ -23,23 +22,11 @@ const BodyClassName = (props: IProps) => {
 				document.body.classList.remove(className);
 			});
 		};
-	});
+	}, []);
 
 	useEffect(() => {
-		const currentClassName = _getList(props.className);
-		const nextClassName = _getList(prevPropsClassName.current);
-
-		currentClassName.forEach((className) => {
-			if (nextClassName.indexOf(className) === -1)
-				document.body.classList.remove(className);
-		});
-
-		nextClassName.forEach((className) => {
-			if (!document.body.classList.contains(className)) {
-				document.body.classList.add(className);
-			}
-		});
-	});
+		document.body.className = props.className;
+	}, [props]);
 
 	return <>{props.children}</>;
 };

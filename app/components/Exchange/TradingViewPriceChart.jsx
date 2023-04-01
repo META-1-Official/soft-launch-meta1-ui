@@ -10,8 +10,6 @@ import {connect} from 'alt-react';
 import Translate from 'react-translate-component';
 import {AiOutlineDelete} from 'react-icons/ai';
 
-// import MarketsStore from "stores/MarketsStore";
-
 class TradingViewPriceChart extends React.Component {
 	constructor(props) {
 		super(props);
@@ -29,6 +27,7 @@ class TradingViewPriceChart extends React.Component {
 	loadTradingView(props) {
 		const {dataFeed} = props;
 		let themeColors = colors[props.theme];
+
 		if (!dataFeed) return;
 
 		if (__DEV__)
@@ -128,7 +127,7 @@ class TradingViewPriceChart extends React.Component {
 
 	UNSAFE_componentWillReceiveProps(np) {
 		if (!np.marketReady) return;
-		if (!this.props.dataFeed && np.dataFeed) {
+		if ((!this.props.dataFeed && np.dataFeed) || np.theme != this.props.theme) {
 			loadTradingView(np);
 		}
 	}

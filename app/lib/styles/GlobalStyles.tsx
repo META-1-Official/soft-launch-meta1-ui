@@ -21,7 +21,7 @@ const GlobalStyles = (theme: any) => css`
 
 	.ant-menu {
 		color: ${theme.colors.themeOpositeColor};
-		background: ${theme.colors.sideBar} !important;
+		background: transparent !important;
 		.ant-menu-item-selected,
 		.ant-menu-item-selected: hover,
 		.ant-menu-item-selected > a,
