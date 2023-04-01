@@ -1936,6 +1936,7 @@ div.messages {
 	}
 }
 
+// account-vesting
 .account-vesting {
 	.content-body {
 		padding: 30px;
@@ -1977,8 +1978,6 @@ div.messages {
 
 		.ant-table-wrapper {
 			background: #0a0b0d;
-			border: 1px solid #1c1f27;
-			border-radius: 4px;
 
 			.ant-table {
 				.ant-table-content {
@@ -1990,6 +1989,14 @@ div.messages {
 							color: #969ba6;
 							text-transform: uppercase;
 							text-align: center !important;
+						}
+					}
+
+					.ant-table-row {
+						&:last-child {
+							td {
+								border-bottom: none;
+							}
 						}
 					}
 				}

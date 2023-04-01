@@ -174,7 +174,7 @@ $footerLightTextColor: #566176;
 				.ant-layout-content {
 					margin-top: 0 !important;
 
-					.darkTheme,
+					.lightTheme,
 					#content-wrapper {
 						height: 100%;
 
@@ -288,8 +288,6 @@ $footerLightTextColor: #566176;
 
 .page-layout {
 	> .grid-block {
-		// border-top: 10px solid transparent;
-		// border-bottom: 10px solid transparent;
 		> .grid-content,
 		> .grid-block,
 		> .grid-container {
@@ -361,14 +359,6 @@ div.bordered-header {
 	}
 }
 
-.generic-bordered-box {
-	//border: 1px solid rgba(183, 183, 183, 0.29);
-
-	.box-content {
-		//padding-left: 10px;
-	}
-}
-
 .block-content-header {
 	font-size: 1.4375rem;
 	padding: 1.5rem 0;
@@ -388,10 +378,6 @@ div.bordered-header {
 	height: 100%;
 	position: relative;
 }
-
-// .grid-content.app-tables > .content-block, .grid-content.app-tables > .content-block > .generic-bordered-box, .grid-content.app-tables > .content-block > .generic-bordered-box > .account-tabs {
-//   height: 100%;
-// }
 
 .grid-content.app-tables > .content-block {
 	margin-bottom: 0 !important;

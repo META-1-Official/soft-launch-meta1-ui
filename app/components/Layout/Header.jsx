@@ -270,7 +270,6 @@ class Header extends React.Component {
 			setting: 'themes',
 			value: currentTheme === 'darkTheme' ? 'lightTheme' : 'darkTheme',
 		});
-		window.location.reload();
 	}
 
 	_onNavigate(route, e, fromMenu, claimWalletFlag = false) {
@@ -794,6 +793,7 @@ class Header extends React.Component {
 									style={{
 										width: '1.5rem',
 										height: '1.5rem',
+										cursor: 'pointer',
 									}}
 									onClick={this._toggleTheme}
 								>
