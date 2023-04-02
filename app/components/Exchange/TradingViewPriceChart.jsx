@@ -97,7 +97,7 @@ class TradingViewPriceChart extends React.Component {
 			fullscreen: false,
 			symbol: props.quoteSymbol + '_' + props.baseSymbol,
 			interval: getResolutionsFromBuckets([props.bucketSize])[0],
-			library_path: `${__ELECTRON__ ? __BASE_URL__ : ''}/charting_library/`,
+			library_path: `/charting_library/`,
 			datafeed: dataFeed,
 			container_id: 'tv_chart',
 			charts_storage_url: 'https://saveload.tradingview.com',
@@ -128,7 +128,7 @@ class TradingViewPriceChart extends React.Component {
 	UNSAFE_componentWillReceiveProps(np) {
 		if (!np.marketReady) return;
 		if ((!this.props.dataFeed && np.dataFeed) || np.theme != this.props.theme) {
-			loadTradingView(np);
+			this.loadTradingView(np);
 		}
 	}
 
@@ -145,10 +145,6 @@ class TradingViewPriceChart extends React.Component {
 
 	componentDidMount() {
 		this.loadTradingView(this.props);
-
-		// continue investigating how to disable mouse wheel, here are the containted docs
-		// document.getElementById("tv_chart").children[0].contentWindow
-		// document.getElementById("tv_chart").children[0].contentDocument
 	}
 
 	componentDidUpdate(prevProps) {

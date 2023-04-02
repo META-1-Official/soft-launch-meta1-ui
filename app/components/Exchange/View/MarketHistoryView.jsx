@@ -3,6 +3,7 @@ import Translate from 'react-translate-component';
 import cnames from 'classnames';
 import TransitionWrapper from '../../Utility/TransitionWrapper';
 import SectionHeader from 'components/Utility/SectionHeader';
+import utils from 'common/utils';
 import {Table} from 'antd';
 
 class MarketHistoryView extends React.Component {
@@ -120,11 +121,11 @@ class MarketHistoryView extends React.Component {
 								return (
 									<div className="td-content">
 										<div className="td-content-common-text">
-											{row.receiveAmount}
+											{utils.format_number_digits(row.receiveAmount, 6)}
 										</div>
 										<div className="td-content-divider"></div>
 										<div className="td-content-second-text">
-											{row.payAmount}
+											{utils.format_number_digits(row.payAmount, 6)}
 										</div>
 									</div>
 								);
@@ -138,7 +139,9 @@ class MarketHistoryView extends React.Component {
 							render={(row) => {
 								return (
 									<div>
-										<div className="td-content-common-text">{row}</div>
+										<div className="td-content-common-text">
+											{Number(row).toFixed(6)}
+										</div>
 									</div>
 								);
 							}}
@@ -152,7 +155,7 @@ class MarketHistoryView extends React.Component {
 								return (
 									<div>
 										<div className="td-content-common-text">
-											{Number(row).toFixed(8)}
+											{Number(row).toFixed(6)}
 										</div>
 									</div>
 								);

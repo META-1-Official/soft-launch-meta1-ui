@@ -133,6 +133,7 @@ const GlobalStyles = (theme: any) => css`
 		margin: 0 !important;
 	}
 	.ant-table-thead {
+		background: ${theme.colors.tableColumnColor};
 		th.ant-table-column-sort {
 			background: ${theme.colors.tableColumnColor};
 		}
@@ -142,8 +143,8 @@ const GlobalStyles = (theme: any) => css`
 			}
 		}
 		tr > th {
-			color: ${theme.colors.themeOpositeColor};;
-			background: ${theme.colors.tableColumnColor};
+			color: ${theme.colors.themeOpositeColor};
+			background: transparent;
 			padding: 10px;
 			border-bottom: none;
 		}
