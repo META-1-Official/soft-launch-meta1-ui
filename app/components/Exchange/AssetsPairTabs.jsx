@@ -301,11 +301,14 @@ class AssetsPairTabs extends React.Component {
 								</div>
 								<div
 									style={{cursor: 'pointer', minWidth: '80px'}}
-									onClick={() =>
+									onClick={() => {
+										SettingsActions.changeViewSetting({
+											currentSection: 'chart',
+										});
 										history.push(
 											`/market/${quoteAssetSymbol}_${baseAssetSymbol}`
-										)
-									}
+										);
+									}}
 								>
 									<span
 										style={{

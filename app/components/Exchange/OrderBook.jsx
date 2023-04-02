@@ -148,26 +148,11 @@ class OrderBookRowHorizontal extends React.Component {
 			<PriceText price={order.getPrice()} quote={quote} base={base} />
 		);
 		let amount = isBid
-			? utils.format_number(
-					order.amountToReceive().getAmount({real: true}),
-					quote.get('precision')
-			  )
-			: utils.format_number(
-					order.amountForSale().getAmount({real: true}),
-					quote.get('precision')
-			  );
-		// let value = isBid
-		// 	? utils.format_number(
-		// 			order.amountForSale().getAmount({real: true}),
-		// 			base.get('precision')
-		// 	  )
-		// 	: utils.format_number(
-		// 			order.amountToReceive().getAmount({real: true}),
-		// 			base.get('precision')
-		// 	  );
-		const amountWithoutComma = amount ? amount.replace(',', '') : amount;
+			? order.amountToReceive().getAmount({real: true})
+			: order.amountForSale().getAmount({real: true});
+
 		const totalAmt = toFixed(
-			Number(amountWithoutComma) * Number(price.props.price)
+			utils.format_number_digits(amount) * Number(price.props.price)
 		);
 
 		return (
@@ -189,12 +174,9 @@ class OrderBookRowHorizontal extends React.Component {
 							}}
 							className="table-body-class"
 						>
-							<Tooltip
-								title={'Volume: ' + Number(amountWithoutComma)}
-								placement="left"
-							>
+							<Tooltip title={'Volume: ' + amount} placement="left">
 								<div className="overflow-hidden">
-									{Number(amountWithoutComma).toFixed(6)}
+									{utils.format_number_digits(amount, 6)}
 								</div>
 							</Tooltip>
 						</td>
@@ -236,12 +218,9 @@ class OrderBookRowHorizontal extends React.Component {
 							style={{color: '#FF2929', textAlign: 'left', paddingLeft: '10px'}}
 							className="table-body-class"
 						>
-							<Tooltip
-								title={'Volume: ' + Number(amountWithoutComma)}
-								placement="left"
-							>
+							<Tooltip title={'Volume: ' + amount} placement="left">
 								<div className="overflow-hidden">
-									{Number(amountWithoutComma).toFixed(6)}
+									{utils.format_number_digits(amount, 6)}
 								</div>
 							</Tooltip>
 						</td>

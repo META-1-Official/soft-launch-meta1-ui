@@ -74,11 +74,11 @@ class MarketsOrderView extends React.Component {
 									return (
 										<div className="td-content">
 											<div className="td-content-common-text">
-												{row.receiveAmount}
+												{Number(row.receiveAmount).toFixed(6)}
 											</div>
 											<div className="td-content-divider"></div>
 											<div className="td-content-second-text">
-												{row.payAmount}
+												{Number(row.payAmount).toFixed(6)}
 											</div>
 										</div>
 									);
@@ -92,7 +92,9 @@ class MarketsOrderView extends React.Component {
 								render={(row) => {
 									return (
 										<div className="td-content">
-											<div className="td-content-second-text">{row}</div>
+											<div className="td-content-second-text">
+												{Number(row).toFixed(6)}
+											</div>
 										</div>
 									);
 								}}
@@ -106,7 +108,7 @@ class MarketsOrderView extends React.Component {
 									return (
 										<div className="td-content">
 											<div className="td-content-common-text">
-												{Number(row).toLocaleString('en')}
+												{Number(row).toFixed(6)}
 											</div>
 										</div>
 									);

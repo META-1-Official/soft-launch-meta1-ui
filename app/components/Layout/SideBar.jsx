@@ -123,11 +123,6 @@ const SideBar = ({collapsed, currentLink, toggle}) => {
 				backgroundColor: theme.colors.sideBar,
 				display: currentLink === 'market' ? 'none' : 'unset',
 			}}
-			css={{
-				'&& .ant-menu': {
-					backgroundColor: 'black',
-				},
-			}}
 			breakpoint="md"
 			onBreakpoint={() => {
 				screens['sm'] === true ? toggle(true) : toggle(false);

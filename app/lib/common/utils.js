@@ -112,6 +112,14 @@ var Utils = {
 		return num;
 	},
 
+	format_number_digits: (number, digits) => {
+		let type = typeof number;
+		if ((type = number)) number = number.toString();
+		let formatted = number.replace(',', '');
+
+		return digits ? Number(formatted).toFixed(digits) : Number(formatted);
+	},
+
 	format_asset: function (amount, asset, noSymbol, trailing_zeros = true) {
 		let symbol;
 		let digits = 0;

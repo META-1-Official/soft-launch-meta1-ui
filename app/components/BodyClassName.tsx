@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect} from 'react';
 
 interface IProps {
 	className: string;
@@ -6,27 +6,13 @@ interface IProps {
 }
 
 const BodyClassName = (props: IProps) => {
-	const _getList = (className: string) => {
-		return className.length ? className.split(' ') : [];
-	};
-
 	useEffect(() => {
-		_getList(props.className).forEach((className) => {
-			if (!document.body.classList.contains(className)) {
-				document.body.classList.add(className);
-			}
-		});
-
-		return () => {
-			_getList(props.className).forEach((className) => {
-				document.body.classList.remove(className);
-			});
-		};
+		document.body.className = props.className;
 	}, []);
 
 	useEffect(() => {
 		document.body.className = props.className;
-	}, [props]);
+	}, [props.className]);
 
 	return <>{props.children}</>;
 };

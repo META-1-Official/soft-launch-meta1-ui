@@ -87,7 +87,11 @@ const AppLayout = ({children, location, height}, others) => {
 		</div>
 	);
 
-	const handleClick = (val) => {};
+	const handleClick = (val) => {
+		SettingsActions.changeViewSetting({
+			currentSection: val,
+		});
+	};
 
 	const renderFooter = () => {
 		return (
@@ -99,7 +103,7 @@ const AppLayout = ({children, location, height}, others) => {
 						},
 					})}
 				>
-					<Footer>META1 © 2023</Footer>
+					<Footer>META1 © {new Date().getFullYear()}</Footer>
 				</div>
 				{currentLink === 'market' && (
 					<div
@@ -111,7 +115,11 @@ const AppLayout = ({children, location, height}, others) => {
 					>
 						<Footer className="exchange-footer">
 							<div className="logo-wrapper">
-								<img className="footer-logo" src={footer_logo} />
+								<img
+									className="footer-logo"
+									src={footer_logo}
+									onClick={() => handleClick('buy-sell')}
+								/>
 							</div>
 							<IconButton
 								icon={<DatabaseOutlined />}
@@ -125,7 +133,7 @@ const AppLayout = ({children, location, height}, others) => {
 							/>
 							<div
 								className="normal-button"
-								onClick={() => handleClick('buy/sell')}
+								onClick={() => handleClick('buy-sell')}
 							>
 								Buy/Sell
 							</div>

@@ -6,7 +6,7 @@ import Ps from 'perfect-scrollbar';
 import PropTypes from 'prop-types';
 import counterpart from 'counterpart';
 
-// Actions
+// Actions & Store
 import SettingsActions from 'actions/SettingsActions';
 import MarketsActions from 'actions/MarketsActions';
 
@@ -175,7 +175,6 @@ class Exchange extends React.Component {
 
 	shouldComponentUpdate(np, ns) {
 		let {expirationType} = this.state;
-
 		this._forceRender(np, ns);
 
 		if (!np.marketReady && !this.props.marketReady) {
@@ -314,6 +313,15 @@ class Exchange extends React.Component {
 					nextProps.quoteAsset.get('symbol') +
 					'_' +
 					nextProps.baseAsset.get('symbol'),
+			});
+		}
+
+		if (
+			nextProps.viewSettings.get('currentSection') !==
+			this.props.viewSettings.get('currentSection')
+		) {
+			this.setState({
+				currentSection: nextProps.viewSettings.get('currentSection'),
 			});
 		}
 	}
@@ -654,7 +662,7 @@ class Exchange extends React.Component {
 				1: 'my_history',
 				2: 'my_orders',
 			}),
-			currentSection: 'chart',
+			currentSection: ws.get('currentSection', 'chart'),
 		};
 	}
 
