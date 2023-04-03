@@ -229,6 +229,19 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 		$settings-label-color
 	);
 
+	// buttons
+	.button {
+		&.outline {
+			span {
+				color: #666666 !important;
+			}
+			color: #666666;
+			&:hover {
+				color: #666666;
+			}
+		}
+	}
+
 	.grid-frame {
 		background-color: white;
 	}
@@ -247,6 +260,7 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 		border: 1px solid $border-color;
 	}
 
+	// Account Overview
 	div.account-overview {
 		background-color: #ffffff;
 
@@ -320,6 +334,73 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 				}
 			}
 		}
+
+		.portfolio-table-wrapper {
+			.ant-table-wrapper {
+				.ant-table {
+					background: transparent;
+
+					.ant-table-thead {
+						th {
+							span {
+								color: #666666;
+							}
+						}
+					}
+
+					.ant-table-cell {
+						color: #666666;
+
+						span.value {
+							color: white !important;
+							background: gray !important;
+
+							&.change-up {
+								background-color: #009d55 !important;
+							}
+
+							&.change-down {
+								background-color: #ff2929 !important;
+							}
+						}
+					}
+				}
+			}
+
+			.asset-name {
+				div {
+					a span {
+						color: #666666 !important;
+					}
+				}
+			}
+		}
+	}
+
+	// Fund wallet dropdown
+	.dropdown-menu-sec {
+		.ant-dropdown-menu {
+			background-color: white;
+			border: 1px solid $border-color;
+			border-radius: 8px;
+			.ant-dropdown-menu-item-only-child {
+				margin: 8px 0px;
+				.ant-dropdown-menu-title-content {
+					a {
+						color: #ffc900;
+					}
+					a:hover {
+						color: #fff;
+					}
+				}
+			}
+			.ant-dropdown-menu-item-only-child:hover {
+				opacity: 0.5;
+			}
+		}
+		.ant-dropdown-menu-item.ant-dropdown-menu-item-active {
+			background: #ffc000;
+		}
 	}
 
 	// Account trade page
@@ -351,19 +432,6 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 				}
 			}
 		}
-
-		// div.table {
-		// 	div.asset-name {
-		// 		span.quote {
-		// 			font-weight: 900;
-		// 			color: #666666;
-		// 		}
-		// 	}
-
-		// 	div.price {
-		// 		color: #666666;
-		// 	}
-		// }
 
 		.ant-table-container {
 			padding-bottom: 100px;
@@ -406,18 +474,6 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 				div {
 					color: #666666;
 				}
-			}
-		}
-	}
-
-	.portfolio-table-wrapper {
-		.asset-name div {
-			a span {
-				color: $dark !important;
-			}
-
-			p {
-				color: $light-text-color !important;
 			}
 		}
 	}

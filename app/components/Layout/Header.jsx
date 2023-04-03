@@ -469,6 +469,7 @@ class Header extends React.Component {
 				onClick={this.handleHeaderLink}
 				selectedKeys={[this.state.headerMenu]}
 				className="header-menu"
+				triggerSubMenuAction="click"
 			>
 				<Menu.Item key="auth" className="level-1">
 					<Text>
@@ -520,8 +521,13 @@ class Header extends React.Component {
 					popupClassName="advanced-submenu"
 					title={<Text>Advanced</Text>}
 					disabled={!currentAccount}
+					popupOffset={[0, 0]}
 				>
-					<Menu.Item key="comment-menu" className="comment none">
+					<Menu.Item
+						key="comment-menu"
+						className="comment none"
+						style={{width: window.innerWidth}}
+					>
 						<Text>
 							/* No hardware wallet support at this time, remove to reduce
 							questions */
@@ -764,11 +770,12 @@ class Header extends React.Component {
 									)}
 								</div>
 								{horizontalDivider}
-								<Dropdown overlay={avatarMenu}>
+								<Dropdown overlay={avatarMenu} trigger="click">
 									<span
 										style={{
 											display: 'flex',
 											alignItems: 'center',
+											cursor: 'pointer',
 										}}
 									>
 										<Icon
@@ -781,7 +788,6 @@ class Header extends React.Component {
 											css={(theme) => ({
 												color: theme.colors.themeOpositeColor,
 												fontSize: '11px',
-												cursor: 'pointer',
 												opacity: '50%',
 												marginLeft: '0.5rem',
 											})}
