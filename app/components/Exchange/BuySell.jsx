@@ -427,7 +427,7 @@ class BuySell extends React.Component {
 		if (verticalOrderForm) {
 			formContent = (
 				<div className={containerClass}>
-					<div className="limit-order-split-line">AAAA</div>
+					<div className="limit-order-split-line" />
 					<div className="grid-block no-overflow shrink limit-order-input-wrapper">
 						<Translate
 							className="small-12 buy-sell-label"

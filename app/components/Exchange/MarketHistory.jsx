@@ -16,7 +16,6 @@ import BlockDate from '../Utility/BlockDate';
 import PriceText from '../Utility/PriceText';
 import {Tooltip} from 'antd';
 import getLocale from 'browser-locale';
-// import Icon from 'components/Icon/Icon';
 import utils from 'common/utils';
 import {useTheme} from '@emotion/react';
 
@@ -55,23 +54,39 @@ const AllHistoryViewRow = ({fill, base, quote}) => {
 					: theme.colors.askRowBackgroundColor,
 				borderBottom: '1px solid ' + theme.colors.borderColor,
 			}}
+			className={fill.isBid ? 'bid-order-tr' : 'ask-order-tr'}
 		>
 			{timestamp}
 			<td
 				style={{color: fill.isBid ? '#009D55' : '#FF2929', textAlign: 'left'}}
 				className="table-body-class"
 			>
-				<div className="overflow-hidden">
-					<PriceText price={fill.getPrice()} base={base} quote={quote} />
-				</div>
+				<Tooltip title={fill.getPrice().toString()} placement="top">
+					<div className="overflow-hidden">
+						<PriceText price={fill.getPrice()} base={base} quote={quote} />
+					</div>
+				</Tooltip>
 			</td>
 			<td
-				style={{color: 'rgba(255, 255, 255, 0.5)', textAlign: 'left'}}
+				css={(theme) => ({
+					color: theme.colors.orderTextColor,
+					textAlign: 'left',
+				})}
 				className="table-body-class"
 			>
-				<div className="overflow-hidden">
-					{Number(fill.amountToReceive()).toFixed(6)}
-				</div>
+				<Tooltip
+					title={(
+						fill.receives.amount / Math.pow(10, fill.receives.precision)
+					).toString()}
+					placement="right"
+				>
+					<div className="overflow-hidden">
+						{utils.format_number_digits(
+							fill.receives.amount / Math.pow(10, fill.receives.precision),
+							6
+						)}
+					</div>
+				</Tooltip>
 			</td>
 		</tr>
 	);
