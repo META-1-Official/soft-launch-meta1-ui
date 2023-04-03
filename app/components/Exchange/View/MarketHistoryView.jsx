@@ -27,7 +27,7 @@ class MarketHistoryView extends React.Component {
 
 		const allHistory = (
 			<>
-				<div className="grid-block vertical shrink left-orderbook-header market-right-padding-only">
+				<div className="left-orderbook-header">
 					<SectionHeader title="Trade History" />
 					<table className="table table-no-padding order-table text-left fixed-table market-right-padding">
 						<thead>
@@ -55,11 +55,11 @@ class MarketHistoryView extends React.Component {
 					</table>
 				</div>
 				<div
-					className="table-container grid-block market-right-padding-only no-overflow market-history-rows"
+					className="table-container grid-block no-overflow market-history-rows"
 					ref="history"
 					id="market-orders-view-container"
 					style={{
-						minHeight: 450,
+						// minHeight: 450,
 						overflow: 'hidden',
 						lineHeight: '18px',
 					}}
@@ -171,9 +171,7 @@ class MarketHistoryView extends React.Component {
 				className={cnames(className)}
 				style={{height: '100%', display: 'flex', flexDirection: 'column'}}
 			>
-				<div className={innerClass} style={innerStyle}>
-					{activeTab === 'history' ? allHistory : myOrders}
-				</div>
+				{activeTab === 'history' ? allHistory : myOrders}
 			</div>
 		);
 	}

@@ -200,7 +200,12 @@ class OrderBookRowHorizontal extends React.Component {
 								paddingRight: '10px',
 							}}
 						>
-							<Tooltip title={'Total: ' + totalAmt} placement="right">
+							<Tooltip
+								title={
+									'Total: ' + (amount * Number(price.props.price)).toString()
+								}
+								placement="right"
+							>
 								<div className="overflow-hidden">{totalAmt}</div>
 							</Tooltip>
 						</td>
@@ -245,7 +250,12 @@ class OrderBookRowHorizontal extends React.Component {
 								paddingRight: '10px',
 							}}
 						>
-							<Tooltip title={'Total: ' + totalAmt} placement="right">
+							<Tooltip
+								title={
+									'Total: ' + (amount * Number(price.props.price)).toString()
+								}
+								placement="right"
+							>
 								<div className="overflow-hidden">{totalAmt}</div>
 							</Tooltip>
 						</td>
@@ -952,11 +962,9 @@ class OrderBook extends React.Component {
 							})}
 						>
 							<div style={{height: '100%'}}>
-								<div className="market-right-padding-only">
-									<table className="table order-table table-hover fixed-table text-right">
-										{tableHeader}
-									</table>
-								</div>
+								<table className="table order-table table-hover fixed-table text-right">
+									{tableHeader}
+								</table>
 								<div
 									className={`grid-block ${
 										bidRows.length < 11 ? 'table-height-auto' : ''

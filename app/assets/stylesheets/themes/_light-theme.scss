@@ -490,11 +490,23 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 			.ask-order-tr {
 				background-color: rgb(217, 248, 240);
 				border-bottom: 1px solid $border-color;
+
+				&:hover {
+					td {
+						background-color: lightgray;
+					}
+				}
 			}
 
 			.bid-order-tr {
 				background-color: rgb(255, 234, 236);
 				border-bottom: 1px solid $border-color;
+
+				&:hover {
+					td {
+						background-color: lightgray;
+					}
+				}
 			}
 		}
 	}
