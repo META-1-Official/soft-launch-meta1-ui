@@ -407,67 +407,6 @@ table.table.dashboard-table {
 	}
 }
 
-// Portfolio table wrapper
-.portfolio-table-wrapper {
-	.antd-table {
-		border-radius: 8px;
-		background: #080000;
-
-		th {
-			span {
-				text-transform: uppercase;
-			}
-		}
-	}
-
-	.customizable-column--selector {
-		display: none;
-	}
-
-	.asset-name {
-		img {
-			vertical-align: middle;
-		}
-
-		div {
-			display: inline-block;
-			vertical-align: middle;
-			margin-left: 20px;
-
-			a span {
-				font-weight: bolder;
-				color: white !important;
-			}
-
-			p {
-				margin: 0px;
-				font-size: 14px;
-			}
-		}
-	}
-
-	span.value {
-		color: white !important;
-		background: gray !important;
-		padding: 5px;
-		border-radius: 5px;
-		font-size: 14px;
-		margin-left: 10px;
-
-		&.change-up {
-			background-color: #009d55 !important;
-		}
-
-		&.change-down {
-			background-color: #ff2929 !important;
-		}
-
-		svg {
-			margin-right: 3px;
-		}
-	}
-}
-
 .grid-wrapper {
 	margin-bottom: 20px;
 }
@@ -691,18 +630,68 @@ div.account-overview {
 	.portfolio-table-wrapper {
 		.ant-table-wrapper {
 			.ant-table {
-				background: black;
+				background: #080000;
 				border-radius: 4px;
 
 				.ant-table-thead {
-					.ant-table-cell {
-						span:not(.anticon) {
+					th {
+						span {
 							text-transform: uppercase;
-							font-size: 14px;
 							color: #969ba6;
-							font-family: 'Poppins', sans-serif;
+							font-size: 14px;
 						}
 					}
+				}
+
+				.ant-table-cell {
+					color: white;
+
+					span.value {
+						color: white !important;
+						background: gray !important;
+						padding: 5px;
+						border-radius: 5px;
+						font-size: 14px;
+						margin-left: 10px;
+
+						&.change-up {
+							background-color: #009d55 !important;
+						}
+
+						&.change-down {
+							background-color: #ff2929 !important;
+						}
+
+						svg {
+							margin-right: 3px;
+						}
+					}
+				}
+			}
+		}
+
+		.customizable-column--selector {
+			display: none;
+		}
+
+		.asset-name {
+			img {
+				vertical-align: middle;
+			}
+
+			div {
+				display: inline-block;
+				vertical-align: middle;
+				margin-left: 20px;
+
+				a span {
+					font-weight: bolder;
+					color: white !important;
+				}
+
+				p {
+					margin: 0px;
+					font-size: 14px;
 				}
 			}
 		}
