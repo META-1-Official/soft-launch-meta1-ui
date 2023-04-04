@@ -318,7 +318,6 @@ class Blocks extends React.Component {
 
 		return (
 			<div ref="outerWrapper" className="blockchain-tab">
-				{/* First row of stats */}
 				<div
 					css={(theme) => ({
 						backgroundColor: theme.colors.explorerBackground,
@@ -517,67 +516,53 @@ class Blocks extends React.Component {
 						</Col>
 					</Row>
 				</div>
-
-				{/* Fourth row: transactions and blocks */}
-				<div
-					ref="transactionsBlock"
-					className="grid-block no-overflow"
-					css={{padding: '2rem'}}
-				>
-					<div className="grid-block small-12 medium-6 vertical no-overflow">
-						<div
-							css={{marginBottom: '3.5rem'}}
-							className="grid-block vertical no-overflow generic-bordered-box"
-						>
-							<div ref="operationsText">
-								<div className="block-content-header">
-									<Translate content="account.recent" />
-								</div>
-								<table
-									className="table fixed-height-2rem"
+				<div ref="transactionsBlock" className="transactions-block">
+					<div className="recent-activity">
+						<div ref="operationsText">
+							<div className="block-content-header">
+								<Translate content="account.recent" />
+							</div>
+							<table
+								className="table fixed-height-2rem"
+								css={(theme) => ({
+									border: `1px solid ${theme.colors.borderColor}`,
+								})}
+							>
+								<thead
 									css={(theme) => ({
-										border: `1px solid ${theme.colors.borderColor}`,
+										tr: {
+											backgroundColor: theme.colors.tableHeaderColor,
+											fontSize: '13px !important',
+											textAlign: 'left',
+										},
 									})}
 								>
-									<thead
-										css={(theme) => ({
-											tr: {
-												backgroundColor: theme.colors.tableHeaderColor,
-												fontSize: '13px !important',
-												textAlign: 'left',
-											},
-										})}
-									>
-										<tr>
-											<th>
-												<Translate content="account.votes.info" />
-											</th>
-										</tr>
-									</thead>
-								</table>
-							</div>
-							<div
-								className="grid-block"
-								style={{
-									maxHeight: operationsHeight || '400px',
-									overflow: 'hidden',
-								}}
-								ref="operations"
+									<tr>
+										<th>
+											<Translate content="account.votes.info" />
+										</th>
+									</tr>
+								</thead>
+							</table>
+						</div>
+						<div
+							className="grid-block"
+							style={{
+								maxHeight: operationsHeight || '400px',
+								overflow: 'hidden',
+							}}
+							ref="operations"
+						>
+							<table
+								className="table fixed-height-2rem"
+								style={{maxHeight: '300px'}}
 							>
-								<table
-									className="table fixed-height-2rem"
-									style={{maxHeight: '300px'}}
-								>
-									<tbody>{transactions}</tbody>
-								</table>
-							</div>
+								<tbody>{transactions}</tbody>
+							</table>
 						</div>
 					</div>
-					<div
-						className="grid-block medium-6 show-for-medium vertical no-overflow"
-						style={{paddingBottom: 0, paddingLeft: 5}}
-					>
-						<div className="grid-block vertical no-overflow generic-bordered-box">
+					<div className="recent-blocks">
+						<div className="generic-bordered-box">
 							<div ref="blocksText">
 								<div className="block-content-header">
 									<Translate
