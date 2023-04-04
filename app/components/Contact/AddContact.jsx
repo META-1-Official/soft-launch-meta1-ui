@@ -114,7 +114,7 @@ class AddContact extends React.Component {
 	_buildColumns() {
 		return [
 			{
-				title: <span>META1USERS</span>,
+				title: <span>META1 USERS</span>,
 				colSpan: 1,
 				className: 'col-name',
 				key: 'name',
@@ -167,28 +167,26 @@ class AddContact extends React.Component {
 					<span className="page-title">Add Contact</span>
 				</div>
 				<div className="contact-container">
-					<div style={{width: '70%'}}>
-						<SearchInput
-							placeholder={'Search Meta1 Users ...'}
-							value={this.state.searchTerm}
-							className="input-box-search"
-							style={{width: '100%'}}
-							onChange={this._onSearchChange.bind(this)}
+					<SearchInput
+						placeholder={'Search Meta1 Users ...'}
+						value={this.state.searchTerm}
+						className="input-box-search"
+						style={{width: '100%'}}
+						onChange={this._onSearchChange.bind(this)}
+					/>
+					<div className="table">
+						<Table
+							style={{width: '100%', marginTop: '16px'}}
+							rowKey="name"
+							columns={columns}
+							dataSource={this.state.contactData.filter((data) => {
+								return Object.keys(data).some((obj) => {
+									return String(data[obj])
+										.toLowerCase()
+										.includes(this.state.searchTerm.toLowerCase());
+								});
+							})}
 						/>
-						<div className="table">
-							<Table
-								style={{width: '100%', marginTop: '16px'}}
-								rowKey="name"
-								columns={columns}
-								dataSource={this.state.contactData.filter((data) => {
-									return Object.keys(data).some((obj) => {
-										return String(data[obj])
-											.toLowerCase()
-											.includes(this.state.searchTerm.toLowerCase());
-									});
-								})}
-							/>
-						</div>
 					</div>
 				</div>
 			</div>

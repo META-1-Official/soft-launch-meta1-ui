@@ -1,16 +1,22 @@
 .add-contact {
 	background: black;
 	font-family: 'Poppins', sans-serif;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+
 	.contact-container {
-		padding-left: 30px !important;
-		padding-right: 30px !important;
-		padding-top: 10px !important;
-		padding-bottom: 10px !important;
+		padding: 10px 30px !important;
+		display: flex;
+		flex-direction: column;
+		max-width: 1000px;
+		width: 100%;
 	}
 
 	.add-contact-div-title {
 		border: 1px solid rgba(194, 213, 225, 0.08) !important;
 		padding: 31px 0 23px 30px !important;
+		width: 100%;
 	}
 
 	.page-title {
@@ -22,10 +28,14 @@
 		color: #ffffff;
 	}
 
-	.input-box-search input {
-		background: rgba(21, 23, 27, 0.4);
-		border: 1px solid rgba(28, 31, 39, 0.4);
-		border-radius: 5px;
+	.input-box-search {
+		max-width: 400px;
+
+		input {
+			background: rgba(21, 23, 27, 0.4);
+			border: 1px solid rgba(28, 31, 39, 0.4);
+			border-radius: 5px;
+		}
 	}
 
 	table > thead {
@@ -42,6 +52,7 @@
 		font-weight: 400;
 		font-size: 16px;
 		text-transform: uppercase;
+		border-bottom: 1px solid #1c1f27;
 	}
 
 	span.span_1 {
@@ -71,18 +82,28 @@
 		line-height: 22px;
 		color: rgba(255, 255, 255, 0.7);
 		padding: 10px;
-		border-bottom: none;
 	}
+
 	.ant-table-content {
 		background: #000000;
-		border-radius: 8px;
-		padding: 15px;
+		overflow: auto;
 
-		table {
+		.ant-table-thead {
+			border-collapse: collapse !important;
+			border-bottom: 1px solid #1c1f27;
+		}
+
+		.ant-table-tbody {
 			border-collapse: collapse !important;
 
 			tr {
-				border: 1px solid #1c1f27;
+				border-bottom: 1px solid #1c1f27;
+
+				&:last-child {
+					td {
+						border-bottom: none;
+					}
+				}
 			}
 		}
 	}
@@ -112,7 +133,14 @@
 		width: 95px;
 		height: 40px;
 	}
+
 	.ant-table-content table tbody {
 		padding: 20px;
+	}
+
+	.ant-pagination {
+		@media screen and (max-width: 768px) {
+			justify-content: center;
+		}
 	}
 }
