@@ -1234,20 +1234,44 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 	.add-contact {
 		background: transparent;
 
+		.add-contact-div-title {
+			border: 1px solid $border-color !important;
+		}
+
+		.page-title {
+			color: #666666;
+		}
+
 		.input-box-search input {
-			background: #fafbfd;
+			background: white;
 			border: none;
+		}
+
+		table > thead {
+			background: transparent !important;
+		}
+
+		span.span_1 {
+			color: #666666;
+		}
+
+		.ant-table-content table tr th {
+			border-bottom: 1px solid $border-color;
+		}
+
+		.ant-table-content table tr td {
+			color: #666666;
 		}
 
 		.ant-table-content {
 			background: transparent;
 
-			table {
+			.ant-table-tbody {
 				tr {
-					border: 1px solid $border-color;
+					border-bottom: 1px solid $border-color;
 
-					td {
-						color: rgba(0, 0, 0, 0.7);
+					&:last-child {
+						border-bottom: none;
 					}
 				}
 			}
@@ -1257,24 +1281,9 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 			background: transparent;
 		}
 
-		table > thead {
-			background: transparent !important;
-			border: 1px solid $border-color;
-			border-radius: 5px;
-		}
-
-		.ant-table-content table tr th {
-			background-color: white !important;
-		}
-
-		span.span_1 {
-			color: $dark;
-		}
-
 		button.add-contact-btn {
-			background: #ffc000;
-			border: none;
 			color: white;
+			border: none;
 		}
 	}
 
