@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Col, Row, List, Avatar, Progress, Tabs, Typography} from 'antd';
+import counterpart from 'counterpart';
 import PageHeader from 'components/PageHeader/PageHeader';
 import {getBankingAssetsLogo, getGoldImage} from 'branding';
 import {useTheme} from '@emotion/react';
@@ -167,7 +168,11 @@ const AssetExplorer = ({history}) => {
 
 	return (
 		<div className="backing-assets">
-			<PageHeader title="Backing Assets" level={3} showDivider />
+			<PageHeader
+				title={counterpart.translate('header.arts')}
+				level={3}
+				showDivider
+			/>
 			<div className="content-body">
 				<Row align="middle" gutter={[16, 16]} className="header">
 					<Col xs={4} sm={3}>

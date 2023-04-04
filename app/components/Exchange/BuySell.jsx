@@ -850,7 +850,10 @@ class BuySell extends React.Component {
 														color: isBid ? '#330000' : 'white',
 													}}
 												>
-													{isBid ? 'BUY' : 'SELL'}&nbsp;
+													{isBid
+														? counterpart.translate('exchange.buy')
+														: counterpart.translate('exchange.sell')}
+													&nbsp;
 													{this.props.quote.get('symbol')}
 												</div>
 											</button>

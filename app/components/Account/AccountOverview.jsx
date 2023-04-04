@@ -66,7 +66,12 @@ class AccountOverview extends React.Component {
 				'Expiry Date',
 				'Action',
 			],
-			transactionHistoryCheckbox: ['Operation', 'Info', 'Fee', 'Time'],
+			transactionHistoryCheckbox: [
+				counterpart.translate('explorer.block.op'),
+				counterpart.translate('account.transactions.info'),
+				counterpart.translate('account.transactions.fee'),
+				counterpart.translate('account.transactions.time'),
+			],
 		};
 
 		this._handleFilterInput = this._handleFilterInput.bind(this);
@@ -379,11 +384,18 @@ class AccountOverview extends React.Component {
 			'Expiry Date',
 			'Action',
 		];
-		const transactionHistoryOption = ['Operation', 'Info', 'Fee', 'Time'];
+		const transactionHistoryOption = [
+			counterpart.translate('explorer.block.op'),
+			counterpart.translate('account.transactions.info'),
+			counterpart.translate('account.transactions.fee'),
+			counterpart.translate('account.transactions.time'),
+		];
 		const menuPortFolio = (
 			<div className="portfolio-checkbox-class">
 				<CaretUpOutlined />
-				<h3>Customize the Columns</h3>
+				<h3>
+					<Translate content="customizable_table.customize_the_columns" />
+				</h3>
 				<CheckboxGroup
 					options={portfolioOption}
 					value={this.state.portfolioCheckbox}
@@ -395,7 +407,9 @@ class AccountOverview extends React.Component {
 		const menuOpenorders = (
 			<div className="portfolio-checkbox-class">
 				<CaretUpOutlined />
-				<h3>Customize the Columns</h3>
+				<h3>
+					<Translate content="customizable_table.customize_the_columns" />
+				</h3>
 				<CheckboxGroup
 					options={openOrdersOption}
 					value={this.state.openOrderCheckbox}
@@ -407,7 +421,9 @@ class AccountOverview extends React.Component {
 		const menuTransactionHistory = (
 			<div className="portfolio-checkbox-class">
 				<CaretUpOutlined />
-				<h3>Customize the Columns</h3>
+				<h3>
+					<Translate content="customizable_table.customize_the_columns" />
+				</h3>
 				<CheckboxGroup
 					options={transactionHistoryOption}
 					value={this.state.transactionHistoryCheckbox}
@@ -427,7 +443,7 @@ class AccountOverview extends React.Component {
 									to="#"
 									onClick={() => this.props.history.push('/onramperwallet')}
 								>
-									Fund Wallet With Credit/Debit Card
+									{counterpart.translate('account.fund_wallet_with_card')}
 								</Link>
 							),
 						},
@@ -439,7 +455,7 @@ class AccountOverview extends React.Component {
 									rel="noopener noreferrer"
 									href={`${process.env.META1_SUPPORT_URL}how-to-deposit-into-your-meta-lite-wallet`}
 								>
-									Fund Wallet With Cryptocurrency
+									{counterpart.translate('account.fund_wallet_with_crypto')}
 								</a>
 							),
 						},
@@ -451,7 +467,7 @@ class AccountOverview extends React.Component {
 									rel="noopener noreferrer"
 									href={`${process.env.META1_VISION_URL}private-digital-currency/meta-1-coin`}
 								>
-									Fund Wallet with Wire or Check
+									{counterpart.translate('account.fund_wallet_with_wire')}
 								</a>
 							),
 						},
@@ -466,7 +482,11 @@ class AccountOverview extends React.Component {
 						borderBottom: `1px solid ${theme.colors.borderColor} `,
 					})}
 				>
-					<PageHeader title={'Your Assets'} showDivider={false} level={4} />
+					<PageHeader
+						title={counterpart.translate('explorer.assets.title')}
+						showDivider={false}
+						level={4}
+					/>
 
 					<div className="tab-controller">
 						<Space wrap>
@@ -524,7 +544,7 @@ class AccountOverview extends React.Component {
 								buttonType="primary"
 							>
 								<StyledButton buttonType="primary">
-									Fund Wallet
+									{counterpart.translate('account.fund_wallet')}
 									<CaretDownFilled />
 								</StyledButton>
 							</Dropdown>
@@ -601,7 +621,7 @@ class AccountOverview extends React.Component {
 								})}
 							>
 								<div className="estimated-balance">
-									<p>Estimated Balance</p>
+									<Translate content="account.estimate_balance" />
 									<div className="total">
 										{portfolioActiveAssetsBalance}&nbsp;{preferredUnit}
 										{!isNaN(usdTotal) && (
@@ -612,7 +632,7 @@ class AccountOverview extends React.Component {
 								</div>
 								<div className="filter inline-block">
 									<div className="hide-switch">
-										<div>Hide Zero Balances</div>
+										<Translate content="account.hide_zero_balance" />
 										<Switch
 											style={{marginLeft: 16}}
 											checked={this.state.hideZeroBalance}

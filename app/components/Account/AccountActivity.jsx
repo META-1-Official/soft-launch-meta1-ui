@@ -1,7 +1,8 @@
+import React from 'react';
 import {MobileOutlined} from '@ant-design/icons';
 import {Button, Table} from 'antd';
+import counterpart from 'counterpart';
 import PageHeader from 'components/PageHeader/PageHeader';
-import React from 'react';
 import BindToChainState from '../Utility/BindToChainState';
 import SectionBlock from './SectionBlock';
 
@@ -285,7 +286,11 @@ const AccountActivity = () => {
 	return (
 		<div className="account-activity">
 			<div>
-				<PageHeader title="Activity" level={2} showDivider />
+				<PageHeader
+					title={counterpart.translate('account.activity')}
+					level={2}
+					showDivider
+				/>
 			</div>
 			<div className="content">
 				<SectionBlock title="Active Sessions">

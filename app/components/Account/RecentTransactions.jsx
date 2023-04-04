@@ -728,11 +728,12 @@ class RecentTransactions extends React.Component {
 							{
 								title: (
 									<div className="transaction-history-table-title">
-										<Translate content="account.user_issued_assets.operation" />
+										<Translate content="explorer.block.op" />
 									</div>
 								),
-								isShow:
-									this.props.transactionHistoryCheckbox?.includes('Operation'),
+								isShow: this.props.transactionHistoryCheckbox?.includes(
+									counterpart.translate('explorer.block.op')
+								),
 								dataIndex: 'pairData',
 								align: 'left',
 								render: (item) => {
@@ -763,7 +764,9 @@ class RecentTransactions extends React.Component {
 										<Translate content="account.transactions.info" />
 									</div>
 								),
-								isShow: this.props.transactionHistoryCheckbox?.includes('Info'),
+								isShow: this.props.transactionHistoryCheckbox?.includes(
+									counterpart.translate('account.transactions.info')
+								),
 								dataIndex: 'info',
 								align: 'left',
 								render: (item) => {
@@ -802,8 +805,9 @@ class RecentTransactions extends React.Component {
 										),
 										dataIndex: 'fee',
 										align: 'left',
-										isShow:
-											this.props.transactionHistoryCheckbox?.includes('Fee'),
+										isShow: this.props.transactionHistoryCheckbox?.includes(
+											counterpart.translate('account.transactions.fee')
+										),
 										render: (item) => {
 											return (
 												<span
@@ -826,7 +830,9 @@ class RecentTransactions extends React.Component {
 										/>
 									</div>
 								),
-								isShow: this.props.transactionHistoryCheckbox?.includes('Time'),
+								isShow: this.props.transactionHistoryCheckbox?.includes(
+									counterpart.translate('account.transactions.time')
+								),
 								dataIndex: 'time',
 								render: (item) => {
 									return <span style={{whiteSpace: 'nowrap'}}>{item}</span>;
