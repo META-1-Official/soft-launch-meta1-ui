@@ -4,7 +4,7 @@ import PageHeader from 'components/PageHeader/PageHeader';
 import React from 'react';
 import BindToChainState from '../Utility/BindToChainState';
 import SectionBlock from './SectionBlock';
-
+import {Card} from 'antd';
 const Subsection = ({
 	title1,
 	title2,
@@ -26,13 +26,36 @@ const Subsection = ({
 					</a>
 				)}
 			</div>
-			<div className="table">
+			<div
+				className={`table ${title1 == 'Mobile Applications' ? 'visible' : ''}`}
+			>
 				<Table
 					columns={columns}
 					dataSource={dataSource}
 					pagination={pagination}
 				/>
 			</div>
+
+			{dataSource.map((el) => (
+				<div
+					className={`card ${title1 == 'Mobile Applications' ? 'hide' : ''}`}
+				>
+					<Card bordered={false}>
+						{columns.map((col) => {
+							return col.title ? (
+								<h6>
+									<div className="header">{col.title} :</div>
+									<div class="content">
+										{col.render ? col.render(el[col.key]) : el[col.key]}
+									</div>
+								</h6>
+							) : (
+								''
+							);
+						})}
+					</Card>
+				</div>
+			))}
 		</>
 	);
 };
@@ -65,12 +88,14 @@ const AccountActivity = () => {
 			title: 'Device',
 			dataIndex: 'device',
 			key: 'device',
-			render: (data) => (
-				<div>
-					<MobileOutlined css={{marginRight: '5px'}} />
-					{data}
-				</div>
-			),
+			render: (data) => {
+				return (
+					<div>
+						<MobileOutlined css={{marginRight: '5px'}} />
+						{data}
+					</div>
+				);
+			},
 		},
 		{title: 'Signed In', dataIndex: 'signedin', key: 'signedin'},
 		{
@@ -122,7 +147,7 @@ const AccountActivity = () => {
 			title: '',
 			dataIndex: 'cancel',
 			key: 'cancel',
-			render: () => <CancelButton />,
+			render: (data) => <CancelButton />,
 			width: '26px',
 		},
 	];
@@ -196,7 +221,7 @@ const AccountActivity = () => {
 			title: '',
 			dataIndex: 'cancel',
 			key: 'cancel',
-			render: () => <CancelButton />,
+			render: (data) => <CancelButton />,
 			width: '26px',
 		},
 	];
@@ -284,9 +309,7 @@ const AccountActivity = () => {
 
 	return (
 		<div className="account-activity">
-			<div>
-				<PageHeader title="Activity" level={2} showDivider />
-			</div>
+			<PageHeader title="Activity" level={2} showDivider />
 			<div className="content">
 				<SectionBlock title="Active Sessions">
 					<Subsection
