@@ -695,7 +695,7 @@ class Header extends React.Component {
 								>
 									<QuestionCircleOutlined
 										css={(theme) => ({
-											color: theme.colors.white,
+											color: theme.colors.themeOpositeColor,
 											marginRight: '10px',
 											[`@media (max-width: ${theme.sizes.md})`]: {
 												color: theme.colors.primaryColor,
@@ -709,6 +709,7 @@ class Header extends React.Component {
 									/>
 									<span
 										css={(theme) => ({
+											color: theme.colors.themeOpositeColor,
 											[`@media (max-width: ${theme.sizes.md})`]: {
 												display: 'none',
 											},

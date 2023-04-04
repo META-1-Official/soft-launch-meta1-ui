@@ -129,7 +129,7 @@ class Row extends React.Component {
 					<td style={{textAlign: 'left'}}>{this.props.operationId}</td>
 				) : null}
 				{hideOpLabel ? null : (
-					<td style={{textAlign: 'left'}} className="left-td column-hide-tiny">
+					<td style={{textAlign: 'left'}} className="left-td">
 						<Tooltip
 							placement="bottom"
 							title={counterpart.translate('tooltip.show_block', {
