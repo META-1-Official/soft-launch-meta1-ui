@@ -2809,6 +2809,7 @@
 		"reenter_brainkey": "Re-Enter Brainkey",
 		"remember_me": "Remember me",
 		"remember_me_explanation": "Turn 'Remember Me' off to disable remembering your wallet name and other personal settings.",
+		"require_login": "Please login or get this page from explorer",
 		"reset": "Reset",
 		"restore": "Restore Local Wallet from Backup",
 		"restore_backup": "Restore Backup",

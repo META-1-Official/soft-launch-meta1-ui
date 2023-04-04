@@ -2675,6 +2675,7 @@
 		"reenter_brainkey": "Re-Ingrese Brainkey",
 		"remember_me": "Recuérdame",
 		"remember_me_explanation": "Desactiva \"Recordarme\" para deshabilitar recordar el nombre de tu cuenta y otras configuraciones personales.",
+		"require_login": "Inicie sesión u obtenga esta página del explorador",
 		"reset": "Resetear",
 		"restore": "Restaurar cartera local desde la copia de seguridad",
 		"restore_backup": "Restaurar Backup",

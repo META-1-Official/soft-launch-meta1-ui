@@ -2671,6 +2671,7 @@
 		"reenter_brainkey": "브레인키를 다시 입력하세요",
 		"remember_me": "Remember me",
 		"remember_me_explanation": "Turn 'Remember Me' off to disable remembering your wallet name and other personal settings.",
+		"require_login": "로그인하거나 탐색기에서 이 페이지를 가져오세요",
 		"reset": "재설정",
 		"restore": "Restore Local Wallet from Backup",
 		"restore_backup": "백업파일 복구",

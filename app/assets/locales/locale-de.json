@@ -2662,6 +2662,7 @@
 		"remember_me": "Remember me",
 		"remember_me_explanation": "Turn 'Remember Me' off to disable remembering your wallet name and other personal settings.",
 		"reset": "Zurücksetzen",
+		"require_login": "Bitte melden Sie sich an oder rufen Sie diese Seite vom Explorer ab",
 		"restore": "Lokale Wallet von Sicherung wiederherstellen",
 		"restore_backup": "Sicherung wiederherstellen",
 		"restore_it_here": "Wiederherstellung hier",

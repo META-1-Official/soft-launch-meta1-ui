@@ -2671,6 +2671,7 @@
 		"reenter_brainkey": "TekAnahtarı tekrar gir",
 		"remember_me": "Remember me",
 		"remember_me_explanation": "Turn 'Remember Me' off to disable remembering your wallet name and other personal settings.",
+		"require_login": "Lütfen giriş yapın veya bu sayfayı explorer'dan alın",
 		"reset": "Sıfırla",
 		"restore": "Yedeklenmiş cüzdanı aktar",
 		"restore_backup": "Yedekten Geri Yükle",

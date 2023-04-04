@@ -14,6 +14,7 @@ import {
 import {toast} from 'react-toastify';
 import {useTheme} from '@emotion/react';
 import Translate from 'react-translate-component';
+import counterpart from 'counterpart';
 import history from '../../lib/common/history'; // lib/common/history';
 import ls from '../../lib/common/localStorage';
 
@@ -93,7 +94,7 @@ const SideBar = ({collapsed, currentLink, toggle}) => {
 
 		if (e.key === 'account') {
 			if (!accountName) {
-				toast('Please login or get this page from explorer');
+				toast(counterpart.translate('wallet.require_login'));
 				return;
 			}
 

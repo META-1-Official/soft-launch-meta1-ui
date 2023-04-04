@@ -2671,6 +2671,7 @@
 		"reenter_brainkey": "Reinserisci brainkey",
 		"remember_me": "Remember me",
 		"remember_me_explanation": "Turn 'Remember Me' off to disable remembering your wallet name and other personal settings.",
+		"require_login": "Accedi o scarica questa pagina da explorer",
 		"reset": "Reset",
 		"restore": "Ripristina portafoglio da un backup",
 		"restore_backup": "Ripristina backup",

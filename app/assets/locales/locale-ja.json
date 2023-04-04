@@ -2670,6 +2670,7 @@
 		"reenter_brainkey": "ブレインキーを再入力してください",
 		"remember_me": "Remember me",
 		"remember_me_explanation": "Turn 'Remember Me' off to disable remembering your wallet name and other personal settings.",
+		"require_login": "ログインするか、エクスプローラーからこのページを取得してください",
 		"reset": "リセット",
 		"restore": "バックアップからウォレットをリストアする",
 		"restore_backup": "バックアップのリストア",
