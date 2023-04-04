@@ -1131,23 +1131,42 @@ div.account-activity {
 	div.content {
 		padding-left: 30px;
 		padding-right: 30px;
-
+		@media screen and (max-width: 900px) {
+			padding-left: 9px;
+			padding-right: 9px;
+		}
 		div.section {
 			background: #0a0b0d;
 			border: 1px solid #1c1f27;
 			border-radius: 4px;
 			margin-top: 30px;
 			margin-bottom: 90px;
+			@media screen and (max-width: 900px) {
+				margin-top: 10px;
+				margin-bottom: 10px;
+			}
 
 			.header-title {
 				padding: 30px;
 				background: #15171b;
 				font-size: 20px;
 				color: white;
+				@media screen and (max-width: 900px) {
+					padding: 9px;
+					font-size: 15px;
+				}
 			}
 
 			.section-content {
 				margin-top: 16px;
+				.ant-btn {
+					@media screen and (max-width: 900px) {
+						width: 106px !important;
+						margin-left: 9px;
+						font-size: 13px;
+						height: 34px;
+					}
+				}
 			}
 
 			.subsection-title1 {
@@ -1155,13 +1174,24 @@ div.account-activity {
 				font-size: 18px;
 				padding-left: 30px;
 				margin-bottom: 10px;
+				@media screen and (max-width: 900px) {
+					padding: 9px;
+					font-size: 14px;
+					background-color: #15171b;
+					margin-bottom: 0px;
+				}
 			}
 
 			.subsection-title2 {
 				font-size: 15px;
 				padding-left: 30px;
 				margin-bottom: 15px;
-
+				@media screen and (max-width: 900px) {
+					padding: 9px;
+					font-size: 11px;
+					background-color: #15171b;
+					line-height: 1.6;
+				}
 				.hyper-text {
 					color: #ffc000;
 					text-decoration: underline;
@@ -1175,7 +1205,12 @@ div.account-activity {
 				padding-left: 30px;
 				font-size: 20px;
 				color: white;
-
+				@media screen and (max-width: 900px) {
+					padding: 9px;
+					font-size: 13px;
+					margin-top: 10px;
+					margin-bottom: 0px;
+				}
 				.undone-text {
 					color: #ff2929;
 					text-decoration: underline;
@@ -1194,6 +1229,10 @@ div.account-activity {
 						th {
 							padding-left: 30px;
 							font-size: 14px;
+							@media screen and (max-width: 900px) {
+								padding-left: 9px;
+								font-size: 12px;
+							}
 						}
 					}
 				}
@@ -1207,8 +1246,17 @@ div.account-activity {
 					padding-left: 30px;
 					padding-right: 30px;
 					font-size: 14px;
+					@media screen and (max-width: 900px) {
+						padding: 9px;
+						font-size: 13px;
+					}
 				}
 			}
+		}
+	}
+	h2 {
+		@media screen and (max-width: 900px) {
+			font-size: 18px !important;
 		}
 	}
 }
@@ -2154,4 +2202,45 @@ div.account-notification {
 		border-top: 0 !important;
 		border-left: 0 !important;
 	}
+}
+
+.table {
+	@media screen and (max-width: 900px) {
+		display: none;
+	}
+}
+.card {
+	@media screen and (min-width: 900px) {
+		display: none;
+	}
+	@media screen and (max-width: 900px) {
+		display: inline;
+		.ant-card-body {
+			padding: 10px;
+			background-color: #0a0b0d;
+
+			h6 {
+				line-height: 1;
+				display: flex;
+				.header {
+					white-space: pre;
+					font-size: 13px;
+				}
+				.content {
+					color: #808080;
+					padding-left: 9px;
+					padding-right: 9px;
+					width: 100%;
+					font-size: 13px;
+					word-break: break-all;
+				}
+			}
+		}
+	}
+}
+.visible {
+	display: contents !important;
+}
+.hide {
+	display: none;
 }

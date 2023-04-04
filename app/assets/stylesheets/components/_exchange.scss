@@ -1555,7 +1555,6 @@ form.hide-container {
 			@media (max-width: 870px) {
 				height: unset !important;
 				width: 95% !important;
-				right: 17px !important;
 				top: 50px !important;
 			}
 			.ant-input-affix-wrapper {
@@ -1731,15 +1730,15 @@ form.hide-container {
 				}
 			}
 			.info-details {
-				@media (max-width: 650px) {
+				@media (max-width: 950px) {
 					flex-direction: column;
 					align-items: baseline;
 				}
 				.info-img {
 					width: 365px;
 					padding: 20px;
-					@media (max-width: 850px) {
-						width: 50%;
+					@media (max-width: 950px) {
+						width: 200px;
 						margin: 0px;
 					}
 				}
