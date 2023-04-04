@@ -486,13 +486,13 @@ class Header extends React.Component {
 					</Text>
 				</Menu.Item>
 				<Menu.Item key="addContact" className="level-2">
-					<Text>Add Contact</Text>
+					<Translate content="header.add_contact" />
 				</Menu.Item>
 				{!this.props.locked_v2 &&
 					this.state.migratable &&
 					this.state.oldUser && (
 						<Menu.Item key="claimWallet">
-							<Text>Claim Legacy Wallet</Text>
+							<Translate content="header.claim_legacy_wallet" />
 						</Menu.Item>
 					)}
 				<Menu.Item
@@ -500,26 +500,26 @@ class Header extends React.Component {
 					style={this.props.locked_v2 ? {cursor: 'not-allowed'} : {}}
 					className={this.props.locked_v2 ? 'disable-li-text' : ''}
 				>
-					<Text>Send</Text>
+					<Translate content="transfer.send" />
 				</Menu.Item>
 				<Menu.Item
 					key="withdraw"
 					style={this.props.locked_v2 ? {cursor: 'not-allowed'} : {}}
 					className={this.props.locked_v2 ? 'disable-li-text' : ''}
 				>
-					<Text>Withdraw</Text>
+					<Translate content="header.withdraw" />
 				</Menu.Item>
 				<Menu.Item
 					key="deposit"
 					style={this.props.locked_v2 ? {cursor: 'not-allowed'} : {}}
 					className={this.props.locked_v2 ? 'disable-li-text' : ''}
 				>
-					<Text>Deposit</Text>
+					<Translate content="exchange.deposit" />
 				</Menu.Item>
 				<Menu.SubMenu
 					key="submenu"
 					popupClassName="advanced-submenu"
-					title={<Text>Advanced</Text>}
+					title={<Translate content="account.advanced" />}
 					disabled={!currentAccount}
 					popupOffset={[0, 0]}
 				>
@@ -543,24 +543,24 @@ class Header extends React.Component {
 						</Text>
 					</Menu.Item>
 					<Menu.Item key="advanced-signed-messages">
-						<Text>Signed Messages</Text>
+						<Translate content="account.signedmessages.title" />
 					</Menu.Item>
 
 					<Menu.Item key="advanced-membership-stats">
-						<Text>Membership Stats</Text>
+						<Translate content="account.member.stats" />
 					</Menu.Item>
 
 					<Menu.Item key="advanced-vesting-balance">
-						<Text>Vesting Balance</Text>
+						<Translate content="account.vesting.title" />
 					</Menu.Item>
 					<Menu.Item key="advanced-whitelist">
-						<Text>Whitelist</Text>
+						<Translate content="account.whitelist.title" />
 					</Menu.Item>
 					<Menu.Item key="advanced-permissions">
-						<Text>Permissions</Text>
+						<Translate content="account.permissions" />
 					</Menu.Item>
 					<Menu.Item key="advanced-accounts">
-						<Text>Wallets</Text>
+						<Translate content="account.accounts" />
 					</Menu.Item>
 				</Menu.SubMenu>
 			</Menu>
@@ -572,7 +572,9 @@ class Header extends React.Component {
 				onClick={this.handleHeaderLink}
 				selectedKeys={[this.props.currentLink]}
 			>
-				<Menu.Item key="dashboard">Dashboard</Menu.Item>
+				<Menu.Item key="dashboard">
+					<Translate component="span" content="header.dashboard" />
+				</Menu.Item>
 				<Menu.Item key="market">
 					<Translate component="span" content="header.exchange" />
 				</Menu.Item>
@@ -714,7 +716,7 @@ class Header extends React.Component {
 											},
 										})}
 									>
-										Get help
+										<Translate content="header.get_help" />
 									</span>
 								</Text>
 								<div
@@ -732,7 +734,8 @@ class Header extends React.Component {
 											this.props.history.push('/market/META1_USDT')
 										}
 									>
-										Buy / Sell
+										<Translate content="exchange.buy" /> /{' '}
+										<Translate content="exchange.sell" />
 									</StyledButton>
 								</div>
 
@@ -747,7 +750,8 @@ class Header extends React.Component {
 										buttonType="transparent"
 										onClick={this._showSend.bind(this)}
 									>
-										Send / Receive
+										<Translate content="transfer.send" /> /{' '}
+										<Translate content="exchange.receive" />
 									</StyledButton>
 								</div>
 								<div css={{marginRight: '10px', display: 'none'}}>

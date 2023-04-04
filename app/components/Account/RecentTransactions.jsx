@@ -667,7 +667,9 @@ class RecentTransactions extends React.Component {
 					<div className="header-selector">
 						<div className="header-selector-body">
 							<div style={{display: 'flex', justifyContent: 'center'}}>
-								<span className="page-title">Transaction History</span>
+								<span className="page-title">
+									<Translate content="account.transaction_history" />
+								</span>
 								<div style={{marginLeft: '20px', marginRight: '10px'}}>
 									<DatePicker
 										onChange={(dateFrom) => this.onDateFromChange(dateFrom)}

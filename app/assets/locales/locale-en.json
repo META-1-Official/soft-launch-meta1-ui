@@ -199,6 +199,9 @@
 		"please_create_account": "Please create an wallet",
 		"polo_scam": "This wallet is not the real Poloniex wallet, please send to this wallet: poloniexwallet.",
 		"portfolio": "Portfolio",
+		"transaction_history": "Transaction History",
+		"notifications": "Notifications",
+		"learn": "Learn",
 		"propose_from": "Propose From",
 		"qty": "Qty",
 		"quote": "Quote",
@@ -1247,6 +1250,8 @@
 		"account_notify": "The active wallet is now %(account)s",
 		"account_value": "Wallet value",
 		"accounts_manage": "Manage Wallets",
+		"add_contact": "Add Contact",
+		"claim_legacy_wallet": "Add Contact",
 		"collateral_ratio": "Collateral ratio",
 		"create_account": "Create Wallet",
 		"create_asset": "Create Asset",
@@ -1257,6 +1262,7 @@
 		"exchange": "Exchange",
 		"explorer": "Explorer v1",
 		"explorer2": "Explorer v2",
+		"get_help": "Get help",
 		"help": "Help",
 		"lock": "Log out (lock the local wallet)",
 		"lock_short": "Log out",
@@ -1273,7 +1279,8 @@
 		"unlock_short": "Login",
 		"unlocked_tip": "<br/>Click to log out.<br/><br/>Closing the browser window will also log you out.",
 		"update_asset": "Update Asset",
-		"withdraw_legacy": "or Legacy Withdraw"
+		"withdraw_legacy": "or Legacy Withdraw",
+		"add_contact": ""
 	},
 	"htlc": {
 		"claim_period": "Seconds to claim",

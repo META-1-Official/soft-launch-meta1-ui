@@ -488,7 +488,7 @@ class AccountOverview extends React.Component {
 									onNavButtonClick('openOrders');
 								}}
 							>
-								Open Orders
+								<Translate content="account.open_orders" />
 							</StyledButton>
 							<StyledButton
 								className={
@@ -500,7 +500,7 @@ class AccountOverview extends React.Component {
 									onNavButtonClick('transactionHistory');
 								}}
 							>
-								Transaction History
+								<Translate content="account.transaction_history" />
 							</StyledButton>
 
 							{/*{account.get('proposals') && account.get('proposals').size ? (

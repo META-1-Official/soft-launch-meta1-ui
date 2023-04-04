@@ -64,19 +64,19 @@ const SideBar = ({collapsed, currentLink, toggle}) => {
 		},
 		{
 			menuId: 'transaction-history',
-			menuName: 'Transaction History',
+			menuName: <Translate content="account.transaction_history" />,
 			icon: <SwapOutlined />,
 			enableNavLinks,
 		},
 		{
 			menuId: 'notification',
-			menuName: 'Notifications',
+			menuName: <Translate content="account.notifications" />,
 			icon: <BellOutlined />,
 			enableNavLinks,
 		},
 		{
 			menuId: 'learn',
-			menuName: 'Learn',
+			menuName: <Translate content="account.learn" />,
 			icon: <QuestionCircleOutlined />,
 			enableNavLinks: true,
 		},
