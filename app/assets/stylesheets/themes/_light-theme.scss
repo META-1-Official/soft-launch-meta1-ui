@@ -768,6 +768,27 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 					color: $dark;
 				}
 
+				.subsection-title1 {
+					@media screen and (max-width: 900px) {
+						background-color: $bg-color-lightblue;
+					}
+				}
+
+				.subsection-title2 {
+					@media screen and (max-width: 900px) {
+						background-color: $bg-color-lightblue;
+					}
+				}
+
+				.card {
+					@media screen and (max-width: 900px) {
+						.ant-card-body {
+							background-color: transparent;
+							border-bottom: 1px solid $border-color;
+						}
+					}
+				}
+
 				.close-text {
 					color: $primary-text-color;
 				}
