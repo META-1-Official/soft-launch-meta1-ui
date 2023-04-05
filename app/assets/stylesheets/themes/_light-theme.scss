@@ -960,6 +960,14 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 								text-align: center !important;
 							}
 						}
+
+						.ant-table-row {
+							.ant-table-cell {
+								button {
+									color: white;
+								}
+							}
+						}
 					}
 				}
 			}

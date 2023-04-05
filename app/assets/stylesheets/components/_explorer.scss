@@ -84,4 +84,25 @@
 			}
 		}
 	}
+
+	.accounts-tab {
+		.search-input {
+			min-width: 300px;
+
+			@media screen and (max-width: 576px) {
+				width: 100% !important;
+			}
+		}
+	}
+
+	.witnesses-tab {
+		.search-input {
+			min-width: 300px;
+			margin-bottom: 10px;
+
+			@media screen and (max-width: 576px) {
+				width: 100% !important;
+			}
+		}
+	}
 }

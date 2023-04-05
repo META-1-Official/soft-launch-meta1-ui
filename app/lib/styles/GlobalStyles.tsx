@@ -142,7 +142,9 @@ const GlobalStyles = (theme: any) => css`
 			border-bottom: none;
 		}
 	}
-
+	.ant-table-content {
+		overflow: auto;
+	}
 	.ant-table-tbody {
 		background: ${theme.colors.backgroundColor}; !important;
 		.ant-table-cell {
