@@ -334,7 +334,7 @@
 			"update_owner_text": "El propietario del activo puede cambiar el propietario a otra cuenta utilizando este formulario:",
 			"visible": "Ocultar activos desde la búsqueda y el mercados",
 			"white_list": "Requerir que los titulares sean incluidos en la lista blanca",
-			"witness_fed_asset": "Permite a los testigos de proveer feeds"
+			"fed_asset": "Permite a los testigos de proveer feeds"
 		},
 		"vesting": {
 			"balance_number": "Saldo #%(id)s",
@@ -356,7 +356,7 @@
 			"add_committee": "Agregar",
 			"add_committee_label": "Miembro del Comité",
 			"add_witness": "Agregar",
-			"add_witness_label": "Testigos",
+			"add_label": "Testigos",
 			"already": "La cuenta ya está en la lista",
 			"approve_worker": "Aprobar propuesta de trabajo",
 			"cast_votes_through_one_operation": "Cast your votes for witness, committee and workers and broadcast them together.",
@@ -418,7 +418,8 @@
 			"witness": "Nombre del testigo",
 			"worker_account": "Cuenta del trabajador",
 			"workers": "Presupuestos",
-			"workers_short": "Trabajadores"
+			"workers_short": "Trabajadores",
+			"rows": "filas"
 		},
 		"voting": "Votación",
 		"welcome": "Bienvenido a Meta",
@@ -988,7 +989,13 @@
 			"transactions": "# de transacciones",
 			"trx": "Transacción",
 			"trx_per_block": "Trx/bloque",
-			"trx_per_sec": "Trx/segundo"
+			"trx_per_sec": "Trx/segundo",
+			"24h_volumn_meta1": "Volumen de 24 horas EN META1",
+			"24h_volumn_usdt": "Volumen de 24 horas EN USDT",
+			"24h_volumn_btc": "Volumen de 24 horas EN BTC",
+			"24h_market_cap_meta1": "Capitalización de mercado de 24 horas en META1",
+			"24h_market_cap_usdt": "Capitalización de mercado de 24 horas en USDT",
+			"24h_market_cap_btc": "Capitalización de mercado de 24 horas en BTC"
 		},
 		"committee_member": {
 			"title": "Miembro del Comité"
@@ -1017,6 +1024,14 @@
 			"title": "Propuestas"
 		},
 		"witnesses": {
+			"blocks": "Bloques",
+			"missing": "Perdido",
+			"name": "Nombre",
+			"url": "URL",
+			"last_confirmed_block": "Último bloque confirmado",
+			"blocks_missed": "Bloques perdidos",
+			"votes": "Votos",
+			"key": "Clave",
 			"budget": "Presupuesto restante",
 			"card": "Ver tarjetas",
 			"current": "Testigo actual",
@@ -1612,7 +1627,7 @@
 			"text": "After being voted in as an active witness you are added in the rotation of block producers and expected to produce blocks signed by your signing key and you are rewarded in META1 per produced block. Common criteria that help make your case are <ul><li>implementation of fallbacks (e.g. running a hot swap backup server) and appropriate server specifications to ensure a low number of missed blocks (e.g. high connectivity)</li><li>participation in block production and rolling releases of the testnet</li><li>provision of a public node for the community</li><li>publication of price feeds for the BitAssets</li></ul> Submit a link to your website or forum post explaining why you would be a exemplary member to attract enough votes to become active.",
 			"url": "URL",
 			"web_example": "Enter link to your witness proposal post",
-			"witness_account": "Witness Wallet"
+			"account": "Witness Wallet"
 		}
 	},
 	"news": {
@@ -1703,10 +1718,10 @@
 		"update_account": "{account} actualizado sus datos de cuenta",
 		"vesting_balance_withdraw": "{account} retiro del saldo de adquisición de {amount}",
 		"whitelisted_by": "{lister} puso en la lista blanca de la cuenta {listee}",
-		"witness_create": "{account} se actualizó para convertirse en un testigo",
-		"witness_pay": "Retiró el pago de testigos a la cuenta",
-		"witness_receive": "Recibido testigo de testigo",
-		"witness_update": "{account} actualizar su información de testigo",
+		"create": "{account} se actualizó para convertirse en un testigo",
+		"pay": "Retiró el pago de testigos a la cuenta",
+		"receive": "Recibido testigo de testigo",
+		"update": "{account} actualizar su información de testigo",
 		"worker_create": "{account} creó una propuesta de trabajador con pago diario de {pay}"
 	},
 	"page404": {
@@ -2404,9 +2419,9 @@
 			"withdraw_permission_create": "Crear permisos de retiro",
 			"withdraw_permission_delete": "Eliminar permisos de retiro",
 			"withdraw_permission_update": "Actualizar permisos de retiro",
-			"witness_create": "Crear Testigo",
-			"witness_update": "Actualizar Testigo",
-			"witness_withdraw_pay": "Retirar pago del Testigo",
+			"create": "Crear Testigo",
+			"update": "Actualizar Testigo",
+			"withdraw_pay": "Retirar pago del Testigo",
 			"worker_create": "Create worker",
 			"property_create_operation": "Create property",
 			"property_update_operation": "Update property",

@@ -334,7 +334,7 @@
 			"update_owner_text": "The asset owner may change the owner to another wallet using this form:",
 			"visible": "Hide asset from search and markets",
 			"white_list": "Require holders to be white-listed",
-			"witness_fed_asset": "Allow witnesses to provide feeds"
+			"fed_asset": "Allow witnesses to provide feeds"
 		},
 		"vesting": {
 			"balance_number": "Balance #%(id)s",
@@ -356,7 +356,7 @@
 			"add_committee": "추가",
 			"add_committee_label": "위원",
 			"add_witness": "추가",
-			"add_witness_label": "증인",
+			"add_label": "증인",
 			"already": "Wallet is already in the list",
 			"approve_worker": "Approve worker proposal",
 			"cast_votes_through_one_operation": "Cast your votes for witness, committee and workers and broadcast them together.",
@@ -418,7 +418,8 @@
 			"witness": "Witness name",
 			"worker_account": "Worker wallet",
 			"workers": "예산 항목",
-			"workers_short": "Workers"
+			"workers_short": "Workers",
+			"rows": "행"
 		},
 		"voting": "투표",
 		"welcome": "비트쉐어 2.0 이용을 환영합니다",
@@ -982,7 +983,13 @@
 			"transactions": "거래 수",
 			"trx": "거래",
 			"trx_per_block": "블록당 거래",
-			"trx_per_sec": "초당 거래"
+			"trx_per_sec": "초당 거래",
+			"24h_volumn_meta1": "META1 24시간 볼륨",
+			"24h_volumn_usdt": "24시간 USDT 볼륨",
+			"24h_volumn_btc": "BTC의 24시간 볼륨",
+			"24h_market_cap_meta1": "META1의 24시간 시가 총액",
+			"24h_market_cap_usdt": "USDT의 24시간 시가 총액",
+			"24h_market_cap_btc": "BTC의 24시간 시가 총액"
 		},
 		"committee_member": {
 			"title": "위원"
@@ -1011,6 +1018,14 @@
 			"title": "제안서"
 		},
 		"witnesses": {
+			"blocks": "차단",
+			"missing": "누락",
+			"name": "이름",
+			"url": "URL",
+			"last_confirmed_block": "마지막으로 확인된 블록",
+			"blocks_missed": "누락된 블록",
+			"votes": "투표",
+			"key": "열쇠",
 			"budget": "남은 예산",
 			"card": "카드뷰",
 			"current": "현재 증인",
@@ -1607,7 +1622,7 @@
 			"text": "After being voted in as an active witness you are added in the rotation of block producers and expected to produce blocks signed by your signing key and you are rewarded in META1 per produced block. Common criteria that help make your case are <ul><li>implementation of fallbacks (e.g. running a hot swap backup server) and appropriate server specifications to ensure a low number of missed blocks (e.g. high connectivity)</li><li>participation in block production and rolling releases of the testnet</li><li>provision of a public node for the community</li><li>publication of price feeds for the BitAssets</li></ul> Submit a link to your website or forum post explaining why you would be a exemplary member to attract enough votes to become active.",
 			"url": "URL",
 			"web_example": "Enter link to your witness proposal post",
-			"witness_account": "Witness Wallet"
+			"account": "Witness Wallet"
 		}
 	},
 	"news": {
@@ -1698,10 +1713,10 @@
 		"update_account": "{account} updated their wallet data",
 		"vesting_balance_withdraw": "{account} withdrew vesting balance of {amount}",
 		"whitelisted_by": "{lister} whitelisted the wallet {listee}",
-		"witness_create": "{account} was upgraded to become a witness",
-		"witness_pay": "Withdrew witness pay to wallet",
-		"witness_receive": "Received witness from witness",
-		"witness_update": "{account} update its witness info",
+		"create": "{account} was upgraded to become a witness",
+		"pay": "Withdrew witness pay to wallet",
+		"receive": "Received witness from witness",
+		"update": "{account} update its witness info",
 		"worker_create": "{account} created a worker proposal with daily pay of {pay}"
 	},
 	"page404": {
@@ -2399,9 +2414,9 @@
 			"withdraw_permission_create": "출금권한 생성",
 			"withdraw_permission_delete": "출금권한 삭제",
 			"withdraw_permission_update": "출금권한 업데이트",
-			"witness_create": "증인 생성",
-			"witness_update": "증인 업데이트",
-			"witness_withdraw_pay": "증인 봉급 인출",
+			"create": "증인 생성",
+			"update": "증인 업데이트",
+			"withdraw_pay": "증인 봉급 인출",
 			"worker_create": "Create worker",
 			"property_create_operation": "Create property",
 			"property_update_operation": "Update property",

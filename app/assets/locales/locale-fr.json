@@ -334,7 +334,7 @@
 			"update_owner_text": "The asset owner may change the owner to another wallet using this form:",
 			"visible": "Hide asset from search and markets",
 			"white_list": "Require holders to be white-listed",
-			"witness_fed_asset": "Allow witnesses to provide feeds"
+			"fed_asset": "Allow witnesses to provide feeds"
 		},
 		"vesting": {
 			"balance_number": "Balance #%(id)s",
@@ -356,7 +356,7 @@
 			"add_committee": "Add",
 			"add_committee_label": "Committee Member",
 			"add_witness": "Add",
-			"add_witness_label": "Witness",
+			"add_label": "Witness",
 			"already": "Wallet is already in the list",
 			"approve_worker": "Approve",
 			"cast_votes_through_one_operation": "Cast your votes for witness, committee and workers and broadcast them together.",
@@ -418,7 +418,8 @@
 			"witness": "Witness name",
 			"worker_account": "Worker wallet",
 			"workers": "Ouvriers",
-			"workers_short": "Workers"
+			"workers_short": "Workers",
+			"rows": "Lignes"
 		},
 		"voting": "Votes",
 		"welcome": "Welcome to Meta",
@@ -982,7 +983,13 @@
 			"transactions": "# of transactions",
 			"trx": "Transaction",
 			"trx_per_block": "Trx/block",
-			"trx_per_sec": "Trx/s"
+			"trx_per_sec": "Trx/s",
+			"24h_volumn_meta1": "Volume 24h EN META1",
+			"24h_volumn_usdt": "Volume 24h EN USDT",
+			"24h_volumn_btc": "Volume 24h EN BTC",
+			"24h_market_cap_meta1": "Capitalisation boursière 24h dans META1",
+			"24h_market_cap_usdt": "Cap sur 24h en USDT",
+			"24h_market_cap_btc": "Capacité boursière 24h en BTC"
 		},
 		"committee_member": {
 			"title": "CommitteeMember"
@@ -1011,6 +1018,14 @@
 			"title": "Propositions"
 		},
 		"witnesses": {
+			"blocks": "Blocs",
+			"missing": "Manqué",
+			"name": "Nom",
+			"url": "URL",
+			"last_confirmed_block": "Dernier bloc confirmé",
+			"blocks_missed": "Blocs manqués",
+			"votes": "Votes",
+			"témoin_key": "Clé",
 			"budget": "Remaining budget",
 			"card": "Card view",
 			"current": "Current witness",
@@ -1607,7 +1622,7 @@
 			"text": "After being voted in as an active witness you are added in the rotation of block producers and expected to produce blocks signed by your signing key and you are rewarded in META1 per produced block. Common criteria that help make your case are <ul><li>implementation of fallbacks (e.g. running a hot swap backup server) and appropriate server specifications to ensure a low number of missed blocks (e.g. high connectivity)</li><li>participation in block production and rolling releases of the testnet</li><li>provision of a public node for the community</li><li>publication of price feeds for the BitAssets</li></ul> Submit a link to your website or forum post explaining why you would be a exemplary member to attract enough votes to become active.",
 			"url": "URL",
 			"web_example": "Enter link to your witness proposal post",
-			"witness_account": "Witness Wallet"
+			"account": "Witness Wallet"
 		}
 	},
 	"news": {
@@ -1698,10 +1713,10 @@
 		"update_account": "{account} a mis à jour les donnéees de son compte",
 		"vesting_balance_withdraw": "{account} a retiré {amount} d'un solde bloqué",
 		"whitelisted_by": "{lister} a whitelisté {listee}",
-		"witness_create": "{account} was upgraded to become a witness",
-		"witness_pay": "Withdrew witness pay to wallet",
-		"witness_receive": "Received witness from witness",
-		"witness_update": "{account} update its witness info",
+		"create": "{account} was upgraded to become a witness",
+		"pay": "Withdrew witness pay to wallet",
+		"receive": "Received witness from witness",
+		"update": "{account} update its witness info",
 		"worker_create": "{account} created a worker proposal with daily pay of {pay}"
 	},
 	"page404": {
@@ -2399,9 +2414,9 @@
 			"withdraw_permission_create": "Accord de permission de retrait",
 			"withdraw_permission_delete": "Suppresion des permissions de retrait",
 			"withdraw_permission_update": "Mise à jour de permission de retrait",
-			"witness_create": "Création de témoin",
-			"witness_update": "Update witness",
-			"witness_withdraw_pay": "Retrait de salaire de témoin",
+			"create": "Création de témoin",
+			"update": "Update witness",
+			"withdraw_pay": "Retrait de salaire de témoin",
 			"worker_create": "Create worker",
 			"property_create_operation": "Create property",
 			"property_update_operation": "Update property",

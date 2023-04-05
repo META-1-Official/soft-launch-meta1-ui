@@ -421,7 +421,8 @@
 			"witness": "Witness name",
 			"worker_account": "Worker wallet",
 			"workers": "Budget Items",
-			"workers_short": "Workers"
+			"workers_short": "Workers",
+			"rows": "rows"
 		},
 		"voting": "Voting",
 		"welcome": "Welcome to %(wallet_name)s",

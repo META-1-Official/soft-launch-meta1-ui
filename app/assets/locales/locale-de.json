@@ -332,7 +332,7 @@
 			"update_owner_text": "Der Anlagenbsitzer kann den Eigentümer mit diesem Formular ändern:",
 			"visible": "Anlage von der Suche und dem Markt verstecken.",
 			"white_list": "Halter benötigen einen Eintrag auf der weißen Liste.",
-			"witness_fed_asset": "Erlaube Zeugen eine Preisquelle bereit zustellen."
+			"fed_asset": "Erlaube Zeugen eine Preisquelle bereit zustellen."
 		},
 		"vesting": {
 			"balance_number": "Guthaben #%(id)s",
@@ -354,7 +354,7 @@
 			"add_committee": "Hinzufügen",
 			"add_committee_label": "Mitglied des Komitees",
 			"add_witness": "Hinzufügen",
-			"add_witness_label": "Zeuge",
+			"add_label": "Zeuge",
 			"already": "Konto ist schon in der Liste",
 			"approve_worker": "Budgetpunkt bestätigen",
 			"cast_votes_through_one_operation": "Cast your votes for witness, committee and workers and broadcast them together.",
@@ -416,7 +416,8 @@
 			"witness": "Zeugenname",
 			"worker_account": "Arbeiter-Konto",
 			"workers": "Budgetpunkte",
-			"workers_short": "Arbeiter"
+			"workers_short": "Arbeiter",
+			"rows": "Reihen"
 		},
 		"voting": "Abstimmung",
 		"welcome": "Willkommen",
@@ -986,7 +987,13 @@
 			"transactions": "# an Transaktionen",
 			"trx": "Transaktion",
 			"trx_per_block": "Trx/Block",
-			"trx_per_sec": "Trx/s"
+			"trx_per_sec": "Trx/s",
+			"24h_volumn_meta1": "24-Stunden-Volumen IN META1",
+			"24h_volumn_usdt": "24-Stunden-Volumen IN USDT",
+			"24h_volumn_btc": "24-Stunden-Volumen IN BTC",
+			"24h_market_cap_meta1": "24-Stunden-Marktkapitalisierung in META1",
+			"24h_market_cap_usdt": "24-Stunden-Marktkapitalisierung in USDT",
+			"24h_market_cap_btc": "24-Stunden-Marktkapitalisierung in BTC"
 		},
 		"committee_member": {
 			"title": "Kommitteemitglied"
@@ -1015,6 +1022,14 @@
 			"title": "Vorschlag"
 		},
 		"witnesses": {
+			"blocks": "Blöcke",
+			"missing": "Verpasst",
+			"name": "Name",
+			"url": "URL",
+			"last_confirmed_block": "Letzte bestätigte Blockierung",
+			"blocks_missed": "Blöcke verpasst",
+			"votes": "Stimmen",
+			"key": "Schlüssel",
 			"budget": "Übriges Budget",
 			"card": "Kartenansicht",
 			"current": "Aktueller Zeuge",
@@ -1689,10 +1704,10 @@
 		"update_account": "{account} hat seine Kontodetails aktualisiert.",
 		"vesting_balance_withdraw": "{account} hat Sperrfristguthaben {amount} beansprucht.",
 		"whitelisted_by": "{lister} hat Konto {listee} weißgelistet.",
-		"witness_create": "{account} ist jetzt ein Zeuge.",
-		"witness_pay": "{account} hat Zeugen-Guthaben eingezogen.",
-		"witness_receive": "Hat den Zeugen von {witness} erhalten.",
-		"witness_update": "{account} hat seinen Zeugen aktualisiert.",
+		"create": "{account} ist jetzt ein Zeuge.",
+		"pay": "{account} hat Zeugen-Guthaben eingezogen.",
+		"receive": "Hat den Zeugen von {witness} erhalten.",
+		"update": "{account} hat seinen Zeugen aktualisiert.",
 		"worker_create": "{account} hat einen Arbeitervorschlag mit einer täglichen Bezahlung von {pay} META1/Tag erstellt."
 	},
 	"page404": {
@@ -2390,9 +2405,9 @@
 			"withdraw_permission_create": "Einzugsermächtigung erstellen",
 			"withdraw_permission_delete": "Einzugsermächtigung aufgehoben",
 			"withdraw_permission_update": "Einzugsermächtigung aktualisiert",
-			"witness_create": "Zeugen erstellen",
-			"witness_update": "Zeugen ändern",
-			"witness_withdraw_pay": "Zeugenlohn ausbezahlen",
+			"create": "Zeugen erstellen",
+			"update": "Zeugen ändern",
+			"withdraw_pay": "Zeugenlohn ausbezahlen",
 			"worker_create": "Create worker",
 			"property_create_operation": "Create property",
 			"property_update_operation": "Update property",

@@ -418,7 +418,8 @@
 			"witness": "Witness name",
 			"worker_account": "Emekçi hesabı",
 			"workers": "Bütçe Ögeleri",
-			"workers_short": "Geliştiriciler"
+			"workers_short": "Geliştiriciler",
+			"rows": "sıralar"
 		},
 		"voting": "Seçimler",
 		"welcome": "Meta'e Hoşgeldiniz",
@@ -982,7 +983,13 @@
 			"transactions": "işlem sayısı",
 			"trx": "İşlem",
 			"trx_per_block": "İşlem/blok",
-			"trx_per_sec": "İşlem/s"
+			"trx_per_sec": "İşlem/s",
+			"24h_volumn_meta1": "META1'de 24s ses",
+			"24h_volumn_usdt": "USDT'DE 24sa hacim",
+			"24h_volumn_btc": "BTC'DE 24 saatlik hacim",
+			"24h_market_cap_meta1": "META1'de 24 saatlik piyasa değeri",
+			"24h_market_cap_usdt": "USDT cinsinden 24 saatlik piyasa değeri",
+			"24h_market_cap_btc": "BTC'de 24 saatlik piyasa değeri"
 		},
 		"committee_member": {
 			"title": "Kurul üyesi"
@@ -1011,6 +1018,14 @@
 			"title": "Teklif edilmiş işlemler"
 		},
 		"witnesses": {
+			"blocks": "Bloklar",
+			"missing": "Kaçırıldı",
+			"name": "İsim",
+			"url": "Url",
+			"last_confirmed_block": "Son Onaylanan Blok",
+			"blocks_missed": "Kaçırılan Bloklar",
+			"votes": "Oylar",
+			"key": "Anahtar",
 			"budget": "Kalan bütçe",
 			"card": "Kart görünümü",
 			"current": "Şimdiki tanık",

@@ -12,6 +12,7 @@ import LoadingIndicator from '../LoadingIndicator';
 import SearchInput from '../Utility/SearchInput';
 import {ChainStore} from 'meta1-vision-js';
 import {FaUserPlus, FaUserAlt, FaUserMinus} from 'react-icons/fa';
+import counterpart from 'counterpart';
 
 class Accounts extends React.Component {
 	constructor(props) {
@@ -251,7 +252,7 @@ class Accounts extends React.Component {
 								}}
 							>
 								<SearchInput
-									placeholder={'Search'}
+									placeholder={counterpart.translate('markets.search')}
 									value={this.state.searchTerm}
 									style={{width: '200px'}}
 									onChange={this._onSearchChange.bind(this)}
@@ -263,11 +264,21 @@ class Accounts extends React.Component {
 									onChange={this.handleRowsChange}
 									getPopupContainer={(triggerNode) => triggerNode.parentNode}
 								>
-									<Select.Option key={'10'}>10 rows</Select.Option>
-									<Select.Option key={'25'}>25 rows</Select.Option>
-									<Select.Option key={'50'}>50 rows</Select.Option>
-									<Select.Option key={'100'}>100 rows</Select.Option>
-									<Select.Option key={'200'}>200 rows</Select.Option>
+									<Select.Option key={'10'}>
+										10 {counterpart.translate('account.votes.rows')}
+									</Select.Option>
+									<Select.Option key={'25'}>
+										25 {counterpart.translate('account.votes.rows')}
+									</Select.Option>
+									<Select.Option key={'50'}>
+										50 {counterpart.translate('account.votes.rows')}
+									</Select.Option>
+									<Select.Option key={'100'}>
+										100 {counterpart.translate('account.votes.rows')}
+									</Select.Option>
+									<Select.Option key={'200'}>
+										200 {counterpart.translate('account.votes.rows')}
+									</Select.Option>
 								</Select>
 
 								<div

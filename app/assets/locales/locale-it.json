@@ -334,7 +334,7 @@
 			"update_owner_text": "The asset owner may change the owner to another wallet using this form:",
 			"visible": "Nascondi asset in ricerca e mercati",
 			"white_list": "Esigi che i possessori siano in white-list",
-			"witness_fed_asset": "Permetti alle witness di fornire feed"
+			"fed_asset": "Permetti alle witness di fornire feed"
 		},
 		"vesting": {
 			"balance_number": "Saldo #%(id)s",
@@ -356,7 +356,7 @@
 			"add_committee": "Aggiungi",
 			"add_committee_label": "Membro del Comitato",
 			"add_witness": "Aggiungi",
-			"add_witness_label": "Witness",
+			"add_label": "Witness",
 			"already": "L'wallet è già nella lista",
 			"approve_worker": "Approva",
 			"cast_votes_through_one_operation": "Cast your votes for witness, committee and workers and broadcast them together.",
@@ -418,7 +418,8 @@
 			"witness": "Nome witness",
 			"worker_account": "Wallet Worker",
 			"workers": "Budget Items",
-			"workers_short": "Worker"
+			"workers_short": "Worker",
+			"rows": "righe"
 		},
 		"voting": "Voti",
 		"welcome": "Benvenuto su Meta",
@@ -982,7 +983,13 @@
 			"transactions": "# di transazioni",
 			"trx": "Transazioni",
 			"trx_per_block": "Trx/blocco",
-			"trx_per_sec": "Trx/s"
+			"trx_per_sec": "Trx/s",
+			"24h_volumn_meta1": "Volume 24h IN META1",
+			"24h_volumn_usdt": "Volume 24h IN USDT",
+			"24h_volumn_btc": "Volume 24h IN BTC",
+			"24h_market_cap_meta1": "Capitolo di mercato 24h in META1",
+			"24h_market_cap_usdt": "Capacità di mercato 24h in USDT",
+			"24h_market_cap_btc": "Capacità di mercato 24 ore su 24 in BTC"
 		},
 		"committee_member": {
 			"title": "Membro del comitato"
@@ -1011,6 +1018,14 @@
 			"title": "Transazioni proposte"
 		},
 		"witnesses": {
+			"blocks": "Blocchi",
+			"missing": "Perso",
+			"name": "Nome",
+			"url": "URL",
+			"last_confirmed_block": "Ultimo blocco confermato",
+			"blocks_missed": "Blocchi persi",
+			"votes": "Voti",
+			"key": "Chiave",
 			"budget": "Budget rimanente",
 			"card": "Visualizzazione a schede",
 			"current": "Witness attuale",
@@ -1607,7 +1622,7 @@
 			"text": "After being voted in as an active witness you are added in the rotation of block producers and expected to produce blocks signed by your signing key and you are rewarded in META1 per produced block. Common criteria that help make your case are <ul><li>implementation of fallbacks (e.g. running a hot swap backup server) and appropriate server specifications to ensure a low number of missed blocks (e.g. high connectivity)</li><li>participation in block production and rolling releases of the testnet</li><li>provision of a public node for the community</li><li>publication of price feeds for the BitAssets</li></ul> Submit a link to your website or forum post explaining why you would be a exemplary member to attract enough votes to become active.",
 			"url": "URL",
 			"web_example": "Enter link to your witness proposal post",
-			"witness_account": "Witness Wallet"
+			"account": "Witness Wallet"
 		}
 	},
 	"news": {
@@ -1698,10 +1713,10 @@
 		"update_account": "{account} ha aggiornato i dati del suo wallet",
 		"vesting_balance_withdraw": "{account} ha ritirato un saldo vesting di {amount}",
 		"whitelisted_by": "{lister} ha messo in whitelist l'account {listee}",
-		"witness_create": "{account} è stato promosso per diventare una witness",
-		"witness_pay": "Ha ritirato il salario di witness verso l'account",
-		"witness_receive": "Ha ricevuto la witness dalla witness",
-		"witness_update": "{account} ha aggiornato i suoi dati di witness",
+		"create": "{account} è stato promosso per diventare una witness",
+		"pay": "Ha ritirato il salario di witness verso l'account",
+		"receive": "Ha ricevuto la witness dalla witness",
+		"update": "{account} ha aggiornato i suoi dati di witness",
 		"worker_create": "{account} ha creato una worker proposal con un salario giornaliero di {pay}"
 	},
 	"page404": {
@@ -2399,9 +2414,9 @@
 			"withdraw_permission_create": "Crea permesso di prelievo",
 			"withdraw_permission_delete": "Elimina permesso di prelievo",
 			"withdraw_permission_update": "Aggiorna permesso di prelievo",
-			"witness_create": "Crea witness",
-			"witness_update": "Aggiorna witness",
-			"witness_withdraw_pay": "Prelievo salario della witness",
+			"create": "Crea witness",
+			"update": "Aggiorna witness",
+			"withdraw_pay": "Prelievo salario della witness",
 			"worker_create": "Create worker",
 			"property_create_operation": "Create property",
 			"property_update_operation": "Update property",

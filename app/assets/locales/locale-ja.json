@@ -334,7 +334,7 @@
 			"update_owner_text": "The asset owner may change the owner to another wallet using this form:",
 			"visible": "検索と市場からアセットを非表示にする",
 			"white_list": "保有者はホワイトリストに登録されている必要がある",
-			"witness_fed_asset": "証人にフィード供給を許可する"
+			"fed_asset": "証人にフィード供給を許可する"
 		},
 		"vesting": {
 			"balance_number": "残高 #%(id)s",
@@ -356,7 +356,7 @@
 			"add_committee": "追加",
 			"add_committee_label": "委員",
 			"add_witness": "追加",
-			"add_witness_label": "証人",
+			"add_label": "証人",
 			"already": "アカウントは既にリストに入っています",
 			"approve_worker": "承認",
 			"cast_votes_through_one_operation": "Cast your votes for witness, committee and workers and broadcast them together.",
@@ -418,7 +418,8 @@
 			"witness": "証人名",
 			"worker_account": "ワーカーアカウント",
 			"workers": "予算項目",
-			"workers_short": "ワーカー"
+			"workers_short": "ワーカー",
+			"rows": "行"
 		},
 		"voting": "投票",
 		"welcome": "Metaへようこそ",
@@ -982,7 +983,13 @@
 			"transactions": "トランザクション数",
 			"trx": "トランザクション",
 			"trx_per_block": "Trx/block",
-			"trx_per_sec": "Trx/s"
+			"trx_per_sec": "Trx/s",
+			"24h_volumn_meta1": "META1 の 24 時間ボリューム",
+			"24h_volumn_usdt": "USDT の 24 時間ボリューム",
+			"24h_volumn_btc": "BTC の 24 時間ボリューム",
+			"24h_market_cap_meta1": "META1 の 24 時間時価総額",
+			"24h_market_cap_usdt": "USDT の 24 時間時価総額",
+			"24h_market_cap_btc": "BTC の 24 時間時価総額"
 		},
 		"committee_member": {
 			"title": "委員"
@@ -1011,6 +1018,14 @@
 			"title": "提案された取引"
 		},
 		"witnesses": {
+			"blocks": "ブロック",
+			"missing": "逃した",
+			"name": "名前",
+			"url": "URL",
+			"last_confirmed_block": "最後に確認されたブロック",
+			"blocks_missed": "ブロックミス",
+			"votes": "投票",
+			"key": "キー",
 			"budget": "残余予算",
 			"card": "カードビュー",
 			"current": "現在の証人",
@@ -1606,7 +1621,7 @@
 			"text": "After being voted in as an active witness you are added in the rotation of block producers and expected to produce blocks signed by your signing key and you are rewarded in META1 per produced block. Common criteria that help make your case are <ul><li>implementation of fallbacks (e.g. running a hot swap backup server) and appropriate server specifications to ensure a low number of missed blocks (e.g. high connectivity)</li><li>participation in block production and rolling releases of the testnet</li><li>provision of a public node for the community</li><li>publication of price feeds for the BitAssets</li></ul> Submit a link to your website or forum post explaining why you would be a exemplary member to attract enough votes to become active.",
 			"url": "URL",
 			"web_example": "Enter link to your witness proposal post",
-			"witness_account": "Witness Wallet"
+			"account": "Witness Wallet"
 		}
 	},
 	"news": {
@@ -1697,10 +1712,10 @@
 		"update_account": "{account}はアカウント情報を更新しました",
 		"vesting_balance_withdraw": "{account}は{amount}の権利確定残高を引き出しました",
 		"whitelisted_by": "{lister}は{listee}をホワイトリストに登録しました",
-		"witness_create": "{account}は証人になるためのアップグレードをしました",
-		"witness_pay": "アカウントに証人報酬を引き出しました",
-		"witness_receive": "証人から証人を受け取りました",
-		"witness_update": "{account}は証人情報を更新しました",
+		"create": "{account}は証人になるためのアップグレードをしました",
+		"pay": "アカウントに証人報酬を引き出しました",
+		"receive": "証人から証人を受け取りました",
+		"update": "{account}は証人情報を更新しました",
 		"worker_create": "{account}は日当{pay}でワーカー提案を作成しました"
 	},
 	"page404": {
@@ -2398,9 +2413,9 @@
 			"withdraw_permission_create": "引き出し権限を作成",
 			"withdraw_permission_delete": "引き出し権限を削除",
 			"withdraw_permission_update": "引き出し権限を更新",
-			"witness_create": "証人を作成",
-			"witness_update": "証人を更新",
-			"witness_withdraw_pay": "証人報酬を引き出し",
+			"create": "証人を作成",
+			"update": "証人を更新",
+			"withdraw_pay": "証人報酬を引き出し",
 			"worker_create": "Create worker",
 			"property_create_operation": "Create property",
 			"property_update_operation": "Update property",

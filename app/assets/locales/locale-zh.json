@@ -334,7 +334,7 @@
 			"update_owner_text": "资产发行人可以使用此表单转让资产发行所有权给其它账户：",
 			"visible": "在搜索与市场中隐藏资产",
 			"white_list": "要求资产持有人被列入白名单",
-			"witness_fed_asset": "允许见证人提供喂价"
+			"fed_asset": "允许见证人提供喂价"
 		},
 		"vesting": {
 			"balance_number": "余额 #%(id)s",
@@ -356,7 +356,7 @@
 			"add_committee": "添加",
 			"add_committee_label": "理事会成员",
 			"add_witness": "添加",
-			"add_witness_label": "见证人",
+			"add_label": "见证人",
 			"already": "账户已经在列表中",
 			"approve_worker": "赞成",
 			"cast_votes_through_one_operation": "对见证人，理事会及工人提案进行投票，并统一进行广播。",
@@ -418,7 +418,8 @@
 			"witness": "见证人账户名",
 			"worker_account": "预算项目账户",
 			"workers": "预算项目",
-			"workers_short": "预算项目"
+			"workers_short": "预算项目",
+			"rows": "行"
 		},
 		"voting": "投票",
 		"welcome": "欢迎来到%(wallet_name)s",
@@ -988,7 +989,13 @@
 			"transactions": "# 交易数",
 			"trx": "交易",
 			"trx_per_block": "交易数/区块",
-			"trx_per_sec": "每秒交易数"
+			"trx_per_sec": "每秒交易数",
+			"24h_volumn_meta1": "META1 中的 24h 音量",
+			"24h_volumn_usdt": "24 小时 USDT 交易量",
+			"24h_volumn_btc": "BTC 24 小时交易量",
+			"24h_market_cap_meta1": "META1 中的 24 小时市值",
+			"24h_market_cap_usdt": "24 小时 USDT 市值",
+			"24h_market_cap_btc": "BTC 的 24 小时市值"
 		},
 		"committee_member": {
 			"title": "理事会成员"
@@ -1017,6 +1024,14 @@
 			"title": "提案"
 		},
 		"witnesses": {
+			"blocks": "区块",
+			"missing": "错过",
+			"name": "姓名",
+			"url": "网址",
+			"last_confirmed_block": "最后确认的区块",
+			"blocks_missed": "块丢失",
+			"votes": "投票",
+			"key": "钥匙",
 			"budget": "剩余预算",
 			"card": "卡片视图",
 			"current": "当前见证人",
@@ -1612,7 +1627,7 @@
 			"text": "活跃见证人将会被添加到区块生产者队列，并对生产的区块进行签名以获得生产区块奖励。通用准则：<ul><li>预防机制（例如：同时运行一个热切换备份服务器）并进行合适的服务器调试以确保低丢块率（例如：高连接度）</li><li>进行区块生产并参加测试网版本</li><li>为社区提供公共接入点</li><li>对智能资产进行喂价</li></ul>提交网站链接或者论坛帖子用于阐述为什么你想要成为见证人，以此来得到足够的投票实现激活。",
 			"url": "URL",
 			"web_example": "输入你的见证人提案内容",
-			"witness_account": "见证人账户"
+			"account": "见证人账户"
 		}
 	},
 	"news": {
@@ -1703,10 +1718,10 @@
 		"update_account": "{account} 更新了账户信息",
 		"vesting_balance_withdraw": "{account} 提取了解冻金额 {amount}",
 		"whitelisted_by": "{lister} 将 {listee} 加入白名单",
-		"witness_create": "{account} 升级到见证人",
-		"witness_pay": "将见证人收入提取到账户",
-		"witness_receive": "已从见证人处获取见证",
-		"witness_update": "{account} 更新了见证人信息",
+		"create": "{account} 升级到见证人",
+		"pay": "将见证人收入提取到账户",
+		"receive": "已从见证人处获取见证",
+		"update": "{account} 更新了见证人信息",
 		"worker_create": "{account} 创建了工人预算提案，请求日付工资 {pay}"
 	},
 	"page404": {
@@ -2404,9 +2419,9 @@
 			"withdraw_permission_create": "授权提款",
 			"withdraw_permission_delete": "删除提款授权",
 			"withdraw_permission_update": "更新提款授权",
-			"witness_create": "创建见证人",
-			"witness_update": "更新见证人",
-			"witness_withdraw_pay": "领取见证人报酬",
+			"create": "创建见证人",
+			"update": "更新见证人",
+			"withdraw_pay": "领取见证人报酬",
 			"worker_create": "Create worker",
 			"property_create_operation": "Create property",
 			"property_update_operation": "Update property",
