@@ -33,7 +33,7 @@ const theme = {
 		tagWarningColor: '#856916',
 		tableHeaderColor: '#f5f6fa',
 		tableColumnColor: '#ffffff',
-		tableColumnHoverColor: '#aaaaaa',
+		tableColumnHoverColor: '#21202030',
 		tableActivePagination: '#0a0b0d',
 		tabCardNavColor: '#ffffff',
 		hrColor: '#ffffff',
