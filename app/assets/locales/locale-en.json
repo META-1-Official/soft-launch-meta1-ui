@@ -257,7 +257,6 @@
 			"info": "Info",
 			"time": "Time",
 			"type": "Type",
-			"crypto": "Crypto",
 			"date_and_time": "Date and Time"
 		},
 		"transfer_actions": "Transfer actions",
@@ -575,6 +574,7 @@
 		"confirm_no_orders_sell": "You are placing a sell order in a market with no open buy orders. Are you certain you wish to proceed?",
 		"confirm_sell": "Your order is %(diff)s times lower than the highest bid, are you sure?",
 		"core_rate": "Fee Rate",
+		"crypto": "Crypto",
 		"custom_quote": "Add a custom quote",
 		"deposit": "Deposit",
 		"description": "Description",
@@ -639,6 +639,7 @@
 		"others": "Others",
 		"overbought": "Overbought",
 		"oversold": "Oversold",
+		"pair": "Pair",
 		"panels_mirror": "Mirror Panels",
 		"period": "Time period (days)",
 		"price": "Price",
@@ -787,7 +788,11 @@
 		"worth_less_settlement_warning": "The current market price of {market_link} is higher than settle price",
 		"your_price": "Your Call Price",
 		"zoom": "Zoom",
-		"zoom_all": "All"
+		"zoom_all": "All",
+		"order_book": "Order Book",
+		"trade_history": "Trade History",
+		"amount_usdt": "Amount / USDT",
+		"all_applicable_taxes": "of all applicable taxes"
 	},
 	"explorer": {
 		"account": {

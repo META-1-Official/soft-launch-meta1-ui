@@ -567,6 +567,7 @@
 		"confirm_no_orders_sell": "Está colocando una orden de venta en un mercado sin órdenes de compra abiertas. ¿Estás seguro de que deseas continuar? ",
 		"confirm_sell": "Tu pedido es %(diff)s veces inferior a la oferta más alta,  ¿estás seguro?",
 		"core_rate": "Tasa de Comisión",
+		"crypto": "Cripto",
 		"custom_quote": "Añadir una cotización personalizada",
 		"deposit": "Depositar",
 		"description": "Descripción",
@@ -631,6 +632,7 @@
 		"others": "Otros",
 		"overbought": "Sobrecomprado",
 		"oversold": "Sobrevendido",
+		"pair": "Par",
 		"panels_mirror": "Paneles de espejo",
 		"period": "Periodo de tiempo (days)",
 		"price": "Precio",
@@ -778,7 +780,11 @@
 		"worth_less_settlement_warning": "El precio de mercado actual de {market_link} es más alto que el precio de liquidación",
 		"your_price": "Su precio de llamada",
 		"zoom": " Enfocar",
-		"zoom_all": "Todas"
+		"zoom_all": "Todas",
+		"order_book": "Libro de pedidos",
+		"trade_history": "Historial de transacciones",
+		"amount_usdt": "Cantidad/USDT",
+		"all_applicable_taxes": "de todos los impuestos aplicables"
 	},
 	"explorer": {
 		"account": {
@@ -1879,8 +1885,8 @@
 		"browser_notifications_additional_transfer_to_me": "Notificar sobre transferencias a mi cuenta",
 		"browser_notifications_allow": "Permitir notificaciones",
 		"browser_notifications_disabled_by_browser_notify": "Su navegador ha desactivado las notificaciones. Haga clic para saber cómo habilitar las notificaciones del navegador",
-		"can_change_default_fee_asset_tooltip": "The default asset used to pay transaction fees can be changed in the settings",
-		"change": "Change",
+		"can_change_default_fee_asset_tooltip": "El activo predeterminado utilizado para pagar las tarifas de transacción se puede cambiar en la configuración",
+		"change": "Cambiar",
 		"change_default": "Change default",
 		"change_default_fee_asset": "Cambiar activo de tarifa predeterminada",
 		"change_default_fee_asset_tooltip": "Change the default asset that is used to pay the transaction fee",

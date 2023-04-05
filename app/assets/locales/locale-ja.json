@@ -567,6 +567,7 @@
 		"confirm_no_orders_sell": "未執行の買い注文がないマーケットに売り注文を出そうとしています。続行してもよろしいですか？",
 		"confirm_sell": "あなたの注文は、最高ビッド価格より%(diff)s倍低いです。続行してもよろしいですか？",
 		"core_rate": "手数料率",
+		"crypto": "クリプト",
 		"custom_quote": "Add a custom quote",
 		"deposit": "入金",
 		"description": "説明",
@@ -631,6 +632,7 @@
 		"others": "その他",
 		"overbought": "買われすぎ",
 		"oversold": "売られすぎ",
+		"pair": "ペア",
 		"panels_mirror": "Mirror Panels",
 		"period": "期間 (日)",
 		"price": "価格",
@@ -772,7 +774,11 @@
 		"worth_less_settlement_warning": "Warning! You can get a better price by selling to {market_link}.",
 		"your_price": "あなたのコール価格",
 		"zoom": "拡大",
-		"zoom_all": "すべて"
+		"zoom_all": "すべて",
+		"order_book": "オーダーブック",
+		"trade_history": "取引履歴",
+		"amount_usdt": "金額 / USDT",
+		"all_applicable_taxes": "適用されるすべての税金の"
 	},
 	"explorer": {
 		"account": {
@@ -1873,8 +1879,8 @@
 		"browser_notifications_additional_transfer_to_me": "マイ・アカウントへの転送について通知する",
 		"browser_notifications_allow": "通知を有効にする",
 		"browser_notifications_disabled_by_browser_notify": "ブラウザが通知を無効にしました。クリックしてブラウザの通知を有効にする方法を確認する。",
-		"can_change_default_fee_asset_tooltip": "The default asset used to pay transaction fees can be changed in the settings",
-		"change": "Change",
+		"can_change_default_fee_asset_tooltip": "取引手数料の支払いに使用されるデフォルトの資産は、設定で変更できます",
+		"change": "変化",
 		"change_default": "Change default",
 		"change_default_fee_asset": "デフォルト手数料アセットの変更",
 		"change_default_fee_asset_tooltip": "Change the default asset that is used to pay the transaction fee",

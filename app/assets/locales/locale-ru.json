@@ -567,6 +567,7 @@
 		"confirm_no_orders_sell": "Вы размещаете ордер на продажу на рынке, где нет открытых ордеров на покупку. Вы уверены, что хотите продолжить?",
 		"confirm_sell": "Ваш ордер в %(diff)s раз ниже, чем самое высокое предложение, вы уверены?",
 		"core_rate": "Ставка комиссии",
+		"crypto": "Крипто",
 		"custom_quote": "Добавить свой тикер",
 		"deposit": "Внести депозит",
 		"description": "Описание",
@@ -631,6 +632,7 @@
 		"others": "Другие",
 		"overbought": "Перекуплен",
 		"oversold": "Перепродан",
+		"pair": "Пара",
 		"panels_mirror": "Отобразить панели зеркально",
 		"period": "Временной период (дни)",
 		"price": "Цена",
@@ -778,7 +780,11 @@
 		"worth_less_settlement_warning": "Текущая рыночная цена на {market_link} выше, чем расчётная цена",
 		"your_price": "Ваша цена досрочного погашения",
 		"zoom": "Приблизить",
-		"zoom_all": "Все"
+		"zoom_all": "Все",
+		"order_book": "Книга заказов",
+		"trade_history": "История торговли",
+		"amount_usdt": "Сумма / USDT",
+		"all_applicable_taxes": "из всех применимых налогов"
 	},
 	"explorer": {
 		"account": {
@@ -1878,8 +1884,8 @@
 		"browser_notifications_additional_transfer_to_me": "Уведомлять о переводах на мой аккаунт",
 		"browser_notifications_allow": "Включить уведомления",
 		"browser_notifications_disabled_by_browser_notify": "В вашем браузере отключены уведомления. Нажмите, чтобы узнать, как их включить",
-		"can_change_default_fee_asset_tooltip": "The default asset used to pay transaction fees can be changed in the settings",
-		"change": "Change",
+		"can_change_default_fee_asset_tooltip": "Актив по умолчанию, используемый для оплаты комиссии за транзакцию, можно изменить в настройках",
+		"change": "Изменять",
 		"change_default": "Change default",
 		"change_default_fee_asset": "Изменить комиссионный актив по умолчанию",
 		"change_default_fee_asset_tooltip": "Change the default asset that is used to pay the transaction fee",

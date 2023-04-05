@@ -1,5 +1,6 @@
 import React from 'react';
 import {Table} from 'antd';
+import counterpart from 'counterpart';
 import {FaArrowRight, FaArrowUp, FaArrowDown} from 'react-icons/fa';
 import {getAssetIcon} from 'constants/assets';
 import {connect} from 'alt-react';
@@ -28,7 +29,9 @@ class MarketTradeView extends React.Component {
 							<Table.Column
 								dataIndex="asset"
 								title={
-									<div className="market-order-table-text-header">Crypto</div>
+									<div className="market-order-table-text-header">
+										{counterpart.translate('exchange.crypto')}
+									</div>
 								}
 								render={(row) => {
 									return (
@@ -68,7 +71,7 @@ class MarketTradeView extends React.Component {
 								dataIndex="amount"
 								title={
 									<div className="market-order-table-text-header">
-										Amount / USDT
+										{counterpart.translate('exchange.amount_usdt')}
 									</div>
 								}
 								sorter={(a, b) => {
@@ -102,7 +105,9 @@ class MarketTradeView extends React.Component {
 							<Table.Column
 								dataIndex="amount"
 								title={
-									<div className="market-order-table-text-header">Change</div>
+									<div className="market-order-table-text-header">
+										{counterpart.translate('settings.change')}
+									</div>
 								}
 								render={(row) => {
 									let currentMarketStats = this.props.allMarketStats.get(
@@ -177,7 +182,9 @@ class MarketTradeView extends React.Component {
 							<Table.Column
 								dataIndex="value"
 								title={
-									<div className="market-order-table-text-header">Value</div>
+									<div className="market-order-table-text-header">
+										{counterpart.translate('exchange.value')}
+									</div>
 								}
 								render={(row) => {
 									return (

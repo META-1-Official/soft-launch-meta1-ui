@@ -1,4 +1,5 @@
 import React from 'react';
+import counterpart from 'counterpart';
 import Translate from 'react-translate-component';
 import {Table} from 'antd';
 import Icon from '../../Icon/Icon';
@@ -41,7 +42,9 @@ class MarketsOrderView extends React.Component {
 							<Table.Column
 								dataIndex="pair"
 								title={
-									<div className="market-order-table-text-header">Pair</div>
+									<div className="market-order-table-text-header">
+										{counterpart.translate('exchange.pair')}
+									</div>
 								}
 								render={(row) => {
 									return (
@@ -68,7 +71,9 @@ class MarketsOrderView extends React.Component {
 							<Table.Column
 								dataIndex="amount"
 								title={
-									<div className="market-order-table-text-header">Amount</div>
+									<div className="market-order-table-text-header">
+										{counterpart.translate('transaction.trxTypes.amount')}
+									</div>
 								}
 								render={(row) => {
 									return (
@@ -87,7 +92,9 @@ class MarketsOrderView extends React.Component {
 							<Table.Column
 								dataIndex="price"
 								title={
-									<div className="market-order-table-text-header">Price</div>
+									<div className="market-order-table-text-header">
+										{counterpart.translate('exchange.price')}
+									</div>
 								}
 								render={(row) => {
 									return (
@@ -102,7 +109,9 @@ class MarketsOrderView extends React.Component {
 							<Table.Column
 								dataIndex="total"
 								title={
-									<div className="market-order-table-text-header">Total</div>
+									<div className="market-order-table-text-header">
+										{counterpart.translate('exchange.total')}
+									</div>
 								}
 								render={(row) => {
 									return (
@@ -118,7 +127,9 @@ class MarketsOrderView extends React.Component {
 							<Table.Column
 								dataIndex="orderId"
 								title={
-									<div className="market-order-table-action-header">Cancel</div>
+									<div className="market-order-table-action-header">
+										{counterpart.translate('global.cancel')}
+									</div>
 								}
 								render={(row) => {
 									return (

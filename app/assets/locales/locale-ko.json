@@ -567,6 +567,7 @@
 		"confirm_no_orders_sell": "You are placing a sell order in a market with no open buy orders. Are you certain you wish to proceed?",
 		"confirm_sell": "Your order is %(diff)s times lower than the highest bid, are you sure?",
 		"core_rate": "Fee Rate",
+		"crypto": "암호화폐",
 		"custom_quote": "Add a custom quote",
 		"deposit": "Deposit",
 		"description": "Description",
@@ -631,6 +632,7 @@
 		"others": "Others",
 		"overbought": "Overbought",
 		"oversold": "Oversold",
+		"pair": "쌍",
 		"panels_mirror": "Mirror Panels",
 		"period": "Time period (days)",
 		"price": "가격",
@@ -772,7 +774,11 @@
 		"worth_less_settlement_warning": "Warning! You can get a better price by selling to {market_link}.",
 		"your_price": "내 콜 가격",
 		"zoom": "Zoom",
-		"zoom_all": "All"
+		"zoom_all": "All",
+		"order_book": "주문서",
+		"trade_history": "거래 내역",
+		"amount_usdt": "금액 / USDT",
+		"all_applicable_taxes": "모든 관련 세금"
 	},
 	"explorer": {
 		"account": {
@@ -1874,8 +1880,8 @@
 		"browser_notifications_additional_transfer_to_me": "내 계정으로의 이전 알림",
 		"browser_notifications_allow": "알림 사용",
 		"browser_notifications_disabled_by_browser_notify": "Your browser disabled notifications. Click to learn how enable browser notifications",
-		"can_change_default_fee_asset_tooltip": "The default asset used to pay transaction fees can be changed in the settings",
-		"change": "Change",
+		"can_change_default_fee_asset_tooltip": "거래 수수료를 지불하는 데 사용되는 기본 자산은 설정에서 변경할 수 있습니다.",
+		"change": "변화",
 		"change_default": "Change default",
 		"change_default_fee_asset": "기본 수수료 자산 변경",
 		"change_default_fee_asset_tooltip": "Change the default asset that is used to pay the transaction fee",

@@ -2,6 +2,7 @@ import cnames from 'classnames';
 import translator from 'counterpart';
 import {StickyTable} from 'react-sticky-table';
 import React from 'react';
+import counterpart from 'counterpart';
 import Translate from 'react-translate-component';
 import PropTypes from 'prop-types';
 import Ps from 'perfect-scrollbar';
@@ -379,7 +380,9 @@ class OrderBookHeader extends React.Component {
 	render() {
 		return (
 			<div className="header">
-				<div className="title">Order Book</div>
+				<div className="title">
+					{counterpart.translate('exchange.order_book')}
+				</div>
 
 				{/* <div
 					className={this.props.currentGroupOrderLimit ? 'tap' : 'tap active'}
@@ -899,21 +902,27 @@ class OrderBook extends React.Component {
 								textAlign: 'left',
 							}}
 						>
-							<span className="header-sub-title header-font-size">VOLUME</span>
+							<span className="header-sub-title header-font-size">
+								{translator.translate('exchange.volume').toUpperCase()}
+							</span>
 						</th>
 						<th
 							style={{
 								textAlign: 'center',
 							}}
 						>
-							<span className="header-sub-title header-font-size">PRICE</span>
+							<span className="header-sub-title header-font-size">
+								{translator.translate('exchange.price').toUpperCase()}
+							</span>
 						</th>
 						<th
 							style={{
 								textAlign: 'right',
 							}}
 						>
-							<span className="header-sub-title header-font-size">TOTAL</span>
+							<span className="header-sub-title header-font-size">
+								{translator.translate('exchange.total').toUpperCase()}
+							</span>
 						</th>
 					</tr>
 				</thead>

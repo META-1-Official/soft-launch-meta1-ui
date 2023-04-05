@@ -565,6 +565,7 @@
 		"confirm_no_orders_sell": "Sie geben einen Verkaufsauftrag in einem Markt mit keinen offenen Kaufaufträgen ab. Sind Sie sicher vortzufahren?",
 		"confirm_sell": "Ihr Auftrag ist um das %(diff)s-fache niedriger als der höchste Auftrag, sind Sie sicher?",
 		"core_rate": "Kernrate",
+		"crypto": "Krypto",
 		"custom_quote": "Eine eigene Kursangabe hinzufügen.",
 		"deposit": "Einzahlen",
 		"description": "Beschreibung",
@@ -629,6 +630,7 @@
 		"others": "Andere",
 		"overbought": "Überkauft",
 		"oversold": "Überverkauft",
+		"pair": "Paar",
 		"panels_mirror": "Spiegel",
 		"period": "Zeitspanne (Tage)",
 		"price": "Preis",
@@ -776,7 +778,11 @@
 		"worth_less_settlement_warning": "The current market price of {market_link} is higher than settle price",
 		"your_price": "Ihr Preis",
 		"zoom": "Vergrößern",
-		"zoom_all": "Alle anzeigen"
+		"zoom_all": "Alle anzeigen",
+		"order_book": "Auftragsbuch",
+		"trade_history": "Handelsgeschichte",
+		"amount_usdt": "Betrag / USDT",
+		"all_applicable_taxes": "aller anwendbaren Steuern"
 	},
 	"explorer": {
 		"account": {
@@ -1865,8 +1871,8 @@
 		"browser_notifications_additional_transfer_to_me": "Über Überweisungen an mein Konto benachrichtigen.",
 		"browser_notifications_allow": "Benachrichtigungen aktivieren",
 		"browser_notifications_disabled_by_browser_notify": "Ihr Browser hat Benachrichtigungen deaktiviert. Klicken zur Aktivierung der Browser Benachrichtigung!",
-		"can_change_default_fee_asset_tooltip": "The default asset used to pay transaction fees can be changed in the settings",
-		"change": "Change",
+		"can_change_default_fee_asset_tooltip": "Das Standardvermögen, das zum Bezahlen von Transaktionsgebühren verwendet wird, kann in den Einstellungen geändert werden",
+		"change": "Ändern",
 		"change_default": "Change default",
 		"change_default_fee_asset": "Ändern Sie das Standardgebühren-Asset",
 		"change_default_fee_asset_tooltip": "Change the default asset that is used to pay the transaction fee",

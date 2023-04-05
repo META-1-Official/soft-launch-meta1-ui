@@ -567,6 +567,7 @@
 		"confirm_no_orders_sell": "你在一个没有买单的市场下了一个卖单，确定下单吗？",
 		"confirm_sell": "你的挂单价低于最高买入价 %(diff)s 倍，确定下单吗？",
 		"core_rate": "手续费率",
+		"crypto": "加密货币",
 		"custom_quote": "添加自定义标价",
 		"deposit": "充币",
 		"description": "说明",
@@ -631,6 +632,7 @@
 		"others": "其他",
 		"overbought": "超买",
 		"oversold": "超卖",
+		"pair": "一对",
 		"panels_mirror": "镜像面板",
 		"period": "周期 (天)",
 		"price": "价格",
@@ -778,7 +780,11 @@
 		"worth_less_settlement_warning": "当前{market_link} 市场价格低于强制清算价格",
 		"your_price": "你的强平触发价",
 		"zoom": "缩放",
-		"zoom_all": "显示全部"
+		"zoom_all": "显示全部",
+		"order_book": "订单簿",
+		"trade_history": "交易历史",
+		"amount_usdt": "金额/USDT",
+		"all_applicable_taxes": "所有适用的税收"
 	},
 	"explorer": {
 		"account": {
@@ -1879,8 +1885,8 @@
 		"browser_notifications_additional_transfer_to_me": "通知转账信息",
 		"browser_notifications_allow": "启用通知",
 		"browser_notifications_disabled_by_browser_notify": "你的浏览器禁用了通知。点击此处了解如何启用通知。",
-		"can_change_default_fee_asset_tooltip": "The default asset used to pay transaction fees can be changed in the settings",
-		"change": "Change",
+		"can_change_default_fee_asset_tooltip": "可以在设置中更改用于支付交易费用的默认资产",
+		"change": "改变",
 		"change_default": "Change default",
 		"change_default_fee_asset": "更改默认费用资产",
 		"change_default_fee_asset_tooltip": "Change the default asset that is used to pay the transaction fee",

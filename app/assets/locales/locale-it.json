@@ -567,6 +567,7 @@
 		"confirm_no_orders_sell": "Stai facendo un ordine di vendita in un mercato senza ordini di acquisto attivi. Sei sicuro di voler continuare?",
 		"confirm_sell": "Il tuo ordine è %(diff)s volte più basso della domanda più alta, sei sicuro?",
 		"core_rate": "Tasso di commissione",
+		"crypto": "Cripto",
 		"custom_quote": "Add a custom quote",
 		"deposit": "Deposit",
 		"description": "Description",
@@ -631,6 +632,7 @@
 		"others": "Altri",
 		"overbought": "Overbought",
 		"oversold": "Oversold",
+		"pair": "Paio",
 		"panels_mirror": "Mirror Panels",
 		"period": "Periodo (giorni)",
 		"price": "Prezzo",
@@ -772,7 +774,11 @@
 		"worth_less_settlement_warning": "Warning! You can get a better price by selling to {market_link}.",
 		"your_price": "Il tuo Call Price",
 		"zoom": "Zoom",
-		"zoom_all": "Tutto"
+		"zoom_all": "Tutto",
+		"order_book": "Libro ordini",
+		"trade_history": "Cronologia degli scambi",
+		"amount_usdt": "Importo / USDT",
+		"all_applicable_taxes": "di tutte le tasse applicabili"
 	},
 	"explorer": {
 		"account": {
@@ -1874,8 +1880,8 @@
 		"browser_notifications_additional_transfer_to_me": "Notifica sui trasferimenti al mio wallet",
 		"browser_notifications_allow": "Attivare le notifiche",
 		"browser_notifications_disabled_by_browser_notify": "Your browser disabled notifications. Click to learn how enable browser notifications",
-		"can_change_default_fee_asset_tooltip": "The default asset used to pay transaction fees can be changed in the settings",
-		"change": "Change",
+		"can_change_default_fee_asset_tooltip": "L'asset predefinito utilizzato per pagare le commissioni di transazione può essere modificato nelle impostazioni",
+		"change": "Modifica",
 		"change_default": "Change default",
 		"change_default_fee_asset": "Modifica l'asset della commissione predefinita",
 		"change_default_fee_asset_tooltip": "Change the default asset that is used to pay the transaction fee",

@@ -567,6 +567,7 @@
 		"confirm_no_orders_sell": "You are placing a sell order in a market with no open buy orders. Are you certain you wish to proceed?",
 		"confirm_sell": "Your order is %(diff)s times lower than the highest bid, are you sure?",
 		"core_rate": "Fee Rate",
+		"crypto": "Crypto",
 		"custom_quote": "Add a custom quote",
 		"deposit": "Deposit",
 		"description": "Description",
@@ -631,6 +632,7 @@
 		"others": "Others",
 		"overbought": "Overbought",
 		"oversold": "Oversold",
+		"pair": "Paire",
 		"panels_mirror": "Mirror Panels",
 		"period": "Time period (days)",
 		"price": "Prix",
@@ -772,7 +774,11 @@
 		"worth_less_settlement_warning": "Warning! You can get a better price by selling to {market_link}.",
 		"your_price": "Your Call Price",
 		"zoom": "Zoom",
-		"zoom_all": "All"
+		"zoom_all": "All",
+		"order_book": "Carnet de commandes",
+		"trade_history": "Historique des échanges",
+		"amount_usdt": "Montant / USDT",
+		"all_applicable_taxes": "de toutes les taxes applicables"
 	},
 	"explorer": {
 		"account": {
@@ -1874,8 +1880,8 @@
 		"browser_notifications_additional_transfer_to_me": "Notifier les transferts sur mon compte",
 		"browser_notifications_allow": "Activer les notifications",
 		"browser_notifications_disabled_by_browser_notify": "Your browser disabled notifications. Click to learn how enable browser notifications",
-		"can_change_default_fee_asset_tooltip": "The default asset used to pay transaction fees can be changed in the settings",
-		"change": "Change",
+		"can_change_default_fee_asset_tooltip": "L'actif par défaut utilisé pour payer les frais de transaction peut être modifié dans les paramètres",
+		"change": "Changement",
 		"change_default": "Change default",
 		"change_default_fee_asset": "Modifier l'actif de frais par défaut",
 		"change_default_fee_asset_tooltip": "Change the default asset that is used to pay the transaction fee",

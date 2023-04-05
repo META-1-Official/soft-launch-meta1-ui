@@ -567,6 +567,7 @@
 		"confirm_no_orders_sell": "You are placing a sell order in a market with no open buy orders. Are you certain you wish to proceed?",
 		"confirm_sell": "Emri teyit et: Sat %(sell_amount)s %(sell_symbol)s fiyat %(price_amount)s %(price_symbol)s",
 		"core_rate": "Ücret Oranı",
+		"crypto": "Kripto",
 		"custom_quote": "Add a custom quote",
 		"deposit": "Deposit",
 		"description": "Description",
@@ -631,6 +632,7 @@
 		"others": "Diğerleri",
 		"overbought": "Aşırı Talep",
 		"oversold": "Aşırı Arz",
+		"pair": "Çift",
 		"panels_mirror": "Mirror Panels",
 		"period": "Süre (gün)",
 		"price": "Fiyat",
@@ -772,7 +774,11 @@
 		"worth_less_settlement_warning": "Warning! You can get a better price by selling to {market_link}.",
 		"your_price": "Sizin Çağrı Fiyatınız",
 		"zoom": "Yakınlaştır",
-		"zoom_all": "Tümü"
+		"zoom_all": "Tümü",
+		"order_book": "Sipariş Defteri",
+		"trade_history": "Ticaret Geçmişi",
+		"amount_usdt": "Miktar / USDT",
+		"all_applicable_taxes": "geçerli tüm vergilerin"
 	},
 	"explorer": {
 		"account": {
@@ -1874,8 +1880,8 @@
 		"browser_notifications_additional_transfer_to_me": "Hesabıma yapılan aktarmalar hakkında bilgi ver",
 		"browser_notifications_allow": "Bildirimleri etkinleştir",
 		"browser_notifications_disabled_by_browser_notify": "Your browser disabled notifications. Click to learn how enable browser notifications",
-		"can_change_default_fee_asset_tooltip": "The default asset used to pay transaction fees can be changed in the settings",
-		"change": "Change",
+		"can_change_default_fee_asset_tooltip": "İşlem ücretlerini ödemek için kullanılan varsayılan varlık ayarlardan değiştirilebilir",
+		"change": "Değiştirmek",
 		"change_default": "Change default",
 		"change_default_fee_asset": "Varsayılan ücret varlığını değiştir",
 		"change_default_fee_asset_tooltip": "Change the default asset that is used to pay the transaction fee",

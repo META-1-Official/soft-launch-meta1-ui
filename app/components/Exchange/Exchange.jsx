@@ -2431,10 +2431,16 @@ class Exchange extends React.Component {
 					activeKey={tabBuySell}
 					onChange={this._setTabBuySell.bind(this)}
 				>
-					<Tabs.TabPane tab="BUY" key="buy">
+					<Tabs.TabPane
+						tab={counterpart.translate('exchange.buy').toUpperCase()}
+						key="buy"
+					>
 						{buyForm}
 					</Tabs.TabPane>
-					<Tabs.TabPane tab="SELL" key="sell">
+					<Tabs.TabPane
+						tab={counterpart.translate('exchange.sell').toUpperCase()}
+						key="sell"
+					>
 						{sellForm}
 					</Tabs.TabPane>
 				</Tabs>
