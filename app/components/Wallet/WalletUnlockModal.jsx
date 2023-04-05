@@ -570,7 +570,9 @@ class WalletUnlockModal extends React.Component {
 												this.password_input = input;
 											}}
 											bordered={false}
-											placeholder="Enter Passkey"
+											placeholder={counterpart.translate(
+												'wallet.enter_passkey'
+											)}
 										/>
 										<div onClick={this.toggleEye}>
 											<Icon
@@ -723,7 +725,7 @@ class WalletUnlockModal extends React.Component {
 							this.state.password === ''
 						}
 					>
-						Continue
+						{counterpart.translate('registration.continue')}
 					</Button>
 				</div>
 			</Modal>

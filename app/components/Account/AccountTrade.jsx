@@ -818,7 +818,7 @@ class AccountTrade extends React.Component {
 				<div className="content">
 					<div className="filter">
 						<SearchInput
-							placeholder={'Search'}
+							placeholder={counterpart.translate('markets.search')}
 							value={this.state.searchTerm}
 							style={{width: '30%'}}
 							onChange={this._onSearchChange.bind(this)}

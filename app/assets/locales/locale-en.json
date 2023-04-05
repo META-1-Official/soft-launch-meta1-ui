@@ -257,7 +257,8 @@
 			"info": "Info",
 			"time": "Time",
 			"type": "Type",
-			"crypto": "Crypto"
+			"crypto": "Crypto",
+			"date_and_time": "Date and Time"
 		},
 		"transfer_actions": "Transfer actions",
 		"unfollow": "Remove contact",
@@ -298,7 +299,6 @@
 			"force_settlement_offset_percent": "Percent offset of forced settlements",
 			"global_settle": "Allow issuer to force a global settling",
 			"id": "ID",
-			"pair": "Pair",
 			"operation": "Operation",
 			"invalid_backing_asset_change": "You can't change the backing asset of an asset that has a non-zero current supply",
 			"invalid_market_pair": "Preferred market pairing can not be the same market",
@@ -2861,6 +2861,7 @@
 		"wallet_model_3": "<li>Multiple wallets</li><li>Wallet file backup required</li><li>High security</li>",
 		"wallet_move": "This backup file can also be used to move your local wallet to different computers or different browsers. In order to restore your local wallet using this backup <strong>you will also need your passkey!</strong>",
 		"wallet_password": "Login anywhere using your passkey",
+		"wallet_passkey_confirmation": "META1 Wallet Passkey Confirmation",
 		"wallet_types": "wallet types",
 		"wif_import_error": "Please enter a valid WIF",
 		"wif_length_error": "Incorrect input length",

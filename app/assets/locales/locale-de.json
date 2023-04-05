@@ -252,7 +252,8 @@
 			"id": "Identifikation",
 			"info": "Info",
 			"time": "Zeit",
-			"type": "Art"
+			"type": "Art",
+			"date_and_time": "Datum und Uhrzeit"
 		},
 		"transfer_actions": "Überweisungen",
 		"unfollow": "Entfolgen",
@@ -549,8 +550,7 @@
 		"buy_sell": "Kaufen/Verkaufen",
 		"buysell_formatter": "{Richtung} {Anlage}",
 		"call": "Kaufpreis",
-		"cancel_order_select_all": "Select all orders",
-		"cancel_all_orders": "Cancel all orders",
+		"cancel_all_orders": "Alle Bestellungen stornieren",
 		"change": "Änderung",
 		"chart_error": "Chart already exist",
 		"chart_height": "Chart Höhe (Pixel)",
@@ -2319,6 +2319,17 @@
 		"to": "an",
 		"transaction_confirmed": "Transaktion bestätigt",
 		"trxTypes": {
+			"amount": "Betrag",
+			"date": "Datum",
+			"time": "Zeit",
+			"name": "Benutzername",
+			"received": "Empfangen",
+			"sent": "Gesendet",
+			"last_month": "Letzter Monat",
+			"last_week": "Letzte Woche",
+			"24h": "24 Stunden",
+			"from": "Von",
+			"to": "An",
 			"account_create": "Konto erstellen",
 			"account_transfer": "Konto-Überweisung",
 			"account_update": "Kontoaktualisierung",
@@ -2601,6 +2612,7 @@
 		"done": "Erledigt",
 		"dont_ask_for_backup": "Fragen Sie mich nicht mehr eine Sicherung anzulegen.",
 		"download": "Download",
+		"enter_passkey": "Geben Sie den Hauptschlüssel ein",
 		"enter_password": "Passworteingabe",
 		"existing_password": "Existierendes Passwort",
 		"first_account_paid": "Since this is your first wallet, a faucet will pay the registration fee for you.",
@@ -2712,6 +2724,7 @@
 		"wallet_model_2": "Eine lokale Wallet bietet die beste Sicherheit, ist aber an den aktuellen Browser und Computer gebunden. Zur Migration auf ein anderes System, sollten Sie die Sicherungskopie (bin-Datei) oder den Gedächtnisschlüssel nutzen.",
 		"wallet_model_3": "<li>Verschiedene Konten</li><li>Wallet Sicherung (Backup) benötigt</li><li>Hohe Sicherheit</li>",
 		"wallet_move": "Diese Sicherungsdatei kann auch benutzt werden, um Ihre lokale Wallet, auf einen anderen Browser oder Computer zu benutzen. Damit Sie Ihre lokale Wallet wiederherstellen können, <strong>benötigen Sie auch Ihr Passwort!</strong>",
+		"wallet_passkey_confirmation": "META1 Wallet Passkey Confirmation",
 		"wallet_password": "Anmeldung von überall möglich, durch Ihr Passwort.",
 		"wallet_types": "wallet types"
 	}

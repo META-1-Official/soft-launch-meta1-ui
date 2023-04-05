@@ -189,7 +189,7 @@ const AssetExplorer = ({history}) => {
 							className="title2"
 							style={{color: theme.colors.themeOpositeColor}}
 						>
-							META1 Coin Current Asset Value:{' '}
+							META1 Coin Current Asset Value:&nbsp;
 							<Text className="golden">${meta1Price.toFixed(6)}</Text>
 						</Text>
 						<Text

@@ -703,10 +703,26 @@ class RecentTransactions extends React.Component {
 										suffixIcon={<CaretDownFilled />}
 										getPopupContainer={(triggerNode) => triggerNode.parentNode}
 									>
-										<OptGroup label="General">{defaultOptions}</OptGroup>
-										<OptGroup label="Balances">{amountOptions}</OptGroup>
-										<OptGroup label="Date and Time">{dateTimeOptions}</OptGroup>
-										<OptGroup label="Username">{usernamesOptions}</OptGroup>
+										<OptGroup label={counterpart.translate('settings.general')}>
+											{defaultOptions}
+										</OptGroup>
+										<OptGroup
+											label={counterpart.translate('transfer.balances')}
+										>
+											{amountOptions}
+										</OptGroup>
+										<OptGroup
+											label={counterpart.translate(
+												'account.transactions.date_and_time'
+											)}
+										>
+											{dateTimeOptions}
+										</OptGroup>
+										<OptGroup
+											label={counterpart.translate('transaction.trxTypes.name')}
+										>
+											{usernamesOptions}
+										</OptGroup>
 									</Select>
 								) : null}
 							</div>
