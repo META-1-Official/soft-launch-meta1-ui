@@ -2047,11 +2047,14 @@ div.messages {
 				}
 
 				.ant-input-group-wrapper {
-					width: 340px !important;
 					background: #212530;
 					border-radius: 4px;
 					width: 100% !important;
 					min-width: 300px;
+
+					@media screen and (max-width: 576px) {
+						min-width: unset;
+					}
 
 					.ant-input-wrapper {
 						height: 50px;
