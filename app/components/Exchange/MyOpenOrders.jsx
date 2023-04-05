@@ -266,12 +266,18 @@ class MarketOrders extends React.Component {
 				);
 
 				const total = payAmount * price;
+				const baseSymbol = base?._root?.entries
+					? base?._root?.entries[1][1]
+					: base?._root?.nodes[4].entry[1];
+				const quoteSymbol = quote?._root?.entries
+					? quote?._root?.entries[1][1]
+					: quote?._root?.nodes[4].entry[1];
 
 				return {
 					orderId: order.id,
 					pair: {
-						baseSymbol: base?._root?.entries[1][1],
-						quoteSymbol: quote?._root?.entries[1][1],
+						baseSymbol: baseSymbol,
+						quoteSymbol: quoteSymbol,
 						isBid: isBid,
 					},
 					amount: {

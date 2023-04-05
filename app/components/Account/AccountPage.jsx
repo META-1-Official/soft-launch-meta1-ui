@@ -84,7 +84,7 @@ class AccountPage extends React.Component {
 		} = this.props;
 		const accountName = ss.get('account_login_name', null);
 		const accountToken = ss.get('account_login_token', null);
-
+		console.log('@40 - ', account);
 		if (!account) {
 			if (accountName) {
 				window.location.replace(`/account/${accountName}/`);
@@ -116,6 +116,8 @@ class AccountPage extends React.Component {
 			proxy: account.getIn(['options', 'voting_account']),
 			history: this.props.history,
 		};
+		console.log('@40 - ', account, account.get('balances', List()).toList());
+		console.log('@41 - ', account, account.get('balances', List()).toJS());
 
 		return (
 			<div className="no-padding account-page">
@@ -204,6 +206,7 @@ AccountPage = BindToChainState(AccountPage, {
 class AccountPageStoreWrapper extends React.Component {
 	render() {
 		const account_name = this.props.match.params.account_name;
+		console.log('@40 - ', this.props.match.params, account_name);
 		return <AccountPage {...this.props} account={account_name} />;
 	}
 }

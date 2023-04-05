@@ -344,7 +344,7 @@ class Exchange extends React.Component {
 			Apis.db
 				.get_ticker('USDT', isQuoting ? baseAssetSymbol : quoteAssetSymbol)
 				.then((res) => {
-					asset_usdt = parseFloat(res.latest) || 1;
+					asset_usdt = parseFloat(res.latest) || 340;
 					const ratio = isQuoting
 						? (meta1_usdt + 0.01) / asset_usdt
 						: asset_usdt / (meta1_usdt + 0.01);

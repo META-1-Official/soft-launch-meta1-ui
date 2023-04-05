@@ -106,7 +106,7 @@ class AmountSelector extends DecimalChecker {
 			</div>
 		) : (
 			<AssetSelect
-				style={{width: '130px'}}
+				style={{width: '130px', paddingLeft: '5px'}}
 				selectStyle={{width: '100%'}}
 				value={this.props.asset.get('symbol')}
 				assets={Immutable.List(this.props.assets)}
@@ -142,7 +142,7 @@ class AmountSelector extends DecimalChecker {
 								color: theme.colors.inputTextColor,
 								borderRadius: '6px',
 								width: 'calc(100% - 130px)',
-								height: '32px',
+								height: '39px',
 							},
 						})}
 					/>

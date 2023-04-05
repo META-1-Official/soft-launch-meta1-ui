@@ -73,6 +73,8 @@ class AccountOverview extends React.Component {
 				`Value (${props.settings.get('unit')})`,
 				'Trade',
 				'Send',
+				'Borrow',
+				'Settle',
 				'Deposit',
 				'Percent of Total Supply',
 			],

@@ -168,7 +168,7 @@ export function BorrowModalView({
 						paddingBottom: '1rem',
 					}}
 				>
-					<div className="borrow-price-feeds">
+					<div className="borrow-price-feeds" style={{color: 'white'}}>
 						<span className="borrow-price-label">
 							<Translate content="transaction.feed_price" />
 							:&nbsp;
@@ -199,6 +199,7 @@ export function BorrowModalView({
 								? 'has-warning'
 								: '')
 						}
+						style={{color: 'white'}}
 					>
 						<span className="borrow-price-label">
 							<Translate content="exchange.your_price" />
@@ -289,6 +290,7 @@ export function BorrowModalView({
 							</Col>
 							<Col span={12}>
 								<Form.Item
+									className="enable-target-collateral-ratio"
 									validateStatus={errors.tcr_below_maintenance ? 'error' : ''}
 									help={
 										errors.tcr_below_maintenance
@@ -301,6 +303,7 @@ export function BorrowModalView({
 											onClick={onSetUseTCR.bind(this)}
 											checked={useTargetCollateral}
 											tabIndex={4}
+											style={{color: 'white'}}
 										>
 											<Translate content="borrow.enable_target_collateral_ratio" />
 										</Checkbox>
@@ -308,6 +311,7 @@ export function BorrowModalView({
 											title={counterpart.translate(
 												'tooltip.target_collateral_ratio'
 											)}
+											style={{color: 'white'}}
 										>
 											<AiOutlineQuestionCircle />
 										</Tooltip>

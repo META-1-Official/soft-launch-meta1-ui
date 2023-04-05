@@ -80,6 +80,7 @@ class Borrow extends Component {
 	}
 
 	onAssetChange(selected_asset) {
+		console.log('@1 - ', selected_asset);
 		this.setState({
 			selectedAsset: selected_asset,
 		});
@@ -95,6 +96,11 @@ class Borrow extends Component {
 		const started = this.state.step > 0;
 
 		const selectedAssetObject = ChainStore.getAsset(this.state.selectedAsset);
+		// console.log('@20 - ', this.state.selectedAsset)
+		// console.log('@20 - ', ChainStore.getAsset(this.state.selectedAsset))
+		// console.log('@21 - ', this.state.selectedAsset !== null, accountLoaded,
+		// 	this.state.selectedAsset !== null && accountLoaded ? currentAccount.get('id') === '1.2.3' : true)
+		// console.log("@22 - ", this.props.currentAccount, currentAccount)
 		let steps = this.steps;
 		let legend = null;
 		if (current < steps.length) {
@@ -134,14 +140,12 @@ class Borrow extends Component {
 									marginBottom: '1rem',
 								}}
 								assets={[
-									'1.3.0',
-									'1.3.1',
-									'1.3.2',
-									'1.3.3',
-									'1.3.4',
-									'1.3.5',
-									'1.3.6',
-									'1.3.7',
+									'1.3.8',
+									'1.3.9',
+									'1.3.10',
+									'1.3.13',
+									'1.3.14',
+									'1.3.16',
 								]}
 								value={this.state.selectedAsset}
 								onChange={this.onAssetChange.bind(this)}

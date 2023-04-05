@@ -116,12 +116,15 @@ export default class AssetUtils {
 			return asset.settlement_price;
 		}
 		if (!!asset.get('bitasset')) {
+			console.log('@61 - ');
 			return asset.getIn(['bitasset', 'current_feed', 'settlement_price']);
 		}
 		if (!!asset.get('settlement_price')) {
+			console.log('@62 - ');
 			return asset.getIn(['settlement_price']);
 		}
 		if (!!asset.get('current_feed')) {
+			console.log('@63 - ');
 			return asset.getIn(['current_feed', 'settlement_price']);
 		}
 		throw 'Feed price not found!';

@@ -227,6 +227,7 @@ class Header extends React.Component {
 		!fromMenu && e.preventDefault();
 		this.showWithdrawModal();
 	}
+
 	hideDepositModal() {
 		this.setState({
 			isDepositModalVisible: false,
@@ -408,6 +409,8 @@ class Header extends React.Component {
 			if (!this.props.locked_v2) {
 				this._showDeposit();
 			}
+		} else if (key === 'borrow') {
+			this._onNavigate(`/borrow`, this, true);
 		} else if (key === 'advanced-trezor') {
 			window.open('https://beta-wallet.trezor.io/next/#/', '_blank');
 		} else if (key === 'advanced-ledger-nano') {
@@ -624,6 +627,13 @@ class Header extends React.Component {
 					className={this.props.locked_v2 ? 'disable-li-text' : ''}
 				>
 					<Text>Deposit</Text>
+				</Menu.Item>
+				<Menu.Item
+					key="borrow"
+					style={this.props.locked_v2 ? {cursor: 'not-allowed'} : {}}
+					className={this.props.locked_v2 ? 'disable-li-text' : ''}
+				>
+					<Text>Borrow</Text>
 				</Menu.Item>
 				<Menu.SubMenu
 					key="submenu"

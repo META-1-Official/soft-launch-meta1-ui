@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ZfApi from 'react-foundation-apps/src/utils/foundation-api';
 import ChainTypes from '../Utility/ChainTypes';
+import {ChainStore} from 'meta1-vision-js';
 import ReactTooltip from 'react-tooltip';
 import BindToChainState from '../Utility/BindToChainState';
 import utils from 'common/utils';
@@ -541,17 +542,18 @@ class BorrowModalContent extends React.Component {
 		};
 
 		if (props && props.hasCallOrders && props.call_orders) {
-			currentPosition = props.call_orders
-				.filter((a) => !!a)
-				.find((a) => {
+			const currentPositionId = props.call_orders
+				.filter((positionId) => !!positionId)
+				.find((positionId) => {
+					const position = ChainStore.getObject(positionId);
 					return (
-						a.getIn(['call_price', 'quote', 'asset_id']) ===
+						position.getIn(['call_price', 'quote', 'asset_id']) ===
 						props.quoteAssetObj.get('id')
 					);
 				});
 
-			currentPosition = !!currentPosition
-				? currentPosition.toJS()
+			currentPosition = !!currentPositionId
+				? ChainStore.getObject(currentPositionId).toJS()
 				: {
 						collateral: null,
 						debt: null,
@@ -568,7 +570,20 @@ class BorrowModalContent extends React.Component {
 		if (this._isPredictionMarket(this.props)) {
 			return 1;
 		}
-
+		console.log(
+			'@51 - ',
+			asset_utils
+				.extractRawFeedPrice(this.props.quoteAssetObj)
+				.getIn(['quote', 'amount'])
+		);
+		console.log('@52  - ', this.props.backingAssetObj);
+		console.log(
+			'@53 - ',
+			asset_utils
+				.extractRawFeedPrice(this.props.quoteAssetObj)
+				.getIn(['base', 'amount'])
+		);
+		console.log('@54 - ', this.props.quoteAssetObj);
 		return (
 			1 /
 			utils.get_asset_price(
@@ -595,6 +610,10 @@ class BorrowModalContent extends React.Component {
 	}
 
 	_isPredictionMarket(props) {
+		console.log(
+			'@50 - ',
+			props.quoteAssetObj.getIn(['bitasset', 'is_prediction_market'])
+		);
 		return props.quoteAssetObj.getIn(['bitasset', 'is_prediction_market']);
 	}
 
@@ -691,7 +710,7 @@ class BorrowModalContent extends React.Component {
 		let remainingDebtBalance = debtBalanceObj.balance + debtChange;
 
 		let feed_price = this._getFeedPrice();
-
+		console.log('@51 - ', feed_price);
 		let maintenanceRatio = this._getMaintenanceRatio();
 
 		let isPredictionMarket = this._isPredictionMarket(this.props);
@@ -710,9 +729,10 @@ class BorrowModalContent extends React.Component {
 		};
 
 		if (!isPredictionMarket && isNaN(feed_price)) {
+			console.log('@00 - ');
 			footer.push(
 				<Button tabIndex={6} onClick={this.props.hideModal}>
-					{counterpart.translate('accountObj.perm.cancel')}
+					{counterpart.translate('account.perm.cancel')}
 				</Button>
 			);
 		} else {
@@ -741,6 +761,7 @@ class BorrowModalContent extends React.Component {
 				visible={this.props.visible}
 				onCancel={this.props.hideModal}
 				footer={footer}
+				className="borrow-modal"
 			>
 				<BorrowModalView
 					// Objects
@@ -824,20 +845,31 @@ export default class ModalWrapper extends React.Component {
 
 	render() {
 		const {quoteAssetObj, backingAssetObj, accountObj} = this.props;
+		console.log('@01 - ', quoteAssetObj, backingAssetObj, accountObj);
 		const accountObjBalance = accountObj.get('balances').toJS();
+		console.log('@02 - ', accountObjBalance);
 		let coreBalance, bitAssetBalance;
 
 		if (accountObjBalance) {
+			console.log('@10 - ', accountObjBalance, backingAssetObj);
 			for (var id in accountObjBalance) {
+				console.log('@11 - ', id, backingAssetObj);
 				if (id === backingAssetObj) {
 					coreBalance = accountObjBalance[id];
 				}
-
+				console.log('@111 - ', id, quoteAssetObj);
 				if (id === quoteAssetObj) {
 					bitAssetBalance = accountObjBalance[id];
 				}
 			}
 		}
+		console.log(
+			'@12 - ',
+			coreBalance,
+			bitAssetBalance,
+			ChainStore.getObject(coreBalance),
+			ChainStore.getObject(backingAssetObj)
+		);
 
 		return (
 			<BorrowModalContent
@@ -852,8 +884,8 @@ export default class ModalWrapper extends React.Component {
 				}
 				modalId={this.props.modalId}
 				debtBalanceObj={bitAssetBalance}
-				collateralBalanceObj={coreBalance}
-				backingAssetObj={backingAssetObj}
+				collateralBalanceObj={ChainStore.getObject(coreBalance)}
+				backingAssetObj={ChainStore.getObject(backingAssetObj)}
 				disableHelp={this.state.smallScreen}
 				accountObj={accountObj}
 			/>

@@ -185,7 +185,8 @@
 			"warning2": "Las ponderaciones de permisos de propietario total de %(weights_total)s debe ser igual o superar el umbral de %(threshold)s",
 			"warning3": "La cuenta ya está en la lista",
 			"warning4": "La clave ya está en la lista",
-			"weight": "Relevancia"
+			"weight": "Relevancia",
+			"cancel": "Cancel"
 		},
 		"permissions": "Permisos",
 		"please_create_account": "Por favor cree una cuenta",

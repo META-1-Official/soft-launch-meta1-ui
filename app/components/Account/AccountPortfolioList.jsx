@@ -573,6 +573,24 @@ class AccountPortfolioList extends React.Component {
 					},
 				},
 				{
+					title: <Translate content="exchange.borrow" />,
+					dataIndex: 'borrow',
+					isShow: this.props.portfolioCheckbox.includes('Borrow'),
+					align: 'center',
+					render: (item) => {
+						return <span style={{whiteSpace: 'nowrap'}}>{item}</span>;
+					},
+				},
+				{
+					title: <Translate content="account.settle" />,
+					dataIndex: 'settle',
+					isShow: this.props.portfolioCheckbox.includes('Settle'),
+					align: 'center',
+					render: (item) => {
+						return <span style={{whiteSpace: 'nowrap'}}>{item}</span>;
+					},
+				},
+				{
 					title: (
 						<Translate
 							content="exchange.deposit"
@@ -607,34 +625,33 @@ class AccountPortfolioList extends React.Component {
 		} = this.props;
 
 		const renderBorrow = (asset, account) => {
-			let isBitAsset = asset && asset.has('bitasset_data_id');
-			let isGlobalSettled =
+			const isBitAsset = asset && asset.has('bitasset_data_id');
+			const isGlobalSettled =
 				isBitAsset && asset.getIn(['bitasset', 'settlement_fund']) > 0
 					? true
 					: false;
+			const borrowLink =
+				!isBitAsset || isGlobalSettled ? null : (
+					<a
+						onClick={() => {
+							ReactTooltip.hide();
+							this.showBorrowModal(
+								asset.get('id'),
+								asset.getIn(['bitasset', 'options', 'short_backing_asset']),
+								account
+							);
+						}}
+					>
+						<Icon
+							name="dollar"
+							title="icons.dollar.borrow"
+							className="icon-14px"
+							style={{fill: 'white'}}
+						/>
+					</a>
+				);
 
-			return {
-				isBitAsset,
-				borrowLink:
-					!isBitAsset || isGlobalSettled ? null : (
-						<a
-							onClick={() => {
-								ReactTooltip.hide();
-								this.showBorrowModal(
-									asset.get('id'),
-									asset.getIn(['bitasset', 'options', 'short_backing_asset']),
-									account
-								);
-							}}
-						>
-							<Icon
-								name="dollar"
-								title="icons.dollar.borrow"
-								className="icon-14px"
-							/>
-						</a>
-					),
-			};
+			return {isBitAsset, borrowLink};
 		};
 
 		let balances = [];
@@ -731,7 +748,12 @@ class AccountPortfolioList extends React.Component {
 						<FaQuestionCircle />
 					) : (
 						<a onClick={this._onSettleAsset.bind(this, asset.get('id'))}>
-							<Icon name="settle" title="icons.settle" className="icon-14px" />
+							<Icon
+								name="settle"
+								title="icons.settle"
+								className="icon-14px"
+								style={{fill: 'white'}}
+							/>
 						</a>
 					);
 			}
@@ -1003,13 +1025,18 @@ class AccountPortfolioList extends React.Component {
 			return null;
 		}
 
+		let quoteAssetObj;
+		if (this.state.borrow) {
+			quoteAssetObj = ChainStore.getAsset(this.state.borrow.quoteAsset);
+		}
+
 		return (
 			<BorrowModal
 				visible={this.state.isBorrowModalVisible}
 				showModal={this.showBorrowModal}
 				hideModal={this.hideBorrowModal}
 				accountObj={this.state.borrow && this.state.borrow.account}
-				quoteAssetObj={this.state.borrow && this.state.borrow.quoteAsset}
+				quoteAssetObj={quoteAssetObj}
 				backingAssetObj={this.state.borrow && this.state.borrow.backingAsset}
 			/>
 		);

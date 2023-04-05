@@ -32,7 +32,7 @@ const WorthLessSettlementWarning = withWorthLessSettlementFlag(
 		switch (worthLessSettlement) {
 			case true:
 				return (
-					<div>
+					<div style={{color: 'white'}}>
 						<Translate
 							component="h2"
 							content="exchange.settle_better_marketprice"
@@ -71,7 +71,7 @@ const WorthLessSettlementWarning = withWorthLessSettlementFlag(
 				);
 			default:
 				return (
-					<div>
+					<div style={{color: 'white'}}>
 						<Translate
 							component="h2"
 							content="exchange.settle_better_settleprice"
@@ -318,6 +318,13 @@ class ModalContent extends React.Component {
 			settlementDelay,
 			maintenanceInterval,
 		} = this.getSettlementInfo();
+		console.log(
+			'@1 ',
+			maxSettlementVolume,
+			remainingVolume,
+			settlementDelay,
+			maintenanceInterval
+		);
 
 		const estimatedDelay = !isGlobalSettled
 			? (settlementDelay +
@@ -369,6 +376,7 @@ class ModalContent extends React.Component {
 						component="div"
 						content="exchange.settle_offset"
 						offset={offset}
+						style={{color: 'white'}}
 					/>
 				) : null}
 				<br />
