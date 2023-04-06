@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import counterpart from 'counterpart';
 import {Col, Row, Typography, Progress} from 'antd';
 import {getGoldImage} from 'branding';
 import theme from '../../lib/styles/themeDark';
@@ -82,7 +83,9 @@ const AssetExplorerDetails = ({history}) => {
 						fontSize: '30px !important',
 					})}
 				>
-					Explore assets Assigned to META BLOCKCHAIN{' '}
+					{counterpart.translate(
+						'exchange.asset_explorer.explore_assets_assigned_to_meta1'
+					)}
 				</Title>
 				<Title
 					level={5}
@@ -93,7 +96,9 @@ const AssetExplorerDetails = ({history}) => {
 						fontWeight: '400 !important',
 					})}
 				>
-					Asset Assignment statistics, history & data
+					{counterpart.translate(
+						'exchange.asset_explorer.asset_assignment_statistics_history_data'
+					)}
 				</Title>
 			</div>
 			<div className="main-body">
@@ -112,7 +117,7 @@ const AssetExplorerDetails = ({history}) => {
 							color: `${theme.colors.primaryColor} !important`,
 						})}
 					/>
-					Back
+					{counterpart.translate('wallet.back')}
 				</Text>
 				<div>
 					<div className="title-wrapper">
@@ -160,7 +165,8 @@ const AssetExplorerDetails = ({history}) => {
 									})}
 								>
 									<Col xs={12} sm={9} className="info-content-value">
-										Custodian:
+										{counterpart.translate('exchange.asset_explorer.custodian')}
+										:
 									</Col>
 									<Col xs={12} sm={9} className="info-content-value">
 										{' '}
@@ -176,7 +182,10 @@ const AssetExplorerDetails = ({history}) => {
 									})}
 								>
 									<Col xs={12} sm={9} className="info-content-value">
-										Contact Email:
+										{counterpart.translate(
+											'exchange.asset_explorer.contact_email'
+										)}
+										:
 									</Col>
 									<Col xs={12} sm={9} className="info-content-value">
 										{asset?.options.owner_contact_email}
@@ -195,7 +204,9 @@ const AssetExplorerDetails = ({history}) => {
 										className="document-link"
 										href={asset?.options.detailed_document_link}
 									>
-										Document Link
+										{counterpart.translate(
+											'exchange.asset_explorer.document_link'
+										)}
 									</a>
 								</div>
 
@@ -208,13 +219,19 @@ const AssetExplorerDetails = ({history}) => {
 									gutter={[16, 16]}
 								>
 									<Col xs={12} sm={9} className="info-text">
-										Appraised Asset Value:
+										{counterpart.translate(
+											'exchange.asset_explorer.appraised_asset_value'
+										)}
+										:
 									</Col>
 									<Col xs={12} sm={9} className="info-text">
 										${Number(asset?.appraised_property_value).toLocaleString()}
 									</Col>
 									<Col xs={12} sm={9} className="info-text">
-										Surety Bond Value:
+										{counterpart.translate(
+											'exchange.asset_explorer.surety_bond_value'
+										)}
+										:
 									</Col>
 									<Col xs={12} sm={9} className="info-text">
 										$
@@ -223,31 +240,46 @@ const AssetExplorerDetails = ({history}) => {
 										).toLocaleString()}
 									</Col>
 									<Col xs={12} sm={9} className="info-text">
-										Surety Bond Number:{' '}
+										{counterpart.translate(
+											'exchange.asset_explorer.surety_bond_number'
+										)}
+										:
 									</Col>
 									<Col xs={12} sm={9} className="info-text">
 										{asset?.options.property_surety_bond_number}
 									</Col>
 									<Col xs={12} sm={9} className="info-text">
-										Time of Smooth Allocation:
+										{counterpart.translate(
+											'exchange.asset_explorer.time_of_smooth_allocation'
+										)}
+										:
 									</Col>
 									<Col xs={12} sm={9} className="info-text">
 										{timeFormat(parseInt(asset?.allocation_duration_minutes))}
 									</Col>
 									<Col xs={12} sm={9} className="info-text">
-										Backed by Asset:{' '}
+										{counterpart.translate(
+											'exchange.asset_explorer.backed_by_asset'
+										)}
+										:
 									</Col>
 									<Col xs={12} sm={9} className="info-text">
 										{asset?.backed_by_asset_symbol}
 									</Col>
 									<Col xs={12} sm={9} className="info-text">
-										Creation Date:
+										{counterpart.translate(
+											'exchange.asset_explorer.creation_date'
+										)}
+										:
 									</Col>
 									<Col xs={12} sm={9} className="info-text">
 										{asset?.creation_date}
 									</Col>
 									<Col xs={12} sm={9} className="info-text">
-										Approval End Date:
+										{counterpart.translate(
+											'exchange.asset_explorer.approval_end_date'
+										)}
+										:
 									</Col>
 									<Col xs={12} sm={9} className="info-text">
 										{asset?.approval_end_date}
@@ -265,7 +297,9 @@ const AssetExplorerDetails = ({history}) => {
 							fontWeight: 500,
 						})}
 					>
-						Smooth Allocation Progress
+						{counterpart.translate(
+							'exchange.asset_explorer.smooth_allocation_progress'
+						)}
 					</Text>
 					<div className="progress-wrapper">
 						<Text
