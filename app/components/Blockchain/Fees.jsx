@@ -227,25 +227,27 @@ class FeeGroup extends React.Component {
 		return (
 			<div className="asset-card">
 				<Card bordered={false}>{this.props.title.toUpperCase()}</Card>
-				<table className="table">
-					<thead>
-						<tr>
-							<th>
-								<Translate content={'explorer.block.op'} />
-							</th>
-							<th>
-								<Translate content={'explorer.fees.type'} />
-							</th>
-							<th style={{textAlign: 'right'}}>
-								<Translate content={'explorer.fees.fee'} />
-							</th>
-							<th style={{textAlign: 'right'}}>
-								<Translate content={'explorer.fees.feeltm'} />
-							</th>
-						</tr>
-					</thead>
-					{fees}
-				</table>
+				<div style={{overflow: 'auto'}}>
+					<table className="table">
+						<thead>
+							<tr>
+								<th>
+									<Translate content={'explorer.block.op'} />
+								</th>
+								<th>
+									<Translate content={'explorer.fees.type'} />
+								</th>
+								<th style={{textAlign: 'right'}}>
+									<Translate content={'explorer.fees.fee'} />
+								</th>
+								<th style={{textAlign: 'right'}}>
+									<Translate content={'explorer.fees.feeltm'} />
+								</th>
+							</tr>
+						</thead>
+						{fees}
+					</table>
+				</div>
 			</div>
 		);
 	}
@@ -271,16 +273,9 @@ class Fees extends React.Component {
 		}
 
 		return (
-			<div className="grid-block vertical" style={{overflow: 'visible'}}>
-				<div
-					className="grid-block small-12 shrink"
-					style={{overflow: 'visible'}}
-				>
-					<HelpContent path={'components/Fees'} />
-				</div>
-				<div className="grid-block small-12 " style={{overflow: 'visible'}}>
-					<div className="grid-content">{feeGroups}</div>
-				</div>
+			<div className="fees-tab">
+				<HelpContent path={'components/Fees'} />
+				<div className="fee-section-wrapper">{feeGroups}</div>
 			</div>
 		);
 	}

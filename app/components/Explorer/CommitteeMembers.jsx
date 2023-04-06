@@ -179,31 +179,27 @@ class CommitteeMembers extends React.Component {
 		}
 
 		return (
-			<div className="grid-block">
-				<div className="grid-block vertical medium-horizontal">
-					<div className="grid-block vertical">
-						<div className="grid-content">
-							<SearchInput
-								placeholder={counterpart.translate(
-									'explorer.witnesses.filter_by_name'
-								)}
-								value={this.state.filterCommitteeMember}
-								onChange={this._onFilter.bind(this)}
-								style={{
-									width: '200px',
-									marginBottom: '12px',
-									marginTop: '4px',
-								}}
-							/>
-							<CommitteeMemberList
-								filter={this.state.filterCommitteeMember}
-								committee_members={Immutable.List(
-									globalObject.active_committee_members
-								)}
-								membersList={globalObject.active_committee_members}
-							/>
-						</div>
-					</div>
+			<div className="committee-tab">
+				<div className="grid-content">
+					<SearchInput
+						placeholder={counterpart.translate(
+							'explorer.witnesses.filter_by_name'
+						)}
+						value={this.state.filterCommitteeMember}
+						onChange={this._onFilter.bind(this)}
+						style={{
+							width: '200px',
+							marginBottom: '12px',
+							marginTop: '4px',
+						}}
+					/>
+					<CommitteeMemberList
+						filter={this.state.filterCommitteeMember}
+						committee_members={Immutable.List(
+							globalObject.active_committee_members
+						)}
+						membersList={globalObject.active_committee_members}
+					/>
 				</div>
 			</div>
 		);

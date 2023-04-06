@@ -128,7 +128,7 @@ class SignedMessage extends React.Component {
 		let notificationGiven =
 			this.state.notification && this.state.notification != '';
 		return (
-			<div style={{color: 'gray', margin: '10px 10px'}}>
+			<div className="signed-message">
 				{this.state.messageParsed != null && (
 					<fieldset style={{borderColor: borderColor}}>
 						<legend style={{color: 'white', weight: 'bold'}}>
