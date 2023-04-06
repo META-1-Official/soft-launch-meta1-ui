@@ -284,29 +284,43 @@ class AccountRegistrationForm extends React.Component {
 					<div className="info-form">
 						<div className="form-blocks">
 							<Form.Item
-								label={'First name'}
+								label={counterpart.translate('registration.first_name')}
 								css={{marginRight: '10px'}}
 								name="firstname"
 								rules={[
 									{
 										validator: (_, value) => {
 											if (value.length === 0)
-												return Promise.reject('First Name is required.');
+												return Promise.reject(
+													counterpart.translate(
+														'registration.validation.require_first_name'
+													)
+												);
 											else {
 												if (!/^[A-Za-z]{0,256}$/.test(value)) {
 													if (value.includes(' '))
 														return Promise.reject(
-															'Whitespace character is not allowed.'
+															counterpart.translate(
+																'registration.validation.white_space_not_allowed'
+															)
 														);
 													else if (/\d/.test(value))
-														return Promise.reject('Numbers are not allowed.');
+														return Promise.reject(
+															counterpart.translate(
+																'registration.validation.numbers_not_allowed'
+															)
+														);
 													else if (value.length > 256)
 														return Promise.reject(
-															'First Name should be less than 256 characters'
+															counterpart.translate(
+																'registration.validation.max_first_name_length'
+															)
 														);
 													else
 														return Promise.reject(
-															'Your First Name must not contain special characters.'
+															counterpart.translate(
+																'registration.validation.special_character_not_alllowed_first_name'
+															)
 														);
 												} else {
 													return Promise.resolve();
@@ -327,29 +341,43 @@ class AccountRegistrationForm extends React.Component {
 								/>
 							</Form.Item>
 							<Form.Item
-								label={'Last name'}
+								label={counterpart.translate('registration.last_name')}
 								css={{marginLeft: '10px'}}
 								name="lastname"
 								rules={[
 									{
 										validator: (_, value) => {
 											if (value.length === 0)
-												return Promise.reject('Last Name is required.');
+												return Promise.reject(
+													counterpart.translate(
+														'registration.validation.require_last_name'
+													)
+												);
 											else {
 												if (!/^[A-Za-z]{0,256}$/.test(value)) {
 													if (value.includes(' '))
 														return Promise.reject(
-															'Whitespace character is not allowed.'
+															counterpart.translate(
+																'registration.validation.white_space_not_allowed'
+															)
 														);
 													else if (/\d/.test(value))
-														return Promise.reject('Numbers are not allowed.');
+														return Promise.reject(
+															counterpart.translate(
+																'registration.validation.numbers_not_allowed'
+															)
+														);
 													else if (value.length > 256)
 														return Promise.reject(
-															'Last Name should be less than 256 characters.'
+															counterpart.translate(
+																'registration.validation.max_last_name_length'
+															)
 														);
 													else
 														return Promise.reject(
-															'Your Last Name must not contain special characters.'
+															counterpart.translate(
+																'registration.validation.special_character_not_alllowed_last_name'
+															)
 														);
 												} else {
 													return Promise.resolve();
@@ -372,7 +400,7 @@ class AccountRegistrationForm extends React.Component {
 						</div>
 						<div className="form-blocks">
 							<Form.Item
-								label={'Phone number'}
+								label={counterpart.translate('registration.phone_number')}
 								css={{marginLeft: '10px'}}
 								rules={[
 									{
@@ -380,7 +408,9 @@ class AccountRegistrationForm extends React.Component {
 										validator: (_, value) => {
 											var message = '';
 											if (value.length === 0)
-												message = 'The phone number is required.';
+												message = counterpart.translate(
+													'registration.validation.require_phone_number'
+												);
 											else if (
 												this.state.selectedCountryObj?.patterns &&
 												Array.isArray(
@@ -389,12 +419,16 @@ class AccountRegistrationForm extends React.Component {
 												this.state.phoneFormat.length !==
 													this.state.selectedCountryObj?.patterns[0].length
 											) {
-												message = `Phone number should be ${
-													this.state.selectedCountryObj.patterns[0].replaceAll(
-														' ',
-														''
-													).length
-												} digits long`;
+												message = counterpart.translate(
+													'registration.validation.min_phone_number_length',
+													{
+														length:
+															this.state.selectedCountryObj.patterns[0].replaceAll(
+																' ',
+																''
+															).length,
+													}
+												);
 											} else if (
 												/^0*$/.test(
 													this.state.phoneFormat.replaceAll(' ', '')
@@ -402,7 +436,9 @@ class AccountRegistrationForm extends React.Component {
 												this.state.phoneFormat.length ===
 													this.state.selectedCountryObj?.patterns[0].length
 											) {
-												message = 'Phone number can not be all zeros.';
+												message = counterpart.translate(
+													'registration.validation.phone_number_not_all_zeros'
+												);
 											} else {
 												return Promise.resolve();
 											}
@@ -625,12 +661,12 @@ class AccountRegistrationForm extends React.Component {
 						</Button>
 					)}
 					<div className="redirect">
-						Or if you have an wallet then{' '}
+						{counterpart.translate('registration.or_if_you_have_wallet_then')}{' '}
 						<div
 							className="btn"
 							onClick={() => WalletUnlockActions.unlock_v2()}
 						>
-							login
+							{counterpart.translate('header.unlock_short')}
 						</div>
 					</div>
 				</Form>

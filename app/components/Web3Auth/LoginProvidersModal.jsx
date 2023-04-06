@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {providers} from 'constants/providers';
 import {Modal} from 'antd';
 import {WALLET_ADAPTERS} from '@web3auth/base';
+import counterpart from 'counterpart';
 
 const arrow = require('assets/arrow.jpg');
 
@@ -36,7 +37,7 @@ const ProvidersCount = ({moreProviders, setMoreProviders}) => {
 			<div className="providersCount">
 				<div onClick={changeProvidersCount}>
 					<p>
-						{`View more options`}
+						{counterpart.translate('registration.view_more_options')}
 						<img
 							src={arrow}
 							width={15}
@@ -111,7 +112,7 @@ const LoginProvidersModal = (props) => {
 			) &&
 			e.target.value.length !== 0
 		) {
-			setEmailError('Invalid Email');
+			setEmailError(counterpart.translate('registration.invalid_email'));
 		} else {
 			setEmailError(null);
 		}
@@ -130,9 +131,13 @@ const LoginProvidersModal = (props) => {
 		>
 			<div className="containerProvider">
 				<div className="providerHeader">
-					<p className="welcomeText">Welcome onboard</p>
+					<p className="welcomeText">
+						{counterpart.translate('registration.welcome_onboard')}
+					</p>
 					<p className="descriptionText">
-						Select how you would like to continue
+						{counterpart.translate(
+							'registration.select_how_you_would_like_continue'
+						)}
 					</p>
 				</div>
 				<div className="contentWrapper">
@@ -160,13 +165,17 @@ const LoginProvidersModal = (props) => {
 									}
 							  })}
 					</div>
-					<p className="orText">OR</p>
+					<p className="orText">
+						{counterpart
+							.translate('explorer.asset.settlement.gs_or')
+							.toUpperCase()}
+					</p>
 					<div className="formContainer">
 						<div className="emailProvider">
 							<input
 								value={email}
 								className="providersInput"
-								placeholder={'Email'}
+								placeholder={counterpart.translate('registration.email')}
 								onChange={handleEmailChange}
 							/>
 							{emailError && <p className="errorText"> {emailError}</p>}
@@ -177,7 +186,7 @@ const LoginProvidersModal = (props) => {
 								disabled={!email || emailError}
 								style={!email || emailError ? {cursor: 'not-allowed'} : {}}
 							>
-								Continue with Email
+								{counterpart.translate('registration.continue_with_email')}
 							</button>
 						</div>
 					</div>

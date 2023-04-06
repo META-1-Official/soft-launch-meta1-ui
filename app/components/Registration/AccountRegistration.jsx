@@ -1,5 +1,6 @@
 import React from 'react';
 import Translate from 'react-translate-component';
+import counterpart from 'counterpart';
 import ReactTooltip from 'react-tooltip';
 import {connect} from 'alt-react';
 import qs from 'qs';
@@ -80,7 +81,7 @@ class AccountRegistration extends React.Component {
 		});
 
 		if (!imageSrc) {
-			toast('Please check your camera.');
+			toast(counterpart.translate('registration.check_camera'));
 			this.setState({verifying: false});
 			return;
 		}
@@ -90,13 +91,13 @@ class AccountRegistration extends React.Component {
 		this.setState({photoIndex: photoIndex + 1});
 
 		if (!response) {
-			toast('Something went wrong from Biometric server.');
+			toast(counterpart.translate('registration.biometric_server_error'));
 			this.setState({verifying: false, photoIndex: 0});
 			return;
 		}
 
 		if (response.data.liveness !== 'Genuine' && photoIndex === 10) {
-			toast('Try again by changing position or background.');
+			toast(counterpart.translate('registration.face_not_detected'));
 			this.setState({verifying: false, photoIndex: 0});
 		} else if (response.data.liveness === 'Genuine') {
 			this.setState({photoIndex: 0});
@@ -117,13 +118,13 @@ class AccountRegistration extends React.Component {
 			const nameArry = response_verify.name.split(',');
 
 			if (nameArry.includes(email)) {
-				toast('You already enrolled and verified successfully.');
+				toast(counterpart.translate('registration.faceki_user_exist'));
 				this.setState({verifying: false, faceKISuccess: true});
 				this.nextStep();
 			} else {
 				const response_user = await kycService.getUserKycProfile(email);
 				if (response_user) {
-					toast('This email already has been used for another user.');
+					toast(counterpart.translate('registration.faceki_email_used'));
 					this.setState({verifying: false});
 				} else {
 					const newName = response_verify.name + ',' + email;
@@ -132,7 +133,7 @@ class AccountRegistration extends React.Component {
 					);
 
 					if (!response_remove) {
-						toast('Something went wrong.');
+						toast(counterpart.translate('registration.went_wrong'));
 						this.setState({verifying: false});
 					} else {
 						const response_enroll = await faceKIService.enroll(file, newName);
@@ -142,11 +143,11 @@ class AccountRegistration extends React.Component {
 								`usr_${email}_${privKey}`
 							);
 							if (add_response.result) {
-								toast('Successfully enrolled.');
+								toast(counterpart.translate('registration.enroll_success'));
 								this.setState({verifying: false, faceKISuccess: true});
 								this.nextStep();
 							} else {
-								toast('Something went wrong.');
+								toast(counterpart.translate('registration.went_wrong'));
 								this.setState({verifying: false});
 							}
 						}
@@ -156,7 +157,7 @@ class AccountRegistration extends React.Component {
 		} else if (response_verify.status === 'Verify Failed') {
 			const response_user = await kycService.getUserKycProfile(email);
 			if (response_user) {
-				toast('This email already has been used for another user.');
+				toast(counterpart.translate('registration.faceki_email_used'));
 				this.setState({verifying: false});
 			} else {
 				const response_enroll = await faceKIService.enroll(file, email);
@@ -166,18 +167,18 @@ class AccountRegistration extends React.Component {
 						`usr_${email}_${privKey}`
 					);
 					if (add_response.result) {
-						toast('Successfully enrolled.');
+						toast(counterpart.translate('registration.enroll_success'));
 						this.setState({verifying: false, faceKISuccess: true});
 						this.nextStep();
 					} else {
 						await faceKIService.remove_user(email);
-						toast('Something went wrong.');
+						toast(counterpart.translate('registration.went_wrong'));
 						this.setState({verifying: false});
 					}
 				}
 			}
 		} else {
-			toast('Please try again.');
+			toast(counterpart.translate('registration.please_retry'));
 			this.setState({verifying: false});
 		}
 	}
@@ -216,7 +217,7 @@ class AccountRegistration extends React.Component {
 		if (response?.isValid === true) {
 			this.renderTorusLogin();
 		} else {
-			toast('Private Key is invalid');
+			toast(counterpart.translate('registration.invalid_private_key'));
 			return;
 		}
 	}
@@ -394,7 +395,7 @@ class AccountRegistration extends React.Component {
 							marginTop: '50px',
 						})}
 					>
-						Import Legacy Wallet
+						{counterpart.translate('registration.import_legacy_wallet')}
 					</div>
 					<div
 						css={(theme) => ({
@@ -403,10 +404,7 @@ class AccountRegistration extends React.Component {
 							lineHeight: 1.2,
 						})}
 					>
-						This wallet is existing in the LEGACY META Blockchain and so it
-						should be imported instead of being created. If you own this wallet,
-						you can continue to import. In other case, you need to go back and
-						create the wallet with the different wallet name.
+						{counterpart.translate('registration.import_legacy_wallet_info1')}
 					</div>
 					<div
 						css={(theme) => ({
@@ -415,12 +413,12 @@ class AccountRegistration extends React.Component {
 							lineHeight: 1.2,
 						})}
 					>
-						To import your original wallet from the LEGACY META Blockchain
-						please enter your LEGACY wallet ID and passkey for that wallet
-						below.
+						{counterpart.translate('registration.import_legacy_wallet_info2')}
 					</div>
 					<div style={{width: '100%'}}>
-						<label>META Legacy Wallet Name</label>
+						<label>
+							{counterpart.translate('registration.meta_legacy_wallet_name')}
+						</label>
 						<input
 							control={Input}
 							value={this.state.accountName}
@@ -430,12 +428,16 @@ class AccountRegistration extends React.Component {
 						/>
 					</div>
 					<div style={{width: '100%', marginTop: '15px'}}>
-						<label>Your Private Passkey</label>
+						<label>
+							{counterpart.translate('registration.your_private_passkey')}
+						</label>
 						<input
 							control={Input}
 							value={this.state.passkey}
 							type="password"
-							placeholder="Enter passkey or owner private key"
+							placeholder={counterpart.translate(
+								'registration.enter_passkey_or_private_key'
+							)}
 							onChange={(event) => {
 								this.setState({passkey: event.target.value});
 							}}
@@ -459,7 +461,7 @@ class AccountRegistration extends React.Component {
 						}
 						onClick={this.handleImportBtn}
 					>
-						Import Wallet
+						{counterpart.translate('registration.import_wallet')}
 					</Button>
 				</div>
 			);
@@ -474,11 +476,10 @@ class AccountRegistration extends React.Component {
 					}}
 				>
 					<h4 style={{textAlign: 'center', fontWeight: 'bold'}}>
-						Bio-Metric 2 Factor Authentication
+						{counterpart.translate('registration.biometric_2fa_title')}
 					</h4>
 					<h5 style={{textAlign: 'center', fontSize: 16}}>
-						Next, we will setup your Biometric two factor authentication, to
-						ensure the security of your wallet
+						{counterpart.translate('registration.biometric_2fa_info')}
 					</h5>
 					<br />
 					{this.state.webcamEnabled && (
@@ -492,7 +493,9 @@ class AccountRegistration extends React.Component {
 							<div className="flex-container-new">
 								<div className="flex-container-first">
 									<div className="position-head color-black">
-										Position your face in the oval
+										{counterpart.translate(
+											'registration.requiure_face_in_oval'
+										)}
 									</div>
 								</div>
 								<button
@@ -548,14 +551,20 @@ class AccountRegistration extends React.Component {
 							<div className="flex_container flex-padding">
 								<span className="span-class color-black">
 									{!this.state.faceKISuccess
-										? 'Press verify to begin enrollment'
-										: 'Verification Successful!'}
+										? counterpart.translate(
+												'registration.verify_to_begin_enrollment'
+										  )
+										: counterpart.translate(
+												'registration.verification_success'
+										  )}
 								</span>
 								<div className="span-class color-black">
-									Min camera resolution must be 720p
+									{counterpart.translate(
+										'registration.require_min_camera_resolution'
+									)}
 								</div>
 								<div className="span-class color-black">
-									Verifying will take 10 seconds as maximum
+									{counterpart.translate('registration.verification_duration')}
 								</div>
 							</div>
 						</div>
@@ -578,7 +587,9 @@ class AccountRegistration extends React.Component {
 									: false
 							}
 						>
-							{this.state.verifying ? 'Verifying...' : 'Verify'}
+							{this.state.verifying
+								? counterpart.translate('registration.faceki_verifying')
+								: counterpart.translate('registration.faceki_verify')}
 						</Button>
 					</div>
 				</div>
@@ -610,7 +621,9 @@ class AccountRegistration extends React.Component {
 						<div className="create-account-block">
 							{this.state.migrationStep && (
 								<div style={{cursor: 'pointer'}} onClick={this.backBtnClick}>
-									{'<< Back'}
+									{`<< ${counterpart.translate(
+										'registration.faceki_verifying'
+									)}`}
 								</div>
 							)}
 							{this.state.faceKIStep === false && (

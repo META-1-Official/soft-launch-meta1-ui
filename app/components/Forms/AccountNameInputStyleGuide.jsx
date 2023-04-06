@@ -113,7 +113,9 @@ class AccountNameInput extends React.Component {
 	}
 
 	async validateAccountName(value) {
-		let error = 'Please enter valid wallet name';
+		let error = counterpart.translate(
+			'registration.validation.invalid_wallet_name'
+		);
 		if (value === '') {
 			this.setState({
 				value: value,
@@ -125,12 +127,14 @@ class AccountNameInput extends React.Component {
 		}
 		error =
 			value === ''
-				? 'Please enter valid wallet name'
+				? counterpart.translate('registration.validation.invalid_wallet_name')
 				: ChainValidation.is_account_name_error(value);
 		error = error && error.replace('Account', 'Wallet');
 
 		if (value !== '' && value.length < 4) {
-			error = 'Wallet name should be longer.';
+			error = counterpart.translate(
+				'registration.validation.short_wallet_name'
+			);
 			this.setState({
 				value: value,
 				error: error,

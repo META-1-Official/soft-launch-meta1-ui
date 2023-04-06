@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import {connect} from 'alt-react';
 import AccountActions from 'actions/AccountActions';
 import AccountStore from 'stores/AccountStore';
@@ -328,7 +327,9 @@ class AccountRegistrationConfirm extends React.Component {
 		);
 
 		if (!success && WalletDb.isLocked_v2()) {
-			this.setState({passwordError: 'Invalid password'});
+			this.setState({
+				passwordError: counterpart.translate('notifications.invalid_password'),
+			});
 		} else {
 			this.setState({password: ''});
 			if (cloudMode) AccountActions.setPasswordAccount(account);
@@ -438,7 +439,11 @@ class AccountRegistrationConfirm extends React.Component {
 				window.location.origin
 			}/auth-proceed`;
 		} else {
-			toast('You already signed and paid with the current email');
+			toast(
+				counterpart.translate(
+					'registration.alread_signed_and_paid_with_current_email'
+				)
+			);
 			return;
 		}
 	}
@@ -488,18 +493,13 @@ class AccountRegistrationConfirm extends React.Component {
 					</Form.Item>
 					<Form.Item className="warn-tooltip">
 						<p>
-							If you forget your passkey you will NOT be able to access your
-							wallet or your funds. We are NO LONGER able to restore, reset, or
-							redistribute lost coins, or help with lost passkeys. Please MAKE
-							SURE you copy your wallet name and passkey on to your computer and
-							then transfer it to an offline storage location for easy access
-							like a USB drive! Check our passkey storage tips knowledge article
-							for more info{' '}
+							{counterpart.translate('registration.important_message_info')}
+							&nbsp;
 							<a
 								target="__blank"
 								href="https://support.meta1coin.vision/password-storage-tips"
 							>
-								here
+								{counterpart.translate('registration.click_here')}
 							</a>
 						</p>
 					</Form.Item>
@@ -528,8 +528,8 @@ class AccountRegistrationConfirm extends React.Component {
 								this.state.confirmedTerms ? 'active' : ''
 							}`}
 						>
-							&nbsp;&nbsp;&nbsp;&nbsp;I understand that no one can recover my
-							passkey if I lose or forget it
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							{counterpart.translate('registration.registration_terms1')}
 						</button>
 						<br />
 						<Checkbox
@@ -541,8 +541,8 @@ class AccountRegistrationConfirm extends React.Component {
 								this.state.confirmedTerms2 ? 'active' : ''
 							}`}
 						>
-							&nbsp;&nbsp;&nbsp;&nbsp;I have written down or otherwise stored my
-							passkey
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							{counterpart.translate('registration.registration_terms2')}
 						</button>
 						<br />
 						<Checkbox
@@ -554,8 +554,8 @@ class AccountRegistrationConfirm extends React.Component {
 								this.state.confirmedTerms3 ? 'active' : ''
 							}`}
 						>
-							&nbsp;&nbsp;&nbsp;&nbsp;I am a living man or woman hence a living
-							being
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							{counterpart.translate('registration.registration_terms3')}
 						</button>
 
 						<br />
@@ -570,7 +570,8 @@ class AccountRegistrationConfirm extends React.Component {
 								this.state.confirmedTerms4 ? 'active' : ''
 							}`}
 						>
-							&nbsp;&nbsp;&nbsp;&nbsp;Sign META Association Membership Agreement
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							{counterpart.translate('registration.registration_terms4')}
 						</button>
 
 						<br />
@@ -585,7 +586,8 @@ class AccountRegistrationConfirm extends React.Component {
 								this.state.emailSubscription ? 'active' : ''
 							}`}
 						>
-							&nbsp;&nbsp;&nbsp;&nbsp;Subscribe for exclusive news and offers
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							{counterpart.translate('registration.registration_terms5')}
 						</button>
 
 						<div id="myModal" class="custom-modal">
@@ -1225,10 +1227,13 @@ class AccountRegistrationConfirm extends React.Component {
 						// });
 					}}
 				>
-					<Title className="header-title1">Download Paper Wallet</Title>
+					<Title className="header-title1">
+						{counterpart.translate('registration.download_paper_wallet')}
+					</Title>
 					<div className="header-title2">
-						Click Download to save your paper wallet and complete the wallet
-						creation process.
+						{counterpart.translate(
+							'registration.download_to_save_paper_wallet'
+						)}
 					</div>
 					<div className="footer-wrapper display_flex">
 						<Button
@@ -1270,20 +1275,16 @@ class AccountRegistrationConfirm extends React.Component {
 						});
 					}}
 				>
-					<Title className="header-title1">Important Message</Title>
+					<Title className="header-title1">
+						{counterpart.translate('registration.important_message')}
+					</Title>
 					<div className="header-title2">
-						If you forget your passkey you will NOT be able to access your
-						wallet or your funds. We are NO LONGER able to restore, reset, or
-						redistribute lost coins, or help with lost passkeys. Please MAKE
-						SURE you copy your wallet name and passkey on to your computer and
-						then transfer it to an offline storage location for easy access like
-						a USB drive! Check our passkey storage tips knowledge article for
-						more info{' '}
+						{counterpart.translate('registration.important_message_info')}&nbsp;
 						<a
 							target="__blank"
 							href="https://support.meta1coin.vision/password-storage-tips"
 						>
-							here
+							{counterpart.translate('registration.click_here')}
 						</a>
 					</div>
 					<div className="footer-wrapper display_flex">
@@ -1298,7 +1299,7 @@ class AccountRegistrationConfirm extends React.Component {
 							}}
 							className="login-btn"
 						>
-							Acknowledge and Continue
+							{counterpart.translate('registration.acknowledge_and_continue')}
 						</Button>
 					</div>
 				</Modal>

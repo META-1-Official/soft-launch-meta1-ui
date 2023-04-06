@@ -254,7 +254,9 @@ class WalletUnlockModal extends React.Component {
 		);
 
 		if (!success && WalletDb.isLocked()) {
-			this.setState({passwordError: 'Invalid passkey'});
+			this.setState({
+				passwordError: counterpart.translate('notifications.invalid_password'),
+			});
 		} else {
 			if (!passwordLogin) {
 				this.setState({password: ''});
@@ -360,7 +362,7 @@ class WalletUnlockModal extends React.Component {
 				});
 			}
 		} else {
-			alert('Pass the reCaptcha check!');
+			alert(counterpart.translate('registration.pass_recaptcha_check'));
 		}
 	};
 
@@ -529,7 +531,7 @@ class WalletUnlockModal extends React.Component {
 				onCancel={this.handleModalClose}
 			>
 				<Title className="header-title1">
-					META1 Wallet Passkey Confirmation
+					<Translate content="wallet.wallet_passkey_confirmation" />
 				</Title>
 				<Form className="full-width" layout="vertical">
 					{passwordLogin || passwordlessLogin ? (
@@ -700,7 +702,9 @@ class WalletUnlockModal extends React.Component {
 									<InputNumber
 										value={walletLockTimeout}
 										onChange={this.handleWalletAutoLock}
-										placeholder="Auto-lock after..."
+										placeholder={counterpart.translate(
+											'registration.auto_lock_after'
+										)}
 										style={{
 											marginLeft: '7px',
 											width: '65px',
@@ -725,7 +729,7 @@ class WalletUnlockModal extends React.Component {
 							this.state.password === ''
 						}
 					>
-						{counterpart.translate('registration.continue')}
+						<Translate content="registration.continue" />
 					</Button>
 				</div>
 			</Modal>
