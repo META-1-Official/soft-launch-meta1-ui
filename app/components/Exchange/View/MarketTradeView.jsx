@@ -81,17 +81,17 @@ class MarketTradeView extends React.Component {
 									return (
 										<Tooltip title={Number(row.value)} placement="top">
 											<div
-												style={{
+												css={(theme) => ({
 													color:
 														row.change > 0
 															? '#009D55'
 															: row.change < 0
 															? '#FF2929'
-															: 'white',
+															: theme.colors.textColor,
 													textAlign: 'center',
 													lineHeight: '16px',
 													fontSize: '14px',
-												}}
+												})}
 											>
 												{Number(row.value).toFixed(6)}
 											</div>
@@ -146,9 +146,9 @@ class MarketTradeView extends React.Component {
 
 											{row.change == 0 && (
 												<FaArrowRight
-													css={() => ({
+													css={(theme) => ({
 														marginRight: '10px',
-														color: 'white',
+														color: theme.colors.textColor,
 														width: '8px',
 														height: '8px',
 													})}
@@ -156,17 +156,17 @@ class MarketTradeView extends React.Component {
 											)}
 
 											<div
-												style={{
+												css={(theme) => ({
 													fontSize: '14px',
 													color:
 														row.change > 0
 															? '#009D55'
 															: row.change < 0
 															? '#FF2929'
-															: 'white',
+															: theme.colors.textColor,
 													textAlign: 'left',
 													lineHeight: '18px',
-												}}
+												})}
 											>
 												{`${row.change > 0 ? '+' : ''}${row.change} %`}
 											</div>

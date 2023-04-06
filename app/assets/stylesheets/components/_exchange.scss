@@ -248,24 +248,12 @@ i.anticon.anticon-right.ant-collapse-arrow {
 		text-align: right;
 	}
 
-	> thead > tr > th {
-		font-size: 14px;
-		padding: 5px 5px;
-		text-align: right;
-	}
-
-	> tbody > tr > td {
-		font-size: 12px;
-		padding-bottom: 4px;
-		text-align: right !important;
-	}
-
-	.table-body-class {
-		text-align: left !important;
-	}
-
-	.sticky-table-container {
-		width: 100%;
+	.orderbook {
+		.my-order:hover {
+			td {
+				background-color: #21202030 !important;
+			}
+		}
 	}
 }
 
@@ -450,6 +438,11 @@ p.order-table-title {
 			padding-top: 0.1rem;
 		}
 	}
+}
+
+.my-order {
+	border: 1px solid #ffc000;
+	border-bottom: 1px solid #ffc000 !important;
 }
 
 .ask-order-tr {
