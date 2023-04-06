@@ -204,7 +204,7 @@
 			"private": "Llave privada (WIF - Wallet Import Format)",
 			"public": "Llave pública",
 			"publish": "Publicar Cambios",
-			"publish_prediction": "Publish",
+			"publish_prediction": "Publicar",
 			"remove_proxy": "Eliminar proxy",
 			"remove_text": "Eliminar",
 			"reset": "Resetear Cambios",
@@ -460,7 +460,9 @@
 			"white_by": "Incluido en la lista blanca por",
 			"whitelist_authorities": "Autoridad de lista blanca",
 			"whitelist_market_fee_sharing": "Market fee sharing whitelist"
-		}
+		},
+		"your_email_is_confirmed": "Tu correo electrónico está confirmado",
+		"your_email_is_unconfirmed": "Tu correo electrónico no está confirmado"
 	},
 	"customizable_table": {
 		"customize_the_columns": "Personalizar las Columnas"
@@ -536,6 +538,23 @@
 		"money_received_title": "Transferido de %(from)s"
 	},
 	"cancel": "Cancelar",
+	"claim_wallet": {
+		"claim_wallet": "Reclamar Monedero",
+		"claim_wallet_completed": "Su solicitud de billetera de reclamo ya se completó",
+		"claim_wallet_failed": "Su Billetera de reclamaciones falló. Vuelva a intentarlo",
+		"claim_wallet_under_progress": "Su solicitud de billetera de reclamo está en progreso",
+		"enter_passkey_or_owner_key": "Ingresar clave de acceso o clave de propietario",
+		"invalid_signature": "Firma no válida",
+		"migrating": "Migrando...",
+		"migrate": "Migrar"
+	},
+	"contact": {
+		"add": "Agregar",
+		"meta1users": "USUARIOS META1",
+		"wallet_created": "Cartera creada",
+		"add_to_contact": "Agregar a contacto",
+		"search_meta1_users": "Buscar usuarios de Meta1 ..."
+	},
 	"connection": {
 		"automatic_reconnect": "Despues de  %(reconnect_in_seconds)s segundos un intento de reconexión se hará automáticamente.",
 		"manual_ping": "Ir a ping nodos",
@@ -878,6 +897,7 @@
 			},
 			"feed_producer": "Productor de feed",
 			"feed_producer_text": "Los productores de feeds aprobados pueden publicar un nuevo feed utilizando el siguiente formulario:",
+			"go_market": "Ir al mercado",
 			"info": "Información del activo",
 			"invalid": "El nombre del activo %(name)s es invalido",
 			"margin_positions": {
@@ -956,7 +976,8 @@
 				"issuer": "Emisor",
 				"market_fee": "Comisión de mercado",
 				"market_fee_referral_reward_percent": "Market fee referral reward",
-				"stealth_supply": "Suministro de sigilo"
+				"stealth_supply": "Suministro de sigilo",
+				"confidential_supply": "Suministro Confidencial"
 			},
 			"title": "Activo",
 			"whitelist": {
@@ -1572,7 +1593,13 @@
 			"xrp_withdraw": "Withdraw XRP",
 			"token_withjdraw": "Withdraw ETH tokens",
 			"no_assets": "No depositable assets available",
-			"submit": "Depositar"
+			"submit": "Depositar",
+			"copy": "Copiar",
+			"copy_success": "Copiado correctamente",
+			"gateway_is_down": "La puerta de enlace está caída",
+			"important_information": "información importante",
+			"important_information_info": "Enviar solo %(assetType)s Enviar menos de %(min_value)s %(min_assetType)s o cualquier otra moneda a esta dirección puede resultar en la pérdida de su depósito.",
+			"minimum_deposit": "Depósito mínimo: %(minDeposit)s %(assetType)s"
 		},
 		"deposit_withdraw": {
 			"disabled": "%(gateway)s servicio de porton es discapacitado",
@@ -1649,15 +1676,19 @@
 			"bitshares_account": " Enviar a %(wallet_name)s Cuenta ",
 			"cancel": "Cancelar",
 			"cannot_cover": "Fondos Insufficientes!",
+			"enter_name": "Ingrese el nombre",
+			"enter_email": "Ingresar correo electrónico",
 			"estimated_value": "Valor Estimado",
 			"fee": "Cuota",
 			"gateway_fee": "Cuota de Gateway",
 			"header": "Retirar (beta)",
 			"memo": "Memo",
+			"no_address_found": "No se ha encontrado ninguna dirección",
 			"no_assets": "No withdrawable assets available",
 			"no_estimate": "No hay presupuesto disponible para este objeto.",
 			"no_gateways": "Lo sentimos, pero no hay puertas de enlace disponibles para manejar este retiro",
 			"quantity": "Cantidad",
+			"select_asset": "Seleccione un activo",
 			"submit": "Retirar",
 			"withdraw": "Retirar"
 		},
@@ -2535,12 +2566,12 @@
 			"create": "Crear Testigo",
 			"update": "Actualizar Testigo",
 			"withdraw_pay": "Retirar pago del Testigo",
-			"worker_create": "Create worker",
-			"property_create_operation": "Create property",
-			"property_update_operation": "Update property",
-			"property_approve_operation:": "Approve property",
-			"property_delete_operation": "Delete property",
-			"asset_price_publish_operation": "Publish asset price"
+			"worker_create": "Crear trabajador",
+			"property_create_operation": "Crear propiedad",
+			"property_update_operation": "Actualizar propiedad",
+			"property_approve_operation:": "Aprobar propiedad",
+			"property_delete_operation": "Borrar propiedad",
+			"asset_price_publish_operation": "Publicar precio de activo"
 		},
 		"vesting_balance_create": "ha creado el fondo de consolidación de",
 		"waiting": "esperando confirmación..",
@@ -2554,6 +2585,8 @@
 		"withdraw_permission_create": "Ha otorgado permisos de retiro para la cuenta",
 		"withdraw_permission_delete": "Ha eliminado los permisos de retiro para la cuenta",
 		"withdraw_permission_update": "Ha actualizado los permisos de retiro para la cuenta",
+		"view_json": "Mostrar json sin procesar",
+		"operations": "Operaciones",
 		"disallow_same_account_whitelist_blacklist": "No se permite la misma cuenta en la lista blanca y en la lista negra",
 		"account_exist_in_blacklist": "La misma cuenta ya existe en la lista negra",
 		"account_exist_in_whitelist": "La misma cuenta ya existe en la lista blanca"
@@ -2603,6 +2636,7 @@
 		"send": "Enviar",
 		"withdraw": "Withdraw",
 		"total": "Total: ",
+		"to": "A",
 		"warn_name_unable_read_memo": "El remitente propuesto no podrá leer esta nota!"
 	},
 	"trx_error": {
@@ -2873,6 +2907,7 @@
 		"wallet_model_3": "<li>Multiples cuentas</li><li>Se requiere una copia de seguridad del archivo Wallet</li><li>Alta seguridad</li>",
 		"wallet_move": "Este archivo de respaldo también se puede usar para mover su billetera local a diferentes computadoras o navegadores diferentes. ¡Para restaurar su billetera local usando esta copia de seguridad <strong>, también necesitará su contraseña </strong>",
 		"wallet_password": "Inicie sesión en cualquier lugar con su contraseña",
-		"wallet_types": "wallet types"
+		"wallet_types": "wallet types",
+		"wallet_passkey_confirmation": "Confirmación de la clave de paso de la billetera META1"
 	}
 }

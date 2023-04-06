@@ -204,7 +204,7 @@
 			"private": "秘密キー (WIF - Wallet Import Format)",
 			"public": "公開キー",
 			"publish": "変更を公開",
-			"publish_prediction": "Publish",
+			"publish_prediction": "公開",
 			"remove_proxy": "Remove proxy",
 			"remove_text": "削除",
 			"reset": "変更をリセット",
@@ -460,7 +460,9 @@
 			"white_by": "ホワイトリスト登録者",
 			"whitelist_authorities": "ホワイトリスト権限",
 			"whitelist_market_fee_sharing": "Market fee sharing whitelist"
-		}
+		},
+		"your_email_is_confirmed": "あなたのメールアドレスが確認されました",
+		"your_email_is_unconfirmed": "あなたのメールアドレスは未確認です"
 	},
 	"customizable_table": {
 		"customize_the_columns": "列をカスタマイズ"
@@ -536,6 +538,23 @@
 		"money_received_title": "%(from)sからの転送"
 	},
 	"cancel": "キャンセル",
+	"claim_wallet": {
+		"claim_wallet": "지갑 청구",
+		"claim_wallet_completed": "귀하의 지갑 요청이 이미 완료되었습니다.",
+		"claim_wallet_failed": "지갑 신청에 실패했습니다. 다시 시도하십시오.",
+		"claim_wallet_under_progress": "지갑 요청 요청이 진행 중입니다.",
+		"enter_passkey_or_owner_key": "패스키 또는 소유자 키 입력",
+		"invalid_signature": "잘못된 서명",
+		"migrating": "이전하는 중...",
+		"migrate": "이전"
+	},
+	"contact": {
+		"add": "追加",
+		"meta1users": "META1 ユーザー",
+		"wallet_created": "ウォレットが作成されました",
+		"add_to_contact": "連絡先に追加",
+		"search_meta1_users": "Meta1 ユーザーを検索 ..."
+	},
 	"connection": {
 		"automatic_reconnect": " After %(reconnect_in_seconds)s seconds a reconnection attempt will be made automatically.",
 		"manual_ping": "Go to ping nodes",
@@ -872,6 +891,7 @@
 			},
 			"feed_producer": "Feed producer",
 			"feed_producer_text": "Approved feed producers may publish a new feed using the form below:",
+			"go_market": "マーケットに行く",
 			"info": "Asset info",
 			"invalid": "アセット名%(name)sは無効です",
 			"margin_positions": {
@@ -950,7 +970,8 @@
 				"issuer": "発行者",
 				"market_fee": "取引手数料",
 				"market_fee_referral_reward_percent": "Market fee referral reward",
-				"stealth_supply": "隠れた供給量"
+				"stealth_supply": "隠れた供給量",
+				"confidential_supply": "機密サプライ"
 			},
 			"title": "アセット",
 			"whitelist": {
@@ -1566,7 +1587,13 @@
 			"xrp_withdraw": "Withdraw XRP",
 			"token_withjdraw": "Withdraw ETH tokens",
 			"no_assets": "No depositable assets available",
-			"submit": "入金"
+			"submit": "入金",
+			"copy": "コピー",
+			"copy_success": "正常にコピーされました",
+			"gateway_is_down": "ゲートウェイがダウンしています",
+			"important_information": "重要な情報",
+			"important_information_info": "%(assetType)s のみを送信 %(min_value)s %(min_assetType)s 未満の通貨またはその他の通貨をこのアドレスに送信すると、預金が失われる可能性があります。",
+			"minimum_deposit": "最低入金額: %(minDeposit)s %(assetType)s"
 		},
 		"deposit_withdraw": {
 			"disabled": "ゲートウェイサービスが無効",
@@ -1643,15 +1670,19 @@
 			"bitshares_account": "Send to Meta Wallet",
 			"cancel": "キャンセル",
 			"cannot_cover": "この出金をするのに十分な資金がありません",
+			"enter_name": "名前を入力してください",
+			"enter_email": "メールアドレスを入力してください",
 			"estimated_value": "推定価格",
 			"fee": "手数料",
 			"gateway_fee": "ゲートウェイ手数料",
 			"header": "出金 (ベータ)",
 			"memo": "メモ",
+			"no_address_found": "アドレスが見つかりません",
 			"no_assets": "No withdrawable assets available",
 			"no_estimate": "No estimate available for this object",
 			"no_gateways": "申し訳ありませんが、この引き出しを処理するゲートウェイはありません",
 			"quantity": "数量",
+			"select_asset": "アセットを選択",
 			"submit": "出金",
 			"withdraw": "出金"
 		},
@@ -2529,12 +2560,12 @@
 			"create": "証人を作成",
 			"update": "証人を更新",
 			"withdraw_pay": "証人報酬を引き出し",
-			"worker_create": "Create worker",
-			"property_create_operation": "Create property",
-			"property_update_operation": "Update property",
-			"property_approve_operation:": "Approve property",
-			"property_delete_operation": "Delete property",
-			"asset_price_publish_operation": "Publish asset price"
+			"worker_create": "ワーカーを作成",
+			"property_create_operation": "プロパティを作成",
+			"property_update_operation": "プロパティを更新",
+			"property_approve_operation:": "プロパティを承認",
+			"property_delete_operation": "プロパティを削除",
+			"asset_price_publish_operation": "アセットの価格を公開"
 		},
 		"vesting_balance_create": "作成済み権利確定残高:",
 		"waiting": "確認を待っています..",
@@ -2548,6 +2579,8 @@
 		"withdraw_permission_create": "残高引き出し権限を取得",
 		"withdraw_permission_delete": "残高引き出し権限を削除",
 		"withdraw_permission_update": "残高引き出し権限を更新",
+		"view_json": "未加工の json を表示",
+		"operations": "操作",
 		"disallow_same_account_whitelist_blacklist": "ホワイトリストとブラックリストに同じアカウントは許可されていません",
 		"account_exist_in_blacklist": "ブラックリストに同じアカウントが既に存在する",
 		"account_exist_in_whitelist": "同じアカウントがホワイトリストに既に存在します"
@@ -2597,6 +2630,7 @@
 		"send": "送信",
 		"withdraw": "Withdraw",
 		"total": "Total: ",
+		"to": "に",
 		"warn_name_unable_read_memo": "警告: %(name)sはこのメモを読むことができません。"
 	},
 	"trx_error": {
@@ -2868,6 +2902,7 @@
 		"wallet_model_3": "<li>複数アカウント</li><li>ウォレットファイルのバックアップが必要</li><li>高度なセキュリティ</li>",
 		"wallet_move": "このバックアップファイルによって、他のコンピュータやブラウザにウォレットを移動することができます。このバックアップを使用してウォレットをリストアするには、<strong>あなたのパスワードが必要です！</strong>",
 		"wallet_password": "パスワードを使用してどこでもログイン",
-		"wallet_types": "wallet types"
+		"wallet_types": "wallet types",
+		"wallet_passkey_confirmation": "META1 ウォレット パスキーの確認"
 	}
 }

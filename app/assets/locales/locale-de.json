@@ -202,7 +202,7 @@
 			"private": "Privater Schlüssel (WIF - Wallet Import Format)",
 			"public": "Öffentlicher Schlüssel",
 			"publish": "Speichern",
-			"publish_prediction": "Publish",
+			"publish_prediction": "Veröffentlichen",
 			"remove_proxy": "Remove proxy",
 			"remove_text": "Entfernen",
 			"reset": "Zurücksetzen",
@@ -458,7 +458,9 @@
 			"white_by": "Weißgelistet durch",
 			"whitelist_authorities": "Weißlisten Verwalter",
 			"whitelist_market_fee_sharing": "Market fee sharing whitelist"
-		}
+		},
+		"your_email_is_confirmed": "Ihre E-Mail ist bestätigt",
+		"your_email_is_unconfirmed": "Ihre E-Mail ist unbestätigt"
 	},
 	"customizable_table": {
 		"customize_the_columns": "Spalten anpassen"
@@ -534,6 +536,23 @@
 		"money_received_title": "Erhalten von %(from)s"
 	},
 	"cancel": "Abbrechen",
+	"claim_wallet": {
+		"claim_wallet": "Wallet beanspruchen",
+		"claim_wallet_completed": "Ihr Antrag auf Wallet-Anforderung ist bereits abgeschlossen",
+		"claim_wallet_failed": "Ihr Claim Wallet ist fehlgeschlagen. Bitte versuchen Sie es erneut",
+		"claim_wallet_under_progress": "Ihr Antrag auf Wallet-Anforderung wird bearbeitet",
+		"enter_passkey_or_owner_key": "Passkey oder Besitzerschlüssel eingeben",
+		"invalid_signature": "Ungültige Signatur",
+		"migrating": "Migrieren...",
+		"migrate": "Migrieren"
+	},
+	"contact": {
+		"add": "Hinzufügen",
+		"meta1users": "META1-BENUTZER",
+		"wallet_created": "Wallet erstellt",
+		"add_to_contact": "Zu Kontakt hinzufügen",
+		"search_meta1_users": "Meta1-Benutzer suchen ..."
+	},
 	"connection": {
 		"automatic_reconnect": "Nach %(reconnect_in_seconds)s wird automatisch ein neue Verbindung hergestellt.",
 		"manual_ping": "Ping auf Knoten ausführen.",
@@ -876,6 +895,7 @@
 			},
 			"feed_producer": "Preiangaben Erzeuger",
 			"feed_producer_text": "Genehmigte Preisangaben Erzeuger, können mit diesem Formular neue Quellen hinzufügen:",
+			"go_market": "Go-Markt",
 			"info": "Anlagen Info",
 			"invalid": "Der Anlagenname %(name)s ist ungültig",
 			"margin_positions": {
@@ -954,7 +974,8 @@
 				"issuer": "Herausgeber",
 				"market_fee": "Marktgebühr",
 				"market_fee_referral_reward_percent": "Market fee referral reward",
-				"stealth_supply": "Stealth Verfügbarkeit"
+				"stealth_supply": "Stealth Verfügbarkeit",
+				"confidential_supply": "Vertrauliche Lieferung"
 			},
 			"title": "Anlagen",
 			"whitelist": {
@@ -1570,7 +1591,13 @@
 			"eos_withdraw": "Withdraw EOS",
 			"xlm_withdraw": "Withdraw XLM",
 			"xrp_withdraw": "Withdraw XRP",
-			"token_withjdraw": "Withdraw ETH tokens"
+			"token_withjdraw": "Withdraw ETH tokens",
+			"copy": "Kopieren",
+			"copy_success": "Erfolgreich kopiert",
+			"gateway_is_down": "Gateway ist ausgefallen",
+			"important_information": "Wichtige Informationen",
+			"important_information_info": "Nur %(assetType)s senden Das Senden von weniger als %(min_value)s %(min_assetType)s oder einer anderen Währung an diese Adresse kann zum Verlust Ihrer Einzahlung führen.",
+			"minimum_deposit": "Mindesteinzahlung: %(minDeposit)s %(assetType)s"
 		},
 		"deposit_withdraw": {
 			"disabled": "%(gateway)s gateway service disabled",
@@ -1647,14 +1674,18 @@
 			"bitshares_account": "Send to Meta Wallet",
 			"cancel": "Cancel",
 			"cannot_cover": "Insufficient funds!",
+			"enter_name": "Namen eingeben",
+			"enter_email": "E-Mail eingeben",
 			"estimated_value": "Estimated Value",
 			"fee": "Fee",
 			"gateway_fee": "Gateway Fee",
 			"header": "Withdraw (beta)",
 			"memo": "Memo",
+			"no_address_found": "Keine Adresse gefunden",
 			"no_estimate": "No estimate available for this object",
 			"no_gateways": "Sorry, but there are no gateways available to handle this withdrawal",
 			"quantity": "Quantity",
+			"select_asset": "Wählen Sie ein Asset aus",
 			"submit": "Abheben",
 			"withdraw": "Withdraw"
 		}
@@ -2521,12 +2552,12 @@
 			"create": "Zeugen erstellen",
 			"update": "Zeugen ändern",
 			"withdraw_pay": "Zeugenlohn ausbezahlen",
-			"worker_create": "Create worker",
-			"property_create_operation": "Create property",
-			"property_update_operation": "Update property",
-			"property_approve_operation:": "Approve property",
-			"property_delete_operation": "Delete property",
-			"asset_price_publish_operation": "Publish asset price"
+			"worker_create": "Arbeiter erstellen",
+			"property_create_operation": "Eigenschaft erstellen",
+			"property_update_operation": "Eigenschaft aktualisieren",
+			"property_approve_operation:": "Eigenschaft genehmigen",
+			"property_delete_operation": "Eigenschaft löschen",
+			"asset_price_publish_operation": "Assetpreis veröffentlichen"
 		},
 		"vesting_balance_create": "Ein Sperrfristguthaben wurde erstellt.",
 		"waiting": "Warte auf Bestätigung ...",
@@ -2540,6 +2571,8 @@
 		"withdraw_permission_create": "Einzugsermächtigung wurde verliehen an Konto.",
 		"withdraw_permission_delete": "Einzugsermächtigung wurde aufgehoben für Konto.",
 		"withdraw_permission_update": "Einzugsermächtigung wurde aktualisiert für Konto.",
+		"view_json": "Roh-json anzeigen",
+		"operations": "Operationen",
 		"disallow_same_account_whitelist_blacklist": "Dasselbe Konto in Whitelist und Blacklist ist nicht zulässig",
 		"account_exist_in_blacklist": "Dasselbe Konto existiert bereits in der schwarzen Liste",
 		"account_exist_in_whitelist": "Dasselbe Konto existiert bereits in der Whitelist"
@@ -2589,6 +2622,7 @@
 		"send": "Überweisen",
 		"withdraw": "Withdraw",
 		"total": "Total: ",
+		"to": "Zu",
 		"warn_name_unable_read_memo": "Der vorgeschlagener Absender kann diese Notiz nicht lesen!"
 	},
 	"trx_error": {
@@ -2860,6 +2894,7 @@
 		"wallet_move": "Diese Sicherungsdatei kann auch benutzt werden, um Ihre lokale Wallet, auf einen anderen Browser oder Computer zu benutzen. Damit Sie Ihre lokale Wallet wiederherstellen können, <strong>benötigen Sie auch Ihr Passwort!</strong>",
 		"wallet_passkey_confirmation": "META1 Wallet Passkey Confirmation",
 		"wallet_password": "Anmeldung von überall möglich, durch Ihr Passwort.",
-		"wallet_types": "wallet types"
+		"wallet_types": "wallet types",
+		"wallet_passkey_confirmation": "META1-Wallet-Passkey-Bestätigung"
 	}
 }

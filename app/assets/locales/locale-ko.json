@@ -204,7 +204,7 @@
 			"private": "Private key (WIF - Wallet Import Format)",
 			"public": "Public key",
 			"publish": "변경사항 적용",
-			"publish_prediction": "Publish",
+			"publish_prediction": "게시",
 			"remove_proxy": "Remove proxy",
 			"remove_text": "Remove",
 			"reset": "변경사항 되돌리기",
@@ -460,7 +460,9 @@
 			"white_by": "Whitelisted by",
 			"whitelist_authorities": "Whitelist authority",
 			"whitelist_market_fee_sharing": "Market fee sharing whitelist"
-		}
+		},
+		"your_email_is_confirmed": "이메일이 확인되었습니다",
+		"your_email_is_unconfirmed": "이메일이 확인되지 않았습니다."
 	},
 	"customizable_table": {
 		"customize_the_columns": "열 사용자 지정"
@@ -536,6 +538,23 @@
 		"money_received_title": "에서 이전 %(from)s"
 	},
 	"cancel": "Cancel",
+	"claim_wallet": {
+		"claim_wallet": "지갑 청구",
+		"claim_wallet_completed": "귀하의 지갑 요청이 이미 완료되었습니다.",
+		"claim_wallet_failed": "지갑 신청에 실패했습니다. 다시 시도하십시오.",
+		"claim_wallet_under_progress": "지갑 요청 요청이 진행 중입니다.",
+		"enter_passkey_or_owner_key": "패스키 또는 소유자 키 입력",
+		"invalid_signature": "잘못된 서명",
+		"migrating": "이전하는 중...",
+		"migrate": "이전"
+	},
+	"contact": {
+		"add": "추가",
+		"meta1users": "META1 사용자",
+		"wallet_created": "지갑 생성됨",
+		"add_to_contact": "연락처에 추가",
+		"search_meta1_users": "메타1 사용자 검색 ..."
+	},
 	"connection": {
 		"automatic_reconnect": " After %(reconnect_in_seconds)s seconds a reconnection attempt will be made automatically.",
 		"manual_ping": "Go to ping nodes",
@@ -872,6 +891,7 @@
 			},
 			"feed_producer": "Feed producer",
 			"feed_producer_text": "Approved feed producers may publish a new feed using the form below:",
+			"go_market": "시장 가기",
 			"info": "Asset info",
 			"invalid": "The asset name %(name)s is invalid",
 			"margin_positions": {
@@ -950,7 +970,8 @@
 				"issuer": "발행자",
 				"market_fee": "거래 수수료",
 				"market_fee_referral_reward_percent": "Market fee referral reward",
-				"stealth_supply": "익명 공급량"
+				"stealth_supply": "익명 공급량",
+				"confidential_supply": "기밀 공급"
 			},
 			"title": "자산",
 			"whitelist": {
@@ -1567,7 +1588,13 @@
 			"xrp_withdraw": "Withdraw XRP",
 			"token_withjdraw": "Withdraw ETH tokens",
 			"no_assets": "No depositable assets available",
-			"submit": "Deposit"
+			"submit": "Deposit",
+			"copy": "복사",
+			"copy_success": "복사 성공",
+			"gateway_is_down": "게이트웨이가 다운되었습니다",
+			"important_information": "중요 정보",
+			"important_information_info": "%(assetType)s만 보내기 %(min_value)s %(min_assetType)s 미만 또는 다른 통화를 이 주소로 보내면 예치금이 손실될 수 있습니다.",
+			"minimum_deposit": "최소 예치금: %(minDeposit)s %(assetType)s"
 		},
 		"deposit_withdraw": {
 			"disabled": "%(gateway)s gateway service disabled",
@@ -1644,15 +1671,19 @@
 			"bitshares_account": "Send to Meta Wallet",
 			"cancel": "Cancel",
 			"cannot_cover": "Insufficient funds!",
+			"enter_name": "이름 입력",
+			"enter_email": "이메일 입력",
 			"estimated_value": "Estimated Value",
 			"fee": "Fee",
 			"gateway_fee": "Gateway Fee",
 			"header": "Withdraw (beta)",
 			"memo": "Memo",
+			"no_address_found": "주소를 찾을 수 없음",
 			"no_assets": "No withdrawable assets available",
 			"no_estimate": "No estimate available for this object",
 			"no_gateways": "Sorry, but there are no gateways available to handle this withdrawal",
 			"quantity": "Quantity",
+			"select_asset": "자산 선택",
 			"submit": "Withdraw",
 			"withdraw": "Withdraw"
 		},
@@ -2530,12 +2561,12 @@
 			"create": "증인 생성",
 			"update": "증인 업데이트",
 			"withdraw_pay": "증인 봉급 인출",
-			"worker_create": "Create worker",
-			"property_create_operation": "Create property",
-			"property_update_operation": "Update property",
-			"property_approve_operation:": "Approve property",
-			"property_delete_operation": "Delete property",
-			"asset_price_publish_operation": "Publish asset price"
+			"worker_create": "일꾼 만들기",
+			"property_create_operation": "속성 만들기",
+			"property_update_operation": "속성 업데이트",
+			"property_approve_operation:": "속성 승인",
+			"property_delete_operation": "속성 삭제",
+			"asset_price_publish_operation": "자산 가격 게시"
 		},
 		"vesting_balance_create": "created vesting balance of",
 		"waiting": "Waiting for confirmation..",
@@ -2549,6 +2580,8 @@
 		"withdraw_permission_create": "다음 계정에 출금 권한을 부여",
 		"withdraw_permission_delete": "다음 계정에 출금 권한을 삭제",
 		"withdraw_permission_update": "다음 계정의 출금 권한을 업데이트",
+		"view_json": "원시 JSON 보기",
+		"operations": "작업",
 		"disallow_same_account_whitelist_blacklist": "Same account in whitelist and blacklist are not permitted",
 		"account_exist_in_blacklist": "Same account already exist in blacklist",
 		"account_exist_in_whitelist": "Same account already exist in whitelist"
@@ -2598,6 +2631,7 @@
 		"send": "전송",
 		"withdraw": "Withdraw",
 		"total": "Total: ",
+		"to": "에게",
 		"warn_name_unable_read_memo": "Proposed sender will be unable to read this memo!"
 	},
 	"trx_error": {
@@ -2869,6 +2903,7 @@
 		"wallet_model_3": "<li>Multiple wallets</li><li>Wallet file backup required</li><li>High security</li>",
 		"wallet_move": "This backup file can also be used to move your local wallet to different computers or different browsers. In order to restore your local wallet using this backup <strong>you will also need your passkey!</strong>",
 		"wallet_password": "Login anywhere using your passkey",
-		"wallet_types": "wallet types"
+		"wallet_types": "wallet types",
+		"wallet_passkey_confirmation": "META1 지갑 패스키 확인"
 	}
 }

@@ -204,7 +204,7 @@
 			"private": "Chiave privata (WIF - Wallet Import Format)",
 			"public": "Chiave pubblica",
 			"publish": "Pubblica modifiche",
-			"publish_prediction": "Publish",
+			"publish_prediction": "Pubblica",
 			"remove_proxy": "Remove proxy",
 			"remove_text": "Rimuovi",
 			"reset": "Azzera modifiche",
@@ -460,7 +460,9 @@
 			"white_by": "Messo in whitelist da",
 			"whitelist_authorities": "Autorità whitelist",
 			"whitelist_market_fee_sharing": "Market fee sharing whitelist"
-		}
+		},
+		"your_email_is_confirmed": "La tua email è confermata",
+		"your_email_is_unconfirmed": "La tua email non è confermata"
 	},
 	"customizable_table": {
 		"customize_the_columns": "Personalizza le colonne"
@@ -536,6 +538,23 @@
 		"money_received_title": "Trasferito da %(from)s"
 	},
 	"cancel": "Annulla",
+	"claim_wallet": {
+		"claim_wallet": "Richiedi portafoglio",
+		"claim_wallet_completed": "La tua richiesta di portafoglio è già stata completata",
+		"claim_wallet_failed": "Il tuo Portafoglio di riscossione è fallito. Riprova",
+		"claim_wallet_under_progress": "La tua richiesta di portafoglio è in corso",
+		"enter_passkey_or_owner_key": "Inserisci la passkey o la chiave del proprietario",
+		"invalid_signature": "Firma non valida",
+		"migrating": "Migrazione in corso...",
+		"migrate": "Migrazione"
+	},
+	"contact": {
+		"add": "Aggiungi",
+		"meta1users": "UTENTI META1",
+		"wallet_created": "Portafoglio creato",
+		"add_to_contact": "Aggiungi al contatto",
+		"search_meta1_users": "Cerca utenti Meta1 ..."
+	},
 	"connection": {
 		"automatic_reconnect": " After %(reconnect_in_seconds)s seconds a reconnection attempt will be made automatically.",
 		"manual_ping": "Go to ping nodes",
@@ -872,6 +891,7 @@
 			},
 			"feed_producer": "Feed producer",
 			"feed_producer_text": "Approved feed producers may publish a new feed using the form below:",
+			"go_market": "Vai al mercato",
 			"info": "Asset info",
 			"invalid": "Il nome di asset %(name)s non è valido",
 			"margin_positions": {
@@ -950,7 +970,8 @@
 				"issuer": "Erogatore",
 				"market_fee": "Commissione di mercato",
 				"market_fee_referral_reward_percent": "Market fee referral reward",
-				"stealth_supply": "Disponibilità nascosta"
+				"stealth_supply": "Disponibilità nascosta",
+				"confidential_supply": "Fornitura riservata"
 			},
 			"title": "Asset",
 			"whitelist": {
@@ -1567,7 +1588,13 @@
 			"xrp_withdraw": "Withdraw XRP",
 			"token_withjdraw": "Withdraw ETH tokens",
 			"no_assets": "No depositable assets available",
-			"submit": "Deposita"
+			"submit": "Deposita",
+			"copy": "Copia",
+			"copy_success": "Copiato con successo",
+			"gateway_is_down": "Il gateway non funziona",
+			"important_information": "informazioni importanti",
+			"important_information_info": "Invia solo %(assetType)s L'invio di meno di %(min_value)s %(min_assetType)s o qualsiasi altra valuta a questo indirizzo può comportare la perdita del tuo deposito.",
+			"minimum_deposit": "Deposito minimo: %(minDeposit)s %(assetType)s"
 		},
 		"deposit_withdraw": {
 			"disabled": "%(gateway)s gateway service disabled",
@@ -1644,15 +1671,19 @@
 			"bitshares_account": "Send to Meta Wallet",
 			"cancel": "Cancel",
 			"cannot_cover": "Insufficient funds!",
+			"enter_name": "Inserisci il nome",
+			"enter_email": "Inserisci l'email",
 			"estimated_value": "Estimated Value",
 			"fee": "Fee",
 			"gateway_fee": "Gateway Fee",
 			"header": "Withdraw (beta)",
 			"memo": "Memo",
+			"no_address_found": "Nessun indirizzo trovato",
 			"no_assets": "No withdrawable assets available",
 			"no_estimate": "No estimate available for this object",
 			"no_gateways": "Sorry, but there are no gateways available to handle this withdrawal",
 			"quantity": "Quantity",
+			"select_asset": "Seleziona una risorsa",
 			"submit": "Preleva",
 			"withdraw": "Withdraw"
 		},
@@ -2530,12 +2561,12 @@
 			"create": "Crea witness",
 			"update": "Aggiorna witness",
 			"withdraw_pay": "Prelievo salario della witness",
-			"worker_create": "Create worker",
-			"property_create_operation": "Create property",
-			"property_update_operation": "Update property",
-			"property_approve_operation:": "Approve property",
-			"property_delete_operation": "Delete property",
-			"asset_price_publish_operation": "Publish asset price"
+			"worker_create": "Crea lavoratore",
+			"property_create_operation": "Crea proprietà",
+			"property_update_operation": "Aggiorna proprietà",
+			"property_approve_operation:": "Approva proprietà",
+			"property_delete_operation": "Elimina proprietà",
+			"asset_price_publish_operation": "Pubblica il prezzo dell'asset"
 		},
 		"vesting_balance_create": "ha creato un saldo vesting di",
 		"waiting": "In attesa di conferma..",
@@ -2549,6 +2580,8 @@
 		"withdraw_permission_create": "Ha dato il permesso di prelevare per l'account",
 		"withdraw_permission_delete": "Ha rimosso il permesso di prelevare per l'account",
 		"withdraw_permission_update": "Ha aggiornato il permesso di prelevare per l'account",
+		"view_json": "Mostra json grezzo",
+		"operations": "Operazioni",
 		"disallow_same_account_whitelist_blacklist": "Lo stesso account nella whitelist e nella blacklist non è consentito",
 		"account_exist_in_blacklist": "Lo stesso account esiste già nella lista nera",
 		"account_exist_in_whitelist": "Lo stesso account esiste già nella whitelist"
@@ -2598,6 +2631,7 @@
 		"send": "Invia",
 		"withdraw": "Withdraw",
 		"total": "Total: ",
+		"to": "A",
 		"warn_name_unable_read_memo": "Attenzione: %(name)s non sarà in grado di leggere questo memo"
 	},
 	"trx_error": {
@@ -2869,6 +2903,7 @@
 		"wallet_model_3": "<li>Wallet multipli</li><li>Necessario file di backup del portafoglio</li><li>Alta sicurezza</li>",
 		"wallet_move": "Questo file di backup può anche essere usato per spostare il tuo portafoglio su un altro computer o un altro browser. Per recuperare il tuo portafoglio usando questo backup <strong>avrai anche bisogno della passkey!</strong>",
 		"wallet_password": "Fai il login dovunque usando la tua passkey",
-		"wallet_types": "wallet types"
+		"wallet_types": "wallet types",
+		"wallet_passkey_confirmation": "Conferma passkey portafoglio META1"
 	}
 }

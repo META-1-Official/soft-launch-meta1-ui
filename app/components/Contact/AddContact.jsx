@@ -1,6 +1,8 @@
 import {Button, Table} from 'antd';
 import SearchInput from 'components/Utility/SearchInput';
 import React from 'react';
+import counterpart from 'counterpart';
+
 const DUMMY_DATA = [
 	{
 		id: 1,
@@ -114,7 +116,11 @@ class AddContact extends React.Component {
 	_buildColumns() {
 		return [
 			{
-				title: <span>META1USERS</span>,
+				title: (
+					<span>
+						{counterpart.translate('contact.meta1users').toUpperCase()}
+					</span>
+				),
 				colSpan: 1,
 				className: 'col-name',
 				key: 'name',
@@ -123,14 +129,18 @@ class AddContact extends React.Component {
 						<div>
 							<span className="span_1">@{rowData.username}</span>
 							<p className="para_1" style={{color: '#ffc000'}}>
-								Name: {rowData.name}
+								{counterpart.translate('account.votes.name')}: {rowData.name}
 							</p>
 						</div>
 					);
 				},
 			},
 			{
-				title: <span>WALLET CREATED</span>,
+				title: (
+					<span>
+						{counterpart.translate('contact.wallet_created').toUpperCase()}
+					</span>
+				),
 				colSpan: 1,
 				className: 'col-acc',
 				key: 'createdDate',
@@ -143,7 +153,11 @@ class AddContact extends React.Component {
 				},
 			},
 			{
-				title: <span>ADD TO CONTACT</span>,
+				title: (
+					<span>
+						{counterpart.translate('contact.add_to_contact').toUpperCase()}
+					</span>
+				),
 				colSpan: 1,
 				key: 'addBtn',
 				className: 'col-btn',
@@ -151,7 +165,7 @@ class AddContact extends React.Component {
 					return (
 						<div>
 							<Button type="primary" className="add-contact-btn">
-								ADD
+								{counterpart.translate('contact.add')}
 							</Button>
 						</div>
 					);
@@ -164,12 +178,14 @@ class AddContact extends React.Component {
 		return (
 			<div className="add-contact">
 				<div className="add-contact-div-title">
-					<span className="page-title">Add Contact</span>
+					<span className="page-title">
+						{counterpart.translate('header.add_contact')}
+					</span>
 				</div>
 				<div className="contact-container">
 					<div style={{width: '70%'}}>
 						<SearchInput
-							placeholder={'Search Meta1 Users ...'}
+							placeholder={counterpart.translate('contact.search_meta1_users')}
 							value={this.state.searchTerm}
 							className="input-box-search"
 							style={{width: '100%'}}

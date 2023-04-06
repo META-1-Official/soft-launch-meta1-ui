@@ -204,7 +204,7 @@
 			"private": "Özel Anahtar (WIF - Cüzdan İçine Aktarma Formatı)",
 			"public": "Açık anahtar",
 			"publish": "Değişimleri Duyur",
-			"publish_prediction": "Publish",
+			"publish_prediction": "Yayınla",
 			"remove_proxy": "Remove proxy",
 			"remove_text": "Kaldır",
 			"reset": "Değişiklikleri Sıfırla",
@@ -460,7 +460,9 @@
 			"white_by": "İzin listesine alan",
 			"whitelist_authorities": "Whitelist authority",
 			"whitelist_market_fee_sharing": "Market fee sharing whitelist"
-		}
+		},
+		"your_email_is_confirmed": "E-postanız onaylandı",
+		"your_email_is_unconfirmed": "E-postanız onaylanmadı"
 	},
 	"customizable_table": {
 		"customize_the_columns": "Sütunları Özelleştir"
@@ -536,6 +538,23 @@
 		"money_received_title": "Şuradan transfer %(from)s"
 	},
 	"cancel": "İptal",
+	"claim_wallet": {
+		"claim_wallet": "Cüzdanı Al",
+		"claim_wallet_completed": "Talep cüzdan talebiniz zaten tamamlandı",
+		"claim_wallet_failed": "Talep Cüzdanınız başarısız oldu. Lütfen tekrar deneyin",
+		"claim_wallet_under_progress": "Talep cüzdanı talebiniz devam ediyor",
+		"enter_passkey_or_owner_key": "Parolayı veya Sahip anahtarını girin",
+		"invalid_signature": "Geçersiz İmza",
+		"migrating": "Taşınıyor...",
+		"migrate": "Taşı"
+	},
+	"contact": {
+		"add": "Ekle",
+		"meta1users": "META1 KULLANICILARI",
+		"wallet_created": "Cüzdan Oluşturuldu",
+		"add_to_contact": "Kişiye Ekle",
+		"search_meta1_users": "Meta1 Kullanıcılarını Ara ..."
+	},
 	"connection": {
 		"automatic_reconnect": " After %(reconnect_in_seconds)s seconds a reconnection attempt will be made automatically.",
 		"manual_ping": "Go to ping nodes",
@@ -872,6 +891,7 @@
 			},
 			"feed_producer": "Feed producer",
 			"feed_producer_text": "Approved feed producers may publish a new feed using the form below:",
+			"go_market": "Pazara Git",
 			"info": "Asset info",
 			"invalid": "The asset name %(name)s is invalid",
 			"margin_positions": {
@@ -950,7 +970,8 @@
 				"issuer": "İhraç Eden",
 				"market_fee": "Piyasa ücreti",
 				"market_fee_referral_reward_percent": "Market fee referral reward",
-				"stealth_supply": "Gizli arz"
+				"stealth_supply": "Gizli arz",
+				"confidential_supply": "Gizli Tedarik"
 			},
 			"title": "Aktif",
 			"whitelist": {
@@ -1567,7 +1588,13 @@
 			"xrp_withdraw": "Withdraw XRP",
 			"token_withjdraw": "Withdraw ETH tokens",
 			"no_assets": "No depositable assets available",
-			"submit": "Yatır"
+			"submit": "Yatır",
+			"copy": "Kopyala",
+			"copy_success": "Başarıyla kopyalandı",
+			"gateway_is_down": "Ağ geçidi kapalı",
+			"important_information": "önemli bilgi",
+			"important_information_info": "Yalnızca %(assetType)s gönder Bu adrese %(min_value)s %(min_assetType)s veya başka herhangi bir para biriminden daha az göndermek, yatırdığınız paranın kaybedilmesine neden olabilir.",
+			"minimum_deposit": "Minimum para yatırma: %(minDeposit)s %(assetType)s"
 		},
 		"deposit_withdraw": {
 			"disabled": "%(gateway)s gateway service disabled",
@@ -1644,15 +1671,19 @@
 			"bitshares_account": "Send to Meta Wallet",
 			"cancel": "Cancel",
 			"cannot_cover": "Insufficient funds!",
+			"enter_name": "Ad girin",
+			"enter_email": "E-postayı girin",
 			"estimated_value": "Estimated Value",
 			"fee": "Fee",
 			"gateway_fee": "Gateway Fee",
 			"header": "Withdraw (beta)",
 			"memo": "Memo",
+			"no_address_found": "Adres Bulunamadı",
 			"no_assets": "No withdrawable assets available",
 			"no_estimate": "No estimate available for this object",
 			"no_gateways": "Sorry, but there are no gateways available to handle this withdrawal",
 			"quantity": "Quantity",
+			"select_asset": "Bir varlık seçin",
 			"submit": "Çek",
 			"withdraw": "Withdraw"
 		},
@@ -2530,12 +2561,12 @@
 			"witness_create": "Tanık oluşturma",
 			"witness_update": "Tanık güncelleme",
 			"witness_withdraw_pay": "Tanık maaş çekimi",
-			"worker_create": "Create worker",
-			"property_create_operation": "Create property",
-			"property_update_operation": "Update property",
-			"property_approve_operation:": "Approve property",
-			"property_delete_operation": "Delete property",
-			"asset_price_publish_operation": "Publish asset price"
+			"worker_create": "İşçi oluştur",
+			"property_create_operation": "Özellik oluştur",
+			"property_update_operation": "Özelliği güncelle",
+			"property_approve_operation:": "Özelliği onayla",
+			"property_delete_operation": "Özelliği sil",
+			"asset_price_publish_operation": "Varlık fiyatını yayınla"
 		},
 		"vesting_balance_create": "Bekletilen bakiyesi oluşturulan hesap:",
 		"waiting": "Onay bekleniyor...",
@@ -2549,6 +2580,8 @@
 		"withdraw_permission_create": "Hesaptan çekme izni verildi.",
 		"withdraw_permission_delete": "Hesaptan çekme izni silindi.",
 		"withdraw_permission_update": "Hesaptan çekme iznini güncellendi.",
+		"view_json": "Ham json'u göster",
+		"operations": "İşlemler",
 		"disallow_same_account_whitelist_blacklist": "Beyaz listede ve kara listede aynı hesaba izin verilmez",
 		"account_exist_in_blacklist": "Aynı hesap zaten kara listede var",
 		"account_exist_in_whitelist": "Aynı hesap zaten beyaz listede var"
@@ -2598,6 +2631,7 @@
 		"send": "Gönder",
 		"withdraw": "Withdraw",
 		"total": "Total: ",
+		"to": "İle",
 		"warn_name_unable_read_memo": "Uyarı: %(name)s bu memoyu okuyamayacaktır"
 	},
 	"trx_error": {
@@ -2869,6 +2903,7 @@
 		"wallet_model_3": "<li>Birden fazla sayıda hesap</li><li>Yedekleme dosyası zorunlu</li><li>Yüksek güvenlik</li>",
 		"wallet_move": "Cüzdan yedekleme dosyalarınızla ya da hesabınıza ait bilgilerinizle dijital varlıklarınıza başka bir bilgisayardan da erişim sağlayabilirsiniz.",
 		"wallet_password": "Şifrenizi kullanarak hesabınıza başka yerlerden erişim sağlayabilirsiniz.",
-		"wallet_types": "wallet types"
+		"wallet_types": "wallet types",
+		"wallet_passkey_confirmation": "META1 Cüzdan Geçiş Anahtarı Onayı"
 	}
 }

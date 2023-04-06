@@ -204,7 +204,7 @@
 			"private": "Приватный ключ (WIF – Wallet Import Format)",
 			"public": "Публичный ключ",
 			"publish": "Сохранить",
-			"publish_prediction": "Publish",
+			"publish_prediction": "Опубликовать",
 			"remove_proxy": "Удалить прокси",
 			"remove_text": "Удалить",
 			"reset": "Сбросить",
@@ -460,7 +460,9 @@
 			"white_by": "Добавлен в белый список ",
 			"whitelist_authorities": "Источник белого списка",
 			"whitelist_market_fee_sharing": "Белый список распределения комиссии"
-		}
+		},
+		"your_email_is_confirmed": "Ваш адрес электронной почты подтвержден",
+		"your_email_is_unconfirmed": "Ваш адрес электронной почты не подтвержден"
 	},
 	"customizable_table": {
 		"customize_the_columns": "Настроить столбцы"
@@ -536,6 +538,23 @@
 		"money_received_title": "Перевод от %(from)s"
 	},
 	"cancel": "Отменить",
+	"claim_wallet": {
+		"claim_wallet": "Получить кошелек",
+		"claim_wallet_completed": "Ваш запрос на получение кошелька уже выполнен",
+		"claim_wallet_failed": "Ваш кошелек претензий не удался. Пожалуйста, попробуйте еще раз",
+		"claim_wallet_under_progress": "Ваш запрос кошелька находится в обработке",
+		"enter_passkey_or_owner_key": "Введите пароль или ключ владельца",
+		"invalid_signature": "Неверная подпись",
+		"migrating": "Идет миграция...",
+		"migrate": "Перенести"
+	},
+	"contact": {
+		"add": "Добавить",
+		"meta1users": "ПОЛЬЗОВАТЕЛИ META1",
+		"wallet_created": "Кошелек создан",
+		"add_to_contact": "Добавить в контакт",
+		"search_meta1_users": "Поиск пользователей Meta1 ..."
+	},
 	"connection": {
 		"automatic_reconnect": " Повторная попытка соединения будет совершена автоматически через %(reconnect_in_seconds)s секунд.",
 		"manual_ping": "Пинговать узлы",
@@ -878,6 +897,7 @@
 			},
 			"feed_producer": "Производитель котировок",
 			"feed_producer_text": "Утвержденные производители котировок могут публиковать новые котировки посредством представленной ниже формы:",
+			"go_market": "Выйти на рынок",
 			"info": "Информация об активе",
 			"invalid": "%(name)s – недопустимое имя актива",
 			"margin_positions": {
@@ -956,7 +976,8 @@
 				"issuer": "Эмитент",
 				"market_fee": "Рыночная комиссия",
 				"market_fee_referral_reward_percent": "Реферальное вознаграждение с рыночной комиссии",
-				"stealth_supply": "Стелс предложение"
+				"stealth_supply": "Стелс предложение",
+				"confidential_supply": "Конфиденциальная поставка"
 			},
 			"title": "Актив",
 			"whitelist": {
@@ -1571,7 +1592,13 @@
 			"xrp_withdraw": "Withdraw XRP",
 			"token_withjdraw": "Withdraw ETH tokens",
 			"no_assets": "Нет доступных для депозита активов",
-			"submit": "Внести депозит"
+			"submit": "Внести депозит",
+			"copy": "Копировать",
+			"copy_success": "Успешно скопировано",
+			"gateway_is_down": "Шлюз не работает",
+			"important_information": "важная информация",
+			"important_information_info": "Отправлять только %(assetType)s. Отправка менее %(min_value)s %(min_assetType)s или любой другой валюты на этот адрес может привести к потере вашего депозита.",
+			"minimum_deposit": "Минимальный депозит: %(minDeposit)s %(assetType)s"
 		},
 		"deposit_withdraw": {
 			"disabled": "Сервис шлюза %(gateway)s недоступен",
@@ -1648,15 +1675,19 @@
 			"bitshares_account": "Отправить на аккаунт %(wallet_name)s",
 			"cancel": "Отменить",
 			"cannot_cover": "Недостаточно средств",
+			"enter_name": "Введите имя",
+			"enter_email": "Введите адрес электронной почты",
 			"estimated_value": "Ориентировочная стоимость",
 			"fee": "Комиссия",
 			"gateway_fee": "Комиссия шлюза",
 			"header": "Вывод",
 			"memo": "Мемо",
+			"no_address_found": "Адрес не найден",
 			"no_assets": "Нет доступных активов для вывода",
 			"no_estimate": "Для этого объекта нет доступных оценок",
 			"no_gateways": "Извините, для обработки этой операции вывода нет доступных шлюзов",
 			"quantity": "Количество",
+			"select_asset": "Выберите актив",
 			"submit": "Вывести",
 			"withdraw": "Вывод"
 		},
@@ -2534,12 +2565,12 @@
 			"witness_create": "Создание заверителя",
 			"witness_update": "Обновление заверителя",
 			"witness_withdraw_pay": "Вывод зарплаты заверителя",
-			"worker_create": "Create worker",
-			"property_create_operation": "Create property",
-			"property_update_operation": "Update property",
-			"property_approve_operation:": "Approve property",
-			"property_delete_operation": "Delete property",
-			"asset_price_publish_operation": "Publish asset price"
+			"worker_create": "Создать работника",
+			"property_create_operation": "Создать свойство",
+			"property_update_operation": "Обновить свойство",
+			"property_approve_operation:": "Утвердить свойство",
+			"property_delete_operation": "Удалить свойство",
+			"asset_price_publish_operation": "Опубликовать цену актива"
 		},
 		"vesting_balance_create": "создал вестинговый баланс",
 		"waiting": "Ожидание подтверждения...",
@@ -2553,6 +2584,8 @@
 		"withdraw_permission_create": "Дал право доступа к выводу средств аккаунту",
 		"withdraw_permission_delete": "Удалил право доступа к выводу средств для аккаунта",
 		"withdraw_permission_update": "Обновил право доступа к выводу средств для аккаунта",
+		"view_json": "Показать необработанный json",
+		"operations": "Операции",
 		"disallow_same_account_whitelist_blacklist": "Одна и та же учетная запись в белом и черном списках не допускается.",
 		"account_exist_in_blacklist": "Такой же аккаунт уже есть в черном списке",
 		"account_exist_in_whitelist": "Такой же аккаунт уже есть в белом списке"
@@ -2602,6 +2635,7 @@
 		"send": "Отправить",
 		"withdraw": "Отправить",
 		"total": "Total: ",
+		"to": "К",
 		"warn_name_unable_read_memo": "Предупреждение: %(name)s не сможет прочесть это мемо"
 	},
 	"trx_error": {
@@ -2873,6 +2907,7 @@
 		"wallet_model_3": "<li>Несколько аккаунтов</li><li>Требуется резервное копирование файлов кошелька</li><li>Высокий уровень безопасности</li>",
 		"wallet_move": "Резервная копия также может использоваться для перемещения вашего локального кошелька на другие компьютеры или браузеры. Для восстановления локального кошелька из резервной копии <strong>вам также понадобится ваш пароль!</strong>",
 		"wallet_password": "Входите откуда угодно, используя пароль",
-		"wallet_types": "Типы кошельков"
+		"wallet_types": "Типы кошельков",
+		"wallet_passkey_confirmation": "Подтверждение пароля кошелька META1"
 	}
 }

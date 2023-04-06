@@ -463,7 +463,9 @@
 			"white_by": "Whitelisted by",
 			"whitelist_authorities": "Whitelist authority",
 			"whitelist_market_fee_sharing": "Market fee sharing whitelist"
-		}
+		},
+		"your_email_is_confirmed": "Your email is confirmed",
+		"your_email_is_unconfirmed": "Your email is unconfirmed"
 	},
 	"customizable_table": {
 		"customize_the_columns": "Customize the Columns"
@@ -542,6 +544,23 @@
 		"money_received_title": "Transfer from %(from)s"
 	},
 	"cancel": "Cancel",
+	"claim_wallet": {
+		"claim_wallet": "Claim Wallet",
+		"claim_wallet_completed": "Your claim wallet request is already completed",
+		"claim_wallet_failed": "Your Claim Wallet is failed. Please try again",
+		"claim_wallet_under_progress": "Your claim wallet request is under progress",
+		"enter_passkey_or_owner_key": "Enter Passkey Or Owner key",
+		"invalid_signature": "Invalid Signature",
+		"migrating": "Migrating...",
+		"migrate": "Migrate"
+	},
+	"contact": {
+		"add": "Add",
+		"meta1users": "META1 USERS",
+		"wallet_created": "Wallet Created",
+		"add_to_contact": "Add to Contact",
+		"search_meta1_users": "Search Meta1 Users ..."
+	},
 	"connection": {
 		"automatic_reconnect": " After %(reconnect_in_seconds)s seconds a reconnection attempt will be made automatically.",
 		"manual_ping": "Go to ping nodes",
@@ -886,6 +905,7 @@
 			},
 			"feed_producer": "Feed producer",
 			"feed_producer_text": "Approved feed producers may publish a new feed using the form below:",
+			"go_market": "Go Market",
 			"info": "Asset info",
 			"invalid": "The asset name %(name)s is invalid",
 			"margin_positions": {
@@ -1309,7 +1329,7 @@
 		"account_value": "Wallet value",
 		"accounts_manage": "Manage Wallets",
 		"add_contact": "Add Contact",
-		"claim_legacy_wallet": "Add Contact",
+		"claim_legacy_wallet": "Claim Legacy Wallet",
 		"collateral_ratio": "Collateral ratio",
 		"create_account": "Create Wallet",
 		"create_asset": "Create Asset",
@@ -1337,8 +1357,7 @@
 		"unlock_short": "Login",
 		"unlocked_tip": "<br/>Click to log out.<br/><br/>Closing the browser window will also log you out.",
 		"update_asset": "Update Asset",
-		"withdraw_legacy": "or Legacy Withdraw",
-		"add_contact": ""
+		"withdraw_legacy": "or Legacy Withdraw"
 	},
 	"htlc": {
 		"claim_period": "Seconds to claim",
@@ -1583,7 +1602,13 @@
 			"xrp_withdraw": "Withdraw XRP",
 			"token_withjdraw": "Withdraw ETH tokens",
 			"no_assets": "No depositable assets available",
-			"submit": "Deposit"
+			"submit": "Deposit",
+			"copy": "Copy",
+			"copy_success": "Copied successfully",
+			"gateway_is_down": "Gateway is down",
+			"important_information": "important information",
+			"important_information_info": "Send only %(assetType)s Sending less than %(min_value)s %(min_assetType)s  or any other currency to this address may result in the loss of your deposit.",
+			"minimum_deposit": "Minimum deposit: %(minDeposit)s %(assetType)s"
 		},
 		"deposit_withdraw": {
 			"disabled": "%(gateway)s gateway service disabled",
@@ -1660,15 +1685,19 @@
 			"bitshares_account": "Send to %(wallet_name)s Wallet",
 			"cancel": "Cancel",
 			"cannot_cover": "Insufficient funds!",
+			"enter_name": "Enter name",
+			"enter_email": "Enter email",
 			"estimated_value": "Estimated Value",
 			"fee": "Fee",
 			"gateway_fee": "Gateway Fee",
 			"header": "Withdraw",
 			"memo": "Memo",
+			"no_address_found": "No Address Found",
 			"no_assets": "No withdrawable assets available",
 			"no_estimate": "No estimate available for this object",
 			"no_gateways": "Sorry, but there are no gateways available to handle this withdrawal",
 			"quantity": "Quantity",
+			"select_asset": "Select an asset",
 			"submit": "Withdraw",
 			"withdraw": "Withdraw"
 		},

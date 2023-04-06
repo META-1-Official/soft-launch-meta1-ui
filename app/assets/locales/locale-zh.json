@@ -204,7 +204,7 @@
 			"private": "私钥(WIF - 钱包导入格式)",
 			"public": "公钥",
 			"publish": "保存修改",
-			"publish_prediction": "Publish",
+			"publish_prediction": "发布",
 			"remove_proxy": "移除代理",
 			"remove_text": "移除",
 			"reset": "重新设置",
@@ -460,7 +460,9 @@
 			"white_by": "被列入白名单",
 			"whitelist_authorities": "白名单权限",
 			"whitelist_market_fee_sharing": "白名单分享市场手续费"
-		}
+		},
+		"your_email_is_confirmed": "您的邮箱已确认",
+		"your_email_is_unconfirmed": "您的电子邮件未确认"
 	},
 	"customizable_table": {
 		"customize_the_columns": "自定义列"
@@ -536,6 +538,23 @@
 		"money_received_title": "从 %(from)s转账"
 	},
 	"cancel": "取消",
+	"claim_wallet": {
+		"claim_wallet": "认领钱包",
+		"claim_wallet_completed": "您的钱包申请已经完成",
+		"claim_wallet_failed": "您的钱包领取失败。请重试",
+		"claim_wallet_under_progress": "您的钱包申请正在进行中",
+		"enter_passkey_or_owner_key": "输入密钥或所有者密钥",
+		"invalid_signature": "无效签名",
+		"migrating": "正在迁移...",
+		"migrate": "迁移"
+	},
+	"contact": {
+		"add": "添加",
+		"meta1users": "META1 用户",
+		"wallet_created": "钱包已创建",
+		"add_to_contact": "添加到联系人",
+		"search_meta1_users": "搜索 Meta1 用户 ..."
+	},
 	"connection": {
 		"automatic_reconnect": "%(reconnect_in_seconds)s 秒后，将会自动尝试重新连接。 ",
 		"manual_ping": "开始 ping 节点",
@@ -878,6 +897,7 @@
 			},
 			"feed_producer": "喂价提供者",
 			"feed_producer_text": "已批准的喂价提供者可以采用以下格式发布新喂价:",
+			"go_market": "去市场",
 			"info": "资产信息",
 			"invalid": "资产名 %(name)s 无效",
 			"margin_positions": {
@@ -956,7 +976,8 @@
 				"issuer": "发行人",
 				"market_fee": "市场手续费率",
 				"market_fee_referral_reward_percent": "市场手续费引荐奖励",
-				"stealth_supply": "隐私供应量"
+				"stealth_supply": "隐私供应量",
+				"confidential_supply": "机密供应"
 			},
 			"title": "资产",
 			"whitelist": {
@@ -1572,7 +1593,13 @@
 			"xrp_withdraw": "Withdraw XRP",
 			"token_withjdraw": "Withdraw ETH tokens",
 			"no_assets": "无充值资产可用",
-			"submit": "充币"
+			"submit": "充币",
+			"copy": "复制",
+			"copy_success": "复制成功",
+			"gateway_is_down": "网关已关闭",
+			"important_information": "重要信息",
+			"important_information_info": "仅发送 %(assetType)s 发送少于 %(min_value)s %(min_assetType)s 或任何其他货币到此地址可能会导致您的存款损失。",
+			"minimum_deposit": "最低存款：%(minDeposit)s %(assetType)s"
 		},
 		"deposit_withdraw": {
 			"disabled": "%(gateway)s网关服务不可用",
@@ -1649,15 +1676,19 @@
 			"bitshares_account": "转账给%(wallet_name)s账户",
 			"cancel": "取消",
 			"cannot_cover": "资金不足!",
+			"enter_name": "输入姓名",
+			"enter_email": "输入邮箱",
 			"estimated_value": "估算值",
 			"fee": "手续费",
 			"gateway_fee": "网关手续费",
 			"header": "提币",
 			"memo": "Memo备注",
+			"no_address_found": "找不到地址",
 			"no_assets": "无提现资产可用",
 			"no_estimate": "此项目无可用估值",
 			"no_gateways": "很遗憾,没有网关处理此提币",
 			"quantity": "数量",
+			"select_asset": "选择资产",
 			"submit": "提币",
 			"withdraw": "提币"
 		},
@@ -2535,12 +2566,12 @@
 			"create": "创建见证人",
 			"update": "更新见证人",
 			"withdraw_pay": "领取见证人报酬",
-			"worker_create": "Create worker",
-			"property_create_operation": "Create property",
-			"property_update_operation": "Update property",
-			"property_approve_operation:": "Approve property",
-			"property_delete_operation": "Delete property",
-			"asset_price_publish_operation": "Publish asset price"
+			"worker_create": "创建工人",
+			"property_create_operation": "创建属性",
+			"property_update_operation": "更新属性",
+			"property_approve_operation:": "批准财产",
+			"property_delete_operation": "删除属性",
+			"asset_price_publish_operation": "发布资产价格"
 		},
 		"vesting_balance_create": "创建待解冻余额",
 		"waiting": "等待确认中…",
@@ -2554,6 +2585,8 @@
 		"withdraw_permission_create": "授权提款，从",
 		"withdraw_permission_delete": "删除提款授权，从",
 		"withdraw_permission_update": "更新提款授权，从",
+		"view_json": "显示原始 json",
+		"operations": "操作",
 		"disallow_same_account_whitelist_blacklist": "不允许在白名单和黑名单中使用相同的帐户",
 		"account_exist_in_blacklist": "黑名单中已存在同一个账号",
 		"account_exist_in_whitelist": "白名单中已存在相同帐户"
@@ -2603,6 +2636,7 @@
 		"send": "转账",
 		"withdraw": "Withdraw",
 		"total": "Total: ",
+		"to": "到",
 		"warn_name_unable_read_memo": "警告：%(name)s 将无法阅读此备注消息！"
 	},
 	"trx_error": {
@@ -2874,6 +2908,7 @@
 		"wallet_model_3": "<li>多重签名账户</li><li>要求钱包文件备份</li><li>安全性：高</li>",
 		"wallet_move": "这个备份文件也可以用来实现跨浏览器或跨计算机的钱包迁移。<strong>你将需要提供密码以进行恢复！</strong>",
 		"wallet_password": "从任意地点使用密码登录",
-		"wallet_types": "钱包类型"
+		"wallet_types": "钱包类型",
+		"wallet_passkey_confirmation": "META1 钱包密码确认"
 	}
 }
