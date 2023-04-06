@@ -1492,6 +1492,10 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 
 	// transfer modal
 	.modal--transaction-confirm {
+		.ant-modal {
+			background-color: transparent !important;
+		}
+
 		.ant-modal-header {
 			.ant-modal-title {
 				color: #171a25;
@@ -1542,6 +1546,10 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 				background: transparent;
 				border: none !important;
 			}
+		}
+
+		.quantity-label {
+			color: #666666;
 		}
 
 		.address-form {
@@ -1850,6 +1858,19 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 
 		.disable-li-text span {
 			color: #808080 !important;
+		}
+	}
+
+	// market picker
+	.marketPicker {
+		.marketPicker__subHeader {
+			color: #666666;
+		}
+
+		.results {
+			li {
+				border-bottom: 1px solid $border-color;
+			}
 		}
 	}
 
