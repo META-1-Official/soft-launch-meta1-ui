@@ -318,7 +318,7 @@ const GlobalStyles = (theme: any) => css`
 
 		button:nth-child(1) {
 			background: #ffc000 !important;
-			color: #330000 !imortant;
+			color: white !important;
 		}
 
 		button:nth-child(2) {
