@@ -281,7 +281,7 @@ class MarketGroup extends React.Component {
 			});
 
 		return (
-			<div style={{paddingRight: 10}}>
+			<div className="table-wrapper">
 				{open ? (
 					<table className="table table-hover text-right">
 						<thead>
@@ -833,7 +833,6 @@ class MyMarkets extends React.Component {
 						{this.props.controls ? (
 							<div style={{paddingBottom: '0.5rem'}}>{this.props.controls}</div>
 						) : null}
-						{/* {!myMarketTab ? <input type="text" value={this.state.inputValue} onChange={this._lookupAssets.bind(this)} placeholder="SYMBOL:SYMBOL" /> : null} */}
 					</div>
 				) : null}
 
@@ -907,13 +906,7 @@ class MyMarkets extends React.Component {
 						</div>
 					</div>
 				) : (
-					<div
-						style={{
-							width: '100%',
-							textAlign: 'left',
-							padding: '0.75rem 0.5rem',
-						}}
-					>
+					<div className="asset-selector-wrapper">
 						<table>
 							<tbody>
 								<tr style={{width: '100%'}}>

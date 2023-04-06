@@ -1811,6 +1811,18 @@ form.hide-container {
 		}
 	}
 
+	.asset-selector-wrapper {
+		width: 100%;
+		text-align: left;
+		padding: 0.75rem 0.5rem;
+
+		table {
+			@media screen and (max-width: 576px) {
+				width: 100% !important;
+			}
+		}
+	}
+
 	.mymarkets-tabs {
 		width: 100%;
 		list-style: none;
@@ -1843,8 +1855,12 @@ form.hide-container {
 		padding: 0;
 		font-size: 0.75rem;
 
-		.table {
-			border: 1px solid #15171b;
+		.table-wrapper {
+			overflow: auto;
+
+			.table {
+				border: 1px solid #15171b;
+			}
 		}
 
 		.table > thead tr th {
@@ -1853,11 +1869,18 @@ form.hide-container {
 			background-color: #15171b;
 		}
 
-		.table > tbody tr td {
-			padding-top: 10px;
-			padding-bottom: 10px;
-			padding-left: 10px;
-			border-bottom: 1px solid #15171b;
+		.table > tbody tr {
+			td {
+				padding-top: 10px;
+				padding-bottom: 10px;
+				padding-left: 10px;
+				border-bottom: 1px solid #15171b;
+			}
+			&:hover {
+				td {
+					background-color: #21202030 !important;
+				}
+			}
 		}
 	}
 }

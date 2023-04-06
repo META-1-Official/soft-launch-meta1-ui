@@ -2042,15 +2042,6 @@
 	td.pub-key {
 		word-break: break-all;
 	}
-
-	/* Table view account */
-	// div.grid-content.app-tables {
-	// 	@include radialGradient($bg-color-mixin, $account-background);
-	// }
-	// div.tabs-container {
-	// 	@include radialGradient($bg-color-mixin, $account-background);
-	// }
-
 	div.account-tabs {
 		> div.service-selector {
 			background-color: $bg-color;
