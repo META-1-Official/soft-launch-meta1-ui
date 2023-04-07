@@ -588,11 +588,7 @@ class AccountOverview extends React.Component {
 						</Space>
 					</div>
 				</div>
-				<div
-					css={() => ({
-						padding: '1rem  2rem',
-					})}
-				>
+				<div className="transaction-table">
 					{currentDisplay === 'portfolio' && (
 						<>
 							<div

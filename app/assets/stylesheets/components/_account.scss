@@ -641,6 +641,7 @@ div.account-overview {
 						font-weight: 400;
 						margin-bottom: 10px;
 					}
+
 					@media screen and (max-width: 300px) {
 						margin-bottom: 25px;
 					}
@@ -649,9 +650,11 @@ div.account-overview {
 						font-size: 20px;
 						color: #ffc000;
 						margin-left: 10px;
+
 						@media screen and (max-width: 900px) {
 							font-size: 10px;
 						}
+
 						@media screen and (max-width: 300px) {
 							font-size: 8px;
 						}
@@ -670,6 +673,7 @@ div.account-overview {
 						justify-content: center;
 
 						padding: 8px;
+
 						@media screen and (max-width: 300px) {
 							position: fixed;
 							margin-top: 46px;
@@ -998,6 +1002,7 @@ div.tabs-container {
 			padding: 10px 30px;
 			height: 60px;
 			text-transform: uppercase;
+
 			@media screen and (max-width: 760px) {
 				font-size: 10px;
 			}
@@ -1108,35 +1113,44 @@ div.tabs-container {
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
+
 			@media screen and (max-width: 900px) {
 				gap: 25px;
 			}
+
 			.date-list {
 				display: flex;
 				justify-content: center;
+
 				@media screen and (max-width: 900px) {
 					flex-direction: column;
 					width: 50%;
 				}
+
 				.date {
 					margin-left: 20px;
 					margin-right: 10px;
+
 					@media screen and (max-width: 900px) {
 						margin-left: 0px;
 					}
 				}
 			}
+
 			.filter {
 				@media screen and (max-width: 900px) {
 					width: 50%;
 					margin-bottom: 44px;
 				}
 			}
+
 			.filter-selector {
 				min-width: 160px;
+
 				@media screen and (max-width: 900px) {
 					width: 100%;
 				}
+
 				.ant-select-selector {
 					height: 50px;
 					border-radius: 4px;
@@ -1183,11 +1197,15 @@ div.tabs-container {
 	}
 }
 
-.ant-table-content {
-	@media screen and (max-width: 900px) {
-		overflow: scroll !important;
-		padding: 3px !important;
-		margin-right: 3px !important;
+.transaction-table {
+	padding: 1rem 2rem;
+
+	.ant-table-content {
+		@media screen and (max-width: 900px) {
+			overflow: scroll !important;
+			padding: 3px !important;
+			margin-right: 3px !important;
+		}
 	}
 }
 
@@ -2493,7 +2511,7 @@ div.account-notification {
 	}
 }
 
-.ant-space-item {
+.fund-wallet {
 	@media screen and (max-width: 900px) {
 		button {
 			width: 132px !important;
@@ -2514,7 +2532,8 @@ div.account-notification {
 		}
 	}
 }
-.ant-dropdown {
+
+.ant-dropdown:has(> .portfolio-checkbox-class) {
 	@media screen and (max-width: 768px) {
 		width: 80% !important;
 	}
