@@ -1607,6 +1607,10 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 			background: transparent;
 			border: 1px solid $border-color;
 
+			@media screen and (max-width: 576px) {
+				border: none;
+			}
+
 			.checkbox-group {
 				.checkbox-text {
 					color: $dark;
@@ -1673,6 +1677,11 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 		}
 
 		.phone-display-flex {
+			.ant-select {
+				border: 1px solid $border-color;
+				border-radius: 4px;
+			}
+
 			.phone-number-before-select {
 				color: #bfbfbf;
 				background: transparent !important;
@@ -1727,6 +1736,10 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 		.password-wrapper {
 			border: 1px solid $border-color;
 
+			input {
+				border: none !important;
+			}
+
 			.ant-input:disabled {
 				background: transparent;
 				color: rgba(0, 0, 0, 0.5);
@@ -1735,7 +1748,7 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 
 		input {
 			background: transparent;
-			border: 1px solid $border-color;
+			border: 1px solid $border-color !important;
 		}
 	}
 
