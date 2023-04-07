@@ -190,6 +190,8 @@ class AddContact extends React.Component {
 							className="input-box-search"
 							style={{width: '100%'}}
 							onChange={this._onSearchChange.bind(this)}
+						/>
+					</div>
 					<div className="table">
 						<Table
 							style={{width: '100%', marginTop: '16px'}}
