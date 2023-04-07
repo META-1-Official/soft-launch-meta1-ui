@@ -666,9 +666,9 @@ class RecentTransactions extends React.Component {
 				<div className="generic-bordered-box">
 					<div className="header-selector">
 						<div className="header-selector-body">
-							<div style={{display: 'flex', justifyContent: 'center'}}>
+							<div className="date-list">
 								<span className="page-title">Transaction History</span>
-								<div style={{marginLeft: '20px', marginRight: '10px'}}>
+								<div className="date">
 									<DatePicker
 										onChange={(dateFrom) => this.onDateFromChange(dateFrom)}
 										selected={this.state.dateFrom}
@@ -679,7 +679,7 @@ class RecentTransactions extends React.Component {
 										timeInputLabel=""
 									/>
 								</div>
-								<div style={{marginLeft: '10px'}}>
+								<div className="date">
 									<DatePicker
 										onChange={(dateTo) => this.onDateToChange(dateTo)}
 										selected={this.state.dateTo}
