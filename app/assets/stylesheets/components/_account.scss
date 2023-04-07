@@ -1890,6 +1890,10 @@ div.messages {
 	padding: 20px 50px !important;
 	background-color: #0a0b0d !important;
 
+	@media screen and (max-width: 768px) {
+		padding: 20px 10px !important;
+	}
+
 	.tabs-container {
 		hr {
 			border-color: #1c1f27 !important;
@@ -1906,10 +1910,21 @@ div.messages {
 		}
 
 		.content-block {
+			display: flex;
+
+			@media screen and (max-width: 768px) {
+				flex-direction: column;
+			}
+
 			.left {
 				width: 49%;
 				border: 1px solid #1c1f27;
 				border-radius: 4px;
+
+				@media screen and (max-width: 768px) {
+					width: 100%;
+					margin-bottom: 15px;
+				}
 
 				.grid-content {
 					padding: 0px !important;
@@ -1957,6 +1972,10 @@ div.messages {
 
 			.left.right {
 				margin-left: 2%;
+
+				@media screen and (max-width: 768px) {
+					margin-left: 0;
+				}
 
 				p {
 					padding-left: 15px !important;
