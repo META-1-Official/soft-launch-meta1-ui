@@ -334,7 +334,8 @@ class AccountSignedMessages extends React.Component {
 										</text>
 										{this.state.tabvm_verified !== null && (
 											<div style={{float: 'right'}}>
-												Message is:
+												<Translate content="account.signedmessages.message_is" />
+												:
 												<div
 													className="verify-status"
 													style={{
@@ -345,8 +346,12 @@ class AccountSignedMessages extends React.Component {
 												>
 													<label>
 														{this.state.tabvm_verified
-															? 'verified'
-															: 'not verified'}
+															? counterpart.translate(
+																	'account.signedmessages.verified'
+															  )
+															: counterpart.translate(
+																	'account.signedmessages.not_verified'
+															  )}
 													</label>
 												</div>
 											</div>
