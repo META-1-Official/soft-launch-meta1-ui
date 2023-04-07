@@ -37,12 +37,31 @@ div.registration {
 		border: 1px solid #262a32;
 		border-radius: 10px;
 
+		@media screen and (max-width: 576px) {
+			border: none;
+			background: transparent;
+			padding: 10px;
+		}
+
 		.registration-account-title {
 			text-align: center;
 			font-weight: 500;
 		}
 
 		.warn-tooltip {
+			position: relative;
+
+			&::before {
+				content: '\a';
+				border-style: solid;
+				border-width: 6px 7px 6px 0px;
+				border-color: transparent darkred transparent transparent;
+				position: absolute;
+				transform: rotate(90deg);
+				left: 31px;
+				top: -9px;
+			}
+
 			p {
 				padding: 10px;
 				background: darkred;
@@ -50,6 +69,10 @@ div.registration {
 				border: none;
 				line-height: 1.4;
 				color: #ffc000;
+
+				@media screen and (max-width: 576px) {
+					font-size: 14px;
+				}
 
 				a {
 					text-decoration: underline;
@@ -327,9 +350,11 @@ div.registration {
 
 	div.sub-content {
 		padding-top: 1rem;
+
 		table {
 			text-align: left;
 		}
+
 		p {
 			word-wrap: break-word;
 			max-width: 30rem;
@@ -341,16 +366,19 @@ div.registration {
 		display: flex;
 		justify-content: space-between;
 		padding-top: 2rem;
+
 		label {
 			> span {
 				text-transform: none;
 				font-size: 90%;
 			}
+
 			&:first-of-type {
 				margin-right: 3rem;
 			}
 		}
 	}
+
 	div.button {
 		border-radius: 20px;
 		padding: 11px 25px;
@@ -372,12 +400,13 @@ div.registration {
 		position: relative;
 		display: inline;
 	}
+
 	.phone-display-flex {
 		display: flex;
 		align-items: center;
+
 		.phone-number-before-select {
 			display: flex;
-			justify-content: space-between;
 			align-items: center;
 			padding: 14px 30px;
 			padding-left: 10px !important;
@@ -386,42 +415,56 @@ div.registration {
 			color: #bfbfbf;
 			background: #21252f !important;
 			cursor: pointer;
+			height: 50px;
+			width: 137px;
+
 			span {
 				padding-left: 10px;
 			}
 		}
+
+		.ant-select {
+			height: 50px;
+			width: 150px;
+			margin-right: 6px;
+		}
+
+		.ant-select-arrow {
+			display: none;
+		}
+
 		.phone-number-code {
 			color: #fff;
 			font-size: 15px;
 			padding-left: 5px;
 		}
-		.ant-select.ant-select-in-form-item {
-			max-width: 95px;
-		}
+
 		.ant-select-selector {
+			height: 100%;
+			border-radius: 4px;
 			cursor: pointer !important;
-			height: 45px;
-			line-height: 45px;
-			border: none !important;
 			background-color: #21252f !important;
 		}
+
 		.ant-select-selection-item {
 			line-height: 45px;
+
 			.selected-data-element {
 				display: none;
 			}
 		}
+
 		.ant-select-selection-search input {
-			padding-top: 20px !important;
-			padding-left: 5px !important;
-			font-size: 15px !important;
+			display: none;
 		}
 	}
+
 	.flex_container {
 		width: 100%;
 		display: flex;
 		flex-direction: column;
 	}
+
 	.flex-container-new {
 		width: 100%;
 		display: flex;
@@ -430,11 +473,13 @@ div.registration {
 		padding-top: 7px;
 		padding-bottom: 7px;
 	}
+
 	.flex-container-first {
 		z-index: 999;
 		float: center;
 		width: 100%;
 	}
+
 	.position-head {
 		display: flex;
 		justify-content: center;
@@ -443,9 +488,11 @@ div.registration {
 		align-items: center;
 		z-index: 999;
 	}
+
 	.color-black {
 		color: rgba(0, 0, 0, 0.87) !important;
 	}
+
 	.btn-x {
 		border: none;
 		background-color: transparent;
@@ -456,14 +503,17 @@ div.registration {
 		font-size: 20px;
 		z-index: 999;
 	}
+
 	.span-class {
 		width: 100%;
 		z-index: 999;
 		text-align: center;
 	}
+
 	.custom-margin-bottom-zero {
 		margin-top: 0 !important;
 	}
+
 	.flex-padding {
 		padding-top: 4px;
 		padding-bottom: 4px;
@@ -482,6 +532,7 @@ div.registration {
 	width: 30%;
 	background-color: #2a2a2a;
 	position: relative;
+
 	@include breakpoint(small only) {
 		padding: 1rem 1.2rem;
 		width: 100%;
@@ -496,6 +547,7 @@ div.registration {
 		display: flex;
 		justify-content: center;
 	}
+
 	.desc1,
 	.desc2 {
 		font-size: 1rem;
@@ -506,10 +558,12 @@ div.registration {
 		color: #f5f5f5;
 		text-align: center;
 	}
+
 	.desc1 {
 		color: #d5ba48;
 		font-size: 1.4rem;
 	}
+
 	.btn-container {
 		text-align: center;
 		margin-top: 1rem;
@@ -576,41 +630,65 @@ div.registration {
 		}
 	}
 }
+
 .option-header-register {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+
 	.select-country-code {
 		margin-left: 5px !important;
 	}
+
 	.countryFlag-img {
 		margin-right: 5px;
 	}
 }
+
 .option-header-register:hover {
 	color: #fff !important;
 }
+
 .select-box-country {
 	background-color: #000;
+	top: 55px !important;
+	border: 1px solid #1c1f27;
+	border-radius: 5px;
+
+	.ant-select-item-option {
+		border-bottom: 1px solid #1c1f27;
+
+		.ant-select-item-option-content {
+			.option-header-register {
+				color: white;
+			}
+		}
+	}
+
 	.ant-select-item-option-selected {
 		background-color: #ffc000 !important;
+
 		.option-header-register {
 			color: #000 !important;
 			font-weight: 700 !important;
 		}
 	}
+
 	.ant-select-item:hover {
 		background-color: #ffc000;
 	}
+
 	.option-header-register:hover {
 		background-color: #ffc000;
 		color: #000 !important;
 		font-weight: 700 !important;
 	}
+
 	.rc-virtual-list {
 		min-width: 300px !important;
 	}
 }
+
 .phone-number {
 	.ant-form-item-explain-error {
 		display: none;

@@ -401,7 +401,7 @@ class AccountRegistrationForm extends React.Component {
 						<div className="form-blocks">
 							<Form.Item
 								label={counterpart.translate('registration.phone_number')}
-								css={{marginLeft: '10px'}}
+								css={{width: '100% !important'}}
 								rules={[
 									{
 										required: true,
@@ -472,14 +472,12 @@ class AccountRegistrationForm extends React.Component {
 									)}
 									{this.state.isCountrySelected && (
 										<Select
-											style={{
-												width: 120,
-											}}
 											autoFocus
 											open={this.state.isCountrySelected}
 											dropdownClassName="select-box-country"
 											dropdownMatchSelectWidth={false}
 											showSearch
+											bordered={false}
 											onClick={(e) => {
 												this.setState({hidePhoneNumberErrorMsg: true});
 												e.stopPropagation();

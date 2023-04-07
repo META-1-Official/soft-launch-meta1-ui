@@ -1045,17 +1045,17 @@ class WithdrawalModal extends React.Component {
 					<div className="with-label">
 						<div className="account-selector-wrapper">
 							<span className="selector-label">
-                {counterpart.translate('account.votes.name').toUpperCase()}
-              </span>
+								{counterpart.translate('account.votes.name').toUpperCase()}
+							</span>
 							<Input
-                type="text"
-                value={username}
-                name="username"
-                onChange={(e) => this.onInputChanged(e)}
-                placeholder={counterpart
-                  .translate('modal.withdraw.enter_name')
-                  .toUpperCase()}
-              />
+								type="text"
+								value={username}
+								name="username"
+								onChange={(e) => this.onInputChanged(e)}
+								placeholder={counterpart
+									.translate('modal.withdraw.enter_name')
+									.toUpperCase()}
+							/>
 						</div>
 						{this.state.nameError && (
 							<div className="error-label">{this.state.nameError}</div>
@@ -1064,16 +1064,18 @@ class WithdrawalModal extends React.Component {
 
 					<div className="with-label">
 						<div className="account-selector-wrapper">
-							<span className="selector-label">{counterpart.translate('registration.email').toUpperCase()}</span>
+							<span className="selector-label">
+								{counterpart.translate('registration.email').toUpperCase()}
+							</span>
 							<Input
-                type="text"
-                value={email}
-                name="email"
-                onChange={(e) => this.onInputChanged(e)}
-                placeholder={counterpart
-                  .translate('modal.withdraw.enter_email')
-                  .toUpperCase()}
-              />
+								type="text"
+								value={email}
+								name="email"
+								onChange={(e) => this.onInputChanged(e)}
+								placeholder={counterpart
+									.translate('modal.withdraw.enter_email')
+									.toUpperCase()}
+							/>
 						</div>
 						{this.state.emailError && (
 							<div className="error-label">{this.state.emailError}</div>
@@ -1103,7 +1105,9 @@ class WithdrawalModal extends React.Component {
 					{/*GATEWAY SELECTION*/}
 					{selectedGateway && (
 						<div className="account-selector-wrapper">
-							<span className="selector-label">{counterpart.translate('gateway.gateway').toUpperCase()}</span>
+							<span className="selector-label">
+								{counterpart.translate('gateway.gateway').toUpperCase()}
+							</span>
 							{gatewaySelector.call(this, {
 								selectedGateway,
 								gatewayStatus,

@@ -447,41 +447,40 @@ class OrderBook extends React.Component {
 			askRows.splice(rowCount, askRows.length);
 		}
 
-			let tableHeader = (
-				<thead>
-					<tr key="top-header" className="top-header">
-						<th
-							style={{
-								width: '33.5%',
-								textAlign: 'left',
-							}}
-						>
-							<span className="header-sub-title header-font-size">
-								{translator.translate('exchange.volume').toUpperCase()}
-							</span>
-						</th>
-						<th
-							style={{
-								textAlign: 'center',
-							}}
-						>
-							<span className="header-sub-title header-font-size">
-								{translator.translate('exchange.price').toUpperCase()}
-							</span>
-						</th>
-						<th
-							style={{
-								textAlign: 'right',
-							}}
-						>
-							<span className="header-sub-title header-font-size">
-								{translator.translate('exchange.total').toUpperCase()}
-							</span>
-						</th>
-					</tr>
-				</thead>
-			);
-
+		let tableHeader = (
+			<thead>
+				<tr key="top-header" className="top-header">
+					<th
+						style={{
+							width: '33.5%',
+							textAlign: 'left',
+						}}
+					>
+						<span className="header-sub-title header-font-size">
+							{translator.translate('exchange.volume').toUpperCase()}
+						</span>
+					</th>
+					<th
+						style={{
+							textAlign: 'center',
+						}}
+					>
+						<span className="header-sub-title header-font-size">
+							{translator.translate('exchange.price').toUpperCase()}
+						</span>
+					</th>
+					<th
+						style={{
+							textAlign: 'right',
+						}}
+					>
+						<span className="header-sub-title header-font-size">
+							{translator.translate('exchange.total').toUpperCase()}
+						</span>
+					</th>
+				</tr>
+			</thead>
+		);
 
 		let wrapperClass = this.props.wrapperClass;
 		let innerClass = this.props.innerClass;

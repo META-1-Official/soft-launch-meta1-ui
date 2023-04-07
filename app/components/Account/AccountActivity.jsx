@@ -368,7 +368,6 @@ const AccountActivity = () => {
 
 	return (
 		<div className="account-activity">
-
 			<div>
 				<PageHeader
 					title={counterpart.translate('account.activity')}
