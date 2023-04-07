@@ -24,12 +24,7 @@ class AccountPermissions extends React.Component {
 		this.state = {
 			currentTab: 'ActivePermissions',
 			currentDisplay: null,
-			transactionHistoryCheckbox: [
-				counterpart.translate('explorer.block.op'),
-				counterpart.translate('account.transactions.info'),
-				counterpart.translate('account.transactions.fee'),
-				counterpart.translate('account.transactions.time'),
-			],
+			transactionHistoryCheckbox: ['Operation', 'Info', 'Fee', 'Time'],
 		};
 		this.onPublish = this.onPublish.bind(this);
 		this.onReset = this.onReset.bind(this);

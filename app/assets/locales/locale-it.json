@@ -66,6 +66,7 @@
 		"estimate_value": "Valore stimato dell'Wallet",
 		"existing_accounts": "Wallet esistenti",
 		"existing_user": "Utente esistente",
+		"expiry": "Scadenza",
 		"export_modal": {
 			"coinbase_report": "CoinTracking.info Report",
 			"description": "Enter your desired elastic search instance and click the report type",
@@ -580,7 +581,7 @@
 		"top_markets": "Top Markets"
 	},
 	"exchange": {
-		"actions": "Actions",
+		"actions": "Azioni",
 		"add_quote": "Add",
 		"asks": "Ordini di vendita",
 		"asset_explorer": {

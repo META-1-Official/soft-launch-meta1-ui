@@ -66,6 +66,7 @@
 		"estimate_value": "Estimated Wallet value",
 		"existing_accounts": "기존 계정",
 		"existing_user": "Existing user",
+		"expiry": "만료",
 		"export_modal": {
 			"coinbase_report": "CoinTracking.info Report",
 			"description": "Enter your desired elastic search instance and click the report type",
@@ -580,7 +581,7 @@
 		"top_markets": "Top Markets"
 	},
 	"exchange": {
-		"actions": "Actions",
+		"actions": "행위",
 		"add_quote": "Add",
 		"asks": "Sell orders",
 		"asset_explorer": {

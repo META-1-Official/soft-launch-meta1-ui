@@ -109,6 +109,7 @@
 		"market_orders": "Market orders",
 		"market_value": "市值",
 		"member": {
+			"action": "年度会员",
 			"annual": "年度会员",
 			"available": "可申领数量",
 			"balance_type": "类型",
@@ -169,6 +170,7 @@
 			"num_witnesses": "期望的见证人"
 		},
 		"orders": "挂单",
+		"expiry": "到期",
 		"other_scam": "这个账户不是已知的官方账号，请反复核实后进行转账操作。",
 		"overview": "概览",
 		"password_login": "使用密码登录",
@@ -580,7 +582,7 @@
 		"top_markets": "热门市场"
 	},
 	"exchange": {
-		"actions": "Actions",
+		"actions": "动作",
 		"add_quote": "添加",
 		"asks": "卖单",
 		"asset_explorer": {

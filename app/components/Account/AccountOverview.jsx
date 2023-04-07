@@ -66,12 +66,7 @@ class AccountOverview extends React.Component {
 				'Expiry Date',
 				'Action',
 			],
-			transactionHistoryCheckbox: [
-				counterpart.translate('explorer.block.op'),
-				counterpart.translate('account.transactions.info'),
-				counterpart.translate('account.transactions.fee'),
-				counterpart.translate('account.transactions.time'),
-			],
+			transactionHistoryCheckbox: ['Operation', 'Info', 'Fee', 'Time'],
 		};
 
 		this._handleFilterInput = this._handleFilterInput.bind(this);
@@ -364,32 +359,76 @@ class AccountOverview extends React.Component {
 		const {currentDisplay} = this.state;
 		const CheckboxGroup = Checkbox.Group;
 		const portfolioOption = [
-			`Price (${this.props.settings.get('unit')})`,
-			'24Hr',
-			'Qty',
-			`Value (${this.props.settings.get('unit')})`,
-			'Send',
-			'Trade',
-			'Deposit',
+			{
+				label: `${counterpart.translate('exchange.price')} (${preferredUnit})`,
+				value: `Price (${this.props.settings.get('unit')})`,
+			},
+			{label: counterpart.translate('account.hour_24_short'), value: '24Hr'},
+			{label: counterpart.translate('account.qty'), value: 'Qty'},
+			{
+				label: `${counterpart.translate(
+					'exchange.value'
+				)} (${this.props.settings.get('unit')})`,
+				value: `Value (${this.props.settings.get('unit')})`,
+			},
+			{label: counterpart.translate('transfer.send'), value: 'Send'},
+			{label: counterpart.translate('account.trade'), value: 'Trade'},
+			{label: counterpart.translate('exchange.deposit'), value: 'Deposit'},
 		];
+
 		if (showAssetPercent) {
-			portfolioOption.splice(4, 0, 'Percent of Total Supply');
+			portfolioOption.splice(4, 0, {
+				label: counterpart.translate('account.percent'),
+				value: 'Percent of Total Supply',
+			});
 		}
+
 		const openOrdersOption = [
-			'Buy / Sell',
-			'From / To',
-			'Price',
-			'Market Price',
-			'Orders Date',
-			'Expiry Date',
-			'Action',
+			{
+				label: `${counterpart.translate(
+					'exchange.buy'
+				)} / ${counterpart.translate('exchange.sell')}`,
+				value: 'Buy / Sell',
+			},
+			{
+				label: `${counterpart.translate(
+					'transaction.from'
+				)} / ${counterpart.translate('transaction.from')}`,
+				value: 'From / To',
+			},
+			{label: counterpart.translate('exchange.price'), value: 'Price'},
+			{
+				label: counterpart.translate('exchange.price_market'),
+				value: 'Market Price',
+			},
+			{
+				label: `${counterpart.translate(
+					'account.orders'
+				)} ${counterpart.translate('transaction.trxTypes.date')}`,
+				value: 'Orders Date',
+			},
+			{
+				label: `${counterpart.translate(
+					'account.expiry'
+				)} ${counterpart.translate('transaction.trxTypes.date')}`,
+				value: 'Expiry Date',
+			},
+			{label: counterpart.translate('exchange.actions'), value: 'Action'},
 		];
+
 		const transactionHistoryOption = [
-			counterpart.translate('explorer.block.op'),
-			counterpart.translate('account.transactions.info'),
-			counterpart.translate('account.transactions.fee'),
-			counterpart.translate('account.transactions.time'),
+			{value: 'Operation', label: counterpart.translate('explorer.block.op')},
+			{
+				value: 'Info',
+				label: counterpart.translate('account.transactions.info'),
+			},
+			{value: 'Fee', label: counterpart.translate('account.transactions.fee')},
+			{
+				value: 'Time',
+				label: counterpart.translate('account.transactions.time'),
+			},
 		];
+
 		const menuPortFolio = (
 			<div className="portfolio-checkbox-class">
 				<CaretUpOutlined />

@@ -66,6 +66,7 @@
 		"estimate_value": "Toplam hesap değeri (yaklaşık)",
 		"existing_accounts": "Mevcut hesaplar",
 		"existing_user": "Existing user",
+		"expiry": "son kullanma tarihi",
 		"export_modal": {
 			"coinbase_report": "CoinTracking.info Report",
 			"description": "Enter your desired elastic search instance and click the report type",
@@ -580,7 +581,7 @@
 		"top_markets": "Top Markets"
 	},
 	"exchange": {
-		"actions": "Actions",
+		"actions": "Hareketler",
 		"add_quote": "Add",
 		"asks": "Satış emirleri",
 		"asset_explorer": {

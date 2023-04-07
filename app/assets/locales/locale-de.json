@@ -65,6 +65,7 @@
 		"estimate_value": "Geschätzter Kontowert",
 		"existing_accounts": "Existierendes Konto",
 		"existing_user": "Existierender Benutzer",
+		"expiry": "Ablauf",
 		"export_modal": {
 			"coinbase_report": "CoinTracking.info Report",
 			"description": "Enter your desired elastic search instance and click the report type",
@@ -578,7 +579,7 @@
 		"top_markets": "Top Märkte"
 	},
 	"exchange": {
-		"actions": "Actions",
+		"actions": "Aktionen",
 		"add_quote": "Kursangabe hinzufügen",
 		"asks": "Briefkurse",
 		"asset_explorer": {

@@ -66,6 +66,7 @@
 		"estimate_value": "推定アカウント価格",
 		"existing_accounts": "既存のアカウント",
 		"existing_user": "既存ユーザー",
+		"expiry": "有効期限",
 		"export_modal": {
 			"coinbase_report": "CoinTracking.info Report",
 			"description": "Enter your desired elastic search instance and click the report type",
@@ -580,7 +581,7 @@
 		"top_markets": "トップマーケット"
 	},
 	"exchange": {
-		"actions": "Actions",
+		"actions": "行動",
 		"add_quote": "Add",
 		"asks": "売り注文",
 		"asset_explorer": {

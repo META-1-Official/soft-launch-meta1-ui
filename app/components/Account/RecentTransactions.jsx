@@ -747,9 +747,8 @@ class RecentTransactions extends React.Component {
 										<Translate content="explorer.block.op" />
 									</div>
 								),
-								isShow: this.props.transactionHistoryCheckbox?.includes(
-									counterpart.translate('explorer.block.op')
-								),
+								isShow:
+									this.props.transactionHistoryCheckbox?.includes('Operation'),
 								dataIndex: 'pairData',
 								align: 'left',
 								render: (item) => {
@@ -780,9 +779,7 @@ class RecentTransactions extends React.Component {
 										<Translate content="account.transactions.info" />
 									</div>
 								),
-								isShow: this.props.transactionHistoryCheckbox?.includes(
-									counterpart.translate('account.transactions.info')
-								),
+								isShow: this.props.transactionHistoryCheckbox?.includes('Info'),
 								dataIndex: 'info',
 								align: 'left',
 								render: (item) => {
@@ -821,9 +818,8 @@ class RecentTransactions extends React.Component {
 										),
 										dataIndex: 'fee',
 										align: 'left',
-										isShow: this.props.transactionHistoryCheckbox?.includes(
-											counterpart.translate('account.transactions.fee')
-										),
+										isShow:
+											this.props.transactionHistoryCheckbox?.includes('Fee'),
 										render: (item) => {
 											return (
 												<span
@@ -846,9 +842,7 @@ class RecentTransactions extends React.Component {
 										/>
 									</div>
 								),
-								isShow: this.props.transactionHistoryCheckbox?.includes(
-									counterpart.translate('account.transactions.time')
-								),
+								isShow: this.props.transactionHistoryCheckbox?.includes('Time'),
 								dataIndex: 'time',
 								render: (item) => {
 									return <span style={{whiteSpace: 'nowrap'}}>{item}</span>;

@@ -66,6 +66,7 @@
 		"estimate_value": "Estimated Wallet value",
 		"existing_accounts": "Existing Wallets",
 		"existing_user": "Existing user",
+		"expiry": "Expiration",
 		"export_modal": {
 			"coinbase_report": "CoinTracking.info Report",
 			"description": "Enter your desired elastic search instance and click the report type",

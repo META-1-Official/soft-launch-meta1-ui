@@ -66,6 +66,7 @@
 		"estimate_value": "Ориентировочная стоимость аккаунта",
 		"existing_accounts": "Существующие аккаунты",
 		"existing_user": "Существующий пользователь",
+		"expiry": "Срок действия",
 		"export_modal": {
 			"coinbase_report": "Отчёт CoinTracking.info",
 			"description": "Добавьте выбранный вами экземпляр elasticsearch и нажмите на тип отчёта",
@@ -580,7 +581,7 @@
 		"top_markets": "Лучшие рынки"
 	},
 	"exchange": {
-		"actions": "Actions",
+		"actions": "Действия",
 		"add_quote": "Добавить",
 		"asks": "Ордера на продажу",
 		"asset_explorer": {
