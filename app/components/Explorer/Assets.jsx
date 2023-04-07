@@ -20,6 +20,7 @@ import SearchInput from '../Utility/SearchInput';
 import ExploreCard from 'components/ExploreCard/ExploreCard';
 import {FaChartBar} from 'react-icons/fa';
 import chainIds from 'chain/chainIds';
+import counterpart from 'counterpart';
 
 let accountStorage = new ls('__graphene__');
 const {Text} = Typography;
@@ -157,7 +158,7 @@ class Assets extends React.Component {
 			columns = [
 				{
 					key: 'symbol',
-					title: 'symbol',
+					title: counterpart.translate('explorer.assets.symbol'),
 					dataIndex: 'symbol',
 					defaultSortOrder: 'ascend',
 					sorter: (a, b) => {
@@ -173,7 +174,7 @@ class Assets extends React.Component {
 				},
 				{
 					key: 'issuer',
-					title: 'issuer',
+					title: counterpart.translate('explorer.assets.issuer'),
 					dataIndex: 'issuer',
 					sorter: (a, b) => {
 						let issuerA = ChainStore.getAccount(a.issuer, false);
@@ -190,7 +191,7 @@ class Assets extends React.Component {
 				},
 				{
 					key: 'currentSupply',
-					title: 'Supply',
+					title: counterpart.translate('explorer.assets.issuer'),
 					dataIndex: 'currentSupply',
 					sorter: (a, b) => {
 						const currentSupplyA =
@@ -266,7 +267,7 @@ class Assets extends React.Component {
 			columns = [
 				{
 					key: 'symbol',
-					title: 'symbol',
+					title: counterpart.translate('explorer.assets.symbol'),
 					dataIndex: 'symbol',
 					defaultSortOrder: 'ascend',
 					sorter: (a, b) => {
@@ -282,7 +283,7 @@ class Assets extends React.Component {
 				},
 				{
 					key: 'issuer',
-					title: 'issuer',
+					title: counterpart.translate('explorer.assets.issuer'),
 					dataIndex: 'issuer',
 					sorter: (a, b) => {
 						let issuerA = ChainStore.getAccount(a.issuer, false);
@@ -299,7 +300,7 @@ class Assets extends React.Component {
 				},
 				{
 					key: 'currentSupply',
-					title: 'Supply',
+					title: counterpart.translate('markets.supply'),
 					dataIndex: 'currentSupply',
 					sorter: (a, b) => {
 						a.currentSupply = parseFloat(a.currentSupply);
