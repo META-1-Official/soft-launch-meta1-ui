@@ -385,7 +385,7 @@ class AccountPermissions extends React.Component {
 						}}
 						level={2}
 					>
-						Permissions
+						<Translate content="account.permissions" />
 					</Title>
 					<div className="action-buttons">
 						<div

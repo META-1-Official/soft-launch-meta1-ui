@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Col, Row, List, Avatar, Progress, Tabs, Typography} from 'antd';
+import counterpart from 'counterpart';
 import PageHeader from 'components/PageHeader/PageHeader';
 import {getBankingAssetsLogo, getGoldImage} from 'branding';
 import {useTheme} from '@emotion/react';
@@ -29,12 +30,12 @@ const AssetExplorer = ({history}) => {
 
 		var ochestratedAssets = [];
 		bk_assets.map(async (asset) => {
-			let status = 'Pending';
+			let status = counterpart.translate('exchange.asset_explorer.pending');
 			if (asset.approval_date) {
-				status = 'Approved';
+				status = counterpart.translate('exchange.asset_explorer.approved');
 			}
 			if (asset.expired && !asset.approval_date) {
-				status = 'Cancelled';
+				status = counterpart.translate('exchange.asset_explorer.cancelled');
 			}
 
 			ochestratedAssets.push({
@@ -167,7 +168,11 @@ const AssetExplorer = ({history}) => {
 
 	return (
 		<div className="backing-assets">
-			<PageHeader title="Backing Assets" level={3} showDivider />
+			<PageHeader
+				title={counterpart.translate('header.arts')}
+				level={3}
+				showDivider
+			/>
 			<div className="content-body">
 				<Row align="middle" gutter={[16, 16]} className="header">
 					<Col xs={4} sm={3}>
@@ -178,38 +183,63 @@ const AssetExplorer = ({history}) => {
 							className="title1"
 							style={{color: theme.colors.descriptionTextColor}}
 						>
-							Explore assets assigned to META1 coin on the META blockchain{' '}
+							{counterpart.translate(
+								'exchange.asset_explorer.explore_assets_assigned_to_meta1'
+							)}
 						</Text>
 						<Text
 							className="title2"
 							style={{color: theme.colors.themeOpositeColor}}
 						>
-							META1 Coin Current Asset Value:{' '}
+							{counterpart.translate(
+								'exchange.asset_explorer.meta1_coin_current_asset_value'
+							)}
+							:&nbsp;
 							<Text className="golden">${meta1Price.toFixed(6)}</Text>
 						</Text>
 						<Text
 							className="title3"
 							style={{color: theme.colors.descriptionTextColor}}
 						>
-							Asset Assignment statistics, history & data
+							{counterpart.translate(
+								'exchange.asset_explorer.asset_assignment_statistics_history_data'
+							)}
 						</Text>
 					</Col>
 				</Row>
 				<div className="list-wrapper">
 					<SearchInput
-						placeholder={'Search for backing assets'}
+						placeholder={counterpart.translate(
+							'exchange.asset_explorer.search_for_backing_assets'
+						)}
 						value={searchQuery}
 						onChange={onSearchChange}
 					/>
 					<Tabs defaultActiveKey="1" type="card">
-						<TabPane tab="Approved" key="1" className="approved-tab">
-							{renderList('Approved')}
+						<TabPane
+							tab={counterpart.translate('exchange.asset_explorer.approved')}
+							key="1"
+							className="approved-tab"
+						>
+							{renderList(
+								counterpart.translate('exchange.asset_explorer.approved')
+							)}
 						</TabPane>
-						<TabPane tab="Cancelled" key="2">
-							{renderList('Cancelled')}
+						<TabPane
+							tab={counterpart.translate('exchange.asset_explorer.cancelled')}
+							key="2"
+						>
+							{renderList(
+								counterpart.translate('exchange.asset_explorer.cancelled')
+							)}
 						</TabPane>
-						<TabPane tab="Pending" key="3">
-							{renderList('Pending')}
+						<TabPane
+							tab={counterpart.translate('exchange.asset_explorer.pending')}
+							key="3"
+						>
+							{renderList(
+								counterpart.translate('exchange.asset_explorer.pending')
+							)}
 						</TabPane>
 					</Tabs>
 				</div>

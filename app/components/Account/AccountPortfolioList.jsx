@@ -660,11 +660,15 @@ class AccountPortfolioList extends React.Component {
 				emptyCell
 			) : notCore ? (
 				<Link to={`/market/${asset.get('symbol')}_${preferredMarket}`}>
-					<StyledButton buttonType="white">Trade</StyledButton>
+					<StyledButton buttonType="white">
+						<Translate content="account.trade" style={{whiteSpace: 'nowrap'}} />
+					</StyledButton>
 				</Link>
 			) : notCorePrefUnit ? (
 				<Link to={`/market/${asset.get('symbol')}_${preferredUnit}`}>
-					<StyledButton buttonType="white">Trade</StyledButton>
+					<StyledButton buttonType="white">
+						<Translate content="account.trade" style={{whiteSpace: 'nowrap'}} />
+					</StyledButton>
 				</Link>
 			) : (
 				emptyCell
@@ -674,7 +678,7 @@ class AccountPortfolioList extends React.Component {
 					buttonType="transparent"
 					onClick={this.triggerSend.bind(this, asset.get('id'))}
 				>
-					Send
+					<Translate content="transfer.send" style={{whiteSpace: 'nowrap'}} />
 				</StyledButton>
 			);
 
@@ -875,7 +879,7 @@ class AccountPortfolioList extends React.Component {
 							buttonType="green"
 							onClick={this._showDepositModal.bind(this, asset.get('symbol'))}
 						>
-							Deposit
+							<Translate content="exchange.deposit" />
 						</StyledButton>
 					) : (
 						emptyCell
@@ -958,7 +962,7 @@ class AccountPortfolioList extends React.Component {
 											asset.get('symbol')
 										)}
 									>
-										Deposit
+										<Translate content="exchange.deposit" />
 									</StyledButton>
 								) : (
 									emptyCell

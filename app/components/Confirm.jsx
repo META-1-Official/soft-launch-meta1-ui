@@ -1,4 +1,5 @@
 import React from 'react';
+import counterpart from 'counterpart';
 
 class Confirm extends React.Component {
 	constructor() {
@@ -26,10 +27,14 @@ class Confirm extends React.Component {
 		)
 			.then(async (response) => {
 				if (response.status === 200) {
-					this.setState({message: 'Your email is confirmed'});
+					this.setState({
+						message: counterpart.translate('account.your_email_is_confirmed'),
+					});
 				} else {
 					console.log('post');
-					this.setState({message: 'Your email is unconfirmed'});
+					this.setState({
+						message: counterpart.translate('account.your_email_is_unconfirmed'),
+					});
 				}
 			})
 			.catch((error) => {

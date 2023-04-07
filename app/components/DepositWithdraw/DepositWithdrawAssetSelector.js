@@ -133,7 +133,7 @@ class DepositWithdrawAssetSelector extends React.Component {
 				)}
 				value={
 					this.props.defaultValue.toString() === ''
-						? 'Select a asset'
+						? counterpart.translate('modal.withdraw.select_asset')
 						: this.props.defaultValue
 				}
 				optionLabelProp={'value'}

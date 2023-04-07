@@ -510,7 +510,9 @@ class SendModal extends React.Component {
 			>
 				{!!propose && (
 					<div className="account-selector-wrapper">
-						<span className="selector-label">By</span>
+						<span className="selector-label">
+							{counterpart.translate('transfer.by')}
+						</span>
 						<AccountSelector
 							accountName={this.props.currentAccount}
 							account={this.props.currentAccount}
@@ -523,7 +525,9 @@ class SendModal extends React.Component {
 				)}
 
 				<div className="account-selector-wrapper">
-					<span className="selector-label">From</span>
+					<span className="selector-label">
+						{counterpart.translate('transfer.from')}
+					</span>
 					<AccountSelector
 						accountName={from_name}
 						account={from_account}
@@ -537,7 +541,9 @@ class SendModal extends React.Component {
 				</div>
 
 				<div className="account-selector-wrapper">
-					<span className="selector-label">To</span>
+					<span className="selector-label">
+						{counterpart.translate('transfer.to')}
+					</span>
 					<AccountSelector
 						accountName={to_name}
 						account={to_account}
@@ -550,7 +556,9 @@ class SendModal extends React.Component {
 				</div>
 
 				<div className="account-selector-wrapper">
-					<span className="selector-label">Amount</span>
+					<span className="selector-label">
+						{counterpart.translate('transfer.amount')}
+					</span>
 					<AmountSelector
 						amount={amount}
 						onChange={this.onAmountChanged.bind(this)}
@@ -569,7 +577,8 @@ class SendModal extends React.Component {
 				</div>
 				{this.state.asset_id && balanceAssetId && (
 					<span className="show-balance">
-						Balance : <BalanceComponent balance={balanceAssetId} />
+						{counterpart.translate('exchange.balance')} :{' '}
+						<BalanceComponent balance={balanceAssetId} />
 					</span>
 				)}
 				<div className="account-selector-wrapper">
@@ -598,7 +607,9 @@ class SendModal extends React.Component {
 					</Form.Item>
 				</div>
 				<div className="account-selector-wrapper">
-					<span className="selector-label">Fee</span>
+					<span className="selector-label">
+						{counterpart.translate('transfer.fee')}
+					</span>
 					<FeeAssetSelector
 						account={from_account}
 						transaction={{
@@ -647,7 +658,10 @@ class SendModal extends React.Component {
 					className="send-propose-modal"
 				>
 					<Tabs defaultActiveKey="1" animated={false} onChange={this.onPropose}>
-						<Tabs.TabPane tab="Send" key="send">
+						<Tabs.TabPane
+							tab={counterpart.translate('transfer.send')}
+							key="send"
+						>
 							{tabHeaderContainer}
 							{this.state.open ? formContainer : null}
 						</Tabs.TabPane>

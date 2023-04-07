@@ -2431,10 +2431,16 @@ class Exchange extends React.Component {
 					activeKey={tabBuySell}
 					onChange={this._setTabBuySell.bind(this)}
 				>
-					<Tabs.TabPane tab="BUY" key="buy">
+					<Tabs.TabPane
+						tab={counterpart.translate('exchange.buy').toUpperCase()}
+						key="buy"
+					>
 						{buyForm}
 					</Tabs.TabPane>
-					<Tabs.TabPane tab="SELL" key="sell">
+					<Tabs.TabPane
+						tab={counterpart.translate('exchange.sell').toUpperCase()}
+						key="sell"
+					>
 						{sellForm}
 					</Tabs.TabPane>
 				</Tabs>
@@ -2459,24 +2465,37 @@ class Exchange extends React.Component {
 				if (a == 'my_orders') {
 					groupTabs[panelTabs[a]].push(
 						<Tabs.TabPane
-							tab={`Open Orders (${this._getOrders().length})`}
+							tab={`${counterpart.translate(
+								'exchange.settings.title.open_orders'
+							)} (${this._getOrders().length})`}
 							key="my_orders"
 						>
 							{myOpenOrders}
 						</Tabs.TabPane>
 					);
 					groupTabs[panelTabs[a]].push(
-						<Tabs.TabPane tab="Execution History" key="execution_history">
+						<Tabs.TabPane
+							tab={`${counterpart.translate(
+								'exchange.settings.title.execution_history'
+							)}`}
+							key="execution_history"
+						>
 							{myMarketHistory}
 						</Tabs.TabPane>
 					);
 					groupTabs[panelTabs[a]].push(
-						<Tabs.TabPane tab="My Trade" key="my_trade">
+						<Tabs.TabPane
+							tab={counterpart.translate('exchange.settings.title.my_trades')}
+							key="my_trade"
+						>
 							{myTrade}
 						</Tabs.TabPane>
 					);
 					groupTabs[panelTabs[a]].push(
-						<Tabs.TabPane tab="Fund" key="fund">
+						<Tabs.TabPane
+							tab={`${counterpart.translate('exchange.settings.title.fund')}`}
+							key="fund"
+						>
 							{myFund}
 						</Tabs.TabPane>
 					);

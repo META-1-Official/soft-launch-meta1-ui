@@ -194,9 +194,14 @@ class PasswordlessLoginModal extends React.Component {
 					footer={null}
 					onCancel={this.handleModalClose}
 				>
-					<Title className="header-title1">META1 Wallet Login</Title>
+					<Title className="header-title1">
+						META1 {counterpart.translate('wallet.title')}{' '}
+						{counterpart.translate('header.unlock_short')}
+					</Title>
 					<div className="header-title2">
-						Login with Wallet name(Cloud wallet)
+						{counterpart.translate('account.login_with')}{' '}
+						{counterpart.translate('account.name')} (
+						{counterpart.translate('wallet.password_model')})
 					</div>
 					<Form
 						className="full-width"
@@ -238,10 +243,13 @@ class PasswordlessLoginModal extends React.Component {
 							}
 							ref={this.login_btn_ref}
 						>
-							Login
+							{counterpart.translate('header.unlock_short')}
 						</Button>
 						<div className="redirect">
-							Or create your <a href="/registration">wallet</a>
+							{counterpart.translate('registration.or_create_your')}&nbsp;
+							<a href="/registration">
+								{counterpart.translate('account.name')}
+							</a>
 						</div>
 					</div>
 				</Modal>

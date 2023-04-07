@@ -1,4 +1,5 @@
 import React from 'react';
+import counterpart from 'counterpart';
 import HelpContent from './Utility/HelpContent';
 import {toPairs} from 'lodash-es';
 import PageHeader from 'components/PageHeader/PageHeader';
@@ -11,7 +12,11 @@ class Help extends React.Component {
 			.join('/');
 		return (
 			<>
-				<PageHeader title="Learn" showDivider level={2} />
+				<PageHeader
+					title={counterpart.translate('account.learn')}
+					showDivider
+					level={2}
+				/>
 				<div
 					css={() => ({
 						height: '100%',

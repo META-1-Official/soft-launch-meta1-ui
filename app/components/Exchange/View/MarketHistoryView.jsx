@@ -1,5 +1,6 @@
 import React from 'react';
 import Translate from 'react-translate-component';
+import counterpart from 'counterpart';
 import cnames from 'classnames';
 import TransitionWrapper from '../../Utility/TransitionWrapper';
 import SectionHeader from 'components/Utility/SectionHeader';
@@ -28,7 +29,9 @@ class MarketHistoryView extends React.Component {
 		const allHistory = (
 			<>
 				<div className="left-orderbook-header">
-					<SectionHeader title="Trade History" />
+					<SectionHeader
+						title={counterpart.translate('exchange.trade_history')}
+					/>
 					<table className="table table-no-padding order-table text-left fixed-table market-right-padding">
 						<thead>
 							<tr>
@@ -90,7 +93,11 @@ class MarketHistoryView extends React.Component {
 					<Table dataSource={data} pagination={false} showSorterTooltip={false}>
 						<Table.Column
 							dataIndex="pair"
-							title={<div className="market-order-table-text-header">Pair</div>}
+							title={
+								<div className="market-order-table-text-header">
+									{counterpart.translate('exchange.pair')}
+								</div>
+							}
 							render={(row) => {
 								return (
 									<div
@@ -115,7 +122,9 @@ class MarketHistoryView extends React.Component {
 						<Table.Column
 							dataIndex="amount"
 							title={
-								<div className="market-order-table-text-header">Amount</div>
+								<div className="market-order-table-text-header">
+									{counterpart.translate('transaction.trxTypes.amount')}
+								</div>
 							}
 							render={(row) => {
 								return (
@@ -134,7 +143,9 @@ class MarketHistoryView extends React.Component {
 						<Table.Column
 							dataIndex="price"
 							title={
-								<div className="market-order-table-text-header">Price</div>
+								<div className="market-order-table-text-header">
+									{counterpart.translate('exchange.price')}
+								</div>
 							}
 							render={(row) => {
 								return (
@@ -149,7 +160,9 @@ class MarketHistoryView extends React.Component {
 						<Table.Column
 							dataIndex="total"
 							title={
-								<div className="market-order-table-text-header">Total</div>
+								<div className="market-order-table-text-header">
+									{counterpart.translate('exchange.total')}
+								</div>
 							}
 							render={(row) => {
 								return (

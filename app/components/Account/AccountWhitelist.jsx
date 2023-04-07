@@ -146,7 +146,7 @@ class AccountList extends React.Component {
 										color: theme.colors.descriptionTextColor,
 									})}
 								>
-									No Data
+									<Translate content="exchange.no_data" />
 								</span>
 							</>
 						)}
