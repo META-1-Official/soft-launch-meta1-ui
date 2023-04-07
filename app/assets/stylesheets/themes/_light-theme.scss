@@ -293,6 +293,9 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 			button {
 				&.primary {
 					color: $white !important;
+					@media screen and (max-width: 900px) {
+						color: $primary-color !important;
+					}
 				}
 
 				&.transparent {
