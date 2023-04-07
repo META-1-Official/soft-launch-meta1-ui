@@ -62,6 +62,7 @@ export default class PaginatedList extends React.Component {
 							: (record, index) => this.props.rowClassName(record, index)
 					}
 					rowSelection={this.props.rowSelection}
+					locale={{emptyText: counterpart.translate('exchange.no_data')}}
 				/>
 				{this.props.children}
 			</div>

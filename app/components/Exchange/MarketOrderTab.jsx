@@ -10,6 +10,7 @@ import walletIcon from '../../assets/icons/walleticon.png';
 import {BalanceValueComponent} from 'components/Utility/EquivalentValueComponent';
 import ExchangeInput from './ExchangeInput';
 import {toast} from 'react-toastify';
+import counterpart from 'counterpart';
 
 const MarketOrderForm = (props) => {
 	const [usdPrice, setUsdPrice] = useState(0.0);
@@ -346,7 +347,7 @@ const MarketOrderForm = (props) => {
 
 				<Form.Item
 					{...formItemProps}
-					label="Amount"
+					label={counterpart.translate('transaction.trxTypes.amount')}
 					name="amount"
 					// validateFirst={true}
 					// validateTrigger={'onBlur'}
@@ -452,12 +453,18 @@ const MarketOrderForm = (props) => {
 							color: isBid ? '#330000' : 'white',
 						}}
 					>
-						{isBid ? 'BUY' : 'SELL'}&nbsp;{props.quoteAsset.get('symbol')}
+						{isBid
+							? counterpart.translate('exchange.buy')
+							: counterpart.translate('exchange.sell')}
+						&nbsp;{props.quoteAsset.get('symbol')}
 					</div>
 				</button>
 				<div style={{fontSize: 12, marginTop: 10}}>
-					<span style={{color: '#ffc000'}}>Fee:</span> 0.00002 Meta1 | Incl. of
-					all applicable taxes
+					<span style={{color: '#ffc000'}}>
+						{counterpart.translate('account.transactions.fee')}:
+					</span>{' '}
+					0.00002 Meta1 | Incl.
+					{counterpart.translate('exchange.all_applicable_taxes')}
 				</div>
 			</Form>
 		</div>

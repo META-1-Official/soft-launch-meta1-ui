@@ -12,6 +12,7 @@ import LoadingIndicator from '../LoadingIndicator';
 import SearchInput from '../Utility/SearchInput';
 import {ChainStore} from 'meta1-vision-js';
 import {FaUserPlus, FaUserAlt, FaUserMinus} from 'react-icons/fa';
+import counterpart from 'counterpart';
 
 class Accounts extends React.Component {
 	constructor(props) {
@@ -244,7 +245,7 @@ class Accounts extends React.Component {
 				<div className="generic-bordered-box">
 					<div className="search-input">
 						<SearchInput
-							placeholder={'Search'}
+							placeholder={counterpart.translate('markets.search')}
 							value={this.state.searchTerm}
 							onChange={this._onSearchChange.bind(this)}
 						/>

@@ -2,6 +2,7 @@ import React from 'react';
 import {Component} from 'react';
 import PropTypes from 'prop-types';
 import cname from 'classnames';
+import counterpart from 'counterpart';
 import Translate from 'react-translate-component';
 import zxcvbnAsync from 'zxcvbn-async';
 import CopyButton from '../Utility/CopyButton';
@@ -235,10 +236,12 @@ class PasswordInput extends Component {
 								ref="confirm_password"
 								autoComplete="confirm-password"
 								onChange={this.handleChange}
-								placeholder="Confirmed Passkey"
+								placeholder={counterpart.translate('wallet.confirm_password')}
 							/>
 							{confirmMatch ? (
-								<div className={'ok-indicator success'}>OK</div>
+								<div className={'ok-indicator success'}>
+									{counterpart.translate('modal.ok')}
+								</div>
 							) : null}
 						</section>
 						{confirmation_error}

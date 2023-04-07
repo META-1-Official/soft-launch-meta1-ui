@@ -850,13 +850,19 @@ class BuySell extends React.Component {
 														color: isBid ? '#330000' : 'white',
 													}}
 												>
-													{isBid ? 'BUY' : 'SELL'}&nbsp;
+													{isBid
+														? counterpart.translate('exchange.buy')
+														: counterpart.translate('exchange.sell')}
+													&nbsp;
 													{this.props.quote.get('symbol')}
 												</div>
 											</button>
 										</Tooltip>
 										<div style={{fontSize: 12, marginTop: 10}}>
-											<span style={{color: '#ffc000'}}>Fee:</span> 0.00002 Meta1
+											<span style={{color: '#ffc000'}}>
+												{counterpart.translate('account.transactions.fee')}:
+											</span>{' '}
+											0.00002 Meta1
 										</div>
 										{isGloballySettled ? (
 											<Button

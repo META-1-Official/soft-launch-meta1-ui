@@ -5,6 +5,7 @@ import {PrivateKey, FetchChain, key} from 'meta1-vision-js/es';
 import qs from 'qs';
 import axios from 'axios';
 import {Modal} from 'antd';
+import counterpart from 'counterpart';
 import AuthStore from '../stores/AuthStore';
 import AccountStore from '../stores/AccountStore';
 import AccountActions from '../actions/AccountActions';
@@ -39,18 +40,18 @@ const browserstack_test_accounts = [
 ];
 
 const errorCase = {
-	'Camera Not Found': 'Please check your camera.',
-	'Not Matched': 'Email and wallet name are not matched.',
-	'Verify Failed':
-		'We can not verify you because you never enrolled with your face yet.',
-	'No Users':
-		'You never enrolled with your face yet. Please enroll first via signup process.',
-	'Spoof Detected': 'Spoof detected. Are you trying with your real live face?',
-	'Face not Detected':
-		'Face not detected. Try again by changing position or background.',
-	'Invalid Email':
-		'Bio-metric verification failed for this email. Please use an email that has been linked to your biometric verification / enrollment.',
-	'Biometic Server Error': 'Something went wrong from Biometric server.',
+	'Camera Not Found': counterpart.translate('registration.check_camera'),
+	'Not Matched': counterpart.translate('registration.email_wallet_not_matched'),
+	'Verify Failed': counterpart.translate('registration.verify_failed'),
+	'No Users': counterpart.translate('registration.no_users'),
+	'Spoof Detected': counterpart.translate('registration.spoof_detected'),
+	'Face not Detected': counterpart.translate('registration.face_not_detected'),
+	'Invalid Email': counterpart.translate(
+		'registration.invalid_biometric_email'
+	),
+	'Biometic Server Error': counterpart.translate(
+		'registration.biometric_server_error'
+	),
 };
 
 class AuthRedirect extends React.Component {
@@ -269,7 +270,7 @@ class AuthRedirect extends React.Component {
 				console.log('Error in e-sign token generation', err);
 			}
 		} else {
-			alert('Verify first!');
+			alert(counterpart.translate('registration.verify_first'));
 		}
 	}
 
@@ -433,10 +434,12 @@ class AuthRedirect extends React.Component {
 						maskClosable={false}
 					>
 						<h4 style={{textAlign: 'center', fontWeight: 'bold'}}>
-							Authenticate Your Face
+							{counterpart.translate('registration.authenticate_your_face')}
 						</h4>
 						<h5 style={{textAlign: 'center', fontSize: 16}}>
-							To log into your wallet, please complete biometric authentication
+							{counterpart.translate(
+								'registration.require_biometric_authentication'
+							)}
 						</h5>
 						<br />
 						{this.state.webcamEnabled && (
@@ -450,7 +453,9 @@ class AuthRedirect extends React.Component {
 								<div className="flex-container">
 									<div className="flex-container-first">
 										<div className="position-head color-black">
-											Position your face in the oval
+											{counterpart.translate(
+												'registration.requiure_face_in_oval'
+											)}
 										</div>
 									</div>
 									<button className="btn-x" onClick={this.handleModalClose}>
@@ -487,14 +492,22 @@ class AuthRedirect extends React.Component {
 								<div className="flex_container">
 									<span className="span-class color-black">
 										{!this.state.faceKISuccess
-											? 'Press verify to complete authentication and log in'
-											: 'Verification Successful!'}
+											? counterpart.translate(
+													'registration.require_verification'
+											  )
+											: counterpart.translate(
+													'registration.verification_success'
+											  )}
 									</span>
 									<div className="span-class color-black">
-										Min camera resolution must be 720p
+										{counterpart.translate(
+											'registration.require_min_camera_resolution'
+										)}
 									</div>
 									<div className="span-class color-black">
-										Verifying will take 10 seconds as maximum
+										{counterpart.translate(
+											'registration.verification_duration'
+										)}
 									</div>
 								</div>
 							</div>
@@ -517,7 +530,9 @@ class AuthRedirect extends React.Component {
 										: false
 								}
 							>
-								{this.state.verifying ? 'Verifying...' : 'Verify'}
+								{this.state.verifying
+									? counterpart.translate('registration.faceki_verifying')
+									: counterpart.translate('registration.faceki_verify')}
 							</Button>
 						</div>
 					</Modal>

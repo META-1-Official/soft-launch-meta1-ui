@@ -1044,13 +1044,17 @@ class WithdrawalModal extends React.Component {
 				<div className="withdraw-modal-body">
 					<div className="with-label">
 						<div className="account-selector-wrapper">
-							<span className="selector-label">Name</span>
+							<span className="selector-label">
+								{counterpart.translate('account.votes.name').toUpperCase()}
+							</span>
 							<Input
 								type="text"
 								value={username}
 								name="username"
 								onChange={(e) => this.onInputChanged(e)}
-								placeholder="Enter name"
+								placeholder={counterpart
+									.translate('modal.withdraw.enter_name')
+									.toUpperCase()}
 							/>
 						</div>
 						{this.state.nameError && (
@@ -1060,13 +1064,17 @@ class WithdrawalModal extends React.Component {
 
 					<div className="with-label">
 						<div className="account-selector-wrapper">
-							<span className="selector-label">EMAIL</span>
+							<span className="selector-label">
+								{counterpart.translate('registration.email').toUpperCase()}
+							</span>
 							<Input
 								type="text"
 								value={email}
 								name="email"
 								onChange={(e) => this.onInputChanged(e)}
-								placeholder="Enter email"
+								placeholder={counterpart
+									.translate('modal.withdraw.enter_email')
+									.toUpperCase()}
 							/>
 						</div>
 						{this.state.emailError && (
@@ -1075,7 +1083,9 @@ class WithdrawalModal extends React.Component {
 					</div>
 
 					<div className="account-selector-wrapper">
-						<span className="selector-label">ASSET</span>
+						<span className="selector-label">
+							{counterpart.translate('explorer.asset.title').toUpperCase()}
+						</span>
 						{/*ASSET SELECTION*/}
 						<DepositWithdrawAssetSelector
 							onSelect={this.onAssetSelected.bind(this)}
@@ -1095,7 +1105,9 @@ class WithdrawalModal extends React.Component {
 					{/*GATEWAY SELECTION*/}
 					{selectedGateway && (
 						<div className="account-selector-wrapper">
-							<span className="selector-label">GATEWAY</span>
+							<span className="selector-label">
+								{counterpart.translate('gateway.gateway').toUpperCase()}
+							</span>
 							{gatewaySelector.call(this, {
 								selectedGateway,
 								gatewayStatus,
@@ -1151,8 +1163,13 @@ class WithdrawalModal extends React.Component {
 									</span>
 								</div>
 							) : null}
+
 							<div className="account-selector-wrapper label-up">
-								<span className="selector-label">QUANTITY</span>
+								<span className="selector-label">
+									{counterpart
+										.translate('modal.withdraw.quantity')
+										.toUpperCase()}
+								</span>
 								<ExchangeInput
 									value={quantity ? quantity : ''}
 									onChange={this.onQuantityChanged.bind(this)}
@@ -1252,8 +1269,14 @@ class WithdrawalModal extends React.Component {
 								/>
 							</div>
 							<div className="account-selector-wrapper label-up">
-								<span className="selector-label">Address</span>
-								<ConfigProvider renderEmpty={() => 'No address found'}>
+								<span className="selector-label">
+									{counterpart.translate('gateway.address').toUpperCase()}
+								</span>
+								<ConfigProvider
+									renderEmpty={() =>
+										counterpart.translate('modal.withdraw.no_address_found')
+									}
+								>
 									<Select
 										showSearch
 										value={address === '' ? undefined : address}

@@ -490,7 +490,7 @@ class MarketsTable extends React.Component {
 					<div className="filter inline-block">
 						<Input
 							type="text"
-							placeholder="Filter..."
+							placeholder={counterpart.translate('account.filter_orders')}
 							onChange={this._handleFilterInput.bind(this)}
 							// addonAfter={<AntIcon type="search" />}
 						/>

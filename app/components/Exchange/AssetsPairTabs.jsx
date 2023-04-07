@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'alt-react';
 import {ChainStore} from 'meta1-vision-js';
 import {Map, List} from 'immutable';
+import counterpart from 'counterpart';
 import SettingsActions from 'actions/SettingsActions';
 import SettingsStore from 'stores/SettingsStore';
 import AssetStore from 'stores/AssetStore';
@@ -252,7 +253,7 @@ class AssetsPairTabs extends React.Component {
 								textAlign: 'left',
 							}}
 						>
-							Pair
+							{counterpart.translate('exchange.pair')}
 						</span>
 						<span
 							style={{
@@ -263,7 +264,7 @@ class AssetsPairTabs extends React.Component {
 								marginLeft: '10px',
 							}}
 						>
-							Change
+							{counterpart.translate('settings.change')}
 						</span>
 					</>
 				),
@@ -403,7 +404,7 @@ class AssetsPairTabs extends React.Component {
 							paddingLeft: '0px',
 						}}
 					>
-						Price
+						{counterpart.translate('exchange.price')}
 					</div>
 				),
 				colSpan: 2,
@@ -602,7 +603,7 @@ class AssetsPairTabs extends React.Component {
 				<div className="asset-select">
 					<div className="filter">
 						<SearchInput
-							placeholder={'Search'}
+							placeholder={counterpart.translate('markets.search')}
 							value={this.state.searchTerm}
 							style={{width: '30%'}}
 							onChange={this._onSearchChange.bind(this)}

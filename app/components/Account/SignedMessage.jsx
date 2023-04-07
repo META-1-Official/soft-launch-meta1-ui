@@ -2,6 +2,7 @@ import React from 'react';
 // import PropTypes from 'prop-types';
 import counterpart from 'counterpart';
 import SignedMessageAction from '../../actions/SignedMessageAction';
+import Translate from 'react-translate-component';
 
 /** This component allows to display and verify a signed message
  *
@@ -200,8 +201,8 @@ class SignedMessage extends React.Component {
 				{messageGiven && this.state.messageParsed == null && (
 					<fieldset style={{borderColor: '#F00'}}>
 						<legend style={{color: 'red', weight: 'bold'}} className="error">
-							Error while parsing message, please check syntax from message
-							below
+							<Translate content="account.signedmessages.error_while_parsing" />
+							:
 						</legend>
 						<pre>{this.props.message}</pre>
 					</fieldset>

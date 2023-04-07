@@ -746,7 +746,9 @@ class AccountVoting extends React.Component {
 										<div className="selector inline-block">
 											{/* <Link to="/help/voting/worker"><Icon name="question-circle" title="icons.question_cirlce" /></Link> */}
 											<Input
-												placeholder={'Filter...'}
+												placeholder={counterpart.translate(
+													'account.filter_orders'
+												)}
 												value={this.state.filterSearch}
 												style={{width: '220px'}}
 												onChange={this.handleFilterChange.bind(this)}
@@ -795,7 +797,9 @@ class AccountVoting extends React.Component {
 									<div className="selector inline-block">
 										{/* <Link to="/help/voting/worker"><Icon name="question-circle" title="icons.question_cirlce" /></Link> */}
 										<Input
-											placeholder={'Filter...'}
+											placeholder={counterpart.translate(
+												'account.filter_orders'
+											)}
 											value={this.state.filterSearch}
 											style={{width: '220px'}}
 											onChange={this.handleFilterChange.bind(this)}
@@ -845,7 +849,9 @@ class AccountVoting extends React.Component {
 									<div className="selector inline-block">
 										{/* <Link to="/help/voting/worker"><Icon name="question-circle" title="icons.question_cirlce" /></Link> */}
 										<Input
-											placeholder={'Filter...'}
+											placeholder={counterpart.translate(
+												'account.filter_orders'
+											)}
 											value={this.state.filterSearch}
 											style={{width: '220px'}}
 											onChange={this.handleFilterChange.bind(this)}

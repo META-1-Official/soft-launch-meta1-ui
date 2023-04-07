@@ -1071,12 +1071,17 @@ class ScaledOrderForm extends Component {
 								color: isBid ? '#330000' : 'white',
 							}}
 						>
-							{isBid ? 'BUY' : 'SELL'}&nbsp;
+							{isBid
+								? counterpart.translate('exchange.buy')
+								: counterpart.translate('exchange.sell')}
+							&nbsp;
 							{this.props.quoteAsset.get('symbol')}
 						</div>
 					</button>
 					<div style={{fontSize: 12, marginTop: 10}}>
-						<span style={{color: '#ffc000'}}>Fee:</span>
+						<span style={{color: '#ffc000'}}>
+							{counterpart.translate('account.transactions.fee')}:
+						</span>
 						&nbsp;
 						{Math.max(
 							0.00002,

@@ -3,6 +3,7 @@ import {connect} from 'alt-react';
 import moment from 'moment';
 import {ChainStore} from 'meta1-vision-js';
 import {Map, List} from 'immutable';
+import counterpart from 'counterpart';
 import SettingsActions from 'actions/SettingsActions';
 import SettingsStore from 'stores/SettingsStore';
 import AssetStore from 'stores/AssetStore';
@@ -553,7 +554,7 @@ class AccountTrade extends React.Component {
 									className="trade"
 									onClick={() => this.onClickTrade(marketName)}
 								>
-									Trade
+									{counterpart.translate('account.trade')}
 								</button>
 							</div>
 						);
@@ -808,12 +809,16 @@ class AccountTrade extends React.Component {
 		return (
 			<div className="account-trade">
 				<div>
-					<PageHeader title="Trade" level={2} showDivider />
+					<PageHeader
+						title={counterpart.translate('account.trade')}
+						level={2}
+						showDivider
+					/>
 				</div>
 				<div className="content">
 					<div className="filter">
 						<SearchInput
-							placeholder={'Search'}
+							placeholder={counterpart.translate('markets.search')}
 							value={this.state.searchTerm}
 							style={{width: '30%'}}
 							onChange={this._onSearchChange.bind(this)}
@@ -837,7 +842,9 @@ class AccountTrade extends React.Component {
 							onChange={(rows) => this._onDropDownChange(rows, 'asset-filter')}
 							getPopupContainer={(triggerNode) => triggerNode.parentNode}
 						>
-							<Select.Option key={'ALL'}>All Assets</Select.Option>
+							<Select.Option key={'ALL'}>
+								{counterpart.translate('account.all_assets')}
+							</Select.Option>
 							{assetOptions}
 						</Select>
 						<Switch

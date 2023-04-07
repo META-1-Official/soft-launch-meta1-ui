@@ -65,7 +65,9 @@ const DepositModalContent = (props) => {
 			})
 			.catch((error) => {
 				console.error(error);
-				setDepositAddress('Gateway is down');
+				setDepositAddress(
+					counterpart.translate('modal.deposit.gateway_is_down')
+				);
 			});
 	};
 
@@ -74,11 +76,13 @@ const DepositModalContent = (props) => {
 	};
 
 	const renderContent = () => {
+		console.log('assetType', assetType);
 		return (
 			<>
 				<div className="qr-wrapper">
 					<span>
-						Deposit <span className="deposit-coin">{assetType}</span>
+						{counterpart.translate('exchange.deposit')}{' '}
+						<span className="deposit-coin">{assetType}</span>
 					</span>
 					{depositAddress && depositAddress != '' ? (
 						<QRCode value={depositAddress} />
@@ -87,8 +91,10 @@ const DepositModalContent = (props) => {
 					)}
 				</div>
 				<div className="minimum-deposit">
-					Minimum deposit: {minDepositValues[assetType]}{' '}
-					{assetType.toUpperCase()}
+					{counterpart.translate('modal.deposit.minimum_deposit', {
+						minDeposit: minDepositValues[assetType],
+						assetType: assetType.toUpperCase(),
+					})}
 				</div>
 				<div className="address">
 					{depositAddress == 'Gateway is down' ? (
@@ -104,13 +110,18 @@ const DepositModalContent = (props) => {
 							className="copy-btn"
 							onClick={() => {
 								navigator.clipboard.writeText(depositAddress);
-								toast.success('Copied successfully', {
-									position: 'top-right',
-									autoClose: 3000,
-								});
+								toast.success(
+									counterpart.translate('modal.deposit.copy_success'),
+									{
+										position: 'top-right',
+										autoClose: 3000,
+									}
+								);
 							}}
 						>
-							<div className="btn-text">Copy</div>
+							<div className="btn-text">
+								{counterpart.translate('modal.deposit.copy')}
+							</div>
 							<CopyOutlined className="copy-icon" />
 						</div>
 					</Tooltip>
@@ -118,13 +129,22 @@ const DepositModalContent = (props) => {
 				<div className="alert-wrapper">
 					<div className="alert-icon" />
 					<div className="alert-body">
-						<span>important information</span>
+						<span>
+							{counterpart.translate('modal.deposit.important_information')}
+						</span>
 						<div>
-							Send only {assetType.toUpperCase()}{' '}
-							{assetType === 'usdt' ? '(ERC20)' : ''} to this deposit address.
-							Sending less than {minDepositValues[assetType]}{' '}
-							{assetType.toUpperCase()} or any other currency to this address
-							may result in the loss of your deposit.
+							{assetType && minDepositValues[assetType]
+								? counterpart.translate(
+										'modal.deposit.important_information_info',
+										{
+											assetType: `${assetType.toUpperCase()} ${
+												assetType === 'usdt' ? '(ERC20)' : ''
+											}`,
+											min_value: minDepositValues[assetType],
+											min_assetType: assetType.toUpperCase(),
+										}
+								  )
+								: null}
 						</div>
 					</div>
 				</div>

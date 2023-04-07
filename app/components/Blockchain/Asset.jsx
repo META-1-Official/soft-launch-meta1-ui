@@ -384,7 +384,9 @@ class Asset extends React.Component {
 						borderRadius: '5px',
 					}}
 				>
-					{`Go Market (${asset.symbol} / ${preferredMarket})`}
+					{`${counterpart.translate('explorer.asset.go_market')} (${
+						asset.symbol
+					} / ${preferredMarket})`}
 				</Button>
 			</div>
 		);

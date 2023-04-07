@@ -667,7 +667,9 @@ class RecentTransactions extends React.Component {
 					<div className="header-selector">
 						<div className="header-selector-body">
 							<div className="date-list">
-								<span className="page-title">Transaction History</span>
+								<span className="page-title">
+									<Translate content="account.transaction_history" />
+								</span>
 								<div className="date">
 									<DatePicker
 										onChange={(dateFrom) => this.onDateFromChange(dateFrom)}
@@ -701,10 +703,26 @@ class RecentTransactions extends React.Component {
 										suffixIcon={<CaretDownFilled />}
 										getPopupContainer={(triggerNode) => triggerNode.parentNode}
 									>
-										<OptGroup label="General">{defaultOptions}</OptGroup>
-										<OptGroup label="Balances">{amountOptions}</OptGroup>
-										<OptGroup label="Date and Time">{dateTimeOptions}</OptGroup>
-										<OptGroup label="Username">{usernamesOptions}</OptGroup>
+										<OptGroup label={counterpart.translate('settings.general')}>
+											{defaultOptions}
+										</OptGroup>
+										<OptGroup
+											label={counterpart.translate('transfer.balances')}
+										>
+											{amountOptions}
+										</OptGroup>
+										<OptGroup
+											label={counterpart.translate(
+												'account.transactions.date_and_time'
+											)}
+										>
+											{dateTimeOptions}
+										</OptGroup>
+										<OptGroup
+											label={counterpart.translate('transaction.trxTypes.name')}
+										>
+											{usernamesOptions}
+										</OptGroup>
 									</Select>
 								) : null}
 							</div>
@@ -726,7 +744,7 @@ class RecentTransactions extends React.Component {
 							{
 								title: (
 									<div className="transaction-history-table-title">
-										<Translate content="account.user_issued_assets.operation" />
+										<Translate content="explorer.block.op" />
 									</div>
 								),
 								isShow:
