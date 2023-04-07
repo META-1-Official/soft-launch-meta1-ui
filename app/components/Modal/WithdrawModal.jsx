@@ -90,6 +90,8 @@ class WithdrawalModal extends React.Component {
 			btsAccount: '',
 			submitted: false,
 			minWithdraw: 0,
+			nameError: null,
+			emailError: null,
 		};
 
 		this.handleQrScanSuccess = this.handleQrScanSuccess.bind(this);
@@ -831,9 +833,26 @@ class WithdrawalModal extends React.Component {
 
 	onInputChanged(e) {
 		const name = e.target.name;
+		let val = e.target.value;
 
-		if (name === 'username') this.setState({username: e.target.value});
-		else if (name === 'email') this.setState({email: e.target.value});
+		if (name === 'username') {
+			var regName = /^[a-zA-Z]+ [a-zA-Z]+$/;
+			if (!regName.test(val)) {
+				this.setState({nameError: 'Invalid Name'});
+			} else {
+				this.setState({nameError: null});
+			}
+			this.setState({username: val});
+		} else if (name === 'email') {
+			var regEmail =
+				/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+			if (!regEmail.test(val)) {
+				this.setState({emailError: 'Invalid Email'});
+			} else {
+				this.setState({emailError: null});
+			}
+			this.setState({email: val});
+		}
 	}
 
 	onBTSAccountNameChanged(btsAccountName) {
@@ -1023,34 +1042,42 @@ class WithdrawalModal extends React.Component {
 				]}
 			>
 				<div className="withdraw-modal-body">
-					<div className="account-selector-wrapper">
-						<span className="selector-label">
-							{counterpart.translate('account.votes.name').toUpperCase()}
-						</span>
-						<Input
-							type="text"
-							value={username}
-							name="username"
-							onChange={(e) => this.onInputChanged(e)}
-							placeholder={counterpart
-								.translate('modal.withdraw.enter_name')
-								.toUpperCase()}
-						/>
+					<div className="with-label">
+						<div className="account-selector-wrapper">
+							<span className="selector-label">
+                {counterpart.translate('account.votes.name').toUpperCase()}
+              </span>
+							<Input
+                type="text"
+                value={username}
+                name="username"
+                onChange={(e) => this.onInputChanged(e)}
+                placeholder={counterpart
+                  .translate('modal.withdraw.enter_name')
+                  .toUpperCase()}
+              />
+						</div>
+						{this.state.nameError && (
+							<div className="error-label">{this.state.nameError}</div>
+						)}
 					</div>
 
-					<div className="account-selector-wrapper">
-						<span className="selector-label">
-							{counterpart.translate('registration.email').toUpperCase()}
-						</span>
-						<Input
-							type="text"
-							value={email}
-							name="email"
-							onChange={(e) => this.onInputChanged(e)}
-							placeholder={counterpart
-								.translate('modal.withdraw.enter_email')
-								.toUpperCase()}
-						/>
+					<div className="with-label">
+						<div className="account-selector-wrapper">
+							<span className="selector-label">{counterpart.translate('registration.email').toUpperCase()}</span>
+							<Input
+                type="text"
+                value={email}
+                name="email"
+                onChange={(e) => this.onInputChanged(e)}
+                placeholder={counterpart
+                  .translate('modal.withdraw.enter_email')
+                  .toUpperCase()}
+              />
+						</div>
+						{this.state.emailError && (
+							<div className="error-label">{this.state.emailError}</div>
+						)}
 					</div>
 
 					<div className="account-selector-wrapper">
@@ -1074,14 +1101,10 @@ class WithdrawalModal extends React.Component {
 					) : null}
 
 					{/*GATEWAY SELECTION*/}
-					<div className="account-selector-wrapper">
-						{selectedGateway && (
-							<span className="selector-label">
-								{counterpart.translate('gateway.gateway').toUpperCase()}
-							</span>
-						)}
-						{selectedGateway &&
-							gatewaySelector.call(this, {
+					{selectedGateway && (
+						<div className="account-selector-wrapper">
+							<span className="selector-label">{counterpart.translate('gateway.gateway').toUpperCase()}</span>
+							{gatewaySelector.call(this, {
 								selectedGateway,
 								gatewayStatus,
 								nAvailableGateways,
@@ -1092,8 +1115,8 @@ class WithdrawalModal extends React.Component {
 								balances,
 								assets,
 							})}
-					</div>
-
+						</div>
+					)}
 					{/*QUANTITY*/}
 					{assetAndGateway || isMeta1 ? (
 						<div
@@ -1105,18 +1128,11 @@ class WithdrawalModal extends React.Component {
 							}}
 						>
 							{preferredCurrency ? (
-								<div
-									style={{
-										fontSize: 13,
-										float: 'right',
-										color: 'white',
-										textAlign: 'right',
-									}}
-								>
+								<div className="quantity-label">
 									<Translate content="modal.withdraw.available" />
 									<span
 										style={{
-											color: canCoverWithdrawal ? null : 'red',
+											color: canCoverWithdrawal ? null : '#e3745b',
 											cursor: 'pointer',
 											textDecoration: 'underline',
 										}}
@@ -1143,7 +1159,8 @@ class WithdrawalModal extends React.Component {
 									</span>
 								</div>
 							) : null}
-							<div className="account-selector-wrapper">
+
+							<div className="account-selector-wrapper label-up">
 								<span className="selector-label">
 									{counterpart
 										.translate('modal.withdraw.quantity')
@@ -1230,7 +1247,7 @@ class WithdrawalModal extends React.Component {
 					{assetAndGateway && !isMeta1 ? (
 						<div className="address-form">
 							<div className="error-qr-wrapper">
-								<div style={{color: 'red', textTransform: 'uppercase'}}>
+								<div style={{color: '#e3745b', textTransform: 'uppercase'}}>
 									{addressError && (
 										<Translate content="modal.withdraw.address_not_valid" />
 									)}
@@ -1247,7 +1264,7 @@ class WithdrawalModal extends React.Component {
 									}
 								/>
 							</div>
-							<div className="account-selector-wrapper">
+							<div className="account-selector-wrapper label-up">
 								<span className="selector-label">
 									{counterpart.translate('gateway.address').toUpperCase()}
 								</span>

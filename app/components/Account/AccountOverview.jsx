@@ -528,7 +528,7 @@ class AccountOverview extends React.Component {
 					/>
 
 					<div className="tab-controller">
-						<Space wrap>
+						<Space wrap className="fund-wallet-tab">
 							<StyledButton
 								className={
 									currentDisplay === 'portfolio' ? 'primary' : 'transparent'
@@ -575,7 +575,8 @@ class AccountOverview extends React.Component {
 								</StyledButton>
 							) : null}*/}
 						</Space>
-						<Space align="start">
+
+						<Space align="start" className="fund-wallet">
 							<Dropdown
 								overlayClassName="dropdown-menu-sec"
 								overlay={menu}
@@ -646,11 +647,7 @@ class AccountOverview extends React.Component {
 						</Space>
 					</div>
 				</div>
-				<div
-					css={() => ({
-						padding: '1rem  2rem',
-					})}
-				>
+				<div className="transaction-table">
 					{currentDisplay === 'portfolio' && (
 						<>
 							<div

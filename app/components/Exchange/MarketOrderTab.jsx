@@ -318,7 +318,7 @@ const MarketOrderForm = (props) => {
 				style={{padding: '0px 0px'}}
 				form={form}
 			>
-				<Form.Item
+				{/* <Form.Item
 					{...formItemProps}
 					name="price"
 					label="Market Price"
@@ -343,15 +343,15 @@ const MarketOrderForm = (props) => {
 						value={props.price}
 						disabled
 					/>
-				</Form.Item>
+				</Form.Item> */}
 
 				<Form.Item
 					{...formItemProps}
 					label={counterpart.translate('transaction.trxTypes.amount')}
 					name="amount"
-					validateFirst={true}
-					validateTrigger={'onBlur'}
-					rules={quantityRules}
+					// validateFirst={true}
+					// validateTrigger={'onBlur'}
+					// rules={quantityRules}
 				>
 					<ExchangeInput
 						placeholder="0.0"

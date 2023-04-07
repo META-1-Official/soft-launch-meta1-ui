@@ -11,13 +11,6 @@ const GlobalStyles = (theme: any) => css`
 	.ant-radio-wrapper {
 		color: ${theme.colors.themeOpositeColor};
 	}
-	.ant-form {
-		color: ${theme.colors.themeOpositeColor};
-	}
-
-	// .ant-select-selection-item {
-	// 	color: #ffc000 !important;
-	// }
 
 	.ant-menu {
 		color: ${theme.colors.themeOpositeColor};
@@ -149,7 +142,9 @@ const GlobalStyles = (theme: any) => css`
 			border-bottom: none;
 		}
 	}
-
+	.ant-table-content {
+		overflow: auto;
+	}
 	.ant-table-tbody {
 		background: ${theme.colors.backgroundColor}; !important;
 		.ant-table-cell {
@@ -323,7 +318,7 @@ const GlobalStyles = (theme: any) => css`
 
 		button:nth-child(1) {
 			background: #ffc000 !important;
-			color: #330000 !imortant;
+			color: white !important;
 		}
 
 		button:nth-child(2) {

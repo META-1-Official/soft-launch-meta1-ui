@@ -16,6 +16,7 @@ import {useTheme} from '@emotion/react';
 import Translate from 'react-translate-component';
 import counterpart from 'counterpart';
 import history from '../../lib/common/history'; // lib/common/history';
+
 import ls from '../../lib/common/localStorage';
 
 const STORAGE_KEY = '__AuthData__';
@@ -122,13 +123,12 @@ const SideBar = ({collapsed, currentLink, toggle}) => {
 		<Sider
 			style={{
 				backgroundColor: theme.colors.sideBar,
-				display: currentLink === 'market' ? 'none' : 'unset',
+				display: currentLink === 'market' ? 'none' : 'block',
 			}}
 			breakpoint="md"
 			onBreakpoint={() => {
-				screens['sm'] === true ? toggle(true) : toggle(false);
+				screens['md'] === true ? toggle(false) : toggle(true);
 			}}
-			className={collapsed ? 'none' : null}
 			collapsedWidth={50}
 		>
 			<Menu

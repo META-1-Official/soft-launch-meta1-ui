@@ -2724,9 +2724,17 @@ class Exchange extends React.Component {
 					</div>
 					<div
 						css={(theme) => ({
+							height: 'calc(50% - 30px)',
+							overflow: 'auto',
+							marginTop: '13px',
+							border: `1px solid ${theme.colors.borderColor}`,
+							borderRadius: '5px',
 							[`@media (max-width: 768px)`]: {
 								display:
 									this.state.currentSection !== 'buy-sell' ? 'none' : 'unset',
+								border: 'none',
+								height: 'unset',
+								width: '100%',
 							},
 						})}
 					>

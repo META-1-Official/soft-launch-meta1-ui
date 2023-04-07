@@ -133,14 +133,14 @@ const AssetExplorerDetails = ({history}) => {
 					</div>
 					<div className="info-body">
 						<Row className="info-details" align="middle">
-							<Col xs={24} sm={24} lg={24}>
+							<Col xs={24} sm={6} lg={12}>
 								<img
 									src={getGoldImage()}
 									css={{marginLeft: '10px', marginRight: '10px'}}
 									className="info-img"
 								/>
 							</Col>
-							<Col xs={24} sm={18} lg={15}>
+							<Col xs={24} sm={18} lg={12}>
 								<div
 									css={() => ({
 										marginBottom: '2rem',

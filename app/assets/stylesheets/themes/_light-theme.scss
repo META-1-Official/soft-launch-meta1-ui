@@ -293,6 +293,9 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 			button {
 				&.primary {
 					color: $white !important;
+					@media screen and (max-width: 900px) {
+						color: $primary-color !important;
+					}
 				}
 
 				&.transparent {
@@ -490,11 +493,23 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 			.ask-order-tr {
 				background-color: rgb(217, 248, 240);
 				border-bottom: 1px solid $border-color;
+
+				&:hover {
+					td {
+						background-color: lightgray;
+					}
+				}
 			}
 
 			.bid-order-tr {
 				background-color: rgb(255, 234, 236);
 				border-bottom: 1px solid $border-color;
+
+				&:hover {
+					td {
+						background-color: lightgray;
+					}
+				}
 			}
 		}
 	}
@@ -756,6 +771,27 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 					color: $dark;
 				}
 
+				.subsection-title1 {
+					@media screen and (max-width: 900px) {
+						background-color: $bg-color-lightblue;
+					}
+				}
+
+				.subsection-title2 {
+					@media screen and (max-width: 900px) {
+						background-color: $bg-color-lightblue;
+					}
+				}
+
+				.card {
+					@media screen and (max-width: 900px) {
+						.ant-card-body {
+							background-color: transparent;
+							border-bottom: 1px solid $border-color;
+						}
+					}
+				}
+
 				.close-text {
 					color: $primary-text-color;
 				}
@@ -842,8 +878,6 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 						> div > h4 {
 							background-color: $bg-color-lightblue !important;
 							border: none;
-							border-bottom: 1px solid $border-color;
-							border-top: 1px solid $border-color;
 						}
 					}
 				}
@@ -925,6 +959,14 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 								color: #969ba6;
 								text-transform: uppercase;
 								text-align: center !important;
+							}
+						}
+
+						.ant-table-row {
+							.ant-table-cell {
+								button {
+									color: white;
+								}
 							}
 						}
 					}
@@ -1222,20 +1264,44 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 	.add-contact {
 		background: transparent;
 
+		.add-contact-div-title {
+			border: 1px solid $border-color !important;
+		}
+
+		.page-title {
+			color: #666666;
+		}
+
 		.input-box-search input {
-			background: #fafbfd;
+			background: white;
 			border: none;
+		}
+
+		table > thead {
+			background: transparent !important;
+		}
+
+		span.span_1 {
+			color: #666666;
+		}
+
+		.ant-table-content table tr th {
+			border-bottom: 1px solid $border-color;
+		}
+
+		.ant-table-content table tr td {
+			color: #666666;
 		}
 
 		.ant-table-content {
 			background: transparent;
 
-			table {
+			.ant-table-tbody {
 				tr {
-					border: 1px solid $border-color;
+					border-bottom: 1px solid $border-color;
 
-					td {
-						color: rgba(0, 0, 0, 0.7);
+					&:last-child {
+						border-bottom: none;
 					}
 				}
 			}
@@ -1245,24 +1311,9 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 			background: transparent;
 		}
 
-		table > thead {
-			background: transparent !important;
-			border: 1px solid $border-color;
-			border-radius: 5px;
-		}
-
-		.ant-table-content table tr th {
-			background-color: white !important;
-		}
-
-		span.span_1 {
-			color: $dark;
-		}
-
 		button.add-contact-btn {
-			background: #ffc000;
-			border: none;
 			color: white;
+			border: none;
 		}
 	}
 
@@ -1286,6 +1337,7 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 							.selector-label {
 								background: transparent;
 								border-right: 1px solid $border-color;
+								color: #666666;
 							}
 
 							.ant-form-item {
@@ -1441,6 +1493,10 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 
 	// transfer modal
 	.modal--transaction-confirm {
+		.ant-modal {
+			background-color: transparent !important;
+		}
+
 		.ant-modal-header {
 			.ant-modal-title {
 				color: #171a25;
@@ -1491,6 +1547,10 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 				background: transparent;
 				border: none !important;
 			}
+		}
+
+		.quantity-label {
+			color: #666666;
 		}
 
 		.address-form {
@@ -1753,6 +1813,18 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 				}
 			}
 		}
+
+		.assets-tab {
+			.assets-section-wrapper {
+				.ant-table-wrapper {
+					.ant-table-cell {
+						span {
+							color: #666666;
+						}
+					}
+				}
+			}
+		}
 	}
 
 	// Menu
@@ -1787,6 +1859,19 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 
 		.disable-li-text span {
 			color: #808080 !important;
+		}
+	}
+
+	// market picker
+	.marketPicker {
+		.marketPicker__subHeader {
+			color: #666666;
+		}
+
+		.results {
+			li {
+				border-bottom: 1px solid $border-color;
+			}
 		}
 	}
 

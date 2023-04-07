@@ -150,27 +150,6 @@ class WitnessList extends React.Component {
 				});
 		}
 
-		// const urlValid = (item) => {
-		// 	const regex =
-		// 		/(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
-		// 	return regex.test(item);
-		// };
-
-		// const urlRender = (item) => {
-		// 	return (
-		// 		<Popover
-		// 			content={
-		// 				<a href={item} target="_blank" rel="noopener noreferrer">
-		// 					{item}
-		// 				</a>
-		// 			}
-		// 			trigger={'hover'}
-		// 		>
-		// 			<AiOutlineLink />
-		// 		</Popover>
-		// 	);
-		// };
-
 		const keyRender = (item) => {
 			return (
 				<Popover content={<span>{item}</span>} trigger={'hover'}>
@@ -223,9 +202,6 @@ class WitnessList extends React.Component {
 						style={{width: '100%', textAlign: 'center'}}
 						onClick={this.handleUrlClick(item.block)}
 					>
-						{/* Note: URL is not received in obj so this is commented as of now for later use
-						//linkRender((item && urlValid(item) && urlRender(item)) || null)
-						*/}
 						{linkRender(`${baseExplorerUrl}/${item.block}`)}
 					</div>
 				),
@@ -390,8 +366,13 @@ class Witnesses extends React.Component {
 		}
 
 		return (
-			<>
-				<div css={{padding: '2rem'}}>
+			<div className="witnesses-tab">
+				<div
+					css={(theme) => ({
+						backgroundColor: theme.colors.explorerBackground,
+						padding: '2rem 1rem',
+					})}
+				>
 					<Row gutter={[16, 16]}>
 						<Col xs={24} sm={12} md={8} lg={6}>
 							<ExploreCard
@@ -401,10 +382,10 @@ class Witnesses extends React.Component {
 							>
 								<div>
 									<Text
-										css={{
-											color: 'white',
+										css={(theme) => ({
+											color: '#21d19f',
 											textTransform: 'capitalize',
-										}}
+										})}
 									>
 										{currentAccount ? currentAccount.get('name') : null}
 									</Text>
@@ -419,9 +400,9 @@ class Witnesses extends React.Component {
 							>
 								<div>
 									<Text
-										css={{
-											color: 'white',
-										}}
+										css={(theme) => ({
+											color: theme.colors.textColor,
+										})}
 									>
 										{Object.keys(globalObject.active_witnesses).length}
 									</Text>
@@ -436,9 +417,9 @@ class Witnesses extends React.Component {
 							>
 								<div>
 									<Text
-										css={{
-											color: 'white',
-										}}
+										css={(theme) => ({
+											color: theme.colors.textColor,
+										})}
 									>
 										{dynGlobalObject.participation}%
 									</Text>
@@ -453,9 +434,9 @@ class Witnesses extends React.Component {
 							>
 								<div>
 									<Text
-										css={{
-											color: 'white',
-										}}
+										css={(theme) => ({
+											color: theme.colors.textColor,
+										})}
 									>
 										<FormattedAsset
 											amount={globalObject.parameters.witness_pay_per_block}
@@ -473,9 +454,9 @@ class Witnesses extends React.Component {
 							>
 								<div>
 									<Text
-										css={{
-											color: 'white',
-										}}
+										css={(theme) => ({
+											color: theme.colors.textColor,
+										})}
 									>
 										<FormattedAsset
 											amount={dynGlobalObject.witness_budget}
@@ -493,9 +474,9 @@ class Witnesses extends React.Component {
 							>
 								<div>
 									<Text
-										css={{
-											color: 'white',
-										}}
+										css={(theme) => ({
+											color: theme.colors.textColor,
+										})}
 									>
 										<TimeAgo
 											time={
@@ -508,36 +489,25 @@ class Witnesses extends React.Component {
 						</Col>
 					</Row>
 				</div>
-				<div className="grid-block">
-					<div className="grid-block">
-						<div className="grid-block">
-							<div className="grid-content ">
-								<SearchInput
-									placeholder={counterpart.translate(
-										'explorer.witnesses.filter_by_name'
-									)}
-									value={this.state.filterWitness}
-									onChange={this._onFilter.bind(this)}
-									style={{
-										width: '200px',
-										marginBottom: '12px',
-										marginTop: '4px',
-									}}
-								/>
+				<div className="generic-bordered-box" style={{marginTop: '20px'}}>
+					<SearchInput
+						placeholder={counterpart.translate(
+							'explorer.witnesses.filter_by_name'
+						)}
+						value={this.state.filterWitness}
+						onChange={this._onFilter.bind(this)}
+					/>
 
-								<WitnessList
-									current_aslot={dynGlobalObject.current_aslot}
-									current={current ? current.get('id') : null}
-									witnesses={Immutable.List(globalObject.active_witnesses)}
-									witnessList={globalObject.active_witnesses}
-									filter={this.state.filterWitness}
-									cardView={this.state.cardView}
-								/>
-							</div>
-						</div>
-					</div>
+					<WitnessList
+						current_aslot={dynGlobalObject.current_aslot}
+						current={current ? current.get('id') : null}
+						witnesses={Immutable.List(globalObject.active_witnesses)}
+						witnessList={globalObject.active_witnesses}
+						filter={this.state.filterWitness}
+						cardView={this.state.cardView}
+					/>
 				</div>
-			</>
+			</div>
 		);
 	}
 }

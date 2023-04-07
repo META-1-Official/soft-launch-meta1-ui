@@ -617,10 +617,10 @@ class AssetsPairTabs extends React.Component {
 							rowKey="name"
 							columns={columns}
 							dataSource={dataSource}
-							scroll={{x: 150}}
 							pagination={{
 								size: 'small',
 								position: 'bottomCenter',
+								pageSize: 7,
 							}}
 						/>
 					</div>

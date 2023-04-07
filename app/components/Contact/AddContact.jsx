@@ -190,21 +190,19 @@ class AddContact extends React.Component {
 							className="input-box-search"
 							style={{width: '100%'}}
 							onChange={this._onSearchChange.bind(this)}
+					<div className="table">
+						<Table
+							style={{width: '100%', marginTop: '16px'}}
+							rowKey="name"
+							columns={columns}
+							dataSource={this.state.contactData.filter((data) => {
+								return Object.keys(data).some((obj) => {
+									return String(data[obj])
+										.toLowerCase()
+										.includes(this.state.searchTerm.toLowerCase());
+								});
+							})}
 						/>
-						<div className="table">
-							<Table
-								style={{width: '100%', marginTop: '16px'}}
-								rowKey="name"
-								columns={columns}
-								dataSource={this.state.contactData.filter((data) => {
-									return Object.keys(data).some((obj) => {
-										return String(data[obj])
-											.toLowerCase()
-											.includes(this.state.searchTerm.toLowerCase());
-									});
-								})}
-							/>
-						</div>
 					</div>
 				</div>
 			</div>
