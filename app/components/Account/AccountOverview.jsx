@@ -469,7 +469,7 @@ class AccountOverview extends React.Component {
 					<PageHeader title={'Your Assets'} showDivider={false} level={4} />
 
 					<div className="tab-controller">
-						<Space wrap>
+						<Space wrap className="fund-wallet-tab">
 							<StyledButton
 								className={
 									currentDisplay === 'portfolio' ? 'primary' : 'transparent'
@@ -516,7 +516,8 @@ class AccountOverview extends React.Component {
 								</StyledButton>
 							) : null}*/}
 						</Space>
-						<Space align="start">
+
+						<Space align="start" className="fund-wallet">
 							<Dropdown
 								overlayClassName="dropdown-menu-sec"
 								overlay={menu}
