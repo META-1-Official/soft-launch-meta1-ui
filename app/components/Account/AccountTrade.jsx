@@ -819,50 +819,50 @@ class AccountTrade extends React.Component {
 					<div className="filter">
 						<SearchInput
 							placeholder={counterpart.translate('markets.search')}
+							className="search-input"
 							value={this.state.searchTerm}
-							style={{width: '30%'}}
 							onChange={this._onSearchChange.bind(this)}
 						/>
-						<Select
-							style={{width: '70px', marginLeft: '24px'}}
-							value={selectedResolution}
-							onChange={(rows) => this._onDropDownChange(rows, 'resolution')}
-							disabled={isLoading}
-							getPopupContainer={(triggerNode) => triggerNode.parentNode}
-						>
-							<Select.Option key={'30m'}>30m</Select.Option>
-							<Select.Option key={'1h'}>1h</Select.Option>
-							<Select.Option key={'24h'}>24h</Select.Option>
-							<Select.Option key={'3d'}>3d</Select.Option>
-							<Select.Option key={'1w'}>1w</Select.Option>
-						</Select>
-						<Select
-							style={{width: '150px', marginLeft: '24px'}}
-							value={this.state.selectedAsset}
-							onChange={(rows) => this._onDropDownChange(rows, 'asset-filter')}
-							getPopupContainer={(triggerNode) => triggerNode.parentNode}
-						>
-							<Select.Option key={'ALL'}>
-								{counterpart.translate('account.all_assets')}
-							</Select.Option>
-							{assetOptions}
-						</Select>
-						<Switch
-							id={'multiple-sort'}
-							style={{width: '45px', marginLeft: '24px'}}
-							defaultChecked={sortType === SORT_TYPE_MULTIPLE}
-							onChange={this._changeSortType.bind(this)}
-						></Switch>
-						<label
-							style={{
-								display: 'inline-block',
-								marginLeft: '4px',
-								textTransform: 'capitalize',
-							}}
-							htmlFor={'multiple-sort'}
-						>
-							<Translate component="span" content="account.multi_sorting" />
-						</label>
+
+						<div className="trade-select">
+							<Select
+								className="time"
+								value={selectedResolution}
+								onChange={(rows) => this._onDropDownChange(rows, 'resolution')}
+								disabled={isLoading}
+								getPopupContainer={(triggerNode) => triggerNode.parentNode}
+							>
+								<Select.Option key={'30m'}>30m</Select.Option>
+								<Select.Option key={'1h'}>1h</Select.Option>
+								<Select.Option key={'24h'}>24h</Select.Option>
+								<Select.Option key={'3d'}>3d</Select.Option>
+								<Select.Option key={'1w'}>1w</Select.Option>
+							</Select>
+							<Select
+								className="asset"
+								value={this.state.selectedAsset}
+								onChange={(rows) =>
+									this._onDropDownChange(rows, 'asset-filter')
+								}
+								getPopupContainer={(triggerNode) => triggerNode.parentNode}
+							>
+								<Select.Option key={'ALL'}>
+									{counterpart.translate('account.all_assets')}
+								</Select.Option>
+								{assetOptions}
+							</Select>
+							<div className="sorting">
+								<Switch
+									className="sorting-switch"
+									id={'multiple-sort'}
+									defaultChecked={sortType === SORT_TYPE_MULTIPLE}
+									onChange={this._changeSortType.bind(this)}
+								></Switch>
+								<label className="sorting-label" htmlFor={'multiple-sort'}>
+									<Translate component="span" content="account.multi_sorting" />
+								</label>
+							</div>
+						</div>
 					</div>
 					<div className="select">
 						<div
@@ -877,7 +877,7 @@ class AccountTrade extends React.Component {
 						</div>
 						{toggleBoxes}
 					</div>
-					<div className="table">
+					<div className="table trade-table  ">
 						<Table
 							style={{width: '100%', marginTop: '16px'}}
 							rowKey="name"
