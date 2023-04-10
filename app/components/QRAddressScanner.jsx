@@ -113,7 +113,11 @@ class QRScanner extends React.Component {
 					closable={false}
 					footer={
 						!this.state.address
-							? [<Button onClick={this.handleClose}>Close</Button>]
+							? [
+									<Button onClick={this.handleClose}>
+										{counterpart.translate('global.close')}
+									</Button>,
+							  ]
 							: [
 									<Button onClick={this.retry}>
 										{counterpart.translate('qr_address_scanner.retry')}

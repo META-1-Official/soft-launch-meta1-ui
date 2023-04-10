@@ -14,6 +14,7 @@ import WalletApi from 'api/WalletApi';
 import WalletDb from 'stores/WalletDb.js';
 import PageHeader from 'components/PageHeader/PageHeader';
 import notify from 'actions/NotificationActions';
+import counterpart from 'counterpart';
 
 class AccountRow extends React.Component {
 	static propTypes = {
@@ -40,7 +41,7 @@ class AccountRow extends React.Component {
 							onClick={onRemove.bind(this, account.get('id'))}
 							className="button outline"
 						>
-							Remove
+							{counterpart.translate('settings.remove')}
 						</button>
 					</td>
 				) : null}
@@ -308,6 +309,16 @@ class AccountWhitelist extends React.Component {
 		});
 	};
 
+	_getPageTitle = (tab) => {
+		const pageTitleMap = {
+			Whitelist: counterpart.translate('account.whitelist.title'),
+			Blacklist: counterpart.translate('account.whitelist.black'),
+			'Whitelisted by': counterpart.translate('account.whitelist.white_by'),
+			'Blacklisted by': counterpart.translate('account.whitelist.black_by'),
+		};
+		return pageTitleMap[tab];
+	};
+
 	render() {
 		let {account} = this.props;
 		let {accountName, currentTab} = this.state;
@@ -315,7 +326,11 @@ class AccountWhitelist extends React.Component {
 		return (
 			<>
 				<div>
-					<PageHeader title={currentTab} level={2} showDivider />
+					<PageHeader
+						title={this._getPageTitle(currentTab)}
+						level={2}
+						showDivider
+					/>
 				</div>
 				<div className="account-whitelist">
 					<Tabs
@@ -438,7 +453,7 @@ class AccountWhitelist extends React.Component {
 						</Tabs.TabPane>
 						<Tabs.TabPane
 							tab={<Translate content="account.whitelist.black_by" />}
-							key="Blacklisted By"
+							key="Blacklisted by"
 						>
 							<div
 								css={(theme) => ({

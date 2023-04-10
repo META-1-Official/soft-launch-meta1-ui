@@ -245,7 +245,9 @@ class TotalValue extends MarketStatsCheck {
 
 		// If any values are missing, let the user know.
 		if (missingData)
-			totalsTip += `<tr><td>&nbsp;</td><td style="text-align: right;">${noDataSymbol} no data</td></tr>`;
+			totalsTip += `<tr><td>&nbsp;</td><td style="text-align: right;">${noDataSymbol} ${counterpart.translate(
+				'exchange.no_data'
+			)}</td></tr>`;
 
 		totalsTip += '<tr><td colSpan="2">&nbsp;</td></tr>';
 		totalsTip += `<tr><td colSpan="2">${counterpart.translate(
