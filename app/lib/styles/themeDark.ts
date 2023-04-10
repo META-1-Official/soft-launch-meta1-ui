@@ -31,7 +31,7 @@ const theme = {
 		tagSuccessColor: '#127655',
 		tagInfoColor: '#2b4d79',
 		tagWarningColor: '#856916',
-		tableHeaderColor: '15171b',
+		tableHeaderColor: '#15171b',
 		tableColumnColor: '#15171b',
 		tableColumnHoverColor: '#15171beb',
 		tableActivePagination: '#0a0b0d',
