@@ -7,33 +7,42 @@ const ethIcon = require('assets/explorer/ETH_new.png');
 const usdtIcon = require('assets/explorer/USDT_new.png');
 const meta1Icon = require('assets/explorer/marketCap.png');
 
-const getAssetIcon = function (symbol) {
+const bnbLightIcon = require('assets/explorer/bnb_light.png');
+const eosLightIcon = require('assets/explorer/eos_light.png');
+const ltcLightIcon = require('assets/explorer/ltc_light.png');
+const xlmLightIcon = require('assets/explorer/xlm_light.png');
+const btcLightIcon = require('assets/explorer/btc_light.png');
+const ethLightIcon = require('assets/explorer/eth_light.png');
+const usdtLightIcon = require('assets/explorer/usdt_light.png');
+const meta1LightIcon = require('assets/explorer/meta1_light.png');
+
+const getAssetIcon = function (symbol, theme = 'dark') {
 	let icon;
 
 	switch (symbol) {
 		case 'BNB':
-			icon = bnbIcon;
+			icon = theme == 'dark' ? bnbIcon : bnbLightIcon;
 			break;
 		case 'BTC':
-			icon = btcIcon;
+			icon = theme == 'dark' ? btcIcon : btcLightIcon;
 			break;
 		case 'ETH':
-			icon = ethIcon;
+			icon = theme == 'dark' ? ethIcon : ethLightIcon;
 			break;
 		case 'EOS':
-			icon = eosIcon;
+			icon = theme == 'dark' ? eosIcon : eosLightIcon;
 			break;
 		case 'XLM':
-			icon = xlmIcon;
+			icon = theme == 'dark' ? xlmIcon : xlmLightIcon;
 			break;
 		case 'LTC':
-			icon = ltcIcon;
+			icon = theme == 'dark' ? ltcIcon : ltcLightIcon;
 			break;
 		case 'META1':
-			icon = meta1Icon;
+			icon = theme == 'dark' ? meta1Icon : meta1LightIcon;
 			break;
 		case 'USDT':
-			icon = usdtIcon;
+			icon = theme == 'dark' ? usdtIcon : usdtLightIcon;
 			break;
 	}
 

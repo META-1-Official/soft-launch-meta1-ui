@@ -490,6 +490,14 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 	}
 
 	// Exchange Page
+	.control-layout {
+		.buy-sell-wrapper {
+			&::-webkit-scrollbar-thumb {
+				background-color: lightgray;
+			}
+		}
+	}
+
 	.orders-and-trade {
 		.orders-trade-form {
 			border: 1px solid $border-color;
@@ -524,10 +532,16 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 
 	.action-cards {
 		border: 1px solid $border-color;
+
+		&::-webkit-scrollbar-thumb {
+			background-color: lightgray;
+		}
 	}
 
 	.buy-sell-tab {
-		border: 1px solid $border-color;
+		@media screen and (max-width: 768px) {
+			border: 1px solid $border-color;
+		}
 
 		.ant-tabs-nav {
 			background-color: $bg-color-lightblue;
@@ -644,6 +658,10 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 
 		.asset-select {
 			background-color: transparent !important;
+
+			&::-webkit-scrollbar-thumb {
+				background-color: lightgray;
+			}
 
 			.toggle-box.selected {
 				background-color: transparent !important;

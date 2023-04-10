@@ -22,18 +22,10 @@ import utils from 'common/utils';
 import ls from '../../lib/common/localStorage';
 import history from 'lib/common/history';
 import {withTheme} from '@emotion/react';
+import {getAssetIcon} from 'constants/assets';
 
 const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
-
-const bnbIcon = require('assets/explorer/BNB_new.png');
-const eosIcon = require('assets/explorer/EOS_new.png');
-const ltcIcon = require('assets/explorer/LTC_new.png');
-const xlmIcon = require('assets/explorer/XLM_new.png');
-const btcIcon = require('assets/explorer/BTC_new.png');
-const ethIcon = require('assets/explorer/ETH_new.png');
-const usdtIcon = require('assets/explorer/USDT_new.png');
-const meta1Icon = require('assets/explorer/marketCap.png');
 
 class AssetsPairTabs extends React.Component {
 	constructor(props) {
@@ -280,25 +272,29 @@ class AssetsPairTabs extends React.Component {
 				render: (rowData, rateChange) => {
 					const quoteAssetSymbol = rowData.quoteAssetSymbol;
 					const baseAssetSymbol = rowData.baseAssetSymbol;
-					let symbolIcons = {
-						BNB: bnbIcon,
-						BTC: btcIcon,
-						ETH: ethIcon,
-						EOS: eosIcon,
-						XLM: xlmIcon,
-						LTC: ltcIcon,
-						META1: meta1Icon,
-						USDT: usdtIcon,
-					};
-					let icon = symbolIcons[quoteAssetSymbol] ?? btcIcon;
-
 					let classNameDiv = '';
 
 					return (
 						<>
 							<div style={{display: 'flex', alignItems: 'center'}}>
-								<div style={{marginRight: '5px', width: '20px'}}>
-									<img className="asset-img" src={icon} alt="Asset logo" />
+								<div style={{marginRight: '5px', width: '30px'}}>
+									<img
+										className="asset-img"
+										src={getAssetIcon(quoteAssetSymbol)}
+										alt="Asset logo"
+										css={(theme) => ({
+											display: theme.mode === 'dark' ? 'unset' : 'none',
+											width: '24px',
+										})}
+									/>
+									<img
+										className="asset-img"
+										src={getAssetIcon(quoteAssetSymbol, 'light')}
+										alt="Asset logo"
+										css={(theme) => ({
+											display: theme.mode === 'light' ? 'unset' : 'none',
+										})}
+									/>
 								</div>
 								<div
 									style={{cursor: 'pointer', minWidth: '80px'}}

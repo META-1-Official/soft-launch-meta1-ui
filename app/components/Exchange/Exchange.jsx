@@ -2723,6 +2723,7 @@ class Exchange extends React.Component {
 						<div className="orders-trade-form">{groupTabs[1]}</div>
 					</div>
 					<div
+						className="buy-sell-wrapper"
 						css={(theme) => ({
 							height: 'calc(50% - 30px)',
 							overflow: 'auto',

@@ -534,13 +534,10 @@ class OrderBook extends React.Component {
 								{tableHeader}
 							</table>
 							<div
-								className={`grid-block ${
-									bidRows.length < 11 ? 'table-height-auto' : ''
-								}`}
+								className="grid-block"
 								ref="hor_bids"
 								id="bottom-order-table"
 								style={{
-									overflow: 'hidden',
 									lineHeight: '20px',
 									height: 'calc(100% - 33px)',
 								}}
@@ -591,7 +588,6 @@ class OrderBook extends React.Component {
 								className="grid-block"
 								ref="hor_asks"
 								style={{
-									overflow: 'hidden',
 									maxHeight: this.props.chartHeight / 2 - 2,
 									lineHeight: '20px',
 									minHeight: '93%',

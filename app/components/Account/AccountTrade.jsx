@@ -314,12 +314,27 @@ class AccountTrade extends React.Component {
 						const {baseAssetSymbol, quoteAssetSymbol} = rowData;
 
 						return (
-							<div>
+							<div style={{display: 'flex', alignItems: 'center'}}>
 								<img
 									className="asset-img"
 									src={getAssetIcon(quoteAssetSymbol)}
 									alt="Asset logo"
 									width="28px"
+									css={(theme) => ({
+										display: theme.mode === 'dark' ? 'unset' : 'none',
+										width: '28px',
+										height: '28px',
+									})}
+								/>
+								<img
+									className="asset-img"
+									src={getAssetIcon(quoteAssetSymbol, 'light')}
+									alt="Asset logo"
+									width="28px"
+									css={(theme) => ({
+										display: theme.mode === 'light' ? 'unset' : 'none',
+										width: '40px',
+									})}
 								/>
 								<div className="asset-name">
 									<span className="quote">
