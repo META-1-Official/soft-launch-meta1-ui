@@ -2,7 +2,6 @@ import cnames from 'classnames';
 import translator from 'counterpart';
 import {StickyTable} from 'react-sticky-table';
 import React from 'react';
-import counterpart from 'counterpart';
 import Translate from 'react-translate-component';
 import PropTypes from 'prop-types';
 import Ps from 'perfect-scrollbar';
@@ -115,7 +114,10 @@ class OrderBookRow extends React.Component {
 							}}
 							className="table-body-class"
 						>
-							<Tooltip title={'Volume: ' + amount} placement="left">
+							<Tooltip
+								title={`${translator.translate('exchange.volume')}: ` + amount}
+								placement="left"
+							>
 								<div className="overflow-hidden">
 									{utils.format_number_digits(amount, 6)}
 								</div>
@@ -128,7 +130,13 @@ class OrderBookRow extends React.Component {
 								paddingRight: '10px',
 							}}
 						>
-							<Tooltip title={'Price: ' + order.getPrice()} placement="top">
+							<Tooltip
+								title={
+									`${translator.translate('exchange.price')}: ` +
+									order.getPrice()
+								}
+								placement="top"
+							>
 								<div className="overflow-hidden" style={{textAlign: 'center'}}>
 									{price}
 								</div>
@@ -143,7 +151,8 @@ class OrderBookRow extends React.Component {
 						>
 							<Tooltip
 								title={
-									'Total: ' + (amount * Number(price.props.price)).toString()
+									`${translator.translate('exchange.total')}: ` +
+									(amount * Number(price.props.price)).toString()
 								}
 								placement="right"
 							>
@@ -164,7 +173,10 @@ class OrderBookRow extends React.Component {
 							style={{color: '#FF2929', textAlign: 'left', paddingLeft: '10px'}}
 							className="table-body-class"
 						>
-							<Tooltip title={'Volume: ' + amount} placement="left">
+							<Tooltip
+								title={`${translator.translate('exchange.volume')}: ` + amount}
+								placement="left"
+							>
 								<div className="overflow-hidden">
 									{utils.format_number_digits(amount, 6)}
 								</div>
@@ -178,7 +190,13 @@ class OrderBookRow extends React.Component {
 								textAlign: 'right',
 							}}
 						>
-							<Tooltip title={'Price: ' + order.getPrice()} placement="top">
+							<Tooltip
+								title={
+									`${translator.translate('exchange.price')}: ` +
+									order.getPrice()
+								}
+								placement="top"
+							>
 								<div className="overflow-hidden" style={{textAlign: 'center'}}>
 									{price}
 								</div>
@@ -193,7 +211,8 @@ class OrderBookRow extends React.Component {
 						>
 							<Tooltip
 								title={
-									'Total: ' + (amount * Number(price.props.price)).toString()
+									`${translator.translate('exchange.total')}: ` +
+									(amount * Number(price.props.price)).toString()
 								}
 								placement="right"
 							>
@@ -447,41 +466,40 @@ class OrderBook extends React.Component {
 			askRows.splice(rowCount, askRows.length);
 		}
 
-			let tableHeader = (
-				<thead>
-					<tr key="top-header" className="top-header">
-						<th
-							style={{
-								width: '33.5%',
-								textAlign: 'left',
-							}}
-						>
-							<span className="header-sub-title header-font-size">
-								{translator.translate('exchange.volume').toUpperCase()}
-							</span>
-						</th>
-						<th
-							style={{
-								textAlign: 'center',
-							}}
-						>
-							<span className="header-sub-title header-font-size">
-								{translator.translate('exchange.price').toUpperCase()}
-							</span>
-						</th>
-						<th
-							style={{
-								textAlign: 'right',
-							}}
-						>
-							<span className="header-sub-title header-font-size">
-								{translator.translate('exchange.total').toUpperCase()}
-							</span>
-						</th>
-					</tr>
-				</thead>
-			);
-
+		let tableHeader = (
+			<thead>
+				<tr key="top-header" className="top-header">
+					<th
+						style={{
+							width: '33.5%',
+							textAlign: 'left',
+						}}
+					>
+						<span className="header-sub-title header-font-size">
+							{translator.translate('exchange.volume').toUpperCase()}
+						</span>
+					</th>
+					<th
+						style={{
+							textAlign: 'center',
+						}}
+					>
+						<span className="header-sub-title header-font-size">
+							{translator.translate('exchange.price').toUpperCase()}
+						</span>
+					</th>
+					<th
+						style={{
+							textAlign: 'right',
+						}}
+					>
+						<span className="header-sub-title header-font-size">
+							{translator.translate('exchange.total').toUpperCase()}
+						</span>
+					</th>
+				</tr>
+			</thead>
+		);
 
 		let wrapperClass = this.props.wrapperClass;
 		let innerClass = this.props.innerClass;

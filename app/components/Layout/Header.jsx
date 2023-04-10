@@ -595,7 +595,7 @@ class Header extends React.Component {
 
 		const menuDrawer = (
 			<Drawer
-				title="Menu"
+				title={counterpart.translate('header.menu')}
 				placement="right"
 				closable={true}
 				onClose={this.hideDrawerMenu}
