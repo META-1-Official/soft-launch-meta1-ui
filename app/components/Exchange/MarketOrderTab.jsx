@@ -16,6 +16,7 @@ import Immutable from 'immutable';
 import {BalanceValueComponent} from 'components/Utility/EquivalentValueComponent';
 import ExchangeInput from './ExchangeInput';
 import {toast} from 'react-toastify';
+import {ceilFloat, floorFloat} from '../../services/Math';
 
 const MarketOrderForm = (props) => {
 	const [feeAssets, setFeeAssets] = useState([]);
@@ -252,7 +253,7 @@ const MarketOrderForm = (props) => {
 	};
 
 	const handleSubmit = (amount) => {
-		const liquidty = parseFloat((props.total - 0.0001).toFixed(3));
+		const liquidty = floorFloat(props.total - 0.0001, 3);
 
 		// Liquidity check
 		if (amount > props.total) {
