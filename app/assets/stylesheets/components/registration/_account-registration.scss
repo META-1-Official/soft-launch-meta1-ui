@@ -1,9 +1,11 @@
 div.registration {
-	padding-top: 30px;
-	padding-bottom: 30px;
-	background-color: initial;
 	display: flex;
 	justify-content: center;
+	padding: 30px 10px;
+
+	@media screen and (max-width: 576px) {
+		padding: 10px;
+	}
 
 	.registration-title {
 		font-weight: bold;
@@ -43,9 +45,70 @@ div.registration {
 			padding: 10px;
 		}
 
+		.biometric-auth-section {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+
+			@media screen and (max-width: 576px) {
+				background-color: #0a0b0d;
+				border: 1px solid #1c1f27;
+				border-radius: 5px;
+				padding: 10px;
+			}
+
+			h4 {
+				text-align: center;
+				font-weight: bold;
+
+				@media screen and (max-width: 576px) {
+					font-size: 16px;
+				}
+			}
+
+			h5 {
+				text-align: center;
+				font-size: 16px;
+				color: rgba(255, 255, 255, 0.5);
+
+				@media screen and (max-width: 576px) {
+					font-size: 14px;
+					max-width: 300px;
+				}
+			}
+		}
+
 		.registration-account-title {
 			text-align: center;
 			font-weight: 500;
+			font-size: 24px;
+			margin-bottom: 10px !important;
+			color: white;
+
+			@media screen and (max-width: 576px) {
+				font-size: 16px;
+			}
+		}
+
+		.registration-confirm {
+			margin-bottom: 45px;
+
+			@media screen and (max-width: 576px) {
+				margin-bottom: 20px;
+			}
+
+			.passkey-alert-title {
+				p {
+					color: #cecece;
+					font-size: 16px;
+
+					@media screen and (max-width: 576px) {
+						text-align: center;
+						font-size: 14px;
+					}
+				}
+			}
 		}
 
 		.warn-tooltip {
@@ -83,6 +146,25 @@ div.registration {
 		.checkbox-group {
 			margin-bottom: 50px;
 
+			@media screen and (max-width: 576px) {
+				margin-bottom: 20px;
+			}
+
+			.checkbox-item {
+				display: flex;
+				width: 100%;
+				align-items: center;
+				margin-bottom: 15px;
+
+				.terms {
+					line-height: 1;
+
+					@media screen and (max-width: 576px) {
+						font-size: 14px;
+					}
+				}
+			}
+
 			.checkbox-text {
 				font-size: 17px;
 				color: white;
@@ -103,19 +185,35 @@ div.registration {
 
 			.ant-checkbox-wrapper {
 				margin-left: 0px !important;
-				height: 40px;
-			}
+				margin-right: 10px;
 
-			.ant-checkbox-inner {
-				background-color: #ffc000;
-				border: none;
+				.ant-checkbox {
+					top: 0 !important;
+
+					.ant-checkbox-input {
+						width: 100%;
+						height: 100%;
+					}
+
+					.ant-checkbox-inner {
+						background-color: #ffc000;
+						border: none;
+						border-radius: 50%;
+						width: 20px;
+						height: 20px;
+
+						&::after {
+							left: 30% !important;
+						}
+					}
+				}
 			}
 		}
 
 		.button-wrapper {
 			.create-acc-btn {
-				height: 60px;
-				width: 100%;
+				height: 50px;
+				width: 200px;
 				background: #ffc000;
 				font-size: 18px;
 				font-weight: 600;
@@ -123,7 +221,7 @@ div.registration {
 				border: none;
 
 				span {
-					color: #440000 !important;
+					color: white !important;
 					text-transform: capitalize;
 				}
 			}
@@ -174,7 +272,8 @@ div.registration {
 								}
 
 								input {
-									height: unset;
+									height: 30px;
+									border: none !important;
 								}
 							}
 						}
@@ -459,10 +558,17 @@ div.registration {
 		}
 	}
 
+	.webcam-wrapper {
+		position: relative;
+		border: 1px solid #1c1f27;
+		border-radius: 3px;
+	}
+
 	.flex_container {
 		width: 100%;
 		display: flex;
 		flex-direction: column;
+		color: rgba(255, 255, 255, 0.5);
 	}
 
 	.flex-container-new {
@@ -472,6 +578,7 @@ div.registration {
 		align-items: center;
 		padding-top: 7px;
 		padding-bottom: 7px;
+		background-color: transparent;
 	}
 
 	.flex-container-first {
@@ -483,31 +590,65 @@ div.registration {
 	.position-head {
 		display: flex;
 		justify-content: center;
-		color: #fff;
+		color: #ffc000;
+		font-weight: 600;
 		width: 100%;
 		align-items: center;
 		z-index: 999;
-	}
 
-	.color-black {
-		color: rgba(0, 0, 0, 0.87) !important;
+		@media screen and (max-width: 576px) {
+			font-size: 14px;
+		}
 	}
 
 	.btn-x {
-		border: none;
-		background-color: transparent;
-		float: right;
-		color: #eb7134;
-		width: 40px !important;
-		opacity: 1;
-		font-size: 20px;
+		background-color: #262a32;
+		color: red;
+		width: 30px !important;
+		height: 30px !important;
+		font-size: 14px;
+		font-weight: 600;
 		z-index: 999;
+		border: 1px solid #262a32;
+		border-radius: 50%;
+		margin-right: 10px;
+	}
+
+	.oval-image {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
+		z-index: 200;
+		opacity: 0.8;
+	}
+
+	.button-wrapper {
+		display: flex;
+		justify-content: center;
+		margin-top: 10px;
+
+		button {
+			background: rgb(255, 204, 0);
+			border: none;
+			width: 110px;
+			height: 45px;
+			color: white;
+			font-size: 18px;
+			font-weight: 600;
+			border-radius: 5px;
+		}
 	}
 
 	.span-class {
 		width: 100%;
 		z-index: 999;
 		text-align: center;
+
+		@media screen and (max-width: 576px) {
+			font-size: 14px;
+		}
 	}
 
 	.custom-margin-bottom-zero {
@@ -571,61 +712,6 @@ div.registration {
 		&.dual-btns {
 			button {
 				margin-bottom: 20px;
-			}
-		}
-	}
-}
-
-@include breakpoint(small only) {
-	div.registration {
-		padding-top: 14px;
-
-		.create-account-block {
-			h3 {
-				margin-bottom: 4px;
-				font-size: 20px;
-				line-height: 24px;
-			}
-
-			button.button-primary {
-				margin-top: 8px;
-			}
-
-			p {
-				max-width: 100%;
-			}
-
-			.download-btn {
-				width: 100%;
-				margin-top: 9px;
-
-				.download-block {
-					justify-content: center;
-				}
-			}
-
-			.confirm-checks {
-				h3 {
-					margin: 14px 0 15px 0;
-				}
-			}
-
-			.checkbox-block {
-				margin-bottom: 16px;
-			}
-
-			.checkbox-text {
-				font-size: 12px;
-				letter-spacing: 0.05px;
-				line-height: 18px;
-			}
-
-			.registration-layout-select {
-				max-width: 100%;
-			}
-
-			.why-bin-file {
-				margin: 10px auto;
 			}
 		}
 	}

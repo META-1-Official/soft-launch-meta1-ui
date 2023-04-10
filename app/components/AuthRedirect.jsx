@@ -19,7 +19,9 @@ import kycService from 'services/kyc.service';
 import Webcam from 'react-webcam';
 import {Button} from 'antd';
 import {toast} from 'react-toastify';
+
 const OvalImage = require('assets/oval/oval.png');
+const OvalDarkImage = require('assets/oval/oval_dark.png');
 
 const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
@@ -67,6 +69,8 @@ class AuthRedirect extends React.Component {
 			webcamEnabled: true,
 			verifying: false,
 			photoIndex: 0,
+			width: 0,
+			height: 0,
 		};
 
 		this.generateAuthData = this.generateAuthData.bind(this);
@@ -102,9 +106,23 @@ class AuthRedirect extends React.Component {
 		if (loginAccountName && privKey) {
 			this.loadVideo(true);
 		}
+
+		window.addEventListener('resize', this.updateDimensions);
 	}
 
-	loadVideo(flag) {
+	updateDimensions = () => {
+		this.setState({width: window.innerWidth, height: window.innerHeight});
+	};
+
+	componentWillUnmount() {
+		window.removeEventListener('resize', this.updateDimensions);
+	}
+
+	UNSAFE_componentWillMount() {
+		this.updateDimensions();
+	}
+
+	async loadVideo(flag) {
 		const videoTag = document.querySelector('video');
 		const features = {audio: false, video: true};
 
@@ -412,6 +430,11 @@ class AuthRedirect extends React.Component {
 	};
 
 	render() {
+		const {width} = this.state;
+		const theme = this.props.theme;
+		const aspectRatio = this.state.device?.aspectRatio ?? 1.33;
+		const webCamWidth = width > 576 ? 500 : width - 75;
+
 		return (
 			<React.Fragment>
 				{this.state.login && (
@@ -423,36 +446,23 @@ class AuthRedirect extends React.Component {
 						leftHeader
 						zIndex={1001}
 						footer={null}
-						style={{
-							display: 'flex',
-							flexDirection: 'column',
-							alignItems: 'center',
-							justifyContent: 'center',
-						}}
 						className="custom-auth-faceki"
 						closable={false}
 						maskClosable={false}
 					>
-						<h4 style={{textAlign: 'center', fontWeight: 'bold'}}>
+						<h4>
 							{counterpart.translate('registration.authenticate_your_face')}
 						</h4>
-						<h5 style={{textAlign: 'center', fontSize: 16}}>
+						<h5>
 							{counterpart.translate(
 								'registration.require_biometric_authentication'
 							)}
 						</h5>
-						<br />
 						{this.state.webcamEnabled && (
-							<div
-								css={(theme) => ({
-									position: 'relative',
-									border: `1px solid ${theme.colors.borderColor}`,
-									borderRadius: '3px',
-								})}
-							>
+							<div className="webcam-wrapper">
 								<div className="flex-container">
 									<div className="flex-container-first">
-										<div className="position-head color-black">
+										<div className="position-head">
 											{counterpart.translate(
 												'registration.requiure_face_in_oval'
 											)}
@@ -466,31 +476,29 @@ class AuthRedirect extends React.Component {
 									audio={false}
 									ref={this.webcamRef}
 									screenshotFormat="image/jpeg"
-									width={500}
+									width={webCamWidth}
 									videoConstraints={{deviceId: this.state.device?.deviceId}}
-									height={
-										this.state.device?.aspectRatio
-											? 500 / this.state.device?.aspectRatio
-											: 385
-									}
+									height={webCamWidth / aspectRatio}
 									mirrored
+								/>
+								<img
+									src={OvalDarkImage}
+									alt="oval-image"
+									className="oval-image"
+									css={(theme) => ({
+										display: theme.mode == 'dark' ? 'block' : 'none',
+									})}
 								/>
 								<img
 									src={OvalImage}
 									alt="oval-image"
 									className="oval-image"
-									style={{
-										position: 'absolute',
-										width: '100%',
-										height: '100%',
-										top: 0,
-										left: 0,
-										zIndex: 200,
-										opacity: 0.8,
-									}}
+									css={(theme) => ({
+										display: theme.mode == 'light' ? 'block' : 'none',
+									})}
 								/>
 								<div className="flex_container">
-									<span className="span-class color-black">
+									<span className="span-class">
 										{!this.state.faceKISuccess
 											? counterpart.translate(
 													'registration.require_verification'
@@ -499,12 +507,12 @@ class AuthRedirect extends React.Component {
 													'registration.verification_success'
 											  )}
 									</span>
-									<div className="span-class color-black">
+									<div className="span-class">
 										{counterpart.translate(
 											'registration.require_min_camera_resolution'
 										)}
 									</div>
-									<div className="span-class color-black">
+									<div className="span-class">
 										{counterpart.translate(
 											'registration.verification_duration'
 										)}
@@ -512,16 +520,9 @@ class AuthRedirect extends React.Component {
 								</div>
 							</div>
 						)}
-						<div
-							style={{
-								display: 'flex',
-								justifyContent: 'center',
-								marginTop: '10px',
-							}}
-						>
+						<div className="button-wrapper">
 							<Button
 								onClick={() => this.checkAndVerify()}
-								style={{background: '#ffcc00', border: 'none'}}
 								disabled={
 									this.state.verifying
 										? true

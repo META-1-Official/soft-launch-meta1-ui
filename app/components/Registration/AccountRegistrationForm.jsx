@@ -274,6 +274,7 @@ class AccountRegistrationForm extends React.Component {
 						});
 					}
 				}}
+				style={{marginTop: 15}}
 			>
 				<Form
 					onFinish={(e) => this.onSubmit(e)}
@@ -679,8 +680,6 @@ class AccountRegistrationForm extends React.Component {
 
 		return (
 			<div className="header-text">
-				<Translate component="p" content="registration.accountDescription" />
-
 				{firstAccount ? null : (
 					<Translate component="p" content="wallet.not_first_account" />
 				)}
