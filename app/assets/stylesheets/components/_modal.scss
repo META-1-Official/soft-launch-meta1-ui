@@ -8,6 +8,13 @@
 	max-width: 500px;
 }
 
+.withdraw_modal_new {
+	.ant-modal-title {
+		text-transform: uppercase;
+		text-align: center;
+	}
+}
+
 .ant-modal,
 .modal {
 	.modal__header {
@@ -150,6 +157,7 @@
 							text-transform: uppercase;
 							font-size: 12px;
 							font-weight: 600;
+							color: white;
 						}
 
 						.ant-form-item {
@@ -186,7 +194,7 @@
 							.ant-input {
 								height: 50px;
 								background: #21252f;
-								border-right: 1px solid #383b44;
+								border-right: 2px solid #383b44;
 							}
 
 							&.ant-form-item-with-help {
@@ -655,13 +663,21 @@
 }
 
 .withdraw-modal-body {
-	min-height: 400px;
+	.with-label {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.label-up {
+		margin-top: unset !important;
+		margin-bottom: 12px;
+	}
 
 	.account-selector-wrapper {
 		display: flex;
 		flex-direction: row;
 		align-items: center;
-		margin-bottom: 12px;
+		margin-top: 12px;
 		width: 100%;
 
 		.left-label {
@@ -697,6 +713,19 @@
 		}
 	}
 
+	.quantity-label {
+		font-size: 13;
+		float: right;
+		color: white;
+		text-align: right;
+	}
+
+	.error-label {
+		color: #e3745b !important;
+		text-transform: uppercase;
+		padding-left: 5px;
+	}
+
 	.address-form {
 		margin-bottom: 1em;
 		position: relative;
@@ -721,10 +750,36 @@
 		}
 
 		.ant-select-single {
-			width: calc(100% - 100px) !important;
+			width: 100% !important;
 
 			.ant-select-selector {
 				padding-right: 40px !important;
+			}
+		}
+	}
+
+	.amount-selector-field {
+		.ant-form-item-control {
+			.ant-input-group-compact {
+				border-radius: 5px;
+				background-color: #21252f;
+
+				.ant-input {
+					border-right: 2px solid #383b44;
+					background: transparent;
+				}
+			}
+		}
+	}
+
+	.withdraw-fee-selector {
+		.ant-input-group-wrapper {
+			background-color: #21252f;
+			border-radius: 5px;
+
+			.ant-input-group-addon {
+				background: transparent;
+				border: none;
 			}
 		}
 	}
@@ -736,18 +791,33 @@
 		margin: 0;
 		border: none;
 		outline: none;
-		border-top-right-radius: 4px;
-		border-bottom-right-radius: 4px;
+		border-top-right-radius: 5px;
+		border-bottom-right-radius: 5px;
+	}
+
+	.withdraw-fee-selector {
+		.ant-input-group-wrapper {
+			.ant-input-group-addon {
+				border: none;
+				border-radius: 5px;
+				border-top-left-radius: 0px;
+				border-bottom-left-radius: 0px;
+				background: #21252f;
+				border-left: 1px solid #383b44;
+			}
+		}
 	}
 
 	#baseMarketFee {
 		color: rgba(255, 255, 255, 0.5);
+		border-radius: 5px;
 	}
 
 	.ant-select-selector {
 		height: 50px !important;
-		background: #21252f;
-		border-radius: 4px;
+		background: transparent;
+		border-radius: 5px;
+		border: none !important;
 
 		.ant-select-selection-item {
 			display: flex;

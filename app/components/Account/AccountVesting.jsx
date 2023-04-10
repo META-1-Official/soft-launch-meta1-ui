@@ -26,7 +26,7 @@ class AccountVesting extends React.Component {
 		this.retrieveVestingBalances = this.retrieveVestingBalances.bind(this);
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		this.retrieveVestingBalances.call(this, this.props.account.get('id'));
 	}
 

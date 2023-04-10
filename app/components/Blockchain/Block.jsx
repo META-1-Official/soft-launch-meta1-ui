@@ -9,6 +9,8 @@ import ChainTypes from '../Utility/ChainTypes';
 import BindToChainState from '../Utility/BindToChainState';
 import LinkToWitnessById from '../Utility/LinkToWitnessById';
 import {Element, Events, animateScroll as scroll, scroller} from 'react-scroll';
+import {Button} from 'antd';
+import {CaretLeftOutlined, CaretRightOutlined} from '@ant-design/icons';
 
 class TransactionList extends React.Component {
 	shouldComponentUpdate(nextProps) {
@@ -73,7 +75,7 @@ class Block extends React.Component {
 		});
 	}
 
-	componentWillReceiveProps(np) {
+	UNSAFE_componentWillReceiveProps(np) {
 		if (np.height !== this.props.height) {
 			this._getBlock(np.height);
 		}
@@ -192,8 +194,10 @@ class Block extends React.Component {
 				<div className="grid-block main-content">
 					<div className="grid-content" id="blockContainer">
 						<div className="grid-content no-overflow medium-offset-2 medium-8 large-offset-3 large-6 small-12">
-							<h4 className="text-center">{blockHeight}</h4>
-							<ul>
+							<h4 className="text-center" style={{marginTop: '30px'}}>
+								{blockHeight}
+							</h4>
+							<ul style={{marginBottom: '30px'}}>
 								<li>
 									<Translate component="span" content="explorer.block.date" />:{' '}
 									{block ? (
@@ -225,23 +229,42 @@ class Block extends React.Component {
 							</ul>
 							<div className="clearfix" style={{marginBottom: '1rem'}}>
 								<div
-									className="button float-left outline"
-									onClick={this._previousBlock.bind(this)}
+									style={{
+										display: 'flex',
+										justifyContent: 'space-between',
+										alignItems: 'center',
+										marginBottom: '10px',
+									}}
 								>
-									&#8592;
+									<Button
+										onClick={this._previousBlock.bind(this)}
+										style={{
+											background: '#ffc000',
+											color: 'black',
+											fontWeight: '500',
+											border: 'none',
+											borderRadius: '5px',
+										}}
+										icon={<CaretLeftOutlined />}
+									/>
+									<Button
+										onClick={this._nextBlock.bind(this)}
+										style={{
+											background: '#ffc000',
+											color: 'black',
+											fontWeight: '500',
+											border: 'none',
+											borderRadius: '5px',
+										}}
+										icon={<CaretRightOutlined />}
+									/>
 								</div>
-								<div
-									className="button float-right outline"
-									onClick={this._nextBlock.bind(this)}
-								>
-									&#8594;
+								{block ? <TransactionList block={block} /> : null}
+								<div style={{textAlign: 'center', marginBottom: 20}}>
+									<a onClick={this.scrollToTop}>
+										<Translate content="global.return_to_top" />
+									</a>
 								</div>
-							</div>
-							{block ? <TransactionList block={block} /> : null}
-							<div style={{textAlign: 'center', marginBottom: 20}}>
-								<a onClick={this.scrollToTop}>
-									<Translate content="global.return_to_top" />
-								</a>
 							</div>
 						</div>
 					</div>

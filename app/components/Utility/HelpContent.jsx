@@ -54,6 +54,7 @@ function adjust_links(str, newRoute) {
 					padding: 6px 0px 6px 2rem; cursor: pointer; display: inline-block; width: 100%;
 					${page === newRoute ? 'border-right: 2px solid yellow;' : ''}
 				"
+				class="${page === newRoute ? 'selected' : ''}"
 				href="${__HASH_HISTORY__ ? '#' : ''}${page}"
 				onclick="_onClickLink(event)"
 			>
@@ -288,13 +289,13 @@ class HelpContent extends React.PureComponent {
 									border: `1px solid ${theme.colors.helpTableBorderColor}`,
 									borderCollapse: 'collapse',
 									marginBottom: '20px',
-									color: 'white',
+									color: theme.colors.helpTextColor,
 									'td, th': {
 										padding: '10px',
 										fontSize: '14px',
 									},
 									thead: {
-										backgroundColor: '#111215',
+										backgroundColor: theme.colors.helpSideBarColor,
 										th: {
 											textAlign: 'left',
 											padding: '10px',
@@ -311,8 +312,6 @@ class HelpContent extends React.PureComponent {
 									},
 								},
 								'p, p:last-of-type': {
-									marginBottom:
-										this.props.from !== 'permissions' ? '2.5rem' : '0px',
 									color: `${theme.colors.helpTextColor} !important`,
 									fontSize: '15px',
 								},

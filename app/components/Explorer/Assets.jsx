@@ -8,7 +8,6 @@ import Immutable from 'immutable';
 import Translate from 'react-translate-component';
 import LinkToAccountById from '../Utility/LinkToAccountById';
 import assetUtils from 'common/asset_utils';
-import counterpart from 'counterpart';
 import FormattedAsset from '../Utility/FormattedAsset';
 import AssetName from '../Utility/AssetName';
 import {ChainStore} from 'meta1-vision-js';
@@ -21,6 +20,7 @@ import SearchInput from '../Utility/SearchInput';
 import ExploreCard from 'components/ExploreCard/ExploreCard';
 import {FaChartBar} from 'react-icons/fa';
 import chainIds from 'chain/chainIds';
+import counterpart from 'counterpart';
 
 let accountStorage = new ls('__graphene__');
 const {Text} = Typography;
@@ -68,7 +68,7 @@ class Assets extends React.Component {
 		);
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		this._checkAssets(this.props.assets, true);
 	}
 
@@ -115,7 +115,7 @@ class Assets extends React.Component {
 		}
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		if (nextProps.assets !== this.props.assets) {
 			this._checkAssets(nextProps.assets);
 		}
@@ -146,7 +146,6 @@ class Assets extends React.Component {
 		let {assets} = this.props;
 		let {activeFilter} = this.state;
 
-		let placeholder = counterpart.translate('markets.filter').toUpperCase();
 		let coreAsset = ChainStore.getAsset('1.3.0');
 
 		let pm;
@@ -159,7 +158,7 @@ class Assets extends React.Component {
 			columns = [
 				{
 					key: 'symbol',
-					title: 'symbol',
+					title: counterpart.translate('explorer.assets.symbol'),
 					dataIndex: 'symbol',
 					defaultSortOrder: 'ascend',
 					sorter: (a, b) => {
@@ -175,7 +174,7 @@ class Assets extends React.Component {
 				},
 				{
 					key: 'issuer',
-					title: 'issuer',
+					title: counterpart.translate('explorer.assets.issuer'),
 					dataIndex: 'issuer',
 					sorter: (a, b) => {
 						let issuerA = ChainStore.getAccount(a.issuer, false);
@@ -192,7 +191,7 @@ class Assets extends React.Component {
 				},
 				{
 					key: 'currentSupply',
-					title: 'Supply',
+					title: counterpart.translate('explorer.assets.issuer'),
 					dataIndex: 'currentSupply',
 					sorter: (a, b) => {
 						const currentSupplyA =
@@ -268,7 +267,7 @@ class Assets extends React.Component {
 			columns = [
 				{
 					key: 'symbol',
-					title: 'symbol',
+					title: counterpart.translate('explorer.assets.symbol'),
 					dataIndex: 'symbol',
 					defaultSortOrder: 'ascend',
 					sorter: (a, b) => {
@@ -284,7 +283,7 @@ class Assets extends React.Component {
 				},
 				{
 					key: 'issuer',
-					title: 'issuer',
+					title: counterpart.translate('explorer.assets.issuer'),
 					dataIndex: 'issuer',
 					sorter: (a, b) => {
 						let issuerA = ChainStore.getAccount(a.issuer, false);
@@ -301,7 +300,7 @@ class Assets extends React.Component {
 				},
 				{
 					key: 'currentSupply',
-					title: 'Supply',
+					title: counterpart.translate('markets.supply'),
 					dataIndex: 'currentSupply',
 					sorter: (a, b) => {
 						a.currentSupply = parseFloat(a.currentSupply);
@@ -417,7 +416,7 @@ class Assets extends React.Component {
 		}
 
 		return (
-			<div>
+			<div className="assets-tab">
 				<div
 					css={(theme) => ({
 						backgroundColor: theme.colors.explorerBackground,
@@ -433,9 +432,9 @@ class Assets extends React.Component {
 							>
 								<div>
 									<Text
-										css={() => ({
+										css={(theme) => ({
 											fontSize: '1.2rem',
-											color: 'white',
+											color: theme.colors.themeOpositeColor,
 											fontWeight: 700,
 										})}
 									>
@@ -453,9 +452,9 @@ class Assets extends React.Component {
 							>
 								<div>
 									<Text
-										css={() => ({
+										css={(theme) => ({
 											fontSize: '1.2rem',
-											color: 'white',
+											color: theme.colors.themeOpositeColor,
 											fontWeight: 700,
 										})}
 									>
@@ -472,9 +471,9 @@ class Assets extends React.Component {
 							>
 								<div>
 									<Text
-										css={() => ({
+										css={(theme) => ({
 											fontSize: '1.2rem',
-											color: 'white',
+											color: theme.colors.themeOpositeColor,
 											fontWeight: 700,
 										})}
 									>
@@ -493,9 +492,9 @@ class Assets extends React.Component {
 							>
 								<div>
 									<Text
-										css={() => ({
+										css={(theme) => ({
 											fontSize: '1.2rem',
-											color: 'white',
+											color: theme.colors.themeOpositeColor,
 											fontWeight: 700,
 										})}
 									>
@@ -513,9 +512,9 @@ class Assets extends React.Component {
 							>
 								<div>
 									<Text
-										css={() => ({
+										css={(theme) => ({
 											fontSize: '1.2rem',
-											color: 'white',
+											color: theme.colors.themeOpositeColor,
 											fontWeight: 700,
 										})}
 									>
@@ -532,9 +531,9 @@ class Assets extends React.Component {
 							>
 								<div>
 									<Text
-										css={() => ({
+										css={(theme) => ({
 											fontSize: '1.2rem',
-											color: 'white',
+											color: theme.colors.themeOpositeColor,
 											fontWeight: 700,
 										})}
 									>
@@ -545,161 +544,117 @@ class Assets extends React.Component {
 						</Col>
 					</Row>
 				</div>
-
-				<div className="grid-block vertical">
-					<div className="grid-block vertical">
-						<div className="grid-block main-content small-12 medium-10 medium-offset-1 main-content vertical">
-							<div className="generic-bordered-box">
-								<div
-									style={{
-										textAlign: 'left',
-										marginBottom: '24px',
-										marginTop: '2rem',
-									}}
-								>
-									<span
-										style={{
-											display: 'inline-block',
-											width: '0px',
-											marginTop: '2px',
-											float: 'left',
-											fontSize: '18px',
-										}}
-									>
-										{this.state.isLoading ? <Spin /> : null}
-									</span>
-									<SearchInput
-										value={this.state.filterSearch}
-										style={{width: '200px'}}
-										onChange={this.handleFilterChange}
-									/>
-									<Radio.Group
-										value={this.state.activeFilter}
-										onChange={this._toggleFilter}
-										style={{
-											marginBottom: '7px',
-											marginLeft: '24px',
-										}}
-									>
-										<Radio value={'market'}>
-											<Translate content="explorer.assets.market" />
-										</Radio>
-										<Radio value={'user'}>
-											<Translate content="explorer.assets.user" />
-										</Radio>
-										<Radio value={'prediction'}>
-											<Translate content="explorer.assets.prediction" />
-										</Radio>
-									</Radio.Group>
-
-									<Select
-										style={{width: '150px', marginLeft: '24px'}}
-										value={this.state.rowsOnPage}
-										onChange={this.handleRowsChange}
-										getPopupContainer={(triggerNode) => triggerNode.parentNode}
-									>
-										<Select.Option key={'10'}>10 rows</Select.Option>
-										<Select.Option key={'25'}>25 rows</Select.Option>
-										<Select.Option key={'50'}>50 rows</Select.Option>
-										<Select.Option key={'100'}>100 rows</Select.Option>
-										<Select.Option key={'200'}>200 rows</Select.Option>
-									</Select>
-								</div>
-
-								{activeFilter == 'prediction' ? (
-									<List
-										style={{paddingBottom: 20, backgroundColor: 'grey'}}
-										size="large"
-										itemLayout="horizontal"
-										dataSource={pm}
-										renderItem={(item) => (
-											<List.Item
-												key={item.asset.id.split('.')[2]}
-												actions={[
-													<Link
-														className="button outline"
-														to={`/market/${item.marketID}`}
-													>
-														<Translate content="header.exchange" />
-													</Link>,
-												]}
-											>
-												<List.Item.Meta
-													title={
-														<div>
-															<span
-																style={{
-																	paddingTop: 10,
-																	fontWeight: 'bold',
-																}}
-															>
-																<Link to={`/asset/${item.asset.symbol}`}>
-																	<AssetName name={item.asset.symbol} />
-																</Link>
-															</span>
-															{item.description.condition ? (
-																<span> ({item.description.condition})</span>
-															) : null}
-														</div>
-													}
-													description={
-														<span>
-															{item.description ? (
-																<div
-																	style={{
-																		padding: '10px 20px 5px 0',
-																		lineHeight: '18px',
-																	}}
-																>
-																	{item.description.main}
-																</div>
-															) : null}
-															<span
-																style={{
-																	padding: '0 20px 5px 0',
-																	lineHeight: '18px',
-																}}
-															>
-																<LinkToAccountById
-																	account={item.asset.issuer}
-																/>
-																<span>
-																	{' '}
-																	-{' '}
-																	<FormattedAsset
-																		amount={item.asset.dynamic.current_supply}
-																		asset={item.asset.id}
-																	/>
-																</span>
-																{item.description.expiry ? (
-																	<span> - {item.description.expiry}</span>
-																) : null}
-															</span>
-														</span>
-													}
-												/>
-											</List.Item>
-										)}
-										pagination={{
-											position: 'bottom',
-											pageSize: 6,
-										}}
-									/>
-								) : (
-									<Table
-										style={{
-											width: '100%',
-											marginTop: '16px',
-											marginBottom: '2rem',
-										}}
-										rowKey="symbol"
-										columns={columns}
-										dataSource={dataSource}
-									/>
-								)}
-							</div>
-						</div>
+				<div className="assets-section-wrapper">
+					<div className="control-group">
+						<SearchInput
+							value={this.state.filterSearch}
+							onChange={this.handleFilterChange}
+						/>
+						<Radio.Group
+							value={this.state.activeFilter}
+							onChange={this._toggleFilter}
+						>
+							<Radio value={'market'}>
+								<Translate content="explorer.assets.market" />
+							</Radio>
+							<Radio value={'user'}>
+								<Translate content="explorer.assets.user" />
+							</Radio>
+							<Radio value={'prediction'}>
+								<Translate content="explorer.assets.prediction" />
+							</Radio>
+						</Radio.Group>
 					</div>
+
+					{activeFilter == 'prediction' ? (
+						<List
+							style={{paddingBottom: 20, backgroundColor: 'grey'}}
+							size="large"
+							itemLayout="horizontal"
+							dataSource={pm}
+							renderItem={(item) => (
+								<List.Item
+									key={item.asset.id.split('.')[2]}
+									actions={[
+										<Link
+											className="button outline"
+											to={`/market/${item.marketID}`}
+										>
+											<Translate content="header.exchange" />
+										</Link>,
+									]}
+								>
+									<List.Item.Meta
+										title={
+											<div>
+												<span
+													style={{
+														paddingTop: 10,
+														fontWeight: 'bold',
+													}}
+												>
+													<Link to={`/asset/${item.asset.symbol}`}>
+														<AssetName name={item.asset.symbol} />
+													</Link>
+												</span>
+												{item.description.condition ? (
+													<span> ({item.description.condition})</span>
+												) : null}
+											</div>
+										}
+										description={
+											<span>
+												{item.description ? (
+													<div
+														style={{
+															padding: '10px 20px 5px 0',
+															lineHeight: '18px',
+														}}
+													>
+														{item.description.main}
+													</div>
+												) : null}
+												<span
+													style={{
+														padding: '0 20px 5px 0',
+														lineHeight: '18px',
+													}}
+												>
+													<LinkToAccountById account={item.asset.issuer} />
+													<span>
+														{' '}
+														-{' '}
+														<FormattedAsset
+															amount={item.asset.dynamic.current_supply}
+															asset={item.asset.id}
+														/>
+													</span>
+													{item.description.expiry ? (
+														<span> - {item.description.expiry}</span>
+													) : null}
+												</span>
+											</span>
+										}
+									/>
+								</List.Item>
+							)}
+							pagination={{
+								position: 'bottom',
+								pageSize: 6,
+							}}
+						/>
+					) : (
+						<Table
+							style={{
+								width: '100%',
+								marginTop: '16px',
+								marginBottom: '2rem',
+							}}
+							rowKey="symbol"
+							columns={columns}
+							dataSource={dataSource}
+						/>
+					)}
 				</div>
 			</div>
 		);

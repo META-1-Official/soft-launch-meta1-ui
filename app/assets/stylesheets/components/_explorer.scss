@@ -1,0 +1,123 @@
+.explorer {
+	.blockchain-tab {
+		.explorer-card {
+			canvas {
+				border-radius: 10px;
+			}
+		}
+
+		.transactions-block {
+			padding: 2rem;
+			display: flex;
+
+			@media screen and (max-width: 768px) {
+				flex-direction: column;
+			}
+
+			.recent-activity {
+				margin-bottom: 3.5rem;
+				width: 50%;
+
+				@media screen and (max-width: 768px) {
+					width: 100%;
+				}
+
+				tbody {
+					overflow: auto;
+				}
+			}
+
+			.recent-blocks {
+				padding-bottom: 0;
+				padding-left: 5;
+				width: 50%;
+
+				@media screen and (max-width: 768px) {
+					width: 100%;
+					padding-left: 0;
+				}
+
+				tbody {
+					overflow: auto;
+				}
+			}
+		}
+	}
+
+	.assets-tab {
+		.assets-section-wrapper {
+			display: flex;
+			flex-direction: column;
+			padding-right: 20px;
+
+			.control-group {
+				text-align: left;
+				margin-top: 2rem;
+				display: flex;
+				align-items: center;
+
+				@media screen and (max-width: 576px) {
+					flex-direction: column;
+					justify-content: center;
+				}
+
+				.search-input {
+					width: 300px !important;
+
+					@media screen and (max-width: 576px) {
+						margin-bottom: 15px;
+						width: 100% !important;
+					}
+				}
+
+				.ant-radio-group {
+					margin-left: 24px;
+
+					@media screen and (max-width: 576px) {
+						margin-left: 0;
+					}
+				}
+			}
+
+			.ant-table-wrapper {
+				overflow: auto;
+			}
+		}
+	}
+
+	.accounts-tab {
+		.search-input {
+			min-width: 300px;
+
+			@media screen and (max-width: 576px) {
+				width: 100% !important;
+			}
+		}
+	}
+
+	.witnesses-tab {
+		.search-input {
+			min-width: 300px;
+			margin-bottom: 10px;
+
+			@media screen and (max-width: 576px) {
+				width: 100% !important;
+			}
+		}
+	}
+
+	.committee-tab {
+		.search-input {
+			min-width: 300px;
+			margin-bottom: 10px;
+
+			@media screen and (max-width: 576px) {
+				width: 100% !important;
+			}
+		}
+	}
+
+	.fees-tab {
+		padding-right: 20px;
+	}
+}

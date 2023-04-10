@@ -1,23 +1,16 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 import Translate from 'react-translate-component';
-import {saveAs} from 'file-saver';
 import ChainTypes from '../Utility/ChainTypes';
 import BindToChainState from '../Utility/BindToChainState';
 import utils from 'common/utils';
-import {
-	ChainTypes as grapheneChainTypes,
-	FetchChain,
-	ChainStore,
-} from 'meta1-vision-js';
+import {ChainTypes as grapheneChainTypes, ChainStore} from 'meta1-vision-js';
 import counterpart from 'counterpart';
-import Icon from '../Icon/Icon';
 import cnames from 'classnames';
 import PropTypes from 'prop-types';
 import PaginatedList from '../Utility/PaginatedList';
 const {operations} = grapheneChainTypes;
-import report from 'bitshares-report';
 import LoadingIndicator from '../LoadingIndicator';
-import {Tooltip, Modal, Button, Select, Input, Row, Col} from 'antd';
+import {Select} from 'antd';
 const ops = Object.keys(operations);
 ops.push(
 	'property_create_operation',
@@ -26,14 +19,12 @@ ops.push(
 	'property_delete_operation',
 	'asset_price_publish_operation'
 );
-import {Link} from 'react-router-dom';
 import FormattedAsset from '../Utility/FormattedAsset';
 import BlockTime from '../Blockchain/BlockTime';
 import OperationAnt from '../Blockchain/OperationAnt';
 import SettingsStore from 'stores/SettingsStore';
 import {connect} from 'alt-react';
 import PendingBlock from '../Utility/PendingBlock';
-import {AiOutlineFileSearch} from 'react-icons/ai';
 import {CaretDownFilled} from '@ant-design/icons';
 import moment from 'moment-timezone';
 const operation = new OperationAnt();
@@ -43,18 +34,13 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 const OptGroup = Select.OptGroup;
 
-import AccountHistoryExporter, {
-	FULL,
-	COINBASE,
-} from '../../services/AccountHistoryExporter';
+import AccountHistoryExporter from '../../services/AccountHistoryExporter';
 
 import {explorerApi} from '../../services/api';
 import {settingsAPIs} from 'api/apiConfig';
 import BlockchainActions from '../../actions/BlockchainActions';
 import BlockchainStore from '../../stores/BlockchainStore';
 import TrxHash from '../Blockchain/TrxHash';
-import {FaWeight} from 'react-icons/fa';
-import axios from 'axios';
 
 function compareOps(b, a) {
 	if (a.block_num === b.block_num) {
@@ -121,12 +107,7 @@ class RecentTransactions extends React.Component {
 	}
 
 	componentDidMount() {
-		if (!this.props.fullHeight) {
-			let t = this.refs.transactions;
-			this._setHeaderHeight();
-		}
-
-		let {accountsList, customFilter, filter} = this.props;
+		let {accountsList} = this.props;
 
 		this._getHistory(accountsList);
 	}
@@ -146,16 +127,6 @@ class RecentTransactions extends React.Component {
 		} else {
 			this.setState({
 				esNode: newValue,
-			});
-		}
-	}
-
-	_setHeaderHeight() {
-		let height = this.refs.header.offsetHeight;
-
-		if (height !== this.state.headerHeight) {
-			this.setState({
-				headerHeight: height,
 			});
 		}
 	}
@@ -299,9 +270,6 @@ class RecentTransactions extends React.Component {
 
 		if (!dynGlobalObject) return history;
 
-		const lastIrreversibleBlockNum = dynGlobalObject.get(
-			'last_irreversible_block_num'
-		);
 		let current_account_id =
 			accountsList.length === 1 && accountsList[0]
 				? accountsList[0].get('id')
@@ -575,7 +543,7 @@ class RecentTransactions extends React.Component {
 	}
 
 	render() {
-		let {accountsList, filter, customFilter, style, blocks} = this.props;
+		let {accountsList, filter, customFilter, style} = this.props;
 
 		let {limit, dateFrom, dateTo, startIndex, endIndex, pageSize} = this.state;
 
@@ -696,24 +664,13 @@ class RecentTransactions extends React.Component {
 				style={style}
 			>
 				<div className="generic-bordered-box">
-					{this.props.dashboard ? null : (
-						<div ref="header">
-							<div className="block-content-header">
-								<span>
-									{this.props.title ? (
-										this.props.title
-									) : (
-										<Translate content="account.recent" />
-									)}
-								</span>
-							</div>
-						</div>
-					)}
 					<div className="header-selector">
 						<div className="header-selector-body">
-							<div style={{display: 'flex', justifyContent: 'center'}}>
-								<span className="page-title">Transaction History</span>
-								<div style={{marginLeft: '20px', marginRight: '10px'}}>
+							<div className="date-list">
+								<span className="page-title">
+									<Translate content="account.transaction_history" />
+								</span>
+								<div className="date">
 									<DatePicker
 										onChange={(dateFrom) => this.onDateFromChange(dateFrom)}
 										selected={this.state.dateFrom}
@@ -724,7 +681,7 @@ class RecentTransactions extends React.Component {
 										timeInputLabel=""
 									/>
 								</div>
-								<div style={{marginLeft: '10px'}}>
+								<div className="date">
 									<DatePicker
 										onChange={(dateTo) => this.onDateToChange(dateTo)}
 										selected={this.state.dateTo}
@@ -746,10 +703,26 @@ class RecentTransactions extends React.Component {
 										suffixIcon={<CaretDownFilled />}
 										getPopupContainer={(triggerNode) => triggerNode.parentNode}
 									>
-										<OptGroup label="General">{defaultOptions}</OptGroup>
-										<OptGroup label="Balances">{amountOptions}</OptGroup>
-										<OptGroup label="Date and Time">{dateTimeOptions}</OptGroup>
-										<OptGroup label="Username">{usernamesOptions}</OptGroup>
+										<OptGroup label={counterpart.translate('settings.general')}>
+											{defaultOptions}
+										</OptGroup>
+										<OptGroup
+											label={counterpart.translate('transfer.balances')}
+										>
+											{amountOptions}
+										</OptGroup>
+										<OptGroup
+											label={counterpart.translate(
+												'account.transactions.date_and_time'
+											)}
+										>
+											{dateTimeOptions}
+										</OptGroup>
+										<OptGroup
+											label={counterpart.translate('transaction.trxTypes.name')}
+										>
+											{usernamesOptions}
+										</OptGroup>
 									</Select>
 								) : null}
 							</div>
@@ -771,7 +744,7 @@ class RecentTransactions extends React.Component {
 							{
 								title: (
 									<div className="transaction-history-table-title">
-										<Translate content="account.user_issued_assets.operation" />
+										<Translate content="explorer.block.op" />
 									</div>
 								),
 								isShow:

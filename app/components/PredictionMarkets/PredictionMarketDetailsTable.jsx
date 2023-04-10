@@ -11,12 +11,6 @@ import {AiFillQuestionCircle} from 'react-icons/ai';
 
 export default class PredictionMarketDetailsTable extends Component {
 	getHeader() {
-		const precision = Math.pow(
-			10,
-			ChainStore.getAsset(
-				this.props.predictionMarketData.predictionMarket.asset_id
-			).get('precision')
-		);
 		const currentAccountId = this.props.currentAccount.get('id');
 		return [
 			{

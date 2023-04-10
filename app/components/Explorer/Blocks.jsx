@@ -22,7 +22,6 @@ import ExploreCard from 'components/ExploreCard/ExploreCard';
 
 require('../Blockchain/json-inspector.scss');
 
-// const logo = require('assets/asset-symbols/blockNumber.png');
 const blockNumberIcon = require('assets/explorer/blockNumber.png');
 const witnessIcon = require('assets/explorer/witness.png');
 const committeeIcon = require('assets/explorer/committee.png');
@@ -52,9 +51,9 @@ class BlockTimeAgo extends React.Component {
 			<div>
 				<Text
 					className={textClass}
-					css={() => ({
+					css={(theme) => ({
 						fontSize: '1.2rem',
-						color: 'white',
+						color: theme.colors.descriptionTextColor,
 						fontWeight: 700,
 					})}
 				>
@@ -99,7 +98,7 @@ class Blocks extends React.Component {
 		}
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		window.addEventListener('resize', this._updateHeight, {
 			capture: false,
 			passive: true,
@@ -110,7 +109,7 @@ class Blocks extends React.Component {
 		window.removeEventListener('resize', this._updateHeight);
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		if (nextProps.latestBlocks.size === 0) {
 			return this._getInitialBlocks();
 		} else if (!this.state.animateEnter) {
@@ -318,8 +317,7 @@ class Blocks extends React.Component {
 		}
 
 		return (
-			<div ref="outerWrapper">
-				{/* First row of stats */}
+			<div ref="outerWrapper" className="blockchain-tab">
 				<div
 					css={(theme) => ({
 						backgroundColor: theme.colors.explorerBackground,
@@ -335,9 +333,9 @@ class Blocks extends React.Component {
 							>
 								<div>
 									<Text
-										css={() => ({
+										css={(theme) => ({
 											fontSize: '1.2rem',
-											color: 'white',
+											color: theme.colors.themeOpositeColor,
 											fontWeight: 700,
 										})}
 									>
@@ -366,9 +364,9 @@ class Blocks extends React.Component {
 							>
 								<div>
 									<Text
-										css={() => ({
+										css={(theme) => ({
 											fontSize: '1.2rem',
-											color: 'white',
+											color: theme.colors.themeOpositeColor,
 											fontWeight: 700,
 										})}
 									>
@@ -384,9 +382,9 @@ class Blocks extends React.Component {
 							>
 								<div>
 									<Text
-										css={() => ({
+										css={(theme) => ({
 											fontSize: '1.2rem',
-											color: 'white',
+											color: theme.colors.themeOpositeColor,
 											fontWeight: 700,
 										})}
 									>
@@ -404,9 +402,9 @@ class Blocks extends React.Component {
 							>
 								<div>
 									<Text
-										css={() => ({
+										css={(theme) => ({
 											fontSize: '1.2rem',
-											color: 'white',
+											color: theme.colors.themeOpositeColor,
 											fontWeight: 700,
 										})}
 									>
@@ -422,9 +420,9 @@ class Blocks extends React.Component {
 							>
 								<div>
 									<Text
-										css={() => ({
+										css={(theme) => ({
 											fontSize: '1.2rem',
-											color: 'white',
+											color: theme.colors.themeOpositeColor,
 											fontWeight: 700,
 										})}
 									>
@@ -440,9 +438,9 @@ class Blocks extends React.Component {
 							>
 								<div>
 									<Text
-										css={() => ({
+										css={(theme) => ({
 											fontSize: '1.2rem',
-											color: 'white',
+											color: theme.colors.themeOpositeColor,
 											fontWeight: 700,
 										})}
 									>
@@ -459,9 +457,9 @@ class Blocks extends React.Component {
 							>
 								<div>
 									<Text
-										css={() => ({
+										css={(theme) => ({
 											fontSize: '1.2rem',
-											color: 'white',
+											color: theme.colors.themeOpositeColor,
 											fontWeight: 700,
 										})}
 									>
@@ -477,9 +475,9 @@ class Blocks extends React.Component {
 							>
 								<div>
 									<Text
-										css={() => ({
+										css={(theme) => ({
 											fontSize: '1.2rem',
-											color: 'white',
+											color: theme.colors.themeOpositeColor,
 											fontWeight: 700,
 										})}
 									>
@@ -518,89 +516,53 @@ class Blocks extends React.Component {
 						</Col>
 					</Row>
 				</div>
-
-				{/* Third row: graphs */}
-				{/* <div className="align-center grid-block shrink small-vertical medium-horizontal blocks-row">
-					<div className="grid-block text-center small-12 medium-3">
-						<div className="grid-content no-overflow clear-fix">
-							<span className="txtlabel">
-								<Translate
-									component="span"
-									content="explorer.asset.summary.confidential_supply"
-								/>
-							</span>
-							<h3 className="txtlabel">
-								{dynamicObject ? (
-									<FormattedAsset
-										amount={dynamicObject.get('confidential_supply')}
-										asset={coreAsset.get('id')}
-										decimalOffset={5}
-									/>
-								) : null}
-							</h3>
-						</div>
-					</div>
-				</div> */}
-
-				{/* Fourth row: transactions and blocks */}
-				<div
-					ref="transactionsBlock"
-					className="grid-block no-overflow"
-					css={{padding: '2rem'}}
-				>
-					<div className="grid-block small-12 medium-6 vertical no-overflow">
-						<div
-							css={{marginBottom: '3.5rem'}}
-							className="grid-block vertical no-overflow generic-bordered-box"
-						>
-							<div ref="operationsText">
-								<div className="block-content-header">
-									<Translate content="account.recent" />
-								</div>
-								<table
-									className="table fixed-height-2rem"
+				<div ref="transactionsBlock" className="transactions-block">
+					<div className="recent-activity">
+						<div ref="operationsText">
+							<div className="block-content-header">
+								<Translate content="account.recent" />
+							</div>
+							<table
+								className="table fixed-height-2rem"
+								css={(theme) => ({
+									border: `1px solid ${theme.colors.borderColor}`,
+								})}
+							>
+								<thead
 									css={(theme) => ({
-										border: `2px solid ${theme.colors.borderColor}`,
+										tr: {
+											backgroundColor: theme.colors.tableHeaderColor,
+											fontSize: '13px !important',
+											textAlign: 'left',
+										},
 									})}
 								>
-									<thead
-										css={(theme) => ({
-											tr: {
-												backgroundColor: '#15171b',
-												border: `2px solid ${theme.colors.borderColor}`,
-												fontSize: '13px !important',
-												padding: '15px 10px',
-												textAlign: 'left',
-											},
-										})}
-									>
-										<tr>
-											<th>
-												<Translate content="account.votes.info" />
-											</th>
-										</tr>
-									</thead>
-								</table>
-							</div>
-							<div
-								className="grid-block"
-								style={{
-									maxHeight: operationsHeight || '400px',
-									overflow: 'hidden',
-								}}
-								ref="operations"
+									<tr>
+										<th>
+											<Translate content="account.votes.info" />
+										</th>
+									</tr>
+								</thead>
+							</table>
+						</div>
+						<div
+							className="grid-block"
+							style={{
+								maxHeight: operationsHeight || '400px',
+								overflow: 'hidden',
+							}}
+							ref="operations"
+						>
+							<table
+								className="table fixed-height-2rem"
+								style={{maxHeight: '300px'}}
 							>
-								<table className="table fixed-height-2rem">
-									<tbody>{transactions}</tbody>
-								</table>
-							</div>
+								<tbody>{transactions}</tbody>
+							</table>
 						</div>
 					</div>
-					<div
-						className="grid-block medium-6 show-for-medium vertical no-overflow"
-						style={{paddingBottom: 0, paddingLeft: 5}}
-					>
-						<div className="grid-block vertical no-overflow generic-bordered-box">
+					<div className="recent-blocks">
+						<div className="generic-bordered-box">
 							<div ref="blocksText">
 								<div className="block-content-header">
 									<Translate
@@ -617,14 +579,18 @@ class Blocks extends React.Component {
 								}}
 								ref="blocks"
 							>
-								<table className="table fixed-height-2rem">
+								<table
+									className="table fixed-height-2rem"
+									css={(theme) => ({
+										border: `1px solid ${theme.colors.borderColor}`,
+										maxHeight: '300px',
+									})}
+								>
 									<thead
 										css={(theme) => ({
+											borderBottom: `2px solid ${theme.colors.borderColor}`,
 											tr: {
-												backgroundColor: theme.colors.tableColumnColor,
-												border: `2px solid ${theme.colors.borderColor}`,
-												borderBottom: `2px solid ${theme.colors.borderColor}`,
-												padding: '15px 10px',
+												backgroundColor: theme.colors.tableHeaderColor,
 												textAlign: 'left',
 												fontSize: '13px !important',
 											},

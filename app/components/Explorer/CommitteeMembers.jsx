@@ -97,7 +97,7 @@ class CommitteeMemberList extends React.Component {
 			},
 			{
 				key: 'name',
-				title: 'NAME',
+				title: counterpart.translate('account.votes.name'),
 				dataIndex: 'name',
 				sorter: (a, b) => {
 					return a.name > b.name ? 1 : a.name < b.name ? -1 : 0;
@@ -105,7 +105,7 @@ class CommitteeMemberList extends React.Component {
 			},
 			{
 				key: 'votes',
-				title: 'VOTES',
+				title: counterpart.translate('account.votes.votes'),
 				dataIndex: 'votes',
 				render: (item) => (
 					<FormattedAsset amount={item} asset="1.3.0" decimalOffset={5} />
@@ -116,7 +116,7 @@ class CommitteeMemberList extends React.Component {
 			},
 			{
 				key: 'url',
-				title: 'WEBPAGE',
+				title: counterpart.translate('account.votes.url'),
 				dataIndex: 'url',
 				render: (item) => (
 					<a href={item} target="_blank" rel="noopener noreferrer">
@@ -179,31 +179,27 @@ class CommitteeMembers extends React.Component {
 		}
 
 		return (
-			<div className="grid-block">
-				<div className="grid-block vertical medium-horizontal">
-					<div className="grid-block vertical">
-						<div className="grid-content">
-							<SearchInput
-								placeholder={counterpart.translate(
-									'explorer.witnesses.filter_by_name'
-								)}
-								value={this.state.filterCommitteeMember}
-								onChange={this._onFilter.bind(this)}
-								style={{
-									width: '200px',
-									marginBottom: '12px',
-									marginTop: '4px',
-								}}
-							/>
-							<CommitteeMemberList
-								filter={this.state.filterCommitteeMember}
-								committee_members={Immutable.List(
-									globalObject.active_committee_members
-								)}
-								membersList={globalObject.active_committee_members}
-							/>
-						</div>
-					</div>
+			<div className="committee-tab">
+				<div className="grid-content">
+					<SearchInput
+						placeholder={counterpart.translate(
+							'explorer.witnesses.filter_by_name'
+						)}
+						value={this.state.filterCommitteeMember}
+						onChange={this._onFilter.bind(this)}
+						style={{
+							width: '200px',
+							marginBottom: '12px',
+							marginTop: '4px',
+						}}
+					/>
+					<CommitteeMemberList
+						filter={this.state.filterCommitteeMember}
+						committee_members={Immutable.List(
+							globalObject.active_committee_members
+						)}
+						membersList={globalObject.active_committee_members}
+					/>
 				</div>
 			</div>
 		);

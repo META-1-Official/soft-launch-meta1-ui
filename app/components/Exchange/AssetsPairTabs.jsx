@@ -1,35 +1,27 @@
 import React from 'react';
 import {connect} from 'alt-react';
-import moment from 'moment';
 import {ChainStore} from 'meta1-vision-js';
 import {Map, List} from 'immutable';
+import counterpart from 'counterpart';
 import SettingsActions from 'actions/SettingsActions';
 import SettingsStore from 'stores/SettingsStore';
 import AssetStore from 'stores/AssetStore';
 import AssetActions from 'actions/AssetActions';
-import {Table, Select} from 'antd';
+import {Table} from 'antd';
 import {
-	ArrowRightOutlined,
-	ArrowUpOutlined,
-	ArrowDownOutlined,
-	StarOutlined,
 	CaretUpFilled,
 	CaretDownFilled,
 	CaretRightFilled,
 } from '@ant-design/icons';
-import AltContainer from 'alt-container';
 import AssetWrapper from '../Utility/AssetWrapper';
-import PageHeader from 'components/PageHeader/PageHeader';
 import SearchInput from '../Utility/SearchInput';
-import Translate from 'react-translate-component';
 import Icon from '../Icon/Icon';
 import MarketsActions from 'actions/MarketsActions';
 import MarketsStore from 'stores/MarketsStore';
-import marketUtils from 'common/market_utils';
 import utils from 'common/utils';
-import ChartjsAreaChart from '../Graph/Graph';
 import ls from '../../lib/common/localStorage';
 import history from 'lib/common/history';
+import {withTheme} from '@emotion/react';
 
 const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
@@ -60,7 +52,7 @@ class AssetsPairTabs extends React.Component {
 		};
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		this._checkAssets(nextProps.assets);
 
 		if (
@@ -73,7 +65,7 @@ class AssetsPairTabs extends React.Component {
 		}
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		this._checkAssets(this.props.assets, true);
 	}
 
@@ -115,16 +107,11 @@ class AssetsPairTabs extends React.Component {
 			else if (resolution === '1w') newBucketSize = 3600;
 
 			MarketsActions.changeBucketSize(newBucketSize);
-			const from = moment()
-				.subtract(parseInt(resolution.slice(0, -1)), resolution.slice(-1))
-				.valueOf();
-			const to = moment().valueOf();
 
 			assetPairs.map((assetPair, index) => {
 				const quoteAsset = assetPair.quoteAsset;
 				const baseAsset = assetPair.baseAsset;
 
-				const marketName = marketUtils.getMarketName(baseAsset, quoteAsset);
 				MarketsActions.unSubscribeMarket(
 					quoteAsset.get('id'),
 					baseAsset.get('id')
@@ -136,8 +123,6 @@ class AssetsPairTabs extends React.Component {
 							newBucketSize
 						).then(() => {
 							let bars = MarketsStore.getState().priceData;
-							let quoteAsset1 = MarketsStore.getState().quoteAsset;
-							let baseAsset1 = MarketsStore.getState().baseAsset;
 
 							const marketBarIndex = marketBars.findIndex(
 								(marketBar) =>
@@ -170,7 +155,6 @@ class AssetsPairTabs extends React.Component {
 						});
 					})
 					.catch((e) => {
-						console.log('Error: Failed to subscribe market, ', e);
 						this.setState({isFetchingMarketInfo: false, marketBars});
 					});
 			});
@@ -253,8 +237,6 @@ class AssetsPairTabs extends React.Component {
 	}
 
 	_buildColumns() {
-		const {selectedResolution} = this.state;
-
 		return [
 			{
 				title: (
@@ -271,7 +253,7 @@ class AssetsPairTabs extends React.Component {
 								textAlign: 'left',
 							}}
 						>
-							Pair
+							{counterpart.translate('exchange.pair')}
 						</span>
 						<span
 							style={{
@@ -282,7 +264,7 @@ class AssetsPairTabs extends React.Component {
 								marginLeft: '10px',
 							}}
 						>
-							Change
+							{counterpart.translate('settings.change')}
 						</span>
 					</>
 				),
@@ -320,16 +302,19 @@ class AssetsPairTabs extends React.Component {
 								</div>
 								<div
 									style={{cursor: 'pointer', minWidth: '80px'}}
-									onClick={() =>
+									onClick={() => {
+										SettingsActions.changeViewSetting({
+											currentSection: 'chart',
+										});
 										history.push(
 											`/market/${quoteAssetSymbol}_${baseAssetSymbol}`
-										)
-									}
+										);
+									}}
 								>
 									<span
 										style={{
 											fontSize: '14px',
-											color: '#D0D0D0',
+											color: this.props.theme.colors.assetSymbolColor,
 										}}
 									>
 										<strong>{quoteAssetSymbol}</strong>
@@ -407,90 +392,6 @@ class AssetsPairTabs extends React.Component {
 					);
 				},
 			},
-			/* These lines are commented to solve layout issues with 
-			// the left side panel Pair Change and Price
-			{
-				title: (
-					<div
-						style={{
-							fontSize: '12px',
-							color: '#979797',
-							textAlign: 'center',
-							marginLeft: '-0px',
-							paddingLeft: '0px',
-						}}
-					>
-						Change
-					</div>
-				),
-				colSpan: 0,
-				dataIndex: 'rateChange',
-				key: 'rateChange',
-				sorter: (a, b) => {
-					return Number(a.rateChange) > Number(b.rateChange)
-						? 1
-						: Number(a.rateChange) < Number(b.rateChange)
-						? -1
-						: 0;
-				},
-				render: (rateChange) => {
-					let className =
-						rateChange === '0.00'
-							? ''
-							: rateChange > 0
-							? 'change-up'
-							: 'change-down';
-					return (
-						<div
-							className="change"
-							style={{
-								marginTop: '25px',
-								paddingTop: '10px',
-								marginLeft: '-0px',
-								display: 'none',
-							}}
-						>
-							{className === 'change-up' && (
-								<>
-									<CaretUpFilled
-										className={className}
-										style={{fontSize: '12px'}}
-									/>
-									<span
-										className={className}
-										style={{fontSize: '12px'}}
-									>{`+${rateChange} %`}</span>
-								</>
-							)}
-							{className === 'change-down' && (
-								<>
-									<CaretDownFilled
-										className={className}
-										style={{fontSize: '12px'}}
-									/>
-									<span
-										className={className}
-										style={{fontSize: '12px'}}
-									>{`${rateChange} %`}</span>
-								</>
-							)}
-							{className === '' && (
-								<>
-									<CaretRightFilled
-										className={className}
-										style={{fontSize: '12px'}}
-									/>
-									<span
-										className={className}
-										style={{fontSize: '12px'}}
-									>{`${rateChange} %`}</span>
-								</>
-							)}
-						</div>
-					);
-				},
-			},
-			*/
 			{
 				title: (
 					<div
@@ -503,7 +404,7 @@ class AssetsPairTabs extends React.Component {
 							paddingLeft: '0px',
 						}}
 					>
-						Price
+						{counterpart.translate('exchange.price')}
 					</div>
 				),
 				colSpan: 2,
@@ -533,7 +434,7 @@ class AssetsPairTabs extends React.Component {
 									fontSize: '14px',
 									minWidth: '50px',
 									textAlign: 'right',
-									color: '#D0D0D0',
+									color: this.props.theme.colors.assetSymbolColor,
 								}}
 							>
 								{price}
@@ -548,7 +449,6 @@ class AssetsPairTabs extends React.Component {
 	_buildDataSource(assets) {
 		if (assets.size === 0) return [];
 
-		const {starredMarkets} = this.props;
 		const {baseAssetSymbol, selectedAsset, searchTerm} = this.state;
 		const _dataSource = [];
 
@@ -640,7 +540,7 @@ class AssetsPairTabs extends React.Component {
 			}
 			const price = utils.format_number(
 				finalPrice,
-				finalPrice > 1000 ? 0 : finalPrice > 10 ? 2 : 6
+				finalPrice > 1000 ? 0 : finalPrice > 10 ? 2 : precision
 			);
 
 			// Change
@@ -660,31 +560,10 @@ class AssetsPairTabs extends React.Component {
 		return _dataSource;
 	}
 
-	handleWindowChange(windowHeight) {
-		//DEBUG console.log("height: " + window.innerHeight);
-
-		let rows = this.state.rowsOnPage;
-		if (windowHeight >= 1050) {
-			rows = '11';
-		}
-		if (windowHeight >= 738 && windowHeight < 1050) {
-			rows = '8';
-		}
-		if (windowHeight < 737) {
-			rows = '5';
-		}
-
-		return rows;
-	}
-
 	render() {
-		const {account, assets} = this.props;
-		const {baseAssetSymbol, selectedAsset, isFetchingMarketInfo} = this.state;
+		const {assets} = this.props;
+		const {baseAssetSymbol, isFetchingMarketInfo} = this.state;
 		const canChangeBaseAsset = isFetchingMarketInfo ? 'disabled' : '';
-
-		const assetOptions = assets.map((asset) => (
-			<Select.Option key={asset.symbol}>{asset.symbol}</Select.Option>
-		));
 
 		const toggleBoxes = [];
 		assets.map((asset) => {
@@ -724,7 +603,7 @@ class AssetsPairTabs extends React.Component {
 				<div className="asset-select">
 					<div className="filter">
 						<SearchInput
-							placeholder={'Search'}
+							placeholder={counterpart.translate('markets.search')}
 							value={this.state.searchTerm}
 							style={{width: '30%'}}
 							onChange={this._onSearchChange.bind(this)}
@@ -738,11 +617,10 @@ class AssetsPairTabs extends React.Component {
 							rowKey="name"
 							columns={columns}
 							dataSource={dataSource}
-							scroll={{x: 150}}
 							pagination={{
 								size: 'small',
 								position: 'bottomCenter',
-								pageSize: Number(this.handleWindowChange(window.innerHeight)),
+								pageSize: 7,
 							}}
 						/>
 					</div>
@@ -757,6 +635,8 @@ AssetsPairTabs = AssetWrapper(AssetsPairTabs, {
 	asList: true,
 	withDynamic: true,
 });
+
+AssetsPairTabs = withTheme(AssetsPairTabs);
 
 export default connect(AssetsPairTabs, {
 	listenTo() {

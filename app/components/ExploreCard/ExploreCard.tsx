@@ -19,10 +19,12 @@ const ExploreCard = ({
 }: IExploreCards) => {
 	return (
 		<div
+			className="explorer-card"
 			css={(theme) => ({
 				border: `1px solid ${theme.colors.borderColor}`,
 				borderRadius: '10px',
-				background: '#15171b',
+				background: theme.colors.cardBackgroundColor,
+				minHeight: '150px',
 			})}
 		>
 			<div
@@ -34,15 +36,16 @@ const ExploreCard = ({
 				})}
 			>
 				<div
-					css={() => ({
+					css={(theme) => ({
 						height: '50px',
 						width: '50px',
 						minWidth: '50px',
-						backgroundColor: 'black',
+						backgroundColor: theme.colors.logoBackgroundColor,
 						borderRadius: '50%',
 						display: 'flex',
 						justifyContent: 'center',
 						alignItems: 'center',
+						border: `1px solid ${theme.colors.borderColor}`,
 					})}
 				>
 					<img src={icon} alt="Logo" />
@@ -50,6 +53,8 @@ const ExploreCard = ({
 				<div
 					css={() => ({
 						marginLeft: '1rem',
+						width: '100%',
+						paddingRight: '2rem',
 					})}
 				>
 					<Translate

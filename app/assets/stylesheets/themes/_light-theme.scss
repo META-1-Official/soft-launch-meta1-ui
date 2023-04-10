@@ -1,0 +1,2006 @@
+@import 'theme-template';
+
+// variables
+
+$primary-text-color: #666666;
+$secondary-text-color: lighten($primary-text-color, 22%);
+$inactive-text-color: lighten($primary-text-color, 25%);
+$light-text-color: #888888;
+$dark-text-color: lighten($light-text-color, 12%);
+$link-text-color: #337ab7;
+$error-text-color: #e3745b;
+
+$settings-select-bg: #e5e6e4;
+$settings-select-color: #656565;
+$settings-api-node-border-color: #e6e6e6;
+$main-content-margin-block-bg-color: #f8f9f8;
+$bg-color: #fff;
+$panel-bg-color: #f5f6fa;
+$light-panel-bg-color: #fff;
+$super-light-panel-bg-color: darken($light-panel-bg-color, 1%);
+$settings-menu-hover-bg: darken($light-panel-bg-color, 10%);
+$settings-menu-active-bg: darken($light-panel-bg-color, 10%);
+$button-bg-color: #2196f3;
+$secondary-button-bg-color: #999999;
+$input-background: darken($bg-color, 8%);
+
+$alert-color: $error-text-color;
+$info-color: #ce7925;
+$success-color: #21d19f;
+$warning-color: #f35b92;
+$fee-color: #7f055e;
+
+// Exchange colors
+$bid-color: #258a14;
+$ask-color: #ea340b;
+$call-color: #bbbf2b;
+$positive-color: #528c0a;
+$negative-color: rgba(225, 66, 74, 1);
+$row-accent-color: #ffffff;
+$header-color: #dcdcdc;
+$border-color: #eaeaea;
+$bg-color-lightblue: #f5f6fa;
+
+// Account table view colors
+$account-header: #eaeaea;
+$account-cells: #dadada;
+$account-green: #488a00;
+$account-primarytext: $primary-text-color;
+$account-dimmed: #5d5d5d;
+$account-border: rgba(50, 49, 49, 0.1);
+$account-background: #e5e6e4;
+$account-tabs-background: #d5d6d4;
+
+$pulsate-green-start: $account-green;
+$pulsate-green-end: #70c117;
+$pulsate-red-start: $negative-color;
+$pulsate-red-end: #e87f84;
+
+$modal-bg-color: #dadada;
+
+$positive-color-alternative: #22d173;
+$negative-color-alternative: #ff276d;
+$medium-color: #ff9900;
+$dark-help-text: #171a25;
+$separator-line: rgba(23, 26, 37, 0.3);
+
+$mobile-input-bg: $input-background;
+
+$incognito-bg: #ea340b;
+
+$tab-content-background-color: lighten($account-header, 4%);
+$explorer-tab-content-background-color: #fff;
+
+// * * * Explorer
+
+// * * * * * Witnesses
+
+$explorer--witnesses--info-bg: transparent;
+$explorer--witnesses--info-border: darken($account-header, 6%);
+$explorer--witnesses--info-table-title-color: lighten($dark-text-color, 20%);
+$explorer--witnesses--info-table-text-color: $dark-text-color;
+
+// * * * * * Assets
+
+$explorer--assets--bg: $bg-color;
+
+// * * *
+
+// * * * * Settings
+
+$settings-label-color: rgba(0, 0, 0, 0.65);
+
+//
+
+// color palette
+
+// branding colors
+$primary-color: #ffc000;
+
+// help colors
+$white: #fff;
+$dark: rgba(0, 0, 0);
+$dark-1: lighten($dark, 30%);
+$dark-2: lighten($dark, 60%);
+$dark-3: lighten($dark, 90%);
+
+// Header
+$header-background-color: $white;
+$header-shadow: 0 4px 9px 0 #00000015 !important;
+$header-item--color: lighten($dark, 20%);
+$header-item-background-color: $white;
+$header-item--active--background-color: $white;
+
+$header-item--active--color: $link-text-color;
+
+// Tabs (old, not style-guide)
+$tabs-border-size: 1px;
+$tabs-border-color: $dark-3;
+$tabs-background-color: $white;
+$tabs-item-background-color: $white;
+$tabs-item-color: $dark;
+$tabs-item-border-size: 3px;
+$tabs-item-border-color: $white;
+$tabs-item--active--color: $dark;
+$tabs-item--active--border-color: $primary-color;
+$tabs-item--active--background-color: $white;
+$tabs-item--active--border-color: $primary-color;
+$tabs-content-background-color: $white;
+
+// Selector
+$selector-active-border-color: $primary-color;
+$selector-active-text-color: $primary-color;
+$selector-border-color: $dark-3;
+$selector-text-color: $dark-1;
+
+// Header Menu
+$header-menu--active--icon-background: $white;
+$header-menu--active--box-shadow: 0 4px 9px 0 #00000015;
+$header-menu-background-color: #fff;
+$header-menu-item--hover--background-color: lighten($primary-color, 40%);
+
+.lightTheme {
+	@include theme(
+		$header-menu--active--icon-background,
+		$header-menu--active--box-shadow,
+		$header-menu-background-color,
+		$header-menu-item--hover--background-color,
+		$selector-active-border-color,
+		$selector-active-text-color,
+		$selector-border-color,
+		$selector-text-color,
+		$tabs-content-background-color,
+		$tabs-border-size,
+		$tabs-border-color,
+		$tabs-background-color,
+		$tabs-item-background-color,
+		$tabs-item-color,
+		$tabs-item-border-size,
+		$tabs-item-border-color,
+		$tabs-item--active--color,
+		$tabs-item--active--border-color,
+		$tabs-item--active--background-color,
+		$header-background-color,
+		$header-shadow,
+		$header-item--color,
+		$header-item-background-color,
+		$header-item--active--background-color,
+		$header-item--active--color,
+		$explorer-tab-content-background-color,
+		$tab-content-background-color,
+		$primary-text-color,
+		$bg-color,
+		$dark-text-color,
+		$inactive-text-color,
+		$link-text-color,
+		$light-text-color,
+		$secondary-text-color,
+		$success-color,
+		$info-color,
+		$warning-color,
+		$alert-color,
+		$super-light-panel-bg-color,
+		$panel-bg-color,
+		$button-bg-color,
+		$secondary-button-bg-color,
+		$fee-color,
+		$bid-color,
+		$ask-color,
+		$call-color,
+		$light-panel-bg-color,
+		$positive-color,
+		$negative-color,
+		$row-accent-color,
+		$header-color,
+		$input-background,
+		$account-header,
+		$account-cells,
+		$account-green,
+		$account-primarytext,
+		$account-dimmed,
+		$account-border,
+		$account-background,
+		$account-tabs-background,
+		$pulsate-green-start,
+		$pulsate-green-end,
+		$pulsate-red-start,
+		$pulsate-red-end,
+		$settings-select-bg,
+		$settings-select-color,
+		$settings-menu-hover-bg,
+		$settings-menu-active-bg,
+		$settings-api-node-border-color,
+		$main-content-margin-block-bg-color,
+		$modal-bg-color,
+		$mobile-input-bg,
+		$incognito-bg,
+		$button-mix1,
+		$button-mix2,
+		$explorer--witnesses--info-bg,
+		$explorer--witnesses--info-border,
+		$explorer--witnesses--info-table-title-color,
+		$explorer--witnesses--info-table-text-color,
+		$explorer--assets--bg,
+		$negative-color-alternative,
+		$positive-color-alternative,
+		$separator-line,
+		$medium-color,
+		$dark-help-text,
+		$settings-label-color
+	);
+
+	// buttons
+	.button {
+		&.outline {
+			span {
+				color: #666666 !important;
+			}
+
+			color: #666666;
+
+			&:hover {
+				color: #666666;
+			}
+		}
+	}
+
+	.grid-frame {
+		background-color: white;
+	}
+
+	thead[class*='ant-table-thead'] th {
+		background-color: $bg-color-lightblue !important;
+	}
+
+	div[class*='ant-table-footer'] {
+		background-color: $bg-color-lightblue !important;
+		color: white;
+	}
+
+	.custom-dropdown-class {
+		background-color: #ffffff;
+		border: 1px solid $border-color;
+	}
+
+	// Account Overview
+	div.account-overview {
+		background-color: #ffffff;
+
+		.portfolio {
+			background-color: $bg-color-lightblue !important;
+
+			.estimated-balance {
+				> p {
+					color: $primary-text-color;
+				}
+
+				.total {
+					color: $dark;
+				}
+			}
+
+			.filter {
+				.ant-input,
+				.ant-input-group-addon {
+					background-color: white;
+				}
+
+				.hide-switch {
+					color: rgba(0, 0, 0, 0.6);
+				}
+			}
+		}
+
+		.tab-controller {
+			button {
+				&.primary {
+					color: $white !important;
+
+					@media screen and (max-width: 900px) {
+						color: $primary-color !important;
+					}
+				}
+
+				&.transparent {
+					background-color: $panel-bg-color !important;
+					color: $dark !important;
+				}
+
+				&.ant-dropdown-trigger {
+					background-color: $panel-bg-color !important;
+					color: $dark !important;
+				}
+			}
+
+			.overview-settings {
+				.icon-class span.anticon.anticon-setting {
+					color: $dark !important;
+				}
+			}
+
+			.dropdown-btn-class {
+				background-color: $bg-color-lightblue !important;
+			}
+		}
+
+		.open-orders {
+			.open-orders-table-wrapper {
+				.ant-table-cell {
+					color: #666666;
+
+					span {
+						color: #666666 !important;
+					}
+
+					button {
+						span {
+							color: white !important;
+						}
+					}
+				}
+			}
+		}
+
+		.portfolio-table-wrapper {
+			.ant-table-wrapper {
+				.ant-table {
+					background: transparent;
+
+					.ant-table-thead {
+						th {
+							span {
+								color: #666666;
+							}
+						}
+					}
+
+					.ant-table-cell {
+						color: #666666;
+
+						span.value {
+							color: white !important;
+							background: gray !important;
+
+							&.change-up {
+								background-color: #009d55 !important;
+							}
+
+							&.change-down {
+								background-color: #ff2929 !important;
+							}
+						}
+					}
+				}
+			}
+
+			.asset-name {
+				div {
+					a span {
+						color: #666666 !important;
+					}
+				}
+			}
+		}
+	}
+
+	// Fund wallet dropdown
+	.dropdown-menu-sec {
+		.ant-dropdown-menu {
+			background-color: white;
+			border: 1px solid $border-color;
+			border-radius: 8px;
+
+			.ant-dropdown-menu-item-only-child {
+				margin: 8px 0px;
+
+				.ant-dropdown-menu-title-content {
+					a {
+						color: #ffc900;
+					}
+
+					a:hover {
+						color: #fff;
+					}
+				}
+			}
+
+			.ant-dropdown-menu-item-only-child:hover {
+				opacity: 0.5;
+			}
+		}
+
+		.ant-dropdown-menu-item.ant-dropdown-menu-item-active {
+			background: #ffc000;
+		}
+	}
+
+	// Account trade page
+	.account-trade {
+		div.filter {
+			border-left: 1px solid $border-color !important;
+			border-right: 1px solid $border-color !important;
+			border-top: 1px solid $border-color !important;
+			border-radius: 3px;
+			border-bottom-right-radius: 0px;
+			border-bottom-left-radius: 0px;
+			padding: 15px;
+
+			div.ant-select {
+				margin-top: 7px;
+			}
+		}
+
+		div.select {
+			border-left: 1px solid $border-color !important;
+			border-right: 1px solid $border-color !important;
+			background-color: $bg-color-lightblue !important;
+
+			.toggle-box {
+				&.selected {
+					border-top: 2px #dea702 solid;
+					color: #dea702;
+					background-color: #ffffff;
+				}
+			}
+		}
+
+		.ant-table-container {
+			padding-bottom: 100px;
+			border: none !important;
+
+			table > thead {
+				th {
+					border-bottom: 1px solid $border-color !important;
+					padding-left: 15px;
+
+					.header-text .anticon {
+						float: right;
+					}
+				}
+
+				span {
+					text-transform: uppercase;
+				}
+			}
+		}
+
+		.ant-table {
+			background-color: white;
+
+			.ant-table-cell {
+				div.asset-name {
+					span.quote {
+						color: #666666;
+					}
+
+					span.base {
+						color: #666666;
+					}
+				}
+
+				span {
+					color: #666666;
+				}
+
+				div {
+					color: #666666;
+				}
+			}
+		}
+	}
+
+	// Exchange Page
+	.orders-and-trade {
+		.orders-trade-form {
+			border: 1px solid $border-color;
+
+			.table.order-table > thead > tr > th {
+				border-bottom: 1px solid $border-color !important;
+			}
+
+			.ask-order-tr {
+				background-color: rgb(217, 248, 240);
+				border-bottom: 1px solid $border-color;
+
+				&:hover {
+					td {
+						background-color: lightgray;
+					}
+				}
+			}
+
+			.bid-order-tr {
+				background-color: rgb(255, 234, 236);
+				border-bottom: 1px solid $border-color;
+
+				&:hover {
+					td {
+						background-color: lightgray;
+					}
+				}
+			}
+		}
+	}
+
+	.action-cards {
+		border: 1px solid $border-color;
+	}
+
+	.buy-sell-tab {
+		border: 1px solid $border-color;
+
+		.ant-tabs-nav {
+			background-color: $bg-color-lightblue;
+			border-bottom: 1px solid $border-color;
+
+			.ant-tabs-nav-list {
+				.ant-tabs-tab.ant-tabs-tab-active {
+					background-color: white;
+				}
+			}
+		}
+
+		.ant-tabs-tabpane {
+			background-color: $white !important;
+		}
+
+		.buy-sell-container {
+			.order-form {
+				.ant-form-item {
+					background: $panel-bg-color !important;
+
+					.ant-input-wrapper input {
+						color: $primary-text-color !important;
+					}
+
+					.ant-input-wrapper span {
+						color: $light-text-color !important;
+					}
+				}
+
+				.limit-order-input-wrapper {
+					background: $panel-bg-color !important;
+				}
+
+				.ant-input[disabled] {
+					background: $panel-bg-color !important;
+					border-left: 1px solid rgba(86, 97, 118, 0.3);
+				}
+			}
+		}
+	}
+
+	.buy-form {
+		.ant-tabs-nav {
+			background: transparent !important;
+		}
+	}
+
+	.sell-form {
+		.ant-tabs-nav {
+			background: transparent !important;
+		}
+	}
+
+	.amount_footer {
+		background-color: transparent;
+
+		.left_footer_sec span {
+			color: $primary-text-color !important;
+		}
+
+		.right_footer_sec span {
+			color: $light-text-color !important;
+		}
+	}
+
+	.market-order-table-container {
+		.ant-table-wrapper {
+			table {
+				.ant-table-tbody {
+					.ant-table-cell {
+						div.td-content {
+							color: $primary-text-color !important;
+						}
+					}
+
+					.ant-table-row {
+						background-color: transparent;
+					}
+				}
+			}
+		}
+	}
+
+	.td-content-common-text {
+		color: black;
+	}
+
+	.order-book-panel {
+		.header {
+			background-color: $bg-color-lightblue !important;
+
+			.title {
+				color: $dark !important;
+			}
+
+			div.tap.active {
+				background-color: white;
+				color: $primary-color !important;
+			}
+		}
+
+		.orderbook-divider {
+			border-top: 1px solid $border-color;
+			border-bottom: 1px solid $border-color;
+		}
+	}
+
+	.assets-layout {
+		.asset-pair-tabs-wrapper {
+			border: 1px solid $border-color !important;
+			border-radius: 5px;
+		}
+
+		.asset-select {
+			background-color: transparent !important;
+
+			.toggle-box.selected {
+				background-color: transparent !important;
+			}
+
+			.toggle-box {
+				background-color: $bg-color-lightblue !important;
+				border: 1px solid $border-color !important;
+			}
+		}
+
+		.filter {
+			background-color: transparent !important;
+
+			.search-input .ant-input-group-addon {
+				background-color: transparent !important;
+			}
+		}
+	}
+
+	.info-layout {
+		.top-bar {
+			border: 1px solid $border-color;
+		}
+
+		.market-picker {
+			border-right: 1px solid $border-color;
+			border-left: 1px solid $border-color;
+		}
+	}
+
+	// Transaction History page
+	.recent-transactions {
+		.react-datepicker-wrapper {
+			input,
+			input:hover,
+			input:focus {
+				background-color: #ffffff !important;
+				border: 1px solid $border-color !important;
+			}
+		}
+
+		.paginated-list {
+			.ant-table-cell {
+				color: #666666;
+
+				.info-class {
+					color: #666666 !important;
+
+					a {
+						color: #666666 !important;
+					}
+				}
+			}
+		}
+	}
+
+	// Backing assets page
+	.backing-assets {
+		.content-body {
+			background: transparent;
+			border: 1px solid $border-color;
+		}
+
+		.list-wrapper {
+			.search-input {
+				background: transparent;
+
+				.ant-input-wrapper {
+					background-color: white;
+				}
+
+				.ant-input-affix-wrapper {
+					background: #21252f;
+
+					input {
+						background: white;
+					}
+				}
+
+				.ant-input-group-addon {
+					background: transparent;
+				}
+			}
+
+			.ant-tabs {
+				.ant-tabs-nav {
+					background: $bg-color-lightblue;
+					border-top: 1px solid $border-color;
+
+					.ant-tabs-tab {
+						.ant-tabs-tab-btn {
+							color: black;
+						}
+					}
+				}
+
+				.ant-list-items {
+					.ant-list-item {
+						border-bottom: 1px solid $border-color;
+					}
+				}
+			}
+		}
+	}
+
+	.backing-asset-detail {
+		.main-body {
+			.title-wrapper {
+				background-color: transparent;
+			}
+
+			.info-content-value {
+				color: $light-text-color;
+			}
+
+			.info-body {
+				background: transparent;
+				border: 1px solid $border-color;
+				border-radius: 5px;
+
+				.info-text {
+					color: $light-text-color;
+				}
+			}
+		}
+	}
+
+	// Activity page
+	div.account-activity {
+		div.content {
+			div.section {
+				background: $bg-color;
+				border: 1px solid $border-color;
+
+				.header-title {
+					background: $bg-color-lightblue;
+					color: $dark;
+				}
+
+				.subsection-title1 {
+					@media screen and (max-width: 900px) {
+						background-color: $bg-color-lightblue;
+					}
+				}
+
+				.subsection-title2 {
+					@media screen and (max-width: 900px) {
+						background-color: $bg-color-lightblue;
+					}
+				}
+
+				.card {
+					@media screen and (max-width: 900px) {
+						.ant-card-body {
+							background-color: transparent;
+							border-bottom: 1px solid $border-color;
+						}
+					}
+				}
+
+				.close-text {
+					color: $primary-text-color;
+				}
+			}
+
+			div.table {
+				.ant-table-wrapper {
+					.ant-table-container {
+						table > thead {
+							background: transparent;
+						}
+					}
+
+					.ant-table {
+						background-color: transparent;
+					}
+
+					td.ant-table-cell {
+						color: $primary-text-color;
+					}
+				}
+			}
+		}
+	}
+
+	// Message page
+	div.messages {
+		background-color: transparent !important;
+
+		.service-selector {
+			ul.account-overview li {
+				background-color: transparent;
+
+				a {
+					background-color: transparent !important;
+				}
+
+				&.is-active {
+					border-bottom: 3px solid #ffc000 !important;
+
+					a {
+						color: #ffc000 !important;
+					}
+				}
+			}
+		}
+
+		.tab-content {
+			background-color: transparent !important;
+			border: 1px solid $border-color;
+
+			textarea {
+				background-color: transparent !important;
+				border: 1px solid $border-color;
+			}
+
+			button.button {
+				color: white;
+			}
+		}
+	}
+
+	// Member Stats Page
+	.member-stats {
+		background-color: transparent !important;
+
+		.tabs-container {
+			hr {
+				border-color: $border-color !important;
+				background-color: transparent !important;
+			}
+
+			div.button {
+				color: black !important;
+				border: 2px solid black;
+			}
+
+			.content-block {
+				.left {
+					border: 1px solid $border-color;
+
+					.grid-content {
+						> h4,
+						> div > h4 {
+							background-color: $bg-color-lightblue !important;
+							border: none;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// white list page
+	.account-whitelist {
+		background: transparent;
+
+		.ant-tabs {
+			.ant-tabs-nav-list {
+				background: transparent !important;
+			}
+
+			.ant-tabs-content-holder {
+				.ant-tabs-tabpane {
+					.table {
+						button {
+							color: white;
+						}
+					}
+
+					.account-selector-wrapper {
+						background: $bg-color-lightblue;
+						border: 1px solid $border-color;
+
+						.ant-form-item-control {
+							button {
+								span {
+									color: white;
+								}
+							}
+
+							.ant-select-selector {
+								background: white;
+							}
+
+							.ant-select-selection-placeholder {
+								color: #666666;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// Account Vesting
+	.account-vesting {
+		.content-body {
+			.description-search {
+				p {
+					color: #666666;
+				}
+
+				.header-selector {
+					.ant-input-group-wrapper {
+						background: transparent;
+
+						.ant-input-group-addon {
+							background: transparent;
+						}
+					}
+				}
+			}
+
+			.ant-table-wrapper {
+				background: transparent;
+
+				.ant-table {
+					.ant-table-content {
+						background: transparent;
+
+						.ant-table-thead {
+							.ant-table-cell {
+								font-size: 14px;
+								color: #969ba6;
+								text-transform: uppercase;
+								text-align: center !important;
+							}
+						}
+
+						.ant-table-row {
+							.ant-table-cell {
+								button {
+									color: white;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// Notification Page
+	div.account-notification {
+		.content-body {
+			.list-wrapper {
+				background: transparent;
+				border: 1px solid $border-color;
+
+				.ant-list-items {
+					.ant-list-item {
+						border-bottom: 1px solid $border-color;
+
+						.description {
+							color: $primary-text-color;
+						}
+
+						.footer {
+							background: transparent;
+							color: $dark;
+						}
+					}
+
+					.ant-list-item:last-child {
+						border-bottom: 1px solid $border-color;
+					}
+				}
+			}
+		}
+	}
+
+	// Settings Page
+	.settings {
+		.ant-menu {
+			background: transparent !important;
+		}
+
+		.ant-typography {
+			span {
+				color: $primary-text-color;
+			}
+		}
+
+		.general-tab {
+			.general-header {
+				border-bottom: 1px solid $border-color;
+			}
+
+			.setting-entry {
+				background: $bg-color-lightblue;
+
+				.ant-form-item-label > label {
+					color: rgba(0, 0, 0, 0.7);
+				}
+
+				.ant-form-item-control {
+					.fee-asset-wrapper {
+						.current-fee-asset {
+							color: rgba(0, 0, 0, 0.5);
+						}
+
+						button {
+							border: 1px solid $border-color;
+
+							span {
+								color: white;
+							}
+						}
+					}
+
+					.settings-notifications {
+						.settings-notifications-item {
+							color: rgba(0, 0, 0, 0.5);
+
+							.ant-checkbox-inner {
+								&::after {
+									border-color: black;
+								}
+							}
+						}
+
+						.external-link {
+							.settings-notifications-no-browser-support {
+								color: darkred;
+							}
+						}
+					}
+				}
+
+				.ant-select-selector {
+					.ant-select-selection-item {
+						color: rgba(0, 0, 0, 0.4);
+
+						span {
+							color: rgba(0, 0, 0, 0.4);
+						}
+					}
+				}
+			}
+		}
+
+		.node-tab {
+			.nodes-header {
+				border-bottom: 1px solid $border-color;
+
+				.automatic {
+					color: $primary-text-color;
+				}
+			}
+		}
+	}
+
+	// Permission page
+	div.account-permissions {
+		.content {
+			background: transparent;
+			border: 1px solid $border-color;
+
+			.tab-header {
+				border-bottom: 1px solid $border-color;
+
+				p {
+					color: $primary-text-color !important;
+				}
+			}
+
+			.tab-content {
+				background: transparent;
+
+				.content-wrapper {
+					background: white;
+					border: 1px solid $border-color;
+
+					.threshold {
+						color: rgba(0, 0, 0, 0.7);
+
+						input {
+							background: white;
+							border: 1px solid $border-color;
+							color: rgba(0, 0, 0, 0.4);
+						}
+					}
+
+					.pubkey-input {
+						.content-area {
+							.header-area {
+								label {
+									color: rgba(0, 0, 0, 0.7);
+								}
+							}
+						}
+
+						.input-area {
+							background: transparent;
+							border: 1px solid $border-color;
+
+							input {
+								background: white;
+								color: rgba(0, 0, 0, 0.6);
+							}
+						}
+					}
+
+					.permission-list {
+						label {
+							color: rgba(0, 0, 0, 0.7);
+						}
+
+						.ant-form-item-control-input-content {
+							.input-wrapper {
+								input {
+									background: white;
+									border: 1px solid $border-color;
+									color: rgba(0, 0, 0, 0.4);
+
+									&::placeholder {
+										color: rgba(0, 0, 0, 0.4);
+									}
+								}
+							}
+
+							button {
+								span {
+									color: white;
+								}
+							}
+						}
+
+						.table-wrapper {
+							border: 1px solid $border-color;
+
+							.table {
+								thead {
+									background: $bg-color-lightblue;
+									border-bottom: 1px solid $border-color;
+
+									th {
+										color: rgba(0, 0, 0, 0.6);
+									}
+								}
+
+								tr {
+									td {
+										border-bottom: 1px solid $border-color;
+									}
+								}
+							}
+						}
+					}
+
+					.cloud-wallet-key-section {
+						label > span {
+							color: rgba(0, 0, 0, 0.7);
+						}
+
+						.gen-password-field {
+							background: white;
+							border: 1px solid #ffc000;
+						}
+
+						.account-selector {
+							.generated-password-section {
+								input {
+									background: white;
+									border: 1px solid $border-color;
+								}
+							}
+
+							.confirm-password-section {
+								input {
+									background: white;
+									border: 1px solid $border-color;
+								}
+							}
+						}
+
+						.key-status {
+							.key-stats-wrapper {
+								background: transparent;
+								border: 1px solid $border-color;
+
+								.key-name {
+									color: rgba(0, 0, 0, 0.7);
+								}
+
+								button {
+									background: transparent !important;
+									color: black;
+									border: 1px solid black !important;
+								}
+
+								button:focus {
+									background: #ffc000 !important;
+									border: none !important;
+								}
+							}
+
+							.in-not-use {
+								background: transparent;
+							}
+						}
+					}
+				}
+			}
+
+			.divider {
+				border-bottom: 1px solid $border-color;
+			}
+
+			.recent-activity {
+				.ant-table-wrapper {
+					.ant-table-content {
+						table {
+							thead {
+								background: transparent;
+							}
+						}
+					}
+
+					.ant-table-empty {
+						background: transparent;
+					}
+				}
+			}
+		}
+	}
+
+	// Contact Page
+	.add-contact {
+		background: transparent;
+
+		.add-contact-div-title {
+			border: 1px solid $border-color !important;
+		}
+
+		.page-title {
+			color: #666666;
+		}
+
+		.input-box-search input {
+			background: white;
+			border: none;
+		}
+
+		table > thead {
+			background: transparent !important;
+		}
+
+		span.span_1 {
+			color: #666666;
+		}
+
+		.ant-table-content table tr th {
+			border-bottom: 1px solid $border-color;
+		}
+
+		.ant-table-content table tr td {
+			color: #666666;
+		}
+
+		.ant-table-content {
+			background: transparent;
+
+			.ant-table-tbody {
+				tr {
+					border-bottom: 1px solid $border-color;
+
+					&:last-child {
+						border-bottom: none;
+					}
+				}
+			}
+		}
+
+		.ant-table-container {
+			background: transparent;
+		}
+
+		button.add-contact-btn {
+			color: white;
+			border: none;
+		}
+	}
+
+	// Global ant modal
+	.ant-modal {
+		// send modal
+		&.send-propose-modal {
+			.ant-modal-content {
+				.ant-modal-body {
+					.ant-tabs-nav-list {
+						.ant-tabs-tab {
+							border-bottom: 1px solid $border-color;
+						}
+					}
+
+					form {
+						.account-selector-wrapper {
+							border: 1px solid $border-color;
+							border-radius: 5px;
+
+							.selector-label {
+								background: transparent;
+								border-right: 1px solid $border-color;
+								color: #666666;
+							}
+
+							.ant-form-item {
+								.ant-select-selector {
+									background: transparent;
+									border: none;
+								}
+
+								.ant-input {
+									background: transparent;
+									border-right: 1px solid $border-color;
+									color: $dark;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		&.deposit-modal {
+			.ant-modal-content {
+				.ant-modal-body {
+					.ant-tabs-tabpane {
+						.qr-wrapper {
+							background: transparent;
+							border: 1px solid $border-color;
+						}
+
+						.minimum-deposit {
+							color: rgba(0, 0, 0, 0.8);
+						}
+
+						.address {
+							background: transparent;
+							border: 1px solid $border-color;
+
+							.address-text {
+								color: #666666;
+							}
+
+							.copy-btn {
+								.btn-text {
+									color: white;
+								}
+
+								.copy-icon {
+									path {
+										fill: white;
+									}
+								}
+							}
+						}
+
+						.alert-wrapper {
+							.alert-body {
+								> div {
+									color: rgba(0, 0, 0, 0.8);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		&.passwordless_unlock_modal,
+		&.unlock_wallet_modal2 {
+			.header-title1 {
+				color: $dark;
+			}
+
+			.header-title2 {
+				color: #666666;
+				margin-bottom: 15px;
+				margin-top: 15px;
+			}
+
+			form {
+				#username {
+					color: #919293 !important;
+				}
+
+				.info-form {
+					.ant-input-affix-wrapper {
+						height: 50px !important;
+
+						&:hover {
+							border: 1px solid $border-color;
+						}
+
+						&:focus {
+							border: 1px solid $border-color;
+						}
+					}
+				}
+
+				.password-field {
+					background: transparent;
+					border: 1px solid $border-color;
+				}
+			}
+
+			.footer-wrapper {
+				.login-btn {
+					span {
+						color: white !important;
+					}
+				}
+
+				.redirect {
+					color: $dark;
+				}
+			}
+
+			.desc2 {
+				color: #666666;
+			}
+		}
+
+		&.auth-modal {
+			.providerHeader {
+				box-shadow: none;
+			}
+
+			.orText {
+				color: #666666;
+			}
+
+			.providerBlockWrapper {
+				border: 1px solid $border-color;
+			}
+
+			.providerBlockWrapperMP {
+				border: 1px solid $border-color;
+			}
+
+			.providersInput {
+				border: 1px solid $border-color;
+			}
+
+			.providersBlockBrand {
+				border: 1px solid $border-color;
+			}
+
+			.providersBlockBrandMP {
+				border: 1px solid $border-color;
+			}
+
+			.providersCount {
+				border: 1px solid $border-color;
+			}
+		}
+	}
+
+	// transfer modal
+	.modal--transaction-confirm {
+		.ant-modal {
+			background-color: transparent !important;
+		}
+
+		.ant-modal-header {
+			.ant-modal-title {
+				color: #171a25;
+			}
+		}
+
+		.ant-modal-body {
+			table {
+				td {
+					span {
+						color: #666666;
+
+						&.txtlabel.info {
+							color: #666666 !important;
+						}
+					}
+				}
+			}
+
+			.propose-from {
+				select {
+					background-color: transparent !important;
+				}
+			}
+		}
+	}
+
+	// Withdraw modal
+	.withdraw_modal_new {
+		.ant-modal-title {
+			color: #ffc000 !important;
+		}
+	}
+
+	.withdraw-modal-body {
+		.account-selector-wrapper {
+			background: transparent;
+			border: 1px solid $border-color;
+			border-radius: 5px;
+
+			.selector-label {
+				background: transparent;
+				border-right: 1px solid $border-color;
+				color: #666666;
+			}
+
+			.ant-select-selector {
+				background: transparent;
+				border: none !important;
+			}
+		}
+
+		.quantity-label {
+			color: #666666;
+		}
+
+		.address-form {
+			> span {
+				color: #666666;
+			}
+		}
+
+		.amount-selector-field {
+			.ant-form-item-control {
+				.ant-input-group-compact {
+					border: 1px solid $border-color;
+					border-radius: 5px;
+					background-color: transparent;
+
+					.ant-input {
+						border-right: 2px solid $border-color;
+					}
+				}
+			}
+		}
+
+		.withdraw-fee-selector {
+			.ant-input-group-wrapper {
+				border: 1px solid $border-color;
+				border-radius: 5px;
+				background-color: transparent;
+
+				.ant-input-group-addon {
+					background: transparent;
+					border: none;
+				}
+			}
+		}
+
+		.ant-input {
+			background: transparent;
+			color: #666666;
+		}
+
+		#baseMarketFee {
+			color: #666666;
+		}
+
+		.ant-select-selector {
+			background: transparent;
+			border: none !important;
+		}
+	}
+
+	// account registration
+	div.registration {
+		.create-account-block {
+			background: transparent;
+			border: 1px solid $border-color;
+
+			@media screen and (max-width: 576px) {
+				border: none;
+			}
+
+			.biometric-auth-section {
+				@media screen and (max-width: 576px) {
+					background-color: transparent;
+					border: 1px solid $border-color;
+				}
+
+				h4 {
+					color: #666666;
+				}
+
+				h5 {
+					color: #666666;
+				}
+			}
+
+			.registration-account-title {
+				color: black;
+			}
+
+			.registration-confirm {
+				@media screen and (max-width: 576px) {
+					margin-bottom: 20px;
+				}
+
+				.passkey-alert-title {
+					p {
+						color: #666666;
+					}
+				}
+			}
+
+			.checkbox-group {
+				.checkbox-text {
+					color: $dark;
+
+					&.active {
+						color: rgba(0, 0, 0, 0.5);
+					}
+				}
+
+				.reset-this {
+					color: $dark;
+
+					&.active {
+						color: rgba(0, 0, 0, 0.5);
+					}
+				}
+			}
+
+			.registration-form {
+				.header-text {
+					p {
+						color: #666666;
+					}
+				}
+
+				.form-body {
+					.info-form {
+						.form-blocks {
+							.ant-form-item {
+								.ant-input-affix-wrapper {
+									border: 1px solid $border-color;
+
+									.ant-input-prefix {
+										color: #666666;
+										border-right: 1px solid $border-color;
+									}
+								}
+							}
+						}
+					}
+
+					.continue-btn {
+						color: white;
+					}
+
+					.redirect {
+						color: $dark;
+					}
+				}
+			}
+
+			.desc1,
+			.desc2 {
+				color: #f5f5f5;
+			}
+		}
+
+		.phone-display-flex {
+			.ant-select {
+				border: 1px solid $border-color;
+				border-radius: 4px;
+			}
+
+			.phone-number-before-select {
+				color: #bfbfbf;
+				background: transparent !important;
+				cursor: pointer;
+				border: 1px solid $border-color;
+			}
+
+			.phone-number-code {
+				color: $dark;
+			}
+
+			.ant-select-selector {
+				background-color: transparent !important;
+			}
+		}
+
+		.select-box-country {
+			background-color: white;
+
+			.ant-select-item-option {
+				border-bottom: 1px solid $border-color;
+
+				.ant-select-item-option-content {
+					.option-header-register {
+						color: #666666;
+					}
+				}
+			}
+		}
+
+		.flex_container {
+			color: #666666;
+		}
+
+		.webcam-wrapper {
+			border: 1px solid $border-color;
+		}
+
+		.btn-x {
+			background-color: $bg-color-lightblue;
+			color: red;
+			border: 1px solid $border-color;
+		}
+	}
+
+	// Onramer Widget
+	.onramper-wrapper {
+		background: transparent;
+		height: 100%;
+
+		.onramper-wallet {
+			width: 500px;
+			margin: 0 auto;
+			margin-top: 60px;
+			border-radius: 4px;
+			border: 1px solid $border-color;
+
+			iframe {
+				width: 100%;
+			}
+		}
+	}
+
+	// Layout
+	.registration-layout {
+		.password-wrapper {
+			border: 1px solid $border-color;
+
+			input {
+				border: none !important;
+			}
+
+			.ant-input:disabled {
+				background: transparent;
+				color: rgba(0, 0, 0, 0.5);
+			}
+		}
+
+		input {
+			background: transparent;
+			border: 1px solid $border-color !important;
+		}
+	}
+
+	.custom-auth-faceki {
+		@media screen and (max-width: 576px) {
+			padding: 10px;
+		}
+
+		@media screen and (max-width: 375px) {
+			top: 70px !important;
+		}
+
+		.ant-modal-body {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+
+			@media screen and (max-width: 576px) {
+				border-radius: 5px;
+				padding: 10px;
+			}
+
+			h5 {
+				color: #666666;
+			}
+
+			.webcam-wrapper {
+				border: 1px solid $border-color;
+			}
+
+			.btn-x {
+				background-color: $bg-color-lightblue;
+				color: red;
+				border: 1px solid $border-color;
+			}
+
+			.span-class {
+				color: #666666;
+			}
+		}
+	}
+
+	// Explorer
+	.explorer {
+		.markets {
+			background-color: transparent;
+
+			.bottom-header {
+				.mymarkets-header {
+					&.inactive {
+						color: $dark;
+					}
+				}
+			}
+
+			.mymarkets-list {
+				.table {
+					border: 1px solid $border-color;
+				}
+
+				.table > thead tr th {
+					background-color: $border-color;
+				}
+
+				.table > tbody tr td {
+					border-bottom: 1px solid $border-color;
+				}
+			}
+
+			.dropdown-wrapper {
+				ul.dropdown {
+					background: white;
+					border: none;
+
+					li {
+						border-bottom: 1px solid $border-color;
+					}
+
+					li:last-child {
+						border-bottom: none;
+					}
+				}
+
+				&.active {
+					ul.dropdown {
+						background: white;
+						border: 1px solid $border-color;
+					}
+				}
+			}
+		}
+
+		.asset-card {
+			border: 1px solid $border-color;
+
+			.ant-card {
+				background-color: transparent;
+				border-bottom: 1px solid $border-color;
+				color: #666666;
+			}
+
+			table {
+				thead {
+					border-bottom: 1px solid $border-color;
+					background-color: #f5f6fa;
+				}
+
+				tbody {
+					border-bottom: 1px solid $border-color;
+
+					&:last-child {
+						border-bottom: none;
+					}
+				}
+			}
+		}
+
+		.assets-tab {
+			.assets-section-wrapper {
+				.ant-table-wrapper {
+					.ant-table-cell {
+						span {
+							color: #666666;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// Menu
+	ul.header-menu {
+		li {
+			background: transparent;
+
+			&.level-1 {
+				background: transparent;
+			}
+
+			&.level-2 {
+				background: transparent;
+			}
+
+			&:hover {
+				background: $bg-color-lightblue;
+			}
+
+			span {
+				color: #666666;
+			}
+
+			> div.ant-dropdown-menu-submenu-title {
+				span.ant-dropdown-menu-submenu-expand-icon {
+					> span {
+						color: #666666;
+					}
+				}
+			}
+		}
+
+		.disable-li-text span {
+			color: #808080 !important;
+		}
+	}
+
+	// market picker
+	.marketPicker {
+		.marketPicker__subHeader {
+			color: #666666;
+		}
+
+		.results {
+			li {
+				border-bottom: 1px solid $border-color;
+			}
+		}
+	}
+
+	.advanced-submenu {
+		ul {
+			li {
+				background: transparent;
+
+				&:hover {
+					background: $bg-color-lightblue;
+				}
+
+				span {
+					color: #666666;
+				}
+			}
+		}
+	}
+
+	.white-star > svg > path {
+		fill: $primary-color !important;
+	}
+
+	.ant-empty-image {
+		background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAABkAQMAAAA8FrWcAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAZQTFRFAAAAAAAApWe5zwAAAAJ0Uk5TAICbK04YAAABQ0lEQVR4nI3UsZGDMBCFYd04cKgSXIpbugos3Vzg0CW4FFOKSyAkYNBp33srrbMjWPgC5keIIaVUWj9q4mHXbYl4R6y4/OY9G8CZd5w484ETZ268XUCoVAKhK2Z+IXTBzE+EMucDiTNmviNxwsw/SHwdRAjlWmaoAwnMXJkobwKJsgJMlI1AouzACYly4KkbErcmWOJmoQFb0YDlBmxFZwdz6QJwRQJXJOjVCVyXwFcncF0CX53AkMCQwJDAkAMhB0IOhBwIORByIORAyIHQgIUGLDRgoQELDVhowEIDFhqw0EQPTfTQRA9N9NBED0300EQP5eTQHgncI4F7JHCPBO6RoI+B0MdA6GMgFBIYEhgSGBIYEhgSGBIYEhhylBqAkAOhgTVii9gjjoj2gRrwWgKeEY+I+6KfmB2/EfbU/8TVkdIfy4QYGqMXWEkAAAAASUVORK5CYII=');
+	}
+}

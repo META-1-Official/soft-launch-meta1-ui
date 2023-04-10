@@ -8,7 +8,7 @@ import {connect} from 'alt-react';
 import {ChainTypes as grapheneChainTypes} from 'meta1-vision-js';
 const {operations} = grapheneChainTypes;
 import ReactTooltip from 'react-tooltip';
-import {FillOrder, LimitOrder, LimitOrderCreate} from 'common/MarketClasses';
+import {FillOrder, LimitOrder} from 'common/MarketClasses';
 import {MarketHistoryView} from './View/MarketHistoryView';
 import {ChainStore} from 'meta1-vision-js';
 import counterpart from 'counterpart';
@@ -16,14 +16,15 @@ import BlockDate from '../Utility/BlockDate';
 import PriceText from '../Utility/PriceText';
 import {Tooltip} from 'antd';
 import getLocale from 'browser-locale';
-import Icon from 'components/Icon/Icon';
 import utils from 'common/utils';
+import {useTheme} from '@emotion/react';
 
 const AllHistoryViewRow = ({fill, base, quote}) => {
+	const theme = useTheme();
 	const isMarket = fill.id.indexOf('5.0') !== -1 ? true : false;
 	const timestamp = isMarket ? (
 		<td
-			style={{color: 'rgba(255, 255, 255, 0.5)', textAlign: 'left'}}
+			style={{color: theme.colors.orderTextColor, textAlign: 'left'}}
 			className="table-body-class time-class"
 		>
 			<Tooltip title={fill.time.toString()} placement="left">
@@ -46,149 +47,47 @@ const AllHistoryViewRow = ({fill, base, quote}) => {
 	);
 
 	return (
-		<tr style={{background: fill.isBid ? '#091613' : '#1D0D0F'}}>
+		<tr
+			style={{
+				background: fill.isBid
+					? theme.colors.bidRowBackgroundColor
+					: theme.colors.askRowBackgroundColor,
+				borderBottom: '1px solid ' + theme.colors.borderColor,
+			}}
+			className={fill.isBid ? 'bid-order-tr' : 'ask-order-tr'}
+		>
 			{timestamp}
 			<td
 				style={{color: fill.isBid ? '#009D55' : '#FF2929', textAlign: 'left'}}
 				className="table-body-class"
 			>
-				<div className="overflow-hidden">
-					<PriceText price={fill.getPrice()} base={base} quote={quote} />
-				</div>
+				<Tooltip title={fill.getPrice().toString()} placement="top">
+					<div className="overflow-hidden">
+						<PriceText price={fill.getPrice()} base={base} quote={quote} />
+					</div>
+				</Tooltip>
 			</td>
 			<td
-				style={{color: 'rgba(255, 255, 255, 0.5)', textAlign: 'left'}}
+				css={(theme) => ({
+					color: theme.colors.orderTextColor,
+					textAlign: 'left',
+				})}
 				className="table-body-class"
 			>
-				<div className="overflow-hidden">
-					{Number(fill.amountToReceive()).toFixed(6)}
-				</div>
-			</td>
-		</tr>
-	);
-};
-
-const MarketHistoryViewRow = ({fill, base, quote}) => {
-	let base_symbol = base?._root?.entries[1][1];
-	let quote_symbol = quote?._root?.entries[1][1];
-	let pay_amount = fill.amountToPay();
-	let receive_amount = fill.amountToReceive();
-	let price = fill.getPrice();
-	let total = pay_amount * price;
-
-	return (
-		<tr className="market-history-view-row">
-			<td>
-				<div
-					className="td-content"
-					style={{
-						borderLeftColor: fill.isBid ? '#0F923A' : '#FF2929',
-						borderLeftStyle: 'solid',
-						borderLeftWidth: '8px',
-						paddingLeft: '10px',
-					}}
+				<Tooltip
+					title={(
+						fill.receives.amount / Math.pow(10, fill.receives.precision)
+					).toString()}
+					placement="right"
 				>
-					<div
-						style={{
-							fontSize: '15px',
-							fontWeight: 400,
-							color: 'white',
-							textAlign: 'center',
-						}}
-					>
-						{base_symbol}
+					<div className="overflow-hidden">
+						{utils.format_number_digits(
+							fill.receives.amount / Math.pow(10, fill.receives.precision),
+							6
+						)}
 					</div>
-					<div
-						style={{
-							borderBottom: '1px solid #566176',
-							width: '100%',
-							height: '0px',
-							marginTop: 5,
-							marginBottom: 5,
-						}}
-					></div>
-					<div
-						style={{
-							fontSize: '12px',
-							color: '#715C5C',
-							textAlign: 'center',
-						}}
-					>
-						{quote_symbol}
-					</div>
-				</div>
+				</Tooltip>
 			</td>
-			<td>
-				<div
-					style={{
-						fontSize: '15px',
-						fontWeight: 400,
-						color: 'white',
-						textAlign: 'center',
-					}}
-				>
-					{receive_amount}
-				</div>
-				<div
-					style={{
-						borderBottom: '1px solid #566176',
-						width: '100%',
-						height: '0px',
-						marginTop: 5,
-						marginBottom: 5,
-					}}
-				></div>
-				<div
-					style={{
-						fontSize: '12px',
-						color: '#715C5C',
-						textAlign: 'center',
-					}}
-				>
-					{pay_amount}
-				</div>
-			</td>
-			<td>
-				<div className="td-content">
-					<div style={{color: '#715C5C'}}>
-						{Number(fill.getPrice()).toLocaleString('en')}
-					</div>
-				</div>
-			</td>
-			<td>
-				<div className="td-content" style={{alignItems: 'flex-end'}}>
-					<div
-						style={{
-							color: 'white',
-							fontSize: '15px',
-							fontWeight: 400,
-							textAlign: 'right',
-						}}
-					>
-						{Number(total).toLocaleString('en')}
-					</div>
-				</div>
-			</td>
-			{/* <td>
-				<div className="td-content">
-					<div
-						style={{
-							width: '32px',
-							height: '32px',
-							background: '#0A0B0D',
-							border: '1px solid #1C1F27',
-							borderRadius: '16px',
-							display: 'flex',
-							justifyContent: 'center',
-							alignItems: 'center',
-							position: 'absolute',
-							right: 15,
-						}}
-					>
-						<Icon name="times" className="cancel-round-btn" />
-					</div>
-				</div>
-			</td> */}
 		</tr>
 	);
 };
@@ -242,7 +141,7 @@ class MarketHistory extends React.Component {
 		}
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		if (nextProps.activeTab !== this.props.activeTab) {
 			this.changeTab(nextProps.activeTab);
 		}
@@ -390,8 +289,6 @@ class MarketHistory extends React.Component {
 			);
 
 			const total = payAmount * price;
-			const change =
-				(Math.round(Math.random()) ? 1 : -1) * Math.random().toFixed(1);
 
 			return {
 				orderId: order.id,
@@ -422,8 +319,6 @@ class MarketHistory extends React.Component {
 			quoteSymbol,
 			isNullAccount,
 			activeTab,
-			currentAccount,
-			feedPrice,
 		} = this.props;
 		let {rowCount, showAll} = this.state;
 		let historyRows = [];
@@ -505,10 +400,6 @@ class MarketHistory extends React.Component {
 				.map((a) => {
 					let for_sale = a.getIn(['op', 1, 'amount_to_sell']).toObject();
 					let to_receive = a.getIn(['op', 1, 'min_to_receive']).toObject();
-					let seller = a.getIn(['op', 1, 'seller']);
-					let fee = a.getIn(['op', 1, 'fee']).toObject();
-
-					let order = new LimitOrderCreate({for_sale, to_receive, seller, fee});
 
 					const isBid = to_receive.asset_id === quote.get('id');
 
@@ -561,38 +452,31 @@ class MarketHistory extends React.Component {
 			rows = this._getOrders().concat(rows);
 		}
 
-		let canceledOrders = myHistory
-			.filter((a) => {
-				let opType = a.getIn(['op', 0]);
-				if (opType === operations.limit_order_cancel) {
-					let amount = a.getIn(['result', 1, 'amount']);
-				}
-				return opType === operations.limit_order_cancel;
-			})
-			.map((a) => {
-				let orderId = a.getIn(['op', 1, 'order']);
-				let amount = a.getIn(['result', 1, 'amount']);
+		// let canceledOrders = myHistory
+		// 	.filter((a) => {
+		// 		let opType = a.getIn(['op', 0]);
+		// 		return opType === operations.limit_order_cancel;
+		// 	})
+		// 	.map((a) => {
+		// 		let orderId = a.getIn(['op', 1, 'order']);
+		// 		let amount = a.getIn(['result', 1, 'amount']);
 
-				const receiveAmount = utils.format_number(
-					amount,
-					base.get('precision')
-				);
-				return {
-					orderId: orderId,
-					pair: {
-						baseSymbol: base?._root?.entries[1][1],
-						quoteSymbol: quote?._root?.entries[1][1],
-						isBid: false,
-					},
-					amount: {
-						payAmount: amount,
-						receiveAmount: amount,
-					},
-					price: amount,
-					total: amount,
-				};
-			})
-			.toArray();
+		// 		return {
+		// 			orderId: orderId,
+		// 			pair: {
+		// 				baseSymbol: base?._root?.entries[1][1],
+		// 				quoteSymbol: quote?._root?.entries[1][1],
+		// 				isBid: false,
+		// 			},
+		// 			amount: {
+		// 				payAmount: amount,
+		// 				receiveAmount: amount,
+		// 			},
+		// 			price: amount,
+		// 			total: amount,
+		// 		};
+		// 	})
+		// 	.toArray();
 		// rows = rows.concat(canceledOrders);
 
 		let totalRows = rows ? rows.length : null;
@@ -612,7 +496,6 @@ class MarketHistory extends React.Component {
 				chartHeight={this.props.chartHeight}
 				quoteSymbol={quoteSymbol}
 				baseSymbol={baseSymbol}
-				tinyScreen={this.props.tinyScreen}
 				historyRows={historyRows}
 				totalRows={totalRows}
 				showAll={showAll}

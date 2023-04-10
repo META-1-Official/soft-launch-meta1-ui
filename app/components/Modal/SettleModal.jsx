@@ -134,7 +134,7 @@ class ModalContent extends React.Component {
 		this.onSubmit = this.onSubmit.bind(this);
 	}
 
-	componentWillReceiveProps(np) {
+	UNSAFE_componentWillReceiveProps(np) {
 		if (
 			!!np.asset &&
 			!!this.props.asset &&
@@ -172,7 +172,7 @@ class ModalContent extends React.Component {
 		};
 	}
 
-	onAmountChanged({amount, asset}) {
+	onAmountChanged({amount}) {
 		this.setState({amount: amount});
 	}
 
@@ -197,9 +197,7 @@ class ModalContent extends React.Component {
 			},
 		});
 		return WalletDb.process_transaction(tr, null, true)
-			.then((result) => {
-				// console.log("asset settle result:", result);
-				// this.dispatch(account_id);
+			.then(() => {
 				return true;
 			})
 			.catch((error) => {

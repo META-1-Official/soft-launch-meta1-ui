@@ -65,7 +65,6 @@ class DirectDebitModal extends React.Component {
 		e.preventDefault();
 		let {
 			feeAsset,
-			feeAmount,
 			from_account,
 			to_account,
 			amount,
@@ -92,11 +91,11 @@ class DirectDebitModal extends React.Component {
 				period_start_time.valueOf(),
 				feeAsset ? feeAsset.get('id') : fee_asset_id
 			)
-				.then((result) => {
+				.then(() => {
 					this.props.hideModal();
 				})
 				.catch((err) => {
-					// todo: visualize error somewhere
+					// TODO: visualize error somewhere
 					console.error(err);
 				});
 		} else if (operationType === 'update') {
@@ -111,11 +110,11 @@ class DirectDebitModal extends React.Component {
 				period_start_time.valueOf(),
 				feeAsset ? feeAsset.get('id') : fee_asset_id
 			)
-				.then((result) => {
+				.then(() => {
 					this.props.hideModal();
 				})
 				.catch((err) => {
-					// todo: visualize error somewhere
+					// TODO: visualize error somewhere
 					console.error(err);
 				});
 		}
@@ -459,7 +458,6 @@ class DirectDebitModal extends React.Component {
 			asset_id,
 			feeAmount,
 			amount,
-			error,
 			to_name,
 			feeAsset,
 			fee_asset_id,

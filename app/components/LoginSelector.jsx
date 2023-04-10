@@ -6,28 +6,14 @@ import {Link} from 'react-router-dom';
 import Translate from 'react-translate-component';
 import TranslateWithLinks from './Utility/TranslateWithLinks';
 import {isIncognito} from 'feature_detect';
-import SettingsActions from 'actions/SettingsActions';
-import WalletUnlockActions from 'actions/WalletUnlockActions';
 import SettingsStore from 'stores/SettingsStore';
 import IntlActions from 'actions/IntlActions';
-// import CreateAccount from "./Account/CreateAccount";
-// import CreateAccountPassword from "./Account/CreateAccountPassword";
 import AccountRegistrationForm from './Registration/AccountRegistrationForm';
 import {Route} from 'react-router-dom';
 import {getWalletName, getLogo} from 'branding';
 import {Select, Row, Col} from 'antd';
 var logo = getLogo();
 import {AiOutlineGlobal} from 'react-icons/ai';
-
-const FlagImage = ({flag, width = 50, height = 50}) => {
-	return (
-		<img
-			height={height}
-			width={width}
-			src={`${__BASE_URL__}language-dropdown/${flag.toUpperCase()}.png`}
-		/>
-	);
-};
 
 class LoginSelector extends React.Component {
 	constructor(props) {
@@ -43,24 +29,7 @@ class LoginSelector extends React.Component {
 		this.handleLanguageSelect = this.handleLanguageSelect.bind(this);
 	}
 
-	// componentDidUpdate() {
-	// const myAccounts = AccountStore.getMyAccounts();
-
-	// use ChildCount to make sure user is on /create-account page except /create-account/*
-	// to prevent redirect when user just registered and need to make backup of wallet or password
-	// const childCount = React.Children.count(this.props.children);
-
-	// do redirect to portfolio if user already logged in
-	// if (
-	//     this.props.history &&
-	//     Array.isArray(myAccounts) &&
-	//     myAccounts.length !== 0 &&
-	//     childCount === 0
-	// )
-	//     this.props.history.push("/account/" + this.props.currentAccount);
-	// }
-
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		isIncognito((incognito) => {
 			if (!this.unmounted) {
 				this.setState({incognito});
@@ -164,16 +133,7 @@ class LoginSelector extends React.Component {
 								<Translate content="header.create_account" />
 							</Link>
 
-							<span
-								className="button primary"
-								onClick={() => {
-									// SettingsActions.changeSetting.defer({
-									// 	setting: 'passwordlessLogin',
-									// 	value: true,
-									// });
-									// WalletUnlockActions.unlock().catch(() => {});
-								}}
-							>
+							<span className="button primary" onClick={() => {}}>
 								<Translate content="header.unlock_short" />
 							</span>
 						</div>
@@ -211,11 +171,6 @@ class LoginSelector extends React.Component {
 							exact
 							component={AccountRegistrationForm}
 						/>
-						{/* <Route
-                            path="/registration"
-                            exact
-                            component={CreateAccountPassword}
-                        /> */}
 					</div>
 				</div>
 			</div>

@@ -196,7 +196,7 @@ class FirstLevel extends React.Component {
 		this._updateState = this._updateState.bind(this);
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		this._updateState();
 
 		ChainStore.subscribe(this._updateState);
@@ -221,7 +221,6 @@ class FirstLevel extends React.Component {
 
 	render() {
 		let {
-			type,
 			added,
 			removed,
 			availableKeys,
@@ -230,7 +229,7 @@ class FirstLevel extends React.Component {
 			noFail,
 			failReason,
 		} = this.props;
-		let {requiredPermissions, required, available, expanded} = this.state;
+		let {requiredPermissions, available, expanded} = this.state;
 
 		available = cloneDeep(available);
 		availableKeys = availableKeys.toJS();

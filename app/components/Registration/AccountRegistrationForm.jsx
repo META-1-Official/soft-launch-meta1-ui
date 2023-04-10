@@ -4,7 +4,7 @@ import {connect} from 'alt-react';
 import AccountStore from 'stores/AccountStore';
 import Translate from 'react-translate-component';
 import counterpart from 'counterpart';
-import {ChainStore, key} from 'meta1-vision-js/es';
+import {ChainStore} from 'meta1-vision-js/es';
 import ReactTooltip from 'react-tooltip';
 import utils from 'common/utils';
 import SettingsActions from 'actions/SettingsActions';
@@ -13,15 +13,14 @@ import AccountNameInput from './../Forms/AccountNameInputStyleGuide';
 import AccountSelect from '../Forms/AccountSelect';
 import LoadingIndicator from '../LoadingIndicator';
 import Icon from '../Icon/Icon';
-import CopyButton from '../Utility/CopyButton';
 import {Form, Input, Button, Tooltip, Select} from 'antd';
 import ReCAPTCHA from 'react-google-recaptcha';
 import WalletUnlockActions from 'actions/WalletUnlockActions';
-import {MailOutlined, UserOutlined, PhoneOutlined} from '@ant-design/icons';
+import countryCodes from 'constants/countryCode.json';
+import {UserOutlined} from '@ant-design/icons';
 import ls from '../../lib/common/localStorage';
 const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
-import countryCodes from '../Utility/countryCode.json';
 
 const ALLOW_PHONE_NUMBER_KEY = ['Backspace', 'Tab', 'ArrowRight', 'ArrowLeft'];
 
@@ -62,7 +61,6 @@ class AccountRegistrationForm extends React.Component {
 		this.populateData = this.populateData.bind(this);
 		this.onRegistrarAccountChange = this.onRegistrarAccountChange.bind(this);
 		this.onAccountNameChange = this.onAccountNameChange.bind(this);
-		this.onConfirmation = this.onConfirmation.bind(this);
 		this.onPhoneChange = this.onPhoneChange.bind(this);
 		this.onLastnameChange = this.onLastnameChange.bind(this);
 		this.onFirstnameChange = this.onFirstnameChange.bind(this);
@@ -71,7 +69,7 @@ class AccountRegistrationForm extends React.Component {
 		this.accountNameInput = null;
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		SettingsActions.changeSetting({
 			setting: 'passwordLogin',
 			value: true,
@@ -99,7 +97,7 @@ class AccountRegistrationForm extends React.Component {
 		}
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		if (nextProps.visibility != this.state.visibility) {
 			this.setState({visibility: nextProps.visibility, captcha: false}, () => {
 				if (
@@ -219,7 +217,7 @@ class AccountRegistrationForm extends React.Component {
 		this.setState({firstname: value});
 	}
 
-	onSubmit(e) {
+	onSubmit() {
 		ss.set('phone', this.state.phone);
 		ss.set('firstname', this.state.firstname);
 		ss.set('lastname', this.state.lastname);
@@ -230,14 +228,6 @@ class AccountRegistrationForm extends React.Component {
 				accountName: this.state.accountName,
 			});
 		}
-	}
-
-	onConfirmation(e) {
-		const value = e.currentTarget.value;
-		// this.setState({
-		// 	confirmPassword: value,
-		// 	passwordConfirmed: value === this.state.generatedPassword,
-		// });
 	}
 
 	isValid() {
@@ -284,6 +274,7 @@ class AccountRegistrationForm extends React.Component {
 						});
 					}
 				}}
+				style={{marginTop: 15}}
 			>
 				<Form
 					onFinish={(e) => this.onSubmit(e)}
@@ -294,29 +285,43 @@ class AccountRegistrationForm extends React.Component {
 					<div className="info-form">
 						<div className="form-blocks">
 							<Form.Item
-								label={'First name'}
+								label={counterpart.translate('registration.first_name')}
 								css={{marginRight: '10px'}}
 								name="firstname"
 								rules={[
 									{
 										validator: (_, value) => {
 											if (value.length === 0)
-												return Promise.reject('First Name is required.');
+												return Promise.reject(
+													counterpart.translate(
+														'registration.validation.require_first_name'
+													)
+												);
 											else {
 												if (!/^[A-Za-z]{0,256}$/.test(value)) {
 													if (value.includes(' '))
 														return Promise.reject(
-															'Whitespace character is not allowed.'
+															counterpart.translate(
+																'registration.validation.white_space_not_allowed'
+															)
 														);
 													else if (/\d/.test(value))
-														return Promise.reject('Numbers are not allowed.');
+														return Promise.reject(
+															counterpart.translate(
+																'registration.validation.numbers_not_allowed'
+															)
+														);
 													else if (value.length > 256)
 														return Promise.reject(
-															'First Name should be less than 256 characters'
+															counterpart.translate(
+																'registration.validation.max_first_name_length'
+															)
 														);
 													else
 														return Promise.reject(
-															'Your First Name must not contain special characters.'
+															counterpart.translate(
+																'registration.validation.special_character_not_alllowed_first_name'
+															)
 														);
 												} else {
 													return Promise.resolve();
@@ -337,29 +342,43 @@ class AccountRegistrationForm extends React.Component {
 								/>
 							</Form.Item>
 							<Form.Item
-								label={'Last name'}
+								label={counterpart.translate('registration.last_name')}
 								css={{marginLeft: '10px'}}
 								name="lastname"
 								rules={[
 									{
 										validator: (_, value) => {
 											if (value.length === 0)
-												return Promise.reject('Last Name is required.');
+												return Promise.reject(
+													counterpart.translate(
+														'registration.validation.require_last_name'
+													)
+												);
 											else {
 												if (!/^[A-Za-z]{0,256}$/.test(value)) {
 													if (value.includes(' '))
 														return Promise.reject(
-															'Whitespace character is not allowed.'
+															counterpart.translate(
+																'registration.validation.white_space_not_allowed'
+															)
 														);
 													else if (/\d/.test(value))
-														return Promise.reject('Numbers are not allowed.');
+														return Promise.reject(
+															counterpart.translate(
+																'registration.validation.numbers_not_allowed'
+															)
+														);
 													else if (value.length > 256)
 														return Promise.reject(
-															'Last Name should be less than 256 characters.'
+															counterpart.translate(
+																'registration.validation.max_last_name_length'
+															)
 														);
 													else
 														return Promise.reject(
-															'Your Last Name must not contain special characters.'
+															counterpart.translate(
+																'registration.validation.special_character_not_alllowed_last_name'
+															)
 														);
 												} else {
 													return Promise.resolve();
@@ -382,15 +401,17 @@ class AccountRegistrationForm extends React.Component {
 						</div>
 						<div className="form-blocks">
 							<Form.Item
-								label={'Phone number'}
-								css={{marginLeft: '10px'}}
+								label={counterpart.translate('registration.phone_number')}
+								css={{width: '100% !important'}}
 								rules={[
 									{
 										required: true,
 										validator: (_, value) => {
 											var message = '';
 											if (value.length === 0)
-												message = 'The phone number is required.';
+												message = counterpart.translate(
+													'registration.validation.require_phone_number'
+												);
 											else if (
 												this.state.selectedCountryObj?.patterns &&
 												Array.isArray(
@@ -399,12 +420,16 @@ class AccountRegistrationForm extends React.Component {
 												this.state.phoneFormat.length !==
 													this.state.selectedCountryObj?.patterns[0].length
 											) {
-												message = `Phone number should be ${
-													this.state.selectedCountryObj.patterns[0].replaceAll(
-														' ',
-														''
-													).length
-												} digits long`;
+												message = counterpart.translate(
+													'registration.validation.min_phone_number_length',
+													{
+														length:
+															this.state.selectedCountryObj.patterns[0].replaceAll(
+																' ',
+																''
+															).length,
+													}
+												);
 											} else if (
 												/^0*$/.test(
 													this.state.phoneFormat.replaceAll(' ', '')
@@ -412,7 +437,9 @@ class AccountRegistrationForm extends React.Component {
 												this.state.phoneFormat.length ===
 													this.state.selectedCountryObj?.patterns[0].length
 											) {
-												message = 'Phone number can not be all zeros.';
+												message = counterpart.translate(
+													'registration.validation.phone_number_not_all_zeros'
+												);
 											} else {
 												return Promise.resolve();
 											}
@@ -446,14 +473,12 @@ class AccountRegistrationForm extends React.Component {
 									)}
 									{this.state.isCountrySelected && (
 										<Select
-											style={{
-												width: 120,
-											}}
 											autoFocus
 											open={this.state.isCountrySelected}
 											dropdownClassName="select-box-country"
 											dropdownMatchSelectWidth={false}
 											showSearch
+											bordered={false}
 											onClick={(e) => {
 												this.setState({hidePhoneNumberErrorMsg: true});
 												e.stopPropagation();
@@ -635,12 +660,12 @@ class AccountRegistrationForm extends React.Component {
 						</Button>
 					)}
 					<div className="redirect">
-						Or if you have an wallet then{' '}
+						{counterpart.translate('registration.or_if_you_have_wallet_then')}{' '}
 						<div
 							className="btn"
 							onClick={() => WalletUnlockActions.unlock_v2()}
 						>
-							login
+							{counterpart.translate('header.unlock_short')}
 						</div>
 					</div>
 				</Form>
@@ -649,14 +674,12 @@ class AccountRegistrationForm extends React.Component {
 	}
 
 	renderAccountCreateText() {
-		const myAccounts = AccountStore.getMyAccounts();
+		// const myAccounts = AccountStore.getMyAccounts();
 		// const firstAccount = myAccounts.length === 0;
 		const firstAccount = true;
 
 		return (
 			<div className="header-text">
-				<Translate component="p" content="registration.accountDescription" />
-
 				{firstAccount ? null : (
 					<Translate component="p" content="wallet.not_first_account" />
 				)}

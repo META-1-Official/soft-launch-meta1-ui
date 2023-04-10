@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState} from 'react';
 import PasswordInput from './../Forms/PasswordInput';
 import WalletDb from 'stores/WalletDb';
 import Translate from 'react-translate-component';
@@ -97,7 +97,7 @@ const AccountPermissionsMigrate = (props) => {
 						border: inUse ? 'none' : '1px solid #1C1F27',
 						borderRadius: '4px',
 						height: '32px',
-						width: '75px',
+						width: '100px',
 						fontSize: '16px',
 						fontWeight: '600',
 						display: type === 2 && inUse ? 'none' : 'unset',
@@ -130,7 +130,7 @@ const AccountPermissionsMigrate = (props) => {
 					noLabel
 					passwordLength={12}
 					checkStrength
-					placeholder="Passkey"
+					placeholder={counterpart.translate('wallet.enter_password')}
 				/>
 			</form>
 

@@ -1,8 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import Translate from 'react-translate-component';
+// import PropTypes from 'prop-types';
 import counterpart from 'counterpart';
 import SignedMessageAction from '../../actions/SignedMessageAction';
+import Translate from 'react-translate-component';
 
 /** This component allows to display and verify a signed message
  *
@@ -77,11 +77,11 @@ class SignedMessage extends React.Component {
 		}
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		this._verifyMessage(this.state.message);
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		let signedMessage = nextProps.message;
 		if (
 			signedMessage != undefined &&
@@ -129,7 +129,7 @@ class SignedMessage extends React.Component {
 		let notificationGiven =
 			this.state.notification && this.state.notification != '';
 		return (
-			<div style={{color: 'gray', margin: '10px 10px'}}>
+			<div className="signed-message">
 				{this.state.messageParsed != null && (
 					<fieldset style={{borderColor: borderColor}}>
 						<legend style={{color: 'white', weight: 'bold'}}>
@@ -201,8 +201,8 @@ class SignedMessage extends React.Component {
 				{messageGiven && this.state.messageParsed == null && (
 					<fieldset style={{borderColor: '#F00'}}>
 						<legend style={{color: 'red', weight: 'bold'}} className="error">
-							Error while parsing message, please check syntax from message
-							below
+							<Translate content="account.signedmessages.error_while_parsing" />
+							:
 						</legend>
 						<pre>{this.props.message}</pre>
 					</fieldset>

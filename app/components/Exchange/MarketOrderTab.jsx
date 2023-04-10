@@ -1,25 +1,19 @@
 import React, {useEffect, useState} from 'react';
-import moment from 'moment';
-import {Input, Form, Select, Radio} from 'antd';
+import {Input, Form} from 'antd';
 import AssetNameWrapper from '../Utility/AssetName';
 import {Asset} from '../../lib/common/MarketClasses';
 import ChainStore from 'meta1-vision-js/es/chain/src/ChainStore';
-import counterpart from 'counterpart';
 import {Validation} from '../../services/Validation/Validation';
-import assetUtils from '../../lib/common/asset_utils';
-import {checkFeeStatusAsync} from '../../lib/common/trxHelper';
 import AssetName from '../Utility/AssetName';
-import {DatePicker} from 'antd';
 import {Apis} from 'meta1-vision-ws';
 import walletIcon from '../../assets/icons/walleticon.png';
-import Immutable from 'immutable';
 import {BalanceValueComponent} from 'components/Utility/EquivalentValueComponent';
 import ExchangeInput from './ExchangeInput';
 import {toast} from 'react-toastify';
 import {ceilFloat, floorFloat} from '../../services/Math';
+import counterpart from 'counterpart';
 
 const MarketOrderForm = (props) => {
-	const [feeAssets, setFeeAssets] = useState([]);
 	const [usdPrice, setUsdPrice] = useState(0.0);
 	const [amount, setAmount] = useState(0.0);
 	const [totalPercent, setTotalPercent] = useState(100);
@@ -71,8 +65,6 @@ const MarketOrderForm = (props) => {
 		if (props.type === 'ask') {
 			let account_balances = props.currentAccount.get('balances');
 
-			let includedBalancesList = Immutable.List(),
-				hiddenBalancesList = Immutable.List();
 			var symbolType = new Map();
 
 			symbolType.set('META1', '1.3.0');
@@ -163,38 +155,6 @@ const MarketOrderForm = (props) => {
 		return true;
 	};
 
-	const _getBaseAssetFlags = () => {
-		return assetUtils.getFlagBooleans(
-			props.baseAsset.getIn(['options', 'flags']),
-			props.baseAsset.has('bitasset_data_id')
-		);
-	};
-
-	const _getQuoteAssetFlags = () => {
-		return assetUtils.getFlagBooleans(
-			props.quoteAsset.getIn(['options', 'flags']),
-			props.quoteAsset.has('bitasset_data_id')
-		);
-	};
-
-	const _onTotalChange = () => {
-		setAmount(Number(total) / Number(props.price));
-	};
-
-	const getDatePickerRef = (node) => {
-		datePricker = node;
-	};
-
-	const onExpirationSelectChange = (e) => {
-		if (e.target.value === 'SPECIFIC') {
-			datePricker.picker.handleOpenChange(true);
-		} else {
-			datePricker.picker.handleOpenChange(false);
-		}
-
-		props.onExpirationTypeChange(e);
-	};
-
 	const prepareOrders = (amount) => {
 		const orders = [];
 
@@ -243,13 +203,13 @@ const MarketOrderForm = (props) => {
 
 		props
 			.createMarketOrder(orders, ChainStore.getAsset('META1').get('id'))
-			.then((res) => {
+			.then(() => {
 				setAmount(0.0);
 				form.setFieldsValue({
 					amount: 0,
 				});
 			})
-			.catch((err) => {});
+			.catch(() => {});
 	};
 
 	const handleSubmit = (amount) => {
@@ -267,25 +227,6 @@ const MarketOrderForm = (props) => {
 		}
 
 		prepareOrders(Number(amount));
-	};
-
-	const onExpirationSelectClick = (e) => {
-		if (e.target.value === 'SPECIFIC') {
-			if (firstClick) {
-				secondClick = true;
-			}
-			firstClick = true;
-			if (secondClick) {
-				datePricker.picker.handleOpenChange(true);
-				firstClick = false;
-				secondClick = false;
-			}
-		}
-	};
-
-	const onExpirationSelectBlur = () => {
-		firstClick = false;
-		secondClick = false;
 	};
 
 	const onChangeTotalPercentHandler = (percent) => {
@@ -327,20 +268,6 @@ const MarketOrderForm = (props) => {
 			})
 		);
 	}
-
-	let expirationTip;
-
-	if (props.expirationType !== 'SPECIFIC') {
-		expirationTip = props.expirations[props.expirationType].get();
-	}
-
-	const expirationsOptionsList = Object.keys(props.expirations).map((key) => (
-		<option value={key} key={key}>
-			{key === 'SPECIFIC' && props.expirationCustomTime !== 'Specific'
-				? moment(props.expirationCustomTime).format('Do MMM YYYY hh:mm A')
-				: props.expirations[key].title}
-		</option>
-	));
 
 	let buyButton = {
 		backgroundColor: '#FFC000',
@@ -392,7 +319,7 @@ const MarketOrderForm = (props) => {
 				style={{padding: '0px 0px'}}
 				form={form}
 			>
-				<Form.Item
+				{/* <Form.Item
 					{...formItemProps}
 					name="price"
 					label="Market Price"
@@ -417,15 +344,15 @@ const MarketOrderForm = (props) => {
 						value={props.price}
 						disabled
 					/>
-				</Form.Item>
+				</Form.Item> */}
 
 				<Form.Item
 					{...formItemProps}
-					label="Amount"
+					label={counterpart.translate('transaction.trxTypes.amount')}
 					name="amount"
-					validateFirst={true}
-					validateTrigger={'onBlur'}
-					rules={quantityRules}
+					// validateFirst={true}
+					// validateTrigger={'onBlur'}
+					// rules={quantityRules}
 				>
 					<ExchangeInput
 						placeholder="0.0"
@@ -527,12 +454,18 @@ const MarketOrderForm = (props) => {
 							color: isBid ? '#330000' : 'white',
 						}}
 					>
-						{isBid ? 'BUY' : 'SELL'}&nbsp;{props.quoteAsset.get('symbol')}
+						{isBid
+							? counterpart.translate('exchange.buy')
+							: counterpart.translate('exchange.sell')}
+						&nbsp;{props.quoteAsset.get('symbol')}
 					</div>
 				</button>
 				<div style={{fontSize: 12, marginTop: 10}}>
-					<span style={{color: '#ffc000'}}>Fee:</span> 0.00002 Meta1 | Incl. of
-					all applicable taxes
+					<span style={{color: '#ffc000'}}>
+						{counterpart.translate('account.transactions.fee')}:
+					</span>{' '}
+					0.00002 Meta1 | Incl.
+					{counterpart.translate('exchange.all_applicable_taxes')}
 				</div>
 			</Form>
 		</div>
@@ -540,10 +473,6 @@ const MarketOrderForm = (props) => {
 };
 
 const MarketOrderTab = (props) => {
-	const handleCancel = () => {
-		props.hideModal();
-	};
-
 	const _getBalanceByAssetId = (assetId, precision) => {
 		let balance = 0;
 

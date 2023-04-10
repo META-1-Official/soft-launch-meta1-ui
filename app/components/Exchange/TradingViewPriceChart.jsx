@@ -10,11 +10,9 @@ import {connect} from 'alt-react';
 import Translate from 'react-translate-component';
 import {AiOutlineDelete} from 'react-icons/ai';
 
-// import MarketsStore from "stores/MarketsStore";
-
 class TradingViewPriceChart extends React.Component {
 	constructor(props) {
-		super();
+		super(props);
 		this.state = {
 			showSaveModal: false,
 			showLoadModal: false,
@@ -29,7 +27,6 @@ class TradingViewPriceChart extends React.Component {
 	loadTradingView(props) {
 		const {dataFeed} = props;
 		let themeColors = colors[props.theme];
-		const that = this;
 
 		if (!dataFeed) return;
 
@@ -100,7 +97,7 @@ class TradingViewPriceChart extends React.Component {
 			fullscreen: false,
 			symbol: props.quoteSymbol + '_' + props.baseSymbol,
 			interval: getResolutionsFromBuckets([props.bucketSize])[0],
-			library_path: `${__ELECTRON__ ? __BASE_URL__ : ''}/charting_library/`,
+			library_path: `/charting_library/`,
 			datafeed: dataFeed,
 			container_id: 'tv_chart',
 			charts_storage_url: 'https://saveload.tradingview.com',
@@ -125,39 +122,13 @@ class TradingViewPriceChart extends React.Component {
 			preset: this.props.mobile ? 'mobile' : '',
 		});
 
-		// this.tvWidget.onChartReady(() => {
-		// 	if (__DEV__) console.log('*** Chart Ready ***');
-		// 	if (__DEV__) console.timeEnd('*** Chart load time: ');
-		// 	this.tvWidget
-		// 		.createButton()
-		// 		.attr('title', counterpart.translate('exchange.load_custom_charts'))
-		// 		.addClass('apply-common-tooltip')
-		// 		.on('click', () => {
-		// 			that.setState({showLoadModal: true});
-		// 		})
-		// 		.append(`<span>${counterpart.translate('exchange.chart_load')}</span>`);
-		// 	this.tvWidget
-		// 		.createButton()
-		// 		.attr('title', counterpart.translate('exchange.save_custom_charts'))
-		// 		.addClass('apply-common-tooltip')
-		// 		.on('click', () => {
-		// 			that.setState({showSaveModal: true});
-		// 		})
-		// 		.append(`<span>${counterpart.translate('exchange.chart_save')}</span>`);
-
-		// 	dataFeed.update({
-		// 		onMarketChange: this._setSymbol.bind(this),
-		// 	});
-		// 	this.loadLastChart();
-		// });
-
 		this._onWheel = this._onWheel.bind(this);
 	}
 
-	componentWillReceiveProps(np) {
+	UNSAFE_componentWillReceiveProps(np) {
 		if (!np.marketReady) return;
-		if (!this.props.dataFeed && np.dataFeed) {
-			loadTradingView(np);
+		if ((!this.props.dataFeed && np.dataFeed) || np.theme != this.props.theme) {
+			this.loadTradingView(np);
 		}
 	}
 
@@ -174,10 +145,6 @@ class TradingViewPriceChart extends React.Component {
 
 	componentDidMount() {
 		this.loadTradingView(this.props);
-
-		// continue investigating how to disable mouse wheel, here are the containted docs
-		// document.getElementById("tv_chart").children[0].contentWindow
-		// document.getElementById("tv_chart").children[0].contentDocument
 	}
 
 	componentDidUpdate(prevProps) {
@@ -204,11 +171,11 @@ class TradingViewPriceChart extends React.Component {
 		);
 	}
 
-	_onWheel(e) {
+	_onWheel() {
 		console.log('Test wheel interception');
 	}
 
-	onSubmitConfirmation(e) {
+	onSubmitConfirmation() {
 		const {layoutName} = this;
 		const error = this.props.charts.some(
 			(chart) =>

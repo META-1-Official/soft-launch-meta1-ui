@@ -96,11 +96,11 @@ class AccountAssets extends React.Component {
 		}
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		this._checkAssets(nextProps.assets);
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		this._checkAssets(this.props.assets, true);
 	}
 

@@ -489,10 +489,10 @@ class MarketsStore {
 		) {
 			const groupedOrdersBids = [];
 			const groupedOrdersAsks = [];
-			result.groupedOrdersBids.forEach((order, index) => {
+			result.groupedOrdersBids.forEach((order) => {
 				groupedOrdersBids.push(new GroupedOrder(order, assets, true));
 			});
-			result.groupedOrdersAsks.forEach((order, index) => {
+			result.groupedOrdersAsks.forEach((order) => {
 				groupedOrdersAsks.push(new GroupedOrder(order, assets, false));
 			});
 
@@ -1381,7 +1381,6 @@ class MarketsStore {
 			ask: totalAsks,
 			call: totalCalls,
 		};
-		// console.log(this.totals);
 	}
 
 	_calcMarketStats(base, quote, market, ticker) {

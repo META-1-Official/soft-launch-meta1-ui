@@ -1,11 +1,23 @@
 import React from 'react';
 import {connect} from 'alt-react';
-import {
-	CaretDownOutlined,
-	ConsoleSqlOutlined,
-	QuestionCircleOutlined,
-	UserOutlined,
-} from '@ant-design/icons';
+import ZfApi from 'react-foundation-apps/src/utils/foundation-api';
+import Translate from 'react-translate-component';
+import counterpart from 'counterpart';
+import ReactTooltip from 'react-tooltip';
+import {withRouter, Link} from 'react-router-dom';
+import {withTheme} from '@emotion/react';
+import {isEmpty} from 'lodash-es';
+
+// Custom components
+import SendModal from '../Modal/SendModal';
+import WithdrawModal from '../Modal/WithdrawModal';
+import DepositModal from '../Modal/DepositModal';
+import Icon from '../Icon/Icon';
+import StyledButton from 'components/Button/Button';
+import {getLogo} from 'branding';
+
+// Antd
+import {CaretDownOutlined, QuestionCircleOutlined} from '@ant-design/icons';
 import {
 	Layout,
 	Menu,
@@ -14,51 +26,41 @@ import {
 	Dropdown,
 	Typography,
 	Avatar,
+	Drawer,
 	notification,
 } from 'antd';
+
+// Actions & Stores - Flux
 import AccountActions from 'actions/AccountActions';
+import SettingsActions from 'actions/SettingsActions';
 import AccountStore from 'stores/AccountStore';
 import SettingsStore from 'stores/SettingsStore';
 import GatewayStore from 'stores/GatewayStore';
-import SettingsActions from 'actions/SettingsActions';
-import ZfApi from 'react-foundation-apps/src/utils/foundation-api';
-import SendModal from '../Modal/SendModal';
-import WithdrawModal from '../Modal/WithdrawModalNew';
-import DepositModal from '../Modal/DepositModal';
-import Icon from '../Icon/Icon';
-import Translate from 'react-translate-component';
-import counterpart from 'counterpart';
 import WalletDb from 'stores/WalletDb';
 import WalletUnlockStore from 'stores/WalletUnlockStore';
 import WalletUnlockActions from 'actions/WalletUnlockActions';
 import WalletManagerStore from 'stores/WalletManagerStore';
-import cnames from 'classnames';
-import TotalBalanceValue from '../Utility/TotalBalanceValue';
-import ReactTooltip from 'react-tooltip';
-import {Apis} from 'meta1-vision-ws';
-import AccountImage from '../Account/AccountImage';
-import {ChainStore} from 'meta1-vision-js';
-import {List} from 'immutable';
-import {withRouter} from 'react-router-dom';
-import AccountBrowsingMode from '../Account/AccountBrowsingMode';
-import {setLocalStorageType, isPersistantType} from 'lib/common/localStorage';
-import chainIds from 'chain/chainIds';
-import ls from '../../lib/common/localStorage';
-import {isEmpty} from 'lodash-es';
 
-import {getLogo} from 'branding';
-import StyledButton from 'components/Button/Button';
-
+// API Services
 import migrationService from 'services/migration.service';
 
-var logo = getLogo();
-const CHAINID_SHORT = chainIds[process.env.CURRENT_NET].substr(0, 8);
+// Meta1 SDKs
+import {Apis} from 'meta1-vision-ws';
+import {ChainStore} from 'meta1-vision-js';
 
+// Storage
+import ls from '../../lib/common/localStorage';
 const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
 
+// Global constants
 const {Header: AntdHeader} = Layout;
 const {Text} = Typography;
+const logo = getLogo();
+const sun = require('assets/sun.png');
+const moon = require('assets/moon.png');
+const hamburger = require('assets/hambuger.png');
+
 class Header extends React.Component {
 	constructor(props) {
 		super();
@@ -70,6 +72,7 @@ class Header extends React.Component {
 			hasWithdrawalModalBeenShown: false,
 			migratable: false,
 			oldUser: false,
+			drawerOpen: false,
 		};
 
 		this._accountNotificationActiveKeys = [];
@@ -126,7 +129,15 @@ class Header extends React.Component {
 		});
 	}
 
-	componentWillMount() {
+	showDrawerMenu = () => {
+		this.setState({drawerOpen: true});
+	};
+
+	hideDrawerMenu = () => {
+		this.setState({drawerOpen: false});
+	};
+
+	UNSAFE_componentWillMount() {
 		this.unlisten = this.props.history.listen((newState) => {
 			if (this.unlisten && this.state.active !== newState.pathname) {
 				this.setState({
@@ -162,7 +173,7 @@ class Header extends React.Component {
 		document.body.removeEventListener('click', this.onBodyClick);
 	}
 
-	componentWillReceiveProps(np) {
+	UNSAFE_componentWillReceiveProps(np) {
 		if (
 			np.passwordLogin !== this.props.passwordLogin &&
 			this.state.active.includes('/settings/')
@@ -247,16 +258,18 @@ class Header extends React.Component {
 				.catch(() => {});
 		} else {
 			WalletUnlockActions.lock_v2();
-			if (!WalletUnlockStore.getState().rememberMe) {
-				// if (!isPersistantType()) {
-				// 	setLocalStorageType('persistant');
-				// }
-				// AccountActions.setPasswordAccount(null);
-				// AccountStore.tryToSetCurrentAccount();
-			}
 		}
 
 		this._closeAccountNotifications();
+	}
+
+	_toggleTheme() {
+		const currentTheme = SettingsStore.getState().settings.get('themes');
+
+		SettingsActions.changeSetting({
+			setting: 'themes',
+			value: currentTheme === 'darkTheme' ? 'lightTheme' : 'darkTheme',
+		});
 	}
 
 	_onNavigate(route, e, fromMenu, claimWalletFlag = false) {
@@ -337,7 +350,6 @@ class Header extends React.Component {
 
 	onBodyClick(e) {
 		let el = e.target;
-		let insideMenuDropdown = false;
 		let insideAccountDropdown = false;
 
 		do {
@@ -345,26 +357,14 @@ class Header extends React.Component {
 				insideAccountDropdown = true;
 				break;
 			}
-
-			if (el.classList && el.classList.contains('menu-dropdown-wrapper')) {
-				insideMenuDropdown = true;
-				break;
-			}
 		} while ((el = el.parentNode));
 
 		if (!insideAccountDropdown) this._closeAccountsListDropdown();
 	}
 
-	handleRefresh = () => {
-		// by calling this method react re-renders the component
-		console.log('handle refresh');
-		this.setState({});
-	};
-
 	handleHeaderLink = (e) => {
-		const {lastMarket, currentAccount, passwordLogin} = this.props;
+		const {lastMarket, currentAccount} = this.props;
 		const {key} = e;
-		let isLogged = false;
 
 		// Need refactor
 		const accountName = ss.get('account_login_name', null);
@@ -438,33 +438,18 @@ class Header extends React.Component {
 		}
 
 		this.setState({headerMenu: key});
+		if (this.state.drawerOpen === true) {
+			this.setState({drawerOpen: false});
+		}
 	};
 
 	render() {
-		let {active} = this.state;
-
-		let {
-			currentAccount,
-			starredAccounts,
-			passwordLogin,
-			passwordAccount,
-			height,
-		} = this.props;
+		let {currentAccount, starredAccounts} = this.props;
 
 		let tradingAccounts = AccountStore.getMyAccounts();
-		let maxHeight = Math.max(40, height - 67 - 36) + 'px';
 
 		const a = ChainStore.getAccount(currentAccount);
 		const showAccountLinks = !!a;
-		const isMyAccount = !a
-			? false
-			: AccountStore.isMyAccount(a) ||
-			  (passwordLogin && currentAccount === passwordAccount);
-		const enableDepositWithdraw =
-			!!a &&
-			Apis.instance() &&
-			Apis.instance().chain_id &&
-			Apis.instance().chain_id.substr(0, 8) === CHAINID_SHORT;
 
 		if (starredAccounts.size) {
 			for (let i = tradingAccounts.length - 1; i >= 0; i--) {
@@ -479,86 +464,12 @@ class Header extends React.Component {
 			});
 		}
 
-		let myAccounts = AccountStore.getMyAccounts();
-		let myAccountCount = myAccounts.length;
-
-		let walletBalance =
-			myAccounts.length && this.props.currentAccount ? (
-				<div className="total-value" onClick={this._toggleAccountDropdownMenu}>
-					<TotalBalanceValue.AccountWrapper
-						hiddenAssets={this.props.hiddenAssets}
-						accounts={List([this.props.currentAccount])}
-						noTip
-						style={{minHeight: 15}}
-					/>
-				</div>
-			) : null;
-
-		let createAccountLink = myAccountCount === 0 ? true : null;
-
-		// let lock_unlock = ((!!this.props.current_wallet) || passwordLogin) ? (
-		//     <div className="grp-menu-item" >
-		//     { this.props.locked ?
-		//         <a style={{padding: "1rem"}} href onClick={this._toggleLock.bind(this)} data-class="unlock-tooltip" data-offset="{'left': 50}" data-tip={locked_tip} data-place="bottom" data-html><Icon className="icon-14px" name="locked" title="icons.locked.common" /></a>
-		//         : <a style={{padding: "1rem"}} href onClick={this._toggleLock.bind(this)} data-class="unlock-tooltip" data-offset="{'left': 50}" data-tip={unlocked_tip} data-place="bottom" data-html><Icon className="icon-14px" name="unlocked" title="icons.unlocked.common" /></a> }
-		//     </div>
-		// ) : null;
-
-		let tradeUrl = this.props.lastMarket
-			? `/market/${this.props.lastMarket}`
-			: '/market/META1_USDT';
-
-		// Account selector: Only active inside the exchange
-		let account_display_name, accountsList;
-		if (currentAccount) {
-			account_display_name =
-				currentAccount.length > 20
-					? `${currentAccount.slice(0, 20)}..`
-					: currentAccount;
-			if (tradingAccounts.indexOf(currentAccount) < 0 && isMyAccount) {
-				tradingAccounts.push(currentAccount);
-			}
-			if (tradingAccounts.length >= 1) {
-				accountsList = tradingAccounts
-					.sort()
-					.filter((name) => name !== currentAccount)
-					.map((name) => {
-						return (
-							<li
-								key={name}
-								className={cnames({
-									active: active.replace('/account/', '').indexOf(name) === 0,
-								})}
-								onClick={this._accountClickHandler.bind(this, name)}
-							>
-								<div style={{paddingTop: 0}} className="table-cell">
-									<AccountImage
-										style={{position: 'relative', top: 4}}
-										size={{height: 20, width: 20}}
-										account={name}
-									/>
-								</div>
-								<div className="table-cell" style={{paddingLeft: 10}}>
-									<a
-										className={
-											'text lower-case' +
-											(name === account_display_name ? ' current-account' : '')
-										}
-									>
-										{name}
-									</a>
-								</div>
-							</li>
-						);
-					});
-			}
-		}
-
 		const avatarMenu = (
 			<Menu
 				onClick={this.handleHeaderLink}
 				selectedKeys={[this.state.headerMenu]}
 				className="header-menu"
+				triggerSubMenuAction="click"
 			>
 				<Menu.Item key="auth" className="level-1">
 					<Text>
@@ -575,13 +486,13 @@ class Header extends React.Component {
 					</Text>
 				</Menu.Item>
 				<Menu.Item key="addContact" className="level-2">
-					<Text>Add Contact</Text>
+					<Translate content="header.add_contact" />
 				</Menu.Item>
 				{!this.props.locked_v2 &&
 					this.state.migratable &&
 					this.state.oldUser && (
 						<Menu.Item key="claimWallet">
-							<Text>Claim Legacy Wallet</Text>
+							<Translate content="header.claim_legacy_wallet" />
 						</Menu.Item>
 					)}
 				<Menu.Item
@@ -589,72 +500,39 @@ class Header extends React.Component {
 					style={this.props.locked_v2 ? {cursor: 'not-allowed'} : {}}
 					className={this.props.locked_v2 ? 'disable-li-text' : ''}
 				>
-					<Text>Send</Text>
+					<Translate content="transfer.send" />
 				</Menu.Item>
-				{/* <Menu.Item
-					key="buySell"
-					css={(theme) => ({
-						[`@media (min-width: ${theme.sizes.lg})`]: {
-							display: 'none',
-						},
-					})}
-				>
-					<Text>Buy / Sell</Text>
-				</Menu.Item>
-				<Menu.Item
-					key="sendReceive"
-					css={(theme) => ({
-						[`@media (min-width: ${theme.sizes.lg})`]: {
-							display: 'none',
-						},
-					})}
-				>
-					<Text>Send / Receive</Text>
-				</Menu.Item> */}
 				<Menu.Item
 					key="withdraw"
 					style={this.props.locked_v2 ? {cursor: 'not-allowed'} : {}}
 					className={this.props.locked_v2 ? 'disable-li-text' : ''}
 				>
-					<Text>Withdraw</Text>
+					<Translate content="header.withdraw" />
 				</Menu.Item>
 				<Menu.Item
 					key="deposit"
 					style={this.props.locked_v2 ? {cursor: 'not-allowed'} : {}}
 					className={this.props.locked_v2 ? 'disable-li-text' : ''}
 				>
-					<Text>Deposit</Text>
+					<Translate content="exchange.deposit" />
 				</Menu.Item>
 				<Menu.SubMenu
 					key="submenu"
 					popupClassName="advanced-submenu"
-					title={<Text>Advanced</Text>}
+					title={<Translate content="account.advanced" />}
 					disabled={!currentAccount}
+					popupOffset={[0, 0]}
 				>
-					<Menu.Item key="comment-menu" className="comment none">
+					<Menu.Item
+						key="comment-menu"
+						className="comment none"
+						style={{width: window.innerWidth}}
+					>
 						<Text>
 							/* No hardware wallet support at this time, remove to reduce
 							questions */
 						</Text>
 					</Menu.Item>
-					{/* <Menu.Item key="advanced-trezor">
-						<Text>
-							<Translate
-								style={{textTransform: 'capitalize'}}
-								component="span"
-								content="explorer.assets.trezor"
-							/>
-						</Text>
-					</Menu.Item>
-					<Menu.Item key="advanced-ledger-nano">
-						<Text>
-							<Translate
-								style={{textTransform: 'capitalize'}}
-								component="span"
-								content="explorer.assets.ledger"
-							/>
-						</Text>
-					</Menu.Item> */}
 					<Menu.Item
 						key="comment-no-hardware-wallet-support"
 						className="comment none"
@@ -665,30 +543,83 @@ class Header extends React.Component {
 						</Text>
 					</Menu.Item>
 					<Menu.Item key="advanced-signed-messages">
-						<Text>Signed Messages</Text>
+						<Translate content="account.signedmessages.title" />
 					</Menu.Item>
 
 					<Menu.Item key="advanced-membership-stats">
-						<Text>Membership Stats</Text>
+						<Translate content="account.member.stats" />
 					</Menu.Item>
 
 					<Menu.Item key="advanced-vesting-balance">
-						<Text>Vesting Balance</Text>
+						<Translate content="account.vesting.title" />
 					</Menu.Item>
 					<Menu.Item key="advanced-whitelist">
-						<Text>Whitelist</Text>
+						<Translate content="account.whitelist.title" />
 					</Menu.Item>
 					<Menu.Item key="advanced-permissions">
-						<Text>Permissions</Text>
+						<Translate content="account.permissions" />
 					</Menu.Item>
 					<Menu.Item key="advanced-accounts">
-						<Text>Wallets</Text>
+						<Translate content="account.accounts" />
 					</Menu.Item>
 				</Menu.SubMenu>
 			</Menu>
 		);
 
+		const renderMenu = (mode) => (
+			<Menu
+				mode={mode}
+				onClick={this.handleHeaderLink}
+				selectedKeys={[this.props.currentLink]}
+			>
+				<Menu.Item key="dashboard">
+					<Translate component="span" content="header.dashboard" />
+				</Menu.Item>
+				<Menu.Item key="market">
+					<Translate component="span" content="header.exchange" />
+				</Menu.Item>
+				<Menu.Item key="explorer">
+					<Translate component="span" content="header.explorer" />
+				</Menu.Item>
+				<Menu.Item key="explorer2">
+					<Link
+						to={{pathname: process.env.EXPLORER_META1_URL}}
+						target="_blank"
+						style={{color: this.props.theme.mode === 'dark' ? '#fff' : '#000'}}
+					>
+						<Translate component="span" content="header.explorer2" />
+					</Link>
+				</Menu.Item>
+			</Menu>
+		);
+
+		const menuDrawer = (
+			<Drawer
+				title={counterpart.translate('header.menu')}
+				placement="right"
+				closable={true}
+				onClose={this.hideDrawerMenu}
+				open={this.state.drawerOpen}
+				key="right"
+			>
+				{renderMenu('vertical')}
+			</Drawer>
+		);
+
 		const {headerMenu} = this.state;
+
+		const horizontalDivider = (
+			<div
+				css={(theme) => ({
+					width: '1px',
+					background: theme.colors.borderColor,
+					marginLeft: '10px',
+					marginRight: '10px',
+					height: '40px',
+				})}
+			/>
+		);
+
 		return (
 			<>
 				<AntdHeader>
@@ -698,9 +629,27 @@ class Header extends React.Component {
 						type="flex"
 						align="middle"
 					>
-						<Col xs={20} sm={12}>
-							<Row>
-								<Col xs={6} sm={5} className="logo-wrapper">
+						<Col xs={12} sm={12} md={10} lg={12}>
+							<Row align={'middle'}>
+								<div
+									style={{
+										width: '1.5rem',
+										height: '1.5rem',
+										cursor: 'pointer',
+										alignSelf: 'center',
+										marginTop: '0.5rem',
+										marginRight: '0.5rem',
+									}}
+									onClick={this.showDrawerMenu}
+									css={(theme) => ({
+										[`@media (min-width: 794px)`]: {
+											display: 'none',
+										},
+									})}
+								>
+									<img src={hamburger} alt="menu" />
+								</div>
+								<Col lg={5} className="logo-wrapper">
 									<a
 										href="/home"
 										onClick={this._onNavigate.bind(this, '/home/')}
@@ -708,25 +657,24 @@ class Header extends React.Component {
 										<img style={{height: 35}} src={logo} />
 									</a>
 								</Col>
-								<Col xs={17} sm={19}>
-									<Menu
-										mode="horizontal"
-										onClick={this.handleHeaderLink}
-										selectedKeys={[this.props.currentLink]}
-									>
-										<Menu.Item key="dashboard">Dashboard</Menu.Item>
-										<Menu.Item key="market">
-											<Translate component="span" content="header.exchange" />
-										</Menu.Item>
-										<Menu.Item key="explorer">
-											<Translate component="span" content="header.explorer" />
-										</Menu.Item>
-									</Menu>
+								<Col
+									xs={17}
+									sm={19}
+									md={17}
+									lg={19}
+									css={(theme) => ({
+										[`@media (max-width: ${theme.sizes.md})`]: {
+											display: 'none',
+										},
+									})}
+								>
+									{renderMenu('horizontal')}
 								</Col>
+								{menuDrawer}
 							</Row>
 						</Col>
 
-						<Col xs={4} sm={12}>
+						<Col xs={12} sm={12} md={14} lg={12}>
 							<div
 								css={{
 									display: 'flex',
@@ -740,25 +688,41 @@ class Header extends React.Component {
 											headerMenu === 'help'
 												? theme.colors.primaryColor
 												: theme.colors.white,
-										marginRight: '15px',
 										cursor: 'pointer',
-										[`@media (max-width: ${theme.sizes.lg})`]: {
-											display: 'none',
+										[`@media (min-width: ${theme.sizes.md})`]: {
+											marginRight: '15px',
 										},
 									})}
 									onClick={() => this.handleHeaderLink({key: 'get-help'})}
 								>
 									<QuestionCircleOutlined
 										css={(theme) => ({
-											color: theme.colors.white,
+											color: theme.colors.themeOpositeColor,
 											marginRight: '10px',
+											[`@media (max-width: ${theme.sizes.md})`]: {
+												color: theme.colors.primaryColor,
+												marginRight: 0,
+												svg: {
+													width: '30px',
+													height: '30px',
+												},
+											},
 										})}
 									/>
-									Get help
+									<span
+										css={(theme) => ({
+											color: theme.colors.themeOpositeColor,
+											[`@media (max-width: ${theme.sizes.md})`]: {
+												display: 'none',
+											},
+										})}
+									>
+										<Translate content="header.get_help" />
+									</span>
 								</Text>
 								<div
 									css={(theme) => ({
-										[`@media (max-width: ${theme.sizes.lg})`]: {
+										[`@media (max-width: ${theme.sizes.md})`]: {
 											display: 'none',
 										},
 									})}
@@ -771,23 +735,24 @@ class Header extends React.Component {
 											this.props.history.push('/market/META1_USDT')
 										}
 									>
-										Buy / Sell
+										<Translate content="exchange.buy" /> /{' '}
+										<Translate content="exchange.sell" />
 									</StyledButton>
 								</div>
 
 								<div
 									css={(theme) => ({
-										[`@media (max-width: ${theme.sizes.lg})`]: {
+										[`@media (max-width: ${theme.sizes.md})`]: {
 											display: 'none',
 										},
 									})}
 								>
 									<StyledButton
 										buttonType="transparent"
-										style={{marginRight: '20px'}}
 										onClick={this._showSend.bind(this)}
 									>
-										Send / Receive
+										<Translate content="transfer.send" /> /{' '}
+										<Translate content="exchange.receive" />
 									</StyledButton>
 								</div>
 								<div css={{marginRight: '10px', display: 'none'}}>
@@ -809,29 +774,49 @@ class Header extends React.Component {
 										</span>
 									)}
 								</div>
-
-								<Dropdown overlay={avatarMenu}>
-									<span>
-										<Avatar
-											css={(theme) => ({
-												'&& .ant-avatar': {
-													backgroundColor: theme.colors.primaryColor,
-													cursor: 'pointer',
-												},
-											})}
-											src="https://cdn.vectorstock.com/i/1000x1000/19/45/user-avatar-icon-sign-symbol-vector-4001945.webp"
+								{horizontalDivider}
+								<Dropdown overlay={avatarMenu} trigger="click">
+									<span
+										style={{
+											display: 'flex',
+											alignItems: 'center',
+											cursor: 'pointer',
+										}}
+									>
+										<Icon
+											className="lock-unlock"
+											size="2x"
+											name="avatar"
+											title="icons.avatar.common"
 										/>
 										<CaretDownOutlined
-											style={{
-												color: '#fff',
+											css={(theme) => ({
+												color: theme.colors.themeOpositeColor,
 												fontSize: '11px',
-												cursor: 'pointer',
 												opacity: '50%',
 												marginLeft: '0.5rem',
-											}}
+											})}
 										/>
 									</span>
 								</Dropdown>
+								{horizontalDivider}
+								<div
+									style={{
+										width: '1.5rem',
+										height: '1.5rem',
+										cursor: 'pointer',
+									}}
+									onClick={this._toggleTheme}
+								>
+									<img
+										src={this.props.theme.mode === 'dark' ? sun : moon}
+										alt={
+											this.props.theme.mode === 'dark'
+												? 'light theme'
+												: 'dark theme'
+										}
+									/>
+								</div>
 							</div>
 						</Col>
 					</Row>
@@ -904,4 +889,4 @@ Header = connect(Header, {
 	},
 });
 
-export default withRouter(Header);
+export default withRouter(withTheme(Header));

@@ -6,7 +6,6 @@ import {withRouter} from 'react-router-dom';
 import SyncError from './components/SyncError';
 import LoadingIndicator from './components/LoadingIndicator';
 import BrowserNotifications from './components/BrowserNotifications/BrowserNotificationsContainer';
-// import Header from 'components/Layout/Header';
 import ReactTooltip from 'react-tooltip';
 import NotificationSystem from 'react-notification-system';
 import TransactionConfirm from './components/Blockchain/TransactionConfirm';
@@ -22,13 +21,10 @@ import {DEFAULT_NOTIFICATION_DURATION} from 'services/Notification';
 import Loadable from 'react-loadable';
 import NewsHeadline from 'components/Layout/NewsHeadline';
 import Onramperwallet from 'components/Wallet/Onramperwallet';
-// import LoginSelector from "./components/LoginSelector";
 import Login from './components/Login/Login';
-import RegistrationSelector from './components/Registration/RegistrationSelector';
 import WalletRegistration from './components/Registration/WalletRegistration';
 import AccountRegistration from './components/Registration/AccountRegistration';
 import {CreateWalletFromBrainkey} from './components/Wallet/WalletCreate';
-// import ShowcaseGrid from "./components/Showcases/ShowcaseGrid";
 import PriceAlertNotifications from './components/PriceAlertNotifications';
 import {updateGatewayBackers} from 'common/gatewayUtils';
 
@@ -76,14 +72,8 @@ const Explorer = Loadable({
 const PredictionMarketsPage = Loadable({
 	loader: () =>
 		import(
-			/* webpackChunkName: "pm" */ './components/PredictionMarkets/PMAssetsContainer'
+			/* webpackChunkName: "pm" */ './components/PredictionMarkets/PredictionMarkets'
 		),
-	loading: LoadingIndicator,
-});
-
-const Arts = Loadable({
-	loader: () =>
-		import(/* webpackChunkName: "arts" */ './components/Arts/Arts.js'),
 	loading: LoadingIndicator,
 });
 
@@ -415,7 +405,7 @@ class App extends React.Component {
 
 	render() {
 		let {incognito, incognitoWarningDismissed} = this.state;
-		let {walletMode, theme, location, match, ...others} = this.props;
+		let {walletMode, theme, location, ...others} = this.props;
 		let content = null;
 		if (this.state.syncFail) {
 			content = <SyncError />;
@@ -453,11 +443,11 @@ class App extends React.Component {
 						<Route path="/contact/add" component={AddContact} />
 
 						<Route path="/invoice/:data" component={Invoice} />
-						<Route path="/create-account" component={AccountRegistration} />
-						<Route path="/login" component={Login} />
+						{/* <Route path="/create-account" component={AccountRegistration} /> */}
+						{/* <Route path="/login" component={Login} /> */}
 						<Route path="/registration" exact component={AccountRegistration} />
 						<Route path="/auth-proceed" component={AuthRedirect} />
-						<Route
+						{/* <Route
 							path="/registration/local"
 							exact
 							component={WalletRegistration}
@@ -466,8 +456,7 @@ class App extends React.Component {
 							path="/registration/cloud"
 							exact
 							component={AccountRegistration}
-						/>
-						<Route path="/arts" component={Arts} />
+						/> */}
 						{/* Explorer routes */}
 						<Route path="/explorer/:tab" component={Explorer} />
 						<Route path="/explorer" component={Explorer} />
@@ -485,16 +474,16 @@ class App extends React.Component {
 							/>*/}
 
 						{/* Wallet backup/restore routes */}
-						<Route path="/wallet" component={WalletManager} />
-						<Route
+						{/* <Route path="/wallet" component={WalletManager} /> */}
+						{/* <Route
 							path="/create-wallet-brainkey"
 							component={CreateWalletFromBrainkey}
-						/>
-						<Route path="/existing-account" component={ExistingAccount} />
+						/> */}
+						{/* <Route path="/existing-account" component={ExistingAccount} /> */}
 
 						<Route path="/create-worker" component={CreateWorker} />
 
-						<Route path="/Onramperwallet" component={Onramperwallet} />
+						<Route path="/onramperwallet" component={Onramperwallet} />
 
 						<Route
 							exact
@@ -515,8 +504,8 @@ class App extends React.Component {
 						<Route exact path="/learn/:path1" component={Help} />
 						<Route exact path="/learn/:path1/:path2" component={Help} />
 						<Route exact path="/learn/:path1/:path2/:path3" component={Help} />
-						<Route path="/htlc" component={Htlc} />
-						<Route path="/prediction" component={PredictionMarketsPage} />
+						{/* <Route path="/htlc" component={Htlc} />
+						<Route path="/prediction" component={PredictionMarketsPage} /> */}
 						<Route path="/claimWallet" component={ClaimWallet} />
 						<Redirect
 							path={'/voting'}

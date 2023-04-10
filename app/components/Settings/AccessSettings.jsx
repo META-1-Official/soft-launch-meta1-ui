@@ -79,7 +79,7 @@ class AutoSelectionNode extends React.Component {
 				<div css={{display: 'flex', alignItems: 'center'}}>
 					<Translate
 						component="div"
-						style={{paddingRight: '1rem', fontSize: '15px', color: '#CECECE'}}
+						className="automatic"
 						content="settings.automatic"
 						totalNodes={totalNodes}
 					/>
@@ -216,12 +216,12 @@ class ApiNode extends React.Component {
 
 		let hidden = !!node.hidden;
 
-		let location =
-			!!node.location &&
-			typeof node.location === 'object' &&
-			'translate' in node.location
-				? counterpart.translate(node.location.translate)
-				: node.location;
+		// let location =
+		// 	!!node.location &&
+		// 	typeof node.location === 'object' &&
+		// 	'translate' in node.location
+		// 		? counterpart.translate(node.location.translate)
+		// 		: node.location;
 
 		//let title = !!location ? location : "";
 		/*if (!!node.country) {
@@ -645,7 +645,7 @@ class AccessSettings extends React.Component {
 						/>
 					</div>
 				</div>
-				<div style={{padding: '1rem 1.5rem'}}>
+				<div className="node-content">
 					<div className="active-node">
 						{renderNode(connectedNode, connectedNode)}
 					</div>

@@ -257,7 +257,7 @@ class AccountPermissionsList extends React.Component {
 						className="weight-input"
 						type="number"
 						autoComplete="off"
-						placeholder="Weight (%)"
+						placeholder={`${counterpart.translate('account.perm.weight')} (%)`}
 						onKeyDown={this.onWeightKeyDown.bind(this)}
 						tabIndex={this.props.tabIndex + 1}
 					/>

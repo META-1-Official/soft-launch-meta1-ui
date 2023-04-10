@@ -15,14 +15,18 @@ import MyAccounts from 'components/Forms/MyAccounts';
 import Translate from 'react-translate-component';
 
 class BalanceClaimActive extends Component {
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		let keys = PrivateKeyStore.getState().keys;
 		let keySeq = keys.keySeq();
 		BalanceClaimActiveActions.setPubkeys(keySeq);
 		this.existing_keys = keySeq;
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
+		console.log(
+			'BalanceClaimActive UNSAFE_componentWillReceiveProps',
+			nextProps
+		);
 		let keys = PrivateKeyStore.getState().keys;
 		let keySeq = keys.keySeq();
 		if (!keySeq.equals(this.existing_keys)) {

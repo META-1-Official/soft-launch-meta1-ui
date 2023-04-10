@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import ChainTypes from './ChainTypes';
+// import ChainTypes from './ChainTypes';
 import AssetWrapper from './AssetWrapper';
 import AssetName from './AssetName';
 

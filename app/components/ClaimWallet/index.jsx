@@ -1,11 +1,12 @@
-import {Component, useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import migrationService from 'services/migration.service';
-import {Button, Col, Input, Modal, Row, Space} from 'antd';
+import {Col, Input, Row, Space} from 'antd';
 import StyledButton from 'components/Button/Button';
 import {toast} from 'react-toastify';
 import './claimWallet.scss';
 import WalletDb from 'stores/WalletDb';
 import AccountStore from 'stores/AccountStore';
+import counterpart from 'counterpart';
 
 export default function ClaimWallet(props) {
 	const [accountName, setAccountName] = useState(null);
@@ -53,21 +54,23 @@ export default function ClaimWallet(props) {
 					props.history.push(`/account/${accountName}/`);
 				} else {
 					setProgressing(false);
-					toast('Something went wrong');
+					toast(counterpart.translate('account.registration.went_wrong'));
 				}
 			} else if (transfer_status === 'IN_PROGRESS') {
 				setProgressing(false);
-				toast('Your claim wallet request is under progress');
+				toast(
+					counterpart.translate('claim_wallet.claim_wallet_under_progress')
+				);
 			} else if (transfer_status === 'COMPLETED') {
 				setProgressing(false);
-				toast('Your claim wallet request is already completed');
+				toast(counterpart.translate('claim_wallet.claim_wallet_completed'));
 			} else {
 				setProgressing(false);
-				toast('Your Claim Wallet is failed. Please try again');
+				toast(counterpart.translate('claim_wallet.claim_wallet_failed'));
 			}
 		} else {
 			setProgressing(false);
-			toast('Invalid Signature');
+			toast(counterpart.translate('claim_wallet.invalid_signature'));
 			return;
 		}
 	};
@@ -77,7 +80,7 @@ export default function ClaimWallet(props) {
 			<Space size={3}>
 				<Row>
 					<Col span={24}>
-						<h3>Claim Wallet</h3>
+						<h3>{counterpart.translate('claim_wallet.claim_wallet')}</h3>
 					</Col>
 
 					<Col span={24} centered>
@@ -85,7 +88,9 @@ export default function ClaimWallet(props) {
 							<div>
 								<Input
 									value={passKey}
-									placeholder="Enter Passkey Or Owner key"
+									placeholder={counterpart.translate(
+										'claim_wallet.enter_passkey_or_owner_key'
+									)}
 									onChange={(e) => {
 										setPassKey(e.target.value);
 									}}
@@ -101,7 +106,9 @@ export default function ClaimWallet(props) {
 										submit();
 									}}
 								>
-									{progressing ? 'Migrating...' : 'Migrate'}
+									{progressing
+										? counterpart.translate('claim_wallet.migrating')
+										: counterpart.translate('claim_wallet.migrate')}
 								</StyledButton>
 							</div>
 						)}

@@ -176,7 +176,7 @@ class DashboardList extends React.Component {
 					let isLTM = account.get('lifetime_referrer_name') === accountName;
 
 					if (account.get('orders')) {
-						account.get('orders').forEach((orderID, key) => {
+						account.get('orders').forEach((orderID) => {
 							let order = ChainStore.getObject(orderID);
 							if (order) {
 								let orderAsset = order.getIn([
@@ -196,7 +196,7 @@ class DashboardList extends React.Component {
 					// console.log("openOrders:", openOrders);
 
 					if (account.get('call_orders')) {
-						account.get('call_orders').forEach((callID, key) => {
+						account.get('call_orders').forEach((callID) => {
 							let position = ChainStore.getObject(callID);
 							if (position) {
 								let collateralAsset = position.getIn([

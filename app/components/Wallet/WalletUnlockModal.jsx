@@ -31,7 +31,6 @@ import utils from 'common/utils';
 import AccountSelector from '../Account/AccountSelectorAnt';
 import {PrivateKey} from 'meta1-vision-js';
 import {saveAs} from 'file-saver';
-import LoginTypeSelector from './LoginTypeSelector';
 import counterpart from 'counterpart';
 import {
 	WalletSelector,
@@ -54,7 +53,7 @@ import Icon from '../Icon/Icon';
 const STORAGE_KEY = '__AuthData__';
 
 const ss = new ls(STORAGE_KEY);
-const {Text, Title} = Typography;
+const {Title} = Typography;
 class WalletUnlockModal extends React.Component {
 	constructor(props) {
 		super(props);
@@ -96,12 +95,9 @@ class WalletUnlockModal extends React.Component {
 		};
 	};
 
-	componentWillReceiveProps(np) {
-		const {walletSelected, restoringBackup, accountName} = this.state;
-		const {
-			currentWallet: newCurrentWallet,
-			passwordAccount: newPasswordAccount,
-		} = np;
+	UNSAFE_componentWillReceiveProps(np) {
+		const {walletSelected, restoringBackup} = this.state;
+		const {currentWallet: newCurrentWallet} = np;
 
 		const newState = {};
 		// Updating the accountname through the listener breaks UX (#2335)
@@ -258,7 +254,9 @@ class WalletUnlockModal extends React.Component {
 		);
 
 		if (!success && WalletDb.isLocked()) {
-			this.setState({passwordError: 'Invalid passkey'});
+			this.setState({
+				passwordError: counterpart.translate('notifications.invalid_password'),
+			});
 		} else {
 			if (!passwordLogin) {
 				this.setState({password: ''});
@@ -364,7 +362,7 @@ class WalletUnlockModal extends React.Component {
 				});
 			}
 		} else {
-			alert('Pass the reCaptcha check!');
+			alert(counterpart.translate('registration.pass_recaptcha_check'));
 		}
 	};
 
@@ -509,7 +507,6 @@ class WalletUnlockModal extends React.Component {
 			customError,
 			accountName,
 			stopAskingForBackup,
-			isOpen,
 		} = this.state;
 
 		const noWalletNames = !(walletNames.size > 0);
@@ -533,14 +530,10 @@ class WalletUnlockModal extends React.Component {
 				footer={null}
 				onCancel={this.handleModalClose}
 			>
-				<Title className="header-title1">META1 Wallet Login</Title>
-				<div className="header-title2">
-					{/*Login with Wallet name (Cloud wallet) and Key file (Local wallet)*/}
-					Login with Wallet name (Cloud wallet)
-				</div>
+				<Title className="header-title1">
+					<Translate content="wallet.wallet_passkey_confirmation" />
+				</Title>
 				<Form className="full-width" layout="vertical">
-					{/* <LoginTypeSelector type={passwordLogin} /> */}
-					{/* <LoginTypeSelector /> */}
 					{passwordLogin || passwordlessLogin ? (
 						<div className="info-form">
 							<DisableChromeAutocomplete />
@@ -579,7 +572,9 @@ class WalletUnlockModal extends React.Component {
 												this.password_input = input;
 											}}
 											bordered={false}
-											placeholder="Enter Passkey"
+											placeholder={counterpart.translate(
+												'wallet.enter_passkey'
+											)}
 										/>
 										<div onClick={this.toggleEye}>
 											<Icon
@@ -641,7 +636,7 @@ class WalletUnlockModal extends React.Component {
 								<Input
 									css={(theme) => ({
 										'&&': {
-											backgroundColor: theme.colors.black,
+											backgroundColor: theme.colors.backgroundColor,
 											border: `1px solid ${theme.colors.borderColor}`,
 											color: theme.colors.inputTextColor,
 											borderRadius: '4px',
@@ -707,7 +702,9 @@ class WalletUnlockModal extends React.Component {
 									<InputNumber
 										value={walletLockTimeout}
 										onChange={this.handleWalletAutoLock}
-										placeholder="Auto-lock after..."
+										placeholder={counterpart.translate(
+											'registration.auto_lock_after'
+										)}
 										style={{
 											marginLeft: '7px',
 											width: '65px',
@@ -732,15 +729,8 @@ class WalletUnlockModal extends React.Component {
 							this.state.password === ''
 						}
 					>
-						{counterpart.translate(
-							this.shouldUseBackupLogin()
-								? 'wallet.backup_login'
-								: 'header.unlock_short'
-						)}
+						<Translate content="registration.continue" />
 					</Button>
-					<div className="redirect">
-						Or create your <a href="/registration">wallet</a>
-					</div>
 				</div>
 			</Modal>
 		);

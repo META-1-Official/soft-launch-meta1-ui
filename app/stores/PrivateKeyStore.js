@@ -216,7 +216,6 @@ class PrivateKeyStore extends BaseStore {
 	}
 
 	decodeMemo(memo) {
-		let lockedWallet = false;
 		let memo_text,
 			isMine = false;
 		let from_private_key = this.state.keys.get(memo.from);
@@ -229,7 +228,6 @@ class PrivateKeyStore extends BaseStore {
 			private_key = WalletDb.decryptTcomb_PrivateKey(private_key);
 		} catch (e) {
 			// Failed because wallet is locked
-			lockedWallet = true;
 			private_key = null;
 			isMine = true;
 		}

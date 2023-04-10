@@ -778,7 +778,6 @@ class AccountAssetUpdate extends React.Component {
 			core_exchange_rate,
 			flagBooleans,
 			permissionBooleans,
-			claimFeesAmount,
 			isBitAsset,
 			bitasset_opts,
 		} = this.state;

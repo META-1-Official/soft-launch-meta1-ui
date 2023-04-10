@@ -12,19 +12,13 @@ import PriceText from '../Utility/PriceText';
 import AssetName from '../Utility/AssetName';
 import {Asset} from 'common/MarketClasses';
 import ExchangeInput from './ExchangeInput';
-import assetUtils from 'common/asset_utils';
-import {DatePicker} from 'antd';
-import moment from 'moment';
 import Icon from '../Icon/Icon';
 import SettleModal from '../Modal/SettleModal';
-import {Button, Select, Popover, Tooltip} from 'antd';
+import {Button, Tooltip} from 'antd';
 import ReactTooltip from 'react-tooltip';
-import AccountStore from '../../stores/AccountStore';
 import walletIcon from '../../assets/icons/walleticon.png';
-import Immutable from 'immutable';
-import {ChainStore} from 'meta1-vision-js';
 import {BalanceValueComponent} from '../Utility/EquivalentValueComponent';
-import EquivalentPrice from '../Utility/EquivalentPrice';
+
 class BuySell extends React.Component {
 	static propTypes = {
 		balance: ChainTypes.ChainObject,
@@ -42,7 +36,7 @@ class BuySell extends React.Component {
 	};
 
 	constructor(props) {
-		super();
+		super(props);
 		this.state = {
 			forceReRender: false,
 			isSettleModalVisible: false,
@@ -61,14 +55,6 @@ class BuySell extends React.Component {
 		this.props.priceChangePercent(this.props.type, this.props.marketPrice);
 	}
 
-	/*
-	 * Force re-rendering component when state changes.
-	 * This is required for an updated value of component width
-	 *
-	 * It will trigger a re-render twice
-	 * - Once when state is changed
-	 * - Once when forceReRender is set to false
-	 */
 	_forceRender(np) {
 		if (this.state.forceReRender) {
 			this.setState({
@@ -257,17 +243,12 @@ class BuySell extends React.Component {
 			currentPriceObject,
 			feeAsset,
 			feeAssets,
-			hasFeeBalance,
 			hideHeader,
 			verticalOrderForm,
-			account,
 		} = this.props;
-		const {expirationCustomTime} = this.props;
 
 		let account_balances = this.props.account.get('balances');
 
-		let includedBalancesList = Immutable.List(),
-			hiddenBalancesList = Immutable.List();
 		var symbolType = new Map();
 
 		symbolType.set('META1', '1.3.0');
@@ -310,20 +291,6 @@ class BuySell extends React.Component {
 			/>
 		);
 
-		const priceData = (
-			<EquivalentPrice
-				fromAsset={this.props.historyUrl.pathname.split('/')[2].split('_')[0]}
-				pulsate={{reverse: true, fill: 'forwards'}}
-				hide_symbols
-				priceHandler={(data) => {
-					this.setState({
-						currencyPrice: data,
-						globalCurrencyBalance: data,
-					});
-				}}
-				fromExchange={true}
-			/>
-		);
 		let clientWidth = this.refs.order_form
 			? this.refs.order_form.clientWidth
 			: 0;
@@ -342,265 +309,7 @@ class BuySell extends React.Component {
 			asset_id: this.props.balanceId,
 		});
 
-		const maxBaseMarketFee = new Asset({
-			amount: base.getIn(['options', 'max_market_fee']),
-			asset_id: base.get('asset_id'),
-			precision: base.get('precision'),
-		});
-		const maxQuoteMarketFee = new Asset({
-			amount: quote.getIn(['options', 'max_market_fee']),
-			asset_id: quote.get('asset_id'),
-			precision: quote.get('precision'),
-		});
-		const baseMarketFeePercent =
-			base.getIn(['options', 'market_fee_percent']) / 100 + '%';
-		const quoteMarketFeePercent =
-			quote.getIn(['options', 'market_fee_percent']) / 100 + '%';
-		const quoteFee = !amount
-			? 0
-			: Math.min(
-					maxQuoteMarketFee.getAmount({real: true}),
-					(amount * quote.getIn(['options', 'market_fee_percent'])) / 10000
-			  ).toFixed(maxQuoteMarketFee.precision);
-		const baseFee = !amount
-			? 0
-			: Math.min(
-					maxBaseMarketFee.getAmount({real: true}),
-					(total * base.getIn(['options', 'market_fee_percent'])) / 10000
-			  ).toFixed(maxBaseMarketFee.precision);
-		const baseFlagBooleans = assetUtils.getFlagBooleans(
-			base.getIn(['options', 'flags']),
-			base.has('bitasset_data_id')
-		);
-		const quoteFlagBooleans = assetUtils.getFlagBooleans(
-			quote.getIn(['options', 'flags']),
-			quote.has('bitasset_data_id')
-		);
-
-		const {name: baseName, prefix: basePrefix} = utils.replaceName(
-			this.props.base
-		);
-		var baseMarketFee = baseFlagBooleans['charge_market_fee'] ? (
-			verticalOrderForm ? (
-				<Tooltip
-					title={counterpart.translate('tooltip.market_fee', {
-						percent: baseMarketFeePercent,
-						asset: (basePrefix || '') + baseName,
-					})}
-				>
-					<div className="grid-block no-overflow shrink limit-order-input-wrapper">
-						<div className="small-12 buy-sell-label">
-							<Translate content="explorer.asset.summary.market_fee" />,{' '}
-							{baseMarketFeePercent}
-						</div>
-						<div className="inputAddon limit-order-input">
-							<ExchangeInput
-								placeholder="0.0"
-								id="baseMarketFee"
-								defaultValue={baseFee}
-								value={baseFee}
-								addonAfter={
-									<span>
-										<AssetName noTip name={base.get('symbol')} />
-									</span>
-								}
-							/>
-						</div>
-					</div>
-				</Tooltip>
-			) : singleColumnForm ? (
-				<Tooltip
-					title={counterpart.translate('tooltip.market_fee', {
-						percent: baseMarketFeePercent,
-						asset: (basePrefix || '') + baseName,
-					})}
-				>
-					<div className="grid-block no-overflow shrink limit-order-input-wrapper">
-						<div className="small-3 buy-sell-label">
-							<Translate content="explorer.asset.summary.market_fee" />,{' '}
-							{baseMarketFeePercent}
-						</div>
-						<div className="inputAddon limit-order-input">
-							<ExchangeInput
-								placeholder="0.0"
-								id="baseMarketFee"
-								defaultValue={baseFee}
-								value={baseFee}
-								addonAfter={
-									<span>
-										<AssetName noTip name={base.get('symbol')} />
-									</span>
-								}
-							/>
-						</div>
-					</div>
-				</Tooltip>
-			) : (
-				<Tooltip
-					title={counterpart.translate('tooltip.market_fee', {
-						percent: baseMarketFeePercent,
-						asset: (basePrefix || '') + baseName,
-					})}
-				>
-					<div className="grid-block no-overflow shrink limit-order-input-wrapper">
-						<div className="small-12 buy-sell-label">
-							<Translate content="explorer.asset.summary.market_fee" />,{' '}
-							{baseMarketFeePercent}
-						</div>
-						<div className="inputAddon limit-order-input">
-							<ExchangeInput
-								placeholder="0.0"
-								id="baseMarketFee"
-								defaultValue={baseFee}
-								value={baseFee}
-								addonAfter={
-									<span>
-										<AssetName noTip name={base.get('symbol')} />
-									</span>
-								}
-							/>
-						</div>
-					</div>
-				</Tooltip>
-			)
-		) : null;
-
-		const {name: quoteName, prefix: quotePrefix} = utils.replaceName(
-			this.props.quote
-		);
-		var quoteMarketFee = quoteFlagBooleans['charge_market_fee'] ? (
-			verticalOrderForm ? (
-				<Tooltip
-					title={counterpart.translate('tooltip.market_fee', {
-						percent: quoteMarketFeePercent,
-						asset: (quotePrefix || '') + quoteName,
-					})}
-				>
-					<div className="grid-block no-overflow shrink limit-order-input-wrapper">
-						<div className="small-12 buy-sell-label">
-							<Translate content="explorer.asset.summary.market_fee" />,{' '}
-							{quoteMarketFeePercent}
-						</div>
-						<div className="inputAddon limit-order-input">
-							<ExchangeInput
-								placeholder="0.0"
-								id="quoteMarketFee"
-								defaultValue={quoteFee}
-								value={quoteFee}
-								addonAfter={
-									<span>
-										<AssetName
-											style={{width: 100}}
-											noTip
-											name={quote.get('symbol')}
-										/>
-									</span>
-								}
-							/>
-						</div>
-					</div>
-				</Tooltip>
-			) : singleColumnForm ? (
-				<Tooltip
-					title={counterpart.translate('tooltip.market_fee', {
-						percent: quoteMarketFeePercent,
-						asset: (quotePrefix || '') + quoteName,
-					})}
-				>
-					<div className="grid-block no-overflow shrink limit-order-input-wrapper">
-						<div className="small-3 buy-sell-label">
-							<Translate content="explorer.asset.summary.market_fee" />,{' '}
-							{quoteMarketFeePercent}
-						</div>
-						<div className="inputAddon limit-order-input">
-							<ExchangeInput
-								placeholder="0.0"
-								id="quoteMarketFee"
-								defaultValue={quoteFee}
-								value={quoteFee}
-								addonAfter={
-									<span>
-										<AssetName
-											style={{width: 100}}
-											noTip
-											name={quote.get('symbol')}
-										/>
-									</span>
-								}
-							/>
-						</div>
-					</div>
-				</Tooltip>
-			) : (
-				<Tooltip
-					title={counterpart.translate('tooltip.market_fee', {
-						percent: quoteMarketFeePercent,
-						asset: (quotePrefix || '') + quoteName,
-					})}
-				>
-					<div className="grid-block no-overflow shrink limit-order-input-wrapper">
-						<div className="small-12 buy-sell-label">
-							<Translate content="explorer.asset.summary.market_fee" />,{' '}
-							{quoteMarketFeePercent}
-						</div>
-						<div className="inputAddon limit-order-input">
-							<ExchangeInput
-								placeholder="0.0"
-								id="quoteMarketFee"
-								defaultValue={quoteFee}
-								value={quoteFee}
-								addonAfter={
-									<span>
-										<AssetName
-											style={{width: 100}}
-											noTip
-											name={quote.get('symbol')}
-										/>
-									</span>
-								}
-							/>
-						</div>
-					</div>
-				</Tooltip>
-			)
-		) : null;
-
-		var emptyCell = !verticalOrderForm ? (
-			<div
-				style={{visibility: 'hidden'}}
-				className="grid-block no-overflow shrink limit-order-input-wrapper"
-			>
-				<div className="small-3 buy-sell-label">
-					<Translate content="explorer.asset.summary.market_fee" />
-				</div>
-				<div className="inputAddon limit-order-input">
-					<ExchangeInput
-						placeholder="0.0"
-						id="emptyPlaceholder"
-						defaultValue="0"
-						addonAfter={
-							<span>
-								<AssetName
-									style={{width: 100}}
-									noTip
-									name={quote.get('symbol')}
-								/>
-							</span>
-						}
-					/>
-				</div>
-			</div>
-		) : null;
-
 		const isBid = type === 'bid';
-		let marketFee =
-			isBid && quoteMarketFee
-				? quoteMarketFee
-				: !isBid && baseMarketFee
-				? baseMarketFee
-				: quoteMarketFee || baseMarketFee
-				? emptyCell
-				: null;
 
 		let hasBalance = isBid
 			? balanceAmount.getAmount({real: true}) >= parseFloat(total)
@@ -699,16 +408,6 @@ class BuySell extends React.Component {
 			feeAsset = feeAssets[0];
 			feeAssets.splice(1, 1);
 		}
-		let index = 0;
-		let options = feeAssets.map((asset) => {
-			let {name, prefix} = utils.replaceName(asset);
-			return (
-				<Select.Option key={asset.get('id')} value={index++}>
-					{prefix}
-					{name}
-				</Select.Option>
-			);
-		});
 
 		// Subtract fee from amount to sell
 		let balanceToAdd;
@@ -721,26 +420,6 @@ class BuySell extends React.Component {
 			balanceToAdd = balanceAmount;
 		}
 
-		let dataIntro = isBid
-			? counterpart.translate('walkthrough.buy_form')
-			: counterpart.translate('walkthrough.sell_form');
-
-		let expirationTip;
-
-		if (this.props.expirationType !== 'SPECIFIC') {
-			expirationTip = this.props.expirations[this.props.expirationType].get();
-		}
-
-		const expirationsOptionsList = Object.keys(this.props.expirations).map(
-			(key) => (
-				<Select.Option value={key} key={key}>
-					{key === 'SPECIFIC' && expirationCustomTime !== 'Specific'
-						? moment(expirationCustomTime).format('Do MMM YYYY hh:mm A')
-						: this.props.expirations[key].title}
-				</Select.Option>
-			)
-		);
-
 		const containerClass = 'small-12';
 		let formContent;
 
@@ -748,7 +427,7 @@ class BuySell extends React.Component {
 		if (verticalOrderForm) {
 			formContent = (
 				<div className={containerClass}>
-					<div className="limit-order-split-line">AAAA</div>
+					<div className="limit-order-split-line" />
 					<div className="grid-block no-overflow shrink limit-order-input-wrapper">
 						<Translate
 							className="small-12 buy-sell-label"
@@ -820,35 +499,6 @@ class BuySell extends React.Component {
 							/>
 						</div>
 					</div>
-					{/* <div className="grid-block no-overflow shrink limit-order-input-wrapper">
-						<Translate
-							className="small-12 buy-sell-label"
-							content="transfer.fee"
-						/>
-						<div className="inputAddon limit-order-input">
-							<ExchangeInput
-								id={`${type}Fee`}
-								placeholder="0.0"
-								defaultValue={
-									!hasFeeBalance
-										? counterpart.translate('transfer.errors.insufficient')
-										: fee.getAmount({real: true})
-								}
-								disabled
-								addonAfter={
-									<Select
-										style={{width: 100}}
-										disabled={feeAssets.length === 1}
-										defaultValue={feeAssets.indexOf(this.props.feeAsset)}
-										onChange={this.props.onChangeFeeAsset}
-									>
-										{options}
-									</Select>
-								}
-							/>
-						</div>
-					</div> */}
-					{/* {marketFee} */}
 				</div>
 			);
 		} else {
@@ -980,85 +630,6 @@ class BuySell extends React.Component {
 							</span>
 						</div>
 					</div>
-
-					{/*					<div className="grid-block no-overflow shrink limit-order-input-wrapper">
-							<Translate
-								className="small-3 buy-sell-label"
-								content="transaction.expiration"
-							/>
-							<div className="inputAddon limit-order-input" style={{
-								borderLeft: '1px solid rgba(86, 97, 118, 0.3)',
-								height: '80%',
-								padding: '5px'
-							}}>
-								
-								<Select
-									className="cursor-pointer"
-									onChange={this.onExpirationSelectChange}
-									onClick={this.onExpirationSelectClick}
-									onBlur={this.onExpirationSelectBlur}
-									data-tip={
-										expirationTip &&
-										moment(expirationTip).format('Do MMM YYYY hh:mm A')
-									}
-									style={{
-										width: '100%',
-									}}
-									value={this.props.expirationType}
-								>
-									{expirationsOptionsList}
-								</Select>
-
-								<DatePicker
-									ref={this.getDatePickerRef}
-									className="expiration-datetime-picker--hidden"
-									showTime
-									showToday={false}
-									disabledDate={(current) =>
-										current < moment().add(59, 'minutes')
-									}
-									value={
-										expirationCustomTime !== 'Specific'
-											? expirationCustomTime
-											: moment().add(1, 'hour')
-									}
-									style={{
-										width: '100%',
-									}}
-									onChange={this.props.onExpirationCustomChange}
-								/>
-							</div>
-						</div>*/}
-
-					{/* <div className="grid-block no-overflow shrink limit-order-input-wrapper">
-						<Translate
-							className="small-3 buy-sell-label"
-							content="transfer.fee"
-						/>
-						<div className="inputAddon limit-order-input">
-							<ExchangeInput
-								id={`${type}Fee`}
-								placeholder="0.0"
-								value={
-									!hasFeeBalance
-										? counterpart.translate('transfer.errors.insufficient')
-										: fee.getAmount({real: true})
-								}
-								disabled
-								addonAfter={
-									<Select
-										style={{width: 100}}
-										disabled={feeAssets.length === 1}
-										defaultValue={feeAssets.indexOf(this.props.feeAsset)}
-										onChange={this.props.onChangeFeeAsset}
-									>
-										{options}
-									</Select>
-								}
-							/>
-						</div>
-					</div> */}
-					{/* {marketFee} */}
 				</div>
 			) : (
 				<div className={containerClass}>
@@ -1175,35 +746,6 @@ class BuySell extends React.Component {
 								/>
 							</div>
 						</div>
-
-						{/* <div className="small-6">
-							<Translate
-								className="small-3 buy-sell-label"
-								content="transfer.fee"
-							/>
-							<div className="inputAddon limit-order-input">
-								<ExchangeInput
-									id={`${type}Fee`}
-									placeholder="0.0"
-									defaultValue={
-										!hasFeeBalance
-											? counterpart.translate('transfer.errors.insufficient')
-											: fee.getAmount({real: true})
-									}
-									disabled
-									addonAfter={
-										<Select
-											style={{width: 100}}
-											disabled={feeAssets.length === 1}
-											defaultValue={feeAssets.indexOf(this.props.feeAsset)}
-											onChange={this.props.onChangeFeeAsset}
-										>
-											{options}
-										</Select>
-									}
-								/>
-							</div>
-						</div> */}
 					</div>
 				</div>
 			);
@@ -1214,8 +756,6 @@ class BuySell extends React.Component {
 		// check if globally settled
 		const isGloballySettled =
 			isBitAsset && otherAsset.get('bitasset').get('settlement_fund') > 0;
-
-		const currentAccount = AccountStore.getState().currentAccount;
 
 		return (
 			<div className={cnames(this.props.className)} style={this.props.styles}>
@@ -1246,34 +786,6 @@ class BuySell extends React.Component {
 									]}
 								/>
 							</span>
-							{/* <span>{buttonText} <AssetName dataPlace="top" name={quote.get("symbol")} /></span> */}
-							{this.props.onFlip && !this.props.hideFunctionButtons ? (
-								<span
-									onClick={this.props.onFlip}
-									style={{
-										cursor: 'pointer',
-										fontSize: '1rem',
-									}}
-									className="flip-arrow"
-								>
-									{' '}
-									&#8646;
-								</span>
-							) : null}
-							{this.props.onTogglePosition &&
-							!this.props.hideFunctionButtons ? (
-								<span
-									onClick={this.props.onTogglePosition}
-									style={{
-										cursor: 'pointer',
-										fontSize: '1rem',
-									}}
-									className="flip-arrow"
-								>
-									{' '}
-									&#8645;
-								</span>
-							) : null}
 							{this.props.moveOrderForm && !this.props.hideFunctionButtons ? (
 								<Icon
 									onClick={this.props.moveOrderForm}
@@ -1309,115 +821,7 @@ class BuySell extends React.Component {
 						</div>
 
 						<div className="grid-block vertical no-overflow shrink ">
-							{/* <div
-								className={singleColumnForm ? 'small-12 grid-block' : 'small-6'}
-							>
-								<Translate
-									className="small-4 buy-sell-label"
-									content="transaction.expiration"
-								/>
-								<div className="small-8 expiration-datetime-picker">
-									<DatePicker
-										ref={this.getDatePickerRef}
-										className="expiration-datetime-picker--hidden"
-										showTime
-										showToday={false}
-										disabledDate={(current) =>
-											current < moment().add(59, 'minutes')
-										}
-										value={
-											expirationCustomTime !== 'Specific'
-												? expirationCustomTime
-												: moment().add(1, 'hour')
-										}
-										onChange={this.props.onExpirationCustomChange}
-									/>
-									<Select
-										className="cursor-pointer"
-										onChange={this.onExpirationSelectChange}
-										onClick={this.onExpirationSelectClick}
-										onBlur={this.onExpirationSelectBlur}
-										data-tip={
-											expirationTip &&
-											moment(expirationTip).format('Do MMM YYYY hh:mm A')
-										}
-										style={{
-											width: '100%'
-										}}
-										value={this.props.expirationType}
-									>
-										{expirationsOptionsList}
-									</Select>
-								</div>
-							</div>*/}
-
-							{/* {!singleColumnForm ? (
-								<div className="small-6">{marketFee}</div>
-							) : null} */}
 							<div className="small-12 medium-12 xlarge-12">
-								{/* {singleColumnForm ? (
-									<div className="grid-block no-overflow shrink">
-										<Translate
-											className="buy-sell-label small-4"
-											content={
-												isBid ? 'exchange.lowest_ask' : 'exchange.highest_bid'
-											}
-										/>
-										<div
-											className="buy-sell-label"
-											style={{textAlign: 'right', width: '100%'}}
-										>
-											<span
-												style={{
-													borderBottom: '#A09F9F 1px dotted',
-													cursor: 'pointer',
-												}}
-												onClick={this.props.setPrice.bind(
-													this,
-													type,
-													currentPriceObject.sellPrice()
-												)}
-											>
-												<PriceText
-													price={currentPrice}
-													quote={quote}
-													base={base}
-												/>{' '}
-												<AssetName name={base.get('symbol')} noTip />
-												/
-												<AssetName name={quote.get('symbol')} noTip />
-											</span>
-										</div>
-									</div>
-								) : null}
-								{singleColumnForm ? (
-									<div className="grid-block no-overflow shrink">
-										<Translate
-											className="buy-sell-label small-4"
-											content="exchange.balance"
-										/>
-										<div
-											className="buy-sell-label"
-											style={{textAlign: 'right', width: '100%'}}
-										>
-											<span
-												style={{
-													borderBottom: '#A09F9F 1px dotted',
-													cursor: 'pointer',
-												}}
-												onClick={this._addBalance.bind(this, balanceToAdd)}
-											>
-												{utils.format_number(
-													balanceAmount.getAmount({
-														real: true,
-													}),
-													balancePrecision
-												)}{' '}
-												<AssetName name={balanceSymbol} noTip />
-											</span>
-										</div>
-									</div>
-								) : null} */}
 								<div style={{marginTop: 10}}>
 									<div className="short-long-button">
 										<Tooltip
@@ -1446,13 +850,19 @@ class BuySell extends React.Component {
 														color: isBid ? '#330000' : 'white',
 													}}
 												>
-													{isBid ? 'BUY' : 'SELL'}&nbsp;
+													{isBid
+														? counterpart.translate('exchange.buy')
+														: counterpart.translate('exchange.sell')}
+													&nbsp;
 													{this.props.quote.get('symbol')}
 												</div>
 											</button>
 										</Tooltip>
 										<div style={{fontSize: 12, marginTop: 10}}>
-											<span style={{color: '#ffc000'}}>Fee:</span> 0.00002 Meta1
+											<span style={{color: '#ffc000'}}>
+												{counterpart.translate('account.transactions.fee')}:
+											</span>{' '}
+											0.00002 Meta1
 										</div>
 										{isGloballySettled ? (
 											<Button

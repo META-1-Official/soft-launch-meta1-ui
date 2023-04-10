@@ -208,7 +208,7 @@ function getMeta1DepositAddressJSGateway(symbol) {
 		fetch(
 			`${process.env.GATEWAY_META1_JS_URL}/api-gateways/` + symbol.toLowerCase()
 		)
-			.then((response) => {
+			.then(() => {
 				fetch(
 					`${process.env.GATEWAY_META1_JS_URL}/api/wallet/init/` +
 						symbol.toLowerCase(),
@@ -234,34 +234,6 @@ function getMeta1DepositAddressJSGateway(symbol) {
 			.catch((err) => reject(err));
 	});
 }
-
-// function getMeta1DepositAddressPyGateway(symbol) {
-// 	return new Promise((resolve, reject) => {
-// 		fetch(
-// 			`${process.env.GATEWAY_META1_PY_URL}/gateway?uia=` +
-// 				symbol.toUpperCase() +
-// 				'&client_id=' +
-// 				AccountStore.getState().currentAccount,
-// 			{
-// 				method: 'POST',
-// 				headers: {
-// 					Accept: 'application/json, text/plain, */*',
-// 					'Content-Type': 'application/json',
-// 					'X-Requested-With': 'XMLHttpRequest',
-// 				},
-// 				body: JSON.stringify({
-// 					metaId: AccountStore.getState().currentAccount,
-// 				}),
-// 			}
-// 		)
-// 			.then((res) => res.json())
-// 			.then((response) => {
-// 				let address = response.address;
-// 				resolve(address);
-// 			})
-// 			.catch((err) => reject(err));
-// 	}).catch((err) => reject(err));
-// }
 
 let depositRequests = {};
 export function requestDepositAddress({
@@ -301,7 +273,7 @@ export function requestDepositAddress({
 					};
 					if (stateCallback) stateCallback(address);
 				})
-				.catch((err) => {
+				.catch((error) => {
 					console.log('error: ', error);
 					delete depositRequests[body_string];
 					if (stateCallback) stateCallback(null);

@@ -168,18 +168,3 @@ class WalletPassword extends Component {
 		}
 	}
 }
-
-class Reset extends Component {
-	render() {
-		var label = this.props.label || <Translate content="wallet.reset" />;
-		return (
-			<span className="button outline" onClick={this.onReset.bind(this)}>
-				{label}
-			</span>
-		);
-	}
-
-	onReset() {
-		window.history.back();
-	}
-}

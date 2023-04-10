@@ -3,7 +3,7 @@ import Translate from 'react-translate-component';
 import AccountSelector from '../Account/AccountSelector';
 import AccountActions from 'actions/AccountActions';
 import counterpart from 'counterpart';
-import {Modal, Button, Input, Select, Form} from 'antd';
+import {Modal, Button, Input, Form} from 'antd';
 import Icon from '../Icon/Icon';
 import {PublicKey} from 'meta1-vision-js';
 import sanitize from 'sanitize';

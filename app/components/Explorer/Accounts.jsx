@@ -12,6 +12,7 @@ import LoadingIndicator from '../LoadingIndicator';
 import SearchInput from '../Utility/SearchInput';
 import {ChainStore} from 'meta1-vision-js';
 import {FaUserPlus, FaUserAlt, FaUserMinus} from 'react-icons/fa';
+import counterpart from 'counterpart';
 
 class Accounts extends React.Component {
 	constructor(props) {
@@ -240,66 +241,42 @@ class Accounts extends React.Component {
 				});
 		}
 		return (
-			<div className="grid-block vertical">
-				<div className="grid-block vertical">
-					<div className="grid-block main-content small-12 medium-10 medium-offset-1 main-content vertical">
-						<div className="generic-bordered-box">
-							<div
-								style={{
-									textAlign: 'left',
-									marginBottom: '24px',
-								}}
-							>
-								<SearchInput
-									placeholder={'Search'}
-									value={this.state.searchTerm}
-									style={{width: '200px'}}
-									onChange={this._onSearchChange.bind(this)}
-								/>
+			<div className="accounts-tab">
+				<div className="generic-bordered-box">
+					<div className="search-input">
+						<SearchInput
+							placeholder={counterpart.translate('markets.search')}
+							value={this.state.searchTerm}
+							onChange={this._onSearchChange.bind(this)}
+						/>
 
-								<Select
-									style={{width: '150px', marginLeft: '24px'}}
-									value={this.state.rowsOnPage}
-									onChange={this.handleRowsChange}
-									getPopupContainer={(triggerNode) => triggerNode.parentNode}
-								>
-									<Select.Option key={'10'}>10 rows</Select.Option>
-									<Select.Option key={'25'}>25 rows</Select.Option>
-									<Select.Option key={'50'}>50 rows</Select.Option>
-									<Select.Option key={'100'}>100 rows</Select.Option>
-									<Select.Option key={'200'}>200 rows</Select.Option>
-								</Select>
-
-								<div
-									style={{
-										display: 'inline-block',
-										marginLeft: '24px',
-									}}
-								>
-									{this.state.searchTerm &&
-									this.state.searchTerm.length == 0 ? (
-										<Translate content="account.start_typing_to_search" />
-									) : null}
-								</div>
-							</div>
-
-							<Table
-								style={{width: '100%', marginTop: '16px'}}
-								rowKey="accountId"
-								columns={columns}
-								dataSource={dataSource}
-								pagination={{
-									position: 'bottom',
-									pageSize: Number(this.state.rowsOnPage),
-								}}
-							/>
-							{this.state.isLoading ? (
-								<div style={{textAlign: 'center', padding: 10}}>
-									<LoadingIndicator type="three-bounce" />
-								</div>
+						<div
+							style={{
+								display: 'inline-block',
+								marginLeft: '24px',
+							}}
+						>
+							{this.state.searchTerm && this.state.searchTerm.length == 0 ? (
+								<Translate content="account.start_typing_to_search" />
 							) : null}
 						</div>
 					</div>
+
+					<Table
+						style={{width: '100%', marginTop: '16px'}}
+						rowKey="accountId"
+						columns={columns}
+						dataSource={dataSource}
+						pagination={{
+							position: 'bottom',
+							pageSize: Number(this.state.rowsOnPage),
+						}}
+					/>
+					{this.state.isLoading ? (
+						<div style={{textAlign: 'center', padding: 10}}>
+							<LoadingIndicator type="three-bounce" />
+						</div>
+					) : null}
 				</div>
 			</div>
 		);

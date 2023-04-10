@@ -79,7 +79,7 @@ const withWorthLessSettlementFlag = (WrappedComponent) =>
 					})
 				);
 			}
-			componentWillMount() {
+			UNSAFE_componentWillMount() {
 				this.updateFlag();
 			}
 			componentDidUpdate() {

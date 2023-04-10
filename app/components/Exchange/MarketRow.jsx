@@ -55,7 +55,7 @@ class MarketRow extends React.Component {
 	}
 
 	render() {
-		let {quote, base, noSymbols, stats, starred} = this.props;
+		let {quote, base, stats, starred} = this.props;
 		if (!quote || !base) {
 			return null;
 		}

@@ -5,7 +5,6 @@ import WalletActions from 'actions/WalletActions';
 import BackupActions from 'actions/BackupActions';
 import WalletManagerStore from 'stores/WalletManagerStore';
 import Translate from 'react-translate-component';
-import cname from 'classnames';
 import counterpart from 'counterpart';
 import {Switch, Route} from 'react-router-dom';
 import {ExistingAccountOptions} from './ExistingAccount';
@@ -256,12 +255,12 @@ class ChangeActiveWallet extends Component {
 		this.state = {};
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		let current_wallet = this.props.current_wallet;
 		this.setState({current_wallet});
 	}
 
-	componentWillReceiveProps(np) {
+	UNSAFE_componentWillReceiveProps(np) {
 		if (np.current_wallet !== this.state.current_wallet) {
 			this.setState({current_wallet: np.current_wallet});
 		}

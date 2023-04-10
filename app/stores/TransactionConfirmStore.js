@@ -55,7 +55,7 @@ class TransactionConfirmStore {
 		}
 	}
 
-	onWasBroadcast(res) {
+	onWasBroadcast() {
 		//console.log("-- TransactionConfirmStore.onWasBroadcast -->", state);
 		this.setState({broadcasting: false, broadcast: true});
 	}

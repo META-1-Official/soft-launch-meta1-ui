@@ -383,11 +383,11 @@ class HtlcModal extends React.Component {
 				preimage_hash,
 				preimage_cipher,
 			})
-				.then((result) => {
+				.then(() => {
 					this.props.hideModal();
 				})
 				.catch((err) => {
-					// todo: visualize error somewhere
+					// TODO: visualize error somewhere
 					console.error(err);
 				});
 		} else if (operationType === 'redeem') {
@@ -396,11 +396,11 @@ class HtlcModal extends React.Component {
 				user_id: to_account.get('id'),
 				preimage: preimage,
 			})
-				.then((result) => {
+				.then(() => {
 					this.props.hideModal();
 				})
 				.catch((err) => {
-					// todo: visualize error somewhere
+					// TODO: visualize error somewhere
 					console.error(err);
 				});
 		} else if (operationType === 'extend') {
@@ -409,17 +409,17 @@ class HtlcModal extends React.Component {
 				user_id: from_account.get('id'),
 				seconds_to_add: claim_period,
 			})
-				.then((result) => {
+				.then(() => {
 					this.props.hideModal();
 				})
 				.catch((err) => {
-					// todo: visualize error somewhere
+					// TODO: visualize error somewhere
 					console.error(err);
 				});
 		}
 	};
 
-	shouldComponentUpdate(nextProps, nextState, nextContext) {
+	shouldComponentUpdate(nextProps, nextState) {
 		if (nextProps.fromAccount && !hasLoaded(nextProps.fromAccount)) {
 			return false;
 		}
@@ -1106,7 +1106,7 @@ export default connect(HtlcModal, {
 	listenTo() {
 		return [SettingsStore];
 	},
-	getProps(props) {
+	getProps() {
 		return {
 			fee_asset_symbol: SettingsStore.getState().settings.get('fee_asset'),
 		};

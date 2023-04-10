@@ -1,9 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
 import Translate from 'react-translate-component';
-import PrivateKeyView from 'components/PrivateKeyView';
 import {PublicKey} from 'meta1-vision-js';
-import Icon from '../Icon/Icon';
 import PrivateKeyStore from 'stores/PrivateKeyStore';
 import PropTypes from 'prop-types';
 
@@ -80,7 +78,7 @@ class PubKeyInput extends React.Component {
 						/>
 					</div>
 					<div className="input-area">
-						<span className="inline-label">
+						<span className="inline-label" style={{width: '100%'}}>
 							<input
 								type="text"
 								className={has_private ? 'my-key' : ''}

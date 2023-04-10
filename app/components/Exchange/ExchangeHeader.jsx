@@ -21,12 +21,12 @@ export default class ExchangeHeader extends React.Component {
 			selectedMarketPickerAsset: props.selectedMarketPickerAsset,
 		};
 	}
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		if (this.props.quoteAsset === null || this.props.baseAsset === null) {
 			return;
 		}
 	}
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		this.setState({
 			selectedMarketPickerAsset: nextProps.selectedMarketPickerAsset,
 		});
@@ -202,220 +202,200 @@ export default class ExchangeHeader extends React.Component {
 			!!this.state.selectedMarketPickerAsset &&
 			this.state.selectedMarketPickerAsset == baseSymbol;
 
-		let PriceAlertBellClassName = this.props.hasAnyPriceAlert
-			? 'exchange--price-alert--show-modal--active'
-			: '';
+		// let PriceAlertBellClassName = this.props.hasAnyPriceAlert
+		// 	? 'exchange--price-alert--show-modal--active'
+		// 	: '';
 
 		return (
-			<div
-				className="grid-block shrink no-padding overflow-visible top-bar"
-				style={{
-					border: '1px solid #1C1F27',
-					borderTopLeftRadius: '5px',
-					borderTopRightRadius: '5px',
-				}}
-			>
-				<div className="grid-block overflow-visible">
-					<div className="grid-block shrink">
-						<a
-							id="center-item"
-							onClick={() => {
-								this._addMarket(
-									this.props.quoteAsset.get('symbol'),
-									this.props.baseAsset.get('symbol')
-								);
-							}}
-							data-intro={translator.translate('walkthrough.favourite_button')}
-						>
-							<Icon
-								size="1_5x"
-								className={starClass}
-								name="fi-star"
-								title="icons.fi_star.market"
-							/>
-						</a>
-						{/* <AntIcon
-							style={{marginRight: 0}}
-							id="center-item"
-							onClick={this.props.showPriceAlertModal}
-							type={'bell'}
-							className={`exchange--price-alert--show-modal ${PriceAlertBellClassName}`}
-							data-intro={translator.translate('walkthrough.price_alerts')}
-						/> */}
-						<Link
-							id="center-item"
-							style={{marginLeft: 0}}
-							onClick={() => {
-								MarketsActions.switchMarket();
-							}}
-							to={`/market/${baseSymbol}_${quoteSymbol}`}
-							data-intro={translator.translate('walkthrough.switch_button')}
-						>
-							<Icon
-								className="shuffle center-item"
-								name="shuffle"
-								title="icons.shuffle"
-							/>
-						</Link>
-						<div
-							style={{
-								padding: '12px',
-								borderRight: '1px solid black',
-								borderLeft: '1px solid black',
-								height: '100%',
-							}}
-						>
-							{!hasPrediction ? (
-								<div
+			<div className="top-bar">
+				<div
+					style={{
+						display: 'flex',
+					}}
+				>
+					<a
+						id="center-item"
+						onClick={() => {
+							this._addMarket(
+								this.props.quoteAsset.get('symbol'),
+								this.props.baseAsset.get('symbol')
+							);
+						}}
+						data-intro={translator.translate('walkthrough.favourite_button')}
+					>
+						<Icon
+							size="1_5x"
+							className={starClass}
+							name="fi-star"
+							title="icons.fi_star.market"
+						/>
+					</a>
+					<Link
+						id="center-item"
+						style={{marginLeft: 0}}
+						onClick={() => {
+							MarketsActions.switchMarket();
+						}}
+						to={`/market/${baseSymbol}_${quoteSymbol}`}
+						data-intro={translator.translate('walkthrough.switch_button')}
+					>
+						<Icon
+							className="shuffle center-item"
+							name="shuffle"
+							title="icons.shuffle"
+						/>
+					</Link>
+					<div className="market-picker">
+						{!hasPrediction ? (
+							<div
+								style={{
+									padding: '0 5px',
+									fontSize: '18px',
+								}}
+							>
+								<span
+									onClick={this.marketPicker.bind(this, quoteSymbol)}
 									style={{
-										padding: '0 5px',
-										fontSize: this.props.tinyScreen ? '13px' : '18px',
+										cursor: 'pointer',
+										color: isQuoteSelected ? '#2196f3' : '',
 									}}
 								>
-									<span
-										onClick={this.marketPicker.bind(this, quoteSymbol)}
-										style={{
-											cursor: 'pointer',
-											color: isQuoteSelected ? '#2196f3' : '',
-										}}
-									>
-										<AssetName name={quoteSymbol} replace={true} noTip />
-									</span>
-									<span style={{padding: '0 5px'}}>/</span>
-									<span
-										onClick={this.marketPicker.bind(this, baseSymbol)}
-										style={{
-											cursor: 'pointer',
-											color: isBaseSelected ? '#2196f3' : '',
-										}}
-									>
-										<AssetName name={baseSymbol} replace={true} noTip />
-									</span>
-								</div>
-							) : (
-								<a className="market-symbol">
-									<span>{`${quoteSymbol} : ${baseSymbol}`}</span>
-								</a>
-							)}
-						</div>
-					</div>
-
-					<div className="grid-block vertical" style={{overflow: 'visible'}}>
-						<div className="grid-block wrap market-stats-container">
-							<ul
-								className="market-stats stats top-stats"
-								style={{marginBottom: '0'}}
-							>
-								{latestPrice ? (
-									<PriceStatWithLabel
-										ignoreColorChange={true}
-										ready={marketReady}
-										price={latestPrice}
-										quote={quoteAsset}
-										base={baseAsset}
-										market={marketID}
-										content="exchange.latest"
-									/>
-								) : null}
-
-								<li
-									className={
-										'hide-order-1 stressed-stat daily_change ' + dayChangeClass
-									}
+									<AssetName name={quoteSymbol} replace={true} noTip />
+								</span>
+								<span style={{padding: '0 5px'}}>/</span>
+								<span
+									onClick={this.marketPicker.bind(this, baseSymbol)}
+									style={{
+										cursor: 'pointer',
+										color: isBaseSelected ? '#2196f3' : '',
+									}}
 								>
-									<span>
-										<b className="value">
-											{dayChangeWithSign
-												? marketReady
-													? dayChangeWithSign
-													: 0
-												: '-'}
-										</b>
-										{dayChangeWithSign && <span> %</span>}
-									</span>
-									<Translate
-										component="div"
-										className="stat-text"
-										content="account.hour_24_short"
-									/>
-								</li>
+									<AssetName name={baseSymbol} replace={true} noTip />
+								</span>
+							</div>
+						) : (
+							<a className="market-symbol">
+								<span>{`${quoteSymbol} : ${baseSymbol}`}</span>
+							</a>
+						)}
+					</div>
+				</div>
 
-								{volumeBase >= 0 ? (
-									<PriceStatWithLabel
-										ignoreColorChange={true}
-										onClick={this.changeVolumeBase.bind(this)}
-										ready={marketReady}
-										decimals={0}
-										volume={true}
-										price={volume24h}
-										className="hide-order-2 clickable"
-										base={volume24hAsset}
-										market={marketID}
-										content="exchange.volume_24"
-									/>
-								) : null}
-								{!hasPrediction && feedPrice ? (
-									<PriceStatWithLabel
-										ignoreColorChange={true}
-										toolTip={counterpart.translate('tooltip.feed_price')}
-										ready={marketReady}
-										className="hide-order-3"
-										price={feedPrice.toReal()}
-										quote={quoteAsset}
-										base={baseAsset}
-										market={marketID}
-										content="exchange.feed_price"
-									/>
-								) : null}
-								{!hasPrediction && settlePrice ? (
-									<PriceStatWithLabel
-										ignoreColorChange={true}
-										toolTip={counterpart.translate(settlePriceTooltip)}
-										ready={marketReady}
-										className="hide-order-4"
-										price={settlePrice}
-										quote={quoteAsset}
-										base={baseAsset}
-										market={marketID}
-										content={settlePriceTitle}
-									/>
-								) : null}
-								{showCollateralRatio ? (
-									<ExchangeHeaderCollateral
-										object={collOrderObject}
-										account={account}
-										className="hide-order-1"
-									/>
-								) : null}
-								{lowestCallPrice && showCallLimit ? (
-									<PriceStatWithLabel
-										toolTip={counterpart.translate('tooltip.call_limit')}
-										ready={marketReady}
-										className="hide-order-5 is-call"
-										price={lowestCallPrice}
-										quote={quoteAsset}
-										base={baseAsset}
-										market={marketID}
-										content="explorer.block.call_limit"
-									/>
-								) : null}
+				<div style={{overflow: 'visible'}}>
+					<div className="market-stats-container">
+						<ul
+							className="market-stats stats top-stats"
+							style={{marginBottom: '0'}}
+						>
+							{latestPrice ? (
+								<PriceStatWithLabel
+									ignoreColorChange={true}
+									ready={marketReady}
+									price={latestPrice}
+									quote={quoteAsset}
+									base={baseAsset}
+									market={marketID}
+									content="exchange.latest"
+								/>
+							) : null}
 
-								{feedPrice && showCallLimit ? (
-									<PriceStatWithLabel
-										toolTip={counterpart.translate('tooltip.margin_price')}
-										ready={marketReady}
-										className="hide-order-6 is-call"
-										price={feedPrice.getSqueezePrice({
-											real: true,
-										})}
-										quote={quoteAsset}
-										base={baseAsset}
-										market={marketID}
-										content="exchange.squeeze"
-									/>
-								) : null}
-							</ul>
-						</div>
+							<li
+								className={
+									'hide-order-1 stressed-stat daily_change ' + dayChangeClass
+								}
+							>
+								<span>
+									<b className="value">
+										{dayChangeWithSign
+											? marketReady
+												? dayChangeWithSign
+												: 0
+											: '-'}
+									</b>
+									{dayChangeWithSign && <span> %</span>}
+								</span>
+								<Translate
+									component="div"
+									className="stat-text"
+									content="account.hour_24_short"
+								/>
+							</li>
+
+							{volumeBase >= 0 ? (
+								<PriceStatWithLabel
+									ignoreColorChange={true}
+									onClick={this.changeVolumeBase.bind(this)}
+									ready={marketReady}
+									decimals={0}
+									volume={true}
+									price={volume24h}
+									className="hide-order-2 clickable"
+									base={volume24hAsset}
+									market={marketID}
+									content="exchange.volume_24"
+								/>
+							) : null}
+							{!hasPrediction && feedPrice ? (
+								<PriceStatWithLabel
+									ignoreColorChange={true}
+									toolTip={counterpart.translate('tooltip.feed_price')}
+									ready={marketReady}
+									className="hide-order-3"
+									price={feedPrice.toReal()}
+									quote={quoteAsset}
+									base={baseAsset}
+									market={marketID}
+									content="exchange.feed_price"
+								/>
+							) : null}
+							{!hasPrediction && settlePrice ? (
+								<PriceStatWithLabel
+									ignoreColorChange={true}
+									toolTip={counterpart.translate(settlePriceTooltip)}
+									ready={marketReady}
+									className="hide-order-4"
+									price={settlePrice}
+									quote={quoteAsset}
+									base={baseAsset}
+									market={marketID}
+									content={settlePriceTitle}
+								/>
+							) : null}
+							{showCollateralRatio ? (
+								<ExchangeHeaderCollateral
+									object={collOrderObject}
+									account={account}
+									className="hide-order-1"
+								/>
+							) : null}
+							{lowestCallPrice && showCallLimit ? (
+								<PriceStatWithLabel
+									toolTip={counterpart.translate('tooltip.call_limit')}
+									ready={marketReady}
+									className="hide-order-5 is-call"
+									price={lowestCallPrice}
+									quote={quoteAsset}
+									base={baseAsset}
+									market={marketID}
+									content="explorer.block.call_limit"
+								/>
+							) : null}
+
+							{feedPrice && showCallLimit ? (
+								<PriceStatWithLabel
+									toolTip={counterpart.translate('tooltip.margin_price')}
+									ready={marketReady}
+									className="hide-order-6 is-call"
+									price={feedPrice.getSqueezePrice({
+										real: true,
+									})}
+									quote={quoteAsset}
+									base={baseAsset}
+									market={marketID}
+									content="exchange.squeeze"
+								/>
+							) : null}
+						</ul>
 					</div>
 				</div>
 			</div>

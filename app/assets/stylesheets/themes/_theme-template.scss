@@ -12,8 +12,8 @@
 	transform: scale(1.4);
 }
 
-body.darkTheme .ant-tabs .ant-tabs-bottom-content.ant-tabs-content-animated,
-body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
+.ant-tabs .ant-tabs-bottom-content.ant-tabs-content-animated,
+.ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 	height: 100% !important;
 }
 
@@ -408,9 +408,6 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 		width: 100%;
 	}
 	.settings-input {
-		/* !important to overwrite styles for Inputs on User Settings. By default inputs take styles from
-    .block-list and it uses on many places. To keep everything OK and do not break something I just do
-    overwrite for Inputs on settings and keep default styles for inputs on another places. */
 		color: $settings-select-color !important;
 		height: 36px !important;
 		background-color: $settings-select-bg !important;
@@ -478,8 +475,7 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 	}
 
 	hr {
-		border-color: $dark-text-color;
-		background-color: $dark-text-color !important;
+		background-color: #eaeaea !important;
 	}
 	a {
 		color: $link-text-color;
@@ -495,9 +491,6 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 			color: $primary-text-color;
 		}
 	}
-	// select:hover {
-	// background-color: $panel-bg-color;
-	// }
 
 	.label.success {
 		color: white;
@@ -722,7 +715,7 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 		}
 		.main-content {
 			// @include radialGradient($bg-color-mixin, $bg-color);
-			background-color: black;
+			background-color: $bg-color;
 			&.margin-block {
 				background-color: $main-content-margin-block-bg-color;
 			}
@@ -1147,14 +1140,14 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 	textarea#{$ant-fix},
 	input[role='combobox']#{$ant-fix},
 	select[role='combobox']#{$ant-fix} {
-		background-color: black;
-		border: 0;
+		background-color: $bg-color;
+		border: 1px solid $border-color;
 		color: $primary-text-color;
 		&:hover,
 		&:focus,
 		&:active,
 		&:disabled {
-			background-color: black;
+			background-color: $bg-color;
 		}
 		&:focus {
 			border-color: #aaa;
@@ -2049,15 +2042,6 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 	td.pub-key {
 		word-break: break-all;
 	}
-
-	/* Table view account */
-	// div.grid-content.app-tables {
-	// 	@include radialGradient($bg-color-mixin, $account-background);
-	// }
-	// div.tabs-container {
-	// 	@include radialGradient($bg-color-mixin, $account-background);
-	// }
-
 	div.account-tabs {
 		> div.service-selector {
 			background-color: $bg-color;
@@ -2375,77 +2359,6 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 				&:hover {
 					fill: $bs-blue;
 					cursor: pointer;
-				}
-			}
-		}
-	}
-	.calendarContainer {
-		// restyle of react-datepicker2
-		box-shadow: none;
-		background-color: $panel-bg-color;
-		border: 0;
-		color: $light-text-color;
-		button svg {
-			fill: $light-text-color;
-		}
-		.dayWrapper button:hover {
-			color: $light-text-color;
-			@include radialGradient($button-mix2, $button-mix1);
-			border-radius: 5px;
-		}
-		.dayWrapper button[disabled] {
-			@include radialGradient($button-mix2, $button-mix1);
-			border-radius: 5px;
-			color: darken(#aaa, 20%);
-		}
-		.monthsList {
-			button {
-				border: 0;
-				@include radialGradient($button-mix2, $button-mix1);
-				border-radius: 5px;
-				&:hover {
-					background-color: $input-background;
-				}
-			}
-		}
-		.time-table {
-			line-height: 38px;
-		}
-		input.rc-time-picker-input {
-			background: $input-background;
-			color: $light-text-color;
-			&:hover {
-				border-color: $input-background;
-				background-color: $input-background;
-				color: $light-text-color;
-			}
-			cursor: pointer;
-		}
-		.heading {
-			.title {
-				line-height: 28px;
-				border-color: $panel-bg-color;
-			}
-			> button {
-				line-height: 30px;
-				@include radialGradient($button-mix2, $button-mix1);
-				border-radius: 5px;
-				border-color: $button-mix1;
-				&:hover {
-					border-color: $panel-bg-color;
-					background-color: $input-background;
-				}
-				&.prev,
-				&.next {
-					line-height: 28px;
-				}
-				&.prev {
-					float: left;
-					transform: rotate(-180deg);
-				}
-				&.next {
-					float: right;
-					transform: rotate(-180deg);
 				}
 			}
 		}
@@ -2925,7 +2838,7 @@ div.customizable-column--selector--dropdown {
 	}
 }
 
-body.darkTheme .walletbtn {
+.walletbtn {
 	position: relative;
 	a {
 		position: absolute;
@@ -2947,23 +2860,6 @@ body.darkTheme .walletbtn {
 	}
 }
 
-.onramper-wrapper {
-	background: #0a0b0d;
-	height: 100%;
-
-	.onramper-wallet {
-		width: 500px;
-		margin: 0 auto;
-		margin-top: 60px;
-		border-radius: 4px;
-		border: 1px solid rgba(28, 31, 39, 0.4);
-
-		iframe {
-			width: 100%;
-		}
-	}
-}
-
 .back-btn {
 	display: flex;
 	margin-top: 30px;
@@ -2978,4 +2874,8 @@ body.darkTheme .walletbtn {
 	> div {
 		margin-left: 8px;
 	}
+}
+
+.generic-bordered-box {
+	padding-right: 20px;
 }

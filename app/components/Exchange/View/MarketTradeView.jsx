@@ -1,24 +1,15 @@
 import React from 'react';
 import {Table} from 'antd';
+import counterpart from 'counterpart';
 import {FaArrowRight, FaArrowUp, FaArrowDown} from 'react-icons/fa';
-import {getAssetIcon} from '../../utils/asset';
+import {getAssetIcon} from 'constants/assets';
 import {connect} from 'alt-react';
 import MarketsStore from 'stores/MarketsStore';
+import {Tooltip} from 'antd';
 
 class MarketTradeView extends React.Component {
 	render() {
-		let {
-			// Styles and Classes
-			style,
-			className,
-			innerClass,
-			innerStyle,
-			// Strings
-			data,
-			tinyScreen,
-			marketStats,
-			allMarketStats,
-		} = this.props;
+		let {style, className, innerClass, innerStyle, data} = this.props;
 
 		return (
 			<div style={style} key="trade" className={className}>
@@ -27,20 +18,20 @@ class MarketTradeView extends React.Component {
 						className="market-order-table-container grid-block no-overflow"
 						style={{
 							overflow: 'hidden',
-							minHeight: tinyScreen ? 260 : 0,
 							lineHeight: '13px',
 						}}
 					>
 						<Table
 							dataSource={data}
 							pagination={false}
-							scroll={{y: 449, x: 350}}
 							showSorterTooltip={false}
 						>
 							<Table.Column
 								dataIndex="asset"
 								title={
-									<div className="market-order-table-text-header">Crypto</div>
+									<div className="market-order-table-text-header">
+										{counterpart.translate('exchange.crypto')}
+									</div>
 								}
 								render={(row) => {
 									return (
@@ -63,9 +54,8 @@ class MarketTradeView extends React.Component {
 												height="21px"
 											/>
 											<div
+												className="td-content-common-text"
 												style={{
-													fontSize: '15px',
-													color: 'white',
 													textAlign: 'left',
 													lineHeight: '18px',
 													marginLeft: '8px',
@@ -81,7 +71,7 @@ class MarketTradeView extends React.Component {
 								dataIndex="amount"
 								title={
 									<div className="market-order-table-text-header">
-										Amount / USDT
+										{counterpart.translate('exchange.amount_usdt')}
 									</div>
 								}
 								sorter={(a, b) => {
@@ -92,28 +82,32 @@ class MarketTradeView extends React.Component {
 								sortDirections={['descend', 'ascend']}
 								render={(row) => {
 									return (
-										<div
-											style={{
-												fontSize: '14px',
-												color:
-													row.change > 0
-														? '#009D55'
-														: row.change < 0
-														? '#FF2929'
-														: 'white',
-												textAlign: 'right',
-												lineHeight: '16px',
-											}}
-										>
-											{row.value}
-										</div>
+										<Tooltip title={Number(row.value)} placement="top">
+											<div
+												css={(theme) => ({
+													color:
+														row.change > 0
+															? '#009D55'
+															: row.change < 0
+															? '#FF2929'
+															: theme.colors.textColor,
+													textAlign: 'center',
+													lineHeight: '16px',
+													fontSize: '14px',
+												})}
+											>
+												{Number(row.value).toFixed(6)}
+											</div>
+										</Tooltip>
 									);
 								}}
 							/>
 							<Table.Column
 								dataIndex="amount"
 								title={
-									<div className="market-order-table-text-header">Change</div>
+									<div className="market-order-table-text-header">
+										{counterpart.translate('settings.change')}
+									</div>
 								}
 								render={(row) => {
 									let currentMarketStats = this.props.allMarketStats.get(
@@ -128,8 +122,9 @@ class MarketTradeView extends React.Component {
 											style={{
 												display: 'flex',
 												flexDirection: 'row',
-												alignItems: 'center',
+												justifyContent: 'center',
 												marginLeft: '20px',
+												alignItems: 'center',
 											}}
 										>
 											{row.change > 0 && (
@@ -156,9 +151,9 @@ class MarketTradeView extends React.Component {
 
 											{row.change == 0 && (
 												<FaArrowRight
-													css={() => ({
+													css={(theme) => ({
 														marginRight: '10px',
-														color: 'white',
+														color: theme.colors.textColor,
 														width: '8px',
 														height: '8px',
 													})}
@@ -166,17 +161,17 @@ class MarketTradeView extends React.Component {
 											)}
 
 											<div
-												style={{
-													fontSize: '12px',
+												css={(theme) => ({
+													fontSize: '14px',
 													color:
 														row.change > 0
 															? '#009D55'
 															: row.change < 0
 															? '#FF2929'
-															: 'white',
+															: theme.colors.textColor,
 													textAlign: 'left',
 													lineHeight: '18px',
-												}}
+												})}
 											>
 												{`${row.change > 0 ? '+' : ''}${row.change} %`}
 											</div>
@@ -187,14 +182,16 @@ class MarketTradeView extends React.Component {
 							<Table.Column
 								dataIndex="value"
 								title={
-									<div className="market-order-table-text-header">Value</div>
+									<div className="market-order-table-text-header">
+										{counterpart.translate('exchange.value')}
+									</div>
 								}
 								render={(row) => {
 									return (
 										<div className="td-content">
 											<div
+												className="td-content-common-text"
 												style={{
-													color: 'white',
 													fontSize: '14px',
 													fontWeight: 400,
 													textAlign: 'right',
@@ -219,7 +216,7 @@ MarketTradeView = connect(MarketTradeView, {
 	listenTo() {
 		return [MarketsStore];
 	},
-	getProps(props) {
+	getProps() {
 		return {
 			allMarketStats: MarketsStore.getState().allMarketStats,
 		};
