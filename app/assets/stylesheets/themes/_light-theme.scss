@@ -909,15 +909,29 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 
 			.ant-tabs-content-holder {
 				.ant-tabs-tabpane {
-					.table {
-						button {
-							color: white;
+					.table-wrapper {
+						border: 1px solid $border-color;
+						.table {
+							thead {
+								tr {
+									th {
+										background-color: $bg-color-lightblue;
+									}
+								}
+							}
+							button {
+								color: white;
+							}
 						}
 					}
 
 					.account-selector-wrapper {
 						background: $bg-color-lightblue;
 						border: 1px solid $border-color;
+
+						@media screen and (max-width: 576px) {
+							padding: 10px;
+						}
 
 						.ant-form-item-control {
 							button {

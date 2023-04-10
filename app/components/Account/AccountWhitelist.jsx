@@ -164,18 +164,7 @@ class AccountList extends React.Component {
 				})}
 			>
 				{showHeaders ? (
-					<thead
-						css={(theme) => ({
-							tr: {
-								backgroundColor: theme.colors.tableColumnColor,
-								border: `2px solid ${theme.colors.borderColor}`,
-								borderBottom: `2px solid ${theme.colors.borderColor}`,
-								padding: '15px 10px',
-								textAlign: 'left',
-								fontSize: '13px !important',
-							},
-						})}
-					>
+					<thead>
 						<tr>
 							<th>#</th>
 							<th>
@@ -356,7 +345,7 @@ class AccountWhitelist extends React.Component {
 							key="Whitelist"
 						>
 							<div style={{paddingBottom: '1rem'}} className="small-12">
-								<div>
+								<div className="table-wrapper">
 									<AccountList
 										emptyText="account.whitelist.empty"
 										account={account}
@@ -398,7 +387,7 @@ class AccountWhitelist extends React.Component {
 							key="Blacklist"
 						>
 							<div style={{paddingBottom: '1rem'}} className="small-12">
-								<div>
+								<div className="table-wrapper">
 									<AccountList
 										emptyText="account.whitelist.empty_black"
 										account={account}
@@ -430,18 +419,7 @@ class AccountWhitelist extends React.Component {
 							key="Whitelisted by"
 						>
 							<div style={{paddingBottom: '1rem'}} className="small-12">
-								<div
-									css={(theme) => ({
-										padding: '2rem 1rem',
-										display: 'flex',
-										flexDirection: 'column',
-										justifyContent: 'center',
-										[`@media (max-width: ${theme.sizes.lg})`]: {
-											width: '100%',
-											padding: '1rem',
-										},
-									})}
-								>
+								<div className="table-wrapper">
 									<AccountList
 										emptyText="account.whitelist.empty_white_by"
 										account={account}
@@ -455,27 +433,13 @@ class AccountWhitelist extends React.Component {
 							tab={<Translate content="account.whitelist.black_by" />}
 							key="Blacklisted by"
 						>
-							<div
-								css={(theme) => ({
-									padding: '2rem 1rem',
-									display: 'flex',
-									flexDirection: 'column',
-									justifyContent: 'center',
-									[`@media (max-width: ${theme.sizes.lg})`]: {
-										width: '100%',
-										padding: '1rem',
-									},
-								})}
-								className="small-12"
-							>
-								<div>
-									<AccountList
-										emptyText="account.whitelist.empty_black_by"
-										account={account}
-										list={account.get('blacklisting_accounts')}
-										keyStr="blacklisted_by"
-									/>
-								</div>
+							<div className="table-wrapper">
+								<AccountList
+									emptyText="account.whitelist.empty_black_by"
+									account={account}
+									list={account.get('blacklisting_accounts')}
+									keyStr="blacklisted_by"
+								/>
 							</div>
 						</Tabs.TabPane>
 					</Tabs>
