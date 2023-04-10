@@ -274,9 +274,8 @@ class AccountRegistration extends React.Component {
 		window.addEventListener('resize', this.updateDimensions);
 	}
 
-	loadVideo(flag) {
+	async loadVideo(flag) {
 		const videoTag = document.querySelector('video');
-		console.log('[loadVideo]', flag, videoTag);
 		const features = {audio: false, video: true};
 
 		if (flag) {
@@ -298,7 +297,7 @@ class AccountRegistration extends React.Component {
 					videoTag.srcObject = null;
 				}
 			} catch (err) {
-				console.log('[loadVideo] @114 - ', err);
+				console.log('[loadVideo] - ', err);
 			}
 
 			this.setState({webcamEnabled: false, device: {}});
@@ -346,14 +345,14 @@ class AccountRegistration extends React.Component {
 		this.setState({authModalOpen: true});
 	}
 
-	proceedESign() {
+	async proceedESign() {
 		const {privKey, authData} = this.props;
 		ss.set('confirmedTerms4Token', 'success');
 		ss.set('email', authData?.email?.toLowerCase());
 		const accountName = ss.get('account_registration_name', '');
 		if (!accountName || !privKey) return;
 
-		this.loadVideo(false).then(() => {
+		await this.loadVideo(false).then(() => {
 			this.setState({
 				accountName,
 				password: this.genKey(`${accountName}${privKey}`),
@@ -482,6 +481,8 @@ class AccountRegistration extends React.Component {
 		} else if (faceKIStep) {
 			const {width} = this.state;
 			const theme = this.props.theme;
+			const aspectRatio = this.state.device?.aspectRatio ?? 1.33;
+			const webCamWidth = width > 576 ? 500 : width - 75;
 
 			return (
 				<div className="biometric-auth-section">
@@ -489,13 +490,7 @@ class AccountRegistration extends React.Component {
 					<h5>{counterpart.translate('registration.biometric_2fa_info')}</h5>
 					<br />
 					{this.state.webcamEnabled && (
-						<div
-							css={(theme) => ({
-								position: 'relative',
-								border: `1px solid ${theme.colors.borderColor}`,
-								borderRadius: '3px',
-							})}
-						>
+						<div className="webcam-wrapper">
 							<div className="flex-container-new">
 								<div className="flex-container-first">
 									<div className="position-head color-black">
@@ -531,14 +526,9 @@ class AccountRegistration extends React.Component {
 								audio={false}
 								ref={this.webcamRef}
 								screenshotFormat="image/jpeg"
-								width={width > 576 ? 500 : width - 75}
+								width={webCamWidth}
 								videoConstraints={{deviceId: this.state.device?.deviceId}}
-								height={
-									this.state.device?.aspectRatio
-										? (width > 576 ? 500 : width - 75) /
-										  this.state.device?.aspectRatio
-										: 385
-								}
+								height={webCamWidth / aspectRatio}
 								mirrored
 							/>
 							<img

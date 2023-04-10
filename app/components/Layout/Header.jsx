@@ -637,7 +637,7 @@ class Header extends React.Component {
 										height: '1.5rem',
 										cursor: 'pointer',
 										alignSelf: 'center',
-										marginTop: '1rem',
+										marginTop: '0.5rem',
 										marginRight: '0.5rem',
 									}}
 									onClick={this.showDrawerMenu}

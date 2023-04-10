@@ -5,7 +5,6 @@
 		flex-direction: row;
 		border: 1px solid #262a32;
 		border-radius: 6px;
-		padding-left: 20px;
 
 		input {
 			border: none !important;
@@ -13,7 +12,7 @@
 
 		.ant-input:disabled {
 			margin-bottom: 0;
-			padding-right: 30px;
+			padding-right: 5px;
 			font-size: 14px;
 			background: #0a0b0d;
 			border: none;

@@ -553,19 +553,6 @@ class AccountRegistrationConfirm extends React.Component {
 						</div>
 						<div className="checkbox-item">
 							<Checkbox
-								checked={this.state.confirmedTerms4}
-								onChange={this.toggleConfirmedTerms4}
-							></Checkbox>
-							<div
-								className={`reset-this terms ${
-									this.state.confirmedTerms4 ? 'active' : ''
-								}`}
-							>
-								{counterpart.translate('registration.registration_terms4')}
-							</div>
-						</div>
-						<div className="checkbox-item">
-							<Checkbox
 								checked={this.state.emailSubscription}
 								onChange={this.toggleEmailSubscription}
 							></Checkbox>
@@ -575,6 +562,19 @@ class AccountRegistrationConfirm extends React.Component {
 								}`}
 							>
 								{counterpart.translate('registration.registration_terms5')}
+							</div>
+						</div>
+						<div className="checkbox-item">
+							<Checkbox
+								checked={this.state.confirmedTerms4}
+								onChange={this.toggleConfirmedTerms4}
+							></Checkbox>
+							<div
+								className={`reset-this terms ${
+									this.state.confirmedTerms4 ? 'active' : ''
+								}`}
+							>
+								{counterpart.translate('registration.registration_terms4')}
 							</div>
 						</div>
 					</Form.Item>

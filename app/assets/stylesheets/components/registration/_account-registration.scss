@@ -558,14 +558,17 @@ div.registration {
 		}
 	}
 
+	.webcam-wrapper {
+		position: relative;
+		border: 1px solid #1c1f27;
+		border-radius: 3px;
+	}
+
 	.flex_container {
 		width: 100%;
 		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		padding-top: 7px;
-		padding-bottom: 7px;
-		background-color: transparent;
+		flex-direction: column;
+		color: rgba(255, 255, 255, 0.5);
 	}
 
 	.flex-container-new {
