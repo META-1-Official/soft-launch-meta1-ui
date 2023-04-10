@@ -3,6 +3,7 @@ import {Layout, Button, Typography} from 'antd';
 import SettingsActions from 'actions/SettingsActions';
 import Header from './Header';
 import SideBar from './SideBar';
+import counterpart from 'counterpart';
 
 const footer_logo = require('assets/footer_menu_logo.png');
 import {
@@ -123,28 +124,29 @@ const AppLayout = ({children, location, height}, others) => {
 							</div>
 							<IconButton
 								icon={<DatabaseOutlined />}
-								text="market"
+								text={counterpart.translate('exchange.market').toLowerCase()}
 								onClick={() => handleClick('market')}
 							/>
 							<IconButton
 								icon={<BarChartOutlined />}
-								text="chart"
+								text={counterpart.translate('footer.chart').toLowerCase()}
 								onClick={() => handleClick('chart')}
 							/>
 							<div
 								className="normal-button"
 								onClick={() => handleClick('buy-sell')}
 							>
-								Buy/Sell
+								{counterpart.translate('exchange.buy')}/
+								{counterpart.translate('exchange.sell')}
 							</div>
 							<IconButton
 								icon={<SlidersOutlined />}
-								text="trade"
+								text={counterpart.translate('account.trade').toLowerCase()}
 								onClick={() => handleClick('trade')}
 							/>
 							<IconButton
 								icon={<SyncOutlined />}
-								text="orders"
+								text={counterpart.translate('account.orders').toLowerCase()}
 								onClick={() => handleClick('orders')}
 							/>
 						</Footer>

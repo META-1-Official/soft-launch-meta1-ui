@@ -838,7 +838,9 @@ class WithdrawalModal extends React.Component {
 		if (name === 'username') {
 			var regName = /^[a-zA-Z]+ [a-zA-Z]+$/;
 			if (!regName.test(val)) {
-				this.setState({nameError: 'Invalid Name'});
+				this.setState({
+					nameError: counterpart.translate('modal.withdraw.invalidname'),
+				});
 			} else {
 				this.setState({nameError: null});
 			}
@@ -847,7 +849,9 @@ class WithdrawalModal extends React.Component {
 			var regEmail =
 				/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 			if (!regEmail.test(val)) {
-				this.setState({emailError: 'Invalid Email'});
+				this.setState({
+					emailError: counterpart.translate('modal.withdraw.invalidemail'),
+				});
 			} else {
 				this.setState({emailError: null});
 			}
