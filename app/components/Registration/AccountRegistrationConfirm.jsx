@@ -461,15 +461,9 @@ class AccountRegistrationConfirm extends React.Component {
 
 	render() {
 		return (
-			<>
+			<div className="registration-confirm">
 				<Form layout={'vertical'}>
-					<div
-						css={(theme) => ({
-							color: theme.colors.descriptionTextColor,
-							fontSize: '14px',
-							marginBottom: '45px',
-						})}
-					>
+					<div className="passkey-alert-title">
 						<Translate
 							component="p"
 							content="registration.accountDescription"
@@ -509,79 +503,79 @@ class AccountRegistrationConfirm extends React.Component {
 								checked={this.state.confirmed}
 								onChange={this.toggleConfirmed}
 							></Checkbox>
-							<button
+							<div
 								disabled
 								className={`reset-this terms ${
 									this.state.confirmed ? 'active' : ''
 								}`}
 							>
 								{counterpart.translate('registration.accountConfirmation')}
-							</button>
+							</div>
 						</div>
 						<div className="checkbox-item">
 							<Checkbox
 								checked={this.state.confirmedTerms}
 								onChange={this.toggleConfirmedTerms}
 							></Checkbox>
-							<button
+							<div
 								className={`reset-this terms ${
 									this.state.confirmedTerms ? 'active' : ''
 								}`}
 							>
 								{counterpart.translate('registration.registration_terms1')}
-							</button>
+							</div>
 						</div>
 						<div className="checkbox-item">
 							<Checkbox
 								checked={this.state.confirmedTerms2}
 								onChange={this.toggleConfirmedTerms2}
 							></Checkbox>
-							<button
+							<div
 								className={`reset-this terms ${
 									this.state.confirmedTerms2 ? 'active' : ''
 								}`}
 							>
 								{counterpart.translate('registration.registration_terms2')}
-							</button>
+							</div>
 						</div>
 						<div className="checkbox-item">
 							<Checkbox
 								checked={this.state.confirmedTerms3}
 								onChange={this.toggleConfirmedTerms3}
 							></Checkbox>
-							<button
+							<div
 								className={`reset-this terms ${
 									this.state.confirmedTerms3 ? 'active' : ''
 								}`}
 							>
 								{counterpart.translate('registration.registration_terms3')}
-							</button>
+							</div>
 						</div>
 						<div className="checkbox-item">
 							<Checkbox
 								checked={this.state.confirmedTerms4}
 								onChange={this.toggleConfirmedTerms4}
 							></Checkbox>
-							<button
+							<div
 								className={`reset-this terms ${
 									this.state.confirmedTerms4 ? 'active' : ''
 								}`}
 							>
 								{counterpart.translate('registration.registration_terms4')}
-							</button>
+							</div>
 						</div>
 						<div className="checkbox-item">
 							<Checkbox
 								checked={this.state.emailSubscription}
 								onChange={this.toggleEmailSubscription}
 							></Checkbox>
-							<button
+							<div
 								className={`reset-this terms ${
 									this.state.emailSubscription ? 'active' : ''
 								}`}
 							>
 								{counterpart.translate('registration.registration_terms5')}
-							</button>
+							</div>
 						</div>
 					</Form.Item>
 					<Form.Item className="button-wrapper">
@@ -627,9 +621,6 @@ class AccountRegistrationConfirm extends React.Component {
 							password: '',
 						});
 						this.validateLogin(name, password);
-						// WalletUnlockActions.unlock_v2().finally(() => {
-						// 	this.props.history.push(`/market/META1_USDT`);
-						// });
 					}}
 				>
 					<Title className="header-title1">
@@ -652,9 +643,6 @@ class AccountRegistrationConfirm extends React.Component {
 									password: '',
 								});
 								this.validateLogin(name, password);
-								// WalletUnlockActions.unlock_v2().finally(() => {
-								// 	this.props.history.push(`/market/META1_USDT`);
-								// });
 							}}
 							className="login-btn"
 						>
@@ -708,7 +696,7 @@ class AccountRegistrationConfirm extends React.Component {
 						</Button>
 					</div>
 				</Modal>
-			</>
+			</div>
 		);
 	}
 }

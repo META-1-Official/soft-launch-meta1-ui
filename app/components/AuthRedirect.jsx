@@ -19,7 +19,9 @@ import kycService from 'services/kyc.service';
 import Webcam from 'react-webcam';
 import {Button} from 'antd';
 import {toast} from 'react-toastify';
+
 const OvalImage = require('assets/oval/oval.png');
+const OvalDarkImage = require('assets/oval/oval_dark.png');
 
 const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
@@ -412,6 +414,9 @@ class AuthRedirect extends React.Component {
 	};
 
 	render() {
+		const {width} = this.state;
+		const theme = this.props.theme;
+
 		return (
 			<React.Fragment>
 				{this.state.login && (
@@ -466,28 +471,31 @@ class AuthRedirect extends React.Component {
 									audio={false}
 									ref={this.webcamRef}
 									screenshotFormat="image/jpeg"
-									width={500}
+									width={width > 576 ? 500 : width - 75}
 									videoConstraints={{deviceId: this.state.device?.deviceId}}
 									height={
 										this.state.device?.aspectRatio
-											? 500 / this.state.device?.aspectRatio
+											? (width > 576 ? 500 : width - 75) /
+											  this.state.device?.aspectRatio
 											: 385
 									}
 									mirrored
 								/>
 								<img
+									src={OvalDarkImage}
+									alt="oval-image"
+									className="oval-image"
+									css={(theme) => ({
+										display: theme.mode == 'dark' ? 'block' : 'none',
+									})}
+								/>
+								<img
 									src={OvalImage}
 									alt="oval-image"
 									className="oval-image"
-									style={{
-										position: 'absolute',
-										width: '100%',
-										height: '100%',
-										top: 0,
-										left: 0,
-										zIndex: 200,
-										opacity: 0.8,
-									}}
+									css={(theme) => ({
+										display: theme.mode == 'light' ? 'block' : 'none',
+									})}
 								/>
 								<div className="flex_container">
 									<span className="span-class color-black">

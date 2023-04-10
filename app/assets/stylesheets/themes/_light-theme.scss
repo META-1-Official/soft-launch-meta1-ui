@@ -1411,7 +1411,9 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 			}
 
 			.header-title2 {
-				color: #cecece;
+				color: #666666;
+				margin-bottom: 15px;
+				margin-top: 15px;
 			}
 
 			form {
@@ -1611,6 +1613,37 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 				border: none;
 			}
 
+			.biometric-auth-section {
+				@media screen and (max-width: 576px) {
+					background-color: transparent;
+					border: 1px solid $border-color;
+				}
+
+				h4 {
+					color: #666666;
+				}
+
+				h5 {
+					color: #666666;
+				}
+			}
+
+			.registration-account-title {
+				color: black;
+			}
+
+			.registration-confirm {
+				@media screen and (max-width: 576px) {
+					margin-bottom: 20px;
+				}
+
+				.passkey-alert-title {
+					p {
+						color: #666666;
+					}
+				}
+			}
+
 			.checkbox-group {
 				.checkbox-text {
 					color: $dark;
@@ -1625,14 +1658,6 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 
 					&.active {
 						color: rgba(0, 0, 0, 0.5);
-					}
-				}
-			}
-
-			.button-wrapper {
-				.create-acc-btn {
-					span {
-						color: #440000 !important;
 					}
 				}
 			}
@@ -1701,15 +1726,25 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 		.select-box-country {
 			background-color: white;
 
-			.ant-select-item-option-selected {
-				.option-header-register {
-					color: white !important;
+			.ant-select-item-option {
+				border-bottom: 1px solid $border-color;
+
+				.ant-select-item-option-content {
+					.option-header-register {
+						color: #666666;
+					}
 				}
 			}
+		}
 
-			.option-header-register:hover {
-				color: white !important;
-			}
+		.flex_container {
+			color: #666666;
+		}
+
+		.btn-x {
+			background-color: $bg-color-lightblue;
+			color: red;
+			border: 1px solid $border-color;
 		}
 	}
 
