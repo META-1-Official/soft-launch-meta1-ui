@@ -136,7 +136,6 @@ class AccountMembership extends React.Component {
 							<hr />
 						</div>
 					)}
-
 					<div className="content-block no-margin">
 						<div className="left">
 							<div className="grid-content">

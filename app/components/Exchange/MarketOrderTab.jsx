@@ -10,6 +10,7 @@ import walletIcon from '../../assets/icons/walleticon.png';
 import {BalanceValueComponent} from 'components/Utility/EquivalentValueComponent';
 import ExchangeInput from './ExchangeInput';
 import {toast} from 'react-toastify';
+import {ceilFloat, floorFloat} from '../../services/Math';
 import counterpart from 'counterpart';
 
 const MarketOrderForm = (props) => {
@@ -212,10 +213,10 @@ const MarketOrderForm = (props) => {
 	};
 
 	const handleSubmit = (amount) => {
-		const liquidty = parseFloat((props.total - 0.0001).toFixed(3));
+		const liquidty = floorFloat(props.liquidity, 6);
 
 		// Liquidity check
-		if (amount > props.total) {
+		if (amount > liquidty) {
 			const msg = `Current available liquidity is ${liquidty} ${props.quoteAsset.get(
 				'symbol'
 			)}, please adjust amount to ${liquidty} ${props.quoteAsset.get(

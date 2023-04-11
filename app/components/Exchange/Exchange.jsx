@@ -1,6 +1,7 @@
 import React from 'react';
 import cnames from 'classnames';
-import {debounce} from 'lodash-es';
+import translator from 'counterpart';
+import {debounce, reverse} from 'lodash-es';
 import moment from 'moment';
 import Ps from 'perfect-scrollbar';
 import PropTypes from 'prop-types';
@@ -40,6 +41,7 @@ import BorrowModal from '../Modal/BorrowModal';
 import AccountNotifications from '../Notifier/NotifierContainer';
 import PriceAlert from './PriceAlert';
 import AssetsPairTabs from './AssetsPairTabs';
+import {ceilFloat, floorFloat} from '../../services/Math';
 
 // Antd
 import {Tabs, Collapse, notification} from 'antd';
@@ -74,6 +76,10 @@ class Exchange extends React.Component {
 			feeStatus: {},
 			backingAssetValue: 0,
 			backingAssetPolarity: true,
+			buyMarketPrice: 0,
+			sellMarketPrice: 0,
+			buyMarketLiquidity: 0,
+			sellMarketLiquidity: 0,
 		};
 
 		this._getWindowSize = debounce(this._getWindowSize.bind(this), 150);
@@ -317,6 +323,24 @@ class Exchange extends React.Component {
 		}
 
 		if (
+			nextProps.marketData.combinedBids !== this.props.marketData.combinedBids
+		) {
+			this.setState({sellMarketPrice: 0, sellMarketLiquidity: 0});
+			this.calculateMarketPrice(nextProps.marketData.combinedBids, true);
+		}
+
+		if (
+			nextProps.marketData.combinedAsks !== this.props.marketData.combinedAsks
+		) {
+			this.setState({buyMarketPrice: 0, buyMarketLiquidity: 0});
+			this.calculateMarketPrice(nextProps.marketData.combinedAsks, false);
+		}
+
+		// if (this.props.sub && nextProps.bucketSize !== this.props.bucketSize) {
+		//     return this._changeBucketSize(nextProps.bucketSize);
+		// }
+
+		if (
 			nextProps.viewSettings.get('currentSection') !==
 			this.props.viewSettings.get('currentSection')
 		) {
@@ -334,21 +358,42 @@ class Exchange extends React.Component {
 	 * Only check when selling or buying META1
 	 */
 	calcBackingAssetValue() {
-		Apis.db.get_asset_limitation_value('META1').then((price) => {
-			const meta1_usdt = price / 1000000000;
-			let asset_usdt;
+		const LOG_ID = '[calcBackingAssetValue]';
+		this.setState({backingAssetValue: 0});
 
+		Apis.db.get_asset_limitation_value('META1').then((price) => {
+			const meta1_usdt = ceilFloat(price / 1000000000, 2);
+			console.log(LOG_ID, 'META1 Backing Asset($): ', meta1_usdt);
 			const quoteAssetSymbol = this.props.quoteAsset.get('symbol');
+			const quoteAssetPrecision = this.props.quoteAsset.get('precision');
 			const baseAssetSymbol = this.props.baseAsset.get('symbol');
+			const baseAssetPrecision = this.props.baseAsset.get('precision');
 			const isQuoting = quoteAssetSymbol === 'META1';
+			let asset_usdt;
 
 			Apis.db
 				.get_ticker('USDT', isQuoting ? baseAssetSymbol : quoteAssetSymbol)
 				.then((res) => {
 					asset_usdt = parseFloat(res.latest) || 1;
-					const ratio = isQuoting
-						? (meta1_usdt + 0.01) / asset_usdt
-						: asset_usdt / (meta1_usdt + 0.01);
+					let ratio = isQuoting
+						? meta1_usdt / asset_usdt
+						: asset_usdt / meta1_usdt;
+					ratio = isQuoting
+						? ceilFloat(ratio, quoteAssetPrecision)
+						: floorFloat(ratio, baseAssetPrecision);
+					console.log(
+						LOG_ID,
+						isQuoting ? baseAssetSymbol : quoteAssetSymbol,
+						': USDT',
+						asset_usdt
+					);
+					// console.log(LOG_ID, quoteAssetSymbol, ":", baseAssetSymbol, ratio);
+
+					if (isQuoting) {
+						console.log(LOG_ID, 'BUY/SELL price should be bigger than', ratio);
+					} else {
+						console.log(LOG_ID, 'BUY/SELL price should be lower than', ratio);
+					}
 
 					this.setState({
 						backingAssetValue: ratio,
@@ -356,6 +401,131 @@ class Exchange extends React.Component {
 					});
 				});
 		});
+	}
+
+	calculateMarketPrice(prices, isBid, amount2Trade = 0) {
+		const {quoteAsset, baseAsset} = this.props;
+		const {backingAssetValue, backingAssetPolarity} = this.state;
+
+		const quoteAssetSymbol = this.props.quoteAsset.get('symbol');
+		const quoteAssetPrecision = this.props.quoteAsset.get('precision');
+		const baseAssetSymbol = this.props.baseAsset.get('symbol');
+		const baseAssetPrecision = this.props.baseAsset.get('precision');
+		// Debug - can be deleted later
+		console.log(
+			'@! - ',
+			baseAssetSymbol,
+			baseAssetPrecision,
+			quoteAssetSymbol,
+			quoteAssetPrecision,
+			backingAssetValue,
+			backingAssetPolarity
+		);
+		const isQuoting = quoteAssetSymbol === 'META1';
+		const isTradingMETA1 =
+			quoteAssetSymbol === 'META1' || baseAssetSymbol === 'META1';
+		let _prices = prices;
+
+		// Filter pricings below the backingAssetValue
+		if (isTradingMETA1) {
+			if (!backingAssetValue) return;
+			if (!prices) return;
+
+			if (backingAssetPolarity)
+				_prices = prices.filter(
+					(price) => price._real_price > backingAssetValue
+				);
+			else
+				_prices = prices.filter(
+					(price) => price._real_price < backingAssetValue
+				);
+		}
+
+		if (isBid) {
+			let sellMarketPrice = 0;
+			let sellMarketLiquidity = 0;
+			let estSellAmount = 0;
+
+			for (let price of _prices)
+				sellMarketLiquidity +=
+					price.for_sale / Math.pow(10, baseAssetPrecision) / price._real_price;
+
+			for (let price of _prices) {
+				sellMarketPrice = price._real_price;
+				estSellAmount += price.for_sale / Math.pow(10, baseAssetPrecision);
+				// Debug - can be deleted later
+				console.log(
+					'@! - ',
+					isBid,
+					price._real_price,
+					price.for_sale / Math.pow(10, baseAssetPrecision)
+				);
+
+				if (amount2Trade && amount2Trade < estSellAmount) break;
+			}
+
+			if (sellMarketPrice > 0) {
+				// const percentDiff = sellMarketPrice + sellMarketPrice / Math.pow(10, 4);
+
+				// if (isTradingMETA1 && backingAssetValue && !isQuoting && percentDiff >= backingAssetValue) {
+				// 	const diff = Math.abs(sellMarketPrice + backingAssetValue) / 2;
+				// 	sellMarketPrice = sellMarketPrice - diff;
+				// } else {
+				// 	sellMarketPrice = percentDiff;
+				// }
+
+				console.log(
+					'sellMarketPrice:',
+					baseAssetSymbol,
+					quoteAssetSymbol,
+					sellMarketPrice
+				);
+				console.log('sellMarketLiquidity:', sellMarketLiquidity);
+				this.setState({sellMarketPrice, sellMarketLiquidity});
+			}
+		} else {
+			let buyMarketPrice = 0;
+			let buyMarketLiquidity = 0;
+			let estSellAmount = 0;
+
+			for (let price of _prices)
+				buyMarketLiquidity +=
+					price.for_sale / Math.pow(10, quoteAssetPrecision);
+
+			for (let price of _prices) {
+				buyMarketPrice = price._real_price;
+				estSellAmount += price.for_sale / Math.pow(10, baseAssetPrecision);
+				// Debug - can be deleted later
+				console.log(
+					'@! - ',
+					isBid,
+					price._real_price,
+					price.for_sale / Math.pow(10, quoteAssetPrecision)
+				);
+
+				if (amount2Trade && amount2Trade < estSellAmount) break;
+			}
+
+			if (buyMarketPrice > 0) {
+				// const percentDiff = sellMarketPrice + sellMarketPrice / Math.pow(10, 4);
+
+				// if (isTradingMETA1 && backingAssetValue && !isQuoting && percentDiff >= backingAssetValue) {
+				// 	const diff = Math.abs(sellMarketPrice + backingAssetValue) / 2;
+				// 	sellMarketPrice = sellMarketPrice - diff;
+				// } else {
+				// 	sellMarketPrice = percentDiff;
+				// }
+
+				console.log(
+					'buyMarketPrice:',
+					baseAssetSymbol,
+					quoteAssetSymbol,
+					buyMarketPrice
+				);
+				console.log('buyMarketLiquidity:', buyMarketLiquidity);
+				this.setState({buyMarketPrice, buyMarketLiquidity});
+			}
+		}
 	}
 
 	_getFeeAssets(quote, base, coreAsset) {
@@ -1786,6 +1956,10 @@ class Exchange extends React.Component {
 			hideFunctionButtons,
 			backingAssetValue,
 			backingAssetPolarity,
+			buyMarketPrice,
+			buyMarketLiquidity,
+			sellMarketPrice,
+			sellMarketLiquidity,
 			currentSection,
 		} = this.state;
 		const {isFrozen} = this.isMarketFrozen();
@@ -1884,39 +2058,6 @@ class Exchange extends React.Component {
 
 		let isPanelActive = activePanels.length >= 1 ? true : false;
 
-		// Market Order Tab Price calc
-		let buyMarketPrice = highestAsk?.getPrice();
-		let sellMarketPrice = lowestBid?.getPrice();
-		if (backingAssetValue) {
-			if (buyMarketPrice) {
-				if (backingAssetPolarity) {
-					buyMarketPrice =
-						backingAssetValue > buyMarketPrice
-							? backingAssetValue
-							: buyMarketPrice;
-				} else {
-					buyMarketPrice =
-						backingAssetValue < buyMarketPrice
-							? backingAssetValue
-							: buyMarketPrice;
-				}
-			}
-
-			if (sellMarketPrice) {
-				if (backingAssetPolarity) {
-					sellMarketPrice =
-						backingAssetValue > sellMarketPrice
-							? backingAssetValue
-							: sellMarketPrice;
-				} else {
-					sellMarketPrice =
-						backingAssetValue < sellMarketPrice
-							? backingAssetValue
-							: sellMarketPrice;
-				}
-			}
-		}
-
 		/***
 		 * Generate layout cards
 		 */
@@ -1958,6 +2099,7 @@ class Exchange extends React.Component {
 						baseAsset={base}
 						historyUrl={this.props.history.location}
 						price={buyMarketPrice}
+						liquidity={buyMarketLiquidity}
 						locked_v2={this.props.locked_v2}
 						total={totals.ask}
 					/>
@@ -2102,6 +2244,7 @@ class Exchange extends React.Component {
 						quoteAsset={quote}
 						historyUrl={this.props.history.location}
 						price={sellMarketPrice}
+						liquidity={sellMarketLiquidity}
 						locked_v2={this.props.locked_v2}
 						total={totals.bid}
 					/>
