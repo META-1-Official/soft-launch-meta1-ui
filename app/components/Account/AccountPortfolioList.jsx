@@ -764,14 +764,38 @@ class AccountPortfolioList extends React.Component {
 			balances.push({
 				key: asset.get('symbol'),
 				asset: (
-					<div className="asset-name">
+					<div
+						className="asset-name"
+						style={{display: 'flex', alignItems: 'center'}}
+					>
 						<img
 							className="asset-img"
 							src={getAssetIcon(asset.get('symbol'))}
 							alt="Asset logo"
 							width="28px"
+							css={(theme) => ({
+								display: theme.mode === 'dark' ? 'unset' : 'none',
+								width: '28px',
+								height: '28px',
+							})}
 						/>
-						<div>
+						<img
+							className="asset-img"
+							src={getAssetIcon(asset.get('symbol'), 'light')}
+							alt="Asset logo"
+							width="28px"
+							css={(theme) => ({
+								display: theme.mode === 'light' ? 'unset' : 'none',
+								width: '40px',
+							})}
+						/>
+						<div
+							style={{
+								display: 'flex',
+								flexDirection: 'column',
+								justifyContent: 'center',
+							}}
+						>
 							<LinkToAssetById className="asset-name" asset={asset.get('id')} />
 							<p>{getAssetFullName(asset.get('symbol'))}</p>
 						</div>

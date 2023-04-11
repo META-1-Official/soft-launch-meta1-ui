@@ -56,6 +56,20 @@
 		overflow-x: auto;
 		white-space: nowrap;
 
+		&::-webkit-scrollbar {
+			height: 6px;
+		}
+
+		&::-webkit-scrollbar-thumb {
+			background-color: gray;
+			border-radius: 10px;
+		}
+
+		&::-webkit-scrollbar-track {
+			background: transparent;
+			border-radius: 10px;
+		}
+
 		.toggle-box {
 			display: inline-block;
 			width: 60px;
@@ -206,6 +220,23 @@
 	@media screen and (max-width: 768px) {
 		width: 100%;
 		margin-left: unset;
+	}
+
+	.buy-sell-wrapper {
+		&::-webkit-scrollbar {
+			width: 6px;
+		}
+
+		&::-webkit-scrollbar-thumb {
+			background-color: gray;
+			border-radius: 10px;
+			opacity: 0.5;
+		}
+
+		&::-webkit-scrollbar-track {
+			background: transparent;
+			border-radius: 10px;
+		}
 	}
 }
 
@@ -441,8 +472,8 @@ p.order-table-title {
 }
 
 .my-order {
-	border: 1px solid #ffc000;
-	border-bottom: 1px solid #ffc000 !important;
+	border-left: 1px solid #ffc000 !important;
+	border-right: 1px solid #ffc000 !important;
 }
 
 .ask-order-tr {
@@ -508,6 +539,21 @@ p.order-table-title {
 	border-radius: 5px;
 	height: 50%;
 	width: 100%;
+
+	&::-webkit-scrollbar {
+		width: 6px;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background-color: gray;
+		border-radius: 10px;
+		opacity: 0.5;
+	}
+
+	&::-webkit-scrollbar-track {
+		background: transparent;
+		border-radius: 10px;
+	}
 
 	@media only screen and (max-width: 1443px) {
 		height: calc(50% + 21px);
