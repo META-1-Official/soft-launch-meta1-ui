@@ -446,11 +446,11 @@ class Exchange extends React.Component {
 			let sellMarketLiquidity = 0;
 			let estSellAmount = 0;
 
-			for (let price of _.reverse(_prices))
+			for (let price of _prices)
 				sellMarketLiquidity +=
 					price.for_sale / Math.pow(10, baseAssetPrecision) / price._real_price;
 
-			for (let price of _.reverse(_prices)) {
+			for (let price of _prices) {
 				sellMarketPrice = price._real_price;
 				estSellAmount += price.for_sale / Math.pow(10, baseAssetPrecision);
 				// Debug - can be deleted later
@@ -458,8 +458,7 @@ class Exchange extends React.Component {
 					'@! - ',
 					isBid,
 					price._real_price,
-					price.for_sale / Math.pow(10, baseAssetPrecision),
-					price
+					price.for_sale / Math.pow(10, baseAssetPrecision)
 				);
 
 				if (amount2Trade && amount2Trade < estSellAmount) break;
@@ -489,7 +488,7 @@ class Exchange extends React.Component {
 			let buyMarketLiquidity = 0;
 			let estSellAmount = 0;
 
-			for (let price of _.reverse(_prices))
+			for (let price of _prices)
 				buyMarketLiquidity +=
 					price.for_sale / Math.pow(10, quoteAssetPrecision);
 
@@ -1958,7 +1957,9 @@ class Exchange extends React.Component {
 			backingAssetValue,
 			backingAssetPolarity,
 			buyMarketPrice,
+			buyMarketLiquidity,
 			sellMarketPrice,
+			sellMarketLiquidity,
 			currentSection,
 		} = this.state;
 		const {isFrozen} = this.isMarketFrozen();
@@ -2098,6 +2099,7 @@ class Exchange extends React.Component {
 						baseAsset={base}
 						historyUrl={this.props.history.location}
 						price={buyMarketPrice}
+						liquidity={buyMarketLiquidity}
 						locked_v2={this.props.locked_v2}
 						total={totals.ask}
 					/>
@@ -2242,6 +2244,7 @@ class Exchange extends React.Component {
 						quoteAsset={quote}
 						historyUrl={this.props.history.location}
 						price={sellMarketPrice}
+						liquidity={sellMarketLiquidity}
 						locked_v2={this.props.locked_v2}
 						total={totals.bid}
 					/>

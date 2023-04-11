@@ -213,10 +213,10 @@ const MarketOrderForm = (props) => {
 	};
 
 	const handleSubmit = (amount) => {
-		const liquidty = floorFloat(props.total - 0.0001, 3);
+		const liquidty = floorFloat(props.liquidity, 6);
 
 		// Liquidity check
-		if (amount > props.total) {
+		if (amount > liquidty) {
 			const msg = `Current available liquidity is ${liquidty} ${props.quoteAsset.get(
 				'symbol'
 			)}, please adjust amount to ${liquidty} ${props.quoteAsset.get(
