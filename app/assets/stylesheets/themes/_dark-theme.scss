@@ -41,7 +41,7 @@ $positive-color: #009d55;
 $negative-color: #ff3950;
 $row-accent-color: #a70707;
 $header-color: #000000; // do not touch
-
+$border-color: #1c1f27;
 $button-mix1: #874002;
 $button-mix2: #d5ba48;
 
@@ -265,6 +265,29 @@ $header-menu-item--hover--background-color: lighten($primary-dark, 10%);
 
 			iframe {
 				width: 100%;
+			}
+		}
+	}
+	// Account trade page
+	.account-trade {
+		@media screen and (max-width: 900px) {
+			div.filter {
+				border: 1px solid $border-color !important;
+				border-radius: 3px;
+				border-bottom-right-radius: 0px;
+				border-bottom-left-radius: 0px;
+				padding: 15px;
+
+				.ant-select .ant-select-selector {
+					background-color: #0a0b0d;
+					color: #fff;
+					border: 1px solid #1c1f27;
+				}
+				.search-input .ant-input-wrapper {
+					border: 1px solid #1c1f27;
+					border-radius: 3px;
+					background-color: #21252f;
+				}
 			}
 		}
 	}

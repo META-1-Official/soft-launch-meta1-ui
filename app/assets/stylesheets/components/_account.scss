@@ -726,7 +726,9 @@ div.account-overview {
 
 					@media screen and (max-width: 760px) {
 						font-size: 12px;
-						margin-bottom: 5px;
+						margin-top: 16px;
+						width: 100%;
+						margin-bottom: 0px;
 					}
 
 					@media screen and (max-width: 400px) {
@@ -1084,6 +1086,19 @@ div.tabs-container {
 }
 
 // Transaction History page
+
+.transaction-table {
+	padding: 1rem 2rem;
+
+	.ant-table-content {
+		@media screen and (max-width: 900px) {
+			overflow: scroll !important;
+			padding: 3px !important;
+			margin-right: 3px !important;
+		}
+	}
+}
+
 .recent-transactions {
 	.iconLinkAndLabel {
 		span {
@@ -1197,9 +1212,8 @@ div.tabs-container {
 	}
 }
 
-.transaction-table {
-	padding: 1rem 2rem;
-
+// Trade page
+.trade-table {
 	.ant-table-content {
 		@media screen and (max-width: 900px) {
 			overflow: scroll !important;
@@ -1209,10 +1223,69 @@ div.tabs-container {
 	}
 }
 
-// Trade page
+.account-trade {
+	@media screen and (max-width: 900px) {
+		h2 {
+			font-size: 20px !important;
+			font-weight: 400 !important;
+		}
+
+		div:has(> h2) {
+			padding: 1rem 0.6rem 2px;
+		}
+
+		.ant-table-cell {
+			padding: 0px 10px;
+		}
+
+		td {
+			font-size: 12px;
+
+			div {
+				display: flex;
+				gap: 3px;
+				width: 108px;
+				align-items: center;
+			}
+		}
+
+		.ant-table-column-title {
+			div {
+				font-size: 13px;
+			}
+		}
+
+		.asset-name {
+			margin-left: 0px !important;
+		}
+
+		.ant-table-thead {
+			tr {
+				font-size: 13px;
+			}
+		}
+		.toggle-box {
+			font-size: 14px;
+		}
+		.chart {
+			width: 100px !important;
+			height: 50px !important;
+
+			canvas {
+				height: 53% !important;
+				width: 100% !important;
+			}
+		}
+	}
+}
+
 div.account-trade {
 	div.content {
 		padding: 25px;
+
+		@media screen and (max-width: 900px) {
+			padding: 4px;
+		}
 	}
 
 	div.filter {
@@ -1223,9 +1296,84 @@ div.account-trade {
 		border-bottom-right-radius: 0px;
 		border-bottom-left-radius: 0px;
 		padding: 15px;
+		display: flex;
+		flex-direction: row;
+		width: 100%;
+
+		@media screen and (max-width: 900px) {
+			flex-direction: column;
+			padding: 5px;
+			gap: 10px;
+			border: 0px;
+			margin-bottom: 10px;
+		}
 
 		div.ant-select {
 			margin-top: 7px;
+		}
+
+		.search-input {
+			width: 40% !important;
+
+			@media screen and (max-width: 900px) {
+				width: 60% !important;
+				//background-color: #21252f;
+				border-radius: 6px;
+			}
+
+			@media screen and (max-width: 500px) {
+				width: 100% !important;
+				//background-color: #21252f;
+				border-radius: 6px;
+			}
+		}
+
+		.trade-select {
+			display: flex;
+			flex-direction: row;
+			margin-left: 24px;
+			gap: 20px;
+
+			.time {
+				width: 70px;
+			}
+
+			.asset {
+				width: 150px;
+			}
+
+			.sorting {
+				//width: 45px;
+				margin-top: 8px;
+				display: flex;
+				gap: 10px;
+
+				@media screen and (max-width: 900px) {
+					flex-direction: row-reverse;
+				}
+			}
+
+			.sorting-label {
+				display: inline-block;
+				margin-left: 4px;
+				text-transform: capitalize !important;
+
+				@media screen and (max-width: 900px) {
+					margin-left: 0px;
+				}
+			}
+
+			.ant-select-selector {
+				@media screen and (max-width: 500px) {
+					width: 100% !important;
+					//	background-color: #15171b;
+					border-radius: 6px;
+				}
+			}
+
+			@media screen and (max-width: 900px) {
+				margin-left: 0px;
+			}
 		}
 	}
 
@@ -1252,6 +1400,13 @@ div.account-trade {
 				border-top: 2px #dea702 solid;
 				color: #dea702;
 				background-color: #0a0b0d;
+
+				@media screen and (max-width: 900px) {
+					border-top: unset;
+					color: #dea702;
+					font-weight: 700;
+					background-color: unset;
+				}
 			}
 
 			&:hover {

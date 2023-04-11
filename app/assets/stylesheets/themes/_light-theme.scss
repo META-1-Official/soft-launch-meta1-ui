@@ -417,9 +417,7 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 	// Account trade page
 	.account-trade {
 		div.filter {
-			border-left: 1px solid $border-color !important;
-			border-right: 1px solid $border-color !important;
-			border-top: 1px solid $border-color !important;
+			border: 1px solid $border-color !important;
 			border-radius: 3px;
 			border-bottom-right-radius: 0px;
 			border-bottom-left-radius: 0px;
