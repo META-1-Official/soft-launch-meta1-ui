@@ -2209,6 +2209,7 @@ div.messages {
 			padding: 15px 25px;
 			margin: 0 !important;
 		}
+
 		.button-wrapper {
 			display: flex;
 			flex-direction: column;
@@ -2217,6 +2218,7 @@ div.messages {
 				align-items: center;
 			}
 		}
+
 		button.button {
 			background: #ffc000;
 			color: black;
@@ -2408,6 +2410,7 @@ div.messages {
 								}
 							}
 						}
+
 						button {
 							height: 30px;
 							background: #ffc000;
@@ -2424,6 +2427,7 @@ div.messages {
 						}
 					}
 				}
+
 				.account-selector-wrapper {
 					padding: 30px;
 					max-width: 680px;
@@ -2818,6 +2822,40 @@ div.account-notification {
 					display: none;
 				}
 			}
+		}
+	}
+}
+
+.dashboard-wallets {
+	overflow: hidden;
+	height: 100%;
+
+	.content {
+		margin: 30px;
+		background: #0a0b0d;
+		border: 1px solid #1c1f27;
+		border-radius: 4px;
+
+		@media screen and (max-width: 768px) {
+			margin: 10px;
+		}
+
+		.dashboard-wallets-tabs {
+			.ant-tabs-nav {
+				border-bottom: 1px solid #1c1f27;
+				padding-left: 10px;
+				margin-bottom: 0px;
+			}
+
+			.ant-tabs-content {
+				padding: 10px;
+			}
+		}
+
+		.table-wrapper {
+			overflow: auto;
+			border: 1px solid #1c1f27;
+			border-radius: 5px;
 		}
 	}
 }

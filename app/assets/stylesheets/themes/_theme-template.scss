@@ -192,7 +192,8 @@
 	$separator-line,
 	$medium-color,
 	$dark-help-text,
-	$settings-label-color
+	$settings-label-color,
+	$table-hover-color
 ) {
 	$hamburger-submenu-display-endpoint: 990px;
 
@@ -990,7 +991,7 @@
 		}
 		&.table-hover > tbody > tr:hover > td,
 		.table-hover > tbody > tr:hover > th {
-			background-color: #4b5158;
+			background-color: $table-hover-color;
 		}
 		> tbody > tr.table-empty > td {
 			padding: 5rem 0;
@@ -1148,9 +1149,6 @@
 		&:active,
 		&:disabled {
 			background-color: $bg-color;
-		}
-		&:focus {
-			border-color: #aaa;
 		}
 	}
 
@@ -2046,12 +2044,6 @@
 	td.pub-key {
 		word-break: break-all;
 	}
-	div.account-tabs {
-		> div.service-selector {
-			background-color: $bg-color;
-			border-bottom: $tabs-border-size solid $tabs-border-color;
-		}
-	}
 	ul.account-overview {
 		background-color: $tabs-background-color;
 		li {
@@ -2148,6 +2140,9 @@
 						fill: grey;
 					}
 				}
+			}
+			&:hover {
+				background-color: $table-hover-color;
 			}
 		}
 	}

@@ -46,7 +46,7 @@ $button-mix1: #874002;
 $button-mix2: #d5ba48;
 
 // Account table view colors
-$account-header: #1f1f1f; // do not touch
+$account-header: #15171b; // do not touch
 $account-cells: black; // do not touch
 $account-green: #7ed321;
 $account-primarytext: white;
@@ -65,6 +65,7 @@ $modal-bg-color: white;
 $mobile-input-bg: #2d2d2d;
 
 $slider-thumb-color: #d5ba48;
+$table-hover-color: #15171beb;
 
 $incognito-bg: #d5ba48;
 
@@ -231,7 +232,8 @@ $header-menu-item--hover--background-color: lighten($primary-dark, 10%);
 		$separator-line,
 		$medium-color,
 		$dark-help-text,
-		$settings-label-color
+		$settings-label-color,
+		$table-hover-color
 	);
 
 	.custom-dropdown-class {

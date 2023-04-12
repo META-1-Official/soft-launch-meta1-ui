@@ -524,9 +524,6 @@ class OrderBook extends React.Component {
 						css={(theme) => ({
 							color: '#70a800',
 							height: '50%',
-							[`@media (max-width: 768px)`]: {
-								height: 'unset',
-							},
 						})}
 					>
 						<div style={{height: '100%'}}>
@@ -543,7 +540,7 @@ class OrderBook extends React.Component {
 								}}
 							>
 								<table
-									style={{paddingBottom: 5, height: '100%'}}
+									style={{paddingBottom: 5, height: 'fit-content'}}
 									className="table order-table no-stripes table-hover fixed-table text-right no-overflow"
 								>
 									<TransitionWrapper
@@ -595,7 +592,7 @@ class OrderBook extends React.Component {
 							>
 								<table
 									className="table order-table no-stripes table-hover fixed-table text-right no-overflow"
-									style={{height: '100%'}}
+									style={{height: 'fit-content'}}
 								>
 									<TransitionWrapper
 										ref="askTransition"
