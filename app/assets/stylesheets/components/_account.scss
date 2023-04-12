@@ -2154,6 +2154,12 @@ div.messages {
 		border-bottom: unset !important;
 
 		ul.account-overview li {
+			span.tab-title {
+				@media screen and (max-width: 576px) {
+					font-size: 14px;
+				}
+			}
+
 			a {
 				background-color: #0a0b0d !important;
 
@@ -2187,6 +2193,16 @@ div.messages {
 
 				span {
 					color: #ffc000;
+
+					@media screen and (max-width: 576px) {
+						font-size: 10px !important;
+					}
+				}
+			}
+
+			.left-label {
+				@media screen and (max-width: 576px) {
+					font-size: 10px !important;
 				}
 			}
 		}
@@ -2200,6 +2216,10 @@ div.messages {
 				background-color: transparent !important;
 				border-radius: 5px;
 				border: 1px solid #ffc000;
+
+				@media screen and (max-width: 576px) {
+					font-size: 12px !important;
+				}
 			}
 		}
 

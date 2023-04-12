@@ -233,7 +233,15 @@ class AccountSignedMessages extends React.Component {
 					segmented={false}
 				>
 					<Tab title="account.signedmessages.signmessage">
-						<div className="grid-content" style={{overflowX: 'hidden'}}>
+						<div
+							className="grid-content"
+							style={{
+								overflowX: 'hidden',
+								[`@media (max-width: 576px)`]: {
+									padding: '10px !important',
+								},
+							}}
+						>
 							<PubKeyInput
 								ref="memo_key"
 								value={this.state.tabsm_memo_key}
