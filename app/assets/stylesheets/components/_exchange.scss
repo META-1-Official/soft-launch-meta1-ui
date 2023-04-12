@@ -492,6 +492,7 @@ p.order-table-title {
 
 	@media screen and (max-width: 768px) {
 		flex-direction: column;
+		height: unset;
 	}
 
 	.orders-trade-form {
@@ -512,6 +513,7 @@ p.order-table-title {
 
 		@media screen and (max-width: 768px) {
 			width: 100%;
+			max-height: 50%;
 		}
 	}
 }
@@ -1480,6 +1482,10 @@ form.hide-container {
 
 .withdraw-fee-selector {
 	text-align: left;
+
+	.ant-form-item-label {
+		padding: 0 !important;
+	}
 
 	.amount-selector-field--label {
 		text-align: left !important;
