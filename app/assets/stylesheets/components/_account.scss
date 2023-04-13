@@ -1865,8 +1865,7 @@ div.account-permissions {
 								gap: 20px;
 
 								.account-image {
-									align-self: unset !important;
-									margin-right: 0px !important;
+									display: none;
 								}
 							}
 
@@ -2117,9 +2116,7 @@ div.account-permissions {
 					.key-status {
 						display: flex;
 						align-items: center;
-						@media screen and (max-width: 900px) {
-							overflow: scroll;
-						}
+
 						.key-stats-wrapper {
 							background: #0a0b0d;
 							border: 1px solid #1c1f27;
@@ -2135,18 +2132,27 @@ div.account-permissions {
 								margin-right: 10px;
 								width: 200px;
 								height: 100px;
+								button {
+									width: fit-content;
+									font-size: 12px;
+								}
 							}
 							.key-name {
 								color: rgba(255, 255, 255, 0.7);
 								font-size: 16px;
 								@media screen and (max-width: 900px) {
-									font-size: 13px;
+									font-size: 12px;
+									text-align: center;
+									padding: 3px;
 								}
 							}
 						}
 
 						.in-not-use {
 							background: #15171b;
+							@media screen and (max-width: 900px) {
+								width: 33.333%;
+							}
 						}
 					}
 				}
@@ -2176,9 +2182,16 @@ div.account-permissions {
 						line-height: 20px;
 						margin-bottom: 10px;
 					}
-					.date {
-						input {
-							font-size: 12px;
+					.date-container {
+						display: flex;
+						.date {
+							input {
+								font-size: 12px;
+							}
+						}
+						.react-datepicker {
+							width: fit-content;
+							display: flex;
 						}
 					}
 				}
