@@ -432,9 +432,8 @@ class App extends React.Component {
 					<NewsHeadline />
 					<Switch>
 						<Route exact path="/">
-							<Redirect to="/home/" />
+							<Redirect to="/market/:marketID" />
 						</Route>
-						<Route path="/home/" exact component={DashboardPage} />
 						<Route path="/account/:account_name" component={AccountPage} />
 						<Route path="/accounts" component={DashboardAccountsOnly} />
 						<Route path="/market/:marketID" component={Exchange} />
@@ -482,7 +481,6 @@ class App extends React.Component {
 						{/* <Route path="/existing-account" component={ExistingAccount} /> */}
 
 						<Route path="/create-worker" component={CreateWorker} />
-
 						<Route path="/onramperwallet" component={Onramperwallet} />
 
 						<Route
