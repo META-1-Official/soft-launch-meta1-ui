@@ -633,7 +633,7 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 	}
 
 	.td-content-common-text {
-		color: black;
+		color: #666666;
 	}
 
 	.order-book-panel {
@@ -1906,6 +1906,7 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 
 				.table > tbody tr td {
 					border-bottom: 1px solid $border-color;
+					color: #666666;
 				}
 			}
 
@@ -1916,6 +1917,12 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 
 					li {
 						border-bottom: 1px solid $border-color;
+
+						&:hover {
+							span {
+								background: #21202030;
+							}
+						}
 					}
 
 					li:last-child {

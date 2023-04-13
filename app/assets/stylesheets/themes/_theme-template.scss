@@ -982,12 +982,13 @@
 	.table {
 		> thead > tr > th {
 			border-bottom-color: $dark-text-color;
-			color: $secondary-text-color;
+			color: $primary-text-color;
 		}
 		> tbody > tr > td {
 			text-align: left;
 			border-bottom-color: $dark-text-color;
 			font-size: 0.875rem;
+			color: $primary-text-color;
 		}
 		&.table-hover > tbody > tr:hover > td,
 		.table-hover > tbody > tr:hover > th {
@@ -1075,6 +1076,7 @@
 			li:hover > span {
 				@include color($light-text-color, lighten($primary-text-color, 4%));
 				color: $link-text-color;
+				background-color: black;
 			}
 		}
 		&.active:after {
