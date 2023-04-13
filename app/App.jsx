@@ -432,7 +432,7 @@ class App extends React.Component {
 					<NewsHeadline />
 					<Switch>
 						<Route exact path="/">
-							<Redirect to="/market/:marketID" />
+							<Redirect to="/market/META1_USDT" />
 						</Route>
 						<Route path="/account/:account_name" component={AccountPage} />
 						<Route path="/accounts" component={DashboardAccountsOnly} />

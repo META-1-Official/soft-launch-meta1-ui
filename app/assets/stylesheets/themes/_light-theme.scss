@@ -627,6 +627,11 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 		}
 	}
 
+	.market-order-table-cancel-button {
+		background: $bg-color-lightblue;
+		border: 1px solid $border-color;
+	}
+
 	.td-content-common-text {
 		color: black;
 	}
