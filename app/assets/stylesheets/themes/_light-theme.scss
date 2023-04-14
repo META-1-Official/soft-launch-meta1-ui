@@ -1975,6 +1975,22 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 				}
 			}
 		}
+
+		.witnesses-tab {
+			.ant-table {
+				thead {
+					th {
+						color: #666666;
+					}
+				}
+
+				tbody {
+					td {
+						color: #666666;
+					}
+				}
+			}
+		}
 	}
 
 	// Menu
