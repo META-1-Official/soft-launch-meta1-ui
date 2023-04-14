@@ -670,27 +670,29 @@ class RecentTransactions extends React.Component {
 								<span className="page-title">
 									<Translate content="account.transaction_history" />
 								</span>
-								<div className="date">
-									<DatePicker
-										onChange={(dateFrom) => this.onDateFromChange(dateFrom)}
-										selected={this.state.dateFrom}
-										filterDate={this.dateFromFilter.bind(this)}
-										filterTime={this.timeFromFilter.bind(this)}
-										dateFormat="MM/dd/yyyy h:mm aa"
-										showTimeSelect
-										timeInputLabel=""
-									/>
-								</div>
-								<div className="date">
-									<DatePicker
-										onChange={(dateTo) => this.onDateToChange(dateTo)}
-										selected={this.state.dateTo}
-										filterDate={this.dateToFilter.bind(this)}
-										filterTime={this.timeToFilter.bind(this)}
-										dateFormat="MM/dd/yyyy h:mm aa"
-										showTimeSelect
-										timeInputLabel=""
-									/>
+								<div className="date-container">
+									<div className="date">
+										<DatePicker
+											onChange={(dateFrom) => this.onDateFromChange(dateFrom)}
+											selected={this.state.dateFrom}
+											filterDate={this.dateFromFilter.bind(this)}
+											filterTime={this.timeFromFilter.bind(this)}
+											dateFormat="MM/dd/yyyy h:mm aa"
+											showTimeSelect
+											timeInputLabel=""
+										/>
+									</div>
+									<div className="date">
+										<DatePicker
+											onChange={(dateTo) => this.onDateToChange(dateTo)}
+											selected={this.state.dateTo}
+											filterDate={this.dateToFilter.bind(this)}
+											filterTime={this.timeToFilter.bind(this)}
+											dateFormat="MM/dd/yyyy h:mm aa"
+											showTimeSelect
+											timeInputLabel=""
+										/>
+									</div>
 								</div>
 							</div>
 

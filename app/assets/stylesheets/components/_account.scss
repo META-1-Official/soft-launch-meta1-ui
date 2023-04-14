@@ -1681,6 +1681,55 @@ div.account-activity {
 
 // Permission page
 div.account-permissions {
+	.header-toolbar {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 1rem 2rem;
+
+		@media screen and (max-width: 900px) {
+			padding: 0.6rem 0.5rem;
+			display: flex;
+			flex-direction: column;
+			margin-right: auto;
+			align-items: flex-start;
+			gap: 10px;
+
+			h2 {
+				white-space: nowrap;
+				font-size: 16px !important;
+			}
+
+			.action-buttons {
+				display: flex;
+				gap: 10px;
+
+				@media screen and (max-width: 420px) {
+					flex-direction: column;
+					align-items: baseline;
+				}
+
+				.papper-wallet-btn {
+					width: 130px;
+					height: 35px;
+
+					span {
+						font-size: 13px;
+					}
+				}
+
+				button {
+					width: 80px;
+					height: 35px;
+
+					span {
+						font-size: 13px;
+					}
+				}
+			}
+		}
+	}
+
 	.action-buttons {
 		display: flex;
 		align-items: center;
@@ -1794,19 +1843,35 @@ div.account-permissions {
 		border: 1px solid #1c1f27;
 		border-radius: 4px;
 
+		@media screen and (max-width: 900px) {
+			margin: 8px;
+		}
+
 		.tab-header {
 			padding: 30px;
 			border-bottom: 1px solid #1c1f27;
 
+			@media screen and (max-width: 900px) {
+				padding: 9px;
+			}
+
 			.tab-title {
 				font-size: 22px;
 				color: #ffc000;
+
+				@media screen and (max-width: 900px) {
+					font-size: 18px;
+				}
 			}
 
 			p {
 				font-size: 15px !important;
 				margin-bottom: 10px;
 				color: #cecece !important;
+
+				@media screen and (max-width: 900px) {
+					font-size: 12px;
+				}
 			}
 		}
 
@@ -1814,11 +1879,19 @@ div.account-permissions {
 			padding: 30px;
 			background: #0a0b0d;
 
+			@media screen and (max-width: 900px) {
+				padding: 8px;
+			}
+
 			.content-wrapper {
 				background: rgba(21, 23, 27, 0.4);
 				border: 1px solid rgba(28, 31, 39, 0.4);
 				border-radius: 4px;
 				padding: 30px;
+
+				@media screen and (max-width: 900px) {
+					padding: 8px;
+				}
 
 				.threshold {
 					color: rgba(255, 255, 255, 0.7);
@@ -1833,6 +1906,20 @@ div.account-permissions {
 						width: 300px;
 						padding: 20px;
 						margin-top: 10px;
+
+						@media screen and (max-width: 900px) {
+							height: unset;
+							font-size: 12px;
+							width: 100%;
+							padding: 9px;
+							margin-top: 2px;
+						}
+					}
+
+					span {
+						@media screen and (max-width: 900px) {
+							font-size: 13px;
+						}
 					}
 				}
 
@@ -1849,6 +1936,13 @@ div.account-permissions {
 								span {
 									font-size: 16px;
 									color: #ffc000;
+									@media screen and (max-width: 900px) {
+										font-size: 12px;
+									}
+								}
+
+								@media screen and (max-width: 900px) {
+									font-size: 12px;
 								}
 							}
 						}
@@ -1860,7 +1954,9 @@ div.account-permissions {
 						display: flex;
 						align-items: center;
 						padding-left: 25px;
-
+						@media screen and (max-width: 900px) {
+							padding-left: 0px;
+						}
 						.account-image {
 							display: flex;
 							align-items: center;
@@ -1891,6 +1987,10 @@ div.account-permissions {
 					label {
 						color: rgba(255, 255, 255, 0.7);
 						font-size: 16px;
+
+						@media screen and (max-width: 900px) {
+							font-size: 13px;
+						}
 					}
 
 					.ant-form-item-control-input-content {
@@ -1898,6 +1998,13 @@ div.account-permissions {
 						flex-direction: row;
 						align-items: center;
 						margin-bottom: 50px;
+
+						@media screen and (max-width: 900px) {
+							flex-direction: column;
+							align-items: baseline;
+							gap: 10px;
+							margin-bottom: 8px;
+						}
 
 						.header-area {
 							display: none;
@@ -1907,9 +2014,23 @@ div.account-permissions {
 							display: flex;
 							align-items: center;
 
+							@media screen and (max-width: 900px) {
+								flex-direction: column;
+								align-items: unset;
+								gap: 20px;
+
+								.account-image {
+									display: none;
+								}
+							}
+
 							canvas {
 								width: 50px !important;
 								height: 50px !important;
+
+								@media screen and (max-width: 900px) {
+									height: 38px !important;
+								}
 							}
 
 							input {
@@ -1924,6 +2045,15 @@ div.account-permissions {
 								&::placeholder {
 									color: rgba(255, 255, 255, 0.4);
 								}
+
+								@media screen and (max-width: 900px) {
+									height: unset;
+									font-size: 12px;
+									width: 100% !important;
+									margin: 0px !important;
+									padding: 9px;
+									margin-top: 2px;
+								}
 							}
 						}
 
@@ -1933,10 +2063,20 @@ div.account-permissions {
 							height: 52px;
 							border-radius: 4px;
 
+							@media screen and (max-width: 900px) {
+								width: 80px;
+								height: 35px;
+							}
+
 							span {
 								color: #080000;
 								font-size: 18px;
 								font-weight: 600;
+
+								@media screen and (max-width: 900px) {
+									font-size: 14px;
+									font-weight: 200;
+								}
 							}
 						}
 					}
@@ -1946,16 +2086,30 @@ div.account-permissions {
 						border-radius: 4px;
 						padding-bottom: 60px;
 
+						@media screen and (max-width: 900px) {
+							padding-bottom: 20px;
+							overflow: scroll;
+						}
+
 						.table {
 							thead {
 								background: #15171b;
 								height: 52px;
 								border-bottom: 1px solid #1c1f27;
 
+								@media screen and (max-width: 900px) {
+									height: 38px;
+								}
+
 								th {
 									padding-left: 30px;
 									font-size: 14px;
 									color: #969ba6;
+
+									@media screen and (max-width: 900px) {
+										padding-left: 10px;
+										font-size: 12px;
+									}
 
 									&:last-child {
 										text-align: center;
@@ -1972,6 +2126,13 @@ div.account-permissions {
 									color: #ffc000;
 									border-bottom: 1px solid #1c1f27;
 
+									@media screen and (max-width: 900px) {
+										padding-left: 15px;
+										padding-top: 10px;
+										padding-bottom: 10px;
+										font-size: 12px;
+									}
+
 									.account-image {
 										display: flex;
 										align-items: center;
@@ -1985,6 +2146,11 @@ div.account-permissions {
 											}
 
 											margin-right: 15px;
+											@media screen and (max-width: 900px) {
+												width: 18px !important;
+												height: 19px !important;
+												margin-right: 4px;
+											}
 										}
 									}
 								}
@@ -1997,6 +2163,9 @@ div.account-permissions {
 					label > span {
 						color: rgba(255, 255, 255, 0.7);
 						font-size: 16px;
+						@media screen and (max-width: 900px) {
+							font-size: 14px;
+						}
 					}
 
 					.gen-password-field {
@@ -2007,16 +2176,27 @@ div.account-permissions {
 						border: 1px solid #ffc000;
 						border-radius: 4px;
 						padding-left: 30px;
-
+						@media screen and (max-width: 900px) {
+							padding-left: 0px;
+							height: 45px;
+						}
 						.key-icon {
 							margin-right: 15px;
 							width: unset;
 							height: unset;
+							@media screen and (max-width: 900px) {
+								width: 25px !important;
+								height: 19px !important;
+								margin-right: 4px;
+							}
 
 							svg {
 								width: 24px !important;
 								height: 24px !important;
-
+								@media screen and (max-width: 900px) {
+									width: 18px !important;
+									height: 18px !important;
+								}
 								path {
 									fill: #ffc000;
 								}
@@ -2025,6 +2205,10 @@ div.account-permissions {
 
 						div {
 							font-size: 16px;
+							@media screen and (max-width: 900px) {
+								font-size: 13px;
+								overflow: scroll;
+							}
 						}
 					}
 
@@ -2045,9 +2229,16 @@ div.account-permissions {
 								font-size: 14px;
 								padding: 20px;
 								border-radius: 4px;
-
+								@media screen and (max-width: 900px) {
+									font-size: 12px;
+									height: 30px;
+									padding: 15px;
+								}
 								&::placeholder {
 									font-size: 16px;
+									@media screen and (max-width: 900px) {
+										font-size: 13px;
+									}
 								}
 							}
 						}
@@ -2062,9 +2253,16 @@ div.account-permissions {
 								font-size: 14px;
 								padding: 20px;
 								border-radius: 4px;
-
+								@media screen and (max-width: 900px) {
+									font-size: 12px;
+									height: 30px;
+									padding: 15px;
+								}
 								&::placeholder {
 									font-size: 16px;
+									@media screen and (max-width: 900px) {
+										font-size: 13px;
+									}
 								}
 							}
 						}
@@ -2085,15 +2283,31 @@ div.account-permissions {
 							align-items: center;
 							justify-content: center;
 							margin-right: 30px;
-
+							@media screen and (max-width: 900px) {
+								margin-right: 10px;
+								width: 200px;
+								height: 100px;
+								button {
+									width: fit-content;
+									font-size: 12px;
+								}
+							}
 							.key-name {
 								color: rgba(255, 255, 255, 0.7);
 								font-size: 16px;
+								@media screen and (max-width: 900px) {
+									font-size: 12px;
+									text-align: center;
+									padding: 3px;
+								}
 							}
 						}
 
 						.in-not-use {
 							background: #15171b;
+							@media screen and (max-width: 900px) {
+								width: 33.333%;
+							}
 						}
 					}
 				}
@@ -2103,10 +2317,40 @@ div.account-permissions {
 		.divider {
 			border-bottom: 1px solid #1c1f27;
 			height: 0;
+			@media screen and (max-width: 900px) {
+				margin: 10px;
+			}
 		}
 
 		.recent-activity {
 			padding: 30px;
+			@media screen and (max-width: 900px) {
+				padding: 10px;
+
+				.date-list {
+					flex-direction: column;
+					width: 100%;
+
+					.page-title {
+						font-weight: 100;
+						font-size: 15px;
+						line-height: 20px;
+						margin-bottom: 10px;
+					}
+					.date-container {
+						display: flex;
+						.date {
+							input {
+								font-size: 12px;
+							}
+						}
+						.react-datepicker {
+							width: fit-content;
+							display: flex;
+						}
+					}
+				}
+			}
 
 			.block-content-header {
 				font-size: 18px;
@@ -2121,12 +2365,19 @@ div.account-permissions {
 							background: #15171b;
 							height: 52px;
 							border-bottom: none;
+							@media screen and (max-width: 900px) {
+								height: 30px;
+							}
 
 							th {
 								padding-left: 30px;
 								font-size: 14px;
 								color: #969ba6;
 								text-transform: uppercase;
+								@media screen and (max-width: 900px) {
+									padding-left: 0px;
+									font-size: 11px;
+								}
 							}
 						}
 					}
