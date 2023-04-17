@@ -182,6 +182,7 @@ const SideBar = ({collapsed, currentLink, toggle}) => {
 			<div
 				css={{
 					backgroundColor: `${theme.colors.sideBar}`,
+					display: currentLink === 'market' ? 'none' : 'block',
 				}}
 			>
 				<Menu
