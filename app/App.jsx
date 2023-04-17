@@ -397,12 +397,6 @@ class App extends React.Component {
 		this.setState({height: window && window.innerHeight});
 	}
 
-	// /** Non-static, used by passing notificationSystem via react Component refs */
-	// _addNotification(params) {
-	//     console.log("add notification:", this.refs, params);
-	//     this.refs.notificationSystem.addNotification(params);
-	// }
-
 	render() {
 		let {incognito, incognitoWarningDismissed} = this.state;
 		let {walletMode, theme, location, ...others} = this.props;
@@ -544,13 +538,13 @@ class App extends React.Component {
 								<NotificationSystem
 									ref="notificationSystem"
 									allowHTML={true}
-									style={{
+									css={(theme) => ({
 										Containers: {
 											DefaultStyle: {
-												width: '425px',
+												width: '100%',
 											},
 										},
-									}}
+									})}
 								/>
 								<TransactionConfirm />
 								<BrowserNotifications />

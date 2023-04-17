@@ -552,14 +552,29 @@
 		color: $alert-color;
 	}
 	// notification
-	.notification {
-		@include color($primary-text-color, $notification-panel-bg-color, true);
-	}
-	.notification-dismiss {
-		@include color($primary-text-color, $super-light-panel-bg-color, true);
-	}
-	.notification-success {
-		border-left-color: $success-color !important;
+	.notifications-tr {
+		width: 100% !important;
+		max-width: 425px !important;
+
+		.notification {
+			@include color($primary-text-color, $notification-panel-bg-color, true);
+			background-color: $bg-color !important;
+			left: 0 !important;
+			margin-top: -5px !important;
+
+			table {
+				tr {
+					border: none !important;
+					color: $primary-text-color;
+				}
+			}
+		}
+		.notification-dismiss {
+			@include color(white, red, true);
+		}
+		.notification-success {
+			border-left-color: $success-color !important;
+		}
 	}
 
 	.action-sheet {

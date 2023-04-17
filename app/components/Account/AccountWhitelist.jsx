@@ -258,7 +258,7 @@ class AccountWhitelist extends React.Component {
 						</div>
 					),
 					level: 'warning',
-					autoDismiss: 3,
+					autoDismiss: 5,
 				});
 				return;
 			}
