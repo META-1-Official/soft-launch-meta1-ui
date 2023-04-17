@@ -108,7 +108,7 @@ class TransactionConfirm extends React.Component {
 								</div>
 							),
 							level: 'warning',
-							autoDismiss: 3,
+							autoDismiss: 5,
 						});
 					}
 				}
@@ -167,7 +167,7 @@ class TransactionConfirm extends React.Component {
 					</div>
 				),
 				level: 'success',
-				autoDismiss: 3,
+				autoDismiss: 5,
 			});
 		}
 	}
