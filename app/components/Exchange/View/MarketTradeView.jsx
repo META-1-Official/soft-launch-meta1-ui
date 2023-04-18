@@ -25,6 +25,7 @@ class MarketTradeView extends React.Component {
 							dataSource={data}
 							pagination={false}
 							showSorterTooltip={false}
+							scroll={{y: 445}}
 						>
 							<Table.Column
 								dataIndex="asset"

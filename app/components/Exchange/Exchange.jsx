@@ -2708,13 +2708,7 @@ class Exchange extends React.Component {
 		actionCards.push(groupTabbed2);
 
 		return (
-			<div
-				css={(theme) => ({
-					padding: '10px',
-					display: 'flex',
-					height: '100%',
-				})}
-			>
+			<div className="exchange-layout">
 				{!this.props.marketReady ? <LoadingIndicator /> : null}
 				<div
 					className="assets-layout"
@@ -2742,10 +2736,13 @@ class Exchange extends React.Component {
 					})}
 				>
 					<div
+						className="chart-section"
 						css={() => ({
 							[`@media (max-width: 768px)`]: {
 								display:
-									this.state.currentSection !== 'chart' ? 'none' : 'flex',
+									this.state.currentSection !== 'chart'
+										? 'none !important'
+										: 'flex',
 							},
 						})}
 					>
@@ -2769,6 +2766,7 @@ class Exchange extends React.Component {
 							onToggleMarketPicker={this._toggleMarketPicker.bind(this)}
 							showVolumeChart={showVolumeChart}
 						/>
+						<div className="trade-view-chart-wrapper">{tradingViewChart}</div>
 					</div>
 					{this.state.isMarketPickerModalVisible ||
 					this.state.isMarketPickerModalLoaded ? (
@@ -2784,50 +2782,14 @@ class Exchange extends React.Component {
 					<AccountNotifications />
 
 					<div
+						className="open-orders-section"
 						css={(theme) => ({
-							height: 'calc(100% - 45px)',
-							display: 'flex',
-							justifyContent: 'space-between',
-							flexDirection: 'column',
-							width: '100%',
-							[`@media (max-width: 1443px)`]: {
-								height: 'calc(100% - 85px)',
-							},
 							[`@media (max-width: 768px)`]: {
-								height:
-									this.state.currentSection === 'chart'
-										? 'calc(100% - 45px)'
-										: '100%',
 								display:
-									this.state.currentSection !== 'chart' &&
-									this.state.currentSection !== 'orders'
-										? 'none'
-										: 'flex',
-							},
-							[`@media (max-width: 520px)`]: {
-								height:
-									this.state.currentSection === 'chart'
-										? 'calc(100% - 85px)'
-										: '100%',
-								display:
-									this.state.currentSection !== 'chart' &&
-									this.state.currentSection !== 'orders'
-										? 'none'
-										: 'flex',
+									this.state.currentSection !== 'orders' ? 'none' : 'flex',
 							},
 						})}
 					>
-						<div
-							className="trade-view-chart-wrapper"
-							css={(theme) => ({
-								[`@media (max-width: 768px)`]: {
-									display:
-										this.state.currentSection !== 'chart' ? 'none' : 'unset',
-								},
-							})}
-						>
-							{tradingViewChart}
-						</div>
 						<div
 							className="action-cards"
 							css={(theme) => ({
@@ -2869,7 +2831,6 @@ class Exchange extends React.Component {
 						className="buy-sell-wrapper"
 						css={(theme) => ({
 							height: 'calc(50% - 30px)',
-							overflow: 'auto',
 							marginTop: '13px',
 							border: `1px solid ${theme.colors.borderColor}`,
 							borderRadius: '5px',

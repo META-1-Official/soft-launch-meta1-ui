@@ -689,8 +689,12 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 	}
 
 	.info-layout {
-		.top-bar {
+		.chart-section {
 			border: 1px solid $border-color;
+		}
+
+		.top-bar {
+			border-bottom: 1px solid $border-color;
 		}
 
 		.market-picker {

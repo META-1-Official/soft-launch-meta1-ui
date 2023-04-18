@@ -208,11 +208,7 @@ export default class ExchangeHeader extends React.Component {
 
 		return (
 			<div className="top-bar">
-				<div
-					style={{
-						display: 'flex',
-					}}
-				>
+				<div style={{display: 'flex'}}>
 					<a
 						id="center-item"
 						onClick={() => {

@@ -38,6 +38,7 @@ class MarketsOrderView extends React.Component {
 							dataSource={data}
 							pagination={false}
 							showSorterTooltip={false}
+							scroll={{y: 350}}
 						>
 							<Table.Column
 								dataIndex="pair"

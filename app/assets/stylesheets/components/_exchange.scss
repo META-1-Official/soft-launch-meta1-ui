@@ -34,15 +34,22 @@
 	}
 }
 
+.exchange-layout {
+	padding: 10px;
+	display: flex;
+	height: 100%;
+}
+
 .assets-layout {
-	width: 20%;
+	width: 240px;
 	display: flex;
 	flex-direction: column;
 	margin-right: 15px;
-	height: 100%;
+	height: 1115px;
 
 	@media only screen and (max-width: 768px) {
 		display: none;
+		height: 100%;
 	}
 
 	.asset-pair-tabs-wrapper {
@@ -52,7 +59,6 @@
 	}
 
 	.asset-select {
-		background-color: #16171b !important;
 		overflow-x: auto;
 		white-space: nowrap;
 
@@ -81,6 +87,7 @@
 			border: 1px solid #33363d;
 			border-left: none;
 			vertical-align: top;
+			background-color: #16171b !important;
 
 			&:first-of-type {
 				padding-top: 8px !important;
@@ -152,7 +159,13 @@
 }
 
 .info-layout {
-	width: 100%;
+	width: calc(100% - 800px);
+	min-width: 550px;
+
+	@media screen and (max-width: 768px) {
+		width: 100%;
+		min-width: unset;
+	}
 
 	.column-header {
 		width: 100%;
@@ -195,12 +208,18 @@
 		border-top: none;
 	}
 
-	.top-bar {
-		display: flex;
+	.chart-section {
 		border: 1px solid #1c1f27;
-		border-top-left-radius: 5px;
-		border-top-right-radius: 5px;
-		border-bottom: none;
+		border-radius: 5px;
+		margin-bottom: 13px;
+		display: flex;
+		flex-direction: column;
+		height: 560px;
+
+		@media screen and (max-width: 768px) {
+			height: 100%;
+			margin-bottom: 0;
+		}
 	}
 
 	.market-picker {
@@ -214,7 +233,7 @@
 }
 
 .control-layout {
-	width: 80%;
+	width: 590px;
 	margin-left: 15px;
 
 	@media screen and (max-width: 768px) {
@@ -223,19 +242,10 @@
 	}
 
 	.buy-sell-wrapper {
-		&::-webkit-scrollbar {
-			width: 6px;
-		}
+		height: 540px;
 
-		&::-webkit-scrollbar-thumb {
-			background-color: gray;
-			border-radius: 10px;
-			opacity: 0.5;
-		}
-
-		&::-webkit-scrollbar-track {
-			background: transparent;
-			border-radius: 10px;
+		@media only screen and (max-width: 768px) {
+			height: 100%;
 		}
 	}
 }
@@ -249,7 +259,8 @@ i.anticon.anticon-right.ant-collapse-arrow {
 }
 
 .top-bar {
-	border-bottom: 1px solid grey;
+	display: flex;
+	border-bottom: 1px solid #1c1f27;
 
 	.shuffle {
 		margin: 0 10px;
@@ -490,7 +501,7 @@ p.order-table-title {
 
 .orders-and-trade {
 	display: flex;
-	height: calc(50% + 15px);
+	height: 560px;
 
 	@media screen and (max-width: 768px) {
 		flex-direction: column;
@@ -523,41 +534,26 @@ p.order-table-title {
 .trade-view-chart-wrapper {
 	display: flex;
 	flex-wrap: wrap;
-	height: 50%;
-	margin-bottom: 15px;
+	height: 100%;
+}
 
-	@media only screen and (max-width: 1443px) {
-		height: calc(50% - 25px);
-	}
+.open-orders-section {
+	display: flex;
+	justify-content: 'space-between';
+	flex-direction: column;
+	width: 100%;
+	height: 540px;
 
 	@media only screen and (max-width: 768px) {
 		height: 100%;
-		margin-bottom: unset;
-		display: none;
 	}
 }
 
 .action-cards {
-	overflow: auto;
 	border: 1px solid #1c1f27;
 	border-radius: 5px;
-	height: 50%;
+	height: 100%;
 	width: 100%;
-
-	&::-webkit-scrollbar {
-		width: 6px;
-	}
-
-	&::-webkit-scrollbar-thumb {
-		background-color: gray;
-		border-radius: 10px;
-		opacity: 0.5;
-	}
-
-	&::-webkit-scrollbar-track {
-		background: transparent;
-		border-radius: 10px;
-	}
 
 	@media only screen and (max-width: 1443px) {
 		height: calc(50% + 21px);
@@ -575,6 +571,23 @@ p.order-table-title {
 		.ant-table {
 			border-left: none;
 			border-right: none;
+
+			.ant-table-body {
+				&::-webkit-scrollbar {
+					width: 6px;
+				}
+
+				&::-webkit-scrollbar-thumb {
+					background-color: gray;
+					border-radius: 10px;
+					opacity: 0.5;
+				}
+
+				&::-webkit-scrollbar-track {
+					background: transparent;
+					border-radius: 10px;
+				}
+			}
 		}
 
 		.ant-tabs-nav {
@@ -1966,13 +1979,10 @@ form.hide-container {
 .order-book-panel {
 	display: flex;
 	flex-direction: column;
+	height: 100%;
 
 	.overflow-hidden {
 		overflow: hidden !important;
-		font-size: 14px !important;
-	}
-
-	.header-font-size {
 		font-size: 14px !important;
 	}
 
@@ -2011,9 +2021,12 @@ form.hide-container {
 	.orderbook-divider {
 		border-top: 1px solid #1c1f27;
 		border-bottom: 1px solid #1c1f27;
-		padding: 10px;
 		display: flex;
 		align-items: center;
+		margin-top: 3px;
+		margin-bottom: 3px;
+		height: 50px;
+		padding-left: 10px;
 	}
 
 	.table-height-auto {
