@@ -179,56 +179,59 @@ const SideBar = ({collapsed, currentLink, toggle}) => {
 
 	const renderMobileMenu = () => {
 		return (
-			<div
+			<ul
 				css={{
-					backgroundColor: `${theme.colors.sideBar}`,
-					display: currentLink === 'market' ? 'none' : 'block',
+					'&': {
+						backgroundColor: `${theme.colors.sideBar}`,
+						display: currentLink === 'market' ? 'none' : 'flex',
+						margin: 0,
+						overflowX: 'scroll',
+						overflowY: 'hidden',
+						minHeight: '55px !important',
+						maxHeight: '55px !important',
+						borderBottom: `1px solid ${theme.colors.borderColor}`,
+						padding: '10px 10px',
+					},
 				}}
 			>
-				<Menu
-					css={{
-						'& .ant-menu-item': {
-							borderBottom: `1px solid ${theme.colors.borderColor}`,
-							maxWidth: '50px',
-							height: '48px !important',
-							lineHeight: '48px !important',
-							display: 'flex',
-							alignItems: 'center',
-							justifyContent: 'center',
-							margin: '0px !important',
-							padding: '0px 10px !important',
-							textTransform: 'capitalize',
-							backgroundColor: `${theme.colors.sideBar}`,
-						},
-						'& .ant-menu-item:first-child': {
-							borderTop: `1px solid ${theme.colors.borderColor}`,
-						},
-						'& .ant-menu-title-content': {
-							display: 'none',
-						},
-						'& .ant-menu-item:after': {
-							left: '0px',
-							right: '0px',
-							borderRadius: '2px',
-						},
-					}}
-					mode="horizontal"
-					onClick={sideMenuClick}
-					selectedKeys={[currentLink]}
-				>
-					{menuList &&
-						menuList.map(({menuName, menuId, enableNavLinks, mobileIcon}) => {
-							return (
-								<Menu.Item
-									key={menuId}
-									icon={mobileIcon}
-									disabled={!enableNavLinks}
-									className={'sidebar-menu-' + menuId}
-								></Menu.Item>
-							);
-						})}
-				</Menu>
-			</div>
+				{menuList &&
+					menuList.map(({menuName, menuId, enableNavLinks, mobileIcon}) => {
+						return (
+							<li
+								key={menuId}
+								className={
+									'ant-menu sidebar-menu-' +
+									menuId +
+									(currentLink === menuId ? ' active' : '')
+								}
+								onClick={
+									!enableNavLinks ? null : () => sideMenuClick({key: menuId})
+								}
+								css={{
+									'&': {
+										maxWidth: '50px',
+										lineHeight: '48px !important',
+										display: 'flex',
+										alignItems: 'center',
+										justifyContent: 'center',
+										margin: '0px !important',
+										padding: '10px !important',
+										backgroundColor: `${theme.colors.sideBar}`,
+										color: !enableNavLinks ? 'grey !important' : null,
+									},
+									'&.active, &:active, &:hover, &:focus': {
+										backgroundColor: 'transparent !important',
+										color: '#ffc000 !important',
+										borderBottom: '3px solid #ffc000!important',
+										borderRadius: '2px',
+									},
+								}}
+							>
+								{mobileIcon}
+							</li>
+						);
+					})}
+			</ul>
 		);
 	};
 
