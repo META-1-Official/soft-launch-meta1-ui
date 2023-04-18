@@ -19,6 +19,7 @@ const PageHeader = ({title, level, showDivider, ...props}: IPageHeader) => {
 					: 'none',
 				color: theme.colors.themeOpositeColor,
 			})}
+			className="page-header"
 		>
 			<Title
 				css={{
