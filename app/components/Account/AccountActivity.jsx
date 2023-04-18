@@ -51,7 +51,11 @@ const Subsection = ({
 									</div>
 								</h6>
 							) : (
-								''
+								<h6>
+									<div class="action">
+										{col.render ? col.render(el[col.key]) : el[col.key]}
+									</div>
+								</h6>
 							);
 						})}
 					</Card>

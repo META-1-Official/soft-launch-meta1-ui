@@ -1505,13 +1505,17 @@ form.hide-container {
 		background: #0a0b0d;
 		border: 1px solid #1c1f27;
 		border-radius: 4px;
+		@media screen and (max-width: 870px) {
+			margin: 0px 9px 0px;
+		}
+
 		.header {
-			padding: '30px';
 			@media screen and (max-width: 870px) {
 				flex-direction: column;
 				align-items: baseline;
 				margin-bottom: 16px;
 				margin-left: 6px !important;
+				margin-top: 6px !important;
 			}
 			.header-content {
 				display: flex;
@@ -1524,7 +1528,7 @@ form.hide-container {
 		font-size: 24px;
 		margin-bottom: 10px;
 		@media screen and (max-width: 870px) {
-			font-size: 16px !important;
+			font-size: 15px !important;
 			line-height: 1.5 !important;
 		}
 	}
@@ -1533,7 +1537,7 @@ form.hide-container {
 		font-size: 20px;
 		margin-bottom: 10px;
 		@media screen and (max-width: 870px) {
-			font-size: 12px !important;
+			font-size: 11px !important;
 			line-height: 1.5 !important;
 		}
 		.golden {
@@ -1544,20 +1548,32 @@ form.hide-container {
 	.title3 {
 		font-size: 16px;
 		@media screen and (max-width: 870px) {
-			font-size: 11px !important;
+			font-size: 10px !important;
 			line-height: 1.5 !important;
 		}
 	}
-	.ant-typography {
+	.page-header {
 		@media screen and (max-width: 870px) {
-			font-size: 12px;
-			//width: unset !important;
+			padding: 0px 11px;
+			height: 50px;
+
+			h3 {
+				font-size: 16px !important;
+			}
 		}
+	}
+	.ant-typography {
 		@media screen and (max-width: 650px) {
 			display: flex;
 			justify-content: left;
 		}
 	}
+	span.ant-typography {
+		@media screen and (max-width: 870px) {
+			font-size: 11px !important;
+		}
+	}
+
 	.percentage-content {
 		float: right !important;
 		width: 170px;
@@ -1604,6 +1620,14 @@ form.hide-container {
 				width: 95% !important;
 				top: 50px !important;
 			}
+			.ant-input-wrapper {
+				input {
+					@media (max-width: 870px) {
+						font-size: 12px;
+					}
+				}
+			}
+
 			.ant-input-affix-wrapper {
 				background: #21252f;
 

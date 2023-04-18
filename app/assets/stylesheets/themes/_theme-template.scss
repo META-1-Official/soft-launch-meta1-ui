@@ -1288,11 +1288,11 @@
 			background-color: $explorer-tab-content-background-color;
 		}
 	}
-	.content {
-		@media screen and (max-width: 900px) {
-			border-bottom: 0.5px solid #272525;
-		}
-	}
+	// .content {
+	// 	@media screen and (max-width: 900px) {
+	// 		border-bottom: 0.5px solid #272525;
+	// 	}
+	// }
 	div.header-selector {
 		> .filter {
 			margin-right: 1rem;
