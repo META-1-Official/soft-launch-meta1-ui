@@ -361,6 +361,7 @@ p.order-table-title {
 			.ant-form-item-label {
 				display: flex;
 				align-items: center;
+				flex: none;
 
 				label {
 					font-size: 14px;
@@ -381,6 +382,7 @@ p.order-table-title {
 			}
 
 			.ant-form-item-control {
+				flex: 1 1 0;
 				display: flex;
 				margin-left: 5px;
 				max-width: unset;
