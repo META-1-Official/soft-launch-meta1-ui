@@ -52,6 +52,7 @@ class Help extends React.Component {
 							</div>
 						</Col>
 						<Col
+							className="help-container"
 							sm={24}
 							lg={18}
 							xs={24}

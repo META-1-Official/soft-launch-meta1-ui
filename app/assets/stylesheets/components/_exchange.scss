@@ -1578,16 +1578,7 @@ form.hide-container {
 			line-height: 1.5 !important;
 		}
 	}
-	.page-header {
-		@media screen and (max-width: 870px) {
-			padding: 0px 11px;
-			height: 50px;
 
-			h3 {
-				font-size: 16px !important;
-			}
-		}
-	}
 	.ant-typography {
 		@media screen and (max-width: 650px) {
 			display: flex;

@@ -73,3 +73,8 @@
 		width: 100%;
 	}
 }
+.help-container {
+	@media (max-width: 900px) {
+		margin-bottom: 20px !important;
+	}
+}
