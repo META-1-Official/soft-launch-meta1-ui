@@ -373,14 +373,20 @@ p.order-table-title {
 				display: flex;
 				align-items: center;
 				flex: none;
+				height: 100%;
+				padding: 4px 0;
 
 				label {
 					font-size: 14px;
 					text-transform: uppercase;
 					margin-bottom: 0;
-					text-align: left;
+					text-align: center;
 					width: 100px;
 					padding-left: 10px;
+
+					@media screen and (max-width: 768px) {
+						justify-content: center;
+					}
 
 					@media screen and (max-width: 1600px) {
 						white-space: pre-wrap;
@@ -1018,6 +1024,13 @@ div.bucket-option {
 	padding: 1px;
 	z-index: 0; // Make sure unwrapped content isn't hidden under companion input
 	width: 100px;
+	margin-left: 8px;
+
+	@media screen and (max-width: 768px) {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
 }
 
 .buy-sell-input {
