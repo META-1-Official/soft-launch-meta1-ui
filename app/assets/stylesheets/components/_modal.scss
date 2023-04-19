@@ -775,10 +775,7 @@
 
 		.ant-select-single {
 			width: 100% !important;
-
-			@media screen and (max-width: 576px) {
-				max-width: calc(100% - 93px) !important;
-			}
+			max-width: calc(100% - 93px) !important;
 
 			.ant-select-selector {
 				padding-right: 30px !important;
