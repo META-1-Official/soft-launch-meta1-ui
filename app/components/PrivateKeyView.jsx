@@ -94,14 +94,23 @@ export default class PrivateKeyView extends Component {
 								<label>
 									<Translate content="account.perm.public" />
 								</label>
-								<div style={{color: 'rgba(255, 255, 255, 0.5)'}}>
+								<div
+									css={(theme) => ({
+										color: theme.colors.descriptionTextColor,
+										fontSize: 12,
+									})}
+								>
 									{this.props.pubkey}
-									<CopyButton
-										text={this.props.pubkey}
-										tip="tooltip.copy_tip"
-										dataPlace="top"
-										className="button"
-									/>
+									<div style={{marginTop: 5}}>
+										<CopyButton
+											text={this.props.pubkey}
+											tip="tooltip.copy_tip"
+											dataPlace="top"
+											className="button"
+											width="70px"
+											buttonText="Copy"
+										/>
+									</div>
 								</div>
 							</div>
 							<br />
@@ -114,10 +123,10 @@ export default class PrivateKeyView extends Component {
 									{this.state.wif ? (
 										<span>
 											<p
-												style={{
-													color: 'rgba(255, 255, 255, 0.5)',
-													fontSize: '14px',
-												}}
+												css={(theme) => ({
+													color: theme.colors.descriptionTextColor,
+													fontSize: 12,
+												})}
 											>
 												{this.state.wif}
 											</p>
@@ -125,6 +134,7 @@ export default class PrivateKeyView extends Component {
 												<div
 													className="button"
 													onClick={this.onHide.bind(this)}
+													style={{background: 'red', width: 70}}
 												>
 													hide
 												</div>
@@ -138,7 +148,11 @@ export default class PrivateKeyView extends Component {
 										</span>
 									) : (
 										<span>
-											<div className="button" onClick={this.onShow.bind(this)}>
+											<div
+												className="button"
+												onClick={this.onShow.bind(this)}
+												style={{background: '#ffc000', width: 70}}
+											>
 												<Translate content="account.perm.show" />
 											</div>
 										</span>
@@ -151,7 +165,12 @@ export default class PrivateKeyView extends Component {
 								<label>
 									<Translate content="account.perm.brain" />
 								</label>
-								<div style={{color: 'rgba(255, 255, 255, 0.5)'}}>
+								<div
+									css={(theme) => ({
+										color: theme.colors.descriptionTextColor,
+										fontSize: 12,
+									})}
+								>
 									{key.brainkey_sequence == null
 										? 'Non-deterministic'
 										: key.brainkey_sequence}
@@ -164,7 +183,12 @@ export default class PrivateKeyView extends Component {
 									<label>
 										<Translate content="account.perm.from" />
 									</label>
-									<div style={{color: 'rgba(255, 255, 255, 0.5)'}}>
+									<div
+										css={(theme) => ({
+											color: theme.colors.descriptionTextColor,
+											fontSize: 12,
+										})}
+									>
 										{key.import_account_names.join(', ')}
 									</div>
 									<br />
