@@ -218,6 +218,7 @@ const SideBar = ({collapsed, currentLink, toggle}) => {
 										padding: '10px !important',
 										backgroundColor: `${theme.colors.sideBar}`,
 										color: !enableNavLinks ? 'grey !important' : null,
+										boxShadow: 'none',
 									},
 									'&.active, &:active, &:hover, &:focus': {
 										backgroundColor: 'transparent !important',
