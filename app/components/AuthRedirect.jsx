@@ -4,7 +4,7 @@ import {ChainStore} from 'meta1-vision-js';
 import {PrivateKey, FetchChain, key} from 'meta1-vision-js/es';
 import qs from 'qs';
 import axios from 'axios';
-import {Modal} from 'antd';
+import {Modal, Select} from 'antd';
 import counterpart from 'counterpart';
 import AuthStore from '../stores/AuthStore';
 import AccountStore from '../stores/AccountStore';
@@ -16,12 +16,12 @@ import WalletUnlockActions from '../actions/WalletUnlockActions';
 import ls from '../lib/common/localStorage';
 import faceKIService from '../services/face-ki.service';
 import kycService from 'services/kyc.service';
-import Webcam from 'react-webcam';
+import {Camera} from 'react-camera-pro';
 import {Button} from 'antd';
 import {toast} from 'react-toastify';
 
 const OvalImage = require('assets/oval/oval.png');
-const OvalDarkImage = require('assets/oval/oval_dark.png');
+const FlipImage = require('assets/flip.png');
 
 const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
@@ -38,7 +38,7 @@ const browserstack_test_accounts = [
 	'rock-64',
 	'rock-3',
 	'bond-02',
-	'antman-kok357',
+	'jin123',
 ];
 
 const errorCase = {
@@ -64,13 +64,15 @@ class AuthRedirect extends React.Component {
 			redirectFromESign: false,
 			login: false,
 			faceKISuccess: false,
-			device: {},
+			devices: [],
 			token: '',
 			webcamEnabled: true,
 			verifying: false,
 			photoIndex: 0,
 			width: 0,
 			height: 0,
+			numberOfCameras: 0,
+			activeDevice: null,
 		};
 
 		this.generateAuthData = this.generateAuthData.bind(this);
@@ -126,13 +128,16 @@ class AuthRedirect extends React.Component {
 		const videoTag = document.querySelector('video');
 		const features = {audio: false, video: true};
 
+		console.log('loadvideo');
+
 		if (flag) {
 			return navigator.mediaDevices
 				.getUserMedia(features)
 				.then((display) => {
 					this.setState({
 						webcamEnabled: true,
-						device: display?.getVideoTracks()[0]?.getSettings(),
+						devices: display?.getVideoTracks(),
+						activeDevice: display?.getVideoTracks()[0],
 					});
 				})
 				.finally(() => {
@@ -212,11 +217,7 @@ class AuthRedirect extends React.Component {
 			}
 		}
 
-		var sizeForSreenShot =
-			this.isMobile() && device.width
-				? {width: device.width, height: device.height}
-				: {width: 1280, height: 720};
-		const imageSrc = this.webcamRef.current.getScreenshot(sizeForSreenShot);
+		const imageSrc = this.webcamRef.current.takePhoto();
 
 		if (!imageSrc) {
 			toast(errorCase['Camera Not Found']);
@@ -306,6 +307,7 @@ class AuthRedirect extends React.Component {
 
 				setAuthData(data);
 				setPrivKey('web3authprivatekey');
+				this.loadVideo(true);
 			} else {
 				this.props.history.push('/registration');
 			}
@@ -432,8 +434,10 @@ class AuthRedirect extends React.Component {
 	render() {
 		const {width} = this.state;
 		const theme = this.props.theme;
-		const aspectRatio = this.state.device?.aspectRatio ?? 1.33;
-		const webCamWidth = width > 576 ? 500 : width - 75;
+		// const aspectRatio =
+		// 	this.state.activeDevice?.getSettings()?.aspectRatio ?? 1.33;
+		const aspectRatio = 1.07;
+		const webCamWidth = width > 576 ? 500 : width - 70;
 
 		return (
 			<React.Fragment>
@@ -459,7 +463,10 @@ class AuthRedirect extends React.Component {
 							)}
 						</h5>
 						{this.state.webcamEnabled && (
-							<div className="webcam-wrapper">
+							<div
+								className="webcam-wrapper"
+								style={{width: webCamWidth, height: webCamWidth / aspectRatio}}
+							>
 								<div className="flex-container">
 									<div className="flex-container-first">
 										<div className="position-head">
@@ -472,31 +479,37 @@ class AuthRedirect extends React.Component {
 										X
 									</button>
 								</div>
-								<Webcam
-									audio={false}
+								{this.state.numberOfCameras > 1 && (
+									<img
+										className="flip-button"
+										src={FlipImage}
+										onClick={() => {
+											if (this.webcamRef.current) {
+												const result = this.webcamRef.current.switchCamera();
+											}
+										}}
+									/>
+								)}
+								<Camera
 									ref={this.webcamRef}
-									screenshotFormat="image/jpeg"
-									width={webCamWidth}
-									videoConstraints={{deviceId: this.state.device?.deviceId}}
-									height={webCamWidth / aspectRatio}
-									mirrored
+									aspectRatio="cover"
+									numberOfCamerasCallback={(i) =>
+										this.setState({numberOfCameras: i})
+									}
+									videoSourceDeviceId={
+										this.state.activeDevice?.getSettings()?.deviceId
+									}
+									errorMessages={{
+										noCameraAccessible:
+											'No camera device accessible. Please connect your camera or try a different browser.',
+										permissionDenied:
+											'Permission denied. Please refresh and give camera permission.',
+										switchCamera:
+											'It is not possible to switch camera to different one because there is only one video device accessible.',
+										canvas: 'Canvas is not supported.',
+									}}
 								/>
-								<img
-									src={OvalDarkImage}
-									alt="oval-image"
-									className="oval-image"
-									css={(theme) => ({
-										display: theme.mode == 'dark' ? 'block' : 'none',
-									})}
-								/>
-								<img
-									src={OvalImage}
-									alt="oval-image"
-									className="oval-image"
-									css={(theme) => ({
-										display: theme.mode == 'light' ? 'block' : 'none',
-									})}
-								/>
+								<img src={OvalImage} alt="oval-image" className="oval-image" />
 								<div className="flex_container">
 									<span className="span-class">
 										{!this.state.faceKISuccess
@@ -520,6 +533,32 @@ class AuthRedirect extends React.Component {
 								</div>
 							</div>
 						)}
+						<div style={{width: webCamWidth}}>
+							<Select
+								value={this.state.activeDevice?.getSettings()?.deviceId}
+								onChange={(value) => {
+									{
+										this.state.devices.map((d) => {
+											if (d.getSettings().deviceId === value)
+												this.setState({activeDevice: d});
+										});
+									}
+								}}
+								getPopupContainer={(triggerNode) => triggerNode.parentNode}
+							>
+								{this.state.devices.map((d) => {
+									var deviceInfo = d.getSettings();
+									return (
+										<Select.Option
+											key={deviceInfo.deviceId}
+											value={deviceInfo.deviceId}
+										>
+											{d.label}
+										</Select.Option>
+									);
+								})}
+							</Select>
+						</div>
 						<div className="button-wrapper">
 							<Button
 								onClick={() => this.checkAndVerify()}

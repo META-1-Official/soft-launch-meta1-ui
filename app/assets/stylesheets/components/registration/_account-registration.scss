@@ -77,6 +77,11 @@ div.registration {
 					max-width: 300px;
 				}
 			}
+
+			.ant-select {
+				width: 100%;
+				margin-top: 5px;
+			}
 		}
 
 		.registration-account-title {
@@ -569,6 +574,8 @@ div.registration {
 		display: flex;
 		flex-direction: column;
 		color: rgba(255, 255, 255, 0.5);
+		position: absolute;
+		bottom: 0;
 	}
 
 	.flex-container-new {
@@ -612,6 +619,16 @@ div.registration {
 		border: 1px solid #262a32;
 		border-radius: 50%;
 		margin-right: 10px;
+	}
+
+	.flip-button {
+		position: absolute;
+		top: 50px;
+		right: 10px;
+		z-index: 300;
+		opacity: 0.7;
+		cursor: pointer;
+		width: 30px;
 	}
 
 	.oval-image {

@@ -35,7 +35,7 @@ const browserstack_test_accounts = [
 	'rock-64',
 	'rock-3',
 	'bond-02',
-	'antman-kok357',
+	'jin123',
 ];
 
 class PasswordlessLoginModal extends React.Component {
