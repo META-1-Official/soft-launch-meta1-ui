@@ -1,29 +1,9 @@
 import React from 'react';
 import {Line} from 'react-chartjs-2';
 import {customTooltips, chartLinearGradient} from './chartUtilities';
-import {useTheme} from '@emotion/react';
 
 const ChartjsAreaChart = (props) => {
-	const {labels, options, width, height, layout, id} = props;
-	const theme = useTheme();
-
-	const datasets = [
-		{
-			data: [15, 10, 20, 35, 40, 30, 35, 40, 20, 50, 50, 70],
-			borderColor: '#ffc000',
-			borderWidth: 1,
-			fill: true,
-			backgroundColor: () =>
-				theme.mode == 'dark'
-					? '#000000'
-					: chartLinearGradient(document.getElementById('engaged'), 165, {
-							start: '#ffffff',
-							end: theme.colors.graphColor,
-					  }),
-			pointHoverRadius: 0,
-			pointHoverBorderColor: 'transparent',
-		},
-	];
+	const {labels, datasets, options, width, height, layout, id} = props;
 
 	const data = {
 		labels,
@@ -55,8 +35,12 @@ const ChartjsAreaChart = (props) => {
 					zIndex: 222,
 					top: 0,
 					left: 0,
+					// @media only screen and (max-width: 1199px){
+					//     padding: 6px 8px !important,
+					// }
 					'& :before': {
 						position: 'absolute',
+						// content: '',
 						borderTop: ' 5px solid #fff',
 						borderLeft: '5px solid transparent',
 						borderRight: '5px solid transparent',
@@ -84,12 +68,16 @@ const ChartjsAreaChart = (props) => {
 				},
 				'.tooltip-value sup': {
 					fontSize: '12px',
+					// @media only screen and (max-width: 1199px){
+					//     font-size: 11px;
+					// }
 				},
 				table: {
 					tbody: {
 						td: {
 							fontSize: '13px',
 							fontWeight: 500,
+							// paddingBottom: '3px',
 							whiteSpace: 'nowrap',
 							color: 'black',
 							'.data-label': {
@@ -112,7 +100,7 @@ const ChartjsAreaChart = (props) => {
 						enabled: false,
 						custom: customTooltips,
 						callbacks: {
-							labelColor() {
+							labelColor(tooltipItem, chart) {
 								return {
 									backgroundColor: datasets.map((item) => item.borderColor),
 									borderColor: 'transparent',
@@ -143,6 +131,22 @@ ChartjsAreaChart.defaultProps = {
 		'Nov',
 		'Dec',
 	],
+
+	datasets: [
+		{
+			data: [15, 10, 20, 35, 40, 30, 35, 40, 20, 50, 50, 70],
+			borderColor: '#ffc000',
+			borderWidth: 1,
+			fill: true,
+			backgroundColor: () =>
+				chartLinearGradient(document.getElementById('engaged'), 165, {
+					start: '#0e1013',
+					end: '#141619',
+				}),
+			pointHoverRadius: 0,
+			pointHoverBorderColor: 'transparent',
+		},
+	],
 	options: {
 		maintainAspectRatio: true,
 		hover: {
@@ -156,7 +160,6 @@ ChartjsAreaChart.defaultProps = {
 				top: 0,
 				bottom: -10,
 			},
-			borderRaidus: '10px',
 		},
 		legend: {
 			display: false,
