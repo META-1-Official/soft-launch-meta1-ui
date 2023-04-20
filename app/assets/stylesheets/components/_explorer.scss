@@ -1,4 +1,28 @@
 .explorer {
+	.ant-tabs-nav {
+		padding-left: 30px;
+		margin: 0;
+	}
+
+	.ant-table-thead {
+		tr {
+			th {
+				text-transform: uppercase;
+				font-size: 14px;
+
+				.ant-table-column-sorters {
+					text-transform: uppercase;
+					font-size: 14px;
+
+					.ant-table-column-title {
+						text-transform: uppercase;
+						font-size: 14px;
+					}
+				}
+			}
+		}
+	}
+
 	.blockchain-tab {
 		.explorer-card {
 			canvas {
@@ -22,8 +46,30 @@
 					width: 100%;
 				}
 
+				thead {
+					th {
+						span {
+							font-weight: 500;
+							font-size: 14px;
+						}
+					}
+				}
+
 				tbody {
 					overflow: auto;
+
+					tr {
+						td {
+							&:first-child {
+								width: 150px;
+								padding-left: 15px;
+
+								@media screen and (max-width: 576px) {
+									padding-left: 0;
+								}
+							}
+						}
+					}
 				}
 			}
 
@@ -37,8 +83,30 @@
 					padding-left: 0;
 				}
 
+				thead {
+					th {
+						span {
+							font-weight: 500;
+							font-size: 14px;
+						}
+					}
+				}
+
 				tbody {
 					overflow: auto;
+
+					tr {
+						td {
+							&:first-child {
+								width: 100px;
+								padding-left: 15px;
+
+								@media screen and (max-width: 576px) {
+									padding-left: 0;
+								}
+							}
+						}
+					}
 				}
 			}
 		}
@@ -48,7 +116,8 @@
 		.assets-section-wrapper {
 			display: flex;
 			flex-direction: column;
-			padding-right: 20px;
+			padding-right: 30px;
+			padding-left: 30px;
 
 			.control-group {
 				text-align: left;
@@ -104,6 +173,12 @@
 				width: 100% !important;
 			}
 		}
+
+		.ant-table-cell {
+			font-size: 14px;
+			text-align: left !important;
+			padding-left: 16px !important;
+		}
 	}
 
 	.committee-tab {
@@ -118,6 +193,17 @@
 	}
 
 	.fees-tab {
-		padding-right: 20px;
+		padding: 30px;
+
+		table {
+			th {
+				font-size: 14px;
+			}
+		}
+
+		.ant-card {
+			height: 45px;
+			font-weight: 600;
+		}
 	}
 }

@@ -321,7 +321,7 @@ class Blocks extends React.Component {
 				<div
 					css={(theme) => ({
 						backgroundColor: theme.colors.explorerBackground,
-						padding: '2rem 1rem',
+						padding: '30px 30px',
 					})}
 				>
 					<Row gutter={[16, 16]}>
