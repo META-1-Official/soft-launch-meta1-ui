@@ -858,7 +858,13 @@ class BuySell extends React.Component {
 												</div>
 											</button>
 										</Tooltip>
-										<div style={{fontSize: 12, marginTop: 10}}>
+										<div
+											css={(theme) => ({
+												fontSize: 12,
+												marginTop: 10,
+												color: theme.colors.textColor,
+											})}
+										>
 											<span style={{color: '#ffc000'}}>
 												{counterpart.translate('account.transactions.fee')}:
 											</span>{' '}

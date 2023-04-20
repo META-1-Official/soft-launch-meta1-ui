@@ -1078,7 +1078,13 @@ class ScaledOrderForm extends Component {
 							{this.props.quoteAsset.get('symbol')}
 						</div>
 					</button>
-					<div style={{fontSize: 12, marginTop: 10}}>
+					<div
+						css={(theme) => ({
+							fontSize: 12,
+							marginTop: 10,
+							color: theme.colors.textColor,
+						})}
+					>
 						<span style={{color: '#ffc000'}}>
 							{counterpart.translate('account.transactions.fee')}:
 						</span>

@@ -13,6 +13,7 @@ import AuthStore from '../../stores/AuthStore';
 import ls from '../../lib/common/localStorage';
 import {Input, Button} from 'antd';
 import Webcam from 'react-webcam';
+import {Camera} from 'react-camera-pro';
 import faceKIService from 'services/face-ki.service';
 import kycService from 'services/kyc.service';
 import migrationService from 'services/migration.service';
@@ -37,13 +38,15 @@ class AccountRegistration extends React.Component {
 			migrationStep: false,
 			faceKISuccess: false,
 			passkey: '',
-			device: {},
+			devices: [],
 			webcamEnabled: false,
 			verifying: false,
 			photoIndex: 0,
 			authModalOpen: false,
 			width: 0,
 			height: 0,
+			numberOfCameras: 0,
+			activeDevice: null,
 		};
 		this.webcamRef = React.createRef();
 		this.continue = this.continue.bind(this);
@@ -76,12 +79,11 @@ class AccountRegistration extends React.Component {
 
 		if (!email || !privKey) return;
 
+		if (!this.webcamRef.current) return;
+
 		this.setState({verifying: true});
 
-		const imageSrc = this.webcamRef.current.getScreenshot({
-			width: 1280,
-			height: 720,
-		});
+		const imageSrc = this.webcamRef.current.takePhoto();
 
 		if (!imageSrc) {
 			toast(counterpart.translate('registration.check_camera'));
@@ -284,7 +286,8 @@ class AccountRegistration extends React.Component {
 				.then((display) => {
 					this.setState({
 						webcamEnabled: true,
-						device: display?.getVideoTracks()[0]?.getSettings(),
+						devices: display?.getVideoTracks(),
+						activeDevice: display?.getVideoTracks()[0],
 					});
 				})
 				.finally(() => {
@@ -481,7 +484,9 @@ class AccountRegistration extends React.Component {
 		} else if (faceKIStep) {
 			const {width} = this.state;
 			const theme = this.props.theme;
-			const aspectRatio = this.state.device?.aspectRatio ?? 1.33;
+			const aspectRatio =
+				this.state.activeDevice?.getSettings()?.aspectRatio ?? 1.33;
+			console.log('info', aspectRatio);
 			const webCamWidth = width > 576 ? 500 : width - 75;
 
 			return (
@@ -490,7 +495,10 @@ class AccountRegistration extends React.Component {
 					<h5>{counterpart.translate('registration.biometric_2fa_info')}</h5>
 					<br />
 					{this.state.webcamEnabled && (
-						<div className="webcam-wrapper">
+						<div
+							className="webcam-wrapper"
+							style={{width: webCamWidth, height: webCamWidth / aspectRatio}}
+						>
 							<div className="flex-container-new">
 								<div className="flex-container-first">
 									<div className="position-head color-black">
@@ -522,14 +530,24 @@ class AccountRegistration extends React.Component {
 									X
 								</button>
 							</div>
-							<Webcam
-								audio={false}
+							<Camera
 								ref={this.webcamRef}
-								screenshotFormat="image/jpeg"
-								width={webCamWidth}
-								videoConstraints={{deviceId: this.state.device?.deviceId}}
-								height={webCamWidth / aspectRatio}
-								mirrored
+								aspectRatio="cover"
+								numberOfCamerasCallback={(i) =>
+									this.setState({numberOfCameras: i})
+								}
+								videoSourceDeviceId={
+									this.state.activeDevice?.getSettings()?.deviceId
+								}
+								errorMessages={{
+									noCameraAccessible:
+										'No camera device accessible. Please connect your camera or try a different browser.',
+									permissionDenied:
+										'Permission denied. Please refresh and give camera permission.',
+									switchCamera:
+										'It is not possible to switch camera to different one because there is only one video device accessible.',
+									canvas: 'Canvas is not supported.',
+								}}
 							/>
 							<img
 								src={OvalDarkImage}
@@ -568,6 +586,27 @@ class AccountRegistration extends React.Component {
 							</div>
 						</div>
 					)}
+					<select
+						onChange={(event) => {
+							{
+								this.state.devices.map((d) => {
+									console.log('check', d, d.getSettings(), event.target.value);
+									if (d.getSettings().deviceId === event.target.value)
+										this.setState({activeDevice: d});
+								});
+							}
+						}}
+					>
+						{this.state.devices.map((d) => {
+							var deviceInfo = d.getSettings();
+							console.log('options', d, d.getSettings());
+							return (
+								<option key={deviceInfo.deviceId} value={deviceInfo.deviceId}>
+									{d.label}
+								</option>
+							);
+						})}
+					</select>
 					<div className="button-wrapper">
 						<Button
 							onClick={() => this.checkAndEnroll()}
@@ -582,6 +621,17 @@ class AccountRegistration extends React.Component {
 							{this.state.verifying
 								? counterpart.translate('registration.faceki_verifying')
 								: counterpart.translate('registration.faceki_verify')}
+						</Button>
+						<Button
+							disabled={this.state.numberOfCameras <= 1}
+							onClick={() => {
+								if (this.webcamRef.current) {
+									const result = this.webcamRef.current.switchCamera();
+									console.log(result);
+								}
+							}}
+						>
+							Flip
 						</Button>
 					</div>
 				</div>

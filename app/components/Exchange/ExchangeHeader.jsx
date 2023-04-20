@@ -208,7 +208,7 @@ export default class ExchangeHeader extends React.Component {
 
 		return (
 			<div className="top-bar">
-				<div style={{display: 'flex'}}>
+				<div className="first-section">
 					<a
 						id="center-item"
 						onClick={() => {
@@ -246,7 +246,7 @@ export default class ExchangeHeader extends React.Component {
 							<div
 								style={{
 									padding: '0 5px',
-									fontSize: '18px',
+									fontSize: '16px',
 								}}
 							>
 								<span
@@ -277,7 +277,7 @@ export default class ExchangeHeader extends React.Component {
 					</div>
 				</div>
 
-				<div style={{overflow: 'visible'}}>
+				<div className="last-section">
 					<div className="market-stats-container">
 						<ul
 							className="market-stats stats top-stats"
