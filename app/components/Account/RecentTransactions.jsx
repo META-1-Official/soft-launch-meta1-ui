@@ -735,6 +735,7 @@ class RecentTransactions extends React.Component {
 							</div>
 						)}
 					</div>
+					{/* <div className='transaction-history-table'> */}
 					<PaginatedList
 						withTransition
 						pageSize={pageSize}
@@ -860,6 +861,7 @@ class RecentTransactions extends React.Component {
 						rowClassName={(row) => this._getRowClassName(row)}
 						onChangePage={this.onChangePage}
 					/>
+					{/* </div> */}
 
 					{this.state.fetchingAccountHistory && <LoadingIndicator />}
 				</div>

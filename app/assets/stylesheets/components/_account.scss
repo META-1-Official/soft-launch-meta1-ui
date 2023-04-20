@@ -791,7 +791,12 @@ div.account-overview {
 			.ant-table {
 				background: #080000;
 				border-radius: 4px;
-
+				table {
+					@media screen and (max-width: 800px) {
+						font-size: 12px;
+						font-weight: 200px;
+					}
+				}
 				.ant-table-thead {
 					th {
 						span {
@@ -1116,6 +1121,18 @@ div.tabs-container {
 			margin-right: 3px !important;
 		}
 	}
+
+	// .transaction-history-table{
+	//      table{
+	// 		tbody{
+	// 			tr{
+	// 				td{
+	// 					width: 20%;
+	// 				}
+	// 			}
+	// 		}
+	// 	 }
+	// }
 }
 
 .recent-transactions {
@@ -1365,6 +1382,9 @@ div.account-trade {
 				width: 70px;
 				@media screen and (max-width: 900px) {
 					width: 60px;
+					display: flex;
+					justify-content: center;
+					align-items: center;
 				}
 			}
 
@@ -1372,6 +1392,9 @@ div.account-trade {
 				width: 150px;
 				@media screen and (max-width: 900px) {
 					width: 120px;
+					display: flex;
+					justify-content: center;
+					align-items: center;
 				}
 			}
 
@@ -1384,6 +1407,9 @@ div.account-trade {
 				@media screen and (max-width: 900px) {
 					flex-direction: row-reverse;
 					margin-top: 14px;
+					display: flex;
+					justify-content: center;
+					align-items: center;
 				}
 			}
 
@@ -1651,7 +1677,11 @@ div.account-activity {
 					}
 				}
 			}
-
+			.card.paginator {
+				display: flex;
+				justify-content: right;
+				margin: 10px;
+			}
 			.close-text {
 				margin-top: 40px;
 				margin-bottom: 30px;
