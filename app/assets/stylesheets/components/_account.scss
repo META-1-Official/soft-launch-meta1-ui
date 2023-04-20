@@ -791,12 +791,45 @@ div.account-overview {
 			.ant-table {
 				background: #080000;
 				border-radius: 4px;
-				table {
-					@media screen and (max-width: 800px) {
+				@media screen and (max-width: 800px) {
+					table {
 						font-size: 12px;
 						font-weight: 200px;
 					}
+
+					table thead th {
+						position: sticky;
+						top: 0;
+						z-index: 1;
+					}
+					table td {
+						text-align: center;
+					}
+
+					table tbody td {
+						position: relative;
+					}
+					table thead th:first-child {
+						position: sticky;
+						left: 0;
+						z-index: 2;
+						div {
+							width: 120px;
+						}
+					}
+
+					table tbody td {
+						position: sticky;
+						left: 0;
+						z-index: 0;
+					}
+					table tbody td:first-child {
+						position: sticky;
+						left: 0;
+						z-index: 2;
+					}
 				}
+
 				.ant-table-thead {
 					th {
 						span {
@@ -1117,22 +1150,37 @@ div.tabs-container {
 	.ant-table-content {
 		@media screen and (max-width: 900px) {
 			overflow: scroll !important;
-			padding: 3px !important;
-			margin-right: 3px !important;
+			// padding: 3px !important;
+			// margin-right: 3px !important;
 		}
 	}
 
-	// .transaction-history-table{
-	//      table{
-	// 		tbody{
-	// 			tr{
-	// 				td{
-	// 					width: 20%;
-	// 				}
-	// 			}
-	// 		}
-	// 	 }
-	// }
+	.transaction-history-table {
+		@media screen and (max-width: 800px) {
+			table thead th:nth-child(2) {
+				div {
+					width: 220px !important;
+				}
+			}
+			table tbody td:nth-child(2) {
+				span {
+					width: 220px !important;
+					white-space: break-spaces;
+				}
+			}
+			table thead th:nth-child(3) {
+				div {
+					width: 220px !important;
+				}
+			}
+			table tbody td:nth-child(3) {
+				div {
+					width: 220px !important;
+					white-space: break-spaces !important;
+				}
+			}
+		}
+	}
 }
 
 .recent-transactions {
