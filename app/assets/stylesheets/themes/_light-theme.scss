@@ -373,6 +373,12 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 							}
 						}
 					}
+
+					@media screen and (max-width: 800px) {
+						table tbody td:first-child {
+							background-color: white;
+						}
+					}
 				}
 			}
 

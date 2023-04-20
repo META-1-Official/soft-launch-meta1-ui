@@ -300,4 +300,22 @@ $header-menu-item--hover--background-color: lighten($primary-dark, 10%);
 	.ant-menu-submenu-popup {
 		background-color: $primary-dark;
 	}
+
+	// Account Overview
+	div.account-overview {
+		.portfolio-table-wrapper {
+			.ant-table-wrapper {
+				.ant-table {
+					@media screen and (max-width: 800px) {
+						table thead th:first-child {
+							background-color: #15171b;
+						}
+						table tbody td:first-child {
+							background: #0a0b0d;
+						}
+					}
+				}
+			}
+		}
+	}
 }

@@ -475,7 +475,7 @@ div.account-overview {
 				position: relative;
 				margin-left: auto;
 				display: flex;
-				bottom: 91px !important;
+				bottom: 90px !important;
 				left: 1;
 				flex-direction: row;
 				gap: 1 !important;
@@ -619,6 +619,12 @@ div.account-overview {
 
 		&.header-selector {
 			.estimated-balance {
+				@media screen and (max-width: 760px) {
+					display: flex;
+					flex-direction: column;
+					gap: 14px;
+				}
+
 				> p {
 					font-size: 16px;
 					color: #cecece;
@@ -637,7 +643,7 @@ div.account-overview {
 					font-weight: 600;
 
 					@media screen and (max-width: 900px) {
-						font-size: 18px;
+						font-size: 20px;
 						font-weight: 400;
 						margin-bottom: 10px;
 					}
@@ -652,7 +658,7 @@ div.account-overview {
 						margin-left: 10px;
 
 						@media screen and (max-width: 900px) {
-							font-size: 10px;
+							font-size: 14px;
 						}
 
 						@media screen and (max-width: 300px) {
@@ -681,10 +687,16 @@ div.account-overview {
 
 						&.change-up {
 							background-color: #009d55 !important;
+							@media screen and (max-width: 600px) {
+								margin-left: auto !important;
+							}
 						}
 
 						&.change-down {
 							background-color: #ff2929 !important;
+							@media screen and (max-width: 600px) {
+								margin-left: auto !important;
+							}
 						}
 
 						svg {
@@ -709,6 +721,7 @@ div.account-overview {
 					width: inherit;
 					height: inherit;
 					margin-top: -73px;
+					width: 100%;
 				}
 
 				@media screen and (max-width: 400px) {
@@ -726,7 +739,7 @@ div.account-overview {
 
 					@media screen and (max-width: 760px) {
 						font-size: 12px;
-						margin-top: 16px;
+						margin-top: 2px;
 						width: 100%;
 						margin-bottom: 0px;
 					}
@@ -778,6 +791,44 @@ div.account-overview {
 			.ant-table {
 				background: #080000;
 				border-radius: 4px;
+				@media screen and (max-width: 800px) {
+					table {
+						font-size: 12px;
+						font-weight: 200px;
+					}
+
+					table thead th {
+						position: sticky;
+						top: 0;
+						z-index: 1;
+					}
+					table td {
+						text-align: center;
+					}
+
+					table tbody td {
+						position: relative;
+					}
+					table thead th:first-child {
+						position: sticky;
+						left: 0;
+						z-index: 2;
+						div {
+							width: 120px;
+						}
+					}
+
+					table tbody td {
+						position: sticky;
+						left: 0;
+						z-index: 0;
+					}
+					table tbody td:first-child {
+						position: sticky;
+						left: 0;
+						z-index: 2;
+					}
+				}
 
 				.ant-table-thead {
 					th {
@@ -785,6 +836,9 @@ div.account-overview {
 							text-transform: uppercase;
 							color: #969ba6;
 							font-size: 14px;
+							@media screen and (max-width: 800px) {
+								font-size: 12px;
+							}
 						}
 					}
 				}
@@ -1089,12 +1143,42 @@ div.tabs-container {
 
 .transaction-table {
 	padding: 1rem 2rem;
+	@media screen and (max-width: 900px) {
+		padding: 15px;
+	}
 
 	.ant-table-content {
 		@media screen and (max-width: 900px) {
 			overflow: scroll !important;
-			padding: 3px !important;
-			margin-right: 3px !important;
+			// padding: 3px !important;
+			// margin-right: 3px !important;
+		}
+	}
+
+	.transaction-history-table {
+		@media screen and (max-width: 800px) {
+			table thead th:nth-child(2) {
+				div {
+					width: 220px !important;
+				}
+			}
+			table tbody td:nth-child(2) {
+				span {
+					width: 220px !important;
+					white-space: break-spaces;
+				}
+			}
+			table thead th:nth-child(3) {
+				div {
+					width: 220px !important;
+				}
+			}
+			table tbody td:nth-child(3) {
+				div {
+					width: 220px !important;
+					white-space: break-spaces !important;
+				}
+			}
 		}
 	}
 }
@@ -1117,9 +1201,16 @@ div.tabs-container {
 
 		@media screen and (max-width: 900px) {
 			font-weight: 300;
-			font-size: 18px;
+			font-size: 20px;
 			line-height: 22px;
 			margin-bottom: 10px;
+		}
+	}
+	.date-container {
+		@media screen and (max-width: 900px) {
+			display: flex;
+			width: 250%;
+			margin-top: 15px;
 		}
 	}
 
@@ -1130,7 +1221,8 @@ div.tabs-container {
 			align-items: center;
 
 			@media screen and (max-width: 900px) {
-				gap: 25px;
+				gap: 13px;
+				align-items: baseline;
 			}
 
 			.date-list {
@@ -1148,6 +1240,7 @@ div.tabs-container {
 
 					@media screen and (max-width: 900px) {
 						margin-left: 0px;
+						width: 40%;
 					}
 				}
 			}
@@ -1173,6 +1266,10 @@ div.tabs-container {
 					align-items: center;
 					font-size: 16px;
 					text-transform: capitalize;
+					@media screen and (max-width: 900px) {
+						height: 40px;
+						font-size: 14px;
+					}
 				}
 
 				.ant-select-arrow {
@@ -1226,14 +1323,9 @@ div.tabs-container {
 .account-trade {
 	@media screen and (max-width: 900px) {
 		h2 {
-			font-size: 20px !important;
+			font-size: 22px !important;
 			font-weight: 400 !important;
 		}
-
-		div:has(> h2) {
-			padding: 1rem 0.6rem 2px;
-		}
-
 		.ant-table-cell {
 			padding: 0px 10px;
 		}
@@ -1336,10 +1428,22 @@ div.account-trade {
 
 			.time {
 				width: 70px;
+				@media screen and (max-width: 900px) {
+					width: 60px;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+				}
 			}
 
 			.asset {
 				width: 150px;
+				@media screen and (max-width: 900px) {
+					width: 120px;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+				}
 			}
 
 			.sorting {
@@ -1350,6 +1454,10 @@ div.account-trade {
 
 				@media screen and (max-width: 900px) {
 					flex-direction: row-reverse;
+					margin-top: 14px;
+					display: flex;
+					justify-content: center;
+					align-items: center;
 				}
 			}
 
@@ -1360,6 +1468,7 @@ div.account-trade {
 
 				@media screen and (max-width: 900px) {
 					margin-left: 0px;
+					margin-top: 4px;
 				}
 			}
 
@@ -1616,7 +1725,11 @@ div.account-activity {
 					}
 				}
 			}
-
+			.card.paginator {
+				display: flex;
+				justify-content: right;
+				margin: 10px;
+			}
 			.close-text {
 				margin-top: 40px;
 				margin-bottom: 30px;
@@ -1676,12 +1789,6 @@ div.account-activity {
 			}
 		}
 	}
-
-	h2 {
-		@media screen and (max-width: 900px) {
-			font-size: 18px !important;
-		}
-	}
 }
 
 // Permission page
@@ -1693,7 +1800,7 @@ div.account-permissions {
 		padding: 1rem 2rem;
 
 		@media screen and (max-width: 900px) {
-			padding: 0.6rem 0.5rem;
+			padding: 15px;
 			display: flex;
 			flex-direction: column;
 			margin-right: auto;
@@ -1702,7 +1809,7 @@ div.account-permissions {
 
 			h2 {
 				white-space: nowrap;
-				font-size: 16px !important;
+				font-size: 22px !important;
 			}
 
 			.action-buttons {
@@ -2778,7 +2885,9 @@ div.messages {
 .account-vesting {
 	.content-body {
 		padding: 30px;
-
+		@media screen and (max-width: 900px) {
+			padding: 10px;
+		}
 		.description-search {
 			display: flex;
 			align-items: flex-end;
@@ -2881,7 +2990,9 @@ div.messages {
 div.account-notification {
 	.content-body {
 		padding: 30px;
-
+		@media screen and (max-width: 900px) {
+			padding: 10px;
+		}
 		.list-wrapper {
 			background: #0a0b0d;
 			border: 1px solid #1c1f27;
@@ -3072,6 +3183,7 @@ div.account-notification {
 
 		div:has(> h4) {
 			padding: 1rem 0.6rem;
+			margin-bottom: 0px;
 		}
 
 		div:has(> .portfolio) {

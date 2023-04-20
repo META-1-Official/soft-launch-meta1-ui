@@ -2893,4 +2893,25 @@ div.customizable-column--selector--dropdown {
 
 .generic-bordered-box {
 	padding-right: 20px;
+	@media screen and (max-width: 900px) {
+		padding: 0px;
+	}
+}
+
+.page-header {
+	@media screen and (max-width: 900px) {
+		margin: 0px;
+		padding: 15px !important;
+		margin-bottom: unset !important;
+		h2 {
+			font-size: 20px !important;
+		}
+		h3 {
+			font-size: 20px !important;
+			padding: unset !important;
+		}
+		h4 {
+			font-size: 20px !important;
+		}
+	}
 }
