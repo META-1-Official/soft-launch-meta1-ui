@@ -152,7 +152,14 @@ class WitnessList extends React.Component {
 
 		const keyRender = (item) => {
 			return (
-				<Popover content={<span>{item}</span>} trigger={'hover'}>
+				<Popover
+					content={<span>{item}</span>}
+					trigger={'hover'}
+					overlayStyle={{
+						maxWidth: '100%',
+						overflowWrap: 'break-word',
+					}}
+				>
 					<AiOutlineKey />
 				</Popover>
 			);
@@ -199,7 +206,7 @@ class WitnessList extends React.Component {
 				align: 'center',
 				render: (item) => (
 					<div
-						style={{width: '100%', textAlign: 'center'}}
+						style={{width: '100%'}}
 						onClick={this.handleUrlClick(item.block)}
 					>
 						{linkRender(`${baseExplorerUrl}/${item.block}`)}
@@ -288,7 +295,7 @@ class WitnessList extends React.Component {
 				dataIndex: 'signing_key',
 				align: 'center',
 				render: (item) => (
-					<div style={{textAlign: 'center', width: '100%'}}>
+					<div style={{width: '100%', marginLeft: '7px'}}>
 						{keyRender(item)}
 					</div>
 				),
@@ -370,7 +377,7 @@ class Witnesses extends React.Component {
 				<div
 					css={(theme) => ({
 						backgroundColor: theme.colors.explorerBackground,
-						padding: '2rem 1rem',
+						padding: '30px 30px',
 					})}
 				>
 					<Row gutter={[16, 16]}>
@@ -489,7 +496,7 @@ class Witnesses extends React.Component {
 						</Col>
 					</Row>
 				</div>
-				<div className="generic-bordered-box" style={{marginTop: '20px'}}>
+				<div style={{padding: '30px'}}>
 					<SearchInput
 						placeholder={counterpart.translate(
 							'explorer.witnesses.filter_by_name'

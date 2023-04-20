@@ -564,15 +564,11 @@ class OrderBook extends React.Component {
 							= {Number(latest).toFixed(6)} {base.get('symbol')}
 						</span>
 					</div>
-
 					<div
 						css={(theme) => ({
 							overflow: 'hidden',
 							color: '#FF2929',
 							height: '227px',
-							[`@media (max-width: 768px)`]: {
-								height: 'unset',
-							},
 						})}
 					>
 						<div style={{height: '100%'}}>

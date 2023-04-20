@@ -28,10 +28,7 @@ const AllHistoryViewRow = ({fill, base, quote}) => {
 			className="table-body-class time-class"
 		>
 			<Tooltip title={fill.time.toString()} placement="left">
-				<div
-					className="tooltip overflow-hidden"
-					style={{whiteSpace: 'nowrap', paddingLeft: '10px'}}
-				>
+				<div className="tooltip" style={{whiteSpace: 'nowrap', fontSize: 14}}>
 					{counterpart.localize(fill.time, {
 						type: 'date',
 						format:
@@ -62,7 +59,7 @@ const AllHistoryViewRow = ({fill, base, quote}) => {
 				className="table-body-class"
 			>
 				<Tooltip title={fill.getPrice().toString()} placement="top">
-					<div className="overflow-hidden">
+					<div className="overflow-hidden" style={{textAlign: 'center'}}>
 						<PriceText price={fill.getPrice()} base={base} quote={quote} />
 					</div>
 				</Tooltip>
@@ -70,7 +67,6 @@ const AllHistoryViewRow = ({fill, base, quote}) => {
 			<td
 				css={(theme) => ({
 					color: theme.colors.orderTextColor,
-					textAlign: 'left',
 				})}
 				className="table-body-class"
 			>
@@ -80,7 +76,7 @@ const AllHistoryViewRow = ({fill, base, quote}) => {
 					).toString()}
 					placement="right"
 				>
-					<div className="overflow-hidden">
+					<div style={{textAlign: 'right', fontSize: 14}}>
 						{utils.format_number_digits(
 							fill.receives.amount / Math.pow(10, fill.receives.precision),
 							6
