@@ -277,7 +277,7 @@
 		"total": "Total ({asset})",
 		"total_estimate": "This is the estimated value of all your assets, including any hidden assets, open orders, debt and collateral. The estimate is done using only live blockchain data and may not be perfectly accurate.",
 		"total_value": "Total value",
-		"trade": "Trade",
+		"trade": "Trades",
 		"transactions": {
 			"fee": "Fee",
 			"hash": "Transaction Hash",
