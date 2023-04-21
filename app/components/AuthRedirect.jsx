@@ -198,23 +198,21 @@ class AuthRedirect extends React.Component {
 
 		this.setState({verifying: true});
 
-		if (photoIndex === 0) {
-			const response_user = await kycService.getUserKycProfile(
-				authData.email.toLowerCase()
-			);
+		const response_user = await kycService.getUserKycProfile(
+			authData.email.toLowerCase()
+		);
 
-			if (!response_user?.member1Name) {
+		if (!response_user?.member1Name) {
+			toast(errorCase['Not Matched']);
+			this.setState({verifying: false});
+			return;
+		} else {
+			const walletArry = response_user.member1Name.split(',');
+
+			if (!walletArry.includes(accountName)) {
 				toast(errorCase['Not Matched']);
 				this.setState({verifying: false});
 				return;
-			} else {
-				const walletArry = response_user.member1Name.split(',');
-
-				if (!walletArry.includes(accountName)) {
-					toast(errorCase['Not Matched']);
-					this.setState({verifying: false});
-					return;
-				}
 			}
 		}
 
@@ -227,7 +225,8 @@ class AuthRedirect extends React.Component {
 		}
 
 		var file = await this.dataURLtoFile(imageSrc, 'a.jpg');
-		const response = await faceKIService.verify(file);
+
+		const response = await faceKIService.liveLinessCheck(file);
 		this.setState({photoIndex: photoIndex + 1});
 
 		if (!response) {
@@ -236,21 +235,38 @@ class AuthRedirect extends React.Component {
 			return;
 		}
 
-		if (response.status !== 'Verify OK' && photoIndex === 5) {
-			toast(errorCase[response.status]);
+		if (response.data.liveness !== 'Genuine' && photoIndex === 5) {
+			toast(errorCase['Face not Detected']);
 			this.setState({verifying: false, photoIndex: 0});
-		} else if (response.status === 'Verify OK') {
-			const nameArry = response.name.split(',');
+		} else if (response.data.liveness === 'Genuine') {
+			this.setState({photoIndex: 0});
+			await this.faceVerify(file);
+		} else {
+			await this.checkAndVerify();
+		}
+	}
+
+	async faceVerify(file) {
+		const {privKey, authData} = this.props;
+
+		const response_verify = await faceKIService.verify(file);
+		if (response_verify.status === 'Verify OK') {
+			const nameArry = response_verify.name.split(',');
 
 			if (nameArry.includes(authData.email.toLowerCase())) {
-				this.setState({faceKISuccess: true, verifying: false});
+				this.setState({faceKISuccess: true});
+				this.setState({verifying: false});
 				this.continueLogin();
 			} else {
 				toast(errorCase['Invalid Email']);
-				this.setState({verifying: false, photoIndex: 0});
+				this.setState({verifying: false});
 			}
+		} else if (response_verify.status === 'Verify Failed') {
+			toast(errorCase['Verify Failed']);
+			this.setState({verifying: false});
 		} else {
-			await this.checkAndVerify();
+			toast('Please try again.');
+			this.setState({verifying: false});
 		}
 	}
 
