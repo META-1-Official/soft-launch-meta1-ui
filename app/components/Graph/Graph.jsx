@@ -1,10 +1,41 @@
 import React from 'react';
 import {Line} from 'react-chartjs-2';
 import {customTooltips, chartLinearGradient} from './chartUtilities';
+import {useTheme} from '@emotion/react';
 
 const ChartjsAreaChart = (props) => {
-	const {labels, datasets, options, width, height, layout, id} = props;
+	const {labels, options, width, height, layout, id, isTrade} = props;
+	let {datasets} = props;
+	const theme = useTheme();
+	let showTooltip = true;
 
+	if (!isTrade)
+		datasets = [
+			{
+				data: [15, 10, 20, 35, 40, 30, 35, 40, 20, 50, 50, 70],
+				borderColor: '#ffc000',
+				borderWidth: 1,
+				fill: true,
+				backgroundColor: () =>
+					theme.mode == 'dark'
+						? '#000000'
+						: chartLinearGradient(document.getElementById('engaged'), 165, {
+								start: '#ffffff',
+								end: theme.colors.graphColor,
+						  }),
+				pointHoverRadius: 0,
+				pointHoverBorderColor: 'transparent',
+			},
+		];
+	else {
+		if (datasets[0].data.length == 0) {
+			datasets[0].data = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+			showTooltip = false;
+		} else if (datasets[0].data.length == 1) {
+			datasets[0].data.push(datasets[0].data[0]);
+			showTooltip = false;
+		}
+	}
 	const data = {
 		labels,
 		datasets,
@@ -35,12 +66,8 @@ const ChartjsAreaChart = (props) => {
 					zIndex: 222,
 					top: 0,
 					left: 0,
-					// @media only screen and (max-width: 1199px){
-					//     padding: 6px 8px !important,
-					// }
 					'& :before': {
 						position: 'absolute',
-						// content: '',
 						borderTop: ' 5px solid #fff',
 						borderLeft: '5px solid transparent',
 						borderRight: '5px solid transparent',
@@ -68,16 +95,12 @@ const ChartjsAreaChart = (props) => {
 				},
 				'.tooltip-value sup': {
 					fontSize: '12px',
-					// @media only screen and (max-width: 1199px){
-					//     font-size: 11px;
-					// }
 				},
 				table: {
 					tbody: {
 						td: {
 							fontSize: '13px',
 							fontWeight: 500,
-							// paddingBottom: '3px',
 							whiteSpace: 'nowrap',
 							color: 'black',
 							'.data-label': {
@@ -94,20 +117,24 @@ const ChartjsAreaChart = (props) => {
 				width={width}
 				height={height}
 				options={{
-					tooltips: {
-						mode: 'nearest',
-						intersect: false,
-						enabled: false,
-						custom: customTooltips,
-						callbacks: {
-							labelColor(tooltipItem, chart) {
-								return {
-									backgroundColor: datasets.map((item) => item.borderColor),
-									borderColor: 'transparent',
-								};
-							},
-						},
-					},
+					tooltips: showTooltip
+						? {
+								mode: 'nearest',
+								intersect: false,
+								enabled: false,
+								custom: customTooltips,
+								callbacks: {
+									labelColor() {
+										return {
+											backgroundColor: datasets.map((item) => item.borderColor),
+											borderColor: 'transparent',
+										};
+									},
+								},
+						  }
+						: {
+								enabled: false,
+						  },
 					...options,
 					...layout,
 				}}
@@ -131,7 +158,6 @@ ChartjsAreaChart.defaultProps = {
 		'Nov',
 		'Dec',
 	],
-
 	datasets: [
 		{
 			data: [15, 10, 20, 35, 40, 30, 35, 40, 20, 50, 50, 70],
@@ -160,6 +186,7 @@ ChartjsAreaChart.defaultProps = {
 				top: 0,
 				bottom: -10,
 			},
+			borderRaidus: '10px',
 		},
 		legend: {
 			display: false,
