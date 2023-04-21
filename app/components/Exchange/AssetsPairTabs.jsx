@@ -235,7 +235,7 @@ class AssetsPairTabs extends React.Component {
 					<>
 						<span
 							style={{
-								fontSize: '12px',
+								fontSize: '14px',
 								color: '#979797',
 								textAlign: 'center',
 								paddingLeft: '10px',
@@ -249,7 +249,7 @@ class AssetsPairTabs extends React.Component {
 						</span>
 						<span
 							style={{
-								fontSize: '12px',
+								fontSize: '14px',
 								color: '#979797',
 								textAlign: 'right',
 								padingLeft: '10px',
@@ -275,27 +275,32 @@ class AssetsPairTabs extends React.Component {
 					let classNameDiv = '';
 
 					return (
-						<>
-							<div style={{display: 'flex', alignItems: 'center'}}>
-								<div style={{marginRight: '5px', width: '30px'}}>
-									<img
-										className="asset-img"
-										src={getAssetIcon(quoteAssetSymbol)}
-										alt="Asset logo"
-										css={(theme) => ({
-											display: theme.mode === 'dark' ? 'unset' : 'none',
-											width: '24px',
-										})}
-									/>
-									<img
-										className="asset-img"
-										src={getAssetIcon(quoteAssetSymbol, 'light')}
-										alt="Asset logo"
-										css={(theme) => ({
-											display: theme.mode === 'light' ? 'unset' : 'none',
-										})}
-									/>
-								</div>
+						<div
+							style={{
+								display: 'flex',
+								alignItems: 'center',
+							}}
+						>
+							<div style={{marginRight: '5px', width: '30px'}}>
+								<img
+									className="asset-img"
+									src={getAssetIcon(quoteAssetSymbol)}
+									alt="Asset logo"
+									css={(theme) => ({
+										display: theme.mode === 'dark' ? 'unset' : 'none',
+										width: '24px',
+									})}
+								/>
+								<img
+									className="asset-img"
+									src={getAssetIcon(quoteAssetSymbol, 'light')}
+									alt="Asset logo"
+									css={(theme) => ({
+										display: theme.mode === 'light' ? 'unset' : 'none',
+									})}
+								/>
+							</div>
+							<div style={{display: 'flex', flexDirection: 'column'}}>
 								<div
 									style={{cursor: 'pointer', minWidth: '80px'}}
 									onClick={() => {
@@ -322,69 +327,66 @@ class AssetsPairTabs extends React.Component {
 										}}
 									>{` / ${baseAssetSymbol}`}</span>
 								</div>
-							</div>
-							<div>
-								{
-									<div
-										className="change"
-										style={{
-											marginTop: '5px',
-											paddingTop: '0px',
-											marginLeft: '-0px',
-											textAlign: 'center',
-										}}
-									>
-										<span style={{display: 'none'}}>
-											{
-												(classNameDiv =
-													rateChange.rateChange === '0.00'
-														? ''
-														: rateChange.rateChange > 0
-														? 'change-up'
-														: 'change-down')
-											}
-										</span>
+								<div>
+									{
+										<div
+											className="change"
+											style={{
+												marginTop: '5px',
+											}}
+										>
+											<span style={{display: 'none'}}>
+												{
+													(classNameDiv =
+														rateChange.rateChange === '0.00'
+															? ''
+															: rateChange.rateChange > 0
+															? 'change-up'
+															: 'change-down')
+												}
+											</span>
 
-										{classNameDiv === 'change-up' && (
-											<>
-												<CaretUpFilled
-													className={classNameDiv}
-													style={{fontSize: '12px'}}
-												/>
-												<span
-													className={classNameDiv}
-													style={{fontSize: '12px'}}
-												>{`+${rateChange.rateChange} %`}</span>
-											</>
-										)}
-										{classNameDiv === 'change-down' && (
-											<>
-												<CaretDownFilled
-													className={classNameDiv}
-													style={{fontSize: '12px'}}
-												/>
-												<span
-													className={classNameDiv}
-													style={{fontSize: '12px'}}
-												>{`${rateChange.rateChange} %`}</span>
-											</>
-										)}
-										{classNameDiv === '' && (
-											<>
-												<CaretRightFilled
-													className={classNameDiv}
-													style={{fontSize: '12px'}}
-												/>
-												<span
-													className={classNameDiv}
-													style={{fontSize: '12px'}}
-												>{`${rateChange.rateChange} %`}</span>
-											</>
-										)}
-									</div>
-								}
+											{classNameDiv === 'change-up' && (
+												<>
+													<CaretUpFilled
+														className={classNameDiv}
+														style={{fontSize: '13px'}}
+													/>
+													<span
+														className={classNameDiv}
+														style={{fontSize: '13px'}}
+													>{`+${rateChange.rateChange} %`}</span>
+												</>
+											)}
+											{classNameDiv === 'change-down' && (
+												<>
+													<CaretDownFilled
+														className={classNameDiv}
+														style={{fontSize: '13px'}}
+													/>
+													<span
+														className={classNameDiv}
+														style={{fontSize: '13px'}}
+													>{`${rateChange.rateChange} %`}</span>
+												</>
+											)}
+											{classNameDiv === '' && (
+												<>
+													<CaretRightFilled
+														className={classNameDiv}
+														style={{fontSize: '13px'}}
+													/>
+													<span
+														className={classNameDiv}
+														style={{fontSize: '13px'}}
+													>{`${rateChange.rateChange} %`}</span>
+												</>
+											)}
+										</div>
+									}
+								</div>
 							</div>
-						</>
+						</div>
 					);
 				},
 			},
@@ -392,7 +394,7 @@ class AssetsPairTabs extends React.Component {
 				title: (
 					<div
 						style={{
-							fontSize: '12px',
+							fontSize: '14px',
 							color: '#979797',
 							textAlign: 'right',
 							minWidth: '50px',

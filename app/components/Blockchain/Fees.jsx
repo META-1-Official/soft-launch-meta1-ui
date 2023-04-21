@@ -66,11 +66,11 @@ class FeeGroup extends React.Component {
 	getOpColor(id) {
 		var op_color = '#856916';
 
-		ops_type_labels.map((op) => {
-			if (op.type === id) {
-				op_color = op.color;
-			}
-		});
+		// ops_type_labels.map((op) => {
+		// 	if (op.type === id) {
+		// 		op_color = op.color;
+		// 	}
+		// });
 
 		return op_color;
 	}
@@ -174,32 +174,48 @@ class FeeGroup extends React.Component {
 				}
 
 				if (ltm_required.indexOf(opId) < 0) {
-					if (feeTypes[key] != 'Annual Membership') {
-						rows.push(
-							<tr key={opId.toString() + key}>
-								{title}
-								<td>{feeTypes[key]}</td>
-								<td style={{textAlign: 'right'}}>
-									{assetAmount}
-									{amount !== 0 && preferredUnit !== 'META1' ? (
-										<span>
-											&nbsp;/&nbsp;
-											{equivalentAmount}
-										</span>
-									) : null}
-								</td>
-								<td style={{textAlign: 'right'}}>
-									{feeIdx !== 8 ? assetAmountLTM : null}
-									{feeIdx !== 8 && amount !== 0 && preferredUnit !== 'META1' ? (
-										<span>
-											&nbsp;/&nbsp;
-											{equivalentAmountLTM}
-										</span>
-									) : null}
-								</td>
-							</tr>
-						);
-					}
+					let is_annual = feeTypes[key] == 'Annual Membership'; // annual membership deprecated, so not showing in the table.
+					let is_ltm = feeTypes[key] == 'Lifetime Membership';
+
+					// if (feeTypes[key] != 'Annual Membership') {
+					rows.push(
+						<tr key={opId.toString() + key}>
+							{title}
+							<td style={{display: is_annual ? 'none' : 'table-cell'}}>
+								{feeTypes[key]}
+							</td>
+							<td
+								style={{
+									textAlign: 'right',
+									display: is_annual ? 'none' : 'table-cell',
+								}}
+							>
+								{assetAmount}
+								{amount !== 0 && preferredUnit !== 'META1' ? (
+									<span>
+										&nbsp;/&nbsp;
+										{equivalentAmount}
+									</span>
+								) : null}
+							</td>
+							<td
+								style={{
+									textAlign: 'right',
+									display: is_annual ? 'none' : 'table-cell',
+								}}
+							>
+								{feeIdx !== 8 ? assetAmountLTM : null}
+								{feeIdx !== 8 && amount !== 0 && preferredUnit !== 'META1' ? (
+									<span>
+										&nbsp;/&nbsp;
+										{equivalentAmountLTM}
+									</span>
+								) : null}
+								{feeIdx === 8 ? 'Free of Charge' : null}
+							</td>
+						</tr>
+					);
+					// }
 				} else {
 					rows.push(
 						<tr key={opId.toString() + key}>

@@ -276,22 +276,11 @@ class TradingViewPriceChart extends React.Component {
 		};
 
 		let width = window.innerWidth;
-		let wideScreen = width > 640 ? true : false;
-		let exchangeBordered;
-		exchangeBordered = wideScreen
-			? {height: '100%', minHeight: '500px!important'}
-			: {height: '100%'};
+		let wideScreen = width > 768 ? true : false;
 
 		return (
-			<div
-				className="small-12"
-				style={{height: '100%', minHeight: '500px!important'}}
-			>
-				<div
-					className="exchange-bordered"
-					style={exchangeBordered}
-					id="tv_chart"
-				/>
+			<div className="small-12" style={{height: '100%', paddingBottom: '3px'}}>
+				<div className="exchange-bordered" id="tv_chart" />
 				<Modal
 					title={counterpart.translate('exchange.load_chart_layout')}
 					closable={false}

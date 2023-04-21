@@ -12,6 +12,7 @@ import AssetName from '../Utility/AssetName';
 import Icon from '../Icon/Icon';
 import {Select, Tooltip} from 'antd';
 import {animateScroll} from 'react-scroll';
+import SectionHeader from 'components/Utility/SectionHeader';
 
 class OrderRows extends React.Component {
 	static propTypes = {
@@ -505,28 +506,20 @@ class OrderBook extends React.Component {
 		let innerClass = this.props.innerClass;
 
 		return (
-			<div
-				className="order-book-panel"
-				style={{
-					height: '100%',
-				}}
-			>
+			<div className="order-book-panel">
+				<SectionHeader title={translator.translate('exchange.order_book')} />
 				<div
 					ref="order_book"
 					style={{
 						display: 'flex',
 						flexDirection: 'column',
-						height: '100%',
 					}}
 					className={cnames(wrapperClass)}
 				>
 					<div
 						css={(theme) => ({
 							color: '#70a800',
-							height: '50%',
-							[`@media (max-width: 768px)`]: {
-								height: 'unset',
-							},
+							height: '227px',
 						})}
 					>
 						<div style={{height: '100%'}}>
@@ -543,7 +536,7 @@ class OrderBook extends React.Component {
 								}}
 							>
 								<table
-									style={{paddingBottom: 5, height: '100%'}}
+									style={{paddingBottom: 5, height: 'fit-content'}}
 									className="table order-table no-stripes table-hover fixed-table text-right no-overflow"
 								>
 									<TransitionWrapper
@@ -567,19 +560,15 @@ class OrderBook extends React.Component {
 						>
 							{Number(latest).toFixed(6)}
 						</span>
-						<span style={{marginLeft: '5px', fontSize: '14px'}}>
+						<span style={{marginLeft: '5px', fontSize: '12px'}}>
 							= {Number(latest).toFixed(6)} {base.get('symbol')}
 						</span>
 					</div>
-
 					<div
 						css={(theme) => ({
 							overflow: 'hidden',
 							color: '#FF2929',
-							height: '50%',
-							[`@media (max-width: 768px)`]: {
-								height: 'unset',
-							},
+							height: '227px',
 						})}
 					>
 						<div style={{height: '100%'}}>
@@ -595,7 +584,7 @@ class OrderBook extends React.Component {
 							>
 								<table
 									className="table order-table no-stripes table-hover fixed-table text-right no-overflow"
-									style={{height: '100%'}}
+									style={{height: 'fit-content'}}
 								>
 									<TransitionWrapper
 										ref="askTransition"

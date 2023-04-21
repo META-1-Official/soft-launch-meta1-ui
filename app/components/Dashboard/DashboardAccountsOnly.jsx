@@ -8,8 +8,11 @@ import SettingsActions from 'actions/SettingsActions';
 import SettingsStore from 'stores/SettingsStore';
 import AccountStore from 'stores/AccountStore';
 import MarketsStore from 'stores/MarketsStore';
-import {Tabs, Tab} from '../Utility/Tabs';
+import {Tabs, Typography} from 'antd';
 import AltContainer from 'alt-container';
+import Translate from 'react-translate-component';
+
+const {Title} = Typography;
 
 class AccountsContainer extends React.Component {
 	render() {
@@ -53,6 +56,7 @@ class Accounts extends React.Component {
 
 		this.state = {
 			width: null,
+			currentTab: 'ActivePermissions',
 			showIgnored: false,
 			currentEntry: props.currentEntry,
 			transactionHistoryCheckbox: ['Operation'],
@@ -110,6 +114,12 @@ class Accounts extends React.Component {
 		});
 	}
 
+	_onTabChange = (e) => {
+		this.setState({
+			currentTab: e,
+		});
+	};
+
 	render() {
 		let {
 			myActiveAccounts,
@@ -141,58 +151,84 @@ class Accounts extends React.Component {
 
 		const contacts = this.props.contacts.toArray();
 		return (
-			<div ref="wrapper" className="grid-block page-layout vertical">
-				<div ref="container" className="tabs-container generic-bordered-box">
-					<Tabs
-						setting="accountTab"
-						className="account-tabs"
-						defaultActiveTab={1}
-						segmented={false}
-						tabsClass="account-overview no-padding bordered-header content-block"
+			<div className="dashboard-wallets">
+				<div
+					css={(theme) => ({
+						padding: `1rem 2rem`,
+						borderBottom: `1px solid ${theme.colors.borderColor}`,
+						color: theme.colors.themeOpositeColor,
+						display: 'flex',
+						justifyContent: 'space-between',
+						alignItems: 'center',
+					})}
+				>
+					<Title
+						css={{
+							margin: '0px !important',
+							fontSize: '24px !important',
+							fontWeight: '400 !important',
+						}}
+						level={2}
 					>
-						<Tab title="account.accounts">
-							<div className="generic-bordered-box">
-								<div className="box-content">
-									<DashboardList
-										accounts={Immutable.List(names)}
-										passwordlessAccount={passwordlessAccount}
-										ignoredAccounts={Immutable.List(ignored)}
-										width={width}
-										onToggleIgnored={this._onToggleIgnored.bind(this)}
-										showIgnored={showIgnored}
-										showMyAccounts={true}
-									/>
-								</div>
+						<Translate content="account.accounts" />
+					</Title>
+				</div>
+				<div className="content">
+					<Tabs
+						className="dashboard-wallets-tabs"
+						defaultActiveKey="1"
+						onChange={this._onTabChange}
+					>
+						<Tabs.TabPane
+							tab={<Translate content="account.accounts" />}
+							key="accounts"
+						>
+							<div className="wallets-accounts">
+								<DashboardList
+									accounts={Immutable.List(names)}
+									passwordlessAccount={passwordlessAccount}
+									ignoredAccounts={Immutable.List(ignored)}
+									width={width}
+									onToggleIgnored={this._onToggleIgnored.bind(this)}
+									showIgnored={showIgnored}
+									showMyAccounts={true}
+								/>
 							</div>
-						</Tab>
-						<Tab title="account.contacts">
-							<div className="generic-bordered-box">
-								<div className="box-content">
-									<DashboardList
-										accounts={contacts}
-										passwordlessAccount={passwordlessAccount}
-										ignoredAccounts={Immutable.List(ignored)}
-										width={width}
-										onToggleIgnored={this._onToggleIgnored.bind(this)}
-										showIgnored={showIgnored}
-										isContactsList={true}
-									/>
-								</div>
+						</Tabs.TabPane>
+						<Tabs.TabPane
+							tab={<Translate content="account.contacts" />}
+							key="contacts"
+						>
+							<div className="wallets-contacts">
+								<DashboardList
+									accounts={contacts}
+									passwordlessAccount={passwordlessAccount}
+									ignoredAccounts={Immutable.List(ignored)}
+									width={width}
+									onToggleIgnored={this._onToggleIgnored.bind(this)}
+									showIgnored={showIgnored}
+									isContactsList={true}
+								/>
 							</div>
-						</Tab>
-						<Tab title="account.recent">
-							<RecentTransactions
-								accountsList={myActiveAccounts}
-								limit={10}
-								compactView={false}
-								fullHeight={true}
-								showFilters={true}
-								dashboard
-								transactionHistoryCheckbox={
-									this.state.transactionHistoryCheckbox
-								}
-							/>
-						</Tab>
+						</Tabs.TabPane>
+						{/* <Tabs.TabPane
+							tab={<Translate content="account.recent" />}
+							key="recent"
+						>
+							<div className="wallets-recent">
+								<RecentTransactions
+									accountsList={myActiveAccounts}
+									limit={10}
+									compactView={false}
+									fullHeight={true}
+									showFilters={true}
+									dashboard
+									transactionHistoryCheckbox={
+										this.state.transactionHistoryCheckbox
+									}
+								/>
+							</div>
+						</Tabs.TabPane> */}
 					</Tabs>
 				</div>
 			</div>

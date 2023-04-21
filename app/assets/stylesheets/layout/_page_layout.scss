@@ -108,18 +108,6 @@ $footerLightTextColor: #566176;
 			align-items: center;
 			padding: 0px !important;
 
-			.logo-wrapper {
-				position: absolute;
-				top: -40px;
-				left: calc(50% - 35px);
-				display: flex;
-				justify-content: center;
-
-				.footer-logo {
-					width: 70px;
-				}
-			}
-
 			.icon-button {
 				z-index: 100;
 				.anticon {
@@ -134,12 +122,22 @@ $footerLightTextColor: #566176;
 			}
 
 			.normal-button {
-				width: 100px;
-				height: 40px;
-				color: black;
+				width: 120px;
+				height: 80px;
 				display: flex;
+				align-items: center;
 				flex-direction: column;
-				justify-content: flex-end;
+				background-color: #470000;
+				margin-left: 10px;
+				margin-right: 10px;
+				border-top-left-radius: 5px;
+				border-top-right-radius: 5px;
+
+				.footer-logo {
+					width: 24px;
+					margin-top: 10px;
+					margin-bottom: 7px;
+				}
 			}
 		}
 	}
@@ -248,19 +246,6 @@ $footerLightTextColor: #566176;
 			align-items: center;
 			padding: 0px !important;
 
-			.logo-wrapper {
-				position: absolute;
-				top: -40px;
-				left: 0;
-				display: flex;
-				justify-content: center;
-				width: 100%;
-
-				.footer-logo {
-					width: 70px;
-				}
-			}
-
 			.icon-button {
 				z-index: 100;
 				.anticon {
@@ -275,12 +260,22 @@ $footerLightTextColor: #566176;
 			}
 
 			.normal-button {
-				width: 100px;
-				height: 40px;
-				color: black;
+				width: 120px;
+				height: 80px;
 				display: flex;
+				align-items: center;
 				flex-direction: column;
-				justify-content: flex-end;
+				background-color: #470000;
+				margin-left: 10px;
+				margin-right: 10px;
+				border-top-left-radius: 5px;
+				border-top-right-radius: 5px;
+
+				.footer-logo {
+					width: 24px;
+					margin-top: 10px;
+					margin-bottom: 7px;
+				}
 			}
 		}
 	}
@@ -351,7 +346,6 @@ div.bordered-header {
 }
 
 .exchange-bordered {
-	border: 1px solid rgba(183, 183, 183, 0.29);
 	margin: 0;
 
 	&#depth_chart {

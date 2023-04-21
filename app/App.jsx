@@ -397,12 +397,6 @@ class App extends React.Component {
 		this.setState({height: window && window.innerHeight});
 	}
 
-	// /** Non-static, used by passing notificationSystem via react Component refs */
-	// _addNotification(params) {
-	//     console.log("add notification:", this.refs, params);
-	//     this.refs.notificationSystem.addNotification(params);
-	// }
-
 	render() {
 		let {incognito, incognitoWarningDismissed} = this.state;
 		let {walletMode, theme, location, ...others} = this.props;
@@ -432,9 +426,8 @@ class App extends React.Component {
 					<NewsHeadline />
 					<Switch>
 						<Route exact path="/">
-							<Redirect to="/home/" />
+							<Redirect to="/market/META1_USDT" />
 						</Route>
-						<Route path="/home/" exact component={DashboardPage} />
 						<Route path="/account/:account_name" component={AccountPage} />
 						<Route path="/accounts" component={DashboardAccountsOnly} />
 						<Route path="/market/:marketID" component={Exchange} />
@@ -482,7 +475,6 @@ class App extends React.Component {
 						{/* <Route path="/existing-account" component={ExistingAccount} /> */}
 
 						<Route path="/create-worker" component={CreateWorker} />
-
 						<Route path="/onramperwallet" component={Onramperwallet} />
 
 						<Route
@@ -546,13 +538,13 @@ class App extends React.Component {
 								<NotificationSystem
 									ref="notificationSystem"
 									allowHTML={true}
-									style={{
+									css={(theme) => ({
 										Containers: {
 											DefaultStyle: {
-												width: '425px',
+												width: '100%',
 											},
 										},
-									}}
+									})}
 								/>
 								<TransactionConfirm />
 								<BrowserNotifications />

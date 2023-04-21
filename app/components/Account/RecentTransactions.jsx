@@ -670,27 +670,29 @@ class RecentTransactions extends React.Component {
 								<span className="page-title">
 									<Translate content="account.transaction_history" />
 								</span>
-								<div className="date">
-									<DatePicker
-										onChange={(dateFrom) => this.onDateFromChange(dateFrom)}
-										selected={this.state.dateFrom}
-										filterDate={this.dateFromFilter.bind(this)}
-										filterTime={this.timeFromFilter.bind(this)}
-										dateFormat="MM/dd/yyyy h:mm aa"
-										showTimeSelect
-										timeInputLabel=""
-									/>
-								</div>
-								<div className="date">
-									<DatePicker
-										onChange={(dateTo) => this.onDateToChange(dateTo)}
-										selected={this.state.dateTo}
-										filterDate={this.dateToFilter.bind(this)}
-										filterTime={this.timeToFilter.bind(this)}
-										dateFormat="MM/dd/yyyy h:mm aa"
-										showTimeSelect
-										timeInputLabel=""
-									/>
+								<div className="date-container">
+									<div className="date">
+										<DatePicker
+											onChange={(dateFrom) => this.onDateFromChange(dateFrom)}
+											selected={this.state.dateFrom}
+											filterDate={this.dateFromFilter.bind(this)}
+											filterTime={this.timeFromFilter.bind(this)}
+											dateFormat="MM/dd/yyyy h:mm aa"
+											showTimeSelect
+											timeInputLabel=""
+										/>
+									</div>
+									<div className="date">
+										<DatePicker
+											onChange={(dateTo) => this.onDateToChange(dateTo)}
+											selected={this.state.dateTo}
+											filterDate={this.dateToFilter.bind(this)}
+											filterTime={this.timeToFilter.bind(this)}
+											dateFormat="MM/dd/yyyy h:mm aa"
+											showTimeSelect
+											timeInputLabel=""
+										/>
+									</div>
 								</div>
 							</div>
 
@@ -733,131 +735,137 @@ class RecentTransactions extends React.Component {
 							</div>
 						)}
 					</div>
-					<PaginatedList
-						withTransition
-						pageSize={pageSize}
-						className={
-							'table table-striped ' +
-							(this.props.dashboard ? ' dashboard-table table-hover' : '')
-						}
-						header={[
-							{
-								title: (
-									<div className="transaction-history-table-title">
-										<Translate content="explorer.block.op" />
-									</div>
-								),
-								isShow:
-									this.props.transactionHistoryCheckbox?.includes('Operation'),
-								dataIndex: 'pairData',
-								align: 'left',
-								render: (item) => {
-									return (
-										<div>
-											{item === 'Cancel order' && (
-												<div className="transaction-span transaction-span-cancel">
-													{item}
-												</div>
-											)}
-											{item === 'Place order' && (
-												<div className="transaction-span transaction-span-place">
-													{item}
-												</div>
-											)}
-											{item !== 'Place order' && item !== 'Cancel order' && (
-												<div className="transaction-span transaction-span-fill">
-													{item}
-												</div>
-											)}
+					<div className="transaction-history-table">
+						<PaginatedList
+							withTransition
+							pageSize={pageSize}
+							className={
+								'table table-striped ' +
+								(this.props.dashboard ? ' dashboard-table table-hover' : '')
+							}
+							header={[
+								{
+									title: (
+										<div className="transaction-history-table-title">
+											<Translate content="explorer.block.op" />
 										</div>
-									);
-								},
-							},
-							{
-								title: (
-									<div className="transaction-history-table-title">
-										<Translate content="account.transactions.info" />
-									</div>
-								),
-								isShow: this.props.transactionHistoryCheckbox?.includes('Info'),
-								dataIndex: 'info',
-								align: 'left',
-								render: (item) => {
-									return (
-										<span
-											style={{
-												whiteSpace: 'nowrap',
-											}}
-										>
-											{item}
-										</span>
-									);
-								},
-							},
-							{
-								title: (
-									<div className="transaction-history-table-title">
-										<Translate
-											style={{whiteSpace: 'nowrap'}}
-											content="account.transactions.hash"
-										/>
-									</div>
-								),
-								dataIndex: 'transaction',
-								isShow: true,
-								render: (item) => {
-									return item;
-								},
-							},
-							!hideFee
-								? {
-										title: (
-											<div className="transaction-history-table-title">
-												<Translate content="account.transactions.fee" />
-											</div>
+									),
+									isShow:
+										this.props.transactionHistoryCheckbox?.includes(
+											'Operation'
 										),
-										dataIndex: 'fee',
-										align: 'left',
-										isShow:
-											this.props.transactionHistoryCheckbox?.includes('Fee'),
-										render: (item) => {
-											return (
-												<span
-													style={{
-														whiteSpace: 'nowrap',
-													}}
-												>
-													{item}
-												</span>
-											);
-										},
-								  }
-								: {},
-							{
-								title: (
-									<div className="transaction-history-table-title">
-										<Translate
-											style={{whiteSpace: 'nowrap'}}
-											content="account.transactions.time"
-										/>
-									</div>
-								),
-								isShow: this.props.transactionHistoryCheckbox?.includes('Time'),
-								dataIndex: 'time',
-								render: (item) => {
-									return <span style={{whiteSpace: 'nowrap'}}>{item}</span>;
+									dataIndex: 'pairData',
+									align: 'left',
+									render: (item) => {
+										return (
+											<div>
+												{item === 'Cancel order' && (
+													<div className="transaction-span transaction-span-cancel">
+														{item}
+													</div>
+												)}
+												{item === 'Place order' && (
+													<div className="transaction-span transaction-span-place">
+														{item}
+													</div>
+												)}
+												{item !== 'Place order' && item !== 'Cancel order' && (
+													<div className="transaction-span transaction-span-fill">
+														{item}
+													</div>
+												)}
+											</div>
+										);
+									},
 								},
-							},
-						].filter((ele) => {
-							if (ele.isShow) return ele;
-						})}
-						rows={display_history}
-						label="utility.total_x_operations"
-						extraRow={action}
-						total={limit}
-						rowClassName={(row) => this._getRowClassName(row)}
-						onChangePage={this.onChangePage}
-					/>
+								{
+									title: (
+										<div className="transaction-history-table-title">
+											<Translate content="account.transactions.info" />
+										</div>
+									),
+									isShow:
+										this.props.transactionHistoryCheckbox?.includes('Info'),
+									dataIndex: 'info',
+									align: 'left',
+									render: (item) => {
+										return (
+											<span
+												style={{
+													whiteSpace: 'nowrap',
+												}}
+											>
+												{item}
+											</span>
+										);
+									},
+								},
+								{
+									title: (
+										<div className="transaction-history-table-title">
+											<Translate
+												style={{whiteSpace: 'nowrap'}}
+												content="account.transactions.hash"
+											/>
+										</div>
+									),
+									dataIndex: 'transaction',
+									isShow: true,
+									render: (item) => {
+										return item;
+									},
+								},
+								!hideFee
+									? {
+											title: (
+												<div className="transaction-history-table-title">
+													<Translate content="account.transactions.fee" />
+												</div>
+											),
+											dataIndex: 'fee',
+											align: 'left',
+											isShow:
+												this.props.transactionHistoryCheckbox?.includes('Fee'),
+											render: (item) => {
+												return (
+													<span
+														style={{
+															whiteSpace: 'nowrap',
+														}}
+													>
+														{item}
+													</span>
+												);
+											},
+									  }
+									: {},
+								{
+									title: (
+										<div className="transaction-history-table-title">
+											<Translate
+												style={{whiteSpace: 'nowrap'}}
+												content="account.transactions.time"
+											/>
+										</div>
+									),
+									isShow:
+										this.props.transactionHistoryCheckbox?.includes('Time'),
+									dataIndex: 'time',
+									render: (item) => {
+										return <span style={{whiteSpace: 'nowrap'}}>{item}</span>;
+									},
+								},
+							].filter((ele) => {
+								if (ele.isShow) return ele;
+							})}
+							rows={display_history}
+							label="utility.total_x_operations"
+							extraRow={action}
+							total={limit}
+							rowClassName={(row) => this._getRowClassName(row)}
+							onChangePage={this.onChangePage}
+						/>
+					</div>
 
 					{this.state.fetchingAccountHistory && <LoadingIndicator />}
 				</div>

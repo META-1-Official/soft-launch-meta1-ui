@@ -140,9 +140,9 @@ class DashboardList extends React.Component {
 					AccountStore.isMyAccount(account) ||
 					accountName === passwordlessAccount;
 				/*
-                Display all accounts from contacts list
-                Display only my Accounts for Accounts page
-                */
+				Display all accounts from contacts list
+				Display only my Accounts for Accounts page
+				*/
 				return isContactsList
 					? true
 					: isMyAccount === this.props.showMyAccounts;
@@ -354,7 +354,7 @@ class DashboardList extends React.Component {
 		return (
 			<div style={this.props.style}>
 				{!this.props.compact ? (
-					<section style={{paddingTop: '1rem', paddingLeft: '2rem'}}>
+					<section>
 						<input
 							placeholder={filterText}
 							style={{maxWidth: '20rem', display: 'inline-block'}}
@@ -394,76 +394,78 @@ class DashboardList extends React.Component {
 						) : null}
 					</section>
 				) : null}
-				<table
-					className="table table-hover dashboard-table"
-					style={{fontSize: '0.85rem'}}
-				>
-					{!this.props.compact ? (
-						<thead>
-							<tr>
-								<th
-									onClick={this._setSort.bind(this, 'star')}
-									className="clickable"
-								>
-									<Icon
-										className="grey-star"
-										name="fi-star"
-										title="icons.fi_star.sort_accounts"
-									/>
-								</th>
-								{isContactsList ? (
-									<th>
-										<Icon name="user" title="icons.user.account" />
+				<div className="table-wrapper">
+					<table
+						className="table table-hover dashboard-table"
+						style={{fontSize: '0.85rem'}}
+					>
+						{!this.props.compact ? (
+							<thead>
+								<tr>
+									<th
+										onClick={this._setSort.bind(this, 'star')}
+										className="clickable"
+									>
+										<Icon
+											className="grey-star"
+											name="fi-star"
+											title="icons.fi_star.sort_accounts"
+										/>
 									</th>
-								) : null}
-								<th style={{textAlign: 'left'}}>ID</th>
-								<th
-									style={{textAlign: 'left', paddingLeft: 10}}
-									onClick={this._setSort.bind(this, 'name')}
-									className="clickable"
-								>
-									<Translate content="header.account" />
-								</th>
-								<th style={{textAlign: 'right'}}>
-									<Translate content="account.open_orders" />
-								</th>
-								{width >= 750 ? (
+									{isContactsList ? (
+										<th>
+											<Icon name="user" title="icons.user.account" />
+										</th>
+									) : null}
+									<th style={{textAlign: 'left'}}>ID</th>
+									<th
+										style={{textAlign: 'left', paddingLeft: 10}}
+										onClick={this._setSort.bind(this, 'name')}
+										className="clickable"
+									>
+										<Translate content="header.account" />
+									</th>
 									<th style={{textAlign: 'right'}}>
-										<Translate content="account.as_collateral" />
+										<Translate content="account.open_orders" />
 									</th>
-								) : null}
-								{width >= 1200 ? (
-									<th style={{textAlign: 'right'}}>
-										<Translate content="transaction.borrow_amount" />
+									{width >= 750 ? (
+										<th style={{textAlign: 'right'}}>
+											<Translate content="account.as_collateral" />
+										</th>
+									) : null}
+									{width >= 1200 ? (
+										<th style={{textAlign: 'right'}}>
+											<Translate content="transaction.borrow_amount" />
+										</th>
+									) : null}
+									<th
+										style={{
+											textAlign: 'right',
+											marginRight: 20,
+										}}
+									>
+										<Translate content="account.total_value" />
 									</th>
-								) : null}
-								<th
-									style={{
-										textAlign: 'right',
-										marginRight: 20,
-									}}
-								>
-									<Translate content="account.total_value" />
-								</th>
-							</tr>
-						</thead>
-					) : null}
-					<tbody>
-						{includedAccounts}
-						{showIgnored && hiddenAccounts.length ? (
-							<tr
-								className="dashboard-table--hiddenAccounts"
-								style={{backgroundColor: 'transparent'}}
-								key="hidden"
-							>
-								<td colSpan="8">
-									{counterpart.translate('account.hidden_accounts_row')}:
-								</td>
-							</tr>
+								</tr>
+							</thead>
 						) : null}
-						{showIgnored && hiddenAccounts}
-					</tbody>
-				</table>
+						<tbody>
+							{includedAccounts}
+							{showIgnored && hiddenAccounts.length ? (
+								<tr
+									className="dashboard-table--hiddenAccounts"
+									style={{backgroundColor: 'transparent'}}
+									key="hidden"
+								>
+									<td colSpan="8">
+										{counterpart.translate('account.hidden_accounts_row')}:
+									</td>
+								</tr>
+							) : null}
+							{showIgnored && hiddenAccounts}
+						</tbody>
+					</table>
+				</div>
 			</div>
 		);
 	}

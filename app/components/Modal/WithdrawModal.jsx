@@ -1345,11 +1345,8 @@ class WithdrawalModal extends React.Component {
 
 					{/*FEE & GATEWAY FEE*/}
 					{assetAndGateway || isMeta1 ? (
-						<div className="grid-block no-overflow wrap shrink">
-							<div
-								className="small-12 medium-6 withdraw-fee-selector"
-								style={{paddingRight: 5}}
-							>
+						<div className="fee-form">
+							<div className="withdraw-fee-selector core-fee">
 								<FeeAssetSelector
 									account={this.props.account}
 									label="transfer.fee"
@@ -1368,10 +1365,7 @@ class WithdrawalModal extends React.Component {
 									onChange={this.onFeeChanged.bind(this)}
 								/>
 							</div>
-							<div
-								className="small-12 medium-6 ant-form-item-label withdraw-fee-selector"
-								style={{paddingTop: '8px'}}
-							>
+							<div className="ant-form-item-label withdraw-fee-selector gateway-fee">
 								<label className="amount-selector-field--label">
 									<Translate content="gateway.fee" />
 								</label>

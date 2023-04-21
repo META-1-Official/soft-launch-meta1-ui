@@ -277,7 +277,7 @@
 		"total": "Total ({asset})",
 		"total_estimate": "This is the estimated value of all your assets, including any hidden assets, open orders, debt and collateral. The estimate is done using only live blockchain data and may not be perfectly accurate.",
 		"total_value": "Total value",
-		"trade": "Trade",
+		"trade": "Trades",
 		"transactions": {
 			"fee": "Fee",
 			"hash": "Transaction Hash",
@@ -1614,7 +1614,7 @@
 			"copy_success": "Copied successfully",
 			"gateway_is_down": "Gateway is down",
 			"important_information": "important information",
-			"important_information_info": "Send only %(assetType)s Sending less than %(min_value)s %(min_assetType)s  or any other currency to this address may result in the loss of your deposit.",
+			"important_information_info": "Send only %(assetType)s to this address. Sending less than %(min_value)s %(min_assetType)s  or any other currency to this address may result in the loss of your deposit.",
 			"minimum_deposit": "Minimum deposit: %(minDeposit)s %(assetType)s"
 		},
 		"deposit_withdraw": {

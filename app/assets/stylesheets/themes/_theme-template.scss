@@ -192,7 +192,8 @@
 	$separator-line,
 	$medium-color,
 	$dark-help-text,
-	$settings-label-color
+	$settings-label-color,
+	$table-hover-color
 ) {
 	$hamburger-submenu-display-endpoint: 990px;
 
@@ -551,14 +552,29 @@
 		color: $alert-color;
 	}
 	// notification
-	.notification {
-		@include color($primary-text-color, $notification-panel-bg-color, true);
-	}
-	.notification-dismiss {
-		@include color($primary-text-color, $super-light-panel-bg-color, true);
-	}
-	.notification-success {
-		border-left-color: $success-color !important;
+	.notifications-tr {
+		width: 100% !important;
+		max-width: 425px !important;
+
+		.notification {
+			@include color($primary-text-color, $notification-panel-bg-color, true);
+			background-color: $bg-color !important;
+			left: 0 !important;
+			margin-top: -5px !important;
+
+			table {
+				tr {
+					border: none !important;
+					color: $primary-text-color;
+				}
+			}
+		}
+		.notification-dismiss {
+			@include color(white, red, true);
+		}
+		.notification-success {
+			border-left-color: $success-color !important;
+		}
 	}
 
 	.action-sheet {
@@ -981,16 +997,17 @@
 	.table {
 		> thead > tr > th {
 			border-bottom-color: $dark-text-color;
-			color: $secondary-text-color;
+			color: $primary-text-color;
 		}
 		> tbody > tr > td {
 			text-align: left;
 			border-bottom-color: $dark-text-color;
 			font-size: 0.875rem;
+			color: $primary-text-color;
 		}
 		&.table-hover > tbody > tr:hover > td,
 		.table-hover > tbody > tr:hover > th {
-			background-color: #4b5158;
+			background-color: $table-hover-color;
 		}
 		> tbody > tr.table-empty > td {
 			padding: 5rem 0;
@@ -1074,6 +1091,7 @@
 			li:hover > span {
 				@include color($light-text-color, lighten($primary-text-color, 4%));
 				color: $link-text-color;
+				background-color: black;
 			}
 		}
 		&.active:after {
@@ -1148,9 +1166,6 @@
 		&:active,
 		&:disabled {
 			background-color: $bg-color;
-		}
-		&:focus {
-			border-color: #aaa;
 		}
 	}
 
@@ -1273,7 +1288,11 @@
 			background-color: $explorer-tab-content-background-color;
 		}
 	}
-
+	// .content {
+	// 	@media screen and (max-width: 900px) {
+	// 		border-bottom: 0.5px solid #272525;
+	// 	}
+	// }
 	div.header-selector {
 		> .filter {
 			margin-right: 1rem;
@@ -1803,7 +1822,7 @@
 		color: $ask-color !important;
 	}
 	.header-sub-title {
-		font-size: 11px;
+		font-size: 12px;
 		color: $light-text-color;
 	}
 	.label {
@@ -2042,12 +2061,6 @@
 	td.pub-key {
 		word-break: break-all;
 	}
-	div.account-tabs {
-		> div.service-selector {
-			background-color: $bg-color;
-			border-bottom: $tabs-border-size solid $tabs-border-color;
-		}
-	}
 	ul.account-overview {
 		background-color: $tabs-background-color;
 		li {
@@ -2144,6 +2157,9 @@
 						fill: grey;
 					}
 				}
+			}
+			&:hover {
+				background-color: $table-hover-color;
 			}
 		}
 	}
@@ -2877,4 +2893,25 @@ div.customizable-column--selector--dropdown {
 
 .generic-bordered-box {
 	padding-right: 20px;
+	@media screen and (max-width: 900px) {
+		padding: 0px;
+	}
+}
+
+.page-header {
+	@media screen and (max-width: 900px) {
+		margin: 0px;
+		padding: 15px !important;
+		margin-bottom: unset !important;
+		h2 {
+			font-size: 20px !important;
+		}
+		h3 {
+			font-size: 20px !important;
+			padding: unset !important;
+		}
+		h4 {
+			font-size: 20px !important;
+		}
+	}
 }

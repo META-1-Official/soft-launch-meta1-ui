@@ -41,13 +41,13 @@ class MarketHistoryView extends React.Component {
 										content="explorer.block.time"
 									/>
 								</th>
-								<th style={{textAlign: 'left'}}>
+								<th style={{textAlign: 'center'}}>
 									<Translate
 										className="header-sub-title"
 										content="exchange.price"
 									/>
 								</th>
-								<th style={{textAlign: 'left'}} className="table-volume-class">
+								<th style={{textAlign: 'right'}} className="table-volume-class">
 									<Translate
 										className="header-sub-title"
 										content="exchange.volume"
@@ -90,7 +90,12 @@ class MarketHistoryView extends React.Component {
 						lineHeight: '13px',
 					}}
 				>
-					<Table dataSource={data} pagination={false} showSorterTooltip={false}>
+					<Table
+						dataSource={data}
+						pagination={false}
+						showSorterTooltip={false}
+						scroll={{y: 450}}
+					>
 						<Table.Column
 							dataIndex="pair"
 							title={

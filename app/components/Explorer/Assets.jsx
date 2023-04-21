@@ -420,7 +420,7 @@ class Assets extends React.Component {
 				<div
 					css={(theme) => ({
 						backgroundColor: theme.colors.explorerBackground,
-						padding: '2rem 1rem',
+						padding: '30px 30px',
 					})}
 				>
 					<Row justify="center" gutter={[16, 16]}>
@@ -482,8 +482,6 @@ class Assets extends React.Component {
 								</div>
 							</ExploreCard>
 						</Col>
-					</Row>
-					<Row justify="center" gutter={[16, 16]} style={{marginTop: '1rem'}}>
 						<Col xs={24} sm={12} md={5} lg={6}>
 							<ExploreCard
 								icon={marketCapIcon}

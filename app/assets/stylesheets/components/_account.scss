@@ -475,7 +475,7 @@ div.account-overview {
 				position: relative;
 				margin-left: auto;
 				display: flex;
-				bottom: 91px !important;
+				bottom: 90px !important;
 				left: 1;
 				flex-direction: row;
 				gap: 1 !important;
@@ -619,6 +619,12 @@ div.account-overview {
 
 		&.header-selector {
 			.estimated-balance {
+				@media screen and (max-width: 760px) {
+					display: flex;
+					flex-direction: column;
+					gap: 14px;
+				}
+
 				> p {
 					font-size: 16px;
 					color: #cecece;
@@ -637,7 +643,7 @@ div.account-overview {
 					font-weight: 600;
 
 					@media screen and (max-width: 900px) {
-						font-size: 18px;
+						font-size: 20px;
 						font-weight: 400;
 						margin-bottom: 10px;
 					}
@@ -652,7 +658,7 @@ div.account-overview {
 						margin-left: 10px;
 
 						@media screen and (max-width: 900px) {
-							font-size: 10px;
+							font-size: 14px;
 						}
 
 						@media screen and (max-width: 300px) {
@@ -681,10 +687,16 @@ div.account-overview {
 
 						&.change-up {
 							background-color: #009d55 !important;
+							@media screen and (max-width: 600px) {
+								margin-left: auto !important;
+							}
 						}
 
 						&.change-down {
 							background-color: #ff2929 !important;
+							@media screen and (max-width: 600px) {
+								margin-left: auto !important;
+							}
 						}
 
 						svg {
@@ -709,6 +721,7 @@ div.account-overview {
 					width: inherit;
 					height: inherit;
 					margin-top: -73px;
+					width: 100%;
 				}
 
 				@media screen and (max-width: 400px) {
@@ -726,7 +739,9 @@ div.account-overview {
 
 					@media screen and (max-width: 760px) {
 						font-size: 12px;
-						margin-bottom: 5px;
+						margin-top: 2px;
+						width: 100%;
+						margin-bottom: 0px;
 					}
 
 					@media screen and (max-width: 400px) {
@@ -776,6 +791,44 @@ div.account-overview {
 			.ant-table {
 				background: #080000;
 				border-radius: 4px;
+				@media screen and (max-width: 800px) {
+					table {
+						font-size: 12px;
+						font-weight: 200px;
+					}
+
+					table thead th {
+						position: sticky;
+						top: 0;
+						z-index: 1;
+					}
+					table td {
+						text-align: center;
+					}
+
+					table tbody td {
+						position: relative;
+					}
+					table thead th:first-child {
+						position: sticky;
+						left: 0;
+						z-index: 2;
+						div {
+							width: 120px;
+						}
+					}
+
+					table tbody td {
+						position: sticky;
+						left: 0;
+						z-index: 0;
+					}
+					table tbody td:first-child {
+						position: sticky;
+						left: 0;
+						z-index: 2;
+					}
+				}
 
 				.ant-table-thead {
 					th {
@@ -783,6 +836,9 @@ div.account-overview {
 							text-transform: uppercase;
 							color: #969ba6;
 							font-size: 14px;
+							@media screen and (max-width: 800px) {
+								font-size: 12px;
+							}
 						}
 					}
 				}
@@ -1084,6 +1140,49 @@ div.tabs-container {
 }
 
 // Transaction History page
+
+.transaction-table {
+	padding: 1rem 2rem;
+	@media screen and (max-width: 900px) {
+		padding: 15px;
+	}
+
+	.ant-table-content {
+		@media screen and (max-width: 900px) {
+			overflow: scroll !important;
+			// padding: 3px !important;
+			// margin-right: 3px !important;
+		}
+	}
+
+	.transaction-history-table {
+		@media screen and (max-width: 800px) {
+			table thead th:nth-child(2) {
+				div {
+					width: 220px !important;
+				}
+			}
+			table tbody td:nth-child(2) {
+				span {
+					width: 220px !important;
+					white-space: break-spaces;
+				}
+			}
+			table thead th:nth-child(3) {
+				div {
+					width: 220px !important;
+				}
+			}
+			table tbody td:nth-child(3) {
+				div {
+					width: 220px !important;
+					white-space: break-spaces !important;
+				}
+			}
+		}
+	}
+}
+
 .recent-transactions {
 	.iconLinkAndLabel {
 		span {
@@ -1102,9 +1201,16 @@ div.tabs-container {
 
 		@media screen and (max-width: 900px) {
 			font-weight: 300;
-			font-size: 18px;
+			font-size: 20px;
 			line-height: 22px;
 			margin-bottom: 10px;
+		}
+	}
+	.date-container {
+		@media screen and (max-width: 900px) {
+			display: flex;
+			width: 250%;
+			margin-top: 15px;
 		}
 	}
 
@@ -1115,7 +1221,8 @@ div.tabs-container {
 			align-items: center;
 
 			@media screen and (max-width: 900px) {
-				gap: 25px;
+				gap: 13px;
+				align-items: baseline;
 			}
 
 			.date-list {
@@ -1133,6 +1240,7 @@ div.tabs-container {
 
 					@media screen and (max-width: 900px) {
 						margin-left: 0px;
+						width: 40%;
 					}
 				}
 			}
@@ -1158,6 +1266,10 @@ div.tabs-container {
 					align-items: center;
 					font-size: 16px;
 					text-transform: capitalize;
+					@media screen and (max-width: 900px) {
+						height: 40px;
+						font-size: 14px;
+					}
 				}
 
 				.ant-select-arrow {
@@ -1197,9 +1309,8 @@ div.tabs-container {
 	}
 }
 
-.transaction-table {
-	padding: 1rem 2rem;
-
+// Trade page
+.trade-table {
 	.ant-table-content {
 		@media screen and (max-width: 900px) {
 			overflow: scroll !important;
@@ -1209,10 +1320,64 @@ div.tabs-container {
 	}
 }
 
-// Trade page
+.account-trade {
+	@media screen and (max-width: 900px) {
+		h2 {
+			font-size: 22px !important;
+			font-weight: 400 !important;
+		}
+		.ant-table-cell {
+			padding: 0px 10px;
+		}
+
+		td {
+			font-size: 12px;
+
+			div {
+				display: flex;
+				gap: 3px;
+				width: 108px;
+				align-items: center;
+			}
+		}
+
+		.ant-table-column-title {
+			div {
+				font-size: 13px;
+			}
+		}
+
+		.asset-name {
+			margin-left: 0px !important;
+		}
+
+		.ant-table-thead {
+			tr {
+				font-size: 13px;
+			}
+		}
+		.toggle-box {
+			font-size: 14px;
+		}
+		.chart {
+			width: 100px !important;
+			height: 50px !important;
+
+			canvas {
+				height: 53% !important;
+				width: 100% !important;
+			}
+		}
+	}
+}
+
 div.account-trade {
 	div.content {
 		padding: 25px;
+
+		@media screen and (max-width: 900px) {
+			padding: 4px;
+		}
 	}
 
 	div.filter {
@@ -1223,9 +1388,101 @@ div.account-trade {
 		border-bottom-right-radius: 0px;
 		border-bottom-left-radius: 0px;
 		padding: 15px;
+		display: flex;
+		flex-direction: row;
+		width: 100%;
+
+		@media screen and (max-width: 900px) {
+			flex-direction: column;
+			padding: 5px;
+			gap: 10px;
+			border: 0px;
+			margin-bottom: 10px;
+		}
 
 		div.ant-select {
 			margin-top: 7px;
+		}
+
+		.search-input {
+			width: 40% !important;
+
+			@media screen and (max-width: 900px) {
+				width: 60% !important;
+				//background-color: #21252f;
+				border-radius: 6px;
+			}
+
+			@media screen and (max-width: 500px) {
+				width: 100% !important;
+				//background-color: #21252f;
+				border-radius: 6px;
+			}
+		}
+
+		.trade-select {
+			display: flex;
+			flex-direction: row;
+			margin-left: 24px;
+			gap: 20px;
+
+			.time {
+				width: 70px;
+				@media screen and (max-width: 900px) {
+					width: 60px;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+				}
+			}
+
+			.asset {
+				width: 150px;
+				@media screen and (max-width: 900px) {
+					width: 120px;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+				}
+			}
+
+			.sorting {
+				//width: 45px;
+				margin-top: 8px;
+				display: flex;
+				gap: 10px;
+
+				@media screen and (max-width: 900px) {
+					flex-direction: row-reverse;
+					margin-top: 14px;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+				}
+			}
+
+			.sorting-label {
+				display: inline-block;
+				margin-left: 4px;
+				text-transform: capitalize !important;
+
+				@media screen and (max-width: 900px) {
+					margin-left: 0px;
+					margin-top: 4px;
+				}
+			}
+
+			.ant-select-selector {
+				@media screen and (max-width: 500px) {
+					width: 100% !important;
+					//	background-color: #15171b;
+					border-radius: 6px;
+				}
+			}
+
+			@media screen and (max-width: 900px) {
+				margin-left: 0px;
+			}
 		}
 	}
 
@@ -1252,6 +1509,13 @@ div.account-trade {
 				border-top: 2px #dea702 solid;
 				color: #dea702;
 				background-color: #0a0b0d;
+
+				@media screen and (max-width: 900px) {
+					border-top: unset;
+					color: #dea702;
+					font-weight: 700;
+					background-color: unset;
+				}
 			}
 
 			&:hover {
@@ -1452,11 +1716,20 @@ div.account-activity {
 								font-size: 13px;
 								word-break: break-all;
 							}
+							.action {
+								position: absolute;
+								top: 10px;
+								right: 5%;
+							}
 						}
 					}
 				}
 			}
-
+			.card.paginator {
+				display: flex;
+				justify-content: right;
+				margin: 10px;
+			}
 			.close-text {
 				margin-top: 40px;
 				margin-bottom: 30px;
@@ -1516,16 +1789,59 @@ div.account-activity {
 			}
 		}
 	}
-
-	h2 {
-		@media screen and (max-width: 900px) {
-			font-size: 18px !important;
-		}
-	}
 }
 
 // Permission page
 div.account-permissions {
+	.header-toolbar {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 1rem 2rem;
+
+		@media screen and (max-width: 900px) {
+			padding: 15px;
+			display: flex;
+			flex-direction: column;
+			margin-right: auto;
+			align-items: flex-start;
+			gap: 10px;
+
+			h2 {
+				white-space: nowrap;
+				font-size: 22px !important;
+			}
+
+			.action-buttons {
+				display: flex;
+				gap: 10px;
+
+				@media screen and (max-width: 420px) {
+					flex-direction: column;
+					align-items: baseline;
+				}
+
+				.papper-wallet-btn {
+					width: 130px;
+					height: 35px;
+
+					span {
+						font-size: 13px;
+					}
+				}
+
+				button {
+					width: 80px;
+					height: 35px;
+
+					span {
+						font-size: 13px;
+					}
+				}
+			}
+		}
+	}
+
 	.action-buttons {
 		display: flex;
 		align-items: center;
@@ -1639,19 +1955,35 @@ div.account-permissions {
 		border: 1px solid #1c1f27;
 		border-radius: 4px;
 
+		@media screen and (max-width: 900px) {
+			margin: 8px;
+		}
+
 		.tab-header {
 			padding: 30px;
 			border-bottom: 1px solid #1c1f27;
 
+			@media screen and (max-width: 900px) {
+				padding: 9px;
+			}
+
 			.tab-title {
 				font-size: 22px;
 				color: #ffc000;
+
+				@media screen and (max-width: 900px) {
+					font-size: 18px;
+				}
 			}
 
 			p {
 				font-size: 15px !important;
 				margin-bottom: 10px;
 				color: #cecece !important;
+
+				@media screen and (max-width: 900px) {
+					font-size: 12px;
+				}
 			}
 		}
 
@@ -1659,11 +1991,19 @@ div.account-permissions {
 			padding: 30px;
 			background: #0a0b0d;
 
+			@media screen and (max-width: 900px) {
+				padding: 8px;
+			}
+
 			.content-wrapper {
 				background: rgba(21, 23, 27, 0.4);
 				border: 1px solid rgba(28, 31, 39, 0.4);
 				border-radius: 4px;
 				padding: 30px;
+
+				@media screen and (max-width: 900px) {
+					padding: 8px;
+				}
 
 				.threshold {
 					color: rgba(255, 255, 255, 0.7);
@@ -1678,6 +2018,20 @@ div.account-permissions {
 						width: 300px;
 						padding: 20px;
 						margin-top: 10px;
+
+						@media screen and (max-width: 900px) {
+							height: unset;
+							font-size: 12px;
+							width: 100%;
+							padding: 9px;
+							margin-top: 2px;
+						}
+					}
+
+					span {
+						@media screen and (max-width: 900px) {
+							font-size: 13px;
+						}
 					}
 				}
 
@@ -1694,6 +2048,13 @@ div.account-permissions {
 								span {
 									font-size: 16px;
 									color: #ffc000;
+									@media screen and (max-width: 900px) {
+										font-size: 12px;
+									}
+								}
+
+								@media screen and (max-width: 900px) {
+									font-size: 12px;
 								}
 							}
 						}
@@ -1705,7 +2066,9 @@ div.account-permissions {
 						display: flex;
 						align-items: center;
 						padding-left: 25px;
-
+						@media screen and (max-width: 900px) {
+							padding-left: 0px;
+						}
 						.account-image {
 							display: flex;
 							align-items: center;
@@ -1736,6 +2099,10 @@ div.account-permissions {
 					label {
 						color: rgba(255, 255, 255, 0.7);
 						font-size: 16px;
+
+						@media screen and (max-width: 900px) {
+							font-size: 13px;
+						}
 					}
 
 					.ant-form-item-control-input-content {
@@ -1743,6 +2110,13 @@ div.account-permissions {
 						flex-direction: row;
 						align-items: center;
 						margin-bottom: 50px;
+
+						@media screen and (max-width: 900px) {
+							flex-direction: column;
+							align-items: baseline;
+							gap: 10px;
+							margin-bottom: 8px;
+						}
 
 						.header-area {
 							display: none;
@@ -1752,9 +2126,23 @@ div.account-permissions {
 							display: flex;
 							align-items: center;
 
+							@media screen and (max-width: 900px) {
+								flex-direction: column;
+								align-items: unset;
+								gap: 20px;
+
+								.account-image {
+									display: none;
+								}
+							}
+
 							canvas {
 								width: 50px !important;
 								height: 50px !important;
+
+								@media screen and (max-width: 900px) {
+									height: 38px !important;
+								}
 							}
 
 							input {
@@ -1769,6 +2157,15 @@ div.account-permissions {
 								&::placeholder {
 									color: rgba(255, 255, 255, 0.4);
 								}
+
+								@media screen and (max-width: 900px) {
+									height: unset;
+									font-size: 12px;
+									width: 100% !important;
+									margin: 0px !important;
+									padding: 9px;
+									margin-top: 2px;
+								}
 							}
 						}
 
@@ -1778,10 +2175,20 @@ div.account-permissions {
 							height: 52px;
 							border-radius: 4px;
 
+							@media screen and (max-width: 900px) {
+								width: 80px;
+								height: 35px;
+							}
+
 							span {
 								color: #080000;
 								font-size: 18px;
 								font-weight: 600;
+
+								@media screen and (max-width: 900px) {
+									font-size: 14px;
+									font-weight: 200;
+								}
 							}
 						}
 					}
@@ -1791,16 +2198,30 @@ div.account-permissions {
 						border-radius: 4px;
 						padding-bottom: 60px;
 
+						@media screen and (max-width: 900px) {
+							padding-bottom: 20px;
+							overflow: scroll;
+						}
+
 						.table {
 							thead {
 								background: #15171b;
 								height: 52px;
 								border-bottom: 1px solid #1c1f27;
 
+								@media screen and (max-width: 900px) {
+									height: 38px;
+								}
+
 								th {
 									padding-left: 30px;
 									font-size: 14px;
 									color: #969ba6;
+
+									@media screen and (max-width: 900px) {
+										padding-left: 10px;
+										font-size: 12px;
+									}
 
 									&:last-child {
 										text-align: center;
@@ -1817,6 +2238,13 @@ div.account-permissions {
 									color: #ffc000;
 									border-bottom: 1px solid #1c1f27;
 
+									@media screen and (max-width: 900px) {
+										padding-left: 15px;
+										padding-top: 10px;
+										padding-bottom: 10px;
+										font-size: 12px;
+									}
+
 									.account-image {
 										display: flex;
 										align-items: center;
@@ -1830,6 +2258,11 @@ div.account-permissions {
 											}
 
 											margin-right: 15px;
+											@media screen and (max-width: 900px) {
+												width: 18px !important;
+												height: 19px !important;
+												margin-right: 4px;
+											}
 										}
 									}
 								}
@@ -1842,6 +2275,9 @@ div.account-permissions {
 					label > span {
 						color: rgba(255, 255, 255, 0.7);
 						font-size: 16px;
+						@media screen and (max-width: 900px) {
+							font-size: 14px;
+						}
 					}
 
 					.gen-password-field {
@@ -1852,16 +2288,27 @@ div.account-permissions {
 						border: 1px solid #ffc000;
 						border-radius: 4px;
 						padding-left: 30px;
-
+						@media screen and (max-width: 900px) {
+							padding-left: 0px;
+							height: 45px;
+						}
 						.key-icon {
 							margin-right: 15px;
 							width: unset;
 							height: unset;
+							@media screen and (max-width: 900px) {
+								width: 25px !important;
+								height: 19px !important;
+								margin-right: 4px;
+							}
 
 							svg {
 								width: 24px !important;
 								height: 24px !important;
-
+								@media screen and (max-width: 900px) {
+									width: 18px !important;
+									height: 18px !important;
+								}
 								path {
 									fill: #ffc000;
 								}
@@ -1870,6 +2317,10 @@ div.account-permissions {
 
 						div {
 							font-size: 16px;
+							@media screen and (max-width: 900px) {
+								font-size: 13px;
+								overflow: scroll;
+							}
 						}
 					}
 
@@ -1890,9 +2341,16 @@ div.account-permissions {
 								font-size: 14px;
 								padding: 20px;
 								border-radius: 4px;
-
+								@media screen and (max-width: 900px) {
+									font-size: 12px;
+									height: 30px;
+									padding: 15px;
+								}
 								&::placeholder {
 									font-size: 16px;
+									@media screen and (max-width: 900px) {
+										font-size: 13px;
+									}
 								}
 							}
 						}
@@ -1907,9 +2365,16 @@ div.account-permissions {
 								font-size: 14px;
 								padding: 20px;
 								border-radius: 4px;
-
+								@media screen and (max-width: 900px) {
+									font-size: 12px;
+									height: 30px;
+									padding: 15px;
+								}
 								&::placeholder {
 									font-size: 16px;
+									@media screen and (max-width: 900px) {
+										font-size: 13px;
+									}
 								}
 							}
 						}
@@ -1930,15 +2395,31 @@ div.account-permissions {
 							align-items: center;
 							justify-content: center;
 							margin-right: 30px;
-
+							@media screen and (max-width: 900px) {
+								margin-right: 10px;
+								width: 200px;
+								height: 100px;
+								button {
+									width: fit-content;
+									font-size: 12px;
+								}
+							}
 							.key-name {
 								color: rgba(255, 255, 255, 0.7);
 								font-size: 16px;
+								@media screen and (max-width: 900px) {
+									font-size: 12px;
+									text-align: center;
+									padding: 3px;
+								}
 							}
 						}
 
 						.in-not-use {
 							background: #15171b;
+							@media screen and (max-width: 900px) {
+								width: 33.333%;
+							}
 						}
 					}
 				}
@@ -1948,10 +2429,40 @@ div.account-permissions {
 		.divider {
 			border-bottom: 1px solid #1c1f27;
 			height: 0;
+			@media screen and (max-width: 900px) {
+				margin: 10px;
+			}
 		}
 
 		.recent-activity {
 			padding: 30px;
+			@media screen and (max-width: 900px) {
+				padding: 10px;
+
+				.date-list {
+					flex-direction: column;
+					width: 100%;
+
+					.page-title {
+						font-weight: 100;
+						font-size: 15px;
+						line-height: 20px;
+						margin-bottom: 10px;
+					}
+					.date-container {
+						display: flex;
+						.date {
+							input {
+								font-size: 12px;
+							}
+						}
+						.react-datepicker {
+							width: fit-content;
+							display: flex;
+						}
+					}
+				}
+			}
 
 			.block-content-header {
 				font-size: 18px;
@@ -1966,12 +2477,19 @@ div.account-permissions {
 							background: #15171b;
 							height: 52px;
 							border-bottom: none;
+							@media screen and (max-width: 900px) {
+								height: 30px;
+							}
 
 							th {
 								padding-left: 30px;
 								font-size: 14px;
 								color: #969ba6;
 								text-transform: uppercase;
+								@media screen and (max-width: 900px) {
+									padding-left: 0px;
+									font-size: 11px;
+								}
 							}
 						}
 					}
@@ -1999,6 +2517,12 @@ div.messages {
 		border-bottom: unset !important;
 
 		ul.account-overview li {
+			span.tab-title {
+				@media screen and (max-width: 576px) {
+					font-size: 14px;
+				}
+			}
+
 			a {
 				background-color: #0a0b0d !important;
 
@@ -2032,6 +2556,16 @@ div.messages {
 
 				span {
 					color: #ffc000;
+
+					@media screen and (max-width: 576px) {
+						font-size: 10px !important;
+					}
+				}
+			}
+
+			.left-label {
+				@media screen and (max-width: 576px) {
+					font-size: 10px !important;
 				}
 			}
 		}
@@ -2045,6 +2579,10 @@ div.messages {
 				background-color: transparent !important;
 				border-radius: 5px;
 				border: 1px solid #ffc000;
+
+				@media screen and (max-width: 576px) {
+					font-size: 12px !important;
+				}
 			}
 		}
 
@@ -2054,6 +2592,7 @@ div.messages {
 			padding: 15px 25px;
 			margin: 0 !important;
 		}
+
 		.button-wrapper {
 			display: flex;
 			flex-direction: column;
@@ -2062,6 +2601,7 @@ div.messages {
 				align-items: center;
 			}
 		}
+
 		button.button {
 			background: #ffc000;
 			color: black;
@@ -2253,6 +2793,7 @@ div.messages {
 								}
 							}
 						}
+
 						button {
 							height: 30px;
 							background: #ffc000;
@@ -2269,6 +2810,7 @@ div.messages {
 						}
 					}
 				}
+
 				.account-selector-wrapper {
 					padding: 30px;
 					max-width: 680px;
@@ -2343,7 +2885,9 @@ div.messages {
 .account-vesting {
 	.content-body {
 		padding: 30px;
-
+		@media screen and (max-width: 900px) {
+			padding: 10px;
+		}
 		.description-search {
 			display: flex;
 			align-items: flex-end;
@@ -2446,7 +2990,9 @@ div.messages {
 div.account-notification {
 	.content-body {
 		padding: 30px;
-
+		@media screen and (max-width: 900px) {
+			padding: 10px;
+		}
 		.list-wrapper {
 			background: #0a0b0d;
 			border: 1px solid #1c1f27;
@@ -2637,6 +3183,7 @@ div.account-notification {
 
 		div:has(> h4) {
 			padding: 1rem 0.6rem;
+			margin-bottom: 0px;
 		}
 
 		div:has(> .portfolio) {
@@ -2663,6 +3210,40 @@ div.account-notification {
 					display: none;
 				}
 			}
+		}
+	}
+}
+
+.dashboard-wallets {
+	overflow: hidden;
+	height: 100%;
+
+	.content {
+		margin: 30px;
+		background: #0a0b0d;
+		border: 1px solid #1c1f27;
+		border-radius: 4px;
+
+		@media screen and (max-width: 768px) {
+			margin: 10px;
+		}
+
+		.dashboard-wallets-tabs {
+			.ant-tabs-nav {
+				border-bottom: 1px solid #1c1f27;
+				padding-left: 10px;
+				margin-bottom: 0px;
+			}
+
+			.ant-tabs-content {
+				padding: 10px;
+			}
+		}
+
+		.table-wrapper {
+			overflow: auto;
+			border: 1px solid #1c1f27;
+			border-radius: 5px;
 		}
 	}
 }
