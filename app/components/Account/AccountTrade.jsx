@@ -469,6 +469,7 @@ class AccountTrade extends React.Component {
 							<div className="chart">
 								<ChartjsAreaChart
 									id="engaged"
+									isTrade={true}
 									datasets={datasets}
 									labels={labels}
 								/>
