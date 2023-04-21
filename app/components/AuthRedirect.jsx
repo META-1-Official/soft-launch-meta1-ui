@@ -74,7 +74,7 @@ class AuthRedirect extends React.Component {
 			width: 0,
 			height: 0,
 			numberOfCameras: 0,
-			activeDevice: null,
+			activeDeviceId: '',
 		};
 
 		this.generateAuthData = this.generateAuthData.bind(this);
@@ -134,12 +134,14 @@ class AuthRedirect extends React.Component {
 
 		if (flag) {
 			return navigator.mediaDevices
-				.getUserMedia(features)
-				.then((display) => {
+				.enumerateDevices()
+				.then((devices) => {
+					const videoDevices = devices.filter((i) => i.kind == 'videoinput');
+
 					this.setState({
 						webcamEnabled: true,
-						devices: display?.getVideoTracks(),
-						activeDevice: display?.getVideoTracks()[0],
+						devices: videoDevices,
+						activeDeviceId: videoDevices[0].deviceId,
 					});
 				})
 				.finally(() => {
@@ -452,8 +454,6 @@ class AuthRedirect extends React.Component {
 	render() {
 		const {width} = this.state;
 		const theme = this.props.theme;
-		// const aspectRatio =
-		// 	this.state.activeDevice?.getSettings()?.aspectRatio ?? 1.33;
 		const aspectRatio = 1.07;
 		const webCamWidth = width > 576 ? 500 : width - 70;
 
@@ -514,9 +514,7 @@ class AuthRedirect extends React.Component {
 									numberOfCamerasCallback={(i) =>
 										this.setState({numberOfCameras: i})
 									}
-									videoSourceDeviceId={
-										this.state.activeDevice?.getSettings()?.deviceId
-									}
+									videoSourceDeviceId={this.state.activeDeviceId}
 									errorMessages={{
 										noCameraAccessible:
 											'No camera device accessible. Please connect your camera or try a different browser.',
@@ -553,24 +551,18 @@ class AuthRedirect extends React.Component {
 						)}
 						<div style={{width: webCamWidth}}>
 							<Select
-								value={this.state.activeDevice?.getSettings()?.deviceId}
+								value={this.state.activeDeviceId}
 								onChange={(value) => {
-									{
-										this.state.devices.map((d) => {
-											if (d.getSettings().deviceId === value)
-												this.setState({activeDevice: d});
-										});
-									}
+									let errMsgEle =
+										document.getElementById('video').previousSibling;
+									errMsgEle && errMsgEle.remove();
+									this.setState({activeDeviceId: value});
 								}}
 								getPopupContainer={(triggerNode) => triggerNode.parentNode}
 							>
 								{this.state.devices.map((d) => {
-									var deviceInfo = d.getSettings();
 									return (
-										<Select.Option
-											key={deviceInfo.deviceId}
-											value={deviceInfo.deviceId}
-										>
+										<Select.Option key={d.deviceId} value={d.deviceId}>
 											{d.label}
 										</Select.Option>
 									);
