@@ -22,8 +22,27 @@
 					width: 100%;
 				}
 
-				tbody {
-					overflow: auto;
+				.ant-table {
+					border-radius: 10px;
+
+					a {
+						font-size: 0.875em;
+						padding-left: 20px;
+						padding-right: 4px;
+					}
+
+					thead > tr:first-child th:first-child {
+						border-top-right-radius: 10px;
+						border-top-left-radius: 10px;
+					}
+
+					tbody {
+						overflow: auto;
+
+						.ant-table-cell {
+							padding: 0 !important;
+						}
+					}
 				}
 			}
 

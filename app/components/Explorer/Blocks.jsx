@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import BlockchainActions from 'actions/BlockchainActions';
 import Translate from 'react-translate-component';
 import {FormattedDate} from 'react-intl';
-import Operation from '../Blockchain/Operation';
+import Operation, {TransactionLabel} from '../Blockchain/Operation';
 import LinkToWitnessById from '../Utility/LinkToWitnessById';
 import ChainTypes from '../Utility/ChainTypes';
 import BindToChainState from '../Utility/BindToChainState';
@@ -17,8 +17,9 @@ import TimeAgo from '../Utility/TimeAgo';
 import FormattedAsset from '../Utility/FormattedAsset';
 import Ps from 'perfect-scrollbar';
 import TransitionWrapper from '../Utility/TransitionWrapper';
-import {Row, Col, Typography} from 'antd';
+import {Row, Col, Typography, Tooltip, Table} from 'antd';
 import ExploreCard from 'components/ExploreCard/ExploreCard';
+import counterpart from 'counterpart';
 
 require('../Blockchain/json-inspector.scss');
 
@@ -213,6 +214,8 @@ class Blocks extends React.Component {
 			blockTimes = [],
 			avgTime = 0;
 
+		let transactionDatas = [];
+
 		if (latestBlocks && latestBlocks.size >= 20) {
 			let previousTime;
 
@@ -308,6 +311,22 @@ class Blocks extends React.Component {
 				})
 				.toArray();
 
+			latestTransactions
+				.sort((a, b) => {
+					return b.block_num - a.block_num;
+				})
+				.take(20)
+				.forEach((trx) => {
+					let opIndex = 0;
+					trx.operations.forEach((op) => {
+						transactionDatas.push({
+							block_num: trx.block_num,
+							result: trx.operation_results[opIndex++],
+							op: op,
+						});
+					});
+				});
+
 			headBlock = latestBlocks.first().timestamp;
 			avgTime = blockTimes.reduce((previous, current, idx, array) => {
 				return previous + current[1] / array.length;
@@ -315,6 +334,42 @@ class Blocks extends React.Component {
 
 			trxPerSec = trxCount / ((lastBlock - firstBlock) / 1000);
 		}
+
+		const columns = [
+			{
+				title: 'INFO',
+				dataIndex: 'block',
+				render: (text, record) => {
+					return (
+						<div>
+							<Operation
+								op={record['op']}
+								result={record['result']}
+								block={record['block_num']}
+								hideFee={true}
+								hideOpLabel={false}
+								current={'1.2.0'}
+								transactionLabelOnly
+								hideDate
+								hidePending
+							/>
+
+							<Operation
+								op={record['op']}
+								result={record['result']}
+								block={record['block_num']}
+								hideFee={true}
+								hideOpLabel={false}
+								current={'1.2.0'}
+								infoOnly
+								hideDate
+								hidePending
+							/>
+						</div>
+					);
+				},
+			},
+		];
 
 		return (
 			<div ref="outerWrapper" className="blockchain-tab">
@@ -522,28 +577,6 @@ class Blocks extends React.Component {
 							<div className="block-content-header">
 								<Translate content="account.recent" />
 							</div>
-							<table
-								className="table fixed-height-2rem"
-								css={(theme) => ({
-									border: `1px solid ${theme.colors.borderColor}`,
-								})}
-							>
-								<thead
-									css={(theme) => ({
-										tr: {
-											backgroundColor: theme.colors.tableHeaderColor,
-											fontSize: '13px !important',
-											textAlign: 'left',
-										},
-									})}
-								>
-									<tr>
-										<th>
-											<Translate content="account.votes.info" />
-										</th>
-									</tr>
-								</thead>
-							</table>
 						</div>
 						<div
 							className="grid-block"
@@ -553,12 +586,25 @@ class Blocks extends React.Component {
 							}}
 							ref="operations"
 						>
-							<table
+							{/*{<table
 								className="table fixed-height-2rem"
 								style={{maxHeight: '300px'}}
 							>
 								<tbody>{transactions}</tbody>
-							</table>
+							</table>}*/}
+
+							{
+								<Table
+									style={{width: '100%', fontSize: '0.875em !important'}}
+									className="table fixed-height-2rem"
+									columns={columns}
+									dataSource={transactionDatas}
+									pagination={{
+										position: 'bottom',
+										pageSize: 10,
+									}}
+								/>
+							}
 						</div>
 					</div>
 					<div className="recent-blocks">
