@@ -25,15 +25,14 @@
 				.ant-table {
 					border-radius: 10px;
 
-					a {
-						font-size: 0.875em;
-						padding-left: 20px;
-						padding-right: 4px;
-					}
+					thead > tr:first-child th {
+						&:first-child {
+							border-top-left-radius: 10px;
+						}
 
-					thead > tr:first-child th:first-child {
-						border-top-right-radius: 10px;
-						border-top-left-radius: 10px;
+						&:last-child {
+							border-top-right-radius: 10px;
+						}
 					}
 
 					tbody {
@@ -41,6 +40,12 @@
 
 						.ant-table-cell {
 							padding: 0 !important;
+						}
+
+						a {
+							font-size: 0.875em;
+							padding-left: 20px;
+							padding-right: 4px;
 						}
 					}
 				}
@@ -56,8 +61,40 @@
 					padding-left: 0;
 				}
 
-				tbody {
-					overflow: auto;
+				.ant-table {
+					border-radius: 10px;
+
+					a {
+						font-size: 0.875em;
+						padding-left: 20px;
+						padding-right: 4px;
+					}
+
+					thead > tr:first-child th {
+						&::before {
+							display: none;
+						}
+
+						&:first-child {
+							border-top-left-radius: 10px;
+						}
+
+						&:last-child {
+							border-top-right-radius: 10px;
+						}
+					}
+
+					tbody {
+						overflow: auto;
+
+						.ant-table-cell {
+							padding: 0 !important;
+						}
+
+						td > span {
+							font-size: 0.875em;
+						}
+					}
 				}
 			}
 		}

@@ -205,16 +205,15 @@ class Blocks extends React.Component {
 		const dynamicObject = this.props.getDynamicObject(
 			coreAsset.get('dynamic_asset_data_id')
 		);
-		let blocks = null,
-			transactions = null;
+		let blocks = [];
+		let transactions = [];
+
 		let headBlock = null;
 		let trxCount = 0,
 			blockCount = latestBlocks.size,
 			trxPerSec = 0,
 			blockTimes = [],
 			avgTime = 0;
-
-		let transactionDatas = [];
 
 		if (latestBlocks && latestBlocks.size >= 20) {
 			let previousTime;
@@ -245,71 +244,13 @@ class Blocks extends React.Component {
 				});
 
 			// Output block rows for the last 20 blocks
-			blocks = latestBlocks
+			latestBlocks
 				.sort((a, b) => {
 					return b.id - a.id;
 				})
-				.take(20)
-				.map((block) => {
-					return (
-						<tr
-							key={block.id}
-							css={(theme) => ({
-								border: `1px solid ${theme.colors.borderColor}`,
-							})}
-						>
-							<td>
-								<Link to={`/block/${block.id}`}>
-									<span
-										css={(theme) => ({
-											color: theme.colors.primaryColor,
-										})}
-									>
-										#{utils.format_number(block.id, 0)}{' '}
-									</span>
-								</Link>
-							</td>
-							<td>
-								<FormattedDate value={block.timestamp} format="time" />
-							</td>
-							<td>
-								<LinkToWitnessById witness={block.witness} />
-							</td>
-							<td>{utils.format_number(block.transactions.length, 0)}</td>
-						</tr>
-					);
-				})
-				.toArray();
-
-			let trxIndex = 0;
-
-			transactions = latestTransactions
-				.sort((a, b) => {
-					return b.block_num - a.block_num;
-				})
-				.take(20)
-				.map((trx) => {
-					let opIndex = 0;
-					return trx.operations
-						.map((op) => {
-							if (trxIndex > 15) return null;
-							return (
-								<Operation
-									key={trxIndex++}
-									op={op}
-									result={trx.operation_results[opIndex++]}
-									block={trx.block_num}
-									hideFee={true}
-									hideOpLabel={false}
-									current={'1.2.0'}
-									hideDate
-									hidePending
-								/>
-							);
-						})
-						.filter((a) => !!a);
-				})
-				.toArray();
+				.forEach((block) => {
+					blocks.push(block);
+				});
 
 			latestTransactions
 				.sort((a, b) => {
@@ -319,7 +260,7 @@ class Blocks extends React.Component {
 				.forEach((trx) => {
 					let opIndex = 0;
 					trx.operations.forEach((op) => {
-						transactionDatas.push({
+						transactions.push({
 							block_num: trx.block_num,
 							result: trx.operation_results[opIndex++],
 							op: op,
@@ -335,7 +276,7 @@ class Blocks extends React.Component {
 			trxPerSec = trxCount / ((lastBlock - firstBlock) / 1000);
 		}
 
-		const columns = [
+		const transactionColumns = [
 			{
 				title: 'INFO',
 				dataIndex: 'block',
@@ -371,6 +312,46 @@ class Blocks extends React.Component {
 			},
 		];
 
+		const blockColumns = [
+			{
+				title: 'BLOCK ID',
+				dataIndex: 'id',
+				render: (value) => {
+					return (
+						<Link to={`/block/${value}`}>
+							<span
+								css={(theme) => ({
+									color: theme.colors.primaryColor,
+								})}
+							>
+								#{utils.format_number(value, 0)}{' '}
+							</span>
+						</Link>
+					);
+				},
+			},
+			{
+				title: 'DATE',
+				dataIndex: 'timestamp',
+				render: (value) => {
+					return <FormattedDate value={value} format="time" />;
+				},
+			},
+			{
+				title: 'WITNESS',
+				dataIndex: 'witness',
+				render: (value) => {
+					return <LinkToWitnessById witness={value} />;
+				},
+			},
+			{
+				title: 'TRANSACTION COUNT',
+				dataIndex: 'transactions',
+				render: (value) => {
+					return utils.format_number(value.length, 0);
+				},
+			},
+		];
 		return (
 			<div ref="outerWrapper" className="blockchain-tab">
 				<div
@@ -586,25 +567,16 @@ class Blocks extends React.Component {
 							}}
 							ref="operations"
 						>
-							{/*{<table
+							<Table
+								style={{width: '100%'}}
 								className="table fixed-height-2rem"
-								style={{maxHeight: '300px'}}
-							>
-								<tbody>{transactions}</tbody>
-							</table>}*/}
-
-							{
-								<Table
-									style={{width: '100%', fontSize: '0.875em !important'}}
-									className="table fixed-height-2rem"
-									columns={columns}
-									dataSource={transactionDatas}
-									pagination={{
-										position: 'bottom',
-										pageSize: 10,
-									}}
-								/>
-							}
+								columns={transactionColumns}
+								dataSource={transactions}
+								pagination={{
+									position: 'bottom',
+									pageSize: 10,
+								}}
+							/>
 						</div>
 					</div>
 					<div className="recent-blocks">
@@ -625,55 +597,16 @@ class Blocks extends React.Component {
 								}}
 								ref="blocks"
 							>
-								<table
+								<Table
+									style={{width: '100%'}}
 									className="table fixed-height-2rem"
-									css={(theme) => ({
-										border: `1px solid ${theme.colors.borderColor}`,
-										maxHeight: '300px',
-									})}
-								>
-									<thead
-										css={(theme) => ({
-											borderBottom: `2px solid ${theme.colors.borderColor}`,
-											tr: {
-												backgroundColor: theme.colors.tableHeaderColor,
-												textAlign: 'left',
-												fontSize: '13px !important',
-											},
-										})}
-									>
-										<tr>
-											<th>
-												<Translate
-													component="span"
-													content="explorer.block.id"
-												/>
-											</th>
-											<th>
-												<Translate
-													component="span"
-													content="explorer.block.date"
-												/>
-											</th>
-											<th>
-												<Translate
-													component="span"
-													content="explorer.block.witness"
-												/>
-											</th>
-											<th>
-												<Translate
-													component="span"
-													content="explorer.block.count"
-												/>
-											</th>
-										</tr>
-									</thead>
-
-									<TransitionWrapper component="tbody" transitionName="newrow">
-										{blocks}
-									</TransitionWrapper>
-								</table>
+									columns={blockColumns}
+									dataSource={blocks}
+									pagination={{
+										position: 'bottom',
+										pageSize: 10,
+									}}
+								/>
 							</div>
 						</div>
 					</div>
