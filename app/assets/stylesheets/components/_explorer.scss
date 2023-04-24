@@ -199,5 +199,13 @@
 
 	.fees-tab {
 		padding-right: 20px;
+
+		.fees-table {
+			tbody {
+				tr > td {
+					padding: 16px 13px;
+				}
+			}
+		}
 	}
 }
