@@ -38,8 +38,20 @@
 					tbody {
 						overflow: auto;
 
-						.ant-table-cell {
-							padding: 0 !important;
+						.ant-table-row {
+							.ant-table-cell {
+								padding: 0 !important;
+							}
+
+							&:last-child {
+								.ant-table-cell:first-child {
+									border-bottom-left-radius: 10px;
+								}
+
+								.ant-table-cell:last-child {
+									border-bottom-right-radius: 10px;
+								}
+							}
 						}
 
 						a {
@@ -87,8 +99,20 @@
 					tbody {
 						overflow: auto;
 
-						.ant-table-cell {
-							padding: 0 !important;
+						.ant-table-row {
+							.ant-table-cell {
+								padding: 0 !important;
+							}
+
+							&:last-child {
+								.ant-table-cell:first-child {
+									border-bottom-left-radius: 10px;
+								}
+
+								.ant-table-cell:last-child {
+									border-bottom-right-radius: 10px;
+								}
+							}
 						}
 
 						td > span {
