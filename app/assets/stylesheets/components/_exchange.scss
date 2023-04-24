@@ -1349,6 +1349,100 @@ form.hide-container {
 	}
 }
 
+.fund-tab-wrapper {
+	display: flex;
+	flex-direction: column;
+
+	.total-balance-title {
+		background: #15171b;
+		height: 56px;
+
+		display: flex;
+		padding: 10px 20px;
+		justify-content: space-between;
+		align-items: center;
+
+		div {
+			&:first-child {
+				font-size: 18px;
+			}
+			&:last-child {
+				font-size: 22px;
+			}
+		}
+	}
+
+	.ant-table-wrapper {
+		.ant-table {
+			.ant-table-content {
+				thead {
+					background: #0a0b0d;
+
+					th {
+						color: rgba(255, 192, 0, 0.7);
+						font-size: 14px;
+
+						&:first-child {
+							padding-left: 20px;
+						}
+
+						&:last-child {
+							color: rgba(255, 255, 255, 0.7);
+						}
+					}
+				}
+
+				tbody {
+					background: #0a0b0d;
+
+					tr {
+						&:first-child {
+							td {
+								border-top: 1px solid #1c1f27;
+							}
+						}
+
+						td {
+							height: 55px;
+							padding: 0 10px !important;
+
+							&:first-child {
+								width: 30%;
+								padding-left: 20px !important;
+							}
+
+							&:last-child {
+								width: 30%;
+
+								.fund-action-wrapper {
+									button {
+										width: 90px;
+										height: 30px;
+										background: #15171b;
+										border: 1px solid #21252f;
+										border-radius: 3px;
+										color: white;
+
+										&:last-child {
+											margin-left: 5px;
+										}
+									}
+								}
+							}
+						}
+
+						&:last-child {
+							td {
+								border-bottom: none;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
 .market-history-view-row {
 	height: 64;
 	border: 1px solid #1c1f27;

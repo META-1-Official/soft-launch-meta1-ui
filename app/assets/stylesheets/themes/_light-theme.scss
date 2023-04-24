@@ -617,6 +617,56 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 		}
 	}
 
+	.fund-tab-wrapper {
+		.total-balance-title {
+			background: $bg-color-lightblue;
+		}
+
+		.ant-table-wrapper {
+			.ant-table {
+				.ant-table-content {
+					thead {
+						background: transparent;
+
+						th {
+							background-color: transparent !important;
+
+							&:last-child {
+								color: rgba(0, 0, 0, 0.7);
+							}
+						}
+					}
+
+					tbody {
+						background: transparent;
+
+						tr {
+							&:first-child {
+								td {
+									border-top: 1px solid $border-color;
+								}
+							}
+
+							td {
+								color: #666666;
+
+								&:last-child {
+									.fund-action-wrapper {
+										button {
+											background: transparent;
+											border: 1px solid $border-color;
+											color: #666666;
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
 	.market-order-table-container {
 		.ant-table-wrapper {
 			table {
@@ -1582,6 +1632,12 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 
 						&.txtlabel.info {
 							color: #666666 !important;
+						}
+
+						&.question-circle {
+							path {
+								fill: black;
+							}
 						}
 					}
 				}

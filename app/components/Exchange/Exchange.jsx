@@ -25,6 +25,7 @@ import utils from 'common/utils';
 
 // Custom components
 import BuySell from './BuySell';
+import FundTab from './FundTab';
 import ScaledOrderTab from './ScaledOrderTab';
 import MarketOrderTab from './MarketOrderTab';
 import ExchangeHeader from './ExchangeHeader';
@@ -2500,25 +2501,6 @@ class Exchange extends React.Component {
 			/>
 		);
 
-		let myFund = (
-			<MyTrade
-				key={`actionCard_${actionCardIndex++}`}
-				className="no-padding no-overflow"
-				noHeader={panelTabs['my_trade'] == 0 ? false : true}
-				currentAccount={currentAccount}
-				base={base}
-				quote={quote}
-				baseSymbol={baseSymbol}
-				quoteSymbol={quoteSymbol}
-				activeTab={'my_trade'}
-				isPanelActive={isPanelActive}
-				hideScrollbars={hideScrollbars}
-				myHistory={currentAccount.get('history')}
-				settings={this.props.settings}
-				history={this.props.history}
-			/>
-		);
-
 		let myOpenOrders = (
 			<MarketOrders
 				key={`actionCard_${actionCardIndex++}`}
@@ -2657,7 +2639,7 @@ class Exchange extends React.Component {
 							tab={`${counterpart.translate('exchange.settings.title.fund')}`}
 							key="fund"
 						>
-							{myFund}
+							<FundTab account={currentAccount} />
 						</Tabs.TabPane>
 					);
 				}
