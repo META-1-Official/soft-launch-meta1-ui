@@ -29,6 +29,12 @@
 						&.txtlabel.info {
 							color: #cacaca !important;
 						}
+
+						&.question-circle {
+							path {
+								fill: white;
+							}
+						}
 					}
 				}
 			}
