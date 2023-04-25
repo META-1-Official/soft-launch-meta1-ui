@@ -392,6 +392,22 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 		}
 	}
 
+	//transaction-history page
+
+	.transaction-table {
+		.transaction-history-table {
+			.ant-table-wrapper {
+				.ant-table {
+					@media screen and (max-width: 800px) {
+						table tbody td {
+							background-color: white;
+						}
+					}
+				}
+			}
+		}
+	}
+
 	// Fund wallet dropdown
 	.dropdown-menu-sec {
 		.ant-dropdown-menu {
