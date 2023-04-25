@@ -318,4 +318,23 @@ $header-menu-item--hover--background-color: lighten($primary-dark, 10%);
 			}
 		}
 	}
+
+	//transaction-history table
+
+	.transaction-table {
+		.transaction-history-table {
+			.ant-table-wrapper {
+				.ant-table {
+					@media screen and (max-width: 800px) {
+						table thead th {
+							background-color: #15171b;
+						}
+						table tbody td {
+							background: #0a0b0d;
+						}
+					}
+				}
+			}
+		}
+	}
 }

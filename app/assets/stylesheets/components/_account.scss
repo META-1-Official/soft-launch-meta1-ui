@@ -801,6 +801,7 @@ div.account-overview {
 						position: sticky;
 						top: 0;
 						z-index: 1;
+						overflow-wrap: break-word;
 					}
 					table td {
 						text-align: center;
@@ -813,9 +814,7 @@ div.account-overview {
 						position: sticky;
 						left: 0;
 						z-index: 2;
-						div {
-							width: 120px;
-						}
+						overflow-wrap: break-word;
 					}
 
 					table tbody td {
@@ -827,6 +826,13 @@ div.account-overview {
 						position: sticky;
 						left: 0;
 						z-index: 2;
+						width: fit-content;
+						span {
+							div {
+								white-space: break-spaces;
+								width: 110px;
+							}
+						}
 					}
 				}
 
@@ -1156,6 +1162,44 @@ div.tabs-container {
 	}
 
 	.transaction-history-table {
+		@media screen and (max-width: 800px) {
+			table {
+				font-size: 12px;
+				font-weight: 200px;
+			}
+
+			table thead th {
+				position: sticky;
+				top: 0;
+				z-index: 1;
+				overflow-wrap: break-word;
+			}
+			table td {
+				text-align: center;
+			}
+
+			table tbody td {
+				position: relative;
+			}
+			table thead th:first-child {
+				position: sticky;
+				left: 0;
+				z-index: 2;
+				div {
+					width: 120px;
+				}
+			}
+			table tbody td {
+				position: sticky;
+				left: 0;
+				z-index: 0;
+			}
+			table tbody td:first-child {
+				position: sticky;
+				left: 0;
+				z-index: 2;
+			}
+		}
 		@media screen and (max-width: 800px) {
 			table thead th:nth-child(2) {
 				div {
@@ -1688,7 +1732,7 @@ div.account-activity {
 
 			.card {
 				@media screen and (min-width: 900px) {
-					display: none;
+					display: none !important;
 				}
 
 				@media screen and (max-width: 900px) {
