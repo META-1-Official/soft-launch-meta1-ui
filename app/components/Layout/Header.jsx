@@ -257,7 +257,11 @@ class Header extends React.Component {
 				.then(() => {})
 				.catch(() => {});
 		} else {
-			WalletUnlockActions.lock_v2();
+			WalletUnlockActions.lock_v2()
+				.then(() => {
+					this._onNavigate('/market/META1_USDT', this, true);
+				})
+				.catch(() => {});
 		}
 
 		this._closeAccountNotifications();
