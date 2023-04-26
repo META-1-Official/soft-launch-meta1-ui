@@ -424,7 +424,7 @@ class Assets extends React.Component {
 					})}
 				>
 					<Row justify="center" gutter={[16, 16]}>
-						<Col xs={24} sm={12} md={5} lg={6}>
+						<Col xs={12} sm={12} md={5} lg={6}>
 							<ExploreCard
 								icon={marketCapIcon}
 								textContent="explorer.blocks.24h_volumn_meta1"
@@ -444,7 +444,7 @@ class Assets extends React.Component {
 							</ExploreCard>
 						</Col>
 
-						<Col xs={24} sm={12} md={5} lg={6}>
+						<Col xs={12} sm={12} md={5} lg={6}>
 							<ExploreCard
 								icon={marketCapUSDTIcon}
 								textContent="explorer.blocks.24h_volumn_usdt"
@@ -463,7 +463,7 @@ class Assets extends React.Component {
 								</div>
 							</ExploreCard>
 						</Col>
-						<Col xs={24} sm={12} md={5} lg={6}>
+						<Col xs={12} sm={12} md={5} lg={6}>
 							<ExploreCard
 								icon={marketCapBTCIcon}
 								textContent="explorer.blocks.24h_volumn_btc"
@@ -482,7 +482,7 @@ class Assets extends React.Component {
 								</div>
 							</ExploreCard>
 						</Col>
-						<Col xs={24} sm={12} md={5} lg={6}>
+						<Col xs={12} sm={12} md={5} lg={6}>
 							<ExploreCard
 								icon={marketCapIcon}
 								textContent="explorer.blocks.24h_market_cap_meta1"
@@ -502,7 +502,7 @@ class Assets extends React.Component {
 							</ExploreCard>
 						</Col>
 
-						<Col xs={24} sm={12} md={5} lg={6}>
+						<Col xs={12} sm={12} md={5} lg={6}>
 							<ExploreCard
 								icon={marketCapUSDTIcon}
 								textContent="explorer.blocks.24h_market_cap_usdt"
@@ -521,7 +521,7 @@ class Assets extends React.Component {
 								</div>
 							</ExploreCard>
 						</Col>
-						<Col xs={24} sm={12} md={5} lg={6}>
+						<Col xs={12} sm={12} md={5} lg={6}>
 							<ExploreCard
 								icon={marketCapBTCIcon}
 								textContent="explorer.blocks.24h_market_cap_btc"
