@@ -72,15 +72,9 @@ class WalletUnlockModal extends React.Component {
 			passwordlessLogin,
 		} = props;
 
-		// Need refactor
-		const accountName = ss.get('account_login_name', '');
-
 		return {
 			isModalVisible: false,
 			passwordError: null,
-			accountName:
-				accountName ||
-				(passwordlessLogin ? passwordlessAccount : passwordAccount),
 			passwordInput: null,
 			walletSelected: !!currentWallet,
 			customError: null,
@@ -100,7 +94,7 @@ class WalletUnlockModal extends React.Component {
 		const {currentWallet: newCurrentWallet} = np;
 
 		const newState = {};
-		// Updating the accountname through the listener breaks UX (#2335)
+
 		if (walletSelected && !restoringBackup && !newCurrentWallet)
 			newState.walletSelected = false;
 		if (
@@ -116,6 +110,7 @@ class WalletUnlockModal extends React.Component {
 
 	shouldComponentUpdate(np, ns) {
 		if (this.state.isOpen && !ns.isOpen) return false;
+
 		return (
 			!utils.are_equal_shallow(np, this.props) ||
 			!utils.are_equal_shallow(ns, this.state)
@@ -187,7 +182,9 @@ class WalletUnlockModal extends React.Component {
 
 	componentDidUpdate() {
 		const {resolve, isLocked, passwordLogin, passwordlessLogin} = this.props;
-		const {isModalVisible, accountName, focusedOnce} = this.state;
+		const {isModalVisible, focusedOnce} = this.state;
+
+		const accountName = ss.get('account_login_name', '');
 
 		if (
 			!focusedOnce &&
@@ -333,7 +330,9 @@ class WalletUnlockModal extends React.Component {
 	handleLogin = (e) => {
 		if (e) e.preventDefault();
 		const {passwordLogin, backup, passwordlessLogin} = this.props;
-		const {walletSelected, accountName} = this.state;
+		const {walletSelected} = this.state;
+		const accountName = ss.get('account_login_name', '');
+
 		if (this.state.captcha) {
 			if (!passwordLogin && !walletSelected && !passwordlessLogin) {
 				this.setState({
@@ -505,7 +504,6 @@ class WalletUnlockModal extends React.Component {
 			restoringBackup,
 			passwordError,
 			customError,
-			accountName,
 			stopAskingForBackup,
 		} = this.state;
 
@@ -515,6 +513,8 @@ class WalletUnlockModal extends React.Component {
 		const errorMessage = passwordError
 			? counterpart.translate('wallet.pass_incorrect')
 			: customError;
+		const accountName = ss.get('account_login_name', '');
+
 		return (
 			<Modal
 				visible={this.state.isModalVisible}
