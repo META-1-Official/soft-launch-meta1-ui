@@ -2,7 +2,7 @@ import React from 'react';
 const TradingView = require('../../../charting_library/charting_library.min.js');
 import colors from 'assets/colors';
 import {getResolutionsFromBuckets, getTVTimezone} from './tradingViewClasses';
-import {Modal, Input, Table, Button} from 'antd';
+import {Modal, Input, Table, Button, theme} from 'antd';
 import counterpart from 'counterpart';
 import SettingsStore from 'stores/SettingsStore';
 import SettingsActions from 'actions/SettingsActions';
@@ -93,6 +93,16 @@ class TradingViewPriceChart extends React.Component {
 		if (__DEV__) console.log('*** Load Chart ***');
 		if (__DEV__) console.time('*** Chart load time: ');
 
+		let chart_properties = JSON.parse(
+			localStorage.getItem('tradingview.chartproperties')
+		);
+		chart_properties.paneProperties.background = themeColors.bgColor;
+		localStorage.removeItem('tradingview.chartproperties');
+		localStorage.setItem(
+			'tradingview.chartproperties',
+			JSON.stringify(chart_properties)
+		);
+
 		this.tvWidget = new TradingView.widget({
 			fullscreen: false,
 			symbol: props.quoteSymbol + '_' + props.baseSymbol,
@@ -150,7 +160,8 @@ class TradingViewPriceChart extends React.Component {
 	componentDidUpdate(prevProps) {
 		if (
 			this.props.baseSymbol !== prevProps.baseSymbol ||
-			this.props.quoteSymbol !== prevProps.quoteSymbol
+			this.props.quoteSymbol !== prevProps.quoteSymbol ||
+			this.props.theme !== prevProps.theme
 		) {
 			this.loadTradingView(this.props);
 		}
@@ -349,6 +360,7 @@ export default connect(TradingViewPriceChart, {
 	getProps() {
 		return {
 			charts: SettingsStore.getState().chartLayouts,
+			theme: SettingsStore.getState().settings.get('themes'),
 		};
 	},
 });
