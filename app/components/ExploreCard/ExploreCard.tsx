@@ -31,11 +31,15 @@ const ExploreCard = ({
 				background: theme.colors.cardBackgroundColor,
 				minHeight: screens['sm'] === true ? '150px' : '200px',
 				position: 'relative',
+				boxShadow: '7px 7px 30px 5px rgba(0, 0, 0, 0.05)',
 			})}
 		>
 			<div
 				css={() => ({
-					padding: '1rem 0rem 0rem 1rem',
+					padding:
+						screens['sm'] === true
+							? '1rem 0rem 0rem 1rem'
+							: '1rem 0rem 0rem 0rem',
 					display: 'flex',
 					justifyContent: 'flex-start',
 					flexDirection: screens['sm'] === true ? 'row' : 'column',
@@ -64,7 +68,7 @@ const ExploreCard = ({
 						marginLeft: screens['sm'] === true ? '1rem' : 0,
 						marginTop: screens['sm'] === true ? 0 : '1rem',
 						width: '100%',
-						paddingRight: screens['sm'] === true ? '2rem' : '1rem',
+						paddingRight: screens['sm'] === true ? '2rem' : 0,
 					})}
 				>
 					<Translate
