@@ -1225,6 +1225,10 @@ div.tabs-container {
 			}
 		}
 	}
+
+	.react-datepicker-popper {
+		z-index: 4;
+	}
 }
 
 .recent-transactions {
