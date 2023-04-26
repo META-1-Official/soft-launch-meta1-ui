@@ -391,7 +391,7 @@ class MarketPicker extends Component {
 		return (
 			<Modal
 				title={counterpart.translate('exchange.market_picker.title')}
-				closable={false}
+				closable={true}
 				visible={this.props.visible}
 				id={this.props.modalId}
 				overlay={true}

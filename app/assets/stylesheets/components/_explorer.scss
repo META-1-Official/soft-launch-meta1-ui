@@ -1,4 +1,28 @@
 .explorer {
+	.ant-tabs-nav {
+		padding-left: 30px;
+		margin: 0;
+	}
+
+	.ant-table-thead {
+		tr {
+			th {
+				text-transform: uppercase;
+				font-size: 14px;
+
+				.ant-table-column-sorters {
+					text-transform: uppercase;
+					font-size: 14px;
+
+					.ant-table-column-title {
+						text-transform: uppercase;
+						font-size: 14px;
+					}
+				}
+			}
+		}
+	}
+
 	.blockchain-tab {
 		.explorer-card {
 			canvas {
@@ -25,22 +49,40 @@
 				.ant-table {
 					border-radius: 10px;
 
-					thead > tr:first-child th {
-						&:first-child {
-							border-top-left-radius: 10px;
+					thead {
+						th {
+							span {
+								font-weight: 500;
+								font-size: 14px;
+							}
 						}
 
-						&:last-child {
-							border-top-right-radius: 10px;
+						& > tr:first-child th {
+							&:first-child {
+								border-top-left-radius: 10px;
+							}
+
+							&:last-child {
+								border-top-right-radius: 10px;
+							}
 						}
 					}
 
 					tbody {
 						overflow: auto;
 
-						.ant-table-row {
-							.ant-table-cell {
+						tr {
+							td {
 								padding: 0 !important;
+
+								&:first-child {
+									width: 150px;
+									padding-left: 15px;
+
+									@media screen and (max-width: 576px) {
+										padding-left: 0;
+									}
+								}
 							}
 
 							&:last-child {
@@ -82,26 +124,44 @@
 						padding-right: 4px;
 					}
 
-					thead > tr:first-child th {
-						&::before {
-							display: none;
+					thead {
+						th {
+							span {
+								font-weight: 500;
+								font-size: 14px;
+							}
 						}
 
-						&:first-child {
-							border-top-left-radius: 10px;
-						}
+						& > tr:first-child th {
+							&:first-child {
+								border-top-left-radius: 10px;
+							}
 
-						&:last-child {
-							border-top-right-radius: 10px;
+							&:last-child {
+								border-top-right-radius: 10px;
+							}
 						}
 					}
 
 					tbody {
 						overflow: auto;
 
-						.ant-table-row {
-							.ant-table-cell {
+						td > span {
+							font-size: 0.875em;
+						}
+
+						tr {
+							td {
 								padding: 0 !important;
+
+								&:first-child {
+									width: 100px;
+									padding-left: 15px;
+
+									@media screen and (max-width: 576px) {
+										padding-left: 0;
+									}
+								}
 							}
 
 							&:last-child {
@@ -114,10 +174,6 @@
 								}
 							}
 						}
-
-						td > span {
-							font-size: 0.875em;
-						}
 					}
 				}
 			}
@@ -128,7 +184,8 @@
 		.assets-section-wrapper {
 			display: flex;
 			flex-direction: column;
-			padding-right: 20px;
+			padding-right: 30px;
+			padding-left: 30px;
 
 			.control-group {
 				text-align: left;
@@ -184,6 +241,12 @@
 				width: 100% !important;
 			}
 		}
+
+		.ant-table-cell {
+			font-size: 14px;
+			text-align: left !important;
+			padding-left: 16px !important;
+		}
 	}
 
 	.committee-tab {
@@ -198,14 +261,23 @@
 	}
 
 	.fees-tab {
-		padding-right: 20px;
+		padding: 30px;
 
-		.fees-table {
+		table {
+			th {
+				font-size: 14px;
+			}
+
 			tbody {
 				tr > td {
 					padding: 16px 13px;
 				}
 			}
+		}
+
+		.ant-card {
+			height: 45px;
+			font-weight: 600;
 		}
 	}
 }

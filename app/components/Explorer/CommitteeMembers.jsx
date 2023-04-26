@@ -180,7 +180,7 @@ class CommitteeMembers extends React.Component {
 
 		return (
 			<div className="committee-tab">
-				<div className="grid-content">
+				<div style={{padding: '30px'}}>
 					<SearchInput
 						placeholder={counterpart.translate(
 							'explorer.witnesses.filter_by_name'

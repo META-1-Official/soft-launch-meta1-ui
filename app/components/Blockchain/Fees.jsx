@@ -244,7 +244,7 @@ class FeeGroup extends React.Component {
 			<div className="asset-card">
 				<Card bordered={false}>{this.props.title.toUpperCase()}</Card>
 				<div style={{overflow: 'auto'}}>
-					<table className="table fees-table">
+					<table className="table">
 						<thead>
 							<tr>
 								<th>

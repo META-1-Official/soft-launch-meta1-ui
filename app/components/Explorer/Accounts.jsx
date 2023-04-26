@@ -242,7 +242,7 @@ class Accounts extends React.Component {
 		}
 		return (
 			<div className="accounts-tab">
-				<div className="generic-bordered-box">
+				<div style={{padding: '30px'}}>
 					<div className="search-input">
 						<SearchInput
 							placeholder={counterpart.translate('markets.search')}

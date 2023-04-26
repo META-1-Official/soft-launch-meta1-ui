@@ -6,7 +6,7 @@ $dark-text-color: rgb(255, 255, 255);
 $primary-text-color: #ffffff;
 $secondary-text-color: white;
 $inactive-text-color: black;
-$link-text-color: #fcab53;
+$link-text-color: #ffc000;
 $error-text-color: #e3745b;
 
 $settings-select-bg: #270303;
@@ -299,5 +299,42 @@ $header-menu-item--hover--background-color: lighten($primary-dark, 10%);
 	}
 	.ant-menu-submenu-popup {
 		background-color: $primary-dark;
+	}
+
+	// Account Overview
+	div.account-overview {
+		.portfolio-table-wrapper {
+			.ant-table-wrapper {
+				.ant-table {
+					@media screen and (max-width: 800px) {
+						table thead th:first-child {
+							background-color: #15171b;
+						}
+						table tbody td:first-child {
+							background: #0a0b0d;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	//transaction-history table
+
+	.transaction-table {
+		.transaction-history-table {
+			.ant-table-wrapper {
+				.ant-table {
+					@media screen and (max-width: 800px) {
+						table thead th {
+							background-color: #15171b;
+						}
+						table tbody td {
+							background: #0a0b0d;
+						}
+					}
+				}
+			}
+		}
 	}
 }

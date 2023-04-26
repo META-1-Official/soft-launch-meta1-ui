@@ -5,12 +5,12 @@ import Header from './Header';
 import SideBar from './SideBar';
 import counterpart from 'counterpart';
 
-const footer_logo = require('assets/footer_menu_logo.png');
+const footer_logo = require('assets/explorer/marketCap.png');
 import {
-	DatabaseOutlined,
-	BarChartOutlined,
-	SlidersOutlined,
-	SyncOutlined,
+	ProfileOutlined,
+	LineChartOutlined,
+	ControlOutlined,
+	FieldTimeOutlined,
 } from '@ant-design/icons';
 
 const {Content, Footer} = Layout;
@@ -19,6 +19,7 @@ const {Text} = Typography;
 const AppLayout = ({children, location, height}, others) => {
 	const [collapsed, setcollapsed] = useState(true);
 	const [currentLink, setCurrentLink] = useState('');
+	const [activeTab, setActiveTab] = useState('');
 
 	const toggle = (value) => setcollapsed(value);
 
@@ -63,6 +64,13 @@ const AppLayout = ({children, location, height}, others) => {
 	}
 
 	useEffect(() => {
+		setActiveTab('chart');
+		SettingsActions.changeViewSetting({
+			currentSection: 'chart',
+		});
+	}, []);
+
+	useEffect(() => {
 		setCurrentLink(link);
 		if (link === 'market' || link === 'registration') {
 			setcollapsed(true);
@@ -80,6 +88,7 @@ const AppLayout = ({children, location, height}, others) => {
 				justifyContent: 'center',
 				width: '100px',
 				height: '50px',
+				opacity: activeTab === props.keyId ? 1.0 : 0.5,
 			})}
 			onClick={props.onClick}
 		>
@@ -92,6 +101,7 @@ const AppLayout = ({children, location, height}, others) => {
 		SettingsActions.changeViewSetting({
 			currentSection: val,
 		});
+		setActiveTab(val);
 	};
 
 	const renderFooter = () => {
@@ -115,39 +125,42 @@ const AppLayout = ({children, location, height}, others) => {
 						})}
 					>
 						<Footer className="exchange-footer">
-							<div className="logo-wrapper">
+							<IconButton
+								icon={<ProfileOutlined />}
+								text={counterpart.translate('exchange.market')}
+								onClick={() => handleClick('market')}
+								keyId="market"
+							/>
+							<IconButton
+								icon={<LineChartOutlined />}
+								text={counterpart.translate('footer.chart')}
+								onClick={() => handleClick('chart')}
+								keyId="chart"
+							/>
+							<div
+								className="normal-button"
+								onClick={() => handleClick('buy-sell')}
+								style={{color: activeTab === 'buy-sell' ? '#ffc000' : 'white'}}
+							>
 								<img
 									className="footer-logo"
 									src={footer_logo}
 									onClick={() => handleClick('buy-sell')}
 								/>
-							</div>
-							<IconButton
-								icon={<DatabaseOutlined />}
-								text={counterpart.translate('exchange.market').toLowerCase()}
-								onClick={() => handleClick('market')}
-							/>
-							<IconButton
-								icon={<BarChartOutlined />}
-								text={counterpart.translate('footer.chart').toLowerCase()}
-								onClick={() => handleClick('chart')}
-							/>
-							<div
-								className="normal-button"
-								onClick={() => handleClick('buy-sell')}
-							>
 								{counterpart.translate('exchange.buy')}/
 								{counterpart.translate('exchange.sell')}
 							</div>
 							<IconButton
-								icon={<SlidersOutlined />}
-								text={counterpart.translate('account.trade').toLowerCase()}
+								icon={<ControlOutlined />}
+								text={counterpart.translate('account.trade')}
 								onClick={() => handleClick('trade')}
+								keyId="trade"
 							/>
 							<IconButton
-								icon={<SyncOutlined />}
-								text={counterpart.translate('account.orders').toLowerCase()}
+								icon={<FieldTimeOutlined />}
+								text={counterpart.translate('account.orders')}
 								onClick={() => handleClick('orders')}
+								keyId="orders"
 							/>
 						</Footer>
 					</div>

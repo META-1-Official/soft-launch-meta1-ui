@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {MobileOutlined} from '@ant-design/icons';
-import {Button, Table} from 'antd';
+import {Button, Pagination, Table} from 'antd';
 import counterpart from 'counterpart';
 import PageHeader from 'components/PageHeader/PageHeader';
 import BindToChainState from '../Utility/BindToChainState';
@@ -16,6 +16,14 @@ const Subsection = ({
 }) => {
 	const title21 = title2.split('. ')[0];
 	const title22 = title2.split('. ')[1];
+	const [minValue, setMinValue] = useState(0);
+	const [maxValue, setMaxValue] = useState(5);
+	const recordsPerPage = 5;
+	const onPageChange = (value) => {
+		setMaxValue(value * recordsPerPage);
+		setMinValue((value - 1) * recordsPerPage);
+	};
+
 	return (
 		<>
 			<div className="subsection-title1">{title1}</div>
@@ -36,34 +44,48 @@ const Subsection = ({
 					pagination={pagination}
 				/>
 			</div>
-
-			{dataSource.map((el) => (
+			<>
+				{dataSource.slice(minValue, maxValue).map((el) => (
+					<div
+						className={`card ${title1 == 'Mobile Applications' ? 'hide' : ''}`}
+					>
+						<Card bordered={false}>
+							{columns.map((col) => {
+								return col.title ? (
+									<h6>
+										<div className="header">{col.title} :</div>
+										<div class="content">
+											{col.render ? col.render(el[col.key]) : el[col.key]}
+										</div>
+									</h6>
+								) : (
+									<h6>
+										<div class="action">
+											{col.render ? col.render(el[col.key]) : el[col.key]}
+										</div>
+									</h6>
+								);
+							})}
+						</Card>
+					</div>
+				))}
 				<div
-					className={`card ${title1 == 'Mobile Applications' ? 'hide' : ''}`}
+					className={`card ${
+						title1 == 'Mobile Applications' ? 'hide' : ''
+					} paginator`}
 				>
-					<Card bordered={false}>
-						{columns.map((col) => {
-							return col.title ? (
-								<h6>
-									<div className="header">{col.title} :</div>
-									<div class="content">
-										{col.render ? col.render(el[col.key]) : el[col.key]}
-									</div>
-								</h6>
-							) : (
-								<h6>
-									<div class="action">
-										{col.render ? col.render(el[col.key]) : el[col.key]}
-									</div>
-								</h6>
-							);
-						})}
-					</Card>
+					<Pagination
+						onChange={onPageChange}
+						pageSize={recordsPerPage}
+						defaultCurrent={1}
+						total={dataSource.length}
+					/>
 				</div>
-			))}
+			</>
 		</>
 	);
 };
+4;
 
 const CancelButton = ({onClick}) => {
 	return (

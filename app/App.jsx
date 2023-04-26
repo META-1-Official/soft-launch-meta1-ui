@@ -436,8 +436,6 @@ class App extends React.Component {
 						<Route path="/contact/add" component={AddContact} />
 
 						<Route path="/invoice/:data" component={Invoice} />
-						{/* <Route path="/create-account" component={AccountRegistration} /> */}
-						{/* <Route path="/login" component={Login} /> */}
 						<Route path="/registration" exact component={AccountRegistration} />
 						<Route path="/auth-proceed" component={AuthRedirect} />
 						{/* <Route

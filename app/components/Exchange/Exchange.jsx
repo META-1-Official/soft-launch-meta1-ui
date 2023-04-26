@@ -25,6 +25,7 @@ import utils from 'common/utils';
 
 // Custom components
 import BuySell from './BuySell';
+import FundTab from './FundTab';
 import ScaledOrderTab from './ScaledOrderTab';
 import MarketOrderTab from './MarketOrderTab';
 import ExchangeHeader from './ExchangeHeader';
@@ -361,7 +362,7 @@ class Exchange extends React.Component {
 		const LOG_ID = '[calcBackingAssetValue]';
 		this.setState({backingAssetValue: 0});
 
-		Apis.db.get_asset_limitation_value('META1').then((price) => {
+		return Apis.db.get_asset_limitation_value('META1').then((price) => {
 			const meta1_usdt = ceilFloat(price / 1000000000, 2);
 			console.log(LOG_ID, 'META1 Backing Asset($): ', meta1_usdt);
 			const quoteAssetSymbol = this.props.quoteAsset.get('symbol');
@@ -371,7 +372,7 @@ class Exchange extends React.Component {
 			const isQuoting = quoteAssetSymbol === 'META1';
 			let asset_usdt;
 
-			Apis.db
+			return Apis.db
 				.get_ticker('USDT', isQuoting ? baseAssetSymbol : quoteAssetSymbol)
 				.then((res) => {
 					asset_usdt = parseFloat(res.latest) || 1;
@@ -399,133 +400,151 @@ class Exchange extends React.Component {
 						backingAssetValue: ratio,
 						backingAssetPolarity: isQuoting,
 					});
+
+					return {
+						backingAssetValue: ratio,
+						backingAssetPolarity: isQuoting,
+					};
 				});
 		});
 	}
 
 	calculateMarketPrice(prices, isBid, amount2Trade = 0) {
-		const {quoteAsset, baseAsset} = this.props;
-		const {backingAssetValue, backingAssetPolarity} = this.state;
+		if (!prices) return;
 
+		const {quoteAsset, baseAsset} = this.props;
 		const quoteAssetSymbol = this.props.quoteAsset.get('symbol');
 		const quoteAssetPrecision = this.props.quoteAsset.get('precision');
 		const baseAssetSymbol = this.props.baseAsset.get('symbol');
 		const baseAssetPrecision = this.props.baseAsset.get('precision');
-		// Debug - can be deleted later
-		console.log(
-			'@! - ',
-			baseAssetSymbol,
-			baseAssetPrecision,
-			quoteAssetSymbol,
-			quoteAssetPrecision,
-			backingAssetValue,
-			backingAssetPolarity
-		);
+
 		const isQuoting = quoteAssetSymbol === 'META1';
 		const isTradingMETA1 =
 			quoteAssetSymbol === 'META1' || baseAssetSymbol === 'META1';
 		let _prices = prices;
+		const preCalcPromise = isTradingMETA1
+			? this.calcBackingAssetValue()
+			: Promise.resolve(null);
+		const that = this;
 
-		// Filter pricings below the backingAssetValue
-		if (isTradingMETA1) {
-			if (!backingAssetValue) return;
-			if (!prices) return;
+		preCalcPromise.then((result) => {
+			let backingAssetValue;
+			let backingAssetPolarity;
 
-			if (backingAssetPolarity)
-				_prices = prices.filter(
-					(price) => price._real_price > backingAssetValue
-				);
-			else
-				_prices = prices.filter(
-					(price) => price._real_price < backingAssetValue
-				);
-		}
-
-		if (isBid) {
-			let sellMarketPrice = 0;
-			let sellMarketLiquidity = 0;
-			let estSellAmount = 0;
-
-			for (let price of _prices)
-				sellMarketLiquidity +=
-					price.for_sale / Math.pow(10, baseAssetPrecision) / price._real_price;
-
-			for (let price of _prices) {
-				sellMarketPrice = price._real_price;
-				estSellAmount += price.for_sale / Math.pow(10, baseAssetPrecision);
-				// Debug - can be deleted later
-				console.log(
-					'@! - ',
-					isBid,
-					price._real_price,
-					price.for_sale / Math.pow(10, baseAssetPrecision)
-				);
-
-				if (amount2Trade && amount2Trade < estSellAmount) break;
+			if (result) {
+				backingAssetValue = result.backingAssetValue;
+				backingAssetPolarity = result.backingAssetPolarity;
 			}
 
-			if (sellMarketPrice > 0) {
-				// const percentDiff = sellMarketPrice + sellMarketPrice / Math.pow(10, 4);
+			// Debug - can be deleted later
+			console.log(
+				'@10 - ',
+				baseAssetSymbol,
+				baseAssetPrecision,
+				quoteAssetSymbol,
+				quoteAssetPrecision,
+				backingAssetValue,
+				backingAssetPolarity
+			);
 
-				// if (isTradingMETA1 && backingAssetValue && !isQuoting && percentDiff >= backingAssetValue) {
-				// 	const diff = Math.abs(sellMarketPrice + backingAssetValue) / 2;
-				// 	sellMarketPrice = sellMarketPrice - diff;
-				// } else {
-				// 	sellMarketPrice = percentDiff;
-				// }
-
-				console.log(
-					'sellMarketPrice:',
-					baseAssetSymbol,
-					quoteAssetSymbol,
-					sellMarketPrice
-				);
-				console.log('sellMarketLiquidity:', sellMarketLiquidity);
-				this.setState({sellMarketPrice, sellMarketLiquidity});
-			}
-		} else {
-			let buyMarketPrice = 0;
-			let buyMarketLiquidity = 0;
-			let estSellAmount = 0;
-
-			for (let price of _prices)
-				buyMarketLiquidity +=
-					price.for_sale / Math.pow(10, quoteAssetPrecision);
-
-			for (let price of _prices) {
-				buyMarketPrice = price._real_price;
-				estSellAmount += price.for_sale / Math.pow(10, baseAssetPrecision);
-				// Debug - can be deleted later
-				console.log(
-					'@! - ',
-					isBid,
-					price._real_price,
-					price.for_sale / Math.pow(10, quoteAssetPrecision)
-				);
-
-				if (amount2Trade && amount2Trade < estSellAmount) break;
+			// Filter pricings below the backingAssetValue
+			if (isTradingMETA1) {
+				if (backingAssetPolarity)
+					_prices = prices.filter(
+						(price) => price._real_price > backingAssetValue
+					);
+				else
+					_prices = prices.filter(
+						(price) => price._real_price < backingAssetValue
+					);
 			}
 
-			if (buyMarketPrice > 0) {
-				// const percentDiff = sellMarketPrice + sellMarketPrice / Math.pow(10, 4);
+			if (isBid) {
+				let sellMarketPrice = 0;
+				let sellMarketLiquidity = 0;
+				let estSellAmount = 0;
 
-				// if (isTradingMETA1 && backingAssetValue && !isQuoting && percentDiff >= backingAssetValue) {
-				// 	const diff = Math.abs(sellMarketPrice + backingAssetValue) / 2;
-				// 	sellMarketPrice = sellMarketPrice - diff;
-				// } else {
-				// 	sellMarketPrice = percentDiff;
-				// }
+				for (let price of _prices)
+					sellMarketLiquidity +=
+						price.for_sale /
+						Math.pow(10, baseAssetPrecision) /
+						price._real_price;
 
-				console.log(
-					'buyMarketPrice:',
-					baseAssetSymbol,
-					quoteAssetSymbol,
-					buyMarketPrice
-				);
-				console.log('buyMarketLiquidity:', buyMarketLiquidity);
-				this.setState({buyMarketPrice, buyMarketLiquidity});
+				for (let price of _prices) {
+					sellMarketPrice = price._real_price;
+					estSellAmount += price.for_sale / Math.pow(10, baseAssetPrecision);
+					// Debug - can be deleted later
+					console.log(
+						'@11 - Bid',
+						price._real_price,
+						price.for_sale / Math.pow(10, baseAssetPrecision)
+					);
+
+					if (amount2Trade && amount2Trade < estSellAmount) break;
+				}
+
+				if (sellMarketPrice > 0) {
+					// const percentDiff = sellMarketPrice + sellMarketPrice / Math.pow(10, 4);
+
+					// if (isTradingMETA1 && backingAssetValue && !isQuoting && percentDiff >= backingAssetValue) {
+					// 	const diff = Math.abs(sellMarketPrice + backingAssetValue) / 2;
+					// 	sellMarketPrice = sellMarketPrice - diff;
+					// } else {
+					// 	sellMarketPrice = percentDiff;
+					// }
+
+					console.log(
+						'sellMarketPrice:',
+						baseAssetSymbol,
+						quoteAssetSymbol,
+						sellMarketPrice
+					);
+					console.log('sellMarketLiquidity:', sellMarketLiquidity);
+					that.setState({sellMarketPrice, sellMarketLiquidity});
+				}
+			} else {
+				let buyMarketPrice = 0;
+				let buyMarketLiquidity = 0;
+				let estSellAmount = 0;
+
+				for (let price of _prices)
+					buyMarketLiquidity +=
+						price.for_sale / Math.pow(10, quoteAssetPrecision);
+
+				for (let price of _prices) {
+					buyMarketPrice = price._real_price;
+					estSellAmount += price.for_sale / Math.pow(10, baseAssetPrecision);
+					// Debug - can be deleted later
+					console.log(
+						'@12 - Ask',
+						price._real_price,
+						price.for_sale / Math.pow(10, quoteAssetPrecision)
+					);
+
+					if (amount2Trade && amount2Trade < estSellAmount) break;
+				}
+
+				if (buyMarketPrice > 0) {
+					// const percentDiff = sellMarketPrice + sellMarketPrice / Math.pow(10, 4);
+
+					// if (isTradingMETA1 && backingAssetValue && !isQuoting && percentDiff >= backingAssetValue) {
+					// 	const diff = Math.abs(sellMarketPrice + backingAssetValue) / 2;
+					// 	sellMarketPrice = sellMarketPrice - diff;
+					// } else {
+					// 	sellMarketPrice = percentDiff;
+					// }
+
+					console.log(
+						'buyMarketPrice:',
+						baseAssetSymbol,
+						quoteAssetSymbol,
+						buyMarketPrice
+					);
+					console.log('buyMarketLiquidity:', buyMarketLiquidity);
+					that.setState({buyMarketPrice, buyMarketLiquidity});
+				}
 			}
-		}
+		});
 	}
 
 	_getFeeAssets(quote, base, coreAsset) {
@@ -2482,25 +2501,6 @@ class Exchange extends React.Component {
 			/>
 		);
 
-		let myFund = (
-			<MyTrade
-				key={`actionCard_${actionCardIndex++}`}
-				className="no-padding no-overflow"
-				noHeader={panelTabs['my_trade'] == 0 ? false : true}
-				currentAccount={currentAccount}
-				base={base}
-				quote={quote}
-				baseSymbol={baseSymbol}
-				quoteSymbol={quoteSymbol}
-				activeTab={'my_trade'}
-				isPanelActive={isPanelActive}
-				hideScrollbars={hideScrollbars}
-				myHistory={currentAccount.get('history')}
-				settings={this.props.settings}
-				history={this.props.history}
-			/>
-		);
-
 		let myOpenOrders = (
 			<MarketOrders
 				key={`actionCard_${actionCardIndex++}`}
@@ -2639,7 +2639,7 @@ class Exchange extends React.Component {
 							tab={`${counterpart.translate('exchange.settings.title.fund')}`}
 							key="fund"
 						>
-							{myFund}
+							<FundTab account={currentAccount} />
 						</Tabs.TabPane>
 					);
 				}
