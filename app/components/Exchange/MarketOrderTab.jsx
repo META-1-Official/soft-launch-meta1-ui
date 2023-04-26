@@ -395,11 +395,13 @@ const MarketOrderForm = (props) => {
 							{Number(
 								props.type === 'bid'
 									? props.baseAssetBalance
-									: sellBalance
-									? sellBalance
+									: props.quoteAssetBalance
+									? props.quoteAssetBalance
 									: ''
 							).toFixed(6)}{' '}
-							{props.baseAsset.get('symbol')}
+							{props.type === 'bid'
+								? props.baseAsset.get('symbol')
+								: props.quoteAsset.get('symbol')}
 						</span>
 					</div>
 					<div className="right_footer_sec">
