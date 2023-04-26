@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import BlockchainActions from 'actions/BlockchainActions';
 import Translate from 'react-translate-component';
 import {FormattedDate} from 'react-intl';
-import Operation from '../Blockchain/Operation';
+import Operation, {TransactionLabel} from '../Blockchain/Operation';
 import LinkToWitnessById from '../Utility/LinkToWitnessById';
 import ChainTypes from '../Utility/ChainTypes';
 import BindToChainState from '../Utility/BindToChainState';
@@ -17,8 +17,9 @@ import TimeAgo from '../Utility/TimeAgo';
 import FormattedAsset from '../Utility/FormattedAsset';
 import Ps from 'perfect-scrollbar';
 import TransitionWrapper from '../Utility/TransitionWrapper';
-import {Row, Col, Typography} from 'antd';
+import {Row, Col, Typography, Tooltip, Table} from 'antd';
 import ExploreCard from 'components/ExploreCard/ExploreCard';
+import counterpart from 'counterpart';
 
 require('../Blockchain/json-inspector.scss');
 
@@ -204,8 +205,9 @@ class Blocks extends React.Component {
 		const dynamicObject = this.props.getDynamicObject(
 			coreAsset.get('dynamic_asset_data_id')
 		);
-		let blocks = null,
-			transactions = null;
+		let blocks = [];
+		let transactions = [];
+
 		let headBlock = null;
 		let trxCount = 0,
 			blockCount = latestBlocks.size,
@@ -242,71 +244,29 @@ class Blocks extends React.Component {
 				});
 
 			// Output block rows for the last 20 blocks
-			blocks = latestBlocks
+			latestBlocks
 				.sort((a, b) => {
 					return b.id - a.id;
 				})
-				.take(20)
-				.map((block) => {
-					return (
-						<tr
-							key={block.id}
-							css={(theme) => ({
-								border: `1px solid ${theme.colors.borderColor}`,
-							})}
-						>
-							<td>
-								<Link to={`/block/${block.id}`}>
-									<span
-										css={(theme) => ({
-											color: theme.colors.primaryColor,
-										})}
-									>
-										#{utils.format_number(block.id, 0)}{' '}
-									</span>
-								</Link>
-							</td>
-							<td>
-								<FormattedDate value={block.timestamp} format="time" />
-							</td>
-							<td>
-								<LinkToWitnessById witness={block.witness} />
-							</td>
-							<td>{utils.format_number(block.transactions.length, 0)}</td>
-						</tr>
-					);
-				})
-				.toArray();
+				.forEach((block) => {
+					blocks.push(block);
+				});
 
-			let trxIndex = 0;
-
-			transactions = latestTransactions
+			latestTransactions
 				.sort((a, b) => {
 					return b.block_num - a.block_num;
 				})
 				.take(20)
-				.map((trx) => {
+				.forEach((trx) => {
 					let opIndex = 0;
-					return trx.operations
-						.map((op) => {
-							if (trxIndex > 15) return null;
-							return (
-								<Operation
-									key={trxIndex++}
-									op={op}
-									result={trx.operation_results[opIndex++]}
-									block={trx.block_num}
-									hideFee={true}
-									hideOpLabel={false}
-									current={'1.2.0'}
-									hideDate
-									hidePending
-								/>
-							);
-						})
-						.filter((a) => !!a);
-				})
-				.toArray();
+					trx.operations.forEach((op) => {
+						transactions.push({
+							block_num: trx.block_num,
+							result: trx.operation_results[opIndex++],
+							op: op,
+						});
+					});
+				});
 
 			headBlock = latestBlocks.first().timestamp;
 			avgTime = blockTimes.reduce((previous, current, idx, array) => {
@@ -316,6 +276,82 @@ class Blocks extends React.Component {
 			trxPerSec = trxCount / ((lastBlock - firstBlock) / 1000);
 		}
 
+		const transactionColumns = [
+			{
+				title: 'INFO',
+				dataIndex: 'block',
+				render: (text, record) => {
+					return (
+						<div>
+							<Operation
+								op={record['op']}
+								result={record['result']}
+								block={record['block_num']}
+								hideFee={true}
+								hideOpLabel={false}
+								current={'1.2.0'}
+								transactionLabelOnly
+								hideDate
+								hidePending
+							/>
+
+							<Operation
+								op={record['op']}
+								result={record['result']}
+								block={record['block_num']}
+								hideFee={true}
+								hideOpLabel={false}
+								current={'1.2.0'}
+								infoOnly
+								hideDate
+								hidePending
+							/>
+						</div>
+					);
+				},
+			},
+		];
+
+		const blockColumns = [
+			{
+				title: 'BLOCK ID',
+				dataIndex: 'id',
+				render: (value) => {
+					return (
+						<Link to={`/block/${value}`}>
+							<span
+								css={(theme) => ({
+									color: theme.colors.primaryColor,
+								})}
+							>
+								#{utils.format_number(value, 0)}{' '}
+							</span>
+						</Link>
+					);
+				},
+			},
+			{
+				title: 'DATE',
+				dataIndex: 'timestamp',
+				render: (value) => {
+					return <FormattedDate value={value} format="time" />;
+				},
+			},
+			{
+				title: 'WITNESS',
+				dataIndex: 'witness',
+				render: (value) => {
+					return <LinkToWitnessById witness={value} />;
+				},
+			},
+			{
+				title: 'TRANSACTION COUNT',
+				dataIndex: 'transactions',
+				render: (value) => {
+					return utils.format_number(value.length, 0);
+				},
+			},
+		];
 		return (
 			<div ref="outerWrapper" className="blockchain-tab">
 				<div
@@ -325,7 +361,7 @@ class Blocks extends React.Component {
 					})}
 				>
 					<Row gutter={[16, 16]}>
-						<Col xs={24} sm={12} md={8} lg={8} xl={6}>
+						<Col xs={12} sm={12} md={8} lg={8} xl={6}>
 							<ExploreCard
 								icon={blockNumberIcon}
 								textContent="explorer.blocks.current_block"
@@ -347,7 +383,7 @@ class Blocks extends React.Component {
 								</div>
 							</ExploreCard>
 						</Col>
-						<Col xs={24} sm={12} md={8} lg={8} xl={6}>
+						<Col xs={12} sm={12} md={8} lg={8} xl={6}>
 							<ExploreCard
 								icon={blockNumberIcon}
 								textContent="explorer.blocks.last_block"
@@ -356,7 +392,7 @@ class Blocks extends React.Component {
 								<BlockTimeAgo blockTime={headBlock} />
 							</ExploreCard>
 						</Col>
-						<Col xs={24} sm={12} md={8} lg={8} xl={6}>
+						<Col xs={12} sm={12} md={8} lg={8} xl={6}>
 							<ExploreCard
 								icon={blockNumberIcon}
 								textContent="explorer.blocks.avg_conf_time"
@@ -375,7 +411,7 @@ class Blocks extends React.Component {
 								</div>
 							</ExploreCard>
 						</Col>
-						<Col xs={24} sm={12} md={8} lg={8} xl={6}>
+						<Col xs={12} sm={12} md={8} lg={8} xl={6}>
 							<ExploreCard
 								icon={blockNumberIcon}
 								textContent="explorer.blocks.trx_per_sec"
@@ -394,7 +430,7 @@ class Blocks extends React.Component {
 							</ExploreCard>
 						</Col>
 
-						<Col xs={24} sm={12} md={8} lg={8} xl={6}>
+						<Col xs={12} sm={12} md={8} lg={8} xl={6}>
 							<ExploreCard
 								icon={blockNumberIcon}
 								textContent="explorer.blocks.avg_conf_time"
@@ -413,7 +449,7 @@ class Blocks extends React.Component {
 								</div>
 							</ExploreCard>
 						</Col>
-						<Col xs={24} sm={12} md={8} lg={8} xl={6}>
+						<Col xs={12} sm={12} md={8} lg={8} xl={6}>
 							<ExploreCard
 								icon={witnessIcon}
 								textContent="explorer.blocks.active_witnesses"
@@ -431,7 +467,7 @@ class Blocks extends React.Component {
 								</div>
 							</ExploreCard>
 						</Col>
-						<Col xs={24} sm={12} md={8} lg={8} xl={6}>
+						<Col xs={12} sm={12} md={8} lg={8} xl={6}>
 							<ExploreCard
 								icon={committeeIcon}
 								textContent="explorer.blocks.active_committee_members"
@@ -449,7 +485,7 @@ class Blocks extends React.Component {
 								</div>
 							</ExploreCard>
 						</Col>
-						<Col xs={24} sm={12} md={8} lg={8} xl={6}>
+						<Col xs={12} sm={12} md={8} lg={8} xl={6}>
 							<ExploreCard
 								icon={blockNumberIcon}
 								textContent="explorer.blocks.trx_per_block"
@@ -468,7 +504,7 @@ class Blocks extends React.Component {
 								</div>
 							</ExploreCard>
 						</Col>
-						<Col xs={24} sm={12} md={8} lg={8} xl={6}>
+						<Col xs={12} sm={12} md={8} lg={8} xl={6}>
 							<ExploreCard
 								icon={volumeIcon}
 								textContent="explorer.asset.summary.current_supply"
@@ -492,7 +528,7 @@ class Blocks extends React.Component {
 								</div>
 							</ExploreCard>
 						</Col>
-						<Col xs={24} sm={12} md={8} lg={8} xl={6}>
+						<Col xs={12} sm={12} md={8} lg={8} xl={6}>
 							<ExploreCard
 								icon={volumeIcon}
 								textContent="explorer.blocks.block_times"
@@ -503,7 +539,7 @@ class Blocks extends React.Component {
 								/>
 							</ExploreCard>
 						</Col>
-						<Col xs={24} sm={12} md={8} lg={8} xl={6}>
+						<Col xs={12} sm={12} md={8} lg={8} xl={6}>
 							<ExploreCard
 								icon={volumeIcon}
 								textContent="explorer.blocks.trx_per_block"
@@ -522,28 +558,6 @@ class Blocks extends React.Component {
 							<div className="block-content-header">
 								<Translate content="account.recent" />
 							</div>
-							<table
-								className="table fixed-height-2rem"
-								css={(theme) => ({
-									border: `1px solid ${theme.colors.borderColor}`,
-								})}
-							>
-								<thead
-									css={(theme) => ({
-										tr: {
-											backgroundColor: theme.colors.tableHeaderColor,
-											fontSize: '13px !important',
-											textAlign: 'left',
-										},
-									})}
-								>
-									<tr>
-										<th>
-											<Translate content="account.votes.info" />
-										</th>
-									</tr>
-								</thead>
-							</table>
 						</div>
 						<div
 							className="grid-block"
@@ -553,12 +567,16 @@ class Blocks extends React.Component {
 							}}
 							ref="operations"
 						>
-							<table
+							<Table
+								style={{width: '100%'}}
 								className="table fixed-height-2rem"
-								style={{maxHeight: '300px'}}
-							>
-								<tbody>{transactions}</tbody>
-							</table>
+								columns={transactionColumns}
+								dataSource={transactions}
+								pagination={{
+									position: 'bottom',
+									pageSize: 10,
+								}}
+							/>
 						</div>
 					</div>
 					<div className="recent-blocks">
@@ -579,55 +597,16 @@ class Blocks extends React.Component {
 								}}
 								ref="blocks"
 							>
-								<table
+								<Table
+									style={{width: '100%'}}
 									className="table fixed-height-2rem"
-									css={(theme) => ({
-										border: `1px solid ${theme.colors.borderColor}`,
-										maxHeight: '300px',
-									})}
-								>
-									<thead
-										css={(theme) => ({
-											borderBottom: `2px solid ${theme.colors.borderColor}`,
-											tr: {
-												backgroundColor: theme.colors.tableHeaderColor,
-												textAlign: 'left',
-												fontSize: '13px !important',
-											},
-										})}
-									>
-										<tr>
-											<th>
-												<Translate
-													component="span"
-													content="explorer.block.id"
-												/>
-											</th>
-											<th>
-												<Translate
-													component="span"
-													content="explorer.block.date"
-												/>
-											</th>
-											<th>
-												<Translate
-													component="span"
-													content="explorer.block.witness"
-												/>
-											</th>
-											<th>
-												<Translate
-													component="span"
-													content="explorer.block.count"
-												/>
-											</th>
-										</tr>
-									</thead>
-
-									<TransitionWrapper component="tbody" transitionName="newrow">
-										{blocks}
-									</TransitionWrapper>
-								</table>
+									columns={blockColumns}
+									dataSource={blocks}
+									pagination={{
+										position: 'bottom',
+										pageSize: 10,
+									}}
+								/>
 							</div>
 						</div>
 					</div>

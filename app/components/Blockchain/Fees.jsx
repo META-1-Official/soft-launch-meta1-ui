@@ -64,7 +64,7 @@ class FeeGroup extends React.Component {
 	}
 
 	getOpColor(id) {
-		var op_color = '#856916';
+		var op_color = '#D99512';
 
 		// ops_type_labels.map((op) => {
 		// 	if (op.type === id) {
@@ -163,7 +163,7 @@ class FeeGroup extends React.Component {
 									background: this.getOpColor(opId),
 									border: `1px solid ${theme.colors.borderColor}`,
 									borderRadius: '5px',
-									padding: '2px',
+									padding: '4px 8px',
 									color: 'white',
 								})}
 							>

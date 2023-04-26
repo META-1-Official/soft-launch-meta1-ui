@@ -46,28 +46,60 @@
 					width: 100%;
 				}
 
-				thead {
-					th {
-						span {
-							font-weight: 500;
-							font-size: 14px;
+				.ant-table {
+					border-radius: 10px;
+
+					thead {
+						th {
+							span {
+								font-weight: 500;
+								font-size: 14px;
+							}
+						}
+
+						& > tr:first-child th {
+							&:first-child {
+								border-top-left-radius: 10px;
+							}
+
+							&:last-child {
+								border-top-right-radius: 10px;
+							}
 						}
 					}
-				}
 
-				tbody {
-					overflow: auto;
+					tbody {
+						overflow: auto;
 
-					tr {
-						td {
-							&:first-child {
-								width: 150px;
-								padding-left: 15px;
+						tr {
+							td {
+								padding: 0 !important;
 
-								@media screen and (max-width: 576px) {
-									padding-left: 0;
+								&:first-child {
+									width: 150px;
+									padding-left: 15px;
+
+									@media screen and (max-width: 576px) {
+										padding-left: 0;
+									}
 								}
 							}
+
+							&:last-child {
+								.ant-table-cell:first-child {
+									border-bottom-left-radius: 10px;
+								}
+
+								.ant-table-cell:last-child {
+									border-bottom-right-radius: 10px;
+								}
+							}
+						}
+
+						a {
+							font-size: 0.875em;
+							padding-left: 20px;
+							padding-right: 4px;
 						}
 					}
 				}
@@ -83,26 +115,62 @@
 					padding-left: 0;
 				}
 
-				thead {
-					th {
-						span {
-							font-weight: 500;
-							font-size: 14px;
+				.ant-table {
+					border-radius: 10px;
+
+					a {
+						font-size: 0.875em;
+						padding-left: 20px;
+						padding-right: 4px;
+					}
+
+					thead {
+						th {
+							span {
+								font-weight: 500;
+								font-size: 14px;
+							}
+						}
+
+						& > tr:first-child th {
+							&:first-child {
+								border-top-left-radius: 10px;
+							}
+
+							&:last-child {
+								border-top-right-radius: 10px;
+							}
 						}
 					}
-				}
 
-				tbody {
-					overflow: auto;
+					tbody {
+						overflow: auto;
 
-					tr {
-						td {
-							&:first-child {
-								width: 100px;
-								padding-left: 15px;
+						td > span {
+							font-size: 0.875em;
+						}
 
-								@media screen and (max-width: 576px) {
-									padding-left: 0;
+						tr {
+							td {
+								padding: 0 !important;
+
+								&:first-child {
+									width: 100px;
+									padding-left: 15px;
+
+									@media screen and (max-width: 576px) {
+										padding-left: 0;
+									}
+								}
+							}
+
+							&:last-child {
+								.ant-table-cell:first-child {
+									border-bottom-left-radius: 10px;
+								}
+
+								.ant-table-cell:last-child {
+									border-bottom-right-radius: 10px;
 								}
 							}
 						}
@@ -198,6 +266,12 @@
 		table {
 			th {
 				font-size: 14px;
+			}
+
+			tbody {
+				tr > td {
+					padding: 16px 13px;
+				}
 			}
 		}
 

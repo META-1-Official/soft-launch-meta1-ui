@@ -267,6 +267,28 @@ class Operation extends React.Component {
 			);
 		}
 
+		if (this.props.transactionLabelOnly) {
+			return (
+				<Tooltip
+					placement="bottom"
+					title={counterpart.translate('tooltip.show_block', {
+						block: utils.format_number(this.props.block, 0),
+					})}
+				>
+					<Link
+						className="inline-block"
+						to={`/block/${this.props.block}/${this.props.txIndex}`}
+					>
+						<TransactionLabel color={this.state.labelColor} type={op[0]} />
+					</Link>
+				</Tooltip>
+			);
+		}
+
+		if (this.props.infoOnly) {
+			return column;
+		}
+
 		line = column ? (
 			<Row
 				operationId={this.props.operationId}
