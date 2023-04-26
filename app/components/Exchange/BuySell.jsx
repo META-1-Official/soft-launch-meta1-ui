@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import utils from 'common/utils';
 import Translate from 'react-translate-component';
+import ChainStore from 'meta1-vision-js/es/chain/src/ChainStore';
 import TranslateWithLinks from '../Utility/TranslateWithLinks';
 import counterpart from 'counterpart';
 import ChainTypes from '../Utility/ChainTypes';
@@ -325,6 +326,28 @@ class BuySell extends React.Component {
 		let invalidPrice = !(price > 0);
 		let invalidAmount = !(amount > 0);
 
+		const _getBalanceByAssetId = (assetId, precision) => {
+			let balance = 0;
+			let balances = this.props.currentAccount.get('balances');
+
+			if (balances.get(assetId) !== undefined) {
+				let balanceObj = ChainStore.getObject(balances.get(assetId));
+				balance = balanceObj.get('balance') / Math.pow(10, precision);
+			}
+
+			return balance;
+		};
+
+		const baseAssetBalance = _getBalanceByAssetId(
+			this.props.base.get('id'),
+			this.props.base.get('precision')
+		);
+
+		const quoteAssetBalance = _getBalanceByAssetId(
+			this.props.quote.get('id'),
+			this.props.quote.get('precision')
+		);
+
 		let isNotUsdtMeta1 = true;
 		const pathUrl = this.props.historyUrl.pathname;
 		if (pathUrl) {
@@ -591,8 +614,14 @@ class BuySell extends React.Component {
 						<div className="left_footer_sec">
 							<img className="wallet_img" src={walletIcon} alt="img" />
 							<span>
-								{Number(this.state.currencyBalance).toFixed(6)}{' '}
-								{base.get('symbol')}
+								{Number(
+									isBid
+										? baseAssetBalance
+										: quoteAssetBalance
+										? quoteAssetBalance
+										: ''
+								).toFixed(6)}{' '}
+								{isBid ? base.get('symbol') : quote.get('symbol')}
 							</span>
 						</div>
 						<div className="right_footer_sec">
