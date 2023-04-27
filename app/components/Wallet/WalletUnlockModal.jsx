@@ -329,6 +329,7 @@ class WalletUnlockModal extends React.Component {
 
 	handleLogin = (e) => {
 		if (e) e.preventDefault();
+
 		const {passwordLogin, backup, passwordlessLogin} = this.props;
 		const {walletSelected} = this.state;
 		const accountName = ss.get('account_login_name', '');
@@ -723,9 +724,9 @@ class WalletUnlockModal extends React.Component {
 						onClick={this.handleLogin}
 						className="login-btn"
 						disabled={
-							!this.state.accountName ||
+							!accountName ||
 							!this.state.password ||
-							this.state.accountName === '' ||
+							accountName === '' ||
 							this.state.password === ''
 						}
 					>
