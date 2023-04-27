@@ -96,7 +96,8 @@ class TradingViewPriceChart extends React.Component {
 		let chart_properties = JSON.parse(
 			localStorage.getItem('tradingview.chartproperties')
 		);
-		chart_properties.paneProperties.background = themeColors.bgColor;
+		if (chart_properties?.paneProperties)
+			chart_properties.paneProperties.background = themeColors.bgColor;
 		localStorage.removeItem('tradingview.chartproperties');
 		localStorage.setItem(
 			'tradingview.chartproperties',
