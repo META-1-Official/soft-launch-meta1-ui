@@ -38,7 +38,7 @@ const browserstack_test_accounts = [
 	'rock-64',
 	'rock-3',
 	'bond-02',
-	'jin123',
+	'jin124',
 	'antman-kok357',
 	'user-x01',
 ];
