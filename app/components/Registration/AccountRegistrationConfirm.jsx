@@ -45,7 +45,7 @@ class AccountRegistrationConfirm extends React.Component {
 			confirmedTerms2: false,
 			confirmedTerms3: false,
 			confirmedTerms4: false,
-			emailSubscription: false,
+			emailSubscription: true,
 			isErrored: false,
 			name: '',
 			password: '',
@@ -90,7 +90,7 @@ class AccountRegistrationConfirm extends React.Component {
 			confirmedTerms: ss.get('confirmedTerms', false),
 			confirmedTerms2: ss.get('confirmedTerms2', false),
 			confirmedTerms3: ss.get('confirmedTerms3', false),
-			emailSubscription: ss.get('emailSubscription', false),
+			emailSubscription: ss.get('emailSubscription', true),
 		});
 	}
 
@@ -249,7 +249,7 @@ class AccountRegistrationConfirm extends React.Component {
 		ss.remove('confirmedTerms');
 		ss.remove('confirmedTerms2');
 		ss.remove('account_registration_name');
-		const emailSubscription = ss.get('emailSubscription', false);
+		const emailSubscription = ss.get('emailSubscription', true);
 		if (emailSubscription) {
 			sendXApi
 				.subscribe({
