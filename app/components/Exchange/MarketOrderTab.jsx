@@ -231,21 +231,21 @@ const MarketOrderForm = (props) => {
 
 	const onChangeTotalPercentHandler = (percent) => {
 		if (!Number(props.price)) {
-			setTotalPercent(percent);
+			setTotalPercent(0);
+			toast('No liquidty!');
 			return;
 		}
 
-		setAmount(
-			(percent / 100) *
-				(Number(
-					props.type === 'bid'
-						? Number(props.baseAssetBalance)
-						: sellBalance
-						? Number(sellBalance)
-						: 0
-				) /
-					Number(props.price))
-		);
+		const isBid = props.type === 'bid';
+		let amount = 0;
+
+		if (isBid) {
+			amount = Number(props.baseAssetBalance) / Number(props.price);
+		} else if (!isBid && props.quoteAssetBalance) {
+			amount = Number(props.quoteAssetBalance);
+		}
+
+		setAmount((amount * percent) / 100);
 		setTotalPercent(percent);
 	};
 

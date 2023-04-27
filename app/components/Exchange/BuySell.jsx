@@ -203,8 +203,21 @@ class BuySell extends React.Component {
 		this.secondClick = false;
 	};
 
+	_getBalanceByAssetId(assetId, precision) {
+		let balance = 0;
+		let balances = this.props.currentAccount.get('balances');
+
+		if (balances.get(assetId) !== undefined) {
+			let balanceObj = ChainStore.getObject(balances.get(assetId));
+			balance = balanceObj.get('balance') / Math.pow(10, precision);
+		}
+
+		return balance;
+	}
+
 	onChangeTotalPercentHandler(percent) {
 		let marketPrice = this.props.price;
+
 		if (!Number(marketPrice)) {
 			this.setState({totalPercent: percent});
 			return;
@@ -214,11 +227,28 @@ class BuySell extends React.Component {
 			marketPrice = this.props.marketPrice;
 		}
 		this.props.priceChangePercent(this.props.type, marketPrice);
+
+		const isBid = this.props.type === 'bid';
+		const baseAssetBalance = this._getBalanceByAssetId(
+			this.props.base.get('id'),
+			this.props.base.get('precision')
+		);
+		const quoteAssetBalance = this._getBalanceByAssetId(
+			this.props.quote.get('id'),
+			this.props.quote.get('precision')
+		);
+		let amount = 0;
+
+		if (isBid) {
+			amount = Number(baseAssetBalance) / Number(marketPrice);
+		} else if (!isBid && quoteAssetBalance) {
+			amount = Number(quoteAssetBalance);
+		}
+
 		this.props.amountChangePercent(
 			this.props.type,
 			false,
-			(Number(this.state.currencyBalance) * (percent / 100)) /
-				Number(marketPrice),
+			(amount * percent) / 100,
 			percent === 100
 		);
 		this.setState({
@@ -326,24 +356,11 @@ class BuySell extends React.Component {
 		let invalidPrice = !(price > 0);
 		let invalidAmount = !(amount > 0);
 
-		const _getBalanceByAssetId = (assetId, precision) => {
-			let balance = 0;
-			let balances = this.props.currentAccount.get('balances');
-
-			if (balances.get(assetId) !== undefined) {
-				let balanceObj = ChainStore.getObject(balances.get(assetId));
-				balance = balanceObj.get('balance') / Math.pow(10, precision);
-			}
-
-			return balance;
-		};
-
-		const baseAssetBalance = _getBalanceByAssetId(
+		const baseAssetBalance = this._getBalanceByAssetId(
 			this.props.base.get('id'),
 			this.props.base.get('precision')
 		);
-
-		const quoteAssetBalance = _getBalanceByAssetId(
+		const quoteAssetBalance = this._getBalanceByAssetId(
 			this.props.quote.get('id'),
 			this.props.quote.get('precision')
 		);
