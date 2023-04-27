@@ -511,18 +511,21 @@ class Exchange extends React.Component {
 					buyMarketLiquidity +=
 						price.for_sale / Math.pow(10, quoteAssetPrecision);
 
-				for (let price of _prices) {
-					buyMarketPrice = price._real_price;
-					estSellAmount += price.for_sale / Math.pow(10, baseAssetPrecision);
-					// Debug - can be deleted later
-					console.log(
-						'@12 - Ask',
-						price._real_price,
-						price.for_sale / Math.pow(10, quoteAssetPrecision)
-					);
+				_prices
+					.slice()
+					.reverse()
+					.forEach(function (price) {
+						buyMarketPrice = price._real_price;
+						estSellAmount += price.for_sale / Math.pow(10, baseAssetPrecision);
+						// Debug - can be deleted later
+						console.log(
+							'@12 - Ask',
+							price._real_price,
+							price.for_sale / Math.pow(10, quoteAssetPrecision)
+						);
 
-					if (amount2Trade && amount2Trade < estSellAmount) break;
-				}
+						// if (amount2Trade && amount2Trade < estSellAmount) break;
+					});
 
 				if (buyMarketPrice > 0) {
 					// const percentDiff = sellMarketPrice + sellMarketPrice / Math.pow(10, 4);
