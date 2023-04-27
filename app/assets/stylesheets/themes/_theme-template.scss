@@ -1,17 +1,6 @@
 @import '../utils/utils';
 @import './../style-guide-fixes';
 
-.portfolio-btn {
-	background: black !important;
-	color: white !important;
-}
-
-.portfolio-btn:hover {
-	background: rgb(82, 2, 2) !important;
-	color: black !important;
-	transform: scale(1.4);
-}
-
 .ant-tabs .ant-tabs-bottom-content.ant-tabs-content-animated,
 .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 	height: 100% !important;
@@ -116,24 +105,19 @@
 	$selector-border-color,
 	$selector-text-color,
 	$tabs-content-background-color,
-	$tabs-border-size,
-	$tabs-border-color,
 	$tabs-background-color,
 	$tabs-item-background-color,
 	$tabs-item-color,
 	$tabs-item-border-size,
 	$tabs-item-border-color,
-	$tabs-item--active--color,
 	$tabs-item--active--border-color,
 	$tabs-item--active--background-color,
-	$header-background-color,
 	$header-shadow,
 	$header-item--color,
 	$header-item-background-color,
 	$header-item--active--background-color,
 	$header-item--active--color,
 	$explorer-tab-content-background-color,
-	$tab-content-background-color,
 	$primary-text-color,
 	$bg-color,
 	$dark-text-color,
@@ -166,7 +150,6 @@
 	$account-dimmed,
 	$account-border,
 	$account-background,
-	$account-tabs-background,
 	$pulsate-green-start,
 	$pulsate-green-end,
 	$pulsate-red-start,
@@ -175,10 +158,8 @@
 	$settings-select-color,
 	$settings-menu-hover-bg,
 	$settings-menu-active-bg,
-	$settings-api-node-border-color,
 	$main-content-margin-block-bg-color,
 	$modal-bg-color,
-	$mobile-input-bg,
 	$incognito-bg,
 	$button-mix1,
 	$button-mix2,
@@ -186,13 +167,11 @@
 	$explorer--witnesses--info-border,
 	$explorer--witnesses--info-table-title-color,
 	$explorer--witnesses--info-table-text-color,
-	$explorer--assets--bg,
 	$negative-color-alternative,
 	$positive-color-alternative,
 	$separator-line,
 	$medium-color,
 	$dark-help-text,
-	$settings-label-color,
 	$table-hover-color
 ) {
 	$hamburger-submenu-display-endpoint: 990px;
@@ -911,9 +890,6 @@
 				display: none;
 			}
 		}
-	}
-	.header-container span.icon.lock-unlock > svg > path {
-		fill: #d5ba48;
 	}
 	.header-dropdown-sub-link.enabled {
 		color: $secondary-text-color;
@@ -2292,60 +2268,6 @@
 	.tab-no-background {
 		background-color: transparent !important;
 	}
-	.header-container {
-		background-color: radialGradient($bg-color-mixin, $account-background);
-
-		box-shadow: $header-shadow;
-
-		z-index: 2;
-
-		.menu-group {
-			.menu-bar {
-				li {
-					a {
-						text-decoration: none;
-						background: $header-item-background-color;
-						color: $header-item--color;
-						svg path {
-							fill: $header-item--color !important;
-						}
-						&:hover {
-							background-color: $header-item--active--background-color !important;
-							color: $header-item--active--color;
-							svg path {
-								fill: $header-item--active--color !important;
-							}
-						}
-						&.active {
-							background-color: $header-item--active--background-color !important;
-							color: $header-item--active--color;
-							svg path {
-								fill: $header-item--active--color !important;
-							}
-						}
-					}
-				}
-			}
-		}
-
-		.menu-dropdown-wrapper {
-			&.active {
-				background: $panel-bg-color;
-			}
-		}
-		.dropdown.header-menu {
-			background-color: $panel-bg-color;
-			li.divider {
-				border-bottom: 1px solid $dark-text-color;
-			}
-			> li:hover {
-				background-color: $super-light-panel-bg-color;
-			}
-		}
-		.total-value {
-			color: $account-green;
-		}
-	}
 	.flip-arrow:hover {
 		color: $bs-blue;
 		cursor: pointer;
@@ -2683,129 +2605,12 @@
 		}
 	}
 }
-.rc-time-picker-panel {
-	z-index: 9999 !important;
-}
-.midnightTheme .gate_fee .amount-selector {
-	width: 100%;
-	display: inline-block;
-}
-.midnightTheme .gate_fee .right-selector {
-	text-align: right;
-	width: 26%;
-	display: inline-block;
-	color: #adadad;
-	text-transform: uppercase;
-}
-.midnightTheme .gate_fee .right-selector .right-selector-input {
-	text-align: right;
-	width: 100%;
-}
-.clear-text,
 .search-wrapper {
 	position: relative;
 }
 .market-filter-input,
-.clear-text,
 .search-wrapper {
 	position: relative;
-}
-.clear-text {
-	top: 10px;
-	right: -30px;
-	position: absolute;
-	border: 0;
-	background-color: transparent;
-	display: block;
-	outline: 0;
-	cursor: pointer;
-}
-.clear-text:after {
-	content: 'X';
-	display: block;
-	width: 15px;
-	height: 15px;
-	position: absolute;
-	background-color: transparent;
-	z-index: 1;
-	right: 35px;
-	top: 0;
-	bottom: 0;
-	margin: auto;
-	padding: 2px;
-	border-radius: 50%;
-	text-align: center;
-	color: #fff;
-	font-weight: normal;
-	font-size: 12px;
-	cursor: pointer;
-}
-.market-filter-input:not(:valid) ~ .clear-text {
-	display: none;
-}
-.header-container {
-	display: flex;
-	align-items: center;
-	flex-wrap: nowrap;
-	height: 38px !important;
-	.menu-bar {
-		height: 38px !important;
-		overflow: visible;
-	}
-	.logo {
-		padding-top: 0.7rem;
-		padding-bottom: 0.8rem;
-	}
-	.dropdown-wrapper:after {
-		display: none;
-	}
-	.menu-dropdown-wrapper {
-		height: 20px;
-		width: 65px;
-		text-align: left;
-		border-radius: 0;
-		.hamburger .icon {
-			position: relative;
-			top: -6px;
-		}
-	}
-	.dropdown.header-menu {
-		top: 65px;
-	}
-	.hamburger svg rect,
-	.hamburger-x svg rect {
-		fill: $bs-blue;
-	}
-	.total-value {
-		text-align: right;
-		font-size: 80%;
-		line-height: normal;
-	}
-}
-.local-wallet-menu {
-	// top: 50px!important;
-	.table-cell {
-		display: inline-block;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		&:nth-of-type(2) {
-			max-width: 17em;
-		}
-	}
-}
-.app-menu {
-	flex: 0;
-}
-.truncated {
-	flex: 1;
-	min-width: 0; /* or some value */
-	.text {
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		text-align: right;
-	}
 }
 #qr_scanner_modal {
 	> section {
@@ -2814,23 +2619,6 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-	}
-}
-@media screen and (max-width: 640px) {
-	.responsive-list > .help-content > ul {
-		height: 300px;
-		overflow-y: scroll;
-		border-radius: 6px;
-		background: black;
-		border: 1px solid #4b5158;
-		margin-bottom: 2rem !important;
-		li {
-			border-bottom: 1px solid #393939;
-			padding: 4px;
-			ul li {
-				border: 0;
-			}
-		}
 	}
 }
 
@@ -2850,28 +2638,6 @@ div.customizable-column--selector {
 div.customizable-column--selector--dropdown {
 	ul.ant-select-dropdown-menu-vertical {
 		max-height: 100% !important;
-	}
-}
-
-.walletbtn {
-	position: relative;
-	a {
-		position: absolute;
-		bottom: 0;
-		right: 72px;
-		display: block;
-		width: 130px;
-		background-color: #ffc000;
-		color: #151515;
-		font-size: 16px;
-		font-weight: 500;
-		text-align: center;
-		padding: 8px;
-		border-radius: 3px;
-	}
-	a:hover {
-		background-color: #000;
-		color: #ffc000;
 	}
 }
 
