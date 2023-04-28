@@ -83,19 +83,41 @@ class MarketHistoryView extends React.Component {
 
 		const myOrders = (
 			<>
-				<div
-					className="market-order-table-container"
-					style={{
-						overflow: 'hidden',
-						lineHeight: '13px',
-					}}
-				>
+				<div className="market-order-table-container">
 					<Table
 						dataSource={data}
 						pagination={false}
 						showSorterTooltip={false}
-						scroll={{y: 450}}
+						scroll={{y: 450, x: 500}}
 					>
+						<Table.Column
+							dataIndex="type"
+							title={<div className="market-order-table-text-header"> </div>}
+							render={(row) => {
+								return (
+									<div
+										className="td-content"
+										style={{
+											borderLeftColor: row.isBid ? '#0F923A' : '#FF2929',
+											borderLeftStyle: 'solid',
+											borderLeftWidth: '8px',
+											paddingLeft: '15px',
+										}}
+									>
+										<div
+											style={{
+												color: row.isBid ? '#0F923A' : '#FF2929',
+												fontSize: 18,
+												fontWeight: 600,
+												marginRight: 10,
+											}}
+										>
+											{row.isBid ? 'BUY' : 'SELL'}
+										</div>
+									</div>
+								);
+							}}
+						/>
 						<Table.Column
 							dataIndex="pair"
 							title={
@@ -105,14 +127,7 @@ class MarketHistoryView extends React.Component {
 							}
 							render={(row) => {
 								return (
-									<div
-										className="td-content"
-										style={{
-											borderLeftColor: row.isBid ? '#0F923A' : '#FF2929',
-											borderLeftStyle: 'solid',
-											borderLeftWidth: '8px',
-										}}
-									>
+									<div className="td-content">
 										<div className="td-content-common-text">
 											{row.baseSymbol}
 										</div>
@@ -173,7 +188,7 @@ class MarketHistoryView extends React.Component {
 								return (
 									<div>
 										<div className="td-content-common-text">
-											{Number(row).toFixed(6)}
+											{Number(row.total).toFixed(6)} {row.quoteSymbol}
 										</div>
 									</div>
 								);

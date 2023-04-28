@@ -14,19 +14,41 @@ class MarketTradeView extends React.Component {
 		return (
 			<div style={style} key="trade" className={className}>
 				<div className={innerClass} style={innerStyle}>
-					<div
-						className="market-order-table-container grid-block no-overflow"
-						style={{
-							overflow: 'hidden',
-							lineHeight: '13px',
-						}}
-					>
+					<div className="market-order-table-container">
 						<Table
 							dataSource={data}
 							pagination={false}
 							showSorterTooltip={false}
-							scroll={{y: 445}}
+							scroll={{y: 445, x: 500}}
 						>
+							<Table.Column
+								dataIndex="type"
+								title={<div className="market-order-table-text-header"> </div>}
+								render={(row) => {
+									return (
+										<div
+											className="td-content"
+											style={{
+												borderLeftColor: row.isBid ? '#0F923A' : '#FF2929',
+												borderLeftStyle: 'solid',
+												borderLeftWidth: '8px',
+												paddingLeft: '15px',
+											}}
+										>
+											<div
+												style={{
+													color: row.isBid ? '#0F923A' : '#FF2929',
+													fontSize: 18,
+													fontWeight: 600,
+													marginRight: 10,
+												}}
+											>
+												{row.isBid ? 'BUY' : 'SELL'}
+											</div>
+										</div>
+									);
+								}}
+							/>
 							<Table.Column
 								dataIndex="asset"
 								title={
@@ -39,10 +61,6 @@ class MarketTradeView extends React.Component {
 										<div
 											className="td-content"
 											style={{
-												borderLeftColor: row.isBid ? '#0F923A' : '#FF2929',
-												borderLeftStyle: 'solid',
-												borderLeftWidth: '9px',
-												paddingLeft: '8px',
 												display: 'flex',
 												flexDirection: 'row',
 											}}
@@ -99,12 +117,7 @@ class MarketTradeView extends React.Component {
 										<Tooltip title={Number(row.value)} placement="top">
 											<div
 												css={(theme) => ({
-													color:
-														row.change > 0
-															? '#009D55'
-															: row.change < 0
-															? '#FF2929'
-															: theme.colors.textColor,
+													color: row.isBid ? '#0F923A' : '#FF2929',
 													textAlign: 'center',
 													lineHeight: '16px',
 													fontSize: '14px',

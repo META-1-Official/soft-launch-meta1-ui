@@ -1497,8 +1497,28 @@ form.hide-container {
 }
 
 .market-order-table-container {
+	background-color: green;
 	.ant-table-wrapper {
 		width: 100% !important;
+
+		.ant-table-container {
+			.ant-table-body {
+				overflow: auto !important;
+				&::-webkit-scrollbar {
+					height: 6px;
+				}
+
+				&::-webkit-scrollbar-thumb {
+					background-color: gray;
+					border-radius: 10px;
+				}
+
+				&::-webkit-scrollbar-track {
+					background: transparent;
+					border-radius: 10px;
+				}
+			}
+		}
 
 		table {
 			.ant-table-thead tr > th {

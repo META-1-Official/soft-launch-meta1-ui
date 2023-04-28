@@ -288,17 +288,23 @@ class MarketHistory extends React.Component {
 
 			return {
 				orderId: order.id,
+				type: {
+					isBid: isBid,
+				},
 				pair: {
 					baseSymbol: base?._root?.entries[1][1],
 					quoteSymbol: quote?._root?.entries[1][1],
-					isBid: isBid,
 				},
 				amount: {
 					payAmount,
 					receiveAmount,
 				},
 				price,
-				total,
+				total: {
+					total: total,
+					baseSymbol: base?._root?.entries[1][1],
+					quoteSymbol: quote?._root?.entries[1][1],
+				},
 			};
 		});
 
@@ -361,17 +367,23 @@ class MarketHistory extends React.Component {
 
 					return {
 						orderId: order.id,
+						type: {
+							isBid: isBid,
+						},
 						pair: {
 							baseSymbol: base?._root?.entries[1][1],
 							quoteSymbol: quote?._root?.entries[1][1],
-							isBid: isBid,
 						},
 						amount: {
 							payAmount,
 							receiveAmount,
 						},
 						price,
-						total,
+						total: {
+							total: total,
+							baseSymbol: base?._root?.entries[1][1],
+							quoteSymbol: quote?._root?.entries[1][1],
+						},
 					};
 				})
 				.toArray();
@@ -412,17 +424,23 @@ class MarketHistory extends React.Component {
 
 					return {
 						orderId: a.toObject().id,
+						type: {
+							isBid: isBid,
+						},
 						pair: {
 							baseSymbol: base?._root?.entries[1][1],
 							quoteSymbol: quote?._root?.entries[1][1],
-							isBid: isBid,
 						},
 						amount: {
 							payAmount,
 							receiveAmount,
 						},
 						price,
-						total,
+						total: {
+							total: total,
+							baseSymbol: base?._root?.entries[1][1],
+							quoteSymbol: quote?._root?.entries[1][1],
+						},
 					};
 				})
 				.toArray();

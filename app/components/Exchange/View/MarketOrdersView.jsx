@@ -38,15 +38,11 @@ class MarketsOrderView extends React.Component {
 							dataSource={data}
 							pagination={false}
 							showSorterTooltip={false}
-							scroll={{y: 350}}
+							scroll={{y: 350, x: 500}}
 						>
 							<Table.Column
-								dataIndex="pair"
-								title={
-									<div className="market-order-table-text-header">
-										{counterpart.translate('exchange.pair')}
-									</div>
-								}
+								dataIndex="type"
+								title={<div className="market-order-table-text-header"> </div>}
 								render={(row) => {
 									return (
 										<div
@@ -58,6 +54,30 @@ class MarketsOrderView extends React.Component {
 												paddingLeft: '15px',
 											}}
 										>
+											<div
+												style={{
+													color: row.isBid ? '#0F923A' : '#FF2929',
+													fontSize: 18,
+													fontWeight: 600,
+													marginRight: 10,
+												}}
+											>
+												{row.isBid ? 'BUY' : 'SELL'}
+											</div>
+										</div>
+									);
+								}}
+							/>
+							<Table.Column
+								dataIndex="pair"
+								title={
+									<div className="market-order-table-text-header">
+										{counterpart.translate('exchange.pair')}
+									</div>
+								}
+								render={(row) => {
+									return (
+										<div className="td-content">
 											<div className="td-content-common-text">
 												{row.baseSymbol}
 											</div>
@@ -118,7 +138,7 @@ class MarketsOrderView extends React.Component {
 									return (
 										<div className="td-content">
 											<div className="td-content-common-text">
-												{Number(row).toFixed(6)}
+												{Number(row.total).toFixed(6)} {row.quoteSymbol}
 											</div>
 										</div>
 									);
