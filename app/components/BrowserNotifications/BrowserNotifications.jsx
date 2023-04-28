@@ -16,9 +16,20 @@ class BrowserNotifications extends React.Component {
 		settings: PropTypes.object,
 	};
 
+	onPermissionGranted() {
+		console.log('Permission has been granted by the user');
+	}
+
+	onPermissionDenied() {
+		console.warn('Permission has been denied by the user');
+	}
+
 	UNSAFE_componentWillMount() {
-		if (Notify.needsPermission) {
-			Notify.requestPermission();
+		if (Notify.isSupported()) {
+			Notify.requestPermission(
+				this.onPermissionGranted,
+				this.onPermissionDenied
+			);
 		}
 	}
 
