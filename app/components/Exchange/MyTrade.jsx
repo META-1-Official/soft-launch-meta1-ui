@@ -249,14 +249,17 @@ class MyTrade extends React.Component {
 
 					return {
 						orderId: order.id,
+						type: {
+							isBid: isBid,
+						},
 						asset: {
 							symbol: quote?._root?.entries[1][1],
-							isBid: isBid,
 						},
 						amount: {
 							change: 0,
 							value: receiveAmount,
 							marketId: marketId,
+							isBid: isBid,
 						},
 						value: {
 							value: price,
