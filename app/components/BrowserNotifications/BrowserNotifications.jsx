@@ -25,7 +25,9 @@ class BrowserNotifications extends React.Component {
 	}
 
 	UNSAFE_componentWillMount() {
-		if (Notify.isSupported()) {
+		if (!Notify.needsPermission) {
+			// Nothing
+		} else if (Notify.isSupported()) {
 			Notify.requestPermission(
 				this.onPermissionGranted,
 				this.onPermissionDenied
