@@ -12,6 +12,7 @@ const CopyButton = ({
 	dataPlace = 'right',
 	buttonIcon = 'clippy',
 	buttonText = '',
+	width = '',
 }) => {
 	const onSuccess = () => {
 		toast('successfully copied');
@@ -24,6 +25,7 @@ const CopyButton = ({
 					data-clipboard-text={text}
 					className={className}
 					onSuccess={onSuccess}
+					style={{backgroundColor: '#ffc000', width: width ?? 'unset'}}
 				>
 					{!buttonText ? (
 						<Icon name={buttonIcon} title={'icons.clippy.copy'} />

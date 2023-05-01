@@ -3,7 +3,6 @@ import counterpart from 'counterpart';
 import Translate from 'react-translate-component';
 import {Button, Card, Steps, Tooltip} from 'antd';
 import debounceRender from 'react-debounce-render';
-import AssetWrapper from '../Utility/AssetWrapper';
 import {connect} from 'alt-react';
 import {ChainStore} from 'meta1-vision-js';
 import WalletUnlockActions from 'actions/WalletUnlockActions';
@@ -98,7 +97,6 @@ class Borrow extends Component {
 			!currentAccount || typeof currentAccount === 'string'
 		);
 		const current = this.state.step;
-		const tinyScreen = window.innerWidth <= 800;
 		const started = this.state.step > 0;
 
 		const selectedAssetObject = ChainStore.getAsset(this.state.selectedAsset);
@@ -211,31 +209,21 @@ class Borrow extends Component {
 							}
 						/>
 					</div>
-					{started &&
-						(!tinyScreen ? (
-							<Steps progressDot current={current - 1}>
-								{steps.map((item, index) => {
-									if (index == 0) return null;
-									return (
-										<Steps.Step
-											key={item.key}
-											title={counterpart.translate(
-												'showcases.borrow.steps_' + item.key + '.title'
-											)}
-										/>
-									);
-								})}
-							</Steps>
-						) : current < this.steps.length ? (
-							<React.Fragment>
-								{current + '. '}
-								<Translate
-									content={
-										'showcases.borrow.steps_' + steps[current].key + '.title'
-									}
-								/>
-							</React.Fragment>
-						) : null)}
+					{started && (
+						<Steps progressDot current={current - 1}>
+							{steps.map((item, index) => {
+								if (index == 0) return null;
+								return (
+									<Steps.Step
+										key={item.key}
+										title={counterpart.translate(
+											'showcases.borrow.steps_' + item.key + '.title'
+										)}
+									/>
+								);
+							})}
+						</Steps>
+					)}
 					<div
 						style={{
 							paddingTop: '1rem',

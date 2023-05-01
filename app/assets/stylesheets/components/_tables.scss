@@ -15,30 +15,14 @@
 	text-align: left;
 }
 .orders-trade-form {
-	.table.order-table .time-header-class {
-		padding: 10px 10px 10px 20px !important;
-	}
-
 	.table.order-table > thead > tr > th {
-		border-bottom: 2px solid #1c1f27 !important;
+		border-bottom: 1px solid #1c1f27;
 		padding: 10px 10px !important;
 		text-transform: uppercase;
 		font-weight: normal;
 		font-size: 12px;
 		color: #777;
 		text-align: left;
-	}
-
-	.table.order-table > thead > tr > th ~ .table-volume-class {
-		padding: 10px 10px 10px 0 !important;
-	}
-
-	.table.order-table > tbody > tr > td ~ .table-body-class {
-		text-align: left !important;
-	}
-
-	.table.order-table > tbody > tr {
-		border: 1px solid black;
 	}
 
 	.table > tbody.orderbook > tr > td {

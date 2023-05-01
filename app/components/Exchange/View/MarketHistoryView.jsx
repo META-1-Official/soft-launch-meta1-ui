@@ -1,28 +1,15 @@
 import React from 'react';
 import Translate from 'react-translate-component';
+import counterpart from 'counterpart';
 import cnames from 'classnames';
 import TransitionWrapper from '../../Utility/TransitionWrapper';
-import AssetName from '../../Utility/AssetName';
 import SectionHeader from 'components/Utility/SectionHeader';
+import utils from 'common/utils';
 import {Table} from 'antd';
 
 class MarketHistoryView extends React.Component {
 	render() {
-		let {
-			className,
-			innerClass,
-			innerStyle,
-			noHeader,
-			headerStyle,
-			activeTab,
-			quoteSymbol,
-			baseSymbol,
-			tinyScreen,
-			totalRows,
-			historyRows,
-			showAll,
-			data,
-		} = this.props;
+		let {className, innerClass, innerStyle, activeTab, data} = this.props;
 
 		const emptyRow = (
 			<tr>
@@ -41,8 +28,10 @@ class MarketHistoryView extends React.Component {
 
 		const allHistory = (
 			<>
-				<div className="grid-block vertical shrink left-orderbook-header market-right-padding-only">
-					<SectionHeader title="Trade History" />
+				<div className="left-orderbook-header">
+					<SectionHeader
+						title={counterpart.translate('exchange.trade_history')}
+					/>
 					<table className="table table-no-padding order-table text-left fixed-table market-right-padding">
 						<thead>
 							<tr>
@@ -52,13 +41,13 @@ class MarketHistoryView extends React.Component {
 										content="explorer.block.time"
 									/>
 								</th>
-								<th style={{textAlign: 'left'}}>
+								<th style={{textAlign: 'center'}}>
 									<Translate
 										className="header-sub-title"
 										content="exchange.price"
 									/>
 								</th>
-								<th style={{textAlign: 'left'}} className="table-volume-class">
+								<th style={{textAlign: 'right'}} className="table-volume-class">
 									<Translate
 										className="header-sub-title"
 										content="exchange.volume"
@@ -69,11 +58,11 @@ class MarketHistoryView extends React.Component {
 					</table>
 				</div>
 				<div
-					className="table-container grid-block market-right-padding-only no-overflow market-history-rows"
+					className="table-container grid-block no-overflow market-history-rows"
 					ref="history"
 					id="market-orders-view-container"
 					style={{
-						minHeight: 320,
+						// minHeight: 450,
 						overflow: 'hidden',
 						lineHeight: '18px',
 					}}
@@ -94,23 +83,16 @@ class MarketHistoryView extends React.Component {
 
 		const myOrders = (
 			<>
-				<div
-					className="market-order-table-container grid-block no-overflow"
-					style={{
-						overflow: 'hidden',
-						minHeight: tinyScreen ? 260 : 0,
-						lineHeight: '13px',
-					}}
-				>
+				<div className="market-order-table-container">
 					<Table
 						dataSource={data}
 						pagination={false}
-						scroll={{y: 452, x: 350}}
 						showSorterTooltip={false}
+						scroll={{y: 450, x: 500}}
 					>
 						<Table.Column
-							dataIndex="pair"
-							title={<div className="market-order-table-text-header">Pair</div>}
+							dataIndex="type"
+							title={<div className="market-order-table-text-header"> </div>}
 							render={(row) => {
 								return (
 									<div
@@ -119,34 +101,38 @@ class MarketHistoryView extends React.Component {
 											borderLeftColor: row.isBid ? '#0F923A' : '#FF2929',
 											borderLeftStyle: 'solid',
 											borderLeftWidth: '8px',
+											paddingLeft: '15px',
 										}}
 									>
 										<div
 											style={{
-												fontSize: '15px',
-												fontWeight: 400,
-												color: 'white',
-												textAlign: 'left',
+												color: row.isBid ? '#0F923A' : '#FF2929',
+												fontSize: 18,
+												fontWeight: 600,
+												marginRight: 10,
 											}}
 										>
+											{row.isBid ? 'BUY' : 'SELL'}
+										</div>
+									</div>
+								);
+							}}
+						/>
+						<Table.Column
+							dataIndex="pair"
+							title={
+								<div className="market-order-table-text-header">
+									{counterpart.translate('exchange.pair')}
+								</div>
+							}
+							render={(row) => {
+								return (
+									<div className="td-content">
+										<div className="td-content-common-text">
 											{row.baseSymbol}
 										</div>
-										<div
-											style={{
-												borderBottom: '1px solid #566176',
-												width: '45px',
-												height: '0px',
-												marginTop: 5,
-												marginBottom: 5,
-											}}
-										></div>
-										<div
-											style={{
-												fontSize: '12px',
-												color: '#715C5C',
-												textAlign: 'center',
-											}}
-										>
+										<div className="td-content-divider" />
+										<div className="td-content-second-text">
 											{row.quoteSymbol}
 										</div>
 									</div>
@@ -156,38 +142,19 @@ class MarketHistoryView extends React.Component {
 						<Table.Column
 							dataIndex="amount"
 							title={
-								<div className="market-order-table-text-header">Amount</div>
+								<div className="market-order-table-text-header">
+									{counterpart.translate('transaction.trxTypes.amount')}
+								</div>
 							}
 							render={(row) => {
 								return (
 									<div className="td-content">
-										<div
-											style={{
-												fontSize: '15px',
-												fontWeight: 400,
-												color: 'white',
-												textAlign: 'center',
-											}}
-										>
-											{row.receiveAmount}
+										<div className="td-content-common-text">
+											{utils.format_number_digits(row.receiveAmount, 6)}
 										</div>
-										<div
-											style={{
-												borderBottom: '1px solid #566176',
-												width: '45px',
-												height: '0px',
-												marginTop: 5,
-												marginBottom: 5,
-											}}
-										></div>
-										<div
-											style={{
-												fontSize: '12px',
-												color: '#715C5C',
-												textAlign: 'center',
-											}}
-										>
-											{row.payAmount}
+										<div className="td-content-divider"></div>
+										<div className="td-content-second-text">
+											{utils.format_number_digits(row.payAmount, 6)}
 										</div>
 									</div>
 								);
@@ -196,21 +163,15 @@ class MarketHistoryView extends React.Component {
 						<Table.Column
 							dataIndex="price"
 							title={
-								<div className="market-order-table-text-header text-left">
-									Price
+								<div className="market-order-table-text-header">
+									{counterpart.translate('exchange.price')}
 								</div>
 							}
 							render={(row) => {
 								return (
 									<div>
-										<div
-											style={{
-												color: 'white',
-												textAlign: 'left',
-												paddingLeft: '10px',
-											}}
-										>
-											{row}
+										<div className="td-content-common-text">
+											{Number(row).toFixed(6)}
 										</div>
 									</div>
 								);
@@ -219,23 +180,15 @@ class MarketHistoryView extends React.Component {
 						<Table.Column
 							dataIndex="total"
 							title={
-								<div className="market-order-table-text-header text-right">
-									Total
+								<div className="market-order-table-text-header">
+									{counterpart.translate('exchange.total')}
 								</div>
 							}
 							render={(row) => {
 								return (
 									<div>
-										<div
-											style={{
-												color: 'white',
-												fontSize: '15px',
-												fontWeight: 400,
-												textAlign: 'right',
-												paddingRight: '10px',
-											}}
-										>
-											{Number(row).toFixed(8)}
+										<div className="td-content-common-text">
+											{Number(row.total).toFixed(6)} {row.quoteSymbol}
 										</div>
 									</div>
 								);
@@ -251,9 +204,7 @@ class MarketHistoryView extends React.Component {
 				className={cnames(className)}
 				style={{height: '100%', display: 'flex', flexDirection: 'column'}}
 			>
-				<div className={innerClass} style={innerStyle}>
-					{activeTab === 'history' ? allHistory : myOrders}
-				</div>
+				{activeTab === 'history' ? allHistory : myOrders}
 			</div>
 		);
 	}

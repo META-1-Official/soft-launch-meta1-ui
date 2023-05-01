@@ -7,7 +7,6 @@ import AccountNameInput from './../Forms/AccountNameInputStyleGuide';
 import PasswordInput from './../Forms/PasswordInputStyleGuide';
 import WalletDb from 'stores/WalletDb';
 import {Link} from 'react-router-dom';
-import AccountSelect from '../Forms/AccountSelect';
 import WalletUnlockActions from 'actions/WalletUnlockActions';
 import TransactionConfirmStore from 'stores/TransactionConfirmStore';
 import LoadingIndicator from '../LoadingIndicator';
@@ -23,7 +22,6 @@ import {withRouter} from 'react-router-dom';
 import {scroller} from 'react-scroll';
 import {getWalletName} from 'branding';
 import {notification} from 'antd';
-import ReCAPTCHA from 'react-google-recaptcha';
 
 class CreateAccount extends React.Component {
 	constructor() {
@@ -45,7 +43,7 @@ class CreateAccount extends React.Component {
 		this.scrollToInput = this.scrollToInput.bind(this);
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		SettingsActions.changeSetting({
 			setting: 'passwordLogin',
 			value: false,

@@ -115,8 +115,3 @@ export class BrainkeyInputAccept extends Component {
 		BrainkeyActions.setBrainkey(this.state.brnkey);
 	}
 }
-
-// <div onClick={this.onLookupAccounts.bind(this)} className="button success">Lookup Accounts</div>
-// onLookupAccounts() {
-//
-// }

@@ -1,9 +1,11 @@
 div.registration {
-	padding-top: 30px;
-	padding-bottom: 30px;
-	background-color: initial;
 	display: flex;
 	justify-content: center;
+	padding: 30px 10px;
+
+	@media screen and (max-width: 576px) {
+		padding: 10px;
+	}
 
 	.registration-title {
 		font-weight: bold;
@@ -37,12 +39,97 @@ div.registration {
 		border: 1px solid #262a32;
 		border-radius: 10px;
 
+		@media screen and (max-width: 576px) {
+			border: none;
+			background: transparent;
+			padding: 10px;
+		}
+
+		.biometric-auth-section {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+
+			@media screen and (max-width: 576px) {
+				background-color: #0a0b0d;
+				border: 1px solid #1c1f27;
+				border-radius: 5px;
+				padding: 10px;
+			}
+
+			h4 {
+				text-align: center;
+				font-weight: bold;
+
+				@media screen and (max-width: 576px) {
+					font-size: 16px;
+				}
+			}
+
+			h5 {
+				text-align: center;
+				font-size: 16px;
+				color: rgba(255, 255, 255, 0.5);
+
+				@media screen and (max-width: 576px) {
+					font-size: 14px;
+					max-width: 300px;
+				}
+			}
+
+			.ant-select {
+				width: 100%;
+				margin-top: 5px;
+			}
+		}
+
 		.registration-account-title {
 			text-align: center;
 			font-weight: 500;
+			font-size: 24px;
+			margin-bottom: 10px !important;
+			color: white;
+
+			@media screen and (max-width: 576px) {
+				font-size: 16px;
+			}
+		}
+
+		.registration-confirm {
+			margin-bottom: 45px;
+
+			@media screen and (max-width: 576px) {
+				margin-bottom: 20px;
+			}
+
+			.passkey-alert-title {
+				p {
+					color: #cecece;
+					font-size: 16px;
+
+					@media screen and (max-width: 576px) {
+						text-align: center;
+						font-size: 14px;
+					}
+				}
+			}
 		}
 
 		.warn-tooltip {
+			position: relative;
+
+			&::before {
+				content: '\a';
+				border-style: solid;
+				border-width: 6px 7px 6px 0px;
+				border-color: transparent darkred transparent transparent;
+				position: absolute;
+				transform: rotate(90deg);
+				left: 31px;
+				top: -9px;
+			}
+
 			p {
 				padding: 10px;
 				background: darkred;
@@ -50,6 +137,10 @@ div.registration {
 				border: none;
 				line-height: 1.4;
 				color: #ffc000;
+
+				@media screen and (max-width: 576px) {
+					font-size: 14px;
+				}
 
 				a {
 					text-decoration: underline;
@@ -59,6 +150,25 @@ div.registration {
 
 		.checkbox-group {
 			margin-bottom: 50px;
+
+			@media screen and (max-width: 576px) {
+				margin-bottom: 20px;
+			}
+
+			.checkbox-item {
+				display: flex;
+				width: 100%;
+				align-items: center;
+				margin-bottom: 15px;
+
+				.terms {
+					line-height: 1;
+
+					@media screen and (max-width: 576px) {
+						font-size: 14px;
+					}
+				}
+			}
 
 			.checkbox-text {
 				font-size: 17px;
@@ -80,19 +190,35 @@ div.registration {
 
 			.ant-checkbox-wrapper {
 				margin-left: 0px !important;
-				height: 40px;
-			}
+				margin-right: 10px;
 
-			.ant-checkbox-inner {
-				background-color: #ffc000;
-				border: none;
+				.ant-checkbox {
+					top: 0 !important;
+
+					.ant-checkbox-input {
+						width: 100%;
+						height: 100%;
+					}
+
+					.ant-checkbox-inner {
+						background-color: #ffc000;
+						border: none;
+						border-radius: 50%;
+						width: 20px;
+						height: 20px;
+
+						&::after {
+							left: 30% !important;
+						}
+					}
+				}
 			}
 		}
 
 		.button-wrapper {
 			.create-acc-btn {
-				height: 60px;
-				width: 100%;
+				height: 50px;
+				width: 200px;
 				background: #ffc000;
 				font-size: 18px;
 				font-weight: 600;
@@ -100,7 +226,7 @@ div.registration {
 				border: none;
 
 				span {
-					color: #440000 !important;
+					color: white !important;
 					text-transform: capitalize;
 				}
 			}
@@ -151,7 +277,8 @@ div.registration {
 								}
 
 								input {
-									height: unset;
+									height: 30px;
+									border: none !important;
 								}
 							}
 						}
@@ -327,9 +454,11 @@ div.registration {
 
 	div.sub-content {
 		padding-top: 1rem;
+
 		table {
 			text-align: left;
 		}
+
 		p {
 			word-wrap: break-word;
 			max-width: 30rem;
@@ -341,16 +470,19 @@ div.registration {
 		display: flex;
 		justify-content: space-between;
 		padding-top: 2rem;
+
 		label {
 			> span {
 				text-transform: none;
 				font-size: 90%;
 			}
+
 			&:first-of-type {
 				margin-right: 3rem;
 			}
 		}
 	}
+
 	div.button {
 		border-radius: 20px;
 		padding: 11px 25px;
@@ -372,12 +504,13 @@ div.registration {
 		position: relative;
 		display: inline;
 	}
+
 	.phone-display-flex {
 		display: flex;
 		align-items: center;
+
 		.phone-number-before-select {
 			display: flex;
-			justify-content: space-between;
 			align-items: center;
 			padding: 14px 30px;
 			padding-left: 10px !important;
@@ -386,42 +519,65 @@ div.registration {
 			color: #bfbfbf;
 			background: #21252f !important;
 			cursor: pointer;
+			height: 50px;
+			width: 137px;
+
 			span {
 				padding-left: 10px;
 			}
 		}
+
+		.ant-select {
+			height: 50px;
+			width: 150px;
+			margin-right: 6px;
+		}
+
+		.ant-select-arrow {
+			display: none;
+		}
+
 		.phone-number-code {
 			color: #fff;
 			font-size: 15px;
 			padding-left: 5px;
 		}
-		.ant-select.ant-select-in-form-item {
-			max-width: 95px;
-		}
+
 		.ant-select-selector {
+			height: 100%;
+			border-radius: 4px;
 			cursor: pointer !important;
-			height: 45px;
-			line-height: 45px;
-			border: none !important;
 			background-color: #21252f !important;
 		}
+
 		.ant-select-selection-item {
 			line-height: 45px;
+
 			.selected-data-element {
 				display: none;
 			}
 		}
+
 		.ant-select-selection-search input {
-			padding-top: 20px !important;
-			padding-left: 5px !important;
-			font-size: 15px !important;
+			display: none;
 		}
 	}
+
+	.webcam-wrapper {
+		position: relative;
+		border: 1px solid #1c1f27;
+		border-radius: 3px;
+	}
+
 	.flex_container {
 		width: 100%;
 		display: flex;
 		flex-direction: column;
+		color: rgba(255, 255, 255, 0.5);
+		position: absolute;
+		bottom: 0;
 	}
+
 	.flex-container-new {
 		width: 100%;
 		display: flex;
@@ -429,41 +585,93 @@ div.registration {
 		align-items: center;
 		padding-top: 7px;
 		padding-bottom: 7px;
+		background-color: transparent;
 	}
+
 	.flex-container-first {
 		z-index: 999;
 		float: center;
 		width: 100%;
 	}
+
 	.position-head {
 		display: flex;
 		justify-content: center;
-		color: #fff;
+		color: #ffc000;
+		font-weight: 600;
 		width: 100%;
 		align-items: center;
 		z-index: 999;
+
+		@media screen and (max-width: 576px) {
+			font-size: 14px;
+		}
 	}
-	.color-black {
-		color: rgba(0, 0, 0, 0.87) !important;
-	}
+
 	.btn-x {
-		border: none;
-		background-color: transparent;
-		float: right;
-		color: #eb7134;
-		width: 40px !important;
-		opacity: 1;
-		font-size: 20px;
+		background-color: #262a32;
+		color: red;
+		width: 30px !important;
+		height: 30px !important;
+		font-size: 14px;
+		font-weight: 600;
 		z-index: 999;
+		border: 1px solid #262a32;
+		border-radius: 50%;
+		margin-right: 10px;
 	}
+
+	.flip-button {
+		position: absolute;
+		top: 50px;
+		right: 10px;
+		z-index: 300;
+		opacity: 0.7;
+		cursor: pointer;
+		width: 30px;
+	}
+
+	.oval-image {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
+		z-index: 200;
+		opacity: 0.8;
+	}
+
+	.button-wrapper {
+		display: flex;
+		justify-content: center;
+		margin-top: 10px;
+
+		button {
+			background: rgb(255, 204, 0);
+			border: none;
+			width: 110px;
+			height: 45px;
+			color: white;
+			font-size: 18px;
+			font-weight: 600;
+			border-radius: 5px;
+		}
+	}
+
 	.span-class {
 		width: 100%;
 		z-index: 999;
 		text-align: center;
+
+		@media screen and (max-width: 576px) {
+			font-size: 14px;
+		}
 	}
+
 	.custom-margin-bottom-zero {
 		margin-top: 0 !important;
 	}
+
 	.flex-padding {
 		padding-top: 4px;
 		padding-bottom: 4px;
@@ -482,6 +690,7 @@ div.registration {
 	width: 30%;
 	background-color: #2a2a2a;
 	position: relative;
+
 	@include breakpoint(small only) {
 		padding: 1rem 1.2rem;
 		width: 100%;
@@ -496,6 +705,7 @@ div.registration {
 		display: flex;
 		justify-content: center;
 	}
+
 	.desc1,
 	.desc2 {
 		font-size: 1rem;
@@ -506,10 +716,12 @@ div.registration {
 		color: #f5f5f5;
 		text-align: center;
 	}
+
 	.desc1 {
 		color: #d5ba48;
 		font-size: 1.4rem;
 	}
+
 	.btn-container {
 		text-align: center;
 		margin-top: 1rem;
@@ -522,95 +734,64 @@ div.registration {
 	}
 }
 
-@include breakpoint(small only) {
-	div.registration {
-		padding-top: 14px;
-
-		.create-account-block {
-			h3 {
-				margin-bottom: 4px;
-				font-size: 20px;
-				line-height: 24px;
-			}
-
-			button.button-primary {
-				margin-top: 8px;
-			}
-
-			p {
-				max-width: 100%;
-			}
-
-			.download-btn {
-				width: 100%;
-				margin-top: 9px;
-
-				.download-block {
-					justify-content: center;
-				}
-			}
-
-			.confirm-checks {
-				h3 {
-					margin: 14px 0 15px 0;
-				}
-			}
-
-			.checkbox-block {
-				margin-bottom: 16px;
-			}
-
-			.checkbox-text {
-				font-size: 12px;
-				letter-spacing: 0.05px;
-				line-height: 18px;
-			}
-
-			.registration-layout-select {
-				max-width: 100%;
-			}
-
-			.why-bin-file {
-				margin: 10px auto;
-			}
-		}
-	}
-}
 .option-header-register {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+
 	.select-country-code {
 		margin-left: 5px !important;
 	}
+
 	.countryFlag-img {
 		margin-right: 5px;
 	}
 }
+
 .option-header-register:hover {
 	color: #fff !important;
 }
+
 .select-box-country {
 	background-color: #000;
+	top: 55px !important;
+	border: 1px solid #1c1f27;
+	border-radius: 5px;
+
+	.ant-select-item-option {
+		border-bottom: 1px solid #1c1f27;
+
+		.ant-select-item-option-content {
+			.option-header-register {
+				color: white;
+			}
+		}
+	}
+
 	.ant-select-item-option-selected {
 		background-color: #ffc000 !important;
+
 		.option-header-register {
 			color: #000 !important;
 			font-weight: 700 !important;
 		}
 	}
+
 	.ant-select-item:hover {
 		background-color: #ffc000;
 	}
+
 	.option-header-register:hover {
 		background-color: #ffc000;
 		color: #000 !important;
 		font-weight: 700 !important;
 	}
+
 	.rc-virtual-list {
 		min-width: 300px !important;
 	}
 }
+
 .phone-number {
 	.ant-form-item-explain-error {
 		display: none;

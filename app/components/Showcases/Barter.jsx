@@ -91,7 +91,7 @@ export default class Barter extends Component {
 		this.onTrxIncluded = this.onTrxIncluded.bind(this);
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		let currentAccount = AccountStore.getState().currentAccount;
 		if (!this.state.from_name) this.setState({from_name: currentAccount});
 		estimateFeeAsync('proposal_create').then((fee) => {
@@ -625,7 +625,7 @@ export default class Barter extends Component {
 		);
 	}
 
-	handleMemoOpen = (type, index) => (e) => {
+	handleMemoOpen = (type, index) => () => {
 		const memos = Object.assign({}, this.state.memo);
 		memos[type][index] = {message: '', shown: true};
 		this.setState({memo: memos});
@@ -733,7 +733,7 @@ export default class Barter extends Component {
 					peer: peer1Text,
 				})}
 				<br />
-				{peer1.map((item) => {
+				{peer1.map((item, key) => {
 					if (item.warning) {
 						return (
 							<React.Fragment>
@@ -842,7 +842,6 @@ export default class Barter extends Component {
 			to_error,
 		} = this.state;
 		let {from_asset_types, to_asset_types} = this._getAvailableAssets();
-		let smallScreen = window.innerWidth < 850 ? true : false;
 		let assetFromList = [];
 		let assetToList = [];
 		let assetFromSymbol = '';
@@ -1506,69 +1505,36 @@ export default class Barter extends Component {
 				}}
 			>
 				<Card>
-					{smallScreen ? (
-						<div>
+					<div>
+						<Row>
+							<Col style={{padding: '10px'}}>{intro}</Col>
+						</Row>
+						<Row>
+							<Col span={12} style={{padding: '10px'}}>
+								{account_from}
+							</Col>
+							<Col span={12} style={{padding: '10px'}}>
+								{account_to}
+							</Col>
+						</Row>
+						<Row>
+							<Col style={{padding: '10px'}}>{offers}</Col>
+						</Row>
+						{escrow && (
 							<Row>
-								<Col style={{padding: '10px'}}>{intro}</Col>
+								<Col style={{padding: '10px'}}>{escrow}</Col>
 							</Row>
-							<Row>
-								<Col style={{padding: '10px'}}>{account_from}</Col>
-							</Row>
-							<Row>
-								<Col style={{padding: '10px'}}>{account_to}</Col>
-							</Row>
-							<Row>
-								<Col style={{padding: '10px'}}>{offers}</Col>
-							</Row>
-							{escrow && (
-								<Row>
-									<Col style={{padding: '10px'}}>{escrow}</Col>
-								</Row>
-							)}
-							<Row>
-								<Col style={{padding: '10px'}}>{totalFeeFrom}</Col>
-							</Row>
-							<Row>
-								<Col style={{padding: '10px'}}>{totalFeeTo}</Col>
-							</Row>
-							{feeForEscrow != null && (
-								<Row>
-									<Col style={{padding: '10px'}}>{feeForEscrow}</Col>
-								</Row>
-							)}
-						</div>
-					) : (
-						<div>
-							<Row>
-								<Col style={{padding: '10px'}}>{intro}</Col>
-							</Row>
-							<Row>
-								<Col span={12} style={{padding: '10px'}}>
-									{account_from}
-								</Col>
-								<Col span={12} style={{padding: '10px'}}>
-									{account_to}
-								</Col>
-							</Row>
-							<Row>
-								<Col style={{padding: '10px'}}>{offers}</Col>
-							</Row>
-							{escrow && (
-								<Row>
-									<Col style={{padding: '10px'}}>{escrow}</Col>
-								</Row>
-							)}
-							<Row>
-								<Col span={12} style={{padding: '10px'}}>
-									{totalFeeFrom}
-								</Col>
-								<Col span={12} style={{padding: '10px'}}>
-									{totalFeeTo}
-									{feeForEscrow}
-								</Col>
-							</Row>
-						</div>
-					)}
+						)}
+						<Row>
+							<Col span={12} style={{padding: '10px'}}>
+								{totalFeeFrom}
+							</Col>
+							<Col span={12} style={{padding: '10px'}}>
+								{totalFeeTo}
+								{feeForEscrow}
+							</Col>
+						</Row>
+					</div>
 					<div className="barter-footer">
 						<Tooltip
 							title={counterpart.translate('showcases.barter.propose_tooltip')}

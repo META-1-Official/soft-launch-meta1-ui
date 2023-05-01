@@ -245,7 +245,9 @@ class TotalValue extends MarketStatsCheck {
 
 		// If any values are missing, let the user know.
 		if (missingData)
-			totalsTip += `<tr><td>&nbsp;</td><td style="text-align: right;">${noDataSymbol} no data</td></tr>`;
+			totalsTip += `<tr><td>&nbsp;</td><td style="text-align: right;">${noDataSymbol} ${counterpart.translate(
+				'exchange.no_data'
+			)}</td></tr>`;
 
 		totalsTip += '<tr><td colSpan="2">&nbsp;</td></tr>';
 		totalsTip += `<tr><td colSpan="2">${counterpart.translate(
@@ -414,7 +416,7 @@ class AccountWrapper extends React.Component {
 		this.props.accounts.forEach((account) => {
 			if (account) {
 				account.get('orders') &&
-					account.get('orders').forEach((orderID, key) => {
+					account.get('orders').forEach((orderID) => {
 						let order = ChainStore.getObject(orderID);
 						if (order) {
 							let orderAsset = order.getIn(['sell_price', 'base', 'asset_id']);
@@ -427,7 +429,7 @@ class AccountWrapper extends React.Component {
 					});
 
 				account.get('call_orders') &&
-					account.get('call_orders').forEach((callID, key) => {
+					account.get('call_orders').forEach((callID) => {
 						let position = ChainStore.getObject(callID);
 						if (position) {
 							let collateralAsset = position.getIn([

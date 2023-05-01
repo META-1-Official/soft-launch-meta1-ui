@@ -16,13 +16,26 @@ class BrowserNotifications extends React.Component {
 		settings: PropTypes.object,
 	};
 
-	componentWillMount() {
-		if (Notify.needsPermission) {
-			Notify.requestPermission();
+	onPermissionGranted() {
+		console.log('Permission has been granted by the user');
+	}
+
+	onPermissionDenied() {
+		console.warn('Permission has been denied by the user');
+	}
+
+	UNSAFE_componentWillMount() {
+		if (!Notify.needsPermission) {
+			// Nothing
+		} else if (Notify.isSupported()) {
+			Notify.requestPermission(
+				this.onPermissionGranted,
+				this.onPermissionDenied
+			);
 		}
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		// if browser notifications disabled on settings we can skip all checks
 		if (!nextProps.settings.get('browser_notifications').allow) {
 			console.log('browser notifications disabled by settings');

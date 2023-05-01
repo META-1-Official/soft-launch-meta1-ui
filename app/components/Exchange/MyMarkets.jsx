@@ -45,7 +45,7 @@ class MarketGroup extends React.Component {
 		};
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		if (nextProps.findMarketTab !== this.props.findMarketTab) {
 			this.setState(this._getInitialState(nextProps));
 		}
@@ -281,7 +281,7 @@ class MarketGroup extends React.Component {
 			});
 
 		return (
-			<div style={{paddingRight: 10}}>
+			<div className="table-wrapper">
 				{open ? (
 					<table className="table table-hover text-right">
 						<thead>
@@ -364,7 +364,7 @@ class MyMarkets extends React.Component {
 		);
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		if (this.props.setMinWidth) {
 			window.addEventListener('resize', this._setMinWidth, {
 				capture: false,
@@ -407,7 +407,7 @@ class MyMarkets extends React.Component {
 		clearTimeout(this.timer);
 	}
 
-	componentWillReceiveProps(np) {
+	UNSAFE_componentWillReceiveProps(np) {
 		if (this.props.myMarketTab && !np.myMarketTab) {
 			if (this.refs.findSearchInput) this.refs.findSearchInput.focus();
 		}
@@ -833,7 +833,6 @@ class MyMarkets extends React.Component {
 						{this.props.controls ? (
 							<div style={{paddingBottom: '0.5rem'}}>{this.props.controls}</div>
 						) : null}
-						{/* {!myMarketTab ? <input type="text" value={this.state.inputValue} onChange={this._lookupAssets.bind(this)} placeholder="SYMBOL:SYMBOL" /> : null} */}
 					</div>
 				) : null}
 
@@ -907,13 +906,7 @@ class MyMarkets extends React.Component {
 						</div>
 					</div>
 				) : (
-					<div
-						style={{
-							width: '100%',
-							textAlign: 'left',
-							padding: '0.75rem 0.5rem',
-						}}
-					>
+					<div className="asset-selector-wrapper">
 						<table>
 							<tbody>
 								<tr style={{width: '100%'}}>

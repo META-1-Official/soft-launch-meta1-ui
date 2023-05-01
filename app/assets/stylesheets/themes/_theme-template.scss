@@ -1,19 +1,8 @@
 @import '../utils/utils';
 @import './../style-guide-fixes';
 
-.portfolio-btn {
-	background: black !important;
-	color: white !important;
-}
-
-.portfolio-btn:hover {
-	background: rgb(82, 2, 2) !important;
-	color: black !important;
-	transform: scale(1.4);
-}
-
-body.darkTheme .ant-tabs .ant-tabs-bottom-content.ant-tabs-content-animated,
-body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
+.ant-tabs .ant-tabs-bottom-content.ant-tabs-content-animated,
+.ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 	height: 100% !important;
 }
 
@@ -116,24 +105,19 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 	$selector-border-color,
 	$selector-text-color,
 	$tabs-content-background-color,
-	$tabs-border-size,
-	$tabs-border-color,
 	$tabs-background-color,
 	$tabs-item-background-color,
 	$tabs-item-color,
 	$tabs-item-border-size,
 	$tabs-item-border-color,
-	$tabs-item--active--color,
 	$tabs-item--active--border-color,
 	$tabs-item--active--background-color,
-	$header-background-color,
 	$header-shadow,
 	$header-item--color,
 	$header-item-background-color,
 	$header-item--active--background-color,
 	$header-item--active--color,
 	$explorer-tab-content-background-color,
-	$tab-content-background-color,
 	$primary-text-color,
 	$bg-color,
 	$dark-text-color,
@@ -166,7 +150,6 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 	$account-dimmed,
 	$account-border,
 	$account-background,
-	$account-tabs-background,
 	$pulsate-green-start,
 	$pulsate-green-end,
 	$pulsate-red-start,
@@ -175,10 +158,8 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 	$settings-select-color,
 	$settings-menu-hover-bg,
 	$settings-menu-active-bg,
-	$settings-api-node-border-color,
 	$main-content-margin-block-bg-color,
 	$modal-bg-color,
-	$mobile-input-bg,
 	$incognito-bg,
 	$button-mix1,
 	$button-mix2,
@@ -186,13 +167,12 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 	$explorer--witnesses--info-border,
 	$explorer--witnesses--info-table-title-color,
 	$explorer--witnesses--info-table-text-color,
-	$explorer--assets--bg,
 	$negative-color-alternative,
 	$positive-color-alternative,
 	$separator-line,
 	$medium-color,
 	$dark-help-text,
-	$settings-label-color
+	$table-hover-color
 ) {
 	$hamburger-submenu-display-endpoint: 990px;
 
@@ -408,9 +388,6 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 		width: 100%;
 	}
 	.settings-input {
-		/* !important to overwrite styles for Inputs on User Settings. By default inputs take styles from
-    .block-list and it uses on many places. To keep everything OK and do not break something I just do
-    overwrite for Inputs on settings and keep default styles for inputs on another places. */
 		color: $settings-select-color !important;
 		height: 36px !important;
 		background-color: $settings-select-bg !important;
@@ -478,8 +455,7 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 	}
 
 	hr {
-		border-color: $dark-text-color;
-		background-color: $dark-text-color !important;
+		background-color: #eaeaea !important;
 	}
 	a {
 		color: $link-text-color;
@@ -495,9 +471,6 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 			color: $primary-text-color;
 		}
 	}
-	// select:hover {
-	// background-color: $panel-bg-color;
-	// }
 
 	.label.success {
 		color: white;
@@ -558,14 +531,29 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 		color: $alert-color;
 	}
 	// notification
-	.notification {
-		@include color($primary-text-color, $notification-panel-bg-color, true);
-	}
-	.notification-dismiss {
-		@include color($primary-text-color, $super-light-panel-bg-color, true);
-	}
-	.notification-success {
-		border-left-color: $success-color !important;
+	.notifications-tr {
+		width: 100% !important;
+		max-width: 425px !important;
+
+		.notification {
+			@include color($primary-text-color, $notification-panel-bg-color, true);
+			background-color: $bg-color !important;
+			left: 0 !important;
+			margin-top: -5px !important;
+
+			table {
+				tr {
+					border: none !important;
+					color: $primary-text-color;
+				}
+			}
+		}
+		.notification-dismiss {
+			@include color(white, red, true);
+		}
+		.notification-success {
+			border-left-color: $success-color !important;
+		}
 	}
 
 	.action-sheet {
@@ -722,7 +710,7 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 		}
 		.main-content {
 			// @include radialGradient($bg-color-mixin, $bg-color);
-			background-color: black;
+			background-color: $bg-color;
 			&.margin-block {
 				background-color: $main-content-margin-block-bg-color;
 			}
@@ -903,9 +891,6 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 			}
 		}
 	}
-	.header-container span.icon.lock-unlock > svg > path {
-		fill: #d5ba48;
-	}
 	.header-dropdown-sub-link.enabled {
 		color: $secondary-text-color;
 		&:hover {
@@ -988,16 +973,17 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 	.table {
 		> thead > tr > th {
 			border-bottom-color: $dark-text-color;
-			color: $secondary-text-color;
+			color: $primary-text-color;
 		}
 		> tbody > tr > td {
 			text-align: left;
 			border-bottom-color: $dark-text-color;
 			font-size: 0.875rem;
+			color: $primary-text-color;
 		}
 		&.table-hover > tbody > tr:hover > td,
 		.table-hover > tbody > tr:hover > th {
-			background-color: #4b5158;
+			background-color: $table-hover-color;
 		}
 		> tbody > tr.table-empty > td {
 			padding: 5rem 0;
@@ -1081,6 +1067,7 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 			li:hover > span {
 				@include color($light-text-color, lighten($primary-text-color, 4%));
 				color: $link-text-color;
+				background-color: black;
 			}
 		}
 		&.active:after {
@@ -1147,17 +1134,14 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 	textarea#{$ant-fix},
 	input[role='combobox']#{$ant-fix},
 	select[role='combobox']#{$ant-fix} {
-		background-color: black;
-		border: 0;
+		background-color: $bg-color;
+		border: 1px solid $border-color;
 		color: $primary-text-color;
 		&:hover,
 		&:focus,
 		&:active,
 		&:disabled {
-			background-color: black;
-		}
-		&:focus {
-			border-color: #aaa;
+			background-color: $bg-color;
 		}
 	}
 
@@ -1280,7 +1264,11 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 			background-color: $explorer-tab-content-background-color;
 		}
 	}
-
+	// .content {
+	// 	@media screen and (max-width: 900px) {
+	// 		border-bottom: 0.5px solid #272525;
+	// 	}
+	// }
 	div.header-selector {
 		> .filter {
 			margin-right: 1rem;
@@ -1810,7 +1798,7 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 		color: $ask-color !important;
 	}
 	.header-sub-title {
-		font-size: 11px;
+		font-size: 12px;
 		color: $light-text-color;
 	}
 	.label {
@@ -2049,21 +2037,6 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 	td.pub-key {
 		word-break: break-all;
 	}
-
-	/* Table view account */
-	// div.grid-content.app-tables {
-	// 	@include radialGradient($bg-color-mixin, $account-background);
-	// }
-	// div.tabs-container {
-	// 	@include radialGradient($bg-color-mixin, $account-background);
-	// }
-
-	div.account-tabs {
-		> div.service-selector {
-			background-color: $bg-color;
-			border-bottom: $tabs-border-size solid $tabs-border-color;
-		}
-	}
 	ul.account-overview {
 		background-color: $tabs-background-color;
 		li {
@@ -2128,7 +2101,6 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 		}
 		> tbody > tr {
 			> td {
-				background-color: $account-cells;
 				color: $account-primarytext;
 				border-color: $account-border;
 				.icon > svg > path {
@@ -2161,6 +2133,9 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 						fill: grey;
 					}
 				}
+			}
+			&:hover {
+				background-color: $table-hover-color;
 			}
 		}
 	}
@@ -2293,60 +2268,6 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 	.tab-no-background {
 		background-color: transparent !important;
 	}
-	.header-container {
-		background-color: radialGradient($bg-color-mixin, $account-background);
-
-		box-shadow: $header-shadow;
-
-		z-index: 2;
-
-		.menu-group {
-			.menu-bar {
-				li {
-					a {
-						text-decoration: none;
-						background: $header-item-background-color;
-						color: $header-item--color;
-						svg path {
-							fill: $header-item--color !important;
-						}
-						&:hover {
-							background-color: $header-item--active--background-color !important;
-							color: $header-item--active--color;
-							svg path {
-								fill: $header-item--active--color !important;
-							}
-						}
-						&.active {
-							background-color: $header-item--active--background-color !important;
-							color: $header-item--active--color;
-							svg path {
-								fill: $header-item--active--color !important;
-							}
-						}
-					}
-				}
-			}
-		}
-
-		.menu-dropdown-wrapper {
-			&.active {
-				background: $panel-bg-color;
-			}
-		}
-		.dropdown.header-menu {
-			background-color: $panel-bg-color;
-			li.divider {
-				border-bottom: 1px solid $dark-text-color;
-			}
-			> li:hover {
-				background-color: $super-light-panel-bg-color;
-			}
-		}
-		.total-value {
-			color: $account-green;
-		}
-	}
 	.flip-arrow:hover {
 		color: $bs-blue;
 		cursor: pointer;
@@ -2375,77 +2296,6 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 				&:hover {
 					fill: $bs-blue;
 					cursor: pointer;
-				}
-			}
-		}
-	}
-	.calendarContainer {
-		// restyle of react-datepicker2
-		box-shadow: none;
-		background-color: $panel-bg-color;
-		border: 0;
-		color: $light-text-color;
-		button svg {
-			fill: $light-text-color;
-		}
-		.dayWrapper button:hover {
-			color: $light-text-color;
-			@include radialGradient($button-mix2, $button-mix1);
-			border-radius: 5px;
-		}
-		.dayWrapper button[disabled] {
-			@include radialGradient($button-mix2, $button-mix1);
-			border-radius: 5px;
-			color: darken(#aaa, 20%);
-		}
-		.monthsList {
-			button {
-				border: 0;
-				@include radialGradient($button-mix2, $button-mix1);
-				border-radius: 5px;
-				&:hover {
-					background-color: $input-background;
-				}
-			}
-		}
-		.time-table {
-			line-height: 38px;
-		}
-		input.rc-time-picker-input {
-			background: $input-background;
-			color: $light-text-color;
-			&:hover {
-				border-color: $input-background;
-				background-color: $input-background;
-				color: $light-text-color;
-			}
-			cursor: pointer;
-		}
-		.heading {
-			.title {
-				line-height: 28px;
-				border-color: $panel-bg-color;
-			}
-			> button {
-				line-height: 30px;
-				@include radialGradient($button-mix2, $button-mix1);
-				border-radius: 5px;
-				border-color: $button-mix1;
-				&:hover {
-					border-color: $panel-bg-color;
-					background-color: $input-background;
-				}
-				&.prev,
-				&.next {
-					line-height: 28px;
-				}
-				&.prev {
-					float: left;
-					transform: rotate(-180deg);
-				}
-				&.next {
-					float: right;
-					transform: rotate(-180deg);
 				}
 			}
 		}
@@ -2755,129 +2605,12 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 		}
 	}
 }
-.rc-time-picker-panel {
-	z-index: 9999 !important;
-}
-.midnightTheme .gate_fee .amount-selector {
-	width: 100%;
-	display: inline-block;
-}
-.midnightTheme .gate_fee .right-selector {
-	text-align: right;
-	width: 26%;
-	display: inline-block;
-	color: #adadad;
-	text-transform: uppercase;
-}
-.midnightTheme .gate_fee .right-selector .right-selector-input {
-	text-align: right;
-	width: 100%;
-}
-.clear-text,
 .search-wrapper {
 	position: relative;
 }
 .market-filter-input,
-.clear-text,
 .search-wrapper {
 	position: relative;
-}
-.clear-text {
-	top: 10px;
-	right: -30px;
-	position: absolute;
-	border: 0;
-	background-color: transparent;
-	display: block;
-	outline: 0;
-	cursor: pointer;
-}
-.clear-text:after {
-	content: 'X';
-	display: block;
-	width: 15px;
-	height: 15px;
-	position: absolute;
-	background-color: transparent;
-	z-index: 1;
-	right: 35px;
-	top: 0;
-	bottom: 0;
-	margin: auto;
-	padding: 2px;
-	border-radius: 50%;
-	text-align: center;
-	color: #fff;
-	font-weight: normal;
-	font-size: 12px;
-	cursor: pointer;
-}
-.market-filter-input:not(:valid) ~ .clear-text {
-	display: none;
-}
-.header-container {
-	display: flex;
-	align-items: center;
-	flex-wrap: nowrap;
-	height: 38px !important;
-	.menu-bar {
-		height: 38px !important;
-		overflow: visible;
-	}
-	.logo {
-		padding-top: 0.7rem;
-		padding-bottom: 0.8rem;
-	}
-	.dropdown-wrapper:after {
-		display: none;
-	}
-	.menu-dropdown-wrapper {
-		height: 20px;
-		width: 65px;
-		text-align: left;
-		border-radius: 0;
-		.hamburger .icon {
-			position: relative;
-			top: -6px;
-		}
-	}
-	.dropdown.header-menu {
-		top: 65px;
-	}
-	.hamburger svg rect,
-	.hamburger-x svg rect {
-		fill: $bs-blue;
-	}
-	.total-value {
-		text-align: right;
-		font-size: 80%;
-		line-height: normal;
-	}
-}
-.local-wallet-menu {
-	// top: 50px!important;
-	.table-cell {
-		display: inline-block;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		&:nth-of-type(2) {
-			max-width: 17em;
-		}
-	}
-}
-.app-menu {
-	flex: 0;
-}
-.truncated {
-	flex: 1;
-	min-width: 0; /* or some value */
-	.text {
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		text-align: right;
-	}
 }
 #qr_scanner_modal {
 	> section {
@@ -2886,23 +2619,6 @@ body.darkTheme .ant-tabs .ant-tabs-top-content.ant-tabs-content-animated {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-	}
-}
-@media screen and (max-width: 640px) {
-	.responsive-list > .help-content > ul {
-		height: 300px;
-		overflow-y: scroll;
-		border-radius: 6px;
-		background: black;
-		border: 1px solid #4b5158;
-		margin-bottom: 2rem !important;
-		li {
-			border-bottom: 1px solid #393939;
-			padding: 4px;
-			ul li {
-				border: 0;
-			}
-		}
 	}
 }
 
@@ -2925,45 +2641,6 @@ div.customizable-column--selector--dropdown {
 	}
 }
 
-body.darkTheme .walletbtn {
-	position: relative;
-	a {
-		position: absolute;
-		bottom: 0;
-		right: 72px;
-		display: block;
-		width: 130px;
-		background-color: #ffc000;
-		color: #151515;
-		font-size: 16px;
-		font-weight: 500;
-		text-align: center;
-		padding: 8px;
-		border-radius: 3px;
-	}
-	a:hover {
-		background-color: #000;
-		color: #ffc000;
-	}
-}
-
-.onramper-wrapper {
-	background: #0a0b0d;
-	height: 100%;
-
-	.onramper-wallet {
-		width: 500px;
-		margin: 0 auto;
-		margin-top: 60px;
-		border-radius: 4px;
-		border: 1px solid rgba(28, 31, 39, 0.4);
-
-		iframe {
-			width: 100%;
-		}
-	}
-}
-
 .back-btn {
 	display: flex;
 	margin-top: 30px;
@@ -2977,5 +2654,30 @@ body.darkTheme .walletbtn {
 
 	> div {
 		margin-left: 8px;
+	}
+}
+
+.generic-bordered-box {
+	padding-right: 20px;
+	@media screen and (max-width: 900px) {
+		padding: 0px;
+	}
+}
+
+.page-header {
+	@media screen and (max-width: 900px) {
+		margin: 0px;
+		padding: 15px !important;
+		margin-bottom: unset !important;
+		h2 {
+			font-size: 20px !important;
+		}
+		h3 {
+			font-size: 20px !important;
+			padding: unset !important;
+		}
+		h4 {
+			font-size: 20px !important;
+		}
 	}
 }

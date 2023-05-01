@@ -374,13 +374,13 @@ describe('Price', function () {
 
 	it('Throws if inputs are invalid', function () {
 		assert.throws(function () {
-			let price = new Price({base: null, quote});
+			// let price = new Price({base: null, quote});
 		});
 		assert.throws(function () {
-			let price = new Price({base, quote: null});
+			// let price = new Price({base, quote: null});
 		});
 		assert.throws(function () {
-			let price = new Price({base: null, quote: null});
+			// let price = new Price({base: null, quote: null});
 		});
 	});
 
@@ -1527,7 +1527,6 @@ describe('Fill Order', function () {
 		time: '2018-07-11T07:48:42',
 	};
 
-	const myHistorySellMarketBase = '1.3.22';
 	const myHistorySellTaker = {
 		block_num: 18884610,
 		id: '1.11.37874337',

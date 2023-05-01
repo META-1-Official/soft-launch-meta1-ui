@@ -3,6 +3,7 @@ import {connect} from 'alt-react';
 import moment from 'moment';
 import {ChainStore} from 'meta1-vision-js';
 import {Map, List} from 'immutable';
+import counterpart from 'counterpart';
 import SettingsActions from 'actions/SettingsActions';
 import SettingsStore from 'stores/SettingsStore';
 import AssetStore from 'stores/AssetStore';
@@ -14,7 +15,6 @@ import {
 	ArrowDownOutlined,
 	StarOutlined,
 } from '@ant-design/icons';
-import AltContainer from 'alt-container';
 import AssetWrapper from '../Utility/AssetWrapper';
 import PageHeader from 'components/PageHeader/PageHeader';
 import SearchInput from '../Utility/SearchInput';
@@ -22,17 +22,10 @@ import Translate from 'react-translate-component';
 import Icon from '../Icon/Icon';
 import MarketsActions from 'actions/MarketsActions';
 import MarketsStore from 'stores/MarketsStore';
-import marketUtils from 'common/market_utils';
 import utils from 'common/utils';
 import ChartjsAreaChart from '../Graph/Graph';
-import ls from '../../lib/common/localStorage';
-import {getAssetIcon, getAssetFullName} from '../utils/asset';
-
-//import {Route, Link, Redirect} from 'react-router-dom';
+import {getAssetIcon} from 'constants/assets';
 import {withRouter} from 'react-router-dom';
-
-const STORAGE_KEY = '__AuthData__';
-const ss = new ls(STORAGE_KEY);
 
 const SORT_TYPE_MULTIPLE = 'multiple';
 
@@ -99,7 +92,7 @@ class AccountTrade extends React.Component {
 
 	_checkAssets(assets, force) {
 		if (this.props.account.get('assets').size) return;
-		let lastAsset = assets
+		const lastAsset = assets
 			.sort((a, b) => {
 				if (a.symbol > b.symbol) return 1;
 				else if (a.symbol < b.symbol) return -1;
@@ -140,7 +133,6 @@ class AccountTrade extends React.Component {
 				const quoteAsset = assetPair.quoteAsset;
 				const baseAsset = assetPair.baseAsset;
 
-				const marketName = marketUtils.getMarketName(baseAsset, quoteAsset);
 				MarketsActions.unSubscribeMarket(
 					quoteAsset.get('id'),
 					baseAsset.get('id')
@@ -152,8 +144,6 @@ class AccountTrade extends React.Component {
 							newBucketSize
 						).then(() => {
 							let bars = MarketsStore.getState().priceData;
-							let quoteAsset1 = MarketsStore.getState().quoteAsset;
-							let baseAsset1 = MarketsStore.getState().baseAsset;
 
 							bars = bars.filter((bar) => {
 								return bar.time >= from && bar.time <= to;
@@ -162,7 +152,7 @@ class AccountTrade extends React.Component {
 							if (bars.length > 36) {
 								const gap = parseInt(bars.length / 36);
 								const filteredBars = [];
-								for (var i = 0; i < 36; i++) filteredBars.push(bars[i * gap]);
+								for (let i = 0; i < 36; i++) filteredBars.push(bars[i * gap]);
 								bars = filteredBars;
 							}
 
@@ -230,7 +220,6 @@ class AccountTrade extends React.Component {
 		const {assets, starredMarkets} = this.props;
 		const {selectedResolution, isLoading, baseAssetSymbol} = this.state;
 		const assetPairs = [];
-
 		if (isLoading) {
 			return;
 		} else if (newBaseAssetSymbol === 'star') {
@@ -281,12 +270,12 @@ class AccountTrade extends React.Component {
 	onClickTrade(name) {
 		const quoteAssetSymbol = name.split('/')[0];
 		const baseAssetSymbol = name.split('/')[1];
-		let path = `/market/${quoteAssetSymbol}_${baseAssetSymbol}`;
+		const path = `/market/${quoteAssetSymbol}_${baseAssetSymbol}`;
 		this.props.history.push(path);
 	}
 
 	_addMarket(quoteAssetSymbol, baseAssetSymbol) {
-		let marketID = `${quoteAssetSymbol}_${baseAssetSymbol}`;
+		const marketID = `${quoteAssetSymbol}_${baseAssetSymbol}`;
 		if (!this.props.starredMarkets.has(marketID)) {
 			SettingsActions.addStarMarket(quoteAssetSymbol, baseAssetSymbol);
 		} else {
@@ -300,15 +289,7 @@ class AccountTrade extends React.Component {
 		this.setState({
 			header: [
 				{
-					title: (sortOrder) => {
-						let order = null;
-
-						if (
-							sortOrder['sortColumn'] &&
-							sortOrder['sortColumn']['key'] === 'name'
-						)
-							order = sortOrder['sortOrder'];
-
+					title: () => {
 						return (
 							<div className="header-text">
 								<Translate component="span" content="account.votes.name" />
@@ -330,16 +311,30 @@ class AccountTrade extends React.Component {
 								: false,
 					},
 					render: (rowData) => {
-						const quoteAssetSymbol = rowData.quoteAssetSymbol;
-						const baseAssetSymbol = rowData.baseAssetSymbol;
+						const {baseAssetSymbol, quoteAssetSymbol} = rowData;
 
 						return (
-							<div>
+							<div style={{display: 'flex', alignItems: 'center'}}>
 								<img
 									className="asset-img"
 									src={getAssetIcon(quoteAssetSymbol)}
 									alt="Asset logo"
 									width="28px"
+									css={(theme) => ({
+										display: theme.mode === 'dark' ? 'unset' : 'none',
+										width: '28px',
+										height: '28px',
+									})}
+								/>
+								<img
+									className="asset-img"
+									src={getAssetIcon(quoteAssetSymbol, 'light')}
+									alt="Asset logo"
+									width="28px"
+									css={(theme) => ({
+										display: theme.mode === 'light' ? 'unset' : 'none',
+										width: '40px',
+									})}
 								/>
 								<div className="asset-name">
 									<span className="quote">
@@ -352,15 +347,7 @@ class AccountTrade extends React.Component {
 					},
 				},
 				{
-					title: (sortOrder) => {
-						let order = null;
-
-						if (
-							sortOrder['sortColumn'] &&
-							sortOrder['sortColumn']['key'] === 'price'
-						)
-							order = sortOrder['sortOrder'];
-
+					title: () => {
 						return (
 							<div className="header-text">
 								<Translate component="span" content="exchange.price" />
@@ -399,15 +386,7 @@ class AccountTrade extends React.Component {
 					},
 				},
 				{
-					title: (sortOrder) => {
-						let order = null;
-
-						if (
-							sortOrder['sortColumn'] &&
-							sortOrder['sortColumn']['key'] === 'rateChange'
-						)
-							order = sortOrder['sortOrder'];
-
+					title: () => {
 						return (
 							<div className="header-text">
 								<span>
@@ -433,7 +412,7 @@ class AccountTrade extends React.Component {
 								: false,
 					},
 					render: (rateChange) => {
-						let className =
+						const className =
 							rateChange === '0.00'
 								? ''
 								: rateChange > 0
@@ -470,7 +449,7 @@ class AccountTrade extends React.Component {
 							data.push(iter.open);
 						});
 
-						let borderColor =
+						const borderColor =
 							rowData.rateChange === '0.00'
 								? '#999999'
 								: rowData.rateChange > 0
@@ -490,6 +469,7 @@ class AccountTrade extends React.Component {
 							<div className="chart">
 								<ChartjsAreaChart
 									id="engaged"
+									isTrade={true}
 									datasets={datasets}
 									labels={labels}
 								/>
@@ -498,15 +478,7 @@ class AccountTrade extends React.Component {
 					},
 				},
 				{
-					title: (sortOrder) => {
-						let order = null;
-
-						if (
-							sortOrder['sortColumn'] &&
-							sortOrder['sortColumn']['key'] === 'rateHighLow'
-						)
-							order = sortOrder['sortOrder'];
-
+					title: () => {
 						return (
 							<div className="header-text">
 								<span>
@@ -542,15 +514,7 @@ class AccountTrade extends React.Component {
 					},
 				},
 				{
-					title: (sortOrder) => {
-						let order = null;
-
-						if (
-							sortOrder['sortColumn'] &&
-							sortOrder['sortColumn']['key'] === 'marketCap'
-						)
-							order = sortOrder['sortOrder'];
-
+					title: () => {
 						return (
 							<div className="header-text">
 								<Translate component="span" content="account.market_cap" />
@@ -606,7 +570,7 @@ class AccountTrade extends React.Component {
 									className="trade"
 									onClick={() => this.onClickTrade(marketName)}
 								>
-									Trade
+									{counterpart.translate('account.trade')}
 								</button>
 							</div>
 						);
@@ -616,8 +580,7 @@ class AccountTrade extends React.Component {
 					title: <Translate component="span" content="account.watch" />,
 					key: 'watch',
 					render: (rowData) => {
-						const quoteAssetSymbol = rowData.quoteAssetSymbol;
-						const baseAssetSymbol = rowData.baseAssetSymbol;
+						const {baseAssetSymbol, quoteAssetSymbol} = rowData;
 						const marketID = `${quoteAssetSymbol}_${baseAssetSymbol}`;
 						const isStarred = this.props.starredMarkets.has(marketID);
 						return (
@@ -642,7 +605,6 @@ class AccountTrade extends React.Component {
 	_buildDataSource(assets) {
 		if (assets.size === 0) return [];
 
-		const {starredMarkets} = this.props;
 		const {baseAssetSymbol, selectedAsset, searchTerm} = this.state;
 		const _dataSource = [];
 
@@ -700,7 +662,7 @@ class AccountTrade extends React.Component {
 				return;
 
 			// Price
-			let finalPrice =
+			const finalPrice =
 				stats && stats.price
 					? stats.price.toReal()
 					: stats &&
@@ -722,7 +684,7 @@ class AccountTrade extends React.Component {
 							true
 					  );
 
-			let highPrecisionAssets = [
+			const highPrecisionAssets = [
 				'BTC',
 				'OPEN.BTC',
 				'TRADE.BTC',
@@ -739,7 +701,7 @@ class AccountTrade extends React.Component {
 			);
 
 			// Change
-			let change = utils.format_number(
+			const change = utils.format_number(
 				stats && stats.change ? stats.change : 0,
 				2
 			);
@@ -749,7 +711,7 @@ class AccountTrade extends React.Component {
 			assets.map((asset) => {
 				if (asset.id === quote.asset_id) dynamic = asset.dynamic;
 			});
-			let marketCap = utils.format_volume(
+			const marketCap = utils.format_volume(
 				parseInt(dynamic.current_supply, 10),
 				0
 			);
@@ -826,13 +788,12 @@ class AccountTrade extends React.Component {
 	};
 
 	render() {
-		const {account, assets} = this.props;
+		const {assets} = this.props;
 		const {
 			header,
 			sortType,
 			baseAssetSymbol,
 			rowsOnPage,
-			selectedAsset,
 			isLoading,
 			selectedResolution,
 		} = this.state;
@@ -864,54 +825,60 @@ class AccountTrade extends React.Component {
 		return (
 			<div className="account-trade">
 				<div>
-					<PageHeader title="Trade" level={2} showDivider />
+					<PageHeader
+						title={counterpart.translate('account.trade')}
+						level={2}
+						showDivider
+					/>
 				</div>
 				<div className="content">
 					<div className="filter">
 						<SearchInput
-							placeholder={'Search'}
+							placeholder={counterpart.translate('markets.search')}
+							className="search-input"
 							value={this.state.searchTerm}
-							style={{width: '30%'}}
 							onChange={this._onSearchChange.bind(this)}
 						/>
-						<Select
-							style={{width: '70px', marginLeft: '24px'}}
-							value={selectedResolution}
-							onChange={(rows) => this._onDropDownChange(rows, 'resolution')}
-							disabled={isLoading}
-							getPopupContainer={(triggerNode) => triggerNode.parentNode}
-						>
-							<Select.Option key={'30m'}>30m</Select.Option>
-							<Select.Option key={'1h'}>1h</Select.Option>
-							<Select.Option key={'24h'}>24h</Select.Option>
-							<Select.Option key={'3d'}>3d</Select.Option>
-							<Select.Option key={'1w'}>1w</Select.Option>
-						</Select>
-						<Select
-							style={{width: '150px', marginLeft: '24px'}}
-							value={this.state.selectedAsset}
-							onChange={(rows) => this._onDropDownChange(rows, 'asset-filter')}
-							getPopupContainer={(triggerNode) => triggerNode.parentNode}
-						>
-							<Select.Option key={'ALL'}>All Assets</Select.Option>
-							{assetOptions}
-						</Select>
-						<Switch
-							id={'multiple-sort'}
-							style={{width: '45px', marginLeft: '24px'}}
-							defaultChecked={sortType === SORT_TYPE_MULTIPLE}
-							onChange={this._changeSortType.bind(this)}
-						></Switch>
-						<label
-							style={{
-								display: 'inline-block',
-								marginLeft: '4px',
-								textTransform: 'capitalize',
-							}}
-							htmlFor={'multiple-sort'}
-						>
-							<Translate component="span" content="account.multi_sorting" />
-						</label>
+
+						<div className="trade-select">
+							<Select
+								className="time"
+								value={selectedResolution}
+								onChange={(rows) => this._onDropDownChange(rows, 'resolution')}
+								disabled={isLoading}
+								getPopupContainer={(triggerNode) => triggerNode.parentNode}
+							>
+								<Select.Option key={'30m'}>30m</Select.Option>
+								<Select.Option key={'1h'}>1h</Select.Option>
+								<Select.Option key={'24h'}>24h</Select.Option>
+								<Select.Option key={'3d'}>3d</Select.Option>
+								<Select.Option key={'1w'}>1w</Select.Option>
+							</Select>
+							<Select
+								className="asset"
+								value={this.state.selectedAsset}
+								onChange={(rows) =>
+									this._onDropDownChange(rows, 'asset-filter')
+								}
+								getPopupContainer={(triggerNode) => triggerNode.parentNode}
+							>
+								<Select.Option key={'ALL'}>
+									{counterpart.translate('account.all_assets')}
+								</Select.Option>
+								{assetOptions}
+							</Select>
+							<div className="sorting">
+								<Switch
+									className="sorting-switch"
+									id={'multiple-sort'}
+									defaultChecked={sortType === SORT_TYPE_MULTIPLE}
+									onChange={this._changeSortType.bind(this)}
+								></Switch>
+								<label className="sorting-label" htmlFor={'multiple-sort'}>
+									<Translate component="span" content="account.multi_sorting" />
+								</label>
+							</div>
+						</div>
 					</div>
 					<div className="select">
 						<div
@@ -926,7 +893,7 @@ class AccountTrade extends React.Component {
 						</div>
 						{toggleBoxes}
 					</div>
-					<div className="table">
+					<div className="table trade-table  ">
 						<Table
 							style={{width: '100%', marginTop: '16px'}}
 							rowKey="name"

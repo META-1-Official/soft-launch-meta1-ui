@@ -1,5 +1,5 @@
 import React from 'react';
-import {Modal, Input, Form, Switch, Button, Radio} from 'antd';
+import {Modal, Input, Form, Button, Radio} from 'antd';
 import PropTypes from 'prop-types';
 import Translate from 'react-translate-component';
 import counterpart from 'counterpart';

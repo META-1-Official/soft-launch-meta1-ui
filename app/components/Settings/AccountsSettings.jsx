@@ -1,6 +1,7 @@
 import React from 'react';
 import {Typography, Table} from 'antd';
 import {Link} from 'react-router-dom';
+import counterpart from 'counterpart';
 import AccountStore from 'stores/AccountStore';
 import AccountActions from 'actions/AccountActions';
 import {connect} from 'alt-react';
@@ -26,7 +27,7 @@ class AccountsSettings extends React.Component {
 
 		return [
 			{
-				title: 'WALLET NAME',
+				title: counterpart.translate('settings.wallet_name'),
 				key: 'acc_name',
 				render: (rowData) => {
 					let isIgnored = hiddenAccounts.has(rowData.account);
@@ -35,7 +36,7 @@ class AccountsSettings extends React.Component {
 				},
 			},
 			{
-				title: 'KEYS',
+				title: counterpart.translate('settings.keys'),
 				key: 'keys',
 				render: (rowData) => (
 					<Link to={`/account/${rowData.account}/permissions`}>
@@ -44,7 +45,7 @@ class AccountsSettings extends React.Component {
 				),
 			},
 			{
-				title: 'SHOW/HIDE',
+				title: counterpart.translate('settings.show_hide'),
 				key: 'show_hide',
 				render: (rowData) => {
 					let isIgnored = hiddenAccounts.has(rowData.account);
@@ -75,7 +76,7 @@ class AccountsSettings extends React.Component {
 	}
 
 	render() {
-		let {myAccounts, hiddenAccounts} = this.props;
+		let {myAccounts} = this.props;
 
 		const columns = this._buildColumns();
 		const dataSource = this._buildDataSource(myAccounts.sort());
@@ -83,6 +84,7 @@ class AccountsSettings extends React.Component {
 		return (
 			<div className="account-settings">
 				<div
+					className="account-header"
 					css={(theme) => ({
 						padding: '1rem 1.5rem',
 						borderBottom: `1px solid ${theme.colors.borderColor}`,

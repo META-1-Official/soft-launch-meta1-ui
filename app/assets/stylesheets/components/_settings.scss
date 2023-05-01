@@ -3,15 +3,29 @@
 	padding-right: 30px !important;
 	padding-top: 10px !important;
 	padding-bottom: 10px !important;
-
-	background: black;
-
+	@media (max-width: 990px) {
+		padding: 10px !important;
+	}
 	.ant-menu {
 		background: black !important;
 
 		.ant-menu-title-content {
 			font-size: 15px;
 			letter-spacing: 1px;
+		}
+
+		@media (max-width: 990px) {
+			.ant-menu-overflow-item {
+				z-index: 2;
+
+				.ant-menu-submenu-title {
+					span {
+						height: 100%;
+						display: inline-flex;
+						align-items: center;
+					}
+				}
+			}
 		}
 	}
 
@@ -27,6 +41,10 @@
 			border-radius: 6px;
 			margin: 15px 30px;
 
+			@media (max-width: 990px) {
+				padding: 0px 5px !important;
+			}
+
 			.ant-form-item-label > label {
 				font-size: 16px;
 				color: rgba(255, 255, 255, 0.7);
@@ -39,10 +57,28 @@
 					align-items: center;
 					justify-content: space-between;
 
+					@media (max-width: 990px) {
+						flex-direction: column !important;
+						height: 80px;
+						margin-top: 23px;
+						align-items: inherit;
+					}
+
+					@media (max-width: 400px) {
+						height: 92px !important;
+						margin-top: 8px !important;
+					}
+
 					.current-fee-asset {
 						margin-right: 10px;
 						font-size: 16px;
 						color: rgba(255, 255, 255, 0.7);
+
+						@media (max-width: 500px) {
+							margin-bottom: 19px;
+							display: flex;
+							line-height: 1;
+						}
 					}
 
 					button {
@@ -51,27 +87,37 @@
 						border: 1px solid #1c1f27;
 						border-radius: 4px;
 
+						@media (max-width: 990px) {
+							margin-top: 20px;
+						}
+
 						span {
 							color: #0a0b0d;
 							text-transform: uppercase;
 							font-size: 15px;
 							font-weight: 600;
+							white-space: break-spaces;
 						}
 					}
 				}
+
 				.settings-notifications {
 					display: flex;
 					flex-direction: column;
 					padding-top: 5px;
 
 					.settings-notifications-item {
+						@media (max-width: 700px) {
+							line-height: 1.6 !important;
+						}
+
 						display: flex;
 						align-items: center;
 						justify-content: space-between;
 						margin-bottom: 5px;
 
 						font-size: 16px;
-						color: rgba(255, 255, 255, 0.9);
+						color: rgba(255, 255, 255, 0.5);
 
 						.ant-checkbox-inner {
 							background: #ffc000;
@@ -88,6 +134,10 @@
 					}
 
 					.external-link {
+						@media (max-width: 990px) {
+							line-height: 1.6 !important;
+						}
+
 						.settings-notifications-no-browser-support {
 							margin-top: 10px;
 							color: darkred;
@@ -158,10 +208,99 @@
 			display: flex;
 			justify-content: space-between;
 
+			@media (max-width: 990px) {
+				flex-direction: column !important;
+
+				div:nth-child(2) {
+					flex-direction: row !important;
+					gap: 30px !important;
+					margin-top: 5px !important;
+				}
+			}
+
 			.ant-typography {
 				margin-bottom: 0;
 			}
+
+			.automatic {
+				padding-right: 1rem;
+				font-size: 15px;
+				color: #cecece;
+			}
 		}
+
+		.node-content {
+			padding: 1rem 1.5rem;
+
+			@media (max-width: 800px) {
+				padding: 10px !important;
+			}
+
+			.nodes {
+				.grid-block {
+					@media (max-width: 800px) {
+						overflow: auto;
+						overflow-y: hidden;
+						height: 40px;
+						flex-direction: row !important;
+					}
+				}
+			}
+
+			div {
+				div {
+					@media (max-width: 700px) {
+						flex-direction: column !important;
+						// width: 100%;
+					}
+				}
+			}
+
+			div:nth-child(3) {
+				@media (max-width: 700px) {
+					position: absolute;
+					margin-top: 0px;
+					display: flex !important;
+					flex-direction: row !important;
+					text-align: right;
+					width: -webkit-fill-available;
+					padding: 0px 19px;
+				}
+			}
+
+			div:nth-child(2) {
+				@media (max-width: 700px) {
+					span {
+						height: 72px;
+						margin-top: 4px;
+					}
+				}
+			}
+		}
+
+		div:has(> .api-node-url) {
+			@media (max-width: 1050px) {
+				display: grid !important;
+			}
+		}
+	}
+
+	.ant-modal-content {
+		@media (max-width: 990px) {
+			padding: 0px;
+		}
+	}
+
+	.ant-modal-footer button {
+		@media (max-width: 990px) {
+			width: unset !important;
+			height: 38px;
+		}
+	}
+
+	.ant-modal-footer {
+		display: flex;
+		justify-content: center;
 	}
 
 	div.api-status a .default-icon {
@@ -217,6 +356,11 @@
 					td:nth-child(1) {
 						text-align: left;
 						font-size: 14px;
+					}
+					td:nth-child(1):hover {
+						div {
+							color: white;
+						}
 					}
 					td:nth-child(2) {
 						text-align: center;

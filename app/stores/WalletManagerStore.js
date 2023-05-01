@@ -162,7 +162,6 @@ class WalletManagerStore extends BaseStore {
 			}
 			this.setState({current_wallet, wallet_names});
 			var database_name = iDB.getDatabaseName(delete_wallet_name);
-			var req = iDB.impl.deleteDatabase(database_name);
 			resolve(database_name);
 		});
 	}

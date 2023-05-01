@@ -1,6 +1,9 @@
 import React from 'react';
 import ChartjsAreaChart from '../Graph/Graph';
 import Translate from 'react-translate-component';
+import {Grid} from 'antd';
+
+const {useBreakpoint} = Grid;
 
 interface IExploreCards {
 	icon: string;
@@ -17,39 +20,55 @@ const ExploreCard = ({
 	textContent,
 	witnessCard,
 }: IExploreCards) => {
+	const screens = useBreakpoint();
+
 	return (
 		<div
+			className="explorer-card"
 			css={(theme) => ({
 				border: `1px solid ${theme.colors.borderColor}`,
 				borderRadius: '10px',
-				background: '#15171b',
+				background: theme.colors.cardBackgroundColor,
+				minHeight: screens['sm'] === true ? '150px' : '200px',
+				position: 'relative',
+				boxShadow: '7px 7px 30px 5px rgba(0, 0, 0, 0.05)',
 			})}
 		>
 			<div
 				css={() => ({
-					padding: '1rem 0rem 0rem 1rem',
+					padding:
+						screens['sm'] === true
+							? '1rem 0rem 0rem 1rem'
+							: '1rem 0rem 0rem 0rem',
 					display: 'flex',
 					justifyContent: 'flex-start',
+					flexDirection: screens['sm'] === true ? 'row' : 'column',
+					alignItems: screens['sm'] === true ? 'flex-start' : 'center',
+					textAlign: screens['sm'] === true ? 'left' : 'center',
 					minHeight: witnessCard ? '5rem' : showAreaChart ? '6rem' : '134px',
 				})}
 			>
 				<div
-					css={() => ({
+					css={(theme) => ({
 						height: '50px',
 						width: '50px',
 						minWidth: '50px',
-						backgroundColor: 'black',
+						backgroundColor: theme.colors.logoBackgroundColor,
 						borderRadius: '50%',
 						display: 'flex',
 						justifyContent: 'center',
 						alignItems: 'center',
+						border: `1px solid ${theme.colors.borderColor}`,
 					})}
 				>
 					<img src={icon} alt="Logo" />
 				</div>
 				<div
 					css={() => ({
-						marginLeft: '1rem',
+						marginLeft: screens['sm'] === true ? '1rem' : 0,
+						marginTop: screens['sm'] === true ? 0 : '1rem',
+						width: '100%',
+						paddingRight: screens['sm'] === true ? '2rem' : 0,
 					})}
 				>
 					<Translate
@@ -67,6 +86,10 @@ const ExploreCard = ({
 						'.chartjs-tooltip': {
 							minWidth: '50px !important',
 						},
+						position: 'absolute',
+						left: 0,
+						right: 0,
+						bottom: 0,
 					}}
 				>
 					<ChartjsAreaChart id="engaged" height={40} />

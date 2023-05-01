@@ -1,9 +1,9 @@
-import React from 'react/addons';
-var TestUtils = React.addons.TestUtils;
+// import React from 'react/addons';
+// var TestUtils = React.addons.TestUtils;
 jest.dontMock('../../../app/components/Account/Identicon.jsx');
 
 describe('<Identicon>', function () {
-	var Identicon = require('../../../app/components/Account/Identicon.jsx');
+	// var Identicon = require('../../../app/components/Account/Identicon.jsx');
 	//var identicon, result;
 	//var size = {height: 100, width: 100};
 	//

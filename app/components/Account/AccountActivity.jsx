@@ -1,10 +1,11 @@
-import React from 'react';
-import BindToChainState from '../Utility/BindToChainState';
-import PageHeader from 'components/PageHeader/PageHeader';
-import SectionBlock from './SectionBlock';
-import {Table, Button, Icon} from 'antd';
+import React, {useState} from 'react';
 import {MobileOutlined} from '@ant-design/icons';
-
+import {Button, Pagination, Table} from 'antd';
+import counterpart from 'counterpart';
+import PageHeader from 'components/PageHeader/PageHeader';
+import BindToChainState from '../Utility/BindToChainState';
+import SectionBlock from './SectionBlock';
+import {Card} from 'antd';
 const Subsection = ({
 	title1,
 	title2,
@@ -15,6 +16,14 @@ const Subsection = ({
 }) => {
 	const title21 = title2.split('. ')[0];
 	const title22 = title2.split('. ')[1];
+	const [minValue, setMinValue] = useState(0);
+	const [maxValue, setMaxValue] = useState(5);
+	const recordsPerPage = 5;
+	const onPageChange = (value) => {
+		setMaxValue(value * recordsPerPage);
+		setMinValue((value - 1) * recordsPerPage);
+	};
+
 	return (
 		<>
 			<div className="subsection-title1">{title1}</div>
@@ -26,16 +35,57 @@ const Subsection = ({
 					</a>
 				)}
 			</div>
-			<div className="table">
+			<div
+				className={`table ${title1 == 'Mobile Applications' ? 'visible' : ''}`}
+			>
 				<Table
 					columns={columns}
 					dataSource={dataSource}
 					pagination={pagination}
 				/>
 			</div>
+			<>
+				{dataSource.slice(minValue, maxValue).map((el) => (
+					<div
+						className={`card ${title1 == 'Mobile Applications' ? 'hide' : ''}`}
+					>
+						<Card bordered={false}>
+							{columns.map((col) => {
+								return col.title ? (
+									<h6>
+										<div className="header">{col.title} :</div>
+										<div class="content">
+											{col.render ? col.render(el[col.key]) : el[col.key]}
+										</div>
+									</h6>
+								) : (
+									<h6>
+										<div class="action">
+											{col.render ? col.render(el[col.key]) : el[col.key]}
+										</div>
+									</h6>
+								);
+							})}
+						</Card>
+					</div>
+				))}
+				<div
+					className={`card ${
+						title1 == 'Mobile Applications' ? 'hide' : ''
+					} paginator`}
+				>
+					<Pagination
+						onChange={onPageChange}
+						pageSize={recordsPerPage}
+						defaultCurrent={1}
+						total={dataSource.length}
+					/>
+				</div>
+			</>
 		</>
 	);
 };
+4;
 
 const CancelButton = ({onClick}) => {
 	return (
@@ -62,22 +112,28 @@ const AccountActivity = () => {
 	// data for mobile applications
 	const mobileDeviceColumns = [
 		{
-			title: 'Device',
+			title: counterpart.translate('account.activities.device'),
 			dataIndex: 'device',
 			key: 'device',
-			render: (data) => (
-				<div>
-					<MobileOutlined css={{marginRight: '5px'}} />
-					{data}
-				</div>
-			),
+			render: (data) => {
+				return (
+					<div>
+						<MobileOutlined css={{marginRight: '5px'}} />
+						{data}
+					</div>
+				);
+			},
 		},
-		{title: 'Signed In', dataIndex: 'signedin', key: 'signedin'},
+		{
+			title: counterpart.translate('account.activities.signed_in'),
+			dataIndex: 'signedin',
+			key: 'signedin',
+		},
 		{
 			title: '',
 			dataIndex: 'cancel',
 			key: 'cancel',
-			render: (data) => <CancelButton />,
+			render: () => <CancelButton />,
 			width: '26px',
 		},
 	];
@@ -93,12 +149,29 @@ const AccountActivity = () => {
 
 	// data for web sessions
 	const webSessionColumns = [
-		{title: 'Signed In', dataIndex: 'signedin', key: 'signedin'},
-		{title: 'Browser', dataIndex: 'browser', key: 'browser'},
-		{title: 'IP Address', dataIndex: 'ipaddress', key: 'ipaddress', width: 200},
-		{title: 'Near', dataIndex: 'near', key: 'near'},
 		{
-			title: 'Current',
+			title: counterpart.translate('account.activities.signed_in'),
+			dataIndex: 'signedin',
+			key: 'signedin',
+		},
+		{
+			title: counterpart.translate('account.activities.browser'),
+			dataIndex: 'browser',
+			key: 'browser',
+		},
+		{
+			title: counterpart.translate('account.activities.ip_address'),
+			dataIndex: 'ipaddress',
+			key: 'ipaddress',
+			width: 200,
+		},
+		{
+			title: counterpart.translate('account.activities.near'),
+			dataIndex: 'near',
+			key: 'near',
+		},
+		{
+			title: counterpart.translate('account.activities.current'),
 			dataIndex: 'current',
 			key: 'current',
 			render: (data) => {
@@ -167,10 +240,27 @@ const AccountActivity = () => {
 
 	// data for confirmed devices
 	const confirmedDevicesColumns = [
-		{title: 'Signed In', dataIndex: 'signedin', key: 'signedin'},
-		{title: 'Browser', dataIndex: 'browser', key: 'browser'},
-		{title: 'IP Address', dataIndex: 'ipaddress', key: 'ipaddress', width: 200},
-		{title: 'Near', dataIndex: 'near', key: 'near'},
+		{
+			title: counterpart.translate('account.activities.signed_in'),
+			dataIndex: 'signedin',
+			key: 'signedin',
+		},
+		{
+			title: counterpart.translate('account.activities.browser'),
+			dataIndex: 'browser',
+			key: 'browser',
+		},
+		{
+			title: counterpart.translate('account.activities.ip_address'),
+			dataIndex: 'ipaddress',
+			key: 'ipaddress',
+			width: 200,
+		},
+		{
+			title: counterpart.translate('account.activities.near'),
+			dataIndex: 'near',
+			key: 'near',
+		},
 		{
 			title: 'Current',
 			dataIndex: 'current',
@@ -241,11 +331,31 @@ const AccountActivity = () => {
 
 	// data for account activity
 	const accountActivityColumns = [
-		{title: 'Action', dataIndex: 'action', key: 'action'},
-		{title: 'Source', dataIndex: 'source', key: 'source'},
-		{title: 'IP Address', dataIndex: 'ipaddress', key: 'ipaddress'},
-		{title: 'Near', dataIndex: 'near', key: 'near'},
-		{title: 'When', dataIndex: 'when', key: 'when'},
+		{
+			title: counterpart.translate('account.activities.action'),
+			dataIndex: 'action',
+			key: 'action',
+		},
+		{
+			title: counterpart.translate('account.activities.source'),
+			dataIndex: 'source',
+			key: 'source',
+		},
+		{
+			title: counterpart.translate('account.activities.ip_address'),
+			dataIndex: 'ipaddress',
+			key: 'ipaddress',
+		},
+		{
+			title: counterpart.translate('account.activities.near'),
+			dataIndex: 'near',
+			key: 'near',
+		},
+		{
+			title: counterpart.translate('account.activities.when'),
+			dataIndex: 'when',
+			key: 'when',
+		},
 	];
 	const accountActivityDataSource = [
 		{
@@ -285,43 +395,66 @@ const AccountActivity = () => {
 	return (
 		<div className="account-activity">
 			<div>
-				<PageHeader title="Activity" level={2} showDivider />
+				<PageHeader
+					title={counterpart.translate('account.activity')}
+					level={2}
+					showDivider
+				/>
 			</div>
 			<div className="content">
-				<SectionBlock title="Active Sessions">
+				<SectionBlock
+					title={counterpart.translate('account.activities.active_sessions')}
+				>
 					<Subsection
-						title1="Mobile Applications"
-						title2="You have authorized these mobile applications."
+						title1={counterpart.translate(
+							'account.activities.mobile_applications'
+						)}
+						title2={counterpart.translate(
+							'account.activities.mobile_applications_info'
+						)}
 						columns={mobileDeviceColumns}
 						dataSource={mobileDeviceDataSource}
 						pagination={true}
 					/>
 					<Subsection
-						title1="Web Sessions"
-						title2="These sessions are currently signed in to your wallet. Sign out all other sessions"
+						title1={counterpart.translate('account.activities.web_sessions')}
+						title2={counterpart.translate(
+							'account.activities.web_sessions_info'
+						)}
 						columns={webSessionColumns}
 						dataSource={webSessionDataSource}
 						pagination={true}
 					/>
 					<Subsection
-						title1="Confirmed Devices"
-						title2="These devices are currently allowed to access your wallet. Remove all other devices"
+						title1={counterpart.translate(
+							'account.activities.confirmed_devices'
+						)}
+						title2={counterpart.translate(
+							'account.activities.confirmed_devices_info'
+						)}
 						columns={confirmedDevicesColumns}
 						dataSource={confirmedDevicesDataSource}
 						pagination={true}
 					/>
 					<Subsection
-						title1="Wallet Activity"
-						title2="Recent activity on your wallet."
+						title1={counterpart.translate('account.activities.wallet_activity')}
+						title2={counterpart.translate(
+							'account.activities.wallet_activity_info'
+						)}
 						columns={accountActivityColumns}
 						dataSource={accountActivityDataSource}
 					/>
 				</SectionBlock>
-				<SectionBlock title="Close Wallet">
+				<SectionBlock
+					title={counterpart.translate('account.activities.close_wallet')}
+				>
 					<div className="close-text">
-						Withdraw funds and close your Meta1 wallet{' '}
+						{counterpart.translate(
+							'account.activities.withdraw_funds_and_close_wallet'
+						)}
+						&nbsp;
 						<a href="#" className="undone-text">
-							- this cannot be undone
+							- {counterpart.translate('account.activities.cannot_be_undone')}
 						</a>
 					</div>
 					<Button
@@ -338,7 +471,7 @@ const AccountActivity = () => {
 							marginBottom: '48px',
 						}}
 					>
-						Close Wallet
+						{counterpart.translate('account.activities.close_wallet')}
 					</Button>
 				</SectionBlock>
 			</div>

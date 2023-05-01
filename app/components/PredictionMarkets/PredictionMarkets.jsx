@@ -65,11 +65,11 @@ class PredictionMarkets extends Component {
 			this.handleInvalidAssetsChecked.bind(this);
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		this._checkAssets(this.props.assets);
 	}
 
-	componentWillReceiveProps(np) {
+	UNSAFE_componentWillReceiveProps(np) {
 		if (np.assets !== this.props.assets) {
 			this._checkAssets(np.assets);
 		}
@@ -504,7 +504,7 @@ class PredictionMarkets extends Component {
 
 		AssetActions.assetGlobalSettle(asset, account, price).then(() => {
 			let pause = new Promise((resolve) => setTimeout(resolve, 1000));
-			pause.then((result) => {
+			pause.then(() => {
 				this.updateAsset(asset.symbol);
 			});
 		});

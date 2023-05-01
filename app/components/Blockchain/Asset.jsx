@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {Tabs} from 'antd';
+import {Tabs, Button} from 'antd';
 import Translate from 'react-translate-component';
 import LinkToAccountById from '../Utility/LinkToAccountById';
 import LinkToAssetById from '../Utility/LinkToAssetById';
@@ -82,7 +82,7 @@ class Asset extends React.Component {
 		};
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		this._getMarginCollateral();
 	}
 
@@ -359,7 +359,7 @@ class Asset extends React.Component {
 
 		let {name, prefix} = utils.replaceName(originalAsset);
 		return (
-			<div style={{overflow: 'visible'}}>
+			<div className="asset-header" style={{overflow: 'visible'}}>
 				<HelpContent
 					path={'assets/' + asset.symbol}
 					alt_path="assets/Asset"
@@ -372,12 +372,22 @@ class Asset extends React.Component {
 				/>
 				{short_name ? <p>{short_name}</p> : null}
 
-				<Link
-					className="button market-button"
-					to={`/market/${asset.symbol}_${preferredMarket}`}
+				<Button
+					onClick={() => {
+						window.location.href = `/market/${asset.symbol}_${preferredMarket}`;
+					}}
+					style={{
+						background: '#ffc000',
+						color: 'black',
+						fontWeight: '500',
+						border: 'none',
+						borderRadius: '5px',
+					}}
 				>
-					<Translate content="exchange.market" />
-				</Link>
+					{`${counterpart.translate('explorer.asset.go_market')} (${
+						asset.symbol
+					} / ${preferredMarket})`}
+				</Button>
 			</div>
 		);
 	}
@@ -505,47 +515,54 @@ class Asset extends React.Component {
 				<div className="card-divider">
 					<AssetName name={asset.symbol} />
 				</div>
-				<table className="table key-value-table table-hover">
-					<tbody>
-						<tr>
-							<td>
-								<Translate content="explorer.asset.summary.asset_type" />
-							</td>
-							<td> {this._assetType(asset)} </td>
-						</tr>
-						{isPrediction && predictionRows}
-						<tr>
-							<td>
-								<Translate content="explorer.asset.summary.issuer" />
-							</td>
-							<td>
-								<LinkToAccountById account={asset.issuer} />
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<Translate content="explorer.assets.precision" />
-							</td>
-							<td> {asset.precision} </td>
-						</tr>
-						{asset.bitasset ? (
+				<div
+					css={(theme) => ({
+						borderTop: `1px solid ${theme.colors.borderColor}`,
+						padding: '1rem',
+					})}
+				>
+					<table className="table">
+						<tbody>
 							<tr>
 								<td>
-									<Translate content="explorer.assets.backing_asset" />
+									<Translate content="explorer.asset.summary.asset_type" />
+								</td>
+								<td> {this._assetType(asset)} </td>
+							</tr>
+							{isPrediction && predictionRows}
+							<tr>
+								<td>
+									<Translate content="explorer.asset.summary.issuer" />
 								</td>
 								<td>
-									<LinkToAssetById
-										asset={asset.bitasset.options.short_backing_asset}
-									/>
+									<LinkToAccountById account={asset.issuer} />
 								</td>
 							</tr>
-						) : null}
-						{currentSupply}
-						{stealthSupply}
-						{marketFee}
-						{marketFeeReferralReward}
-					</tbody>
-				</table>
+							<tr>
+								<td>
+									<Translate content="explorer.assets.precision" />
+								</td>
+								<td> {asset.precision} </td>
+							</tr>
+							{asset.bitasset ? (
+								<tr>
+									<td>
+										<Translate content="explorer.assets.backing_asset" />
+									</td>
+									<td>
+										<LinkToAssetById
+											asset={asset.bitasset.options.short_backing_asset}
+										/>
+									</td>
+								</tr>
+							) : null}
+							{currentSupply}
+							{stealthSupply}
+							{marketFee}
+							{marketFeeReferralReward}
+						</tbody>
+					</table>
+				</div>
 				<br />
 				{this.renderFlagIndicators(flagBooleans, bitNames)}
 			</div>
@@ -1512,315 +1529,6 @@ class Asset extends React.Component {
 		);
 	}
 
-	_renderMarginTable() {
-		let {cumulativeGrouping} = this.state;
-		let columns = [];
-		let dataSource = [];
-
-		if (this.state.callOrders && this.state.callOrders.length > 0) {
-			const cummulativeSuffix = cumulativeGrouping ? (
-				<span>
-					&nbsp;(
-					<Translate content="explorer.asset.cumulative" />)
-				</span>
-			) : (
-				<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-			);
-
-			let debt_cum = 0;
-			let coll_cum = 0;
-
-			this.state.callOrders.map((c) => {
-				debt_cum += c.debt;
-				coll_cum += c.collateral;
-
-				dataSource.push({
-					borrower: c.borrower,
-					collateral: {
-						amount: cumulativeGrouping ? coll_cum : c.collateral,
-						asset: c.getCollateral().asset_id,
-					},
-					debt: {
-						amount: cumulativeGrouping ? debt_cum : c.debt,
-						asset: c.amountToReceive().asset_id,
-					},
-					call: c.call_price,
-					tcr: c.order.target_collateral_ratio,
-					cr: {
-						ratio: c.getRatio(),
-						status: c.getStatus(),
-					},
-				});
-			});
-			const unitInfo = (key) => {
-				let item = dataSource[0][key];
-				return dataSource.length ? (
-					<span>
-						<br />
-						{item.base ? (
-							this.formattedPrice(item, false, true)
-						) : (
-							<FormattedAsset
-								asset={item.asset}
-								amount={item.amount}
-								hide_amount={true}
-							/>
-						)}
-					</span>
-				) : null;
-			};
-
-			columns = [
-				{
-					key: 'borrower',
-					fixed: 'left',
-					width: 200,
-					title: <Translate content="transaction.borrower" />,
-					dataIndex: 'borrower',
-					sorter: (a, b) => {
-						let nameA = ChainStore.getAccount(a.borrower, false);
-						if (nameA) nameA = nameA.get('name');
-						let nameB = ChainStore.getAccount(b.borrower, false);
-						if (nameB) nameB = nameB.get('name');
-						if (nameA > nameB) return 1;
-						if (nameA < nameB) return -1;
-						return 0;
-					},
-					render: (item) => {
-						return <LinkToAccountById account={item} />;
-					},
-				},
-				{
-					key: 'collateral',
-					title: (
-						<React.Fragment>
-							<Translate content="transaction.collateral" />
-							{cummulativeSuffix}
-							{unitInfo('collateral')}
-						</React.Fragment>
-					),
-					dataIndex: 'collateral',
-					sorter: (a, b) => {
-						if (a.collateral.amount > b.collateral.amount) return 1;
-						if (a.collateral.amount < b.collateral.amount) return -1;
-						return 0;
-					},
-				},
-				{
-					key: 'debt',
-					title: (
-						<React.Fragment>
-							<Translate content="transaction.borrow_amount" />
-							{cummulativeSuffix}
-							{unitInfo('debt')}
-						</React.Fragment>
-					),
-					dataIndex: 'debt',
-					sorter: (a, b) => {
-						if (a.debt.amount > b.debt.amount) return 1;
-						if (a.debt.amount < b.debt.amount) return -1;
-						return 0;
-					},
-				},
-
-				{
-					key: 'call',
-					title: (
-						<span>
-							<Translate content="exchange.call" />
-							{unitInfo('call')}
-						</span>
-					),
-					dataIndex: 'call',
-					render: (item) => {
-						return this.formattedPrice(item, true, false);
-					},
-				},
-				{
-					key: 'tcr',
-					title: (
-						<Tooltip
-							title={counterpart.translate(
-								'borrow.target_collateral_ratio_explanation'
-							)}
-						>
-							<Translate content="borrow.target_collateral_ratio_short" />
-						</Tooltip>
-					),
-					dataIndex: 'tcr',
-					render: (item) => {
-						return !!item ? (item / 1000).toFixed(3) : '-';
-					},
-				},
-				{
-					key: 'cr',
-					title: <Translate content="borrow.coll_ratio" />,
-					dataIndex: 'cr',
-					fixed: 'right',
-					width: 100,
-					sorter: (a, b) => {
-						if (a.cr.ratio > b.cr.ratio) return 1;
-						if (a.cr.ratio < b.cr.ratio) return -1;
-						return 0;
-					},
-					render: (item) => {
-						let classNames = 'margin-ratio ' + item.status;
-
-						return (
-							<React.Fragment>
-								<div className={classNames}>{item.ratio.toFixed(3)}</div>
-							</React.Fragment>
-						);
-					},
-				},
-			];
-		}
-	}
-
-	_renderCollBidTable() {
-		let columns = [];
-		let dataSource = [];
-
-		columns = [
-			{
-				key: 'bidder',
-				title: <Translate content="transaction.bidder" />,
-				dataIndex: 'bidder',
-				fixed: 'left',
-				width: 200,
-				render: (item) => {
-					return <LinkToAccountById account={item} />;
-				},
-			},
-			{
-				key: 'collateral',
-				title: <Translate content="transaction.collateral" />,
-				dataIndex: 'collateral',
-				render: (item) => {
-					return (
-						<FormattedAsset
-							amount={item.amount}
-							asset={item.asset_id}
-							hide_asset
-						/>
-					);
-				},
-			},
-			{
-				key: 'debt',
-				title: <Translate content="transaction.borrow_amount" />,
-				dataIndex: 'debt',
-				render: (item) => {
-					return (
-						<FormattedAsset
-							amount={item.amount}
-							asset={item.asset_id}
-							hide_asset
-						/>
-					);
-				},
-			},
-			{
-				key: 'debt_cum',
-				title: <Translate content="transaction.cumulative_borrow_amount" />,
-				dataIndex: 'debt_cum',
-				render: (item) => {
-					return (
-						<FormattedAsset
-							amount={item.amount}
-							asset={item.asset_id}
-							hide_asset
-						/>
-					);
-				},
-			},
-			{
-				key: 'price',
-				title: <Translate content="explorer.asset.collateral_bid.bid" />,
-				dataIndex: 'price',
-				render: (item) => {
-					return (
-						<FormattedPrice
-							base_amount={item.base.amount}
-							base_asset={item.base.asset_id}
-							quote_amount={item.quote.amount}
-							quote_asset={item.quote.asset_id}
-							hide_symbols
-						/>
-					);
-				},
-			},
-			{
-				key: 'cr',
-				title: <Translate content="borrow.coll_ratio" />,
-				dataIndex: 'cr',
-				render: (item) => {
-					return item.toFixed(3);
-				},
-			},
-			{
-				key: 'included',
-				title: <Translate content="borrow.considered_on_revival" />,
-				dataIndex: 'included',
-				render: (item) => {
-					if (item == 2)
-						return (
-							<Translate content="explorer.asset.collateral_bid.included.partial" />
-						);
-					else if (item == 1)
-						return (
-							<Translate content="explorer.asset.collateral_bid.included.yes" />
-						);
-					else
-						return (
-							<Translate content="explorer.asset.collateral_bid.included.no" />
-						);
-				},
-			},
-		];
-
-		let debt_cum = 0;
-		this.state.collateralBids.map((c) => {
-			debt_cum += c.debt;
-
-			dataSource.push({
-				bidder: c.bidder,
-				collateral: {
-					amount: c.bid.base.amount,
-					asset: c.bid.base.asset_id,
-				},
-				debt: {
-					amount: c.bid.quote.amount,
-					asset: c.bid.quote.asset_id,
-				},
-				debt_cum: {
-					amount: debt_cum,
-					asset: c.bid.quote.asset_id,
-				},
-				price: c.bid,
-				cr: c.getRatio(),
-				included: c.consideredIfRevived,
-			});
-		});
-
-		return (
-			<Table
-				style={{width: '100%'}}
-				rowKey="feedCollBid"
-				columns={columns}
-				dataSource={dataSource}
-				pagination={{
-					pageSize: Number(25),
-				}}
-				locale={{
-					emptyText: (
-						<Translate content="explorer.asset.collateral_bid.empty" />
-					),
-				}}
-			/>
-		);
-	}
-
 	_setFeedTab(tab) {
 		this.setState({
 			activeFeedTab: tab,
@@ -1843,8 +1551,6 @@ class Asset extends React.Component {
 		) {
 			return null;
 		}
-
-		let isGlobalSettlement = bitAsset.settlement_fund > 0 ? true : false;
 
 		return (
 			<Tabs

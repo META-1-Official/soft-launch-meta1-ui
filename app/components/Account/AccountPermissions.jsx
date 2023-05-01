@@ -15,7 +15,6 @@ import {Tabs} from 'antd';
 import HelpContent from '../Utility/HelpContent';
 import {RecentTransactions} from './RecentTransactions';
 import {notification, Typography, Button} from 'antd';
-import PageHeader from 'components/PageHeader/PageHeader';
 
 const {Title} = Typography;
 
@@ -31,7 +30,7 @@ class AccountPermissions extends React.Component {
 		this.onReset = this.onReset.bind(this);
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		this.updateAccountData(this.props.account);
 		accountUtils.getFinalFeeAsset(this.props.account, 'account_update');
 
@@ -53,7 +52,7 @@ class AccountPermissions extends React.Component {
 		}
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		if (nextProps.account !== this.props.account)
 			this.updateAccountData(nextProps.account);
 	}
@@ -362,7 +361,6 @@ class AccountPermissions extends React.Component {
 			this.isValidPubKey(this.state.memo_key)
 				? ''
 				: ' disabled';
-		let reset_button_disabled = this.isChanged() ? '' : 'disabled';
 
 		let accountsList = Immutable.Set();
 		accountsList = accountsList.add(this.props.account.get('id'));
@@ -371,13 +369,10 @@ class AccountPermissions extends React.Component {
 			<div className="account-permissions">
 				<div
 					css={(theme) => ({
-						padding: `1rem 2rem`,
 						borderBottom: `1px solid ${theme.colors.borderColor}`,
 						color: theme.colors.themeOpositeColor,
-						display: 'flex',
-						justifyContent: 'space-between',
-						alignItems: 'center',
 					})}
+					className="header-toolbar"
 				>
 					<Title
 						css={{
@@ -387,7 +382,7 @@ class AccountPermissions extends React.Component {
 						}}
 						level={2}
 					>
-						Permissions
+						<Translate content="account.permissions" />
 					</Title>
 					<div className="action-buttons">
 						<div
@@ -409,42 +404,44 @@ class AccountPermissions extends React.Component {
 							<span />
 							<Translate content="account.perm.create_paperwallet" />
 						</div>
-						<Button
-							type="primary"
-							css={{
-								color: '#FFFFFF !important',
-								background: '#15171B !important',
-								border: '1px solid #24282F !important',
-								borderRadius: '4px',
-								height: '40px',
-								width: '90px',
-								fontSize: '15px',
-								fontWeight: '600',
-								marginLeft: '20px',
-								marginRight: '20px',
-							}}
-							disabled={publish_button_disabled}
-							onClick={this.onReset}
-						>
-							<Translate content="account.perm.reset" />
-						</Button>
-						<Button
-							type="primary"
-							css={{
-								color: '#000000 !important',
-								background: '#FFC000 !important',
-								border: 'none',
-								borderRadius: '4px',
-								height: '40px',
-								width: '90px',
-								fontSize: '15px',
-								fontWeight: '600',
-							}}
-							disabled={publish_button_disabled}
-							onClick={this.onPublish}
-						>
-							<Translate content="account.perm.publish" />
-						</Button>
+						<div className="reset">
+							<Button
+								type="primary"
+								css={{
+									color: '#FFFFFF !important',
+									background: '#15171B !important',
+									border: '1px solid #24282F !important',
+									borderRadius: '4px',
+									height: '40px',
+									width: '90px',
+									fontSize: '15px',
+									fontWeight: '600',
+									marginLeft: '20px',
+									marginRight: '20px',
+								}}
+								disabled={publish_button_disabled}
+								onClick={this.onReset}
+							>
+								<Translate content="account.perm.reset" />
+							</Button>
+							<Button
+								type="primary"
+								css={{
+									color: '#000000 !important',
+									background: '#FFC000 !important',
+									border: 'none',
+									borderRadius: '4px',
+									height: '40px',
+									width: '90px',
+									fontSize: '15px',
+									fontWeight: '600',
+								}}
+								disabled={publish_button_disabled}
+								onClick={this.onPublish}
+							>
+								<Translate content="account.perm.publish" />
+							</Button>
+						</div>
 					</div>
 				</div>
 				<div className="content">

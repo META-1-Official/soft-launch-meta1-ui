@@ -14,7 +14,7 @@ import {
 } from 'branding';
 import chainIds from 'chain/chainIds';
 
-const CORE_ASSET = 'META1'; // Setting this to META1 to prevent loading issues when used with META1 chain which is the most usual case currently
+const CORE_ASSET = 'META1';
 const CHAINID_SHORT = chainIds[process.env.CURRENT_NET].substr(0, 8);
 const TEST_CHAINID_SHORT = chainIds['TEST_NET'].substr(0, 8);
 
@@ -139,7 +139,7 @@ class SettingsStore {
 			showProposedTx: [{translate: 'yes'}, {translate: 'no'}],
 			showSettles: [{translate: 'yes'}, {translate: 'no'}],
 			showAssetPercent: [{translate: 'yes'}, {translate: 'no'}],
-			themes: ['darkTheme'],
+			themes: ['darkTheme', 'lightTheme'],
 			passwordLogin: [{translate: 'cloud_login'}, {translate: 'local_wallet'}],
 			browser_notifications: {
 				allow: [true, false],

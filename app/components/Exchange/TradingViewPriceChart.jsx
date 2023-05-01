@@ -2,7 +2,7 @@ import React from 'react';
 const TradingView = require('../../../charting_library/charting_library.min.js');
 import colors from 'assets/colors';
 import {getResolutionsFromBuckets, getTVTimezone} from './tradingViewClasses';
-import {Modal, Input, Table, Button} from 'antd';
+import {Modal, Input, Table, Button, theme} from 'antd';
 import counterpart from 'counterpart';
 import SettingsStore from 'stores/SettingsStore';
 import SettingsActions from 'actions/SettingsActions';
@@ -10,11 +10,9 @@ import {connect} from 'alt-react';
 import Translate from 'react-translate-component';
 import {AiOutlineDelete} from 'react-icons/ai';
 
-// import MarketsStore from "stores/MarketsStore";
-
 class TradingViewPriceChart extends React.Component {
 	constructor(props) {
-		super();
+		super(props);
 		this.state = {
 			showSaveModal: false,
 			showLoadModal: false,
@@ -29,7 +27,6 @@ class TradingViewPriceChart extends React.Component {
 	loadTradingView(props) {
 		const {dataFeed} = props;
 		let themeColors = colors[props.theme];
-		const that = this;
 
 		if (!dataFeed) return;
 
@@ -96,11 +93,22 @@ class TradingViewPriceChart extends React.Component {
 		if (__DEV__) console.log('*** Load Chart ***');
 		if (__DEV__) console.time('*** Chart load time: ');
 
+		let chart_properties = JSON.parse(
+			localStorage.getItem('tradingview.chartproperties')
+		);
+		if (chart_properties?.paneProperties)
+			chart_properties.paneProperties.background = themeColors.bgColor;
+		localStorage.removeItem('tradingview.chartproperties');
+		localStorage.setItem(
+			'tradingview.chartproperties',
+			JSON.stringify(chart_properties)
+		);
+
 		this.tvWidget = new TradingView.widget({
 			fullscreen: false,
 			symbol: props.quoteSymbol + '_' + props.baseSymbol,
 			interval: getResolutionsFromBuckets([props.bucketSize])[0],
-			library_path: `${__ELECTRON__ ? __BASE_URL__ : ''}/charting_library/`,
+			library_path: `/charting_library/`,
 			datafeed: dataFeed,
 			container_id: 'tv_chart',
 			charts_storage_url: 'https://saveload.tradingview.com',
@@ -125,39 +133,13 @@ class TradingViewPriceChart extends React.Component {
 			preset: this.props.mobile ? 'mobile' : '',
 		});
 
-		// this.tvWidget.onChartReady(() => {
-		// 	if (__DEV__) console.log('*** Chart Ready ***');
-		// 	if (__DEV__) console.timeEnd('*** Chart load time: ');
-		// 	this.tvWidget
-		// 		.createButton()
-		// 		.attr('title', counterpart.translate('exchange.load_custom_charts'))
-		// 		.addClass('apply-common-tooltip')
-		// 		.on('click', () => {
-		// 			that.setState({showLoadModal: true});
-		// 		})
-		// 		.append(`<span>${counterpart.translate('exchange.chart_load')}</span>`);
-		// 	this.tvWidget
-		// 		.createButton()
-		// 		.attr('title', counterpart.translate('exchange.save_custom_charts'))
-		// 		.addClass('apply-common-tooltip')
-		// 		.on('click', () => {
-		// 			that.setState({showSaveModal: true});
-		// 		})
-		// 		.append(`<span>${counterpart.translate('exchange.chart_save')}</span>`);
-
-		// 	dataFeed.update({
-		// 		onMarketChange: this._setSymbol.bind(this),
-		// 	});
-		// 	this.loadLastChart();
-		// });
-
 		this._onWheel = this._onWheel.bind(this);
 	}
 
-	componentWillReceiveProps(np) {
+	UNSAFE_componentWillReceiveProps(np) {
 		if (!np.marketReady) return;
-		if (!this.props.dataFeed && np.dataFeed) {
-			loadTradingView(np);
+		if ((!this.props.dataFeed && np.dataFeed) || np.theme != this.props.theme) {
+			this.loadTradingView(np);
 		}
 	}
 
@@ -174,16 +156,13 @@ class TradingViewPriceChart extends React.Component {
 
 	componentDidMount() {
 		this.loadTradingView(this.props);
-
-		// continue investigating how to disable mouse wheel, here are the containted docs
-		// document.getElementById("tv_chart").children[0].contentWindow
-		// document.getElementById("tv_chart").children[0].contentDocument
 	}
 
 	componentDidUpdate(prevProps) {
 		if (
 			this.props.baseSymbol !== prevProps.baseSymbol ||
-			this.props.quoteSymbol !== prevProps.quoteSymbol
+			this.props.quoteSymbol !== prevProps.quoteSymbol ||
+			this.props.theme !== prevProps.theme
 		) {
 			this.loadTradingView(this.props);
 		}
@@ -204,11 +183,11 @@ class TradingViewPriceChart extends React.Component {
 		);
 	}
 
-	_onWheel(e) {
+	_onWheel() {
 		console.log('Test wheel interception');
 	}
 
-	onSubmitConfirmation(e) {
+	onSubmitConfirmation() {
 		const {layoutName} = this;
 		const error = this.props.charts.some(
 			(chart) =>
@@ -309,22 +288,11 @@ class TradingViewPriceChart extends React.Component {
 		};
 
 		let width = window.innerWidth;
-		let wideScreen = width > 640 ? true : false;
-		let exchangeBordered;
-		exchangeBordered = wideScreen
-			? {height: '100%', minHeight: '500px!important'}
-			: {height: '100%'};
+		let wideScreen = width > 768 ? true : false;
 
 		return (
-			<div
-				className="small-12"
-				style={{height: '100%', minHeight: '500px!important'}}
-			>
-				<div
-					className="exchange-bordered"
-					style={exchangeBordered}
-					id="tv_chart"
-				/>
+			<div className="small-12" style={{height: '100%', paddingBottom: '3px'}}>
+				<div className="exchange-bordered" id="tv_chart" />
 				<Modal
 					title={counterpart.translate('exchange.load_chart_layout')}
 					closable={false}
@@ -393,6 +361,7 @@ export default connect(TradingViewPriceChart, {
 	getProps() {
 		return {
 			charts: SettingsStore.getState().chartLayouts,
+			theme: SettingsStore.getState().settings.get('themes'),
 		};
 	},
 });

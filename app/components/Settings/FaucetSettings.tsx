@@ -1,5 +1,5 @@
 import React from 'react';
-import {Input, Typography} from 'antd';
+import {Typography} from 'antd';
 import Translate from 'react-translate-component';
 
 const {Title} = Typography;
@@ -60,28 +60,6 @@ const FaucetSettings = ({
 					/>
 				</Title>
 			</div>
-
-			{/*<div
-				css={{
-					padding: '1rem 1.5rem',
-				}}
-			>
-				<Input
-					css={(theme) => ({
-						'&&': {
-							backgroundColor: theme.colors.inputBackgroundColor,
-							border: 'none',
-							color: theme.colors.inputTextColor,
-							borderRadius: '6px',
-							height: '50px',
-						},
-					})}
-					disabled={disabled}
-					type="text"
-					defaultValue={defaultValue}
-					onChange={onChange}
-				/>
-			</div>*/}
 		</div>
 	);
 };

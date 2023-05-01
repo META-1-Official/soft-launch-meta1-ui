@@ -148,19 +148,18 @@ class ExchangeSubscriber extends React.Component {
 	};
 
 	constructor(props) {
-		super();
+		super(props);
 		this.state = {sub: null};
 
 		this._subToMarket = this._subToMarket.bind(this);
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		if (this.props.quoteAsset === null || this.props.baseAsset === null) {
 			return;
 		}
 		if (this.props.quoteAsset.toJS && this.props.baseAsset.toJS) {
 			this._subToMarket(this.props);
-			// this._addMarket(this.props.quoteAsset.get("symbol"), this.props.baseAsset.get("symbol"));
 		}
 
 		emitter.on(
@@ -206,7 +205,7 @@ class ExchangeSubscriber extends React.Component {
 		);
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		if (nextProps.quoteAsset === null || nextProps.baseAsset === null) {
 			return;
 		}
@@ -284,13 +283,11 @@ class ExchangeSubscriber extends React.Component {
 			return <Page404 subtitle="market_not_found_subtitle" />;
 
 		return (
-			<div css={{paddingBottom: '2rem'}}>
-				<Exchange
-					{...this.props}
-					sub={this.state.sub}
-					subToMarket={this._subToMarket}
-				/>
-			</div>
+			<Exchange
+				{...this.props}
+				sub={this.state.sub}
+				subToMarket={this._subToMarket}
+			/>
 		);
 	}
 }

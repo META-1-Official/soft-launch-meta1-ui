@@ -147,7 +147,7 @@ class CreateWorker extends React.Component {
 
 						<div className="button-group" onClick={this.onSubmit.bind(this)}>
 							<div className="button" type="submit">
-								Publish
+								<Translate content="account.perm.publish_prediction" />
 							</div>
 						</div>
 					</form>

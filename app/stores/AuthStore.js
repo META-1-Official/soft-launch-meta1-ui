@@ -3,6 +3,7 @@ import alt from 'alt-instance';
 import {Web3AuthCore} from '@web3auth/core';
 import {CHAIN_NAMESPACES} from '@web3auth/base';
 import {OpenloginAdapter} from '@web3auth/openlogin-adapter';
+import SettingsStore from 'stores/SettingsStore';
 
 class AuthStore extends BaseStore {
 	constructor() {
@@ -54,6 +55,8 @@ class AuthStore extends BaseStore {
 	}
 
 	async setOpenLoginInstance() {
+		const theme = SettingsStore.getState().settings.get('themes');
+		console.log('theme', theme);
 		try {
 			const openloginAdapter = new OpenloginAdapter({
 				adapterSettings: {
@@ -62,7 +65,7 @@ class AuthStore extends BaseStore {
 					whiteLabel: {
 						name: 'META1',
 						defaultLanguage: 'en',
-						dark: true,
+						dark: theme === 'darkTheme' ? true : false,
 					},
 				},
 			});

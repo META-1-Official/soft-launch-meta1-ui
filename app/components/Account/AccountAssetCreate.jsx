@@ -205,20 +205,11 @@ class AccountAssetCreate extends React.Component {
 	}
 
 	resetState(props) {
-		// let asset = props.asset.toJS();
 		let isBitAsset = false;
-		let precision = utils.get_asset_precision(4);
-		let corePrecision = utils.get_asset_precision(props.core.get('precision'));
 
 		let {flagBooleans, permissionBooleans} = this._getPermissions({
 			isBitAsset,
 		});
-
-		// let flags = assetUtils.getFlags(flagBooleans);
-		// let permissions = assetUtils.getPermissions(permissionBooleans, isBitAsset);
-		// console.log("all permissions:", permissionBooleans, permissions)
-
-		let coreRateBaseAssetName = ChainStore.getAsset('1.3.0').get('symbol');
 
 		return {
 			update: {
@@ -305,7 +296,7 @@ class AccountAssetCreate extends React.Component {
 			is_prediction_market,
 			bitasset_opts,
 			description
-		).then((result) => {
+		).then(() => {
 			console.log(
 				'... AssetActions.createAsset(account_id, update)',
 				account.get('id'),
@@ -632,7 +623,6 @@ class AccountAssetCreate extends React.Component {
 	}
 
 	_onToggleBitAsset() {
-		let {update} = this.state;
 		this.state.isBitAsset = !this.state.isBitAsset;
 		if (!this.state.isBitAsset) {
 			this.state.is_prediction_market = false;

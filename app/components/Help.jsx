@@ -1,4 +1,5 @@
 import React from 'react';
+import counterpart from 'counterpart';
 import HelpContent from './Utility/HelpContent';
 import {toPairs} from 'lodash-es';
 import PageHeader from 'components/PageHeader/PageHeader';
@@ -9,10 +10,13 @@ class Help extends React.Component {
 		const path = toPairs(this.props.match.params)
 			.map((p) => p[1])
 			.join('/');
-
 		return (
 			<>
-				<PageHeader title="Learn" showDivider level={2} />
+				<PageHeader
+					title={counterpart.translate('account.learn')}
+					showDivider
+					level={2}
+				/>
 				<div
 					css={() => ({
 						height: '100%',
@@ -25,23 +29,18 @@ class Help extends React.Component {
 							overflow: 'auto',
 						})}
 					>
-						<Col xs={24} sm={8} lg={6}>
+						<Col xs={24} sm={24} lg={6}>
 							<div
-								className="help-toc"
+								className="help-toc menu"
 								css={(theme) => ({
-									padding: '20px',
-									height: '100%',
 									ul: {
-										listStyle: 'none !important',
-										height: `100%`,
 										backgroundColor: theme.colors.helpSideBarColor,
 									},
 									li: {
 										border: `1px solid ${theme.colors.borderColor}`,
-										padding: '0',
 									},
 									a: {
-										color: 'white !important',
+										color: theme.colors.themeOpositeColor,
 										'&: hover': {
 											color: `${theme.colors.primaryColor} !important`,
 											backgroundColor: 'transparent !important',
@@ -53,7 +52,8 @@ class Help extends React.Component {
 							</div>
 						</Col>
 						<Col
-							sm={16}
+							className="help-container"
+							sm={24}
 							lg={18}
 							xs={24}
 							css={() => ({

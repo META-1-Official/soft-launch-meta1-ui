@@ -40,7 +40,7 @@ class ProposalModal extends React.Component {
 	};
 
 	constructor(props) {
-		super();
+		super(props);
 		this.state = {
 			active: null,
 			key: null,
@@ -67,7 +67,7 @@ class ProposalModal extends React.Component {
 
 	_onProposalAction(oldProposal) {
 		let proposalObject = oldProposal.toJS();
-		let {active, key, owner, payee} = this.state;
+		let {active, payee} = this.state;
 		const fee_paying_account = payee || active;
 
 		if (this.props.action === 'delete') {
@@ -296,7 +296,7 @@ class FirstLevel extends React.Component {
 		this._updateState = this._updateState.bind(this);
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		this._updateState();
 
 		ChainStore.subscribe(this._updateState);
@@ -307,7 +307,7 @@ class FirstLevel extends React.Component {
 	}
 
 	_updateState() {
-		let {proposal, account} = this.props;
+		let {proposal} = this.props;
 		let type = proposal.get('required_active_approvals').size
 			? 'active'
 			: 'owner';

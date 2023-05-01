@@ -11,13 +11,13 @@ class ShowcaseGrid extends Component {
 		this.state = {currentAccount: null};
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		this.setState({
 			currentAccount: ChainStore.getAccount(this.props.currentAccount),
 		});
 	}
 
-	componentWillReceiveProps(np) {
+	UNSAFE_componentWillReceiveProps(np) {
 		if (np.currentAccount !== this.props.currentAccount) {
 			this.setState({
 				currentAccount: ChainStore.getAccount(np.currentAccount),
@@ -43,7 +43,7 @@ class ShowcaseGrid extends Component {
 			},
 			{
 				title: 'showcases.barter.title',
-				target: (event) => {
+				target: () => {
 					thiz.props.history.push('/barter');
 				},
 				description: 'showcases.barter.description',
@@ -63,7 +63,7 @@ class ShowcaseGrid extends Component {
 			},
 			{
 				title: 'showcases.direct_debit.title',
-				target: (event) => {
+				target: () => {
 					thiz.props.history.push('/direct-debit');
 				},
 				description: 'showcases.direct_debit.description',
@@ -72,7 +72,7 @@ class ShowcaseGrid extends Component {
 			},
 			{
 				title: 'showcases.htlc.title',
-				target: (event) => {
+				target: () => {
 					thiz.props.history.push('/htlc');
 				},
 				description: 'showcases.htlc.description',
@@ -81,7 +81,7 @@ class ShowcaseGrid extends Component {
 			},
 			{
 				title: 'showcases.prediction_market.title',
-				target: (event) => {
+				target: () => {
 					thiz.props.history.push('/prediction');
 				},
 				description: 'showcases.prediction_market.description',

@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import {Col, Row, List, Avatar, Progress, Tabs, Typography} from 'antd';
+import counterpart from 'counterpart';
 import PageHeader from 'components/PageHeader/PageHeader';
 import {getBankingAssetsLogo, getGoldImage} from 'branding';
-import theme from '../../lib/styles/themeDark';
+import {useTheme} from '@emotion/react';
 import SearchInput from '../Utility/SearchInput';
 import {Apis} from 'meta1-vision-ws';
 
@@ -10,6 +11,8 @@ const {Text} = Typography;
 const {TabPane} = Tabs;
 
 const AssetExplorer = ({history}) => {
+	const theme = useTheme();
+
 	const bankingAssetsLogo = getBankingAssetsLogo();
 	const [backingAssets, setBackingAssets] = useState([]);
 	const [searchQuery, setSearchQuery] = useState('');
@@ -27,12 +30,12 @@ const AssetExplorer = ({history}) => {
 
 		var ochestratedAssets = [];
 		bk_assets.map(async (asset) => {
-			let status = 'Pending';
+			let status = counterpart.translate('exchange.asset_explorer.pending');
 			if (asset.approval_date) {
-				status = 'Approved';
+				status = counterpart.translate('exchange.asset_explorer.approved');
 			}
 			if (asset.expired && !asset.approval_date) {
-				status = 'Cancelled';
+				status = counterpart.translate('exchange.asset_explorer.cancelled');
 			}
 
 			ochestratedAssets.push({
@@ -87,25 +90,25 @@ const AssetExplorer = ({history}) => {
 						avatar={<Avatar src={getGoldImage()} className="asset-img" />}
 						description={
 							<Row>
-								<Col xs={24} sm={12} css={{paddingLeft: '1rem'}}>
+								<Col xs={24} sm={12} className="container">
 									<Text
 										onClick={() => onDescriptionClick(pid)}
-										css={(theme) => ({
+										style={{
 											color: theme.colors.descriptionTextColor,
 											fontSize: '16px',
 											cursor: 'pointer',
-										})}
+										}}
 									>
 										{description}
 									</Text>
 									<br />
 									<Text
-										css={(theme) => ({
-											color: 'white',
+										style={{
+											color: theme.colors.themeOpositeColor,
 											fontWeight: 'bold',
 											fontSize: '18px',
 											lineHeight: '45x',
-										})}
+										}}
 									>
 										${Number(descriptionAmount).toLocaleString()}
 									</Text>
@@ -113,7 +116,7 @@ const AssetExplorer = ({history}) => {
 								<Col
 									xs={24}
 									sm={6}
-									css={{
+									style={{
 										textAlign: 'center',
 										display: 'flex',
 										flexDirection: 'row',
@@ -121,11 +124,10 @@ const AssetExplorer = ({history}) => {
 									}}
 								>
 									<Text
-										css={(theme) => ({
+										className="content"
+										style={{
 											color: theme.colors.bankingAssetsStatusColor,
-											fontSize: '16px',
-											width: '100%',
-										})}
+										}}
 									>
 										{status}
 									</Text>
@@ -134,21 +136,17 @@ const AssetExplorer = ({history}) => {
 								<Col
 									xs={24}
 									sm={6}
-									css={{
+									style={{
 										display: 'flex',
 										flexDirection: 'column',
 										justifyContent: 'center',
 									}}
 								>
 									<Text
-										css={(theme) => ({
+										className="percentage-content"
+										style={{
 											color: percent > 50 ? '#0F923A' : '#FFC000',
-											float: 'right',
-											width: '170px',
-											textAlign: 'right',
-											fontSize: '15px',
-											marginBottom: '10px',
-										})}
+										}}
 									>
 										{percent}%
 									</Text>
@@ -170,40 +168,78 @@ const AssetExplorer = ({history}) => {
 
 	return (
 		<div className="backing-assets">
-			<PageHeader title="Backing Assets" level={3} showDivider />
+			<PageHeader
+				title={counterpart.translate('header.arts')}
+				level={3}
+				showDivider
+			/>
 			<div className="content-body">
-				<Row align="middle" gutter={[16, 16]} css={{padding: '30px'}}>
+				<Row align="middle" gutter={[16, 16]} className="header">
 					<Col xs={4} sm={3}>
 						<img src={bankingAssetsLogo} />
 					</Col>
-					<Col xs={20} sm={19} css={{display: 'flex', flexDirection: 'column'}}>
-						<Text className="title1">
-							Explore assets assigned to META1 coin on the META blockchain{' '}
+					<Col xs={20} sm={19} className="header-content">
+						<Text
+							className="title1"
+							style={{color: theme.colors.descriptionTextColor}}
+						>
+							{counterpart.translate(
+								'exchange.asset_explorer.explore_assets_assigned_to_meta1'
+							)}
 						</Text>
-						<Text className="title2">
-							META1 Coin Current Asset Value:{' '}
-							<Text className="golden">${meta1Price.toFixed(2)}</Text>
+						<Text
+							className="title2"
+							style={{color: theme.colors.themeOpositeColor}}
+						>
+							{counterpart.translate(
+								'exchange.asset_explorer.meta1_coin_current_asset_value'
+							)}
+							:&nbsp;
+							<Text className="golden">${meta1Price.toFixed(6)}</Text>
 						</Text>
-						<Text className="title3">
-							Asset Assignment statistics, history & data
+						<Text
+							className="title3"
+							style={{color: theme.colors.descriptionTextColor}}
+						>
+							{counterpart.translate(
+								'exchange.asset_explorer.asset_assignment_statistics_history_data'
+							)}
 						</Text>
 					</Col>
 				</Row>
 				<div className="list-wrapper">
 					<SearchInput
-						placeholder={'Search for backing assets'}
+						placeholder={counterpart.translate(
+							'exchange.asset_explorer.search_for_backing_assets'
+						)}
 						value={searchQuery}
 						onChange={onSearchChange}
 					/>
 					<Tabs defaultActiveKey="1" type="card">
-						<TabPane tab="Approved" key="1" className="approved-tab">
-							{renderList('Approved')}
+						<TabPane
+							tab={counterpart.translate('exchange.asset_explorer.approved')}
+							key="1"
+							className="approved-tab"
+						>
+							{renderList(
+								counterpart.translate('exchange.asset_explorer.approved')
+							)}
 						</TabPane>
-						<TabPane tab="Cancelled" key="2">
-							{renderList('Cancelled')}
+						<TabPane
+							tab={counterpart.translate('exchange.asset_explorer.cancelled')}
+							key="2"
+						>
+							{renderList(
+								counterpart.translate('exchange.asset_explorer.cancelled')
+							)}
 						</TabPane>
-						<TabPane tab="Pending" key="3">
-							{renderList('Pending')}
+						<TabPane
+							tab={counterpart.translate('exchange.asset_explorer.pending')}
+							key="3"
+						>
+							{renderList(
+								counterpart.translate('exchange.asset_explorer.pending')
+							)}
 						</TabPane>
 					</Tabs>
 				</div>

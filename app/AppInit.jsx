@@ -8,7 +8,7 @@ import WalletManagerStore from 'stores/WalletManagerStore';
 import AccountStore from 'stores/AccountStore';
 import SettingsStore from 'stores/SettingsStore';
 import IntlStore from 'stores/IntlStore';
-import intlData from './components/Utility/intlData';
+import intlData from 'constants/intlData';
 import alt from 'alt-instance';
 import {connect, supplyFluxContext} from 'alt-react';
 import {IntlProvider} from 'react-intl';
@@ -34,7 +34,7 @@ const ss = new ls(STORAGE_KEY);
 const ss_graphene = new ls('__graphene__');
 
 class RootIntl extends React.Component {
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		IntlActions.switchLocale(this.props.locale);
 	}
 
@@ -66,14 +66,6 @@ class AppInit extends React.Component {
 		};
 		this.mounted = true;
 		this.persistentLogEnabled = false;
-	}
-
-	/**
-	 * Global error catching and forwarding to log handler
-	 * @param error
-	 */
-	componentDidCatch(error) {
-		// this.saveExtendedLog('error', [error]);
 	}
 
 	componentDidUpdate(nextProps, nextState) {
@@ -179,7 +171,7 @@ class AppInit extends React.Component {
 		this.persistentLogEnabled = true;
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		if (!__DEV__) {
 			this._enablePersistingLog();
 		}
@@ -232,7 +224,7 @@ class AppInit extends React.Component {
 			};
 			axios
 				.post(process.env.LITE_WALLET_URL + '/verifyToken', {}, config)
-				.then((response) => {})
+				.then(() => {})
 				.catch((error) => {
 					console.log('error', error);
 					WalletUnlockActions.lock_v2().finally(() => {

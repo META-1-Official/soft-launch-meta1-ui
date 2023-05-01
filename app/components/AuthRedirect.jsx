@@ -1,12 +1,11 @@
 import React from 'react';
-// import {withRouter} from "react-router-dom";
 import {connect} from 'alt-react';
 import {ChainStore} from 'meta1-vision-js';
 import {PrivateKey, FetchChain, key} from 'meta1-vision-js/es';
 import qs from 'qs';
 import axios from 'axios';
-import {Helmet} from 'react-helmet';
-import {Modal} from 'antd';
+import {Modal, Select} from 'antd';
+import counterpart from 'counterpart';
 import AuthStore from '../stores/AuthStore';
 import AccountStore from '../stores/AccountStore';
 import AccountActions from '../actions/AccountActions';
@@ -14,14 +13,15 @@ import WalletDb from '../stores/WalletDb';
 import WalletUnlockStore from '../stores/WalletUnlockStore';
 import TransactionConfirmStore from '../stores/TransactionConfirmStore';
 import WalletUnlockActions from '../actions/WalletUnlockActions';
-import LoadingIndicator from './LoadingIndicator';
 import ls from '../lib/common/localStorage';
 import faceKIService from '../services/face-ki.service';
 import kycService from 'services/kyc.service';
-import Webcam from 'react-webcam';
-import {Form, Input, Button, Tooltip} from 'antd';
+import {Camera} from 'react-camera-pro';
+import {Button} from 'antd';
 import {toast} from 'react-toastify';
+
 const OvalImage = require('assets/oval/oval.png');
+const FlipImage = require('assets/flip.png');
 
 const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
@@ -36,7 +36,27 @@ const browserstack_test_accounts = [
 	'mary-14',
 	'bond-03',
 	'rock-64',
+	'rock-3',
+	'bond-02',
+	'jin124',
+	'antman-kok357',
+	'user-x01',
 ];
+
+const errorCase = {
+	'Camera Not Found': counterpart.translate('registration.check_camera'),
+	'Not Matched': counterpart.translate('registration.email_wallet_not_matched'),
+	'Verify Failed': counterpart.translate('registration.verify_failed'),
+	'No Users': counterpart.translate('registration.no_users'),
+	'Spoof Detected': counterpart.translate('registration.spoof_detected'),
+	'Face not Detected': counterpart.translate('registration.face_not_detected'),
+	'Invalid Email': counterpart.translate(
+		'registration.invalid_biometric_email'
+	),
+	'Biometic Server Error': counterpart.translate(
+		'registration.biometric_server_error'
+	),
+};
 
 class AuthRedirect extends React.Component {
 	constructor() {
@@ -46,11 +66,15 @@ class AuthRedirect extends React.Component {
 			redirectFromESign: false,
 			login: false,
 			faceKISuccess: false,
-			device: {},
+			devices: [],
 			token: '',
 			webcamEnabled: true,
 			verifying: false,
 			photoIndex: 0,
+			width: 0,
+			height: 0,
+			numberOfCameras: 0,
+			activeDeviceId: '',
 		};
 
 		this.generateAuthData = this.generateAuthData.bind(this);
@@ -64,16 +88,10 @@ class AuthRedirect extends React.Component {
 	}
 
 	componentDidMount() {
-		const {openLogin, privKey, authData, setOpenLoginInstance} = this.props;
+		const {openLogin, privKey, setOpenLoginInstance} = this.props;
 		const loginAccountName = ss.get('account_login_name', '');
 
 		if (this.props.location && this.props.location.search) {
-			const param = qs.parse(this.props.location.search, {
-				ignoreQueryPrefix: true,
-			}).mode;
-			const jwt = qs.parse(this.props.location.search, {
-				ignoreQueryPrefix: true,
-			}).token;
 			const eSignSuccess = qs.parse(this.props.location.search, {
 				ignoreQueryPrefix: true,
 			}).signature;
@@ -92,19 +110,38 @@ class AuthRedirect extends React.Component {
 		if (loginAccountName && privKey) {
 			this.loadVideo(true);
 		}
+
+		window.addEventListener('resize', this.updateDimensions);
 	}
 
-	loadVideo(flag) {
+	updateDimensions = () => {
+		this.setState({width: window.innerWidth, height: window.innerHeight});
+	};
+
+	componentWillUnmount() {
+		window.removeEventListener('resize', this.updateDimensions);
+	}
+
+	UNSAFE_componentWillMount() {
+		this.updateDimensions();
+	}
+
+	async loadVideo(flag) {
 		const videoTag = document.querySelector('video');
 		const features = {audio: false, video: true};
 
+		console.log('loadvideo');
+
 		if (flag) {
 			return navigator.mediaDevices
-				.getUserMedia(features)
-				.then((display) => {
+				.enumerateDevices()
+				.then((devices) => {
+					const videoDevices = devices.filter((i) => i.kind == 'videoinput');
+
 					this.setState({
 						webcamEnabled: true,
-						device: display?.getVideoTracks()[0]?.getSettings(),
+						devices: videoDevices,
+						activeDeviceId: videoDevices[0].deviceId,
 					});
 				})
 				.finally(() => {
@@ -139,7 +176,7 @@ class AuthRedirect extends React.Component {
 		}
 	}
 
-	dataURLtoFile(dataurl, filename) {
+	async dataURLtoFile(dataurl, filename) {
 		var arr = dataurl.split(','),
 			mime = arr[0].match(/:(.*?);/)[1],
 			bstr = atob(arr[1]),
@@ -151,9 +188,13 @@ class AuthRedirect extends React.Component {
 		return new File([u8arr], filename, {type: mime});
 	}
 
+	isMobile() {
+		return window.innerWidth < window.innerHeight;
+	}
+
 	async checkAndVerify() {
 		const {privKey, authData} = this.props;
-		const {photoIndex} = this.state;
+		const {photoIndex, device} = this.state;
 		const accountName = ss.get('account_login_name', '');
 
 		if (!accountName || !privKey) return;
@@ -165,42 +206,40 @@ class AuthRedirect extends React.Component {
 		);
 
 		if (!response_user?.member1Name) {
-			toast('Email and wallet name are not matched.');
+			toast(errorCase['Not Matched']);
 			this.setState({verifying: false});
 			return;
 		} else {
 			const walletArry = response_user.member1Name.split(',');
 
 			if (!walletArry.includes(accountName)) {
-				toast('Email and wallet name are not matched.');
+				toast(errorCase['Not Matched']);
 				this.setState({verifying: false});
 				return;
 			}
 		}
 
-		const imageSrc = this.webcamRef.current.getScreenshot({
-			width: 1280,
-			height: 720,
-		});
+		const imageSrc = this.webcamRef.current.takePhoto();
 
 		if (!imageSrc) {
-			toast('Please check your camera.');
+			toast(errorCase['Camera Not Found']);
 			this.setState({verifying: false});
 			return;
 		}
 
 		var file = await this.dataURLtoFile(imageSrc, 'a.jpg');
+
 		const response = await faceKIService.liveLinessCheck(file);
 		this.setState({photoIndex: photoIndex + 1});
 
 		if (!response) {
-			toast('Something went wrong from Biometric server.');
+			toast(errorCase['Biometic Server Error']);
 			this.setState({verifying: false, photoIndex: 0});
 			return;
 		}
 
-		if (response.data.liveness !== 'Genuine' && photoIndex === 10) {
-			toast('Try again by changing position or background.');
+		if (response.data.liveness !== 'Genuine' && photoIndex === 5) {
+			toast(errorCase['Face not Detected']);
 			this.setState({verifying: false, photoIndex: 0});
 		} else if (response.data.liveness === 'Genuine') {
 			this.setState({photoIndex: 0});
@@ -212,7 +251,6 @@ class AuthRedirect extends React.Component {
 
 	async faceVerify(file) {
 		const {privKey, authData} = this.props;
-		let msg = '';
 
 		const response_verify = await faceKIService.verify(file);
 		if (response_verify.status === 'Verify OK') {
@@ -223,15 +261,11 @@ class AuthRedirect extends React.Component {
 				this.setState({verifying: false});
 				this.continueLogin();
 			} else {
-				msg =
-					'Bio-metric verification failed for this email. Please use an email that has been linked to your biometric verification / enrollment.';
-				toast(msg);
+				toast(errorCase['Invalid Email']);
 				this.setState({verifying: false});
 			}
 		} else if (response_verify.status === 'Verify Failed') {
-			msg =
-				'We can not verify you because you never enrolled with your face yet.';
-			toast(msg);
+			toast(errorCase['Verify Failed']);
 			this.setState({verifying: false});
 		} else {
 			toast('Please try again.');
@@ -275,7 +309,7 @@ class AuthRedirect extends React.Component {
 				console.log('Error in e-sign token generation', err);
 			}
 		} else {
-			alert('Verify first!');
+			alert(counterpart.translate('registration.verify_first'));
 		}
 	}
 
@@ -293,6 +327,7 @@ class AuthRedirect extends React.Component {
 
 				setAuthData(data);
 				setPrivKey('web3authprivatekey');
+				this.loadVideo(true);
 			} else {
 				this.props.history.push('/registration');
 			}
@@ -302,7 +337,6 @@ class AuthRedirect extends React.Component {
 	}
 
 	async authProceed() {
-		const {privKey, authData} = this.props;
 		const {redirectFromESign} = this.state;
 		const regUserName = ss.get('account_registration_name', '');
 		const logInUserName = ss.get('account_login_name', '');
@@ -418,6 +452,11 @@ class AuthRedirect extends React.Component {
 	};
 
 	render() {
+		const {width} = this.state;
+		const theme = this.props.theme;
+		const aspectRatio = 1.07;
+		const webCamWidth = width > 576 ? 500 : width - 70;
+
 		return (
 			<React.Fragment>
 				{this.state.login && (
@@ -429,91 +468,110 @@ class AuthRedirect extends React.Component {
 						leftHeader
 						zIndex={1001}
 						footer={null}
-						style={{
-							display: 'flex',
-							flexDirection: 'column',
-							alignItems: 'center',
-							justifyContent: 'center',
-						}}
 						className="custom-auth-faceki"
 						closable={false}
 						maskClosable={false}
 					>
-						<h4 style={{textAlign: 'center', fontWeight: 'bold'}}>
-							Authenticate Your Face
+						<h4>
+							{counterpart.translate('registration.authenticate_your_face')}
 						</h4>
-						<h5 style={{textAlign: 'center', fontSize: 16}}>
-							To log into your wallet, please complete biometric authentication
+						<h5>
+							{counterpart.translate(
+								'registration.require_biometric_authentication'
+							)}
 						</h5>
-						<br />
 						{this.state.webcamEnabled && (
 							<div
-								style={{
-									position: 'relative',
-								}}
+								className="webcam-wrapper"
+								style={{width: webCamWidth, height: webCamWidth / aspectRatio}}
 							>
 								<div className="flex-container">
 									<div className="flex-container-first">
-										<div className="position-head color-black">
-											Position your face in the oval
+										<div className="position-head">
+											{counterpart.translate(
+												'registration.requiure_face_in_oval'
+											)}
 										</div>
 									</div>
 									<button className="btn-x" onClick={this.handleModalClose}>
 										X
 									</button>
 								</div>
-								<Webcam
-									audio={false}
+								{this.state.numberOfCameras > 1 && (
+									<img
+										className="flip-button"
+										src={FlipImage}
+										onClick={() => {
+											if (this.webcamRef.current) {
+												const result = this.webcamRef.current.switchCamera();
+											}
+										}}
+									/>
+								)}
+								<Camera
 									ref={this.webcamRef}
-									screenshotFormat="image/jpeg"
-									width={500}
-									videoConstraints={{deviceId: this.state.device?.deviceId}}
-									height={
-										this.state.device?.aspectRatio
-											? 500 / this.state.device?.aspectRatio
-											: 385
+									aspectRatio="cover"
+									numberOfCamerasCallback={(i) =>
+										this.setState({numberOfCameras: i})
 									}
-									mirrored
-								/>
-								<img
-									src={OvalImage}
-									alt="oval-image"
-									className="oval-image"
-									style={{
-										position: 'absolute',
-										width: '100%',
-										height: '100%',
-										top: 0,
-										left: 0,
-										zIndex: 200,
-										opacity: 0.8,
+									videoSourceDeviceId={this.state.activeDeviceId}
+									errorMessages={{
+										noCameraAccessible:
+											'No camera device accessible. Please connect your camera or try a different browser.',
+										permissionDenied:
+											'Permission denied. Please refresh and give camera permission.',
+										switchCamera:
+											'It is not possible to switch camera to different one because there is only one video device accessible.',
+										canvas: 'Canvas is not supported.',
 									}}
 								/>
+								<img src={OvalImage} alt="oval-image" className="oval-image" />
 								<div className="flex_container">
-									<span className="span-class color-black">
+									<span className="span-class">
 										{!this.state.faceKISuccess
-											? 'Press verify to complete authentication and log in'
-											: 'Verification Successful!'}
+											? counterpart.translate(
+													'registration.require_verification'
+											  )
+											: counterpart.translate(
+													'registration.verification_success'
+											  )}
 									</span>
-									<div className="span-class color-black">
-										Min camera resolution must be 720p
+									<div className="span-class">
+										{counterpart.translate(
+											'registration.require_min_camera_resolution'
+										)}
 									</div>
-									<div className="span-class color-black">
-										Verifying will take 10 seconds as maximum
+									<div className="span-class">
+										{counterpart.translate(
+											'registration.verification_duration'
+										)}
 									</div>
 								</div>
 							</div>
 						)}
-						<div
-							style={{
-								display: 'flex',
-								justifyContent: 'center',
-								marginTop: '10px',
-							}}
-						>
+						<div style={{width: webCamWidth}}>
+							<Select
+								value={this.state.activeDeviceId}
+								onChange={(value) => {
+									let errMsgEle =
+										document.getElementById('video').previousSibling;
+									errMsgEle && errMsgEle.remove();
+									this.setState({activeDeviceId: value});
+								}}
+								getPopupContainer={(triggerNode) => triggerNode.parentNode}
+							>
+								{this.state.devices.map((d) => {
+									return (
+										<Select.Option key={d.deviceId} value={d.deviceId}>
+											{d.label}
+										</Select.Option>
+									);
+								})}
+							</Select>
+						</div>
+						<div className="button-wrapper">
 							<Button
 								onClick={() => this.checkAndVerify()}
-								style={{background: '#ffcc00', border: 'none'}}
 								disabled={
 									this.state.verifying
 										? true
@@ -522,7 +580,9 @@ class AuthRedirect extends React.Component {
 										: false
 								}
 							>
-								{this.state.verifying ? 'Verifying...' : 'Verify'}
+								{this.state.verifying
+									? counterpart.translate('registration.faceki_verifying')
+									: counterpart.translate('registration.faceki_verify')}
 							</Button>
 						</div>
 					</Modal>

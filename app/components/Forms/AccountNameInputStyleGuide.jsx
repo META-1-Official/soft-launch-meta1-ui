@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import AccountActions from 'actions/AccountActions';
 import AccountStore from 'stores/AccountStore';
 import {ChainValidation} from 'meta1-vision-js';
@@ -9,7 +8,7 @@ import AltContainer from 'alt-container';
 import ReactTooltip from 'react-tooltip';
 import {Form, Input} from 'antd';
 import migrationService from 'services/migration.service';
-import {debounce, memoize, wrap, property} from 'lodash-es';
+import {debounce} from 'lodash-es';
 
 class AccountNameInput extends React.Component {
 	static propTypes = {
@@ -114,60 +113,60 @@ class AccountNameInput extends React.Component {
 	}
 
 	async validateAccountName(value) {
+		let error = counterpart.translate(
+			'registration.validation.invalid_wallet_name'
+		);
 		if (value === '') {
 			this.setState({
 				value: value,
-				error: 'Please enter valid wallet name',
+				error: error,
 				warning: null,
 			});
 			this.props.onChange({value, valid: false});
 			return;
 		}
-		this.state.error =
+		error =
 			value === ''
-				? 'Please enter valid wallet name'
+				? counterpart.translate('registration.validation.invalid_wallet_name')
 				: ChainValidation.is_account_name_error(value);
-		this.state.error =
-			this.state.error && this.state.error.replace('Account', 'Wallet');
+		error = error && error.replace('Account', 'Wallet');
 
 		if (value !== '' && value.length < 4) {
-			this.state.error = 'Wallet name should be longer.';
+			error = counterpart.translate(
+				'registration.validation.short_wallet_name'
+			);
 			this.setState({
 				value: value,
-				error: 'Wallet name should be longer.',
+				error: error,
 				warning: null,
 			});
 			this.props.onChange({value, valid: false});
 			return;
 		}
-		this.state.warning = null;
+		let warning = null;
 		if (this.props.cheapNameOnly) {
-			if (!this.state.error && !ChainValidation.is_cheap_name(value))
-				this.state.error = counterpart.translate(
-					'account.name_input.premium_name_faucet'
-				);
+			if (!error && !ChainValidation.is_cheap_name(value))
+				error = counterpart.translate('account.name_input.premium_name_faucet');
 		} else {
-			if (!this.state.error && !ChainValidation.is_cheap_name(value))
-				this.state.warning = counterpart.translate(
+			if (!error && !ChainValidation.is_cheap_name(value))
+				warning = counterpart.translate(
 					'account.name_input.premium_name_warning'
 				);
 		}
 
-		if (!this.state.error && !this.isVowelsExistAndHasNumber(value)) {
-			this.state.error = counterpart.translate(
-				'account.name_input.name_with_dash_number'
-			);
+		if (!error && !this.isVowelsExistAndHasNumber(value)) {
+			error = counterpart.translate('account.name_input.name_with_dash_number');
 		}
 
 		const response = await migrationService.checkOldUser(value);
 		if (response?.found === true) {
-			this.state.error = null;
+			error = null;
 		}
 
 		this.setState({
 			value: value,
-			error: this.state.error,
-			warning: this.state.warning,
+			error: error,
+			warning: warning,
 		});
 
 		if (this.props.onChange)
@@ -181,7 +180,7 @@ class AccountNameInput extends React.Component {
 		let timeout;
 		return (...args) => {
 			clearTimeout(timeout);
-			timeout = setTimeout(() => func(...arg), wait);
+			timeout = setTimeout(() => func(...args), wait);
 		};
 	}
 
@@ -204,11 +203,7 @@ class AccountNameInput extends React.Component {
 
 	render() {
 		let error = this.getError() || '';
-		let class_name = classNames('form-group', 'account-name', {
-			'has-error': false,
-		});
 		let warning = this.state.warning;
-		// let {noLabel} = this.props;
 
 		const getHelp = () => {
 			return error ? error : warning ? warning : '';

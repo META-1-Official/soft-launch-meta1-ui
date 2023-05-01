@@ -20,7 +20,6 @@ import {ChainTypes} from 'meta1-vision-js';
 let {operations} = ChainTypes;
 import ReactTooltip from 'react-tooltip';
 import moment from 'moment';
-import {Link, DirectLink} from 'react-scroll';
 import {Tooltip} from 'antd';
 import JSONModal from 'components/Modal/JSONModal';
 import asset_utils from '../../lib/common/asset_utils';

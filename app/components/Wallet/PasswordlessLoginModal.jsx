@@ -7,14 +7,13 @@ import AccountStore from 'stores/AccountStore';
 import AuthStore from 'stores/AuthStore';
 import WalletUnlockActions from 'actions/WalletUnlockActions';
 import {Apis} from 'meta1-vision-ws';
-import {Modal, Button, Form, Input, notification, Typography} from 'antd';
+import {Modal, Button, Form, notification, Typography} from 'antd';
 import utils from 'common/utils';
 import AccountSelector from '../Account/AccountSelectorAnt';
 import counterpart from 'counterpart';
 import {DisableChromeAutocomplete} from './WalletUnlockModalLib';
 import {withRouter} from 'react-router-dom';
 import ls from 'lib/common/localStorage';
-import {MailOutlined} from '@ant-design/icons';
 import AccountActions from 'actions/AccountActions';
 import LoginProvidersModal from 'components/Web3Auth/LoginProvidersModal';
 import axios from 'axios';
@@ -23,7 +22,7 @@ import kycService from 'services/kyc.service';
 const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
 const ss_graphene = new ls('__graphene__');
-const {Text, Title} = Typography;
+const {Title} = Typography;
 
 const browserstack_test_accounts = [
 	'gem-1',
@@ -34,6 +33,11 @@ const browserstack_test_accounts = [
 	'mary-14',
 	'bond-03',
 	'rock-64',
+	'rock-3',
+	'bond-02',
+	'jin124',
+	'antman-kok357',
+	'user-x01',
 ];
 
 class PasswordlessLoginModal extends React.Component {
@@ -175,7 +179,7 @@ class PasswordlessLoginModal extends React.Component {
 	};
 
 	render() {
-		const {accountName, isOpen} = this.state;
+		const {accountName} = this.state;
 		return (
 			<>
 				<Modal
@@ -192,9 +196,14 @@ class PasswordlessLoginModal extends React.Component {
 					footer={null}
 					onCancel={this.handleModalClose}
 				>
-					<Title className="header-title1">META1 Wallet Login</Title>
+					<Title className="header-title1">
+						META1 {counterpart.translate('wallet.title')}{' '}
+						{counterpart.translate('header.unlock_short')}
+					</Title>
 					<div className="header-title2">
-						Login with Wallet name(Cloud wallet)
+						{counterpart.translate('account.login_with')}{' '}
+						{counterpart.translate('account.name')} (
+						{counterpart.translate('wallet.password_model')})
 					</div>
 					<Form
 						className="full-width"
@@ -236,10 +245,13 @@ class PasswordlessLoginModal extends React.Component {
 							}
 							ref={this.login_btn_ref}
 						>
-							Login
+							{counterpart.translate('header.unlock_short')}
 						</Button>
 						<div className="redirect">
-							Or create your <a href="/registration">wallet</a>
+							{counterpart.translate('registration.or_create_your')}&nbsp;
+							<a href="/registration">
+								{counterpart.translate('account.name')}
+							</a>
 						</div>
 					</div>
 				</Modal>

@@ -1,22 +1,16 @@
 import alt from 'alt-instance';
 import ls from 'lib/common/localStorage';
 
-const STORAGE_KEY = '__AuthData__';
-const ss = new ls(STORAGE_KEY);
+const ls_auth = new ls('__AuthData__');
+const ls_graphene = new ls('__graphene__');
 
 class WalletUnlockActions {
-	/** If you get resolved then the wallet is or was just unlocked.  If you get
-        rejected then the wallet is still locked.
-
-        @return nothing .. Just test for resolve() or reject()
-    */
 	unlock() {
 		return (dispatch) => {
 			return new Promise((resolve, reject) => {
 				dispatch({resolve, reject});
 			})
 				.then((was_unlocked) => {
-					//DEBUG  console.log('... WalletUnlockStore\tmodal unlock')
 					if (was_unlocked) WrappedWalletUnlockActions.change();
 				})
 				.catch((params) => {
@@ -30,7 +24,7 @@ class WalletUnlockActions {
 			return new Promise((resolve, reject) => {
 				dispatch({resolve_v2: resolve, reject_v2: reject});
 			})
-				.then((was_unlocked) => {})
+				.then(() => {})
 				.catch((params) => {
 					throw params;
 				});
@@ -38,9 +32,9 @@ class WalletUnlockActions {
 	}
 
 	lock() {
-		const referred_user = ss.get('referred_user_id', 'null');
-		const account_login_name = ss.get('account_login_name', '');
-		const account_login_token = ss.get('account_login_token', '');
+		const referred_user = ls_auth.get('referred_user_id', 'null');
+		const account_login_name = ls_auth.get('account_login_name', '');
+		const account_login_token = ls_auth.get('account_login_token', '');
 
 		return (dispatch) => {
 			return new Promise((resolve) => {
@@ -51,11 +45,11 @@ class WalletUnlockActions {
 				// Keep passwordless login info
 				referred_user !== null &&
 					referred_user !== 'null' &&
-					ss.set('referred_user_id', referred_user);
+					ls_auth.set('referred_user_id', referred_user);
 				if (account_login_name)
-					ss.set('account_login_name', account_login_name);
+					ls_auth.set('account_login_name', account_login_name);
 				if (account_login_token)
-					ss.set('account_login_token', account_login_token);
+					ls_auth.set('account_login_token', account_login_token);
 				if (was_unlocked) WrappedWalletUnlockActions.change();
 			});
 		};
@@ -65,8 +59,12 @@ class WalletUnlockActions {
 		return (dispatch) => {
 			return new Promise((resolve_v2) => {
 				dispatch({resolve_v2});
-			}).then((was_unlocked) => {
-				localStorage.clear();
+			}).then(() => {
+				ls_graphene.remove('currentAccount');
+				ls_graphene.remove('passwordlessAccount');
+				ls_graphene.remove('currentAccount_1e265722');
+				ls_graphene.remove('passwordlessAccount_1e265722');
+				ls_auth.remove('account_login_name');
 			});
 		};
 	}

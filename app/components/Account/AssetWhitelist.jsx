@@ -213,7 +213,7 @@ class AssetWhitelist extends React.Component {
 
 	render() {
 		const {accountTable, listType} = this.state;
-		const activeIndex = this.state.listTypes.indexOf(this.state.listType);
+		const activeIndex = this.state.listTypes.indexOf(listType);
 
 		return (
 			<div className="small-12 large-8 large-offset-2 grid-content">

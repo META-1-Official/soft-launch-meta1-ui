@@ -119,7 +119,7 @@ class BorrowModalContent extends React.Component {
 		);
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		const {debtAmount, collateral, collateral_ratio} = this.state;
 
 		if (
@@ -797,19 +797,12 @@ export default class ModalWrapper extends React.Component {
 	constructor() {
 		super();
 		this.state = {
-			smallScreen: false,
 			open: false,
 		};
 	}
 
 	show() {
 		this.props.showModal();
-	}
-
-	componentWillMount() {
-		this.setState({
-			smallScreen: window.innerHeight <= 800,
-		});
 	}
 
 	render() {
@@ -844,7 +837,6 @@ export default class ModalWrapper extends React.Component {
 				debtBalanceObj={bitAssetBalance}
 				collateralBalanceObj={coreBalance}
 				backingAssetObj={backingAssetObj}
-				disableHelp={this.state.smallScreen}
 				accountObj={accountObj}
 			/>
 		) : null;

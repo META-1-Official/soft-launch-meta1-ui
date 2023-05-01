@@ -26,3 +26,53 @@
 	color: white;
 	font-size: 14px;
 }
+
+.menu {
+	padding: 20px;
+	height: 100%;
+
+	@media (max-width: 990px) {
+		height: fit-content !important;
+
+		ul {
+			height: 44px !important;
+			display: flex;
+			overflow-x: scroll;
+			overflow-y: hidden;
+			margin: 0px;
+		}
+		li {
+			width: unset !important;
+			border: 0px solid transparent !important;
+			div {
+				width: fit-content !important;
+				display: flex !important;
+				justify-content: center;
+				padding: 6px 19px 6px !important;
+
+				a {
+					white-space: nowrap;
+				}
+			}
+			.selected {
+				border-bottom: 2px solid yellow !important;
+				border-right: 2px solid transparent !important;
+			}
+		}
+		a: {
+			display: block;
+		}
+	}
+	ul {
+		list-style: none !important;
+		height: 100%;
+	}
+	li {
+		padding: 0;
+		float: left;
+		width: 100%;
+	}
+}
+.help-container {
+	margin-bottom: 100px !important;
+}

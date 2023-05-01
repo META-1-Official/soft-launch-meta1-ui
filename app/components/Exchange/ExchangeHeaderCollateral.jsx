@@ -80,11 +80,7 @@ class MarginPosition extends React.Component {
 	}
 
 	render() {
-		let {object} = this.props;
-		const co = object.toJS();
 		const cr = this._getCollateralRatio();
-		const d = utils.get_asset_amount(co.debt, this.props.debtAsset);
-
 		const statusClass = this._getStatusClass();
 
 		return (

@@ -1,5 +1,5 @@
-var coffee = require('coffee-script');
-var babel_jest = require('babel-jest');
+const coffee = require('coffee-script');
+const babel_jest = require('babel-jest');
 
 module.exports = {
 	process: function (src, path) {

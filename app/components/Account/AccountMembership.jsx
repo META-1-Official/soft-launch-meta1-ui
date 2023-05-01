@@ -6,10 +6,8 @@ import ChainTypes from '../Utility/ChainTypes';
 import BindToChainState from '../Utility/BindToChainState';
 import Statistics from './Statistics';
 import AccountActions from 'actions/AccountActions';
-import TimeAgo from '../Utility/TimeAgo';
 import HelpContent from '../Utility/HelpContent';
 import accountUtils from 'common/account_utils';
-import {Tabs, Tab} from '../Utility/Tabs';
 import {getWalletName} from 'branding';
 import {getWalletURL} from '../../branding';
 
@@ -54,7 +52,7 @@ class AccountMembership extends React.Component {
 		AccountActions.upgradeAccount(id, lifetime);
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		accountUtils.getFinalFeeAsset(this.props.account, 'account_upgrade');
 	}
 
@@ -92,189 +90,166 @@ class AccountMembership extends React.Component {
 			10000;
 
 		let member_status = ChainStore.getAccountMemberStatus(this.props.account);
-		let membership = 'account.member.' + member_status;
-		let expiration = null;
-		if (member_status === 'annual')
-			expiration = (
-				<span>
-					(<Translate content="account.member.expires" />{' '}
-					<TimeAgo time={account.membership_expiration_date} />)
-				</span>
-			);
 		let expiration_date = account.membership_expiration_date;
 		if (expiration_date === '1969-12-31T23:59:59') expiration_date = 'Never';
 		else if (expiration_date === '1970-01-01T00:00:00') expiration_date = 'N/A';
 
 		return (
-			<div className="grid-content app-tables member-stats" ref="appTables">
-				<div className="content-block small-12">
-					<div className="tabs-container generic-bordered-box">
-						<h3>
-							{member_status === 'lifetime' ? (
-								<Translate content="account.member.lifetime" />
-							) : (
-								<Translate content="account.member.basic" />
-							)}
-						</h3>
-						{member_status === 'lifetime' ? null : (
-							<div>
-								<div className="large-6 medium-8">
-									<HelpContent
-										path="components/AccountMembership"
-										section="lifetime"
-										feesCashback={100 - network_fee}
-										price={{
-											amount: lifetime_cost,
-											asset: core_asset,
-										}}
-									/>
-									<div
-										className="button no-margin"
-										onClick={this.upgradeAccount.bind(this, account.id, true)}
-									>
-										<Translate content="account.member.upgrade_lifetime" />
-									</div>{' '}
-									&nbsp; &nbsp;
-									{true || member_status === 'annual' ? null : (
-										<div
-											className="button"
-											onClick={this.upgradeAccount.bind(
-												this,
-												account.id,
-												false
-											)}
-										>
-											<Translate content="account.member.subscribe" />
-										</div>
-									)}
-								</div>
-								<br />
-								<hr />
-							</div>
+			<div className="app-tables member-stats" ref="appTables">
+				<div className="tabs-container">
+					<h3>
+						{member_status === 'lifetime' ? (
+							<Translate content="account.member.lifetime" />
+						) : (
+							<Translate content="account.member.basic" />
 						)}
-
-						<div className="content-block no-margin">
-							<div className="no-margin grid-block vertical large-horizontal">
-								<div className="left">
-									<div className="grid-content">
-										{member_status === 'lifetime' ? (
-											<div>
-												<h4>
-													<Translate content="account.member.referral_link" />
-												</h4>
-												<p>
-													<Translate
-														content="account.member.referral_text"
-														wallet_name={getWalletName()}
-													/>
-													:
-													<a
-														href={
-															getWalletURL() +
-															`/registration/?r=${account.name}`
-														}
-													>
-														{getWalletURL() +
-															`/registration/?r=${account.name}`}{' '}
-													</a>
-												</p>
-											</div>
-										) : null}
+					</h3>
+					{member_status === 'lifetime' ? null : (
+						<div>
+							<div className="large-6 medium-8">
+								<HelpContent
+									path="components/AccountMembership"
+									section="lifetime"
+									feesCashback={100 - network_fee}
+									price={{
+										amount: lifetime_cost,
+										asset: core_asset,
+									}}
+								/>
+								<div
+									className="button no-margin"
+									onClick={this.upgradeAccount.bind(this, account.id, true)}
+								>
+									<Translate content="account.member.upgrade_lifetime" />
+								</div>{' '}
+								&nbsp; &nbsp;
+								{true || member_status === 'annual' ? null : (
+									<div
+										className="button"
+										onClick={this.upgradeAccount.bind(this, account.id, false)}
+									>
+										<Translate content="account.member.subscribe" />
+									</div>
+								)}
+							</div>
+							<br />
+							<hr />
+						</div>
+					)}
+					<div className="content-block no-margin">
+						<div className="left">
+							<div className="grid-content">
+								{member_status === 'lifetime' ? (
+									<div>
 										<h4>
-											<Translate content="account.member.fee_allocation" />
+											<Translate content="account.member.referral_link" />
 										</h4>
-										<table className="table key-value-table">
-											<tbody>
-												<tr>
-													<td>
-														<Translate content="account.member.network_percentage" />
-													</td>
-													<td>{network_fee}%</td>
-												</tr>
-												<tr>
-													<td>
-														<Translate content="account.member.lifetime_referrer" />{' '}
-														&nbsp; (
-														<Link
-															to={`/account/${account.lifetime_referrer_name}`}
-														>
-															{account.lifetime_referrer_name}
-														</Link>
-														)
-													</td>
-													<td>{lifetime_fee}%</td>
-												</tr>
-												<tr>
-													<td>
-														<Translate content="account.member.registrar" />{' '}
-														&nbsp; (
-														<Link to={`/account/${account.registrar_name}`}>
-															{account.registrar_name}
-														</Link>
-														)
-													</td>
-													<td>{registrar_fee}%</td>
-												</tr>
-												<tr>
-													<td>
-														<Translate content="account.member.referrer" />{' '}
-														&nbsp; (
-														<Link to={`/account/${account.referrer_name}`}>
-															{account.referrer_name}
-														</Link>
-														)
-													</td>
-													<td>{referrer_fee}%</td>
-												</tr>
-												<tr>
-													<td>
-														<Translate content="account.member.membership_expiration" />{' '}
-													</td>
-													<td>{expiration_date}</td>
-												</tr>
-											</tbody>
-										</table>
+										<p>
+											<Translate
+												content="account.member.referral_text"
+												wallet_name={getWalletName()}
+											/>
+											:
+											<a
+												href={
+													getWalletURL() + `/registration/?r=${account.name}`
+												}
+											>
+												{getWalletURL() + `/registration/?r=${account.name}`}{' '}
+											</a>
+										</p>
+									</div>
+								) : null}
+								<h4>
+									<Translate content="account.member.fee_allocation" />
+								</h4>
+								<table className="table key-value-table">
+									<tbody>
+										<tr>
+											<td>
+												<Translate content="account.member.network_percentage" />
+											</td>
+											<td>{network_fee}%</td>
+										</tr>
+										<tr>
+											<td>
+												<Translate content="account.member.lifetime_referrer" />{' '}
+												&nbsp; (
+												<Link to={`/account/${account.lifetime_referrer_name}`}>
+													{account.lifetime_referrer_name}
+												</Link>
+												)
+											</td>
+											<td>{lifetime_fee}%</td>
+										</tr>
+										<tr>
+											<td>
+												<Translate content="account.member.registrar" /> &nbsp;
+												(
+												<Link to={`/account/${account.registrar_name}`}>
+													{account.registrar_name}
+												</Link>
+												)
+											</td>
+											<td>{registrar_fee}%</td>
+										</tr>
+										<tr>
+											<td>
+												<Translate content="account.member.referrer" /> &nbsp; (
+												<Link to={`/account/${account.referrer_name}`}>
+													{account.referrer_name}
+												</Link>
+												)
+											</td>
+											<td>{referrer_fee}%</td>
+										</tr>
+										<tr>
+											<td>
+												<Translate content="account.member.membership_expiration" />{' '}
+											</td>
+											<td>{expiration_date}</td>
+										</tr>
+									</tbody>
+								</table>
 
-										<h4 style={{paddingTop: '1rem'}}>
-											<Translate content="account.member.fees_cashback" />
-										</h4>
-										<table className="table key-value-table">
-											<Statistics stat_object={account.statistics} />
-										</table>
-									</div>
-								</div>
-								<div className="left right">
-									<div className="grid-content">
-										<FeeHelp
-											account={account_name}
-											networkFee={network_fee}
-											referrerFee={referrer_fee}
-											registrarFee={registrar_fee}
-											lifetimeFee={lifetime_fee}
-											referrerTotalFee={referrer_total_fee}
-											maintenanceInterval={gprops.getIn([
-												'parameters',
-												'maintenance_interval',
-											])}
-											vestingThreshold={{
-												amount: gprops.getIn([
-													'parameters',
-													'cashback_vesting_threshold',
-												]),
-												asset: core_asset,
-											}}
-											vestingPeriod={
-												gprops.getIn([
-													'parameters',
-													'cashback_vesting_period_seconds',
-												]) /
-												60 /
-												60 /
-												24
-											}
-										/>
-									</div>
-								</div>
+								<h4 style={{paddingTop: '1rem'}}>
+									<Translate content="account.member.fees_cashback" />
+								</h4>
+								<table className="table key-value-table">
+									<Statistics stat_object={account.statistics} />
+								</table>
+							</div>
+						</div>
+						<div className="left right">
+							<div className="grid-content">
+								<FeeHelp
+									account={account_name}
+									networkFee={network_fee}
+									referrerFee={referrer_fee}
+									registrarFee={registrar_fee}
+									lifetimeFee={lifetime_fee}
+									referrerTotalFee={referrer_total_fee}
+									maintenanceInterval={gprops.getIn([
+										'parameters',
+										'maintenance_interval',
+									])}
+									vestingThreshold={{
+										amount: gprops.getIn([
+											'parameters',
+											'cashback_vesting_threshold',
+										]),
+										asset: core_asset,
+									}}
+									vestingPeriod={
+										gprops.getIn([
+											'parameters',
+											'cashback_vesting_period_seconds',
+										]) /
+										60 /
+										60 /
+										24
+									}
+								/>
 							</div>
 						</div>
 					</div>

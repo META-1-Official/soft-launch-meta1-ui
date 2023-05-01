@@ -29,11 +29,11 @@ class MarketsTable extends React.Component {
 		}
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		this.update(nextProps);
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		this.update();
 		ChainStore.subscribe(this.update);
 	}
@@ -221,7 +221,7 @@ class MarketsTable extends React.Component {
 				dataIndex: 'hour_24',
 				align: 'right',
 				sorter: this.sortFunctions.changeValue,
-				render: (text, record, index) => {
+				render: (text, record) => {
 					const changeClass =
 						parseFloat(record.hour_24) > 0
 							? 'change-up'
@@ -244,7 +244,7 @@ class MarketsTable extends React.Component {
 				align: 'right',
 				sorter: this.sortFunctions.volumeValue,
 				defaultSortOrder: 'descend',
-				render: (text, record, index) => {
+				render: (text, record) => {
 					return (
 						<span style={{whiteSpace: 'nowrap'}}>
 							{utils.format_volume(record.volume, record.basePrecision)}
@@ -490,7 +490,7 @@ class MarketsTable extends React.Component {
 					<div className="filter inline-block">
 						<Input
 							type="text"
-							placeholder="Filter..."
+							placeholder={counterpart.translate('account.filter_orders')}
 							onChange={this._handleFilterInput.bind(this)}
 							// addonAfter={<AntIcon type="search" />}
 						/>

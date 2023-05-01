@@ -1,16 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Ps from 'perfect-scrollbar';
-import OpenSettleOrders from './OpenSettleOrders';
 import MarketsActions from 'actions/MarketsActions';
-import Translate from 'react-translate-component';
 import SettingsActions from 'actions/SettingsActions';
 import {ChainStore, ChainTypes as grapheneChainTypes} from 'meta1-vision-js';
 const {operations} = grapheneChainTypes;
 import {LimitOrder, CallOrder, FillOrder} from 'common/MarketClasses';
 import ReactTooltip from 'react-tooltip';
 import {MarketTradeView} from './View/MarketTradeView';
-import utils from 'common/utils';
 
 class MyTrade extends React.Component {
 	constructor(props) {
@@ -60,7 +57,7 @@ class MyTrade extends React.Component {
 		}
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		if (nextProps.activeTab !== this.state.activeTab) {
 			this.changeTab(nextProps.activeTab);
 		}
@@ -209,21 +206,10 @@ class MyTrade extends React.Component {
 	}
 
 	render() {
-		let {
-			base,
-			quote,
-			quoteSymbol,
-			baseSymbol,
-			settleOrders,
-			myHistory,
-			settings,
-		} = this.props;
-		let {activeTab, showAll, rowCount} = this.state;
+		let {base, quote, myHistory} = this.props;
+		let {activeTab} = this.state;
 
 		if (!base || !quote) return null;
-
-		let contentContainer;
-		let footerContainer;
 
 		/* Users Open Orders Tab (default) */
 		let rows = [];
@@ -257,22 +243,23 @@ class MyTrade extends React.Component {
 					const order = new FillOrder(trx.toJS(), assets, quote.get('id'));
 					const price = order.getPrice();
 					const isBid = order.isBid;
-					const payAmount = order.amountToPay();
 					const receiveAmount = order.amountToReceive();
-					const total = parseFloat(payAmount) * price;
 
 					let marketId = this.props.history?.location?.pathname.split('/')[2];
 
 					return {
 						orderId: order.id,
+						type: {
+							isBid: isBid,
+						},
 						asset: {
 							symbol: quote?._root?.entries[1][1],
-							isBid: isBid,
 						},
 						amount: {
 							change: 0,
 							value: receiveAmount,
 							marketId: marketId,
+							isBid: isBid,
 						},
 						value: {
 							value: price,
@@ -286,16 +273,12 @@ class MyTrade extends React.Component {
 		return (
 			<MarketTradeView
 				ref="view"
-				// Styles and Classes
 				style={this.props.style}
 				className={this.props.className}
 				innerClass={this.props.innerClass}
 				innerStyle={this.props.innerStyle}
 				headerStyle={this.props.headerStyle}
-				// Bools
 				noHeader={this.props.noHeader}
-				tinyScreen={this.props.tinyScreen}
-				// Containers
 				data={rows}
 			/>
 		);

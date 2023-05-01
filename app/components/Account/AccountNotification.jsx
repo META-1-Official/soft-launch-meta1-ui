@@ -1,8 +1,9 @@
 import React from 'react';
+import counterpart from 'counterpart';
 import BindToChainState from '../Utility/BindToChainState';
 import PageHeader from 'components/PageHeader/PageHeader';
 import {ClockCircleOutlined} from '@ant-design/icons';
-import {Button, List} from 'antd';
+import {List} from 'antd';
 
 const renderListItem = (item, index) => (
 	<List.Item
@@ -66,7 +67,11 @@ const AccountNotification = () => {
 	return (
 		<div className="account-notification">
 			<div>
-				<PageHeader title="Notifications" level={2} showDivider />
+				<PageHeader
+					title={counterpart.translate('account.notifications')}
+					level={2}
+					showDivider
+				/>
 			</div>
 			<div className="content-body">
 				<div className="list-wrapper">

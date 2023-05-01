@@ -1,22 +1,31 @@
 @import 'theme-template';
 
-// variables
+// branding colors
+$primary-color: #337ab7;
 
-$light-text-color: #fff;
-$dark-text-color: rgb(255, 255, 255);
-$primary-text-color: #ffffff;
-$secondary-text-color: white;
-$inactive-text-color: black;
-$link-text-color: #fcab53;
-$error-text-color: #ff3950;
+// help colors
+$primary-dark: #2a2a2a;
+$white: #fff;
+$dark: rgba(0, 0, 0, 0.6);
+$dark-1: lighten($dark, 30%);
+$dark-2: lighten($dark, 60%);
+$dark-3: lighten($dark, 90%);
+
+// variables
+$light-text-color: $white;
+$dark-text-color: $white;
+$primary-text-color: $white;
+$secondary-text-color: $white;
+$inactive-text-color: $dark;
+$link-text-color: #ffc000;
+$error-text-color: #e3745b;
 
 $settings-select-bg: #270303;
 $settings-select-color: darken($primary-text-color, 20%);
-$settings-api-node-border-color: #640000;
 $main-content-margin-block-bg-color: #ff0000;
 $top: #000000;
 $bottom: #000000;
-$bg-color: rgb(0, 0, 0);
+$bg-color: #0a0b0d;
 $bg-color-mixin: #240000;
 $panel-bg-color: #000000;
 $light-panel-bg-color: #8f0c0c;
@@ -42,18 +51,19 @@ $positive-color: #009d55;
 $negative-color: #ff3950;
 $row-accent-color: #a70707;
 $header-color: #000000; // do not touch
-
+$border-color: #1c1f27;
+$trade-background-color: #21252f;
 $button-mix1: #874002;
 $button-mix2: #d5ba48;
+
 // Account table view colors
-$account-header: #1f1f1f; // do not touch
+$account-header: #15171b; // do not touch
 $account-cells: black; // do not touch
 $account-green: #7ed321;
 $account-primarytext: white;
 $account-dimmed: #707070;
 $account-border: #d5ba48;
 $account-background: black; // do not touch
-$account-tabs-background: white;
 
 $pulsate-green-start: $account-green;
 $pulsate-green-end: #d5ba48;
@@ -62,13 +72,11 @@ $pulsate-red-end: #ef4040;
 
 $modal-bg-color: white;
 
-$mobile-input-bg: #2d2d2d;
-
 $slider-thumb-color: #d5ba48;
+$table-hover-color: #15171beb;
 
 $incognito-bg: #d5ba48;
 
-$tab-content-background-color: lighten($account-header, 4%);
 $explorer-tab-content-background-color: $bg-color;
 
 // * * * Explorer
@@ -78,11 +86,9 @@ $explorer-tab-content-background-color: $bg-color;
 $explorer--witnesses--info-bg: transparent;
 $explorer--witnesses--info-border: darken($account-header, 6%);
 $explorer--witnesses--info-table-title-color: $account-dimmed;
-$explorer--witnesses--info-table-text-color: #fff;
+$explorer--witnesses--info-table-text-color: $white;
 
 // * * * * * Assets
-
-$explorer--assets--bg: $bg-color;
 
 $positive-color-alternative: #22d173;
 $negative-color-alternative: #ff276d;
@@ -90,29 +96,9 @@ $medium-color: #ff9900;
 $dark-help-text: #171a25;
 $separator-line: rgba(23, 26, 37, 0.3);
 
-// * * *
-
-// * * * * Settings
-
-$settings-label-color: rgba(255, 255, 255, 0.5);
-
-//
-
 // color palette
 
-// branding colors
-$primary-color: #337ab7;
-
-// help colors
-$primary-dark: #2a2a2a;
-$white: #fff;
-$dark: rgba(0, 0, 0, 0.6);
-$dark-1: lighten($dark, 30%);
-$dark-2: lighten($dark, 60%);
-$dark-3: lighten($dark, 90%);
-
 // Header
-$header-background-color: $dark;
 $header-shadow: 0 !important;
 $header-item--color: $white;
 $header-item-background-color: $dark;
@@ -121,33 +107,29 @@ $header-item--active--background-color: $primary-dark;
 $header-item--active--color: $white;
 
 // Tabs (old, not style-guide)
-$tabs-border-size: 1px;
-$tabs-border-color: lighten($primary-dark, 5%);
 $tabs-background-color: $primary-dark;
 $tabs-item-background-color: $primary-dark;
 $tabs-item-color: $white;
 $tabs-item-border-size: 3px;
 $tabs-item-border-color: $primary-dark;
-$tabs-item--active--color: $dark;
 $tabs-item--active--border-color: $primary-color;
 $tabs-item--active--background-color: $primary-dark;
 $tabs-item--active--border-color: $primary-color;
 $tabs-content-background-color: $primary-dark;
 
 // Selector
-
 $selector-active-border-color: $primary-color;
 $selector-active-text-color: $primary-color;
-
 $selector-border-color: lighten($primary-dark, 5%);
 $selector-text-color: lighten($primary-dark, 35%);
 
 // Header Menu
-
 $header-menu--active--icon-background: $primary-dark;
 $header-menu--active--box-shadow: 0 4px 9px 0 #00000015;
 $header-menu-background-color: lighten($primary-dark, 5%);
 $header-menu-item--hover--background-color: lighten($primary-dark, 10%);
+
+$onramper-border-color: rgba(28, 31, 39, 0.4);
 
 .darkTheme {
 	@include theme(
@@ -160,24 +142,19 @@ $header-menu-item--hover--background-color: lighten($primary-dark, 10%);
 		$selector-border-color,
 		$selector-text-color,
 		$tabs-content-background-color,
-		$tabs-border-size,
-		$tabs-border-color,
 		$tabs-background-color,
 		$tabs-item-background-color,
 		$tabs-item-color,
 		$tabs-item-border-size,
 		$tabs-item-border-color,
-		$tabs-item--active--color,
 		$tabs-item--active--border-color,
 		$tabs-item--active--background-color,
-		$header-background-color,
 		$header-shadow,
 		$header-item--color,
 		$header-item-background-color,
 		$header-item--active--background-color,
 		$header-item--active--color,
 		$explorer-tab-content-background-color,
-		$tab-content-background-color,
 		$primary-text-color,
 		$bg-color,
 		$dark-text-color,
@@ -210,7 +187,6 @@ $header-menu-item--hover--background-color: lighten($primary-dark, 10%);
 		$account-dimmed,
 		$account-border,
 		$account-background,
-		$account-tabs-background,
 		$pulsate-green-start,
 		$pulsate-green-end,
 		$pulsate-red-start,
@@ -219,10 +195,8 @@ $header-menu-item--hover--background-color: lighten($primary-dark, 10%);
 		$settings-select-color,
 		$settings-menu-hover-bg,
 		$settings-menu-active-bg,
-		$settings-api-node-border-color,
 		$main-content-margin-block-bg-color,
 		$modal-bg-color,
-		$mobile-input-bg,
 		$incognito-bg,
 		$button-mix1,
 		$button-mix2,
@@ -230,12 +204,113 @@ $header-menu-item--hover--background-color: lighten($primary-dark, 10%);
 		$explorer--witnesses--info-border,
 		$explorer--witnesses--info-table-title-color,
 		$explorer--witnesses--info-table-text-color,
-		$explorer--assets--bg,
 		$negative-color-alternative,
 		$positive-color-alternative,
 		$separator-line,
 		$medium-color,
 		$dark-help-text,
-		$settings-label-color
+		$table-hover-color
 	);
+
+	.custom-dropdown-class {
+		background-color: $account-header;
+	}
+
+	.react-datepicker-wrapper {
+		input {
+			background-color: $account-header;
+		}
+	}
+	.account-trade {
+		.ant-table {
+			background-color: $bg-color;
+
+			.ant-table-cell {
+				background-color: $bg-color;
+			}
+		}
+	}
+	.onramper-wrapper {
+		background: $bg-color;
+		height: 100%;
+
+		.onramper-wallet {
+			width: 500px;
+			margin: 0 auto;
+			margin-top: 60px;
+			border-radius: 4px;
+			border: 1px solid $onramper-border-color;
+
+			iframe {
+				width: 100%;
+			}
+		}
+	}
+	// Account trade page
+	.account-trade {
+		@media screen and (max-width: 900px) {
+			div.filter {
+				border: 1px solid $border-color !important;
+				border-radius: 3px;
+				border-bottom-right-radius: 0px;
+				border-bottom-left-radius: 0px;
+				padding: 15px;
+
+				.ant-select .ant-select-selector {
+					background-color: $bg-color;
+					color: $white;
+					border: 1px solid $border-color;
+				}
+				.search-input .ant-input-wrapper {
+					border: 1px solid $border-color;
+					border-radius: 3px;
+					background-color: $trade-background-color;
+				}
+			}
+		}
+	}
+
+	.ant-empty-image {
+		background-image: url('data:image/png;base64,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');
+	}
+	.ant-menu-submenu-popup {
+		background-color: $primary-dark;
+	}
+
+	// Account Overview
+	div.account-overview {
+		.portfolio-table-wrapper {
+			.ant-table-wrapper {
+				.ant-table {
+					@media screen and (max-width: 800px) {
+						table thead th:first-child {
+							background-color: $account-header;
+						}
+						table tbody td:first-child {
+							background: $bg-color;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	//transaction-history table
+
+	.transaction-table {
+		.transaction-history-table {
+			.ant-table-wrapper {
+				.ant-table {
+					@media screen and (max-width: 800px) {
+						table thead th {
+							background-color: $account-header;
+						}
+						table tbody td {
+							background: $bg-color;
+						}
+					}
+				}
+			}
+		}
+	}
 }

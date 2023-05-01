@@ -23,76 +23,6 @@ const volumeIcon = require('assets/explorer/volume.png');
 const baseExplorerUrl = process.env.EXPLORER_META1_URL;
 
 const {Text} = Typography;
-class WitnessRow extends React.Component {
-	static propTypes = {
-		witness: ChainTypes.ChainAccount.isRequired,
-	};
-
-	_onRowClick(e) {
-		e.preventDefault();
-		this.props.history.push(`/account/${this.props.witness.get('name')}`);
-	}
-
-	// componentWillUnmount() {
-	//     ChainStore.unSubFrom("witnesses", ChainStore.getWitnessById( this.props.witness.get("id") ).get("id"));
-	// }
-
-	render() {
-		let {witness, isCurrent, rank} = this.props;
-		let witness_data = ChainStore.getWitnessById(this.props.witness.get('id'));
-		if (!witness_data) return null;
-		let total_votes = witness_data.get('total_votes');
-
-		let witness_aslot = witness_data.get('last_aslot');
-		let color = {};
-		if (this.props.most_recent - witness_aslot > 100) {
-			color = {borderLeft: '1px solid #FCAB53'};
-		} else {
-			color = {borderLeft: '1px solid #009D55'};
-		}
-		let last_aslot_time = new Date(
-			Date.now() -
-				(this.props.most_recent - witness_aslot) *
-					ChainStore.getObject('2.0.0').getIn([
-						'parameters',
-						'block_interval',
-					]) *
-					1000
-		);
-
-		let currentClass = isCurrent ? 'active-witness' : '';
-
-		let missed = witness_data.get('total_missed');
-		let missedClass = classNames(
-			'txtlabel',
-			{success: missed <= 500},
-			{info: missed > 500 && missed <= 1250},
-			{warning: missed > 1250 && missed <= 2000},
-			{error: missed >= 200}
-		);
-
-		return (
-			<tr className={currentClass} onClick={this._onRowClick.bind(this)}>
-				<td>{rank}</td>
-				<td style={color}>{witness.get('name')}</td>
-				<td>
-					<TimeAgo time={new Date(last_aslot_time)} />
-				</td>
-				<td>{witness_data.get('last_confirmed_block_num')}</td>
-				<td className={missedClass}>{missed}</td>
-				<td>
-					<FormattedAsset
-						amount={witness_data.get('total_votes')}
-						asset="1.3.0"
-						decimalOffset={5}
-					/>
-				</td>
-			</tr>
-		);
-	}
-}
-WitnessRow = BindToChainState(WitnessRow);
-WitnessRow = withRouter(WitnessRow);
 
 class WitnessList extends React.Component {
 	static propTypes = {
@@ -103,7 +33,6 @@ class WitnessList extends React.Component {
 		super();
 		this.state = {
 			sortBy: 'rank',
-			inverseSort: true,
 		};
 
 		this.handleBlockIdClick = this.handleBlockIdClick.bind(this);
@@ -113,10 +42,6 @@ class WitnessList extends React.Component {
 	_setSort(field) {
 		this.setState({
 			sortBy: field,
-			inverseSort:
-				field === this.state.sortBy
-					? !this.state.inverseSort
-					: this.state.inverseSort,
 		});
 	}
 
@@ -136,8 +61,7 @@ class WitnessList extends React.Component {
 	}
 
 	render() {
-		let {witnesses, current, cardView, witnessList} = this.props;
-		let {sortBy, inverseSort} = this.state;
+		let {witnesses, current, witnessList} = this.props;
 		let most_recent_aslot = 0;
 		let ranks = {};
 
@@ -226,30 +150,16 @@ class WitnessList extends React.Component {
 				});
 		}
 
-		const urlValid = (item) => {
-			const regex =
-				/(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
-			return regex.test(item);
-		};
-
-		const urlRender = (item) => {
-			return (
-				<Popover
-					content={
-						<a href={item} target="_blank" rel="noopener noreferrer">
-							{item}
-						</a>
-					}
-					trigger={'hover'}
-				>
-					<AiOutlineLink />
-				</Popover>
-			);
-		};
-
 		const keyRender = (item) => {
 			return (
-				<Popover content={<span>{item}</span>} trigger={'hover'}>
+				<Popover
+					content={<span>{item}</span>}
+					trigger={'hover'}
+					overlayStyle={{
+						maxWidth: '100%',
+						overflowWrap: 'break-word',
+					}}
+				>
 					<AiOutlineKey />
 				</Popover>
 			);
@@ -296,12 +206,9 @@ class WitnessList extends React.Component {
 				align: 'center',
 				render: (item) => (
 					<div
-						style={{width: '100%', textAlign: 'center'}}
+						style={{width: '100%'}}
 						onClick={this.handleUrlClick(item.block)}
 					>
-						{/* Note: URL is not received in obj so this is commented as of now for later use
-						//linkRender((item && urlValid(item) && urlRender(item)) || null)
-						*/}
 						{linkRender(`${baseExplorerUrl}/${item.block}`)}
 					</div>
 				),
@@ -388,7 +295,7 @@ class WitnessList extends React.Component {
 				dataIndex: 'signing_key',
 				align: 'center',
 				render: (item) => (
-					<div style={{textAlign: 'center', width: '100%'}}>
+					<div style={{width: '100%', marginLeft: '7px'}}>
 						{keyRender(item)}
 					</div>
 				),
@@ -466,10 +373,15 @@ class Witnesses extends React.Component {
 		}
 
 		return (
-			<>
-				<div css={{padding: '2rem'}}>
+			<div className="witnesses-tab">
+				<div
+					css={(theme) => ({
+						backgroundColor: theme.colors.explorerBackground,
+						padding: '30px 30px',
+					})}
+				>
 					<Row gutter={[16, 16]}>
-						<Col xs={24} sm={12} md={8} lg={6}>
+						<Col xs={12} sm={12} md={8} lg={6}>
 							<ExploreCard
 								icon={volumeIcon}
 								textContent="explorer.witnesses.current"
@@ -477,17 +389,17 @@ class Witnesses extends React.Component {
 							>
 								<div>
 									<Text
-										css={{
-											color: 'white',
+										css={(theme) => ({
+											color: '#21d19f',
 											textTransform: 'capitalize',
-										}}
+										})}
 									>
 										{currentAccount ? currentAccount.get('name') : null}
 									</Text>
 								</div>
 							</ExploreCard>
 						</Col>
-						<Col xs={24} sm={12} md={8} lg={6}>
+						<Col xs={12} sm={12} md={8} lg={6}>
 							<ExploreCard
 								icon={volumeIcon}
 								textContent="explorer.blocks.active_witnesses"
@@ -495,16 +407,16 @@ class Witnesses extends React.Component {
 							>
 								<div>
 									<Text
-										css={{
-											color: 'white',
-										}}
+										css={(theme) => ({
+											color: theme.colors.textColor,
+										})}
 									>
 										{Object.keys(globalObject.active_witnesses).length}
 									</Text>
 								</div>
 							</ExploreCard>
 						</Col>
-						<Col xs={24} sm={12} md={8} lg={6}>
+						<Col xs={12} sm={12} md={8} lg={6}>
 							<ExploreCard
 								icon={volumeIcon}
 								textContent="explorer.witnesses.participation"
@@ -512,16 +424,16 @@ class Witnesses extends React.Component {
 							>
 								<div>
 									<Text
-										css={{
-											color: 'white',
-										}}
+										css={(theme) => ({
+											color: theme.colors.textColor,
+										})}
 									>
 										{dynGlobalObject.participation}%
 									</Text>
 								</div>
 							</ExploreCard>
 						</Col>
-						<Col xs={24} sm={12} md={8} lg={6}>
+						<Col xs={12} sm={12} md={8} lg={6}>
 							<ExploreCard
 								icon={volumeIcon}
 								textContent="explorer.witnesses.pay"
@@ -529,9 +441,9 @@ class Witnesses extends React.Component {
 							>
 								<div>
 									<Text
-										css={{
-											color: 'white',
-										}}
+										css={(theme) => ({
+											color: theme.colors.textColor,
+										})}
 									>
 										<FormattedAsset
 											amount={globalObject.parameters.witness_pay_per_block}
@@ -541,7 +453,7 @@ class Witnesses extends React.Component {
 								</div>
 							</ExploreCard>
 						</Col>
-						<Col xs={24} sm={12} md={8} lg={6}>
+						<Col xs={12} sm={12} md={8} lg={6}>
 							<ExploreCard
 								icon={volumeIcon}
 								textContent="explorer.witnesses.budget"
@@ -549,9 +461,9 @@ class Witnesses extends React.Component {
 							>
 								<div>
 									<Text
-										css={{
-											color: 'white',
-										}}
+										css={(theme) => ({
+											color: theme.colors.textColor,
+										})}
 									>
 										<FormattedAsset
 											amount={dynGlobalObject.witness_budget}
@@ -561,7 +473,7 @@ class Witnesses extends React.Component {
 								</div>
 							</ExploreCard>
 						</Col>
-						<Col xs={24} sm={12} md={8} lg={6}>
+						<Col xs={12} sm={12} md={8} lg={6}>
 							<ExploreCard
 								icon={volumeIcon}
 								textContent="explorer.witnesses.next_vote"
@@ -569,9 +481,9 @@ class Witnesses extends React.Component {
 							>
 								<div>
 									<Text
-										css={{
-											color: 'white',
-										}}
+										css={(theme) => ({
+											color: theme.colors.textColor,
+										})}
 									>
 										<TimeAgo
 											time={
@@ -584,36 +496,25 @@ class Witnesses extends React.Component {
 						</Col>
 					</Row>
 				</div>
-				<div className="grid-block">
-					<div className="grid-block">
-						<div className="grid-block">
-							<div className="grid-content ">
-								<SearchInput
-									placeholder={counterpart.translate(
-										'explorer.witnesses.filter_by_name'
-									)}
-									value={this.state.filterWitness}
-									onChange={this._onFilter.bind(this)}
-									style={{
-										width: '200px',
-										marginBottom: '12px',
-										marginTop: '4px',
-									}}
-								/>
+				<div style={{padding: '30px'}}>
+					<SearchInput
+						placeholder={counterpart.translate(
+							'explorer.witnesses.filter_by_name'
+						)}
+						value={this.state.filterWitness}
+						onChange={this._onFilter.bind(this)}
+					/>
 
-								<WitnessList
-									current_aslot={dynGlobalObject.current_aslot}
-									current={current ? current.get('id') : null}
-									witnesses={Immutable.List(globalObject.active_witnesses)}
-									witnessList={globalObject.active_witnesses}
-									filter={this.state.filterWitness}
-									cardView={this.state.cardView}
-								/>
-							</div>
-						</div>
-					</div>
+					<WitnessList
+						current_aslot={dynGlobalObject.current_aslot}
+						current={current ? current.get('id') : null}
+						witnesses={Immutable.List(globalObject.active_witnesses)}
+						witnessList={globalObject.active_witnesses}
+						filter={this.state.filterWitness}
+						cardView={this.state.cardView}
+					/>
 				</div>
-			</>
+			</div>
 		);
 	}
 }

@@ -1,8 +1,5 @@
 import React from 'react';
-import AltContainer from 'alt-container';
 import counterpart from 'counterpart';
-import {Form} from 'antd';
-import WalletUnlockStore from 'stores/WalletUnlockStore';
 import SettingsActions from 'actions/SettingsActions';
 
 const LoginTypeSelectorView = ({type}) => {
@@ -21,13 +18,6 @@ const LoginTypeSelectorView = ({type}) => {
 			>
 				Passwordless Login (Torus)
 			</div>
-			{/* <div
-				className={`login-btn ${type ? '' : 'active'}`}
-				onClick={() => onClick('local')}
-			>
-				{counterpart.translate('wallet.key_file')} (
-				{counterpart.translate('wallet.wallet_model').toLowerCase()})
-			</div> */}
 		</div>
 	);
 };

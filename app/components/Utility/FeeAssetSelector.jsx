@@ -264,7 +264,7 @@ class FeeAssetSelector extends React.Component {
 							suffix={this.state.error ? changeDefaultButton : undefined}
 							css={(theme) => ({
 								'&&': {
-									backgroundColor: theme.colors.inputBackgroundColor,
+									backgroundColor: theme.colors.dropdownBackgroundColor,
 									border: 'none',
 									color: theme.colors.inputTextColor,
 									borderRadius: '6px',

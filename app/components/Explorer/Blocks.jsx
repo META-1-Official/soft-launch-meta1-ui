@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import BlockchainActions from 'actions/BlockchainActions';
 import Translate from 'react-translate-component';
 import {FormattedDate} from 'react-intl';
-import Operation from '../Blockchain/Operation';
+import Operation, {TransactionLabel} from '../Blockchain/Operation';
 import LinkToWitnessById from '../Utility/LinkToWitnessById';
 import ChainTypes from '../Utility/ChainTypes';
 import BindToChainState from '../Utility/BindToChainState';
@@ -17,12 +17,12 @@ import TimeAgo from '../Utility/TimeAgo';
 import FormattedAsset from '../Utility/FormattedAsset';
 import Ps from 'perfect-scrollbar';
 import TransitionWrapper from '../Utility/TransitionWrapper';
-import {Row, Col, Typography} from 'antd';
+import {Row, Col, Typography, Tooltip, Table} from 'antd';
 import ExploreCard from 'components/ExploreCard/ExploreCard';
+import counterpart from 'counterpart';
 
 require('../Blockchain/json-inspector.scss');
 
-// const logo = require('assets/asset-symbols/blockNumber.png');
 const blockNumberIcon = require('assets/explorer/blockNumber.png');
 const witnessIcon = require('assets/explorer/witness.png');
 const committeeIcon = require('assets/explorer/committee.png');
@@ -52,9 +52,9 @@ class BlockTimeAgo extends React.Component {
 			<div>
 				<Text
 					className={textClass}
-					css={() => ({
+					css={(theme) => ({
 						fontSize: '1.2rem',
-						color: 'white',
+						color: theme.colors.descriptionTextColor,
 						fontWeight: 700,
 					})}
 				>
@@ -99,7 +99,7 @@ class Blocks extends React.Component {
 		}
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		window.addEventListener('resize', this._updateHeight, {
 			capture: false,
 			passive: true,
@@ -110,7 +110,7 @@ class Blocks extends React.Component {
 		window.removeEventListener('resize', this._updateHeight);
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		if (nextProps.latestBlocks.size === 0) {
 			return this._getInitialBlocks();
 		} else if (!this.state.animateEnter) {
@@ -205,8 +205,9 @@ class Blocks extends React.Component {
 		const dynamicObject = this.props.getDynamicObject(
 			coreAsset.get('dynamic_asset_data_id')
 		);
-		let blocks = null,
-			transactions = null;
+		let blocks = [];
+		let transactions = [];
+
 		let headBlock = null;
 		let trxCount = 0,
 			blockCount = latestBlocks.size,
@@ -243,71 +244,29 @@ class Blocks extends React.Component {
 				});
 
 			// Output block rows for the last 20 blocks
-			blocks = latestBlocks
+			latestBlocks
 				.sort((a, b) => {
 					return b.id - a.id;
 				})
-				.take(20)
-				.map((block) => {
-					return (
-						<tr
-							key={block.id}
-							css={(theme) => ({
-								border: `1px solid ${theme.colors.borderColor}`,
-							})}
-						>
-							<td>
-								<Link to={`/block/${block.id}`}>
-									<span
-										css={(theme) => ({
-											color: theme.colors.primaryColor,
-										})}
-									>
-										#{utils.format_number(block.id, 0)}{' '}
-									</span>
-								</Link>
-							</td>
-							<td>
-								<FormattedDate value={block.timestamp} format="time" />
-							</td>
-							<td>
-								<LinkToWitnessById witness={block.witness} />
-							</td>
-							<td>{utils.format_number(block.transactions.length, 0)}</td>
-						</tr>
-					);
-				})
-				.toArray();
+				.forEach((block) => {
+					blocks.push(block);
+				});
 
-			let trxIndex = 0;
-
-			transactions = latestTransactions
+			latestTransactions
 				.sort((a, b) => {
 					return b.block_num - a.block_num;
 				})
 				.take(20)
-				.map((trx) => {
+				.forEach((trx) => {
 					let opIndex = 0;
-					return trx.operations
-						.map((op) => {
-							if (trxIndex > 15) return null;
-							return (
-								<Operation
-									key={trxIndex++}
-									op={op}
-									result={trx.operation_results[opIndex++]}
-									block={trx.block_num}
-									hideFee={true}
-									hideOpLabel={false}
-									current={'1.2.0'}
-									hideDate
-									hidePending
-								/>
-							);
-						})
-						.filter((a) => !!a);
-				})
-				.toArray();
+					trx.operations.forEach((op) => {
+						transactions.push({
+							block_num: trx.block_num,
+							result: trx.operation_results[opIndex++],
+							op: op,
+						});
+					});
+				});
 
 			headBlock = latestBlocks.first().timestamp;
 			avgTime = blockTimes.reduce((previous, current, idx, array) => {
@@ -317,17 +276,92 @@ class Blocks extends React.Component {
 			trxPerSec = trxCount / ((lastBlock - firstBlock) / 1000);
 		}
 
+		const transactionColumns = [
+			{
+				title: 'INFO',
+				dataIndex: 'block',
+				render: (text, record) => {
+					return (
+						<div>
+							<Operation
+								op={record['op']}
+								result={record['result']}
+								block={record['block_num']}
+								hideFee={true}
+								hideOpLabel={false}
+								current={'1.2.0'}
+								transactionLabelOnly
+								hideDate
+								hidePending
+							/>
+
+							<Operation
+								op={record['op']}
+								result={record['result']}
+								block={record['block_num']}
+								hideFee={true}
+								hideOpLabel={false}
+								current={'1.2.0'}
+								infoOnly
+								hideDate
+								hidePending
+							/>
+						</div>
+					);
+				},
+			},
+		];
+
+		const blockColumns = [
+			{
+				title: 'BLOCK ID',
+				dataIndex: 'id',
+				render: (value) => {
+					return (
+						<Link to={`/block/${value}`}>
+							<span
+								css={(theme) => ({
+									color: theme.colors.primaryColor,
+								})}
+							>
+								#{utils.format_number(value, 0)}{' '}
+							</span>
+						</Link>
+					);
+				},
+			},
+			{
+				title: 'DATE',
+				dataIndex: 'timestamp',
+				render: (value) => {
+					return <FormattedDate value={value} format="time" />;
+				},
+			},
+			{
+				title: 'WITNESS',
+				dataIndex: 'witness',
+				render: (value) => {
+					return <LinkToWitnessById witness={value} />;
+				},
+			},
+			{
+				title: 'TRANSACTION COUNT',
+				dataIndex: 'transactions',
+				render: (value) => {
+					return utils.format_number(value.length, 0);
+				},
+			},
+		];
 		return (
-			<div ref="outerWrapper">
-				{/* First row of stats */}
+			<div ref="outerWrapper" className="blockchain-tab">
 				<div
 					css={(theme) => ({
 						backgroundColor: theme.colors.explorerBackground,
-						padding: '2rem 1rem',
+						padding: '30px 30px',
 					})}
 				>
 					<Row gutter={[16, 16]}>
-						<Col xs={24} sm={12} md={8} lg={8} xl={6}>
+						<Col xs={12} sm={12} md={8} lg={8} xl={6}>
 							<ExploreCard
 								icon={blockNumberIcon}
 								textContent="explorer.blocks.current_block"
@@ -335,9 +369,9 @@ class Blocks extends React.Component {
 							>
 								<div>
 									<Text
-										css={() => ({
+										css={(theme) => ({
 											fontSize: '1.2rem',
-											color: 'white',
+											color: theme.colors.themeOpositeColor,
 											fontWeight: 700,
 										})}
 									>
@@ -349,7 +383,7 @@ class Blocks extends React.Component {
 								</div>
 							</ExploreCard>
 						</Col>
-						<Col xs={24} sm={12} md={8} lg={8} xl={6}>
+						<Col xs={12} sm={12} md={8} lg={8} xl={6}>
 							<ExploreCard
 								icon={blockNumberIcon}
 								textContent="explorer.blocks.last_block"
@@ -358,7 +392,7 @@ class Blocks extends React.Component {
 								<BlockTimeAgo blockTime={headBlock} />
 							</ExploreCard>
 						</Col>
-						<Col xs={24} sm={12} md={8} lg={8} xl={6}>
+						<Col xs={12} sm={12} md={8} lg={8} xl={6}>
 							<ExploreCard
 								icon={blockNumberIcon}
 								textContent="explorer.blocks.avg_conf_time"
@@ -366,9 +400,9 @@ class Blocks extends React.Component {
 							>
 								<div>
 									<Text
-										css={() => ({
+										css={(theme) => ({
 											fontSize: '1.2rem',
-											color: 'white',
+											color: theme.colors.themeOpositeColor,
 											fontWeight: 700,
 										})}
 									>
@@ -377,16 +411,16 @@ class Blocks extends React.Component {
 								</div>
 							</ExploreCard>
 						</Col>
-						<Col xs={24} sm={12} md={8} lg={8} xl={6}>
+						<Col xs={12} sm={12} md={8} lg={8} xl={6}>
 							<ExploreCard
 								icon={blockNumberIcon}
 								textContent="explorer.blocks.trx_per_sec"
 							>
 								<div>
 									<Text
-										css={() => ({
+										css={(theme) => ({
 											fontSize: '1.2rem',
-											color: 'white',
+											color: theme.colors.themeOpositeColor,
 											fontWeight: 700,
 										})}
 									>
@@ -396,7 +430,7 @@ class Blocks extends React.Component {
 							</ExploreCard>
 						</Col>
 
-						<Col xs={24} sm={12} md={8} lg={8} xl={6}>
+						<Col xs={12} sm={12} md={8} lg={8} xl={6}>
 							<ExploreCard
 								icon={blockNumberIcon}
 								textContent="explorer.blocks.avg_conf_time"
@@ -404,9 +438,9 @@ class Blocks extends React.Component {
 							>
 								<div>
 									<Text
-										css={() => ({
+										css={(theme) => ({
 											fontSize: '1.2rem',
-											color: 'white',
+											color: theme.colors.themeOpositeColor,
 											fontWeight: 700,
 										})}
 									>
@@ -415,16 +449,16 @@ class Blocks extends React.Component {
 								</div>
 							</ExploreCard>
 						</Col>
-						<Col xs={24} sm={12} md={8} lg={8} xl={6}>
+						<Col xs={12} sm={12} md={8} lg={8} xl={6}>
 							<ExploreCard
 								icon={witnessIcon}
 								textContent="explorer.blocks.active_witnesses"
 							>
 								<div>
 									<Text
-										css={() => ({
+										css={(theme) => ({
 											fontSize: '1.2rem',
-											color: 'white',
+											color: theme.colors.themeOpositeColor,
 											fontWeight: 700,
 										})}
 									>
@@ -433,16 +467,16 @@ class Blocks extends React.Component {
 								</div>
 							</ExploreCard>
 						</Col>
-						<Col xs={24} sm={12} md={8} lg={8} xl={6}>
+						<Col xs={12} sm={12} md={8} lg={8} xl={6}>
 							<ExploreCard
 								icon={committeeIcon}
 								textContent="explorer.blocks.active_committee_members"
 							>
 								<div>
 									<Text
-										css={() => ({
+										css={(theme) => ({
 											fontSize: '1.2rem',
-											color: 'white',
+											color: theme.colors.themeOpositeColor,
 											fontWeight: 700,
 										})}
 									>
@@ -451,7 +485,7 @@ class Blocks extends React.Component {
 								</div>
 							</ExploreCard>
 						</Col>
-						<Col xs={24} sm={12} md={8} lg={8} xl={6}>
+						<Col xs={12} sm={12} md={8} lg={8} xl={6}>
 							<ExploreCard
 								icon={blockNumberIcon}
 								textContent="explorer.blocks.trx_per_block"
@@ -459,9 +493,9 @@ class Blocks extends React.Component {
 							>
 								<div>
 									<Text
-										css={() => ({
+										css={(theme) => ({
 											fontSize: '1.2rem',
-											color: 'white',
+											color: theme.colors.themeOpositeColor,
 											fontWeight: 700,
 										})}
 									>
@@ -470,16 +504,16 @@ class Blocks extends React.Component {
 								</div>
 							</ExploreCard>
 						</Col>
-						<Col xs={24} sm={12} md={8} lg={8} xl={6}>
+						<Col xs={12} sm={12} md={8} lg={8} xl={6}>
 							<ExploreCard
 								icon={volumeIcon}
 								textContent="explorer.asset.summary.current_supply"
 							>
 								<div>
 									<Text
-										css={() => ({
+										css={(theme) => ({
 											fontSize: '1.2rem',
-											color: 'white',
+											color: theme.colors.themeOpositeColor,
 											fontWeight: 700,
 										})}
 									>
@@ -494,7 +528,7 @@ class Blocks extends React.Component {
 								</div>
 							</ExploreCard>
 						</Col>
-						<Col xs={24} sm={12} md={8} lg={8} xl={6}>
+						<Col xs={12} sm={12} md={8} lg={8} xl={6}>
 							<ExploreCard
 								icon={volumeIcon}
 								textContent="explorer.blocks.block_times"
@@ -505,7 +539,7 @@ class Blocks extends React.Component {
 								/>
 							</ExploreCard>
 						</Col>
-						<Col xs={24} sm={12} md={8} lg={8} xl={6}>
+						<Col xs={12} sm={12} md={8} lg={8} xl={6}>
 							<ExploreCard
 								icon={volumeIcon}
 								textContent="explorer.blocks.trx_per_block"
@@ -518,89 +552,35 @@ class Blocks extends React.Component {
 						</Col>
 					</Row>
 				</div>
-
-				{/* Third row: graphs */}
-				{/* <div className="align-center grid-block shrink small-vertical medium-horizontal blocks-row">
-					<div className="grid-block text-center small-12 medium-3">
-						<div className="grid-content no-overflow clear-fix">
-							<span className="txtlabel">
-								<Translate
-									component="span"
-									content="explorer.asset.summary.confidential_supply"
-								/>
-							</span>
-							<h3 className="txtlabel">
-								{dynamicObject ? (
-									<FormattedAsset
-										amount={dynamicObject.get('confidential_supply')}
-										asset={coreAsset.get('id')}
-										decimalOffset={5}
-									/>
-								) : null}
-							</h3>
+				<div ref="transactionsBlock" className="transactions-block">
+					<div className="recent-activity">
+						<div ref="operationsText">
+							<div className="block-content-header">
+								<Translate content="account.recent" />
+							</div>
 						</div>
-					</div>
-				</div> */}
-
-				{/* Fourth row: transactions and blocks */}
-				<div
-					ref="transactionsBlock"
-					className="grid-block no-overflow"
-					css={{padding: '2rem'}}
-				>
-					<div className="grid-block small-12 medium-6 vertical no-overflow">
 						<div
-							css={{marginBottom: '3.5rem'}}
-							className="grid-block vertical no-overflow generic-bordered-box"
+							className="grid-block"
+							style={{
+								maxHeight: operationsHeight || '400px',
+								overflow: 'hidden',
+							}}
+							ref="operations"
 						>
-							<div ref="operationsText">
-								<div className="block-content-header">
-									<Translate content="account.recent" />
-								</div>
-								<table
-									className="table fixed-height-2rem"
-									css={(theme) => ({
-										border: `2px solid ${theme.colors.borderColor}`,
-									})}
-								>
-									<thead
-										css={(theme) => ({
-											tr: {
-												backgroundColor: '#15171b',
-												border: `2px solid ${theme.colors.borderColor}`,
-												fontSize: '13px !important',
-												padding: '15px 10px',
-												textAlign: 'left',
-											},
-										})}
-									>
-										<tr>
-											<th>
-												<Translate content="account.votes.info" />
-											</th>
-										</tr>
-									</thead>
-								</table>
-							</div>
-							<div
-								className="grid-block"
-								style={{
-									maxHeight: operationsHeight || '400px',
-									overflow: 'hidden',
+							<Table
+								style={{width: '100%'}}
+								className="table fixed-height-2rem"
+								columns={transactionColumns}
+								dataSource={transactions}
+								pagination={{
+									position: 'bottom',
+									pageSize: 10,
 								}}
-								ref="operations"
-							>
-								<table className="table fixed-height-2rem">
-									<tbody>{transactions}</tbody>
-								</table>
-							</div>
+							/>
 						</div>
 					</div>
-					<div
-						className="grid-block medium-6 show-for-medium vertical no-overflow"
-						style={{paddingBottom: 0, paddingLeft: 5}}
-					>
-						<div className="grid-block vertical no-overflow generic-bordered-box">
+					<div className="recent-blocks">
+						<div className="generic-bordered-box">
 							<div ref="blocksText">
 								<div className="block-content-header">
 									<Translate
@@ -617,51 +597,16 @@ class Blocks extends React.Component {
 								}}
 								ref="blocks"
 							>
-								<table className="table fixed-height-2rem">
-									<thead
-										css={(theme) => ({
-											tr: {
-												backgroundColor: theme.colors.tableColumnColor,
-												border: `2px solid ${theme.colors.borderColor}`,
-												borderBottom: `2px solid ${theme.colors.borderColor}`,
-												padding: '15px 10px',
-												textAlign: 'left',
-												fontSize: '13px !important',
-											},
-										})}
-									>
-										<tr>
-											<th>
-												<Translate
-													component="span"
-													content="explorer.block.id"
-												/>
-											</th>
-											<th>
-												<Translate
-													component="span"
-													content="explorer.block.date"
-												/>
-											</th>
-											<th>
-												<Translate
-													component="span"
-													content="explorer.block.witness"
-												/>
-											</th>
-											<th>
-												<Translate
-													component="span"
-													content="explorer.block.count"
-												/>
-											</th>
-										</tr>
-									</thead>
-
-									<TransitionWrapper component="tbody" transitionName="newrow">
-										{blocks}
-									</TransitionWrapper>
-								</table>
+								<Table
+									style={{width: '100%'}}
+									className="table fixed-height-2rem"
+									columns={blockColumns}
+									dataSource={blocks}
+									pagination={{
+										position: 'bottom',
+										pageSize: 10,
+									}}
+								/>
 							</div>
 						</div>
 					</div>

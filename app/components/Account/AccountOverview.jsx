@@ -2,41 +2,23 @@ import React from 'react';
 import Immutable from 'immutable';
 import Translate from 'react-translate-component';
 import TotalBalanceValue from '../Utility/TotalBalanceValue';
-import MarginPositionsTable from './MarginPositionsTable';
 import {RecentTransactions} from './RecentTransactions';
-import Proposals from 'components/Account/Proposals';
 import {ChainStore} from 'meta1-vision-js';
-import SettingsActions from 'actions/SettingsActions';
 import utils from 'common/utils';
 import accountUtils from 'common/account_utils';
-import {Tabs, Tab} from '../Utility/Tabs';
 import AccountOrders from './AccountOrders';
-import cnames from 'classnames';
 import TranslateWithLinks from '../Utility/TranslateWithLinks';
 import {checkMarginStatus} from 'common/accountHelper';
 import BalanceWrapper from './BalanceWrapper';
 import AccountTreemap from './AccountTreemap';
 import AssetWrapper from '../Utility/AssetWrapper';
 import AccountPortfolioList from './AccountPortfolioList';
-import {Market24HourChangeComponent} from '../Utility/MarketChangeComponent';
 import {Link} from 'react-router-dom';
-import {
-	Space,
-	Switch,
-	Tooltip,
-	Select,
-	Menu,
-	Checkbox,
-	Button,
-	CheckboxGroup,
-	Dropdown,
-} from 'antd';
-const {Option} = Select;
+import {Space, Switch, Menu, Checkbox, Dropdown} from 'antd';
 import counterpart from 'counterpart';
 import SearchInput from '../Utility/SearchInput';
 import PageHeader from 'components/PageHeader/PageHeader';
 import StyledButton from 'components/Button/Button';
-import AssetStore from 'stores/AssetStore';
 import {FormattedNumber} from 'react-intl';
 import {
 	ArrowRightOutlined,
@@ -46,7 +28,6 @@ import {
 	CaretDownFilled,
 	CaretUpOutlined,
 } from '@ant-design/icons';
-import MarketsStore from 'stores/MarketsStore';
 
 class AccountOverview extends React.Component {
 	constructor(props) {
@@ -97,7 +78,7 @@ class AccountOverview extends React.Component {
 		});
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		this._checkMarginStatus();
 
 		var qd = {};
@@ -128,7 +109,7 @@ class AccountOverview extends React.Component {
 		});
 	}
 
-	componentWillReceiveProps(np) {
+	UNSAFE_componentWillReceiveProps(np) {
 		const currentDisplay = np.history.location.search.replace(
 			'?currentDisplay=',
 			''
@@ -306,10 +287,6 @@ class AccountOverview extends React.Component {
 			)
 		).toFixed(2);
 
-		let portfolioHiddenAssetsBalance = (
-			<TotalBalanceValue noTip balances={hiddenBalancesList} hide_asset />
-		);
-
 		let portfolioActiveAssetsBalance = (
 			<TotalBalanceValue noTip balances={includedBalancesList} hide_asset />
 		);
@@ -321,32 +298,6 @@ class AccountOverview extends React.Component {
 				hide_asset
 			/>
 		);
-		let marginValue = (
-			<TotalBalanceValue
-				noTip
-				balances={Immutable.List()}
-				debt={debt}
-				collateral={collateral}
-				hide_asset
-			/>
-		);
-		let debtValue = (
-			<TotalBalanceValue
-				noTip
-				balances={Immutable.List()}
-				debt={debt}
-				hide_asset
-			/>
-		);
-		let collateralValue = (
-			<TotalBalanceValue
-				noTip
-				balances={Immutable.List()}
-				collateral={collateral}
-				hide_asset
-			/>
-		);
-
 		const totalValueText = (
 			<TranslateWithLinks
 				noLink
@@ -397,7 +348,7 @@ class AccountOverview extends React.Component {
 
 		// add unicode non-breaking space as subtext to Activity Tab to ensure that all titles are aligned
 		// horizontally
-		const hiddenSubText = '\u00a0';
+		// const hiddenSubText = '\u00a0';
 
 		const onNavButtonClick = (selectedDisplay) => {
 			this.setState({currentDisplay: selectedDisplay});
@@ -408,31 +359,82 @@ class AccountOverview extends React.Component {
 		const {currentDisplay} = this.state;
 		const CheckboxGroup = Checkbox.Group;
 		const portfolioOption = [
-			`Price (${this.props.settings.get('unit')})`,
-			'24Hr',
-			'Qty',
-			`Value (${this.props.settings.get('unit')})`,
-			'Send',
-			'Trade',
-			'Deposit',
+			{
+				label: `${counterpart.translate('exchange.price')} (${preferredUnit})`,
+				value: `Price (${this.props.settings.get('unit')})`,
+			},
+			{label: counterpart.translate('account.hour_24_short'), value: '24Hr'},
+			{label: counterpart.translate('account.qty'), value: 'Qty'},
+			{
+				label: `${counterpart.translate(
+					'exchange.value'
+				)} (${this.props.settings.get('unit')})`,
+				value: `Value (${this.props.settings.get('unit')})`,
+			},
+			{label: counterpart.translate('transfer.send'), value: 'Send'},
+			{label: counterpart.translate('account.trade'), value: 'Trade'},
+			{label: counterpart.translate('exchange.deposit'), value: 'Deposit'},
 		];
+
 		if (showAssetPercent) {
-			portfolioOption.splice(4, 0, 'Percent of Total Supply');
+			portfolioOption.splice(4, 0, {
+				label: counterpart.translate('account.percent'),
+				value: 'Percent of Total Supply',
+			});
 		}
+
 		const openOrdersOption = [
-			'Buy / Sell',
-			'From / To',
-			'Price',
-			'Market Price',
-			'Orders Date',
-			'Expiry Date',
-			'Action',
+			{
+				label: `${counterpart.translate(
+					'exchange.buy'
+				)} / ${counterpart.translate('exchange.sell')}`,
+				value: 'Buy / Sell',
+			},
+			{
+				label: `${counterpart.translate(
+					'transaction.from'
+				)} / ${counterpart.translate('transaction.from')}`,
+				value: 'From / To',
+			},
+			{label: counterpart.translate('exchange.price'), value: 'Price'},
+			{
+				label: counterpart.translate('exchange.price_market'),
+				value: 'Market Price',
+			},
+			{
+				label: `${counterpart.translate(
+					'account.orders'
+				)} ${counterpart.translate('transaction.trxTypes.date')}`,
+				value: 'Orders Date',
+			},
+			{
+				label: `${counterpart.translate(
+					'account.expiry'
+				)} ${counterpart.translate('transaction.trxTypes.date')}`,
+				value: 'Expiry Date',
+			},
+			{label: counterpart.translate('exchange.actions'), value: 'Action'},
 		];
-		const transactionHistoryOption = ['Operation', 'Info', 'Fee', 'Time'];
+
+		const transactionHistoryOption = [
+			{value: 'Operation', label: counterpart.translate('explorer.block.op')},
+			{
+				value: 'Info',
+				label: counterpart.translate('account.transactions.info'),
+			},
+			{value: 'Fee', label: counterpart.translate('account.transactions.fee')},
+			{
+				value: 'Time',
+				label: counterpart.translate('account.transactions.time'),
+			},
+		];
+
 		const menuPortFolio = (
 			<div className="portfolio-checkbox-class">
 				<CaretUpOutlined />
-				<h3>Customize the Columns</h3>
+				<h3>
+					<Translate content="customizable_table.customize_the_columns" />
+				</h3>
 				<CheckboxGroup
 					options={portfolioOption}
 					value={this.state.portfolioCheckbox}
@@ -444,7 +446,9 @@ class AccountOverview extends React.Component {
 		const menuOpenorders = (
 			<div className="portfolio-checkbox-class">
 				<CaretUpOutlined />
-				<h3>Customize the Columns</h3>
+				<h3>
+					<Translate content="customizable_table.customize_the_columns" />
+				</h3>
 				<CheckboxGroup
 					options={openOrdersOption}
 					value={this.state.openOrderCheckbox}
@@ -456,7 +460,9 @@ class AccountOverview extends React.Component {
 		const menuTransactionHistory = (
 			<div className="portfolio-checkbox-class">
 				<CaretUpOutlined />
-				<h3>Customize the Columns</h3>
+				<h3>
+					<Translate content="customizable_table.customize_the_columns" />
+				</h3>
 				<CheckboxGroup
 					options={transactionHistoryOption}
 					value={this.state.transactionHistoryCheckbox}
@@ -476,7 +482,7 @@ class AccountOverview extends React.Component {
 									to="#"
 									onClick={() => this.props.history.push('/onramperwallet')}
 								>
-									Fund Wallet With Credit/Debit Card
+									{counterpart.translate('account.fund_wallet_with_card')}
 								</Link>
 							),
 						},
@@ -488,7 +494,7 @@ class AccountOverview extends React.Component {
 									rel="noopener noreferrer"
 									href={`${process.env.META1_SUPPORT_URL}how-to-deposit-into-your-meta-lite-wallet`}
 								>
-									Fund Wallet With Cryptocurrency
+									{counterpart.translate('account.fund_wallet_with_crypto')}
 								</a>
 							),
 						},
@@ -500,7 +506,7 @@ class AccountOverview extends React.Component {
 									rel="noopener noreferrer"
 									href={`${process.env.META1_VISION_URL}private-digital-currency/meta-1-coin`}
 								>
-									Fund Wallet with Wire or Check
+									{counterpart.translate('account.fund_wallet_with_wire')}
 								</a>
 							),
 						},
@@ -515,10 +521,14 @@ class AccountOverview extends React.Component {
 						borderBottom: `1px solid ${theme.colors.borderColor} `,
 					})}
 				>
-					<PageHeader title={'Your Assets'} showDivider={false} level={4} />
+					<PageHeader
+						title={counterpart.translate('explorer.assets.title')}
+						showDivider={false}
+						level={4}
+					/>
 
 					<div className="tab-controller">
-						<Space wrap>
+						<Space wrap className="fund-wallet-tab">
 							<StyledButton
 								className={
 									currentDisplay === 'portfolio' ? 'primary' : 'transparent'
@@ -537,7 +547,7 @@ class AccountOverview extends React.Component {
 									onNavButtonClick('openOrders');
 								}}
 							>
-								Open Orders
+								<Translate content="account.open_orders" />
 							</StyledButton>
 							<StyledButton
 								className={
@@ -549,7 +559,7 @@ class AccountOverview extends React.Component {
 									onNavButtonClick('transactionHistory');
 								}}
 							>
-								Transaction History
+								<Translate content="account.transaction_history" />
 							</StyledButton>
 
 							{/*{account.get('proposals') && account.get('proposals').size ? (
@@ -565,7 +575,8 @@ class AccountOverview extends React.Component {
 								</StyledButton>
 							) : null}*/}
 						</Space>
-						<Space align="start">
+
+						<Space align="start" className="fund-wallet">
 							<Dropdown
 								overlayClassName="dropdown-menu-sec"
 								overlay={menu}
@@ -573,7 +584,7 @@ class AccountOverview extends React.Component {
 								buttonType="primary"
 							>
 								<StyledButton buttonType="primary">
-									Fund Wallet
+									{counterpart.translate('account.fund_wallet')}
 									<CaretDownFilled />
 								</StyledButton>
 							</Dropdown>
@@ -636,21 +647,17 @@ class AccountOverview extends React.Component {
 						</Space>
 					</div>
 				</div>
-				<div
-					css={(theme) => ({
-						padding: '1rem  2rem',
-					})}
-				>
+				<div className="transaction-table">
 					{currentDisplay === 'portfolio' && (
 						<>
 							<div
 								className="portfolio header-selector"
-								css={(theme) => ({
+								css={() => ({
 									marginBottom: '1rem',
 								})}
 							>
 								<div className="estimated-balance">
-									<p>Estimated Balance</p>
+									<Translate content="account.estimate_balance" />
 									<div className="total">
 										{portfolioActiveAssetsBalance}&nbsp;{preferredUnit}
 										{!isNaN(usdTotal) && (
@@ -661,7 +668,7 @@ class AccountOverview extends React.Component {
 								</div>
 								<div className="filter inline-block">
 									<div className="hide-switch">
-										<div>Hide Zero Balances</div>
+										<Translate content="account.hide_zero_balance" />
 										<Switch
 											style={{marginLeft: 16}}
 											checked={this.state.hideZeroBalance}

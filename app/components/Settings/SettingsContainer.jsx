@@ -1,9 +1,9 @@
 import React from 'react';
+import counterpart from 'counterpart';
 import SettingsStore from 'stores/SettingsStore';
 import IntlStore from 'stores/IntlStore';
 import AltContainer from 'alt-container';
 import Settings from './Settings';
-import Footer from '../Layout/Footer';
 import PageHeader from 'components/PageHeader/PageHeader';
 class SettingsContainer extends React.Component {
 	render() {
@@ -28,9 +28,12 @@ class SettingsContainer extends React.Component {
 					},
 				}}
 			>
-				<PageHeader title="Settings" showDivider level={2} />
+				<PageHeader
+					title={counterpart.translate('header.settings')}
+					showDivider
+					level={2}
+				/>
 				<Settings {...this.props} />
-				{/* <Footer /> */}
 			</AltContainer>
 		);
 	}

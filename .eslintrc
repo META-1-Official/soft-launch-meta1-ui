@@ -4,6 +4,11 @@
 	],
 	"extends": ["plugin:react/recommended", "plugin:@typescript-eslint/recommended", "prettier"],
 	"parser": "@typescript-eslint/parser",
+	"overrides": [
+	    {
+	      "files": ["*.jsx", "*.js"]
+	    }
+	],
 	"env": {
 		"browser": true,
 		"node": true,
@@ -31,6 +36,13 @@
 		"object-curly-spacing": [0],
 		"react/prop-types": [0],
 		"react/jsx-uses-react": "off",
-    	"react/react-in-jsx-scope": "off"
+    	"react/react-in-jsx-scope": "off",
+    	"@typescript-eslint/no-var-requires": "off",
+    	"@typescript-eslint/no-this-alias": "off",
+    	"@typescript-eslint/no-empty-function": "off",
+		"@typescript-eslint/no-explicit-any": "off",
+		"react/no-find-dom-node": "off",
+		"react/no-unknown-property": "off",
+		"react/no-string-refs": "off"
 	}
 }

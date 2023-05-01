@@ -6,7 +6,6 @@ import AmountSelector from '../Utility/AmountSelectorStyleGuide';
 import counterpart from 'counterpart';
 import {Asset, Price, LimitOrderCreate} from 'common/MarketClasses';
 import MarketsActions from 'actions/MarketsActions';
-import {ChainStore, FetchChain} from 'meta1-vision-js';
 import ExchangeInput from 'components/Exchange/ExchangeInput';
 import ChainTypes from '../Utility/ChainTypes';
 import utils from 'common/utils';
@@ -45,13 +44,6 @@ export default class AddOpinionModal extends Modal {
 				: 'shortAndSell';
 		const feeID = this.props.baseAsset.get('id');
 
-		let {description} = this.props.predictionMarket.options;
-		const parsedDescription = JSON.parse(description);
-		let date = new Date();
-		date.setFullYear(date.getFullYear() + 1);
-		let expiry = parsedDescription.expiry
-			? new Date(parsedDescription.expiry)
-			: date;
 		let bid = {
 			for_sale: new Asset({
 				asset_id: this.props.baseAsset.get('id'),
@@ -90,17 +82,6 @@ export default class AddOpinionModal extends Modal {
 		ask.price = new Price({base: ask.for_sale, quote: ask.to_receive});
 
 		let current = type === 'buy' ? ask : bid;
-
-		const order = new LimitOrderCreate({
-			for_sale: current.for_sale,
-			expiration: expiry,
-			to_receive: current.to_receive,
-			seller: this.props.currentAccount.get('id'),
-			fee: {
-				asset_id: feeID,
-				amount: 0,
-			},
-		});
 
 		if (type === 'buy') {
 			const buy = new LimitOrderCreate({

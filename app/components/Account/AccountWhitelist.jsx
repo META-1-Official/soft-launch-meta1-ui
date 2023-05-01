@@ -14,6 +14,7 @@ import WalletApi from 'api/WalletApi';
 import WalletDb from 'stores/WalletDb.js';
 import PageHeader from 'components/PageHeader/PageHeader';
 import notify from 'actions/NotificationActions';
+import counterpart from 'counterpart';
 
 class AccountRow extends React.Component {
 	static propTypes = {
@@ -40,7 +41,7 @@ class AccountRow extends React.Component {
 							onClick={onRemove.bind(this, account.get('id'))}
 							className="button outline"
 						>
-							Remove
+							{counterpart.translate('settings.remove')}
 						</button>
 					</td>
 				) : null}
@@ -72,7 +73,7 @@ class AccountList extends React.Component {
 	}
 
 	render() {
-		let {removeButton, white, list} = this.props;
+		let {removeButton, white, list, keyStr} = this.props;
 
 		let rows = list
 			.map((account, index) => {
@@ -97,12 +98,16 @@ class AccountList extends React.Component {
 		let showHeaders = true;
 		if (!rows.length) {
 			showHeaders = false;
+			let dataImageBlack =
+				'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAABkAQMAAAA8FrWcAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAZQTFRFAAAAAAAApWe5zwAAAAJ0Uk5TAICbK04YAAABQ0lEQVR4nI3UsZGDMBCFYd04cKgSXIpbugos3Vzg0CW4FFOKSyAkYNBp33srrbMjWPgC5keIIaVUWj9q4mHXbYl4R6y4/OY9G8CZd5w484ETZ268XUCoVAKhK2Z+IXTBzE+EMucDiTNmviNxwsw/SHwdRAjlWmaoAwnMXJkobwKJsgJMlI1AouzACYly4KkbErcmWOJmoQFb0YDlBmxFZwdz6QJwRQJXJOjVCVyXwFcncF0CX53AkMCQwJDAkAMhB0IOhBwIORByIORAyIHQgIUGLDRgoQELDVhowEIDFhqw0EQPTfTQRA9N9NBED0300EQP5eTQHgncI4F7JHCPBO6RoI+B0MdA6GMgFBIYEhgSGBIYEhgSGBIYEhhylBqAkAOhgTVii9gjjoj2gRrwWgKeEY+I+6KfmB2/EfbU/8TVkdIfy4QYGqMXWEkAAAAASUVORK5CYII=';
+			let dataImageWhite =
+				'data:image/png;base64,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';
 			rows.push(
 				<tr key="empty">
 					<td
 						style={{padding: '1rem 0'}}
 						colSpan={removeButton ? 4 : 3}
-						css={(theme) => ({
+						css={() => ({
 							backgroundColor: 'transparent !important',
 						})}
 					>
@@ -114,27 +119,38 @@ class AccountList extends React.Component {
 							content={this.props.emptyText}
 							account={this.props.account.get('name')}
 						/>
-						<div
-							css={{
-								width: '100%',
-								display: 'flex',
-								flexDirection: 'column',
-								marginTop: '20px',
-								marginBottom: '20px',
-								alignItems: 'center',
-							}}
-						>
-							<div
-								css={{
-									width: 90,
-									height: 100,
-									backgroundImage: `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAABkCAYAAAAG2CffAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAV7SURBVHgB7Z3LixRHHMd/MzGJ5qF5EWJCEhKQJEIIOSeXBPI8qQd3L+56EP8j8eTBx0FFBcEHiiiKKIoeFgV1FfWg+MAHvh+o6/frVov0dnXXTldXV1XXB2p7t7tnpuYz362tma6q7YkFJiYmfsHmb5T3xS8uo2zp9Xo3pWX6UhNInoPNf+KfZPIVyijqOFdaprZo8DHKTPGX2SjDkP2ZtIgN0ddRHojf8LduBLI/lZbo8Qsq8B42X6BcQ3s2bWm4/SfY/I7ygbTPN6L/DbuDshbP8YY4pgdJ32G7QCZf9ccoG1GR8xIoeD7Lsfmy5JS7KKtd/4Fk08EkzlE/MwmLUdmfJV7YZo+4brMp+u3cPspeiIp8L/HivM2m6OOa/bEk+xHKiYL9TpPdR1s1hu2egmNZsn+UsHmBsh3ldMExJnvUhexX3TvIPojNLs3xBajIDxIweH78I78J5VTB4Q9RljTdjPTfqMxh0Sd7KPRk4/k9w2ar6JO9tMlk93OVYbJ3a85Lya5Bv6AyhyQl23qy+5rKlLXZ7I38JAHDZKOsF32yR20nu19SGV2bzdsMhd6MKHTJpmyrXb/SD5VKkk2Cl12R7KzrZyXZlZ/eqWTr3tTElOxzBfutJdv0Y9KrJbePJdnrpMFk2/g8OiXbABuis/tJyS7BlujsvoYjSfZm0Sd72SDJriP6QsE+XrEZUhcTgkW9qdH1RmbJAMmeIYPDd5DjKP/k9vPFY3u2HhU+I+0zA3WZL4NB0V/L1Et0WbJXmV4WqyP6VdcPD/YOvv0jf0gmk83rcxekXd5FWSz2yZK9Es/xYdXJtdtoPMh+bHZo7nukhYsHE+IOJvs3kxOt/DGE7KPY7Cs6JJMXD1y22Y/ELbNMTrLW66hI9rDDZPNFfyLueG5yUq02Og+TDaF8hfNtNttJJvt+02027n8cj7MC336L8pbYhR8V/ysDYFU0YbLxRPnr+3/uUJbsbTjnhDQI7p9jN6w/Bur+kQwo2uYblteUtNlZsoPuZw9CI6KJR222FzQmmhgkO4a360Y0KpqoZO+U4sde1BXZjYsmkH1E9MmO5SPWUpyIJl1PtjPRpMvJdiqaVPRGFsXaG3EumnSxN9KKaFKR7IWxJbs10UQle3/BoWzIcDTJblU0gWw2IdEnu3XRRCU75sHwfogmaviZLtnBDxn2RjSpSHbQQ4a9Ek1UsnWjWINNtneiSYnsYJPtpWgSW7K9FU1iSrbXoonB1Lwg+tneiyYVU/OCmE4dhGhiMIHJ62QHI5qEnOygRJNQkx2caGKQbO96I0GKJqEtFBCsaBLSQgFBiyahLBQQvGgSwkIBUYgmBr2RVpMdjWji80IBUYkmFcmuK7tofswLMSA60UQle2/BobqyH8jU5UHPmdwwStEEsg+I5WSriZ6rULjS5RWUHdh31uS21qdW+ISaB8kFFP/MHcpkb5jupFOcfwubNTJNok10RhPJHoToRRPVZutkO1kooBOiiZKtm3Ta+EIBnRFN1MBKXbJHmkx2p0STtpLdOdGkjYUCOimauF4ooLOiictJp50WTVxNp+68aOIi2Um0oulkJ9Fv0GSyk+gcTU3NS6ILaGI6dRKtwfZ06iS6BINkG19dT6IrMEi2kewk2oCS3kj2dr2yN5JEG1K3N5JET48xzf7K6dRJtD1KFwpIou2iTXYSbZ/CwfBJdH1uF+ybMmQ4ia4Ph4RVDhlOoi1gMJ16XhJtiYrp1H8l0RYpkT07ibaMRvbJOqNJ56Pt+Vy6xUyTkygbbi7i23ky2SsZqyP6V0logexL2FzKfk5NhyNMRd+XhI57JieZiuao+HFJ5LmOcszkxJ4Ygsad7flcsf8vN0KF/+vlJtripyYnvwRKgXyUf25FVAAAAABJRU5ErkJggg==')`,
-								}}
-							/>
-						</div>
-						<span css={{fontSize: '20px', color: 'rgba(255, 255, 255, 0.5)'}}>
-							No Data
-						</span>
+						{keyStr.includes('by') && (
+							<>
+								<div
+									css={{
+										width: '100%',
+										display: 'flex',
+										flexDirection: 'column',
+										marginTop: '20px',
+										marginBottom: '20px',
+										alignItems: 'center',
+									}}
+								>
+									<div
+										css={(theme) => ({
+											width: 90,
+											height: 100,
+											backgroundImage: `url('${
+												theme.mode === 'dark' ? dataImageWhite : dataImageBlack
+											}')`,
+										})}
+									/>
+								</div>
+								<span
+									css={(theme) => ({
+										fontSize: '20px',
+										color: theme.colors.descriptionTextColor,
+									})}
+								>
+									<Translate content="exchange.no_data" />
+								</span>
+							</>
+						)}
 					</td>
 				</tr>
 			);
@@ -143,23 +159,12 @@ class AccountList extends React.Component {
 		return (
 			<table
 				className="table compact dashboard-table"
-				css={(theme) => ({
+				css={() => ({
 					backgroundColor: 'transparent',
 				})}
 			>
 				{showHeaders ? (
-					<thead
-						css={(theme) => ({
-							tr: {
-								backgroundColor: theme.colors.tableColumnColor,
-								border: `2px solid ${theme.colors.borderColor}`,
-								borderBottom: `2px solid ${theme.colors.borderColor}`,
-								padding: '15px 10px',
-								textAlign: 'left',
-								fontSize: '13px !important',
-							},
-						})}
-					>
+					<thead>
 						<tr>
 							<th>#</th>
 							<th>
@@ -253,7 +258,7 @@ class AccountWhitelist extends React.Component {
 						</div>
 					),
 					level: 'warning',
-					autoDismiss: 3,
+					autoDismiss: 5,
 				});
 				return;
 			}
@@ -293,6 +298,16 @@ class AccountWhitelist extends React.Component {
 		});
 	};
 
+	_getPageTitle = (tab) => {
+		const pageTitleMap = {
+			Whitelist: counterpart.translate('account.whitelist.title'),
+			Blacklist: counterpart.translate('account.whitelist.black'),
+			'Whitelisted by': counterpart.translate('account.whitelist.white_by'),
+			'Blacklisted by': counterpart.translate('account.whitelist.black_by'),
+		};
+		return pageTitleMap[tab];
+	};
+
 	render() {
 		let {account} = this.props;
 		let {accountName, currentTab} = this.state;
@@ -300,7 +315,11 @@ class AccountWhitelist extends React.Component {
 		return (
 			<>
 				<div>
-					<PageHeader title={currentTab} level={2} showDivider />
+					<PageHeader
+						title={this._getPageTitle(currentTab)}
+						level={2}
+						showDivider
+					/>
 				</div>
 				<div className="account-whitelist">
 					<Tabs
@@ -326,7 +345,7 @@ class AccountWhitelist extends React.Component {
 							key="Whitelist"
 						>
 							<div style={{paddingBottom: '1rem'}} className="small-12">
-								<div>
+								<div className="table-wrapper">
 									<AccountList
 										emptyText="account.whitelist.empty"
 										account={account}
@@ -336,6 +355,7 @@ class AccountWhitelist extends React.Component {
 										}
 										removeButton
 										white={true}
+										keyStr="whitelist"
 									/>
 								</div>
 								{!account.get('whitelisted_accounts') ? (
@@ -367,13 +387,14 @@ class AccountWhitelist extends React.Component {
 							key="Blacklist"
 						>
 							<div style={{paddingBottom: '1rem'}} className="small-12">
-								<div>
+								<div className="table-wrapper">
 									<AccountList
 										emptyText="account.whitelist.empty_black"
 										account={account}
 										getCurrentState={this._getCurrentState.bind(this)}
 										list={account.get('blacklisted_accounts')}
 										removeButton
+										keyStr="blacklist"
 									/>
 								</div>
 								<div className="account-selector-wrapper">
@@ -398,50 +419,27 @@ class AccountWhitelist extends React.Component {
 							key="Whitelisted by"
 						>
 							<div style={{paddingBottom: '1rem'}} className="small-12">
-								<div
-									css={(theme) => ({
-										padding: '2rem 1rem',
-										display: 'flex',
-										flexDirection: 'column',
-										justifyContent: 'center',
-										[`@media (max-width: ${theme.sizes.lg})`]: {
-											width: '100%',
-											padding: '1rem',
-										},
-									})}
-								>
+								<div className="table-wrapper">
 									<AccountList
 										emptyText="account.whitelist.empty_white_by"
 										account={account}
 										list={account.get('whitelisting_accounts')}
+										keyStr="whitelisted_by"
 									/>
 								</div>
 							</div>
 						</Tabs.TabPane>
 						<Tabs.TabPane
 							tab={<Translate content="account.whitelist.black_by" />}
-							key="Blacklisted By"
+							key="Blacklisted by"
 						>
-							<div
-								css={(theme) => ({
-									padding: '2rem 1rem',
-									display: 'flex',
-									flexDirection: 'column',
-									justifyContent: 'center',
-									[`@media (max-width: ${theme.sizes.lg})`]: {
-										width: '100%',
-										padding: '1rem',
-									},
-								})}
-								className="small-12"
-							>
-								<div>
-									<AccountList
-										emptyText="account.whitelist.empty_black_by"
-										account={account}
-										list={account.get('blacklisting_accounts')}
-									/>
-								</div>
+							<div className="table-wrapper">
+								<AccountList
+									emptyText="account.whitelist.empty_black_by"
+									account={account}
+									list={account.get('blacklisting_accounts')}
+									keyStr="blacklisted_by"
+								/>
 							</div>
 						</Tabs.TabPane>
 					</Tabs>
