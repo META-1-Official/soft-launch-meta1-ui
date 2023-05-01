@@ -62,18 +62,29 @@
 		overflow-x: auto;
 		white-space: nowrap;
 
-		&::-webkit-scrollbar {
-			height: 6px;
-		}
+		.react-horizontal-scrolling-menu--inner-wrapper {
+			.react-horizontal-scrolling-menu--scroll-container {
+				&::-webkit-scrollbar {
+					height: 6px;
+				}
+	
+				&::-webkit-scrollbar-thumb {
+					background-color: gray;
+					border-radius: 10px;
+				}
+	
+				&::-webkit-scrollbar-track {
+					background: transparent;
+					border-radius: 10px;
+				}
+			}
 
-		&::-webkit-scrollbar-thumb {
-			background-color: gray;
-			border-radius: 10px;
-		}
-
-		&::-webkit-scrollbar-track {
-			background: transparent;
-			border-radius: 10px;
+			button {
+				border: 1px solid #33363d;
+				background-color: #16171b !important;
+				width: 25px;
+				padding: 0px;
+			}
 		}
 
 		.toggle-box {
@@ -92,6 +103,7 @@
 			&:first-of-type {
 				padding-top: 8px !important;
 				padding-bottom: 8px !important;
+				height: 32px;
 			}
 
 			&.selected {
@@ -119,6 +131,7 @@
 
 			.ant-pagination {
 				z-index: 3000;
+
 				@media screen and (max-width: 768px) {
 					justify-content: flex-end !important;
 				}
@@ -171,13 +184,13 @@
 		width: 100%;
 		padding-right: 10px;
 
-		> ul {
+		>ul {
 			list-style-type: none;
 			margin-left: 0px;
 			width: 100%;
 			margin-bottom: 0px;
 
-			> li {
+			>li {
 				font-size: 80%;
 				cursor: pointer;
 				display: inline-block;
@@ -185,7 +198,7 @@
 				text-transform: uppercase;
 			}
 
-			> li.last {
+			>li.last {
 				margin-right: 0px;
 			}
 
@@ -195,7 +208,7 @@
 		}
 	}
 
-	> .left-column {
+	>.left-column {
 		border-right: 1px solid $border-color;
 		border-top: none;
 	}
@@ -296,7 +309,7 @@ i.anticon.anticon-right.ant-collapse-arrow {
 	padding-right: 5px !important;
 }
 
-[class*='block-grid-'] > li {
+[class*='block-grid-']>li {
 	height: auto;
 
 	padding: 0 0.625em 1.25em;
@@ -470,9 +483,7 @@ p.order-table-title {
 		height: 0;
 	}
 
-	.ant-form-item-has-error:not(.ant-input-disabled):not(
-			.ant-input-borderless
-		).ant-input {
+	.ant-form-item-has-error:not(.ant-input-disabled):not(.ant-input-borderless).ant-input {
 		background: transparent !important;
 		border-left: 1px solid;
 		border-color: rgba(86, 97, 118, 0.3);
@@ -485,23 +496,23 @@ p.order-table-title {
 }
 
 .buy-form {
-	> div.ant-tabs-bar {
+	>div.ant-tabs-bar {
 		border-bottom: 1px solid #009d55 !important;
 	}
 }
 
 .sell-form {
-	> div.ant-tabs-bar {
+	>div.ant-tabs-bar {
 		border-bottom: 1px solid #ff2929 !important;
 	}
 }
 
 #market-charts {
-	> div.Stockcharts__wrapper {
+	>div.Stockcharts__wrapper {
 		overflow: hidden;
 	}
 
-	> div > div.tabs {
+	>div>div.tabs {
 		margin-bottom: 0.25rem;
 
 		.tab-item {
@@ -663,7 +674,7 @@ p.order-table-title {
 			border-top: none !important;
 		}
 
-		.ant-tabs-tab + .ant-tabs-tab {
+		.ant-tabs-tab+.ant-tabs-tab {
 			margin: 0 0 0 10px;
 		}
 	}
@@ -682,7 +693,7 @@ p.order-table-title {
 			border-top: none !important;
 		}
 
-		.ant-tabs-tab + .ant-tabs-tab {
+		.ant-tabs-tab+.ant-tabs-tab {
 			margin: 0 0 0 10px;
 		}
 	}
@@ -843,7 +854,7 @@ p.order-table-title {
 	border-bottom: 1px dotted;
 }
 
-.final-row > td {
+.final-row>td {
 	border-bottom: none !important;
 }
 
@@ -855,7 +866,7 @@ p.order-table-title {
 .bottom-header {
 	padding-top: 0.25rem;
 
-	> .horizontal-button {
+	>.horizontal-button {
 		height: 100%;
 		width: 100%;
 		border-bottom: none !important;
@@ -866,7 +877,7 @@ p.order-table-title {
 tr.top-header,
 tr.bottom-header,
 tr.spread-row {
-	&:hover > td {
+	&:hover>td {
 		background-color: inherit !important;
 		cursor: pointer !important;
 	}
@@ -898,7 +909,7 @@ a.order-cancel {
 }
 
 .market-stats {
-	> li {
+	>li {
 		display: inline-block;
 		padding-right: 0.5rem;
 	}
@@ -969,8 +980,8 @@ ul.market-stats {
 	padding: 2px 5px;
 	vertical-align: middle;
 
-	> span {
-		> span:first-of-type {
+	>span {
+		>span:first-of-type {
 			padding-right: 5px;
 			@include RobotoMedium;
 		}
@@ -1074,7 +1085,7 @@ div.bucket-option {
 	height: 1.75rem;
 }
 
-.buy-sell-input > input {
+.buy-sell-input>input {
 	margin: 0;
 	padding: 0;
 	height: 1.75rem;
@@ -1094,7 +1105,7 @@ div.bucket-option {
 	border-top-right-radius: 5px;
 	border-bottom-right-radius: 5px;
 
-	> select {
+	>select {
 		padding: 0;
 		margin: 0;
 		height: 1.75rem;
@@ -1115,7 +1126,7 @@ div.bucket-option {
 .borrow-button-container {
 	padding-left: 0.25rem;
 
-	> div:last-of-type {
+	>div:last-of-type {
 		margin-bottom: 0.2rem;
 	}
 }
@@ -1193,6 +1204,7 @@ table thead tr th.mymarkets-header {
 }
 
 .table-no-padding {
+
 	tr,
 	td {
 		padding: 0px !important;
@@ -1205,30 +1217,30 @@ table thead tr th.mymarkets-header {
 	padding-right: 0.25rem;
 }
 
-.blue-icon > svg > path {
+.blue-icon>svg>path {
 	fill: #2196f3 !important;
 }
 
-.gold-star > svg > path {
+.gold-star>svg>path {
 	fill: #cc9f00 !important;
 }
 
-.grey-star > svg > path,
-.grey-shuffle > svg > path,
-.shuffle > svg > path {
+.grey-star>svg>path,
+.grey-shuffle>svg>path,
+.shuffle>svg>path {
 	fill: #878787 !important;
 }
 
-.white-star > svg > path {
+.white-star>svg>path {
 	fill: #fff !important;
 }
 
-.gold-star:hover > svg > path {
+.gold-star:hover>svg>path {
 	fill: lighten(#cc9f00, 10%) !important;
 }
 
-.shuffle:hover > svg > path,
-.grey-star:hover > svg > path {
+.shuffle:hover>svg>path,
+.grey-star:hover>svg>path {
 	fill: #cc9f00 !important;
 }
 
@@ -1284,7 +1296,7 @@ form.hide-container {
 	overflow: visible !important;
 	z-index: 9;
 
-	> div.custom-dropdown-content {
+	>div.custom-dropdown-content {
 		position: absolute;
 		z-index: 99;
 		top: 29px;
@@ -1292,7 +1304,7 @@ form.hide-container {
 		right: auto;
 		min-width: 15rem;
 
-		> ul {
+		>ul {
 			margin: 0;
 			list-style: none;
 			text-align: left;
@@ -1305,7 +1317,7 @@ form.hide-container {
 				display: inline-block;
 			}
 
-			> li {
+			>li {
 				position: relative;
 
 				&.indicator-title {
@@ -1317,20 +1329,20 @@ form.hide-container {
 				border: none;
 
 				&.indicator {
-					> div:first-of-type {
+					>div:first-of-type {
 						display: inline-block;
 						padding-left: 25px;
 						width: 60%;
 					}
 
-					> div:nth-of-type(2) {
+					>div:nth-of-type(2) {
 						width: 40%;
 						text-align: right;
 						display: inline-block;
 					}
 				}
 
-				> input {
+				>input {
 					position: absolute;
 					top: 5px;
 				}
@@ -1344,7 +1356,7 @@ form.hide-container {
 	padding-left: 10px;
 	text-transform: none;
 
-	> a > span.asset-name {
+	>a>span.asset-name {
 		text-transform: none;
 	}
 }
@@ -1366,6 +1378,7 @@ form.hide-container {
 			&:first-child {
 				font-size: 18px;
 			}
+
 			&:last-child {
 				font-size: 22px;
 			}
@@ -1498,12 +1511,14 @@ form.hide-container {
 
 .market-order-table-container {
 	background-color: green;
+
 	.ant-table-wrapper {
 		width: 100% !important;
 
 		.ant-table-container {
 			.ant-table-body {
 				overflow: auto !important;
+
 				&::-webkit-scrollbar {
 					height: 6px;
 				}
@@ -1521,7 +1536,7 @@ form.hide-container {
 		}
 
 		table {
-			.ant-table-thead tr > th {
+			.ant-table-thead tr>th {
 				border-radius: 0px !important;
 				box-shadow: none !important;
 			}
@@ -1584,13 +1599,13 @@ form.hide-container {
 		margin: 10px;
 		padding-bottom: 10px;
 
-		> span {
+		>span {
 			padding-bottom: 2px;
 			margin-right: 10px;
 		}
 
-		> span.selected,
-		> span:hover {
+		>span.selected,
+		>span:hover {
 			border-bottom: 5px solid cyan;
 		}
 	}
@@ -1663,7 +1678,7 @@ form.hide-container {
 }
 
 .underline-title {
-	> * {
+	>* {
 		text-decoration: underline;
 	}
 }
@@ -1691,6 +1706,7 @@ form.hide-container {
 		background: #0a0b0d;
 		border: 1px solid #1c1f27;
 		border-radius: 4px;
+
 		@media screen and (max-width: 870px) {
 			margin: 0px 9px 0px;
 		}
@@ -1703,6 +1719,7 @@ form.hide-container {
 				margin-left: 6px !important;
 				margin-top: 6px !important;
 			}
+
 			.header-content {
 				display: flex;
 				flex-direction: column;
@@ -1713,6 +1730,7 @@ form.hide-container {
 	.title1 {
 		font-size: 24px;
 		margin-bottom: 10px;
+
 		@media screen and (max-width: 870px) {
 			font-size: 15px !important;
 			line-height: 1.5 !important;
@@ -1722,10 +1740,12 @@ form.hide-container {
 	.title2 {
 		font-size: 20px;
 		margin-bottom: 10px;
+
 		@media screen and (max-width: 870px) {
 			font-size: 11px !important;
 			line-height: 1.5 !important;
 		}
+
 		.golden {
 			color: #ffc000;
 		}
@@ -1733,6 +1753,7 @@ form.hide-container {
 
 	.title3 {
 		font-size: 16px;
+
 		@media screen and (max-width: 870px) {
 			font-size: 10px !important;
 			line-height: 1.5 !important;
@@ -1745,6 +1766,7 @@ form.hide-container {
 			justify-content: left;
 		}
 	}
+
 	span.ant-typography {
 		@media screen and (max-width: 870px) {
 			font-size: 11px !important;
@@ -1756,28 +1778,35 @@ form.hide-container {
 		width: 170px;
 		text-align: right;
 		font-size: 15px;
+
 		@media screen and (max-width: 870px) {
 			width: 119px;
 		}
+
 		@media screen and (max-width: 650px) {
 			width: 100%;
 			display: inline;
 			margin-left: 10px;
 		}
+
 		@media screen and (max-width: 650px) {
 			margin-left: 14px;
 		}
 	}
+
 	.content {
 		font-size: 16px;
 		width: 100%;
 	}
+
 	.container {
 		padding-left: '1rem';
+
 		@media screen and (max-width: 650px) {
 			padding-left: 1px;
 		}
 	}
+
 	.list-wrapper {
 		position: relative;
 
@@ -1792,11 +1821,13 @@ form.hide-container {
 			height: 50px;
 			align-items: center;
 			display: flex;
+
 			@media (max-width: 870px) {
 				height: unset !important;
 				width: 95% !important;
 				top: 50px !important;
 			}
+
 			.ant-input-wrapper {
 				input {
 					@media (max-width: 870px) {
@@ -1831,16 +1862,19 @@ form.hide-container {
 				background: #15171b;
 				border-top: 1px solid #212530;
 				padding-left: 20px;
+
 				@media (max-width: 870px) {
 					height: 40px !important;
 					padding-left: 6px !important;
 				}
+
 				.ant-tabs-tab {
 					font-size: 16px;
 					color: #969ba6;
 					width: 136px;
 					display: flex;
 					justify-content: center;
+
 					@media (max-width: 870px) {
 						font-size: 14px !important;
 						width: 90px !important;
@@ -1851,21 +1885,26 @@ form.hide-container {
 					}
 				}
 			}
+
 			.ant-list-item-meta {
 				@media (max-width: 650px) {
 					flex-direction: column;
 				}
 			}
+
 			.ant-list-item-meta-content {
 				@media (max-width: 650px) {
 					width: 100%;
 				}
 			}
+
 			.ant-list-items {
 				margin-top: 10px;
+
 				@media (max-width: 870px) {
 					margin-top: 40px !important;
 				}
+
 				.ant-list-item {
 					padding: 20px;
 					border-bottom: 1px solid #1c1f27;
@@ -1879,14 +1918,17 @@ form.hide-container {
 				.progress {
 					width: 170px;
 					margin-top: 20px;
+
 					@media (max-width: 870px) {
 						width: 119px;
 					}
+
 					@media (max-width: 650px) {
 						width: 80%;
 						margin-top: -17px;
 						margin-right: 10px;
 					}
+
 					@media (max-width: 380px) {
 						width: 70%;
 					}
@@ -1912,9 +1954,11 @@ form.hide-container {
 	.header-wrapper {
 		padding: 3rem;
 		text-align: center;
+
 		@media (max-width: 850px) {
 			padding: 0.5rem;
 			margin-top: 20px;
+
 			h3 {
 				font-size: 18px !important;
 			}
@@ -1931,60 +1975,75 @@ form.hide-container {
 			flex-direction: row;
 			align-items: center;
 			padding: 30px;
+
 			@media (max-width: 850px) {
 				padding: 0.5rem;
+
 				span {
 					font-size: 13px !important;
 					word-wrap: break-word;
 				}
 			}
 		}
+
 		.info-content {
 			font-size: 16px;
 			line-height: 24px;
+
 			@media (max-width: 850px) {
 				font-size: 13px;
 				word-wrap: break-word;
 			}
 		}
+
 		.info-content-value {
 			color: rgba(206, 206, 206, 0.6);
 			font-size: 16px;
+
 			@media (max-width: 850px) {
 				font-size: 13px;
 				word-wrap: break-word;
 			}
 		}
+
 		.document-link {
 			text-decoration: underline;
 			font-size: 16px;
+
 			@media (max-width: 850px) {
 				font-size: 13px;
 			}
 		}
+
 		.info-body {
 			background: #15171b;
 			border-bottom-left-radius: 10px;
 			border-bottom-right-radius: 10px;
 			padding: 30px;
+
 			@media (max-width: 850px) {
 				padding: 15px;
 			}
+
 			.info-text {
 				font-size: 16px;
 				color: #cecece;
+
 				@media (max-width: 850px) {
 					font-size: 13px;
 				}
 			}
+
 			.info-details {
 				@media (max-width: 950px) {
 					flex-direction: column;
 					align-items: baseline;
 				}
+
 				.info-img {
 					width: 365px;
 					padding: 20px;
+
 					@media (max-width: 950px) {
 						width: 200px;
 						margin: 0px;
@@ -2008,17 +2067,21 @@ form.hide-container {
 				padding: 15px;
 				flex-direction: column !important;
 				gap: 20px;
+
 				span {
 					font-size: 18px;
 					width: 96%;
 				}
 			}
+
 			.progress-wrapper {
 				display: flex;
 				flex-direction: row;
 				align-items: center;
+
 				@media (max-width: 850px) {
 					width: 100%;
+
 					span {
 						width: 50px;
 					}
@@ -2082,7 +2145,7 @@ form.hide-container {
 		list-style: none;
 		margin: 10px auto;
 
-		> li {
+		>li {
 			font-size: 15px;
 			display: inline-block;
 			margin: 0 5px;
@@ -2117,19 +2180,20 @@ form.hide-container {
 			}
 		}
 
-		.table > thead tr th {
+		.table>thead tr th {
 			font-size: 0.75rem;
 			height: 50px;
 			background-color: #15171b;
 		}
 
-		.table > tbody tr {
+		.table>tbody tr {
 			td {
 				padding-top: 10px;
 				padding-bottom: 10px;
 				padding-left: 10px;
 				border-bottom: 1px solid #15171b;
 			}
+
 			&:hover {
 				td {
 					background-color: #21202030 !important;

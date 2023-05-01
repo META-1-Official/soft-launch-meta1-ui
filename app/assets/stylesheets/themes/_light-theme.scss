@@ -730,8 +730,17 @@ $buy-sell-order-form-border-color: rgba(86, 97, 118, 0.3);
 		.asset-select {
 			background-color: transparent !important;
 
-			&::-webkit-scrollbar-thumb {
-				background-color: lightgray;
+			.react-horizontal-scrolling-menu--inner-wrapper {
+				.react-horizontal-scrolling-menu--scroll-container {		
+					&::-webkit-scrollbar-thumb {
+						background-color: lightgray;
+					}
+				}
+	
+				button {
+					border: 1px solid $border-color;
+					background-color: $bg-color-lightblue !important;
+				}
 			}
 
 			.toggle-box.selected {
