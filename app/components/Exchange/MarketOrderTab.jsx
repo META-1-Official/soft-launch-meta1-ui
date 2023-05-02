@@ -226,7 +226,7 @@ const MarketOrderForm = (props) => {
 		props
 			.createMarketOrder(orders, ChainStore.getAsset('META1').get('id'))
 			.then(() => {
-				onChangeAmount(0.0);
+				setAmount(0.0);
 			})
 			.catch(() => {});
 	};
@@ -264,7 +264,7 @@ const MarketOrderForm = (props) => {
 			amount = Number(props.quoteAssetBalance);
 		}
 
-		onChangeAmount((amount * percent) / 100);
+		setAmount((amount * percent) / 100);
 		setTotalPercent(percent);
 	};
 
