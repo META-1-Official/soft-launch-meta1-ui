@@ -430,6 +430,8 @@ class Exchange extends React.Component {
 		preCalcPromise.then((result) => {
 			let backingAssetValue;
 			let backingAssetPolarity;
+			let buyMarketPrices = [];
+			let sellMarketPrices = [];
 
 			if (result) {
 				backingAssetValue = result.backingAssetValue;
@@ -464,11 +466,17 @@ class Exchange extends React.Component {
 				let sellMarketLiquidity = 0;
 				let estSellAmount = 0;
 
-				for (let price of _prices)
-					sellMarketLiquidity +=
+				for (let price of _prices) {
+					const _amount =
 						price.for_sale /
 						Math.pow(10, baseAssetPrecision) /
 						price._real_price;
+					sellMarketPrices.push({
+						amount: _amount,
+						price: price._real_price,
+					});
+					sellMarketLiquidity += _amount;
+				}
 
 				for (let price of _prices) {
 					sellMarketPrice = price._real_price;
@@ -500,16 +508,26 @@ class Exchange extends React.Component {
 						sellMarketPrice
 					);
 					console.log('sellMarketLiquidity:', sellMarketLiquidity);
-					that.setState({sellMarketPrice, sellMarketLiquidity});
+					that.setState({
+						sellMarketPrice,
+						sellMarketPrices,
+						sellMarketLiquidity,
+					});
 				}
 			} else {
 				let buyMarketPrice = 0;
 				let buyMarketLiquidity = 0;
 				let estSellAmount = 0;
 
-				for (let price of _prices)
+				for (let price of _prices) {
+					const _amount = price.for_sale / Math.pow(10, quoteAssetPrecision);
+					buyMarketPrices.push({
+						amount: _amount,
+						price: price._real_price,
+					});
 					buyMarketLiquidity +=
 						price.for_sale / Math.pow(10, quoteAssetPrecision);
+				}
 
 				_prices
 					.slice()
@@ -544,7 +562,7 @@ class Exchange extends React.Component {
 						buyMarketPrice
 					);
 					console.log('buyMarketLiquidity:', buyMarketLiquidity);
-					that.setState({buyMarketPrice, buyMarketLiquidity});
+					that.setState({buyMarketPrice, buyMarketPrices, buyMarketLiquidity});
 				}
 			}
 		});
@@ -1979,8 +1997,10 @@ class Exchange extends React.Component {
 			backingAssetValue,
 			backingAssetPolarity,
 			buyMarketPrice,
+			buyMarketPrices,
 			buyMarketLiquidity,
 			sellMarketPrice,
+			sellMarketPrices,
 			sellMarketLiquidity,
 			currentSection,
 		} = this.state;
@@ -2121,6 +2141,7 @@ class Exchange extends React.Component {
 						baseAsset={base}
 						historyUrl={this.props.history.location}
 						price={buyMarketPrice}
+						prices={buyMarketPrices}
 						liquidity={buyMarketLiquidity}
 						locked_v2={this.props.locked_v2}
 						total={totals.ask}
@@ -2266,6 +2287,7 @@ class Exchange extends React.Component {
 						quoteAsset={quote}
 						historyUrl={this.props.history.location}
 						price={sellMarketPrice}
+						prices={sellMarketPrices}
 						liquidity={sellMarketLiquidity}
 						locked_v2={this.props.locked_v2}
 						total={totals.bid}

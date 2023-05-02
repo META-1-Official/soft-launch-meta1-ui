@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Input, Form} from 'antd';
+import {debounce} from 'lodash-es';
 import AssetNameWrapper from '../Utility/AssetName';
 import {Asset} from '../../lib/common/MarketClasses';
 import ChainStore from 'meta1-vision-js/es/chain/src/ChainStore';
@@ -21,7 +22,6 @@ const MarketOrderForm = (props) => {
 	const [balanceData, setBalanceData] = useState(null);
 	const [form] = Form.useForm();
 
-	const total = Number(amount) * Number(props.price);
 	const usdVal = (Number(amount) * Number(usdPrice)).toFixed(2);
 	const isBid = props.type === 'bid';
 
@@ -30,17 +30,13 @@ const MarketOrderForm = (props) => {
 		form.setFieldsValue({
 			price: props.price,
 			usd: usdVal,
-			total: total,
-			totalBalance: total,
 		});
 	}, []);
 
-	useEffect(() => {
+	useEffect(async () => {
 		form.setFieldsValue({
 			price: props.price,
 			usd: usdVal,
-			total: total,
-			totalBalance: total,
 			amount,
 		});
 	}, [amount]);
@@ -55,8 +51,6 @@ const MarketOrderForm = (props) => {
 		form.setFieldsValue({
 			price: props.price,
 			usd: 0,
-			total: 0,
-			totalBalance: 0,
 			amount: 0,
 		});
 	}, [props.quoteAsset.get('symbol')]);
@@ -123,7 +117,29 @@ const MarketOrderForm = (props) => {
 		setUsdPrice(usd_price);
 	};
 
+	const getMarketPriceWithAmount = (amount) => {
+		if (!amount) {
+			return Number(props.price.toPrecision(5));
+		} else {
+			let total = 0;
+
+			// When amount is smaller than liquidity
+			for (var i = 0; i < props.prices.length; i++) {
+				let _price = isBid
+					? props.prices[props.prices.length - i - 1]
+					: props.prices[i];
+				total += _price.amount;
+
+				if (total > amount) return Number(_price.price.toPrecision(5));
+			}
+
+			// When amount fully cover the orders
+			return Number(props.price.toPrecision(5));
+		}
+	};
+
 	const isFormValid = () => {
+		const total = Number(amount) * getMarketPriceWithAmount(amount);
 		let hasBalance = isBid
 			? props.baseAssetBalance >= parseFloat(total)
 			: props.quoteAssetBalance >= parseFloat(amount);
@@ -158,7 +174,7 @@ const MarketOrderForm = (props) => {
 	const prepareOrders = (amount) => {
 		const orders = [];
 
-		const price = Number(props.price);
+		const price = getMarketPriceWithAmount(amount);
 		const isBid = props.type === 'bid';
 
 		const expirationTime = props.expirations[props.expirationType].get(
@@ -200,14 +216,12 @@ const MarketOrderForm = (props) => {
 			}),
 			expirationTime: expirationTime,
 		});
+		console.log('@1 - ', orders[0]);
 
 		props
 			.createMarketOrder(orders, ChainStore.getAsset('META1').get('id'))
 			.then(() => {
-				setAmount(0.0);
-				form.setFieldsValue({
-					amount: 0,
-				});
+				onChangeAmount(0.0);
 			})
 			.catch(() => {});
 	};
@@ -245,7 +259,7 @@ const MarketOrderForm = (props) => {
 			amount = Number(props.quoteAssetBalance);
 		}
 
-		setAmount((amount * percent) / 100);
+		onChangeAmount((amount * percent) / 100);
 		setTotalPercent(percent);
 	};
 
