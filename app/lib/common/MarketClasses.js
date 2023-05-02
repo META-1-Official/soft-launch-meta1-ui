@@ -1285,11 +1285,11 @@ class FillOrder {
 			? this.pays.times(this.fill_price).getAmount({real: true})
 			: this.receives.getAmount({real: true});
 
-		return utils.format_number(amount, this.receives.precision);
+		return utils.format_number_digits(amount, this.receives.precision);
 	}
 
 	amountToPay() {
-		return utils.format_number(
+		return utils.format_number_digits(
 			this.pays.getAmount({real: true}),
 			this.pays.precision
 		);

@@ -590,6 +590,16 @@ $buy-sell-order-form-border-color: rgba(86, 97, 118, 0.3);
 
 				.limit-order-input-wrapper {
 					background: $panel-bg-color !important;
+
+					.limit-order-input {				
+						.ant-input-group-addon {
+							background-color: transparent;
+
+							.limit-order-text {
+								color: rgba(0, 0, 0, 0.5);
+							}
+						}
+					}
 				}
 
 				.ant-input[disabled] {
