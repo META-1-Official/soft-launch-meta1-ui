@@ -1,7 +1,7 @@
 import React from 'react';
 import counterpart from 'counterpart';
 import Translate from 'react-translate-component';
-import {Table} from 'antd';
+import { Table, Tooltip } from 'antd';
 import Icon from '../../Icon/Icon';
 
 class MarketsOrderView extends React.Component {
@@ -38,7 +38,7 @@ class MarketsOrderView extends React.Component {
 							dataSource={data}
 							pagination={false}
 							showSorterTooltip={false}
-							scroll={{y: 350, x: 500}}
+							scroll={{ y: 350, x: 500 }}
 						>
 							<Table.Column
 								dataIndex="type"
@@ -99,13 +99,24 @@ class MarketsOrderView extends React.Component {
 								render={(row) => {
 									return (
 										<div className="td-content">
-											<div className="td-content-common-text">
-												{Number(row.receiveAmount).toFixed(6)}
-											</div>
+											<Tooltip
+												title={row.receiveAmount}
+												placement="top"
+											>
+												<div className="td-content-common-text">
+													{Number(row.receiveAmount).toFixed(6)}
+												</div>
+											</Tooltip>
 											<div className="td-content-divider"></div>
-											<div className="td-content-second-text">
-												{Number(row.payAmount).toFixed(6)}
-											</div>
+											<Tooltip
+												title={row.payAmount}
+												placement="bottom"
+											>
+
+												<div className="td-content-second-text">
+													{Number(row.payAmount).toFixed(6)}
+												</div>
+											</Tooltip>
 										</div>
 									);
 								}}
@@ -137,9 +148,14 @@ class MarketsOrderView extends React.Component {
 								render={(row) => {
 									return (
 										<div className="td-content">
-											<div className="td-content-common-text">
-												{Number(row.total).toFixed(6)} {row.quoteSymbol}
-											</div>
+											<Tooltip
+												title={row.total}
+												placement="top"
+											>
+												<div className="td-content-common-text">
+													{Number(row.total).toFixed(6)} {row.quoteSymbol}
+												</div>
+											</Tooltip>
 										</div>
 									);
 								}}
@@ -162,7 +178,7 @@ class MarketsOrderView extends React.Component {
 												name="times"
 												theme="filled"
 												size="1x"
-												style={{fill: '#ff2929'}}
+												style={{ fill: '#ff2929' }}
 											/>
 										</button>
 									);
@@ -177,4 +193,4 @@ class MarketsOrderView extends React.Component {
 	}
 }
 
-export {MarketsOrderView};
+export { MarketsOrderView };
