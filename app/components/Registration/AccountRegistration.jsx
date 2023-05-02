@@ -18,6 +18,7 @@ import kycService from 'services/kyc.service';
 import migrationService from 'services/migration.service';
 import {toast} from 'react-toastify';
 import LoginProvidersModal from 'components/Web3Auth/LoginProvidersModal';
+import ChainStore from 'meta1-vision-js/es/chain/src/ChainStore';
 
 const OvalImage = require('assets/oval/oval.png');
 const FlipImage = require('assets/flip.png');
@@ -81,7 +82,6 @@ class AccountRegistration extends React.Component {
 		if (!this.webcamRef.current) return;
 
 		this.setState({verifying: true});
-
 		const imageSrc = this.webcamRef.current.takePhoto();
 
 		if (!imageSrc) {
@@ -240,6 +240,43 @@ class AccountRegistration extends React.Component {
 			value: true,
 		});
 		this.updateDimensions();
+		this._checkReferrer();
+	}
+
+	timer = (ms) => new Promise((res) => setTimeout(res, ms));
+
+	async _checkReferrer() {
+		let referralAccount = '';
+		if (window) {
+			function getQueryParam(param) {
+				var result = window.location.search.match(
+					new RegExp('(\\?|&)' + param + '(\\[\\])?=([^&]*)')
+				);
+
+				return result ? decodeURIComponent(result[3]) : false;
+			}
+			let validQueries = ['r', 'referrer', 'referral'];
+			for (let i = 0; i < validQueries.length; i++) {
+				referralAccount = getQueryParam(validQueries[i]);
+				if (referralAccount) break;
+			}
+		}
+
+		if (referralAccount) {
+			let chainAccount = ChainStore.getAccount(referralAccount);
+			while (chainAccount === undefined) {
+				chainAccount = ChainStore.getAccount(referralAccount);
+				await this.timer(1000);
+			}
+
+			if (chainAccount && chainAccount.get) {
+				let accountStatus = ChainStore.getAccountMemberStatus(chainAccount);
+
+				if (accountStatus != 'lifetime') {
+					this.props.history.push('/registration');
+				}
+			}
+		}
 	}
 
 	componentDidMount() {
