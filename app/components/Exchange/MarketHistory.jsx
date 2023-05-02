@@ -271,13 +271,13 @@ class MarketHistory extends React.Component {
 			const price = order.getPrice();
 			const isBid = order.isBid();
 
-			const payAmount = utils.format_number(
+			const payAmount = utils.format_number_digits(
 				order[!isBid ? 'amountForSale' : 'amountToReceive']().getAmount({
 					real: true,
 				}),
 				quote.get('precision')
 			);
-			const receiveAmount = utils.format_number(
+			const receiveAmount = utils.format_number_digits(
 				order[!isBid ? 'amountToReceive' : 'amountForSale']().getAmount({
 					real: true,
 				}),
