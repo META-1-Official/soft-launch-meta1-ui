@@ -118,9 +118,9 @@ const MarketOrderForm = (props) => {
 	};
 
 	const getMarketPriceWithAmount = (amount) => {
-		if (!amount) {
-			return Number(props.price.toPrecision(5));
-		} else {
+		let _marketPrice = props.price;
+
+		if (amount) {
 			let total = 0;
 
 			// When amount is smaller than liquidity
@@ -130,11 +130,17 @@ const MarketOrderForm = (props) => {
 					: props.prices[i];
 				total += _price.amount;
 
-				if (total > amount) return Number(_price.price.toPrecision(5));
+				if (total > amount) {
+					_marketPrice = _price.price;
+					break;
+				}
 			}
+		}
 
-			// When amount fully cover the orders
-			return Number(props.price.toPrecision(5));
+		if (_marketPrice) {
+			return isBid ? ceilFloat(_marketPrice, 5) : floorFloat(_marketPrice, 5);
+		} else {
+			return 0;
 		}
 	};
 
@@ -216,7 +222,6 @@ const MarketOrderForm = (props) => {
 			}),
 			expirationTime: expirationTime,
 		});
-		console.log('@1 - ', orders[0]);
 
 		props
 			.createMarketOrder(orders, ChainStore.getAsset('META1').get('id'))
