@@ -266,7 +266,7 @@ class FeeAssetSelector extends React.Component {
 								'&&': {
 									backgroundColor: theme.colors.dropdownBackgroundColor,
 									border: 'none',
-									color: theme.colors.inputTextColor,
+									color: '#fff',
 									borderRadius: '6px',
 									width: 'calc(100% - 130px)',
 									height: '32px',
