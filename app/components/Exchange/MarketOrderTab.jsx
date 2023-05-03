@@ -226,7 +226,7 @@ const MarketOrderForm = (props) => {
 		props
 			.createMarketOrder(orders, ChainStore.getAsset('META1').get('id'))
 			.then(() => {
-				onChangeAmount(0.0);
+				setAmount(0.0);
 			})
 			.catch(() => {});
 	};
@@ -249,7 +249,7 @@ const MarketOrderForm = (props) => {
 	};
 
 	const onChangeTotalPercentHandler = (percent) => {
-		if (!Number(props.price)) {
+		if (!Number(props.price) || !props.latestPrice) {
 			setTotalPercent(0);
 			toast('No liquidty!');
 			return;
@@ -259,12 +259,12 @@ const MarketOrderForm = (props) => {
 		let amount = 0;
 
 		if (isBid) {
-			amount = Number(props.baseAssetBalance) / Number(props.price);
+			amount = Number(props.baseAssetBalance) / Number(props.latestPrice);
 		} else if (!isBid && props.quoteAssetBalance) {
 			amount = Number(props.quoteAssetBalance);
 		}
 
-		onChangeAmount((amount * percent) / 100);
+		setAmount((amount * percent) / 100);
 		setTotalPercent(percent);
 	};
 

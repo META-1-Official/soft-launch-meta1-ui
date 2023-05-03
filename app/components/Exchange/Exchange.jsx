@@ -2142,6 +2142,7 @@ class Exchange extends React.Component {
 						historyUrl={this.props.history.location}
 						price={buyMarketPrice}
 						prices={buyMarketPrices}
+						latestPrice={latest && latest.getPrice()}
 						liquidity={buyMarketLiquidity}
 						locked_v2={this.props.locked_v2}
 						total={totals.ask}
@@ -2288,6 +2289,7 @@ class Exchange extends React.Component {
 						historyUrl={this.props.history.location}
 						price={sellMarketPrice}
 						prices={sellMarketPrices}
+						latestPrice={latest && latest.getPrice()}
 						liquidity={sellMarketLiquidity}
 						locked_v2={this.props.locked_v2}
 						total={totals.bid}
