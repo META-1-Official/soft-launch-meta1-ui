@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const LITE_WALLET_BACKEND_URL = process.env.REACT_APP_BACK_URL;
+const LITE_WALLET_BACKEND_URL = process.env.LITE_WALLET_URL;
 
 // interface SubscribeParams {
 //   email: string;
