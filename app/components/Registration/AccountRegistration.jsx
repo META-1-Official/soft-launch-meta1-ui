@@ -680,9 +680,7 @@ class AccountRegistration extends React.Component {
 						<div className="create-account-block">
 							{this.state.migrationStep && (
 								<div style={{cursor: 'pointer'}} onClick={this.backBtnClick}>
-									{`<< ${counterpart.translate(
-										'registration.faceki_verifying'
-									)}`}
+									{`<< ${counterpart.translate('wallet.back')}`}
 								</div>
 							)}
 							{this.state.faceKIStep === false && (
