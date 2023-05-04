@@ -1,7 +1,4 @@
 import axios from 'axios';
-import ls from '../lib/common/localStorage';
-
-const ss = new ls('__AuthData__');
 
 const LITE_WALLET_BACKEND_URL = process.env.REACT_APP_BACK_URL;
 
@@ -22,9 +19,6 @@ class SendXApi {
 	constructor() {
 		this.api = axios.create({
 			baseURL: LITE_WALLET_BACKEND_URL,
-			headers: {
-				Authorization: `Bearer ${ss.get('account_login_token', null)}`,
-			},
 		});
 	}
 
