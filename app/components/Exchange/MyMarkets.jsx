@@ -867,7 +867,9 @@ class MyMarkets extends React.Component {
 									</div>
 								</form>
 							</div>
-							<label
+
+							<div
+								class="checkbox"
 								style={{
 									margin: '3px 48px 0',
 									display: 'flex',
@@ -875,15 +877,9 @@ class MyMarkets extends React.Component {
 								}}
 							>
 								<input
-									css={(theme) => ({
-										position: 'relative',
-										width: '25px !important',
-										height: '25px !important',
-										borderRadius: '0px !important',
-										accentColor: theme.colors.primaryColor,
-									})}
 									className="no-margin"
 									type="checkbox"
+									id="show_only_liquid"
 									checked={this.props.onlyLiquid}
 									onChange={() => {
 										SettingsActions.changeViewSetting({
@@ -891,11 +887,13 @@ class MyMarkets extends React.Component {
 										});
 									}}
 								/>
-								<span style={{paddingLeft: '0.4rem'}}>
+								<label for="show_only_liquid">
 									<Translate content="exchange.show_only_liquid" />
-								</span>
-							</label>
-							<label
+								</label>
+							</div>
+
+							<div
+								class="checkbox"
 								style={{
 									margin: '3px 48px 0',
 									display: 'flex',
@@ -903,21 +901,15 @@ class MyMarkets extends React.Component {
 								}}
 							>
 								<input
-									css={(theme) => ({
-										position: 'relative',
-										width: '25px !important',
-										height: '25px !important',
-										borderRadius: '0px !important',
-										accentColor: theme.colors.primaryColor,
-									})}
 									className="no-margin"
 									type="checkbox"
+									id="show_only_star"
 									checked={this.props.onlyStars}
 									onChange={() => {
 										MarketsActions.toggleStars();
 									}}
 								/>
-								<span style={{paddingLeft: '0.4rem'}}>
+								<label for="show_only_star">
 									<TranslateWithLinks
 										string="exchange.show_only_star_formatter"
 										keys={[
@@ -929,8 +921,9 @@ class MyMarkets extends React.Component {
 											},
 										]}
 									/>
-								</span>
-							</label>
+								</label>
+							</div>
+
 							<br />
 						</div>
 					</div>

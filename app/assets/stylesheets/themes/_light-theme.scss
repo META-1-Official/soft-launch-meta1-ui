@@ -141,6 +141,7 @@ $account-vesting-header-color: #969ba6;
 $ask-order-row-background: rgb(217, 248, 240);
 $bid-order-row-background: rgb(255, 234, 236);
 $buy-sell-order-form-border-color: rgba(86, 97, 118, 0.3);
+$explorer-tab-checkbox-color: #dddddd;
 
 .lightTheme {
 	@include theme(
@@ -2204,5 +2205,9 @@ $buy-sell-order-form-border-color: rgba(86, 97, 118, 0.3);
 			.ant-table-row-expand-icon-cell
 		):not([colspan])::before {
 		display: none;
+	}
+
+	.checkbox label {
+		color: $explorer-tab-checkbox-color !important;
 	}
 }

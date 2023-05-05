@@ -130,6 +130,7 @@ $header-menu-background-color: lighten($primary-dark, 5%);
 $header-menu-item--hover--background-color: lighten($primary-dark, 10%);
 
 $onramper-border-color: rgba(28, 31, 39, 0.4);
+$explorer-tab-checkbox-color: rgba(194, 213, 225, 0.08);
 
 .darkTheme {
 	@include theme(
@@ -312,5 +313,9 @@ $onramper-border-color: rgba(28, 31, 39, 0.4);
 				}
 			}
 		}
+	}
+
+	.checkbox label {
+		color: $explorer-tab-checkbox-color !important;
 	}
 }
