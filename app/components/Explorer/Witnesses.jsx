@@ -392,6 +392,7 @@ class Witnesses extends React.Component {
 										css={(theme) => ({
 											color: '#21d19f',
 											textTransform: 'capitalize',
+											fontWeight: 'bold',
 										})}
 									>
 										{currentAccount ? currentAccount.get('name') : null}
@@ -409,6 +410,7 @@ class Witnesses extends React.Component {
 									<Text
 										css={(theme) => ({
 											color: theme.colors.textColor,
+											fontWeight: 'bold',
 										})}
 									>
 										{Object.keys(globalObject.active_witnesses).length}
@@ -426,6 +428,7 @@ class Witnesses extends React.Component {
 									<Text
 										css={(theme) => ({
 											color: theme.colors.textColor,
+											fontWeight: 'bold',
 										})}
 									>
 										{dynGlobalObject.participation}%
@@ -443,6 +446,7 @@ class Witnesses extends React.Component {
 									<Text
 										css={(theme) => ({
 											color: theme.colors.textColor,
+											fontWeight: 'bold',
 										})}
 									>
 										<FormattedAsset
@@ -463,6 +467,7 @@ class Witnesses extends React.Component {
 									<Text
 										css={(theme) => ({
 											color: theme.colors.textColor,
+											fontWeight: 'bold',
 										})}
 									>
 										<FormattedAsset
@@ -483,6 +488,7 @@ class Witnesses extends React.Component {
 									<Text
 										css={(theme) => ({
 											color: theme.colors.textColor,
+											fontWeight: 'bold',
 										})}
 									>
 										<TimeAgo
