@@ -47,6 +47,7 @@ const theme = {
 		orderTextColor: '#666666',
 		assetSymbolColor: '#666666',
 		blockHeaderColor: '#f6f5fa',
+		tableBackgroundColor: '#ffffff',
 	},
 	sizes: {
 		xs: '480px',
