@@ -67,12 +67,12 @@
 				&::-webkit-scrollbar {
 					height: 6px;
 				}
-	
+
 				&::-webkit-scrollbar-thumb {
 					background-color: gray;
 					border-radius: 10px;
 				}
-	
+
 				&::-webkit-scrollbar-track {
 					background: transparent;
 					border-radius: 10px;
@@ -184,13 +184,13 @@
 		width: 100%;
 		padding-right: 10px;
 
-		>ul {
+		> ul {
 			list-style-type: none;
 			margin-left: 0px;
 			width: 100%;
 			margin-bottom: 0px;
 
-			>li {
+			> li {
 				font-size: 80%;
 				cursor: pointer;
 				display: inline-block;
@@ -198,7 +198,7 @@
 				text-transform: uppercase;
 			}
 
-			>li.last {
+			> li.last {
 				margin-right: 0px;
 			}
 
@@ -208,7 +208,7 @@
 		}
 	}
 
-	>.left-column {
+	> .left-column {
 		border-right: 1px solid $border-color;
 		border-top: none;
 	}
@@ -309,7 +309,7 @@ i.anticon.anticon-right.ant-collapse-arrow {
 	padding-right: 5px !important;
 }
 
-[class*='block-grid-']>li {
+[class*='block-grid-'] > li {
 	height: auto;
 
 	padding: 0 0.625em 1.25em;
@@ -483,7 +483,9 @@ p.order-table-title {
 		height: 0;
 	}
 
-	.ant-form-item-has-error:not(.ant-input-disabled):not(.ant-input-borderless).ant-input {
+	.ant-form-item-has-error:not(.ant-input-disabled):not(
+			.ant-input-borderless
+		).ant-input {
 		background: transparent !important;
 		border-left: 1px solid;
 		border-color: rgba(86, 97, 118, 0.3);
@@ -496,23 +498,23 @@ p.order-table-title {
 }
 
 .buy-form {
-	>div.ant-tabs-bar {
+	> div.ant-tabs-bar {
 		border-bottom: 1px solid #009d55 !important;
 	}
 }
 
 .sell-form {
-	>div.ant-tabs-bar {
+	> div.ant-tabs-bar {
 		border-bottom: 1px solid #ff2929 !important;
 	}
 }
 
 #market-charts {
-	>div.Stockcharts__wrapper {
+	> div.Stockcharts__wrapper {
 		overflow: hidden;
 	}
 
-	>div>div.tabs {
+	> div > div.tabs {
 		margin-bottom: 0.25rem;
 
 		.tab-item {
@@ -674,7 +676,7 @@ p.order-table-title {
 			border-top: none !important;
 		}
 
-		.ant-tabs-tab+.ant-tabs-tab {
+		.ant-tabs-tab + .ant-tabs-tab {
 			margin: 0 0 0 10px;
 		}
 	}
@@ -693,7 +695,7 @@ p.order-table-title {
 			border-top: none !important;
 		}
 
-		.ant-tabs-tab+.ant-tabs-tab {
+		.ant-tabs-tab + .ant-tabs-tab {
 			margin: 0 0 0 10px;
 		}
 	}
@@ -854,7 +856,7 @@ p.order-table-title {
 	border-bottom: 1px dotted;
 }
 
-.final-row>td {
+.final-row > td {
 	border-bottom: none !important;
 }
 
@@ -866,7 +868,7 @@ p.order-table-title {
 .bottom-header {
 	padding-top: 0.25rem;
 
-	>.horizontal-button {
+	> .horizontal-button {
 		height: 100%;
 		width: 100%;
 		border-bottom: none !important;
@@ -877,7 +879,7 @@ p.order-table-title {
 tr.top-header,
 tr.bottom-header,
 tr.spread-row {
-	&:hover>td {
+	&:hover > td {
 		background-color: inherit !important;
 		cursor: pointer !important;
 	}
@@ -909,7 +911,7 @@ a.order-cancel {
 }
 
 .market-stats {
-	>li {
+	> li {
 		display: inline-block;
 		padding-right: 0.5rem;
 	}
@@ -980,8 +982,8 @@ ul.market-stats {
 	padding: 2px 5px;
 	vertical-align: middle;
 
-	>span {
-		>span:first-of-type {
+	> span {
+		> span:first-of-type {
 			padding-right: 5px;
 			@include RobotoMedium;
 		}
@@ -1085,7 +1087,7 @@ div.bucket-option {
 	height: 1.75rem;
 }
 
-.buy-sell-input>input {
+.buy-sell-input > input {
 	margin: 0;
 	padding: 0;
 	height: 1.75rem;
@@ -1105,7 +1107,7 @@ div.bucket-option {
 	border-top-right-radius: 5px;
 	border-bottom-right-radius: 5px;
 
-	>select {
+	> select {
 		padding: 0;
 		margin: 0;
 		height: 1.75rem;
@@ -1126,7 +1128,7 @@ div.bucket-option {
 .borrow-button-container {
 	padding-left: 0.25rem;
 
-	>div:last-of-type {
+	> div:last-of-type {
 		margin-bottom: 0.2rem;
 	}
 }
@@ -1204,7 +1206,6 @@ table thead tr th.mymarkets-header {
 }
 
 .table-no-padding {
-
 	tr,
 	td {
 		padding: 0px !important;
@@ -1217,30 +1218,30 @@ table thead tr th.mymarkets-header {
 	padding-right: 0.25rem;
 }
 
-.blue-icon>svg>path {
+.blue-icon > svg > path {
 	fill: #2196f3 !important;
 }
 
-.gold-star>svg>path {
+.gold-star > svg > path {
 	fill: #cc9f00 !important;
 }
 
-.grey-star>svg>path,
-.grey-shuffle>svg>path,
-.shuffle>svg>path {
+.grey-star > svg > path,
+.grey-shuffle > svg > path,
+.shuffle > svg > path {
 	fill: #878787 !important;
 }
 
-.white-star>svg>path {
+.white-star > svg > path {
 	fill: #fff !important;
 }
 
-.gold-star:hover>svg>path {
+.gold-star:hover > svg > path {
 	fill: lighten(#cc9f00, 10%) !important;
 }
 
-.shuffle:hover>svg>path,
-.grey-star:hover>svg>path {
+.shuffle:hover > svg > path,
+.grey-star:hover > svg > path {
 	fill: #cc9f00 !important;
 }
 
@@ -1296,7 +1297,7 @@ form.hide-container {
 	overflow: visible !important;
 	z-index: 9;
 
-	>div.custom-dropdown-content {
+	> div.custom-dropdown-content {
 		position: absolute;
 		z-index: 99;
 		top: 29px;
@@ -1304,7 +1305,7 @@ form.hide-container {
 		right: auto;
 		min-width: 15rem;
 
-		>ul {
+		> ul {
 			margin: 0;
 			list-style: none;
 			text-align: left;
@@ -1317,7 +1318,7 @@ form.hide-container {
 				display: inline-block;
 			}
 
-			>li {
+			> li {
 				position: relative;
 
 				&.indicator-title {
@@ -1329,20 +1330,20 @@ form.hide-container {
 				border: none;
 
 				&.indicator {
-					>div:first-of-type {
+					> div:first-of-type {
 						display: inline-block;
 						padding-left: 25px;
 						width: 60%;
 					}
 
-					>div:nth-of-type(2) {
+					> div:nth-of-type(2) {
 						width: 40%;
 						text-align: right;
 						display: inline-block;
 					}
 				}
 
-				>input {
+				> input {
 					position: absolute;
 					top: 5px;
 				}
@@ -1356,7 +1357,7 @@ form.hide-container {
 	padding-left: 10px;
 	text-transform: none;
 
-	>a>span.asset-name {
+	> a > span.asset-name {
 		text-transform: none;
 	}
 }
@@ -1536,7 +1537,7 @@ form.hide-container {
 		}
 
 		table {
-			.ant-table-thead tr>th {
+			.ant-table-thead tr > th {
 				border-radius: 0px !important;
 				box-shadow: none !important;
 			}
@@ -1599,13 +1600,13 @@ form.hide-container {
 		margin: 10px;
 		padding-bottom: 10px;
 
-		>span {
+		> span {
 			padding-bottom: 2px;
 			margin-right: 10px;
 		}
 
-		>span.selected,
-		>span:hover {
+		> span.selected,
+		> span:hover {
 			border-bottom: 5px solid cyan;
 		}
 	}
@@ -1678,7 +1679,7 @@ form.hide-container {
 }
 
 .underline-title {
-	>* {
+	> * {
 		text-decoration: underline;
 	}
 }
@@ -2145,7 +2146,7 @@ form.hide-container {
 		list-style: none;
 		margin: 10px auto;
 
-		>li {
+		> li {
 			font-size: 15px;
 			display: inline-block;
 			margin: 0 5px;
@@ -2174,19 +2175,20 @@ form.hide-container {
 
 		.table-wrapper {
 			overflow: auto;
+			border-radius: 4px 4px 0px 0px;
 
 			.table {
 				border: 1px solid #15171b;
 			}
 		}
 
-		.table>thead tr th {
+		.table > thead tr th {
 			font-size: 0.75rem;
 			height: 50px;
 			background-color: #15171b;
 		}
 
-		.table>tbody tr {
+		.table > tbody tr {
 			td {
 				padding-top: 10px;
 				padding-bottom: 10px;

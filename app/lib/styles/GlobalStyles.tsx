@@ -116,7 +116,8 @@ const GlobalStyles = (theme: any) => css`
 	.ant-table {
 		color: ${theme.colors.themeOpositeColor}; 
 		border: 1px solid ${theme.colors.borderColor};
-		background: ${theme.colors.background}
+		background: ${theme.colors.background};
+		border-radius: 4px 4px 0 0;
 	}
 	.ant-table-expanded-row-fixed {
 		width: 100% !important;
@@ -144,7 +145,7 @@ const GlobalStyles = (theme: any) => css`
 		overflow: auto;
 	}
 	.ant-table-tbody {
-		background: ${theme.colors.backgroundColor}; !important;
+		background: ${theme.colors.tableBackgroundColor}; !important;
 		.ant-table-cell {
 			.ant-empty-description {
 				color: ${theme.colors.themeOpositeColor};;

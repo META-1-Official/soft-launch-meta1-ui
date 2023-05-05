@@ -1996,7 +1996,7 @@ $buy-sell-order-form-border-color: rgba(86, 97, 118, 0.3);
 				}
 
 				.table > thead tr th {
-					background-color: $border-color;
+					background-color: $panel-bg-color;
 				}
 
 				.table > tbody tr td {
@@ -2059,10 +2059,19 @@ $buy-sell-order-form-border-color: rgba(86, 97, 118, 0.3);
 
 				tbody {
 					border-bottom: 1px solid $border-color;
+					background-color: $white;
 
 					&:last-child {
 						border-bottom: none;
 					}
+				}
+			}
+		}
+
+		.mymarkets-list {
+			table {
+				tbody {
+					background-color: $white;
 				}
 			}
 		}
@@ -2187,5 +2196,13 @@ $buy-sell-order-form-border-color: rgba(86, 97, 118, 0.3);
 	}
 	.ant-menu-submenu-popup {
 		background-color: $light-panel-bg-color;
+	}
+
+	.ant-table-thead
+		> tr
+		> th:not(:last-child):not(.ant-table-selection-column):not(
+			.ant-table-row-expand-icon-cell
+		):not([colspan])::before {
+		display: none;
 	}
 }

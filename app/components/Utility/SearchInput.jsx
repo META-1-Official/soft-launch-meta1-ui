@@ -41,6 +41,9 @@ export default function SearchInput({
 			name={name}
 			value={value}
 			onChange={onChange}
+			css={(theme) => ({
+				backgroundColor: theme.colors.inputBackgroundColor,
+			})}
 			addonAfter={
 				<FaSearch
 					css={(theme) => ({

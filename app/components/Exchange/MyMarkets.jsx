@@ -845,10 +845,43 @@ class MyMarkets extends React.Component {
 							padding: '0 0.5rem 0.75rem 0.5rem',
 						}}
 					>
-						<div>
-							<label style={{margin: '3px 0 0'}}>
+						<div
+							style={{
+								display: 'flex',
+								alignItems: 'center',
+							}}
+						>
+							<div className="search-wrapper">
+								<form>
+									<div className="filter inline-block">
+										<SearchInput
+											style={{
+												fontSize: '0.9rem',
+												height: 'inherit',
+												position: 'relative',
+											}}
+											className="no-margin market-filter-input"
+											value={this.state.myMarketFilter}
+											onChange={this.handleSearchUpdate}
+										/>
+									</div>
+								</form>
+							</div>
+							<label
+								style={{
+									margin: '3px 48px 0',
+									display: 'flex',
+									alignItems: 'center',
+								}}
+							>
 								<input
-									style={{position: 'relative', top: 3}}
+									css={(theme) => ({
+										position: 'relative',
+										width: '25px !important',
+										height: '25px !important',
+										borderRadius: '0px !important',
+										accentColor: theme.colors.primaryColor,
+									})}
 									className="no-margin"
 									type="checkbox"
 									checked={this.props.onlyLiquid}
@@ -862,9 +895,21 @@ class MyMarkets extends React.Component {
 									<Translate content="exchange.show_only_liquid" />
 								</span>
 							</label>
-							<label style={{margin: '3px 0 0'}}>
+							<label
+								style={{
+									margin: '3px 48px 0',
+									display: 'flex',
+									alignItems: 'center',
+								}}
+							>
 								<input
-									style={{position: 'relative', top: 3}}
+									css={(theme) => ({
+										position: 'relative',
+										width: '25px !important',
+										height: '25px !important',
+										borderRadius: '0px !important',
+										accentColor: theme.colors.primaryColor,
+									})}
 									className="no-margin"
 									type="checkbox"
 									checked={this.props.onlyStars}
@@ -887,22 +932,6 @@ class MyMarkets extends React.Component {
 								</span>
 							</label>
 							<br />
-						</div>
-						<div className="search-wrapper">
-							<form>
-								<div className="filter inline-block">
-									<SearchInput
-										style={{
-											fontSize: '0.9rem',
-											height: 'inherit',
-											position: 'relative',
-										}}
-										className="no-margin market-filter-input"
-										value={this.state.myMarketFilter}
-										onChange={this.handleSearchUpdate}
-									/>
-								</div>
-							</form>
 						</div>
 					</div>
 				) : (
