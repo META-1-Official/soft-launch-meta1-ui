@@ -185,7 +185,11 @@ class MarketGroup extends React.Component {
 					);
 
 				default:
-					return <th key={header.name} />;
+					return (
+						<th key={header.name}>
+							<span>#</span>
+						</th>
+					);
 			}
 		});
 
