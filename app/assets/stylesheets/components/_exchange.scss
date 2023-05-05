@@ -2240,6 +2240,57 @@ form.hide-container {
 	.checkbox input[type='checkbox'] {
 		opacity: 0;
 	}
+	.mymarkets-search-container {
+		display: flex;
+		alignitems: center;
+	}
+	.checkboxes-container {
+		display: flex;
+		align-items: center;
+		justify-content: space-around;
+	}
+}
+
+@media screen and (max-width: 576px) {
+	.markets {
+		.search-wrapper {
+			width: 100%;
+		}
+
+		.filter {
+			width: 100%;
+		}
+
+		.mymarkets-search-container {
+			display: block;
+		}
+
+		.checkbox {
+			margin: 0 0 0 20px !important;
+		}
+
+		.checkbox label::before,
+		.checkbox label::after {
+			height: 20px;
+			width: 20px;
+		}
+
+		.checkbox label {
+			font-size: 14px;
+			font-style: normal;
+			font-weight: 400;
+		}
+
+		.grid-block {
+			padding: 0 !important;
+		}
+
+		.checkboxes-container {
+			border-top: 1px solid rgba(234, 234, 234, 0.8);
+			margin-top: 20px;
+			padding-top: 20px;
+		}
+	}
 }
 
 // Order Book Panel

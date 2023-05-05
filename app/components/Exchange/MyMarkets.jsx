@@ -845,12 +845,7 @@ class MyMarkets extends React.Component {
 							padding: '0 0.5rem 0.75rem 0.5rem',
 						}}
 					>
-						<div
-							style={{
-								display: 'flex',
-								alignItems: 'center',
-							}}
-						>
+						<div className="mymarkets-search-container">
 							<div className="search-wrapper">
 								<form>
 									<div className="filter inline-block">
@@ -868,62 +863,59 @@ class MyMarkets extends React.Component {
 								</form>
 							</div>
 
-							<div
-								class="checkbox"
-								style={{
-									margin: '3px 48px 0',
-									display: 'flex',
-									alignItems: 'center',
-								}}
-							>
-								<input
-									className="no-margin"
-									type="checkbox"
-									id="show_only_liquid"
-									checked={this.props.onlyLiquid}
-									onChange={() => {
-										SettingsActions.changeViewSetting({
-											onlyLiquid: !this.props.onlyLiquid,
-										});
+							<div className="checkboxes-container">
+								<div
+									class="checkbox"
+									style={{
+										margin: '3px 48px 0',
 									}}
-								/>
-								<label for="show_only_liquid">
-									<Translate content="exchange.show_only_liquid" />
-								</label>
-							</div>
-
-							<div
-								class="checkbox"
-								style={{
-									margin: '3px 48px 0',
-									display: 'flex',
-									alignItems: 'center',
-								}}
-							>
-								<input
-									className="no-margin"
-									type="checkbox"
-									id="show_only_star"
-									checked={this.props.onlyStars}
-									onChange={() => {
-										MarketsActions.toggleStars();
-									}}
-								/>
-								<label for="show_only_star">
-									<TranslateWithLinks
-										string="exchange.show_only_star_formatter"
-										keys={[
-											{
-												type: 'icon',
-												value: 'fi-star',
-												className: 'gold-star',
-												arg: 'star_icon',
-											},
-										]}
+								>
+									<input
+										className="no-margin"
+										type="checkbox"
+										id="show_only_liquid"
+										checked={this.props.onlyLiquid}
+										onChange={() => {
+											SettingsActions.changeViewSetting({
+												onlyLiquid: !this.props.onlyLiquid,
+											});
+										}}
 									/>
-								</label>
-							</div>
+									<label for="show_only_liquid">
+										<Translate content="exchange.show_only_liquid" />
+									</label>
+								</div>
 
+								<div
+									class="checkbox"
+									style={{
+										margin: '3px 48px 0',
+									}}
+								>
+									<input
+										className="no-margin"
+										type="checkbox"
+										id="show_only_star"
+										checked={this.props.onlyStars}
+										onChange={() => {
+											MarketsActions.toggleStars();
+										}}
+									/>
+									<label for="show_only_star">
+										<TranslateWithLinks
+											string="exchange.show_only_star_formatter"
+											keys={[
+												{
+													type: 'icon',
+													value: 'fi-star',
+													className: 'gold-star',
+													arg: 'star_icon',
+												},
+											]}
+										/>
+									</label>
+								</div>
+							</div>
 							<br />
 						</div>
 					</div>
