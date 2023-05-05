@@ -134,11 +134,14 @@ const GlobalStyles = (theme: any) => css`
 				background: ${theme.colors.tableColumnHoverColor};
 			}
 		}
-		tr > th {
-			color: ${theme.colors.themeOpositeColor};
-			background: transparent;
-			padding: 10px;
-			border-bottom: none;
+		tr {
+			height: 52px;
+			th {
+				color: ${theme.colors.themeOpositeColor};
+				background: transparent;
+				padding: 10px;
+				border-bottom: none;
+			}
 		}
 	}
 	.ant-table-content {
