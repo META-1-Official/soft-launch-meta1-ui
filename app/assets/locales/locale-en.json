@@ -593,6 +593,7 @@
 	"exchange": {
 		"actions": "Actions",
 		"add_quote": "Add",
+		"amount": "Amount",
 		"asks": "Sell orders",
 		"asset_explorer": {
 			"appraised_asset_value": "Appraised Asset Value",

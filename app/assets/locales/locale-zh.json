@@ -589,6 +589,7 @@
 	"exchange": {
 		"actions": "动作",
 		"add_quote": "添加",
+		"amount": "数量",
 		"asks": "卖单",
 		"asset_explorer": {
 			"appraised_asset_value": "评估资产价值",
