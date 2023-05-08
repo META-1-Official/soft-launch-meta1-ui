@@ -81,6 +81,8 @@ class Exchange extends React.Component {
 			sellMarketPrice: 0,
 			buyMarketLiquidity: 0,
 			sellMarketLiquidity: 0,
+			currentBidsCount: 0,
+			currentAsksCount: 0,
 		};
 
 		this._getWindowSize = debounce(this._getWindowSize.bind(this), 150);
@@ -324,16 +326,32 @@ class Exchange extends React.Component {
 		}
 
 		if (
-			nextProps.marketData.combinedBids !== this.props.marketData.combinedBids
+			nextProps.marketData.combinedBids !==
+				this.props.marketData.combinedBids ||
+			(nextProps.marketData.combinedBids &&
+				nextProps.marketData.combinedBids.length !==
+					this.state.currentBidsCount)
 		) {
-			this.setState({sellMarketPrice: 0, sellMarketLiquidity: 0});
+			this.setState({
+				sellMarketPrice: 0,
+				sellMarketLiquidity: 0,
+				currentBidsCount: nextProps.marketData.combinedBids.length,
+			});
 			this.calculateMarketPrice(nextProps.marketData.combinedBids, true);
 		}
 
 		if (
-			nextProps.marketData.combinedAsks !== this.props.marketData.combinedAsks
+			nextProps.marketData.combinedAsks !==
+				this.props.marketData.combinedAsks ||
+			(nextProps.marketData.combinedAsks &&
+				nextProps.marketData.combinedAsks.length !==
+					this.state.currentAsksCount)
 		) {
-			this.setState({buyMarketPrice: 0, buyMarketLiquidity: 0});
+			this.setState({
+				buyMarketPrice: 0,
+				buyMarketLiquidity: 0,
+				currentAsksCount: nextProps.marketData.combinedAsks.length,
+			});
 			this.calculateMarketPrice(nextProps.marketData.combinedAsks, false);
 		}
 
