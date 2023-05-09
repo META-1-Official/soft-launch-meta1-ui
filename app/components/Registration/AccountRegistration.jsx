@@ -519,7 +519,7 @@ class AccountRegistration extends React.Component {
 				</div>
 			);
 		} else if (faceKIStep) {
-			const {width} = this.state;
+			const {width, devices, activeDeviceId} = this.state;
 			const theme = this.props.theme;
 			const aspectRatio = 1.07;
 			const webCamWidth = width > 576 ? 500 : width - 70;
@@ -615,26 +615,28 @@ class AccountRegistration extends React.Component {
 							</div>
 						</div>
 					)}
-					<div style={{width: webCamWidth}}>
-						<Select
-							value={this.state.activeDeviceId}
-							onChange={(value) => {
-								let errMsgEle =
-									document.getElementById('video').previousSibling;
-								errMsgEle && errMsgEle.remove();
-								this.setState({activeDeviceId: value});
-							}}
-							getPopupContainer={(triggerNode) => triggerNode.parentNode}
-						>
-							{this.state.devices.map((d) => {
-								return (
-									<Select.Option key={d.deviceId} value={d.deviceId}>
-										{d.label}
-									</Select.Option>
-								);
-							})}
-						</Select>
-					</div>
+					{devices.length !== 0 && activeDeviceId !== '' && (
+						<div style={{width: webCamWidth}}>
+							<Select
+								value={activeDeviceId}
+								onChange={(value) => {
+									let errMsgEle =
+										document.getElementById('video').previousSibling;
+									errMsgEle && errMsgEle.remove();
+									this.setState({activeDeviceId: value});
+								}}
+								getPopupContainer={(triggerNode) => triggerNode.parentNode}
+							>
+								{devices.map((d) => {
+									return (
+										<Select.Option key={d.deviceId} value={d.deviceId}>
+											{d.label}
+										</Select.Option>
+									);
+								})}
+							</Select>
+						</div>
+					)}
 					<div className="button-wrapper">
 						<Button
 							onClick={() => this.checkAndEnroll()}
