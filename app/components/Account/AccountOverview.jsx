@@ -55,6 +55,7 @@ class AccountOverview extends React.Component {
 				'Trade',
 				'Send',
 				'Deposit',
+				'Withdraw',
 				'Percent of Total Supply',
 			],
 			openOrderCheckbox: [
@@ -374,6 +375,7 @@ class AccountOverview extends React.Component {
 			{label: counterpart.translate('transfer.send'), value: 'Send'},
 			{label: counterpart.translate('account.trade'), value: 'Trade'},
 			{label: counterpart.translate('exchange.deposit'), value: 'Deposit'},
+			{label: counterpart.translate('exchange.withdraw'), value: 'Withdraw'},
 		];
 
 		if (showAssetPercent) {
