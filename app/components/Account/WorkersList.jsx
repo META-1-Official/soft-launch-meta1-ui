@@ -155,7 +155,6 @@ class WorkerList extends React.Component {
 				},
 			},
 			{
-				className: 'column-hide-small',
 				title: (
 					<Translate
 						content="account.votes.total_votes"
@@ -301,7 +300,6 @@ class WorkerList extends React.Component {
 						},
 				  },
 			{
-				className: 'column-hide-small',
 				title: (
 					<span>
 						<Translate
@@ -347,7 +345,6 @@ class WorkerList extends React.Component {
 				},
 			},
 			{
-				className: 'column-hide-small',
 				title: (
 					<Translate
 						content="account.votes.toggle"

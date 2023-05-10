@@ -855,6 +855,7 @@
 		"volume": "Volume",
 		"volume_24": "24hr Volume",
 		"worth_less_settlement_warning": "The current market price of {market_link} is higher than settle price",
+		"withdraw": "Withdraw",
 		"your_price": "Your Call Price",
 		"zoom": "Zoom",
 		"zoom_all": "All",

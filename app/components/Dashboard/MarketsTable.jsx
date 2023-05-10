@@ -257,14 +257,7 @@ class MarketsTable extends React.Component {
 						title: <Translate content="exchange.flip" />,
 						dataIndex: 'flip',
 						render: (item) => {
-							return (
-								<span
-									className="column-hide-small"
-									style={{whiteSpace: 'nowrap'}}
-								>
-									{item}
-								</span>
-							);
+							return <span style={{whiteSpace: 'nowrap'}}>{item}</span>;
 						},
 				  }
 				: {},
@@ -347,7 +340,6 @@ class MarketsTable extends React.Component {
 				<Link to={`/market/${quote}_${base}`}>
 					<img
 						ref={imgName.toLowerCase()}
-						className="column-hide-small"
 						onError={this._onError.bind(this, imgName)}
 						style={{maxWidth: 20, marginRight: 10}}
 						src={`${__BASE_URL__}asset-symbols/${imgName.toLowerCase()}.png`}
@@ -368,7 +360,7 @@ class MarketsTable extends React.Component {
 				</span>
 			),
 			price: (
-				<div className="column-hide-small" style={{textAlign: 'center'}}>
+				<div style={{textAlign: 'center'}}>
 					{marketStats && marketStats.price
 						? utils.price_text(
 								marketStats.price.toReal(true),
@@ -386,7 +378,7 @@ class MarketsTable extends React.Component {
 				!marketStats || !marketStats.volumeQuote ? 0 : marketStats.volumeQuote,
 			flip:
 				inverted === null || !this.props.isFavorite ? null : (
-					<span className="column-hide-small">
+					<span>
 						<a onClick={this._handleFlip.bind(this, row, !row.inverted)}>
 							<Icon name="shuffle" title="icons.shuffle" />
 						</a>
