@@ -391,9 +391,11 @@ class Exchange extends React.Component {
 			let asset_usdt;
 
 			return Apis.db
-				.get_ticker('USDT', isQuoting ? baseAssetSymbol : quoteAssetSymbol)
+				.get_published_asset_price(
+					isQuoting ? baseAssetSymbol : quoteAssetSymbol
+				)
 				.then((res) => {
-					asset_usdt = parseFloat(res.latest) || 1;
+					asset_usdt = res.numerator / res.denominator;
 					let ratio = isQuoting
 						? meta1_usdt / asset_usdt
 						: asset_usdt / meta1_usdt;
