@@ -330,7 +330,8 @@ class Exchange extends React.Component {
 				this.props.marketData.combinedBids ||
 			(nextProps.marketData.combinedBids &&
 				nextProps.marketData.combinedBids.length !==
-					this.state.currentBidsCount)
+					this.state.currentBidsCount) ||
+			nextProps.totals.bid !== this.props.totals.bid
 		) {
 			this.setState({
 				sellMarketPrice: 0,
@@ -345,7 +346,8 @@ class Exchange extends React.Component {
 				this.props.marketData.combinedAsks ||
 			(nextProps.marketData.combinedAsks &&
 				nextProps.marketData.combinedAsks.length !==
-					this.state.currentAsksCount)
+					this.state.currentAsksCount) ||
+			nextProps.totals.ask !== this.props.totals.ask
 		) {
 			this.setState({
 				buyMarketPrice: 0,
