@@ -261,9 +261,9 @@ class AccountRegistration extends React.Component {
 				if (referralAccount) break;
 			}
 		}
-
 		if (referralAccount) {
 			let chainAccount = ChainStore.getAccount(referralAccount);
+
 			while (chainAccount === undefined) {
 				chainAccount = ChainStore.getAccount(referralAccount);
 				await this.timer(1000);
@@ -275,6 +275,8 @@ class AccountRegistration extends React.Component {
 				if (accountStatus != 'lifetime') {
 					this.props.history.push('/registration');
 				}
+			} else {
+				this.props.history.push('/registration');
 			}
 		}
 	}
