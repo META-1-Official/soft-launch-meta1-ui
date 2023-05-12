@@ -139,6 +139,7 @@ class TradingViewPriceChart extends React.Component {
 	UNSAFE_componentWillReceiveProps(np) {
 		if (!np.marketReady) return;
 		if ((!this.props.dataFeed && np.dataFeed) || np.theme != this.props.theme) {
+			console.log('@componentdidupdate', np, this.props);
 			this.loadTradingView(np);
 		}
 	}
@@ -173,6 +174,13 @@ class TradingViewPriceChart extends React.Component {
 	}
 
 	shouldComponentUpdate(np, state) {
+		if (
+			this.props.baseSymbol !== np.baseSymbol ||
+			this.props.quoteSymbol !== np.quoteSymbol
+		) {
+			this.loadTradingView(np);
+		}
+
 		return (
 			state.showLoadModal !== this.state.showLoadModal ||
 			state.showSaveModal !== this.state.showSaveModal ||
