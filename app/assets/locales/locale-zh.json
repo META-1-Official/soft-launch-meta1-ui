@@ -589,6 +589,7 @@
 	"exchange": {
 		"actions": "动作",
 		"add_quote": "添加",
+		"amount": "数量",
 		"asks": "卖单",
 		"asset_explorer": {
 			"appraised_asset_value": "评估资产价值",
@@ -848,6 +849,7 @@
 		"volume": "成交量",
 		"volume_24": "24H成交量",
 		"worth_less_settlement_warning": "当前{market_link} 市场价格低于强制清算价格",
+		"withdraw": "提币",
 		"your_price": "你的强平触发价",
 		"zoom": "缩放",
 		"zoom_all": "显示全部",

@@ -173,6 +173,13 @@ class TradingViewPriceChart extends React.Component {
 	}
 
 	shouldComponentUpdate(np, state) {
+		if (
+			this.props.baseSymbol !== np.baseSymbol ||
+			this.props.quoteSymbol !== np.quoteSymbol
+		) {
+			this.loadTradingView(np);
+		}
+
 		return (
 			state.showLoadModal !== this.state.showLoadModal ||
 			state.showSaveModal !== this.state.showSaveModal ||

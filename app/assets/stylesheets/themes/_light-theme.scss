@@ -141,6 +141,7 @@ $account-vesting-header-color: #969ba6;
 $ask-order-row-background: rgb(217, 248, 240);
 $bid-order-row-background: rgb(255, 234, 236);
 $buy-sell-order-form-border-color: rgba(86, 97, 118, 0.3);
+$explorer-tab-checkbox-color: #dddddd;
 
 .lightTheme {
 	@include theme(
@@ -590,6 +591,16 @@ $buy-sell-order-form-border-color: rgba(86, 97, 118, 0.3);
 
 				.limit-order-input-wrapper {
 					background: $panel-bg-color !important;
+
+					.limit-order-input {
+						.ant-input-group-addon {
+							background-color: transparent;
+
+							.limit-order-text {
+								color: rgba(0, 0, 0, 0.5);
+							}
+						}
+					}
 				}
 
 				.ant-input[disabled] {
@@ -731,12 +742,12 @@ $buy-sell-order-form-border-color: rgba(86, 97, 118, 0.3);
 			background-color: transparent !important;
 
 			.react-horizontal-scrolling-menu--inner-wrapper {
-				.react-horizontal-scrolling-menu--scroll-container {		
+				.react-horizontal-scrolling-menu--scroll-container {
 					&::-webkit-scrollbar-thumb {
 						background-color: lightgray;
 					}
 				}
-	
+
 				button {
 					border: 1px solid $border-color;
 					background-color: $bg-color-lightblue !important;
@@ -1553,7 +1564,7 @@ $buy-sell-order-form-border-color: rgba(86, 97, 118, 0.3);
 
 			form {
 				#username {
-					color: $modal-input-color !important;
+					color: rgb(68, 67, 67) !important;
 				}
 
 				.info-form {
@@ -1986,7 +1997,7 @@ $buy-sell-order-form-border-color: rgba(86, 97, 118, 0.3);
 				}
 
 				.table > thead tr th {
-					background-color: $border-color;
+					background-color: $panel-bg-color;
 				}
 
 				.table > tbody tr td {
@@ -2049,10 +2060,19 @@ $buy-sell-order-form-border-color: rgba(86, 97, 118, 0.3);
 
 				tbody {
 					border-bottom: 1px solid $border-color;
+					background-color: $white;
 
 					&:last-child {
 						border-bottom: none;
 					}
+				}
+			}
+		}
+
+		.mymarkets-list {
+			table {
+				tbody {
+					background-color: $white;
 				}
 			}
 		}
@@ -2177,5 +2197,17 @@ $buy-sell-order-form-border-color: rgba(86, 97, 118, 0.3);
 	}
 	.ant-menu-submenu-popup {
 		background-color: $light-panel-bg-color;
+	}
+
+	.ant-table-thead
+		> tr
+		> th:not(:last-child):not(.ant-table-selection-column):not(
+			.ant-table-row-expand-icon-cell
+		):not([colspan])::before {
+		display: none;
+	}
+
+	.checkbox label {
+		color: $explorer-tab-checkbox-color !important;
 	}
 }

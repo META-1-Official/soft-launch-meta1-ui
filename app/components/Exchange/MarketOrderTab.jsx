@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Input, Form} from 'antd';
+import {debounce} from 'lodash-es';
 import AssetNameWrapper from '../Utility/AssetName';
 import {Asset} from '../../lib/common/MarketClasses';
 import ChainStore from 'meta1-vision-js/es/chain/src/ChainStore';
@@ -21,7 +22,6 @@ const MarketOrderForm = (props) => {
 	const [balanceData, setBalanceData] = useState(null);
 	const [form] = Form.useForm();
 
-	const total = Number(amount) * Number(props.price);
 	const usdVal = (Number(amount) * Number(usdPrice)).toFixed(2);
 	const isBid = props.type === 'bid';
 
@@ -30,17 +30,13 @@ const MarketOrderForm = (props) => {
 		form.setFieldsValue({
 			price: props.price,
 			usd: usdVal,
-			total: total,
-			totalBalance: total,
 		});
 	}, []);
 
-	useEffect(() => {
+	useEffect(async () => {
 		form.setFieldsValue({
 			price: props.price,
 			usd: usdVal,
-			total: total,
-			totalBalance: total,
 			amount,
 		});
 	}, [amount]);
@@ -55,8 +51,6 @@ const MarketOrderForm = (props) => {
 		form.setFieldsValue({
 			price: props.price,
 			usd: 0,
-			total: 0,
-			totalBalance: 0,
 			amount: 0,
 		});
 	}, [props.quoteAsset.get('symbol')]);
@@ -123,7 +117,35 @@ const MarketOrderForm = (props) => {
 		setUsdPrice(usd_price);
 	};
 
+	const getMarketPriceWithAmount = (amount) => {
+		let _marketPrice = props.price;
+
+		if (amount) {
+			let total = 0;
+
+			// When amount is smaller than liquidity
+			for (var i = 0; i < props.prices.length; i++) {
+				let _price = isBid
+					? props.prices[props.prices.length - i - 1]
+					: props.prices[i];
+				total += _price.amount;
+
+				if (total > amount) {
+					_marketPrice = _price.price;
+					break;
+				}
+			}
+		}
+
+		if (_marketPrice) {
+			return isBid ? ceilFloat(_marketPrice, 5) : floorFloat(_marketPrice, 5);
+		} else {
+			return 0;
+		}
+	};
+
 	const isFormValid = () => {
+		const total = Number(amount) * getMarketPriceWithAmount(amount);
 		let hasBalance = isBid
 			? props.baseAssetBalance >= parseFloat(total)
 			: props.quoteAssetBalance >= parseFloat(amount);
@@ -158,7 +180,7 @@ const MarketOrderForm = (props) => {
 	const prepareOrders = (amount) => {
 		const orders = [];
 
-		const price = Number(props.price);
+		const price = getMarketPriceWithAmount(amount);
 		const isBid = props.type === 'bid';
 
 		const expirationTime = props.expirations[props.expirationType].get(
@@ -187,11 +209,45 @@ const MarketOrderForm = (props) => {
 				: Number(amount) * Math.pow(10, buyAsset.get('precision'));
 		};
 
+		// *** Fix tiny amount issue (precision issue) *** //
+		const estSellAmount = floorFloat(sellAmount(), 0);
+		const estBuyAmount = floorFloat(buyAmount(), 0);
+		let _sellAmount = estSellAmount;
+		let estPrice;
+		let delta = 0;	// Prevent endless loop
+
+		if (isBid) {
+			estPrice = estSellAmount / estBuyAmount;
+			estPrice = estPrice * Math.pow(10, buyAsset.get('precision') - sellAsset.get('precision'));
+
+			if (estPrice < price) {
+				while (estPrice < price && delta < 100) {
+					delta += 1;
+					_sellAmount += 1;
+					estPrice = _sellAmount / estBuyAmount;
+					estPrice = estPrice * Math.pow(10, buyAsset.get('precision') - sellAsset.get('precision'));
+				}
+			}
+		} else {
+			estPrice = estBuyAmount / estSellAmount;
+			estPrice = estPrice * Math.pow(10, sellAsset.get('precision') - buyAsset.get('precision'));
+
+			if (estPrice > price) {
+				while (estPrice > price && delta < 100) {
+					delta += 1;
+					_sellAmount -= 1;
+					estPrice = estBuyAmount / _sellAmount;
+					estPrice = estPrice * Math.pow(10, sellAsset.get('precision') - buyAsset.get('precision'));
+				}
+			}
+		}
+		// ********************************************** //
+
 		orders.push({
 			for_sale: new Asset({
 				asset_id: sellAsset.get('id'),
 				precision: sellAsset.get('precision'),
-				amount: sellAmount(),
+				amount: _sellAmount,
 			}),
 			to_receive: new Asset({
 				asset_id: buyAsset.get('id'),
@@ -205,9 +261,6 @@ const MarketOrderForm = (props) => {
 			.createMarketOrder(orders, ChainStore.getAsset('META1').get('id'))
 			.then(() => {
 				setAmount(0.0);
-				form.setFieldsValue({
-					amount: 0,
-				});
 			})
 			.catch(() => {});
 	};
@@ -230,7 +283,7 @@ const MarketOrderForm = (props) => {
 	};
 
 	const onChangeTotalPercentHandler = (percent) => {
-		if (!Number(props.price)) {
+		if (!Number(props.price) || !props.latestPrice) {
 			setTotalPercent(0);
 			toast('No liquidty!');
 			return;
@@ -240,7 +293,7 @@ const MarketOrderForm = (props) => {
 		let amount = 0;
 
 		if (isBid) {
-			amount = Number(props.baseAssetBalance) / Number(props.price);
+			amount = Number(props.baseAssetBalance) / Number(props.latestPrice);
 		} else if (!isBid && props.quoteAssetBalance) {
 			amount = Number(props.quoteAssetBalance);
 		}

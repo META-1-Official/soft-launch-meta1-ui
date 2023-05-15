@@ -38,6 +38,10 @@ const StyledButton = ({
 		backgroundColor = theme.colors.buttonGreenColor;
 		border = `1px solid ${theme.colors.buttonGreenColor}`;
 		color = 'white';
+	} else if (buttonType === 'blue') {
+		backgroundColor = 'blue';
+		border = `1px solid blue`;
+		color = 'white';
 	}
 
 	return (

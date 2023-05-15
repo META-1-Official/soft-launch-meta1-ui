@@ -165,6 +165,7 @@ class FeeGroup extends React.Component {
 									borderRadius: '5px',
 									padding: '4px 8px',
 									color: 'white',
+									whiteSpace: 'nowrap',
 								})}
 							>
 								{feename}
@@ -241,28 +242,30 @@ class FeeGroup extends React.Component {
 		});
 
 		return (
-			<div className="asset-card">
-				<Card bordered={false}>{this.props.title.toUpperCase()}</Card>
-				<div style={{overflow: 'auto'}}>
-					<table className="table">
-						<thead>
-							<tr>
-								<th>
-									<Translate content={'explorer.block.op'} />
-								</th>
-								<th>
-									<Translate content={'explorer.fees.type'} />
-								</th>
-								<th style={{textAlign: 'right'}}>
-									<Translate content={'explorer.fees.fee'} />
-								</th>
-								<th style={{textAlign: 'right'}}>
-									<Translate content={'explorer.fees.feeltm'} />
-								</th>
-							</tr>
-						</thead>
-						{fees}
-					</table>
+			<div>
+				<p>{this.props.title.toUpperCase()}</p>
+				<div className="asset-card">
+					<div style={{overflow: 'auto'}}>
+						<table className="table">
+							<thead>
+								<tr>
+									<th>
+										<Translate content={'explorer.block.op'} />
+									</th>
+									<th>
+										<Translate content={'explorer.fees.type'} />
+									</th>
+									<th style={{textAlign: 'right'}}>
+										<Translate content={'explorer.fees.fee'} />
+									</th>
+									<th style={{textAlign: 'right'}}>
+										<Translate content={'explorer.fees.feeltm'} />
+									</th>
+								</tr>
+							</thead>
+							{fees}
+						</table>
+					</div>
 				</div>
 			</div>
 		);

@@ -14,6 +14,7 @@ import {ChainStore} from 'meta1-vision-js';
 import {connect} from 'alt-react';
 import SettingsStore from 'stores/SettingsStore';
 import MarketsStore from 'stores/MarketsStore';
+import GatewayStore from 'stores/GatewayStore';
 import Icon from '../Icon/Icon';
 import utils from 'common/utils';
 import SendModal from '../Modal/SendModal';
@@ -31,6 +32,7 @@ import StyledButton from 'components/Button/Button';
 import {FaQuestionCircle} from 'react-icons/fa';
 import {getAssetIcon, getAssetFullName} from 'constants/assets';
 import DepositModal from '../Modal/DepositModal';
+import WithdrawModal from '../Modal/WithdrawModal';
 
 const SORT_TYPE_MULTIPLE = 'multiple';
 
@@ -349,6 +351,11 @@ class AccountPortfolioList extends React.Component {
 		});
 	}
 
+	_showWithdrawModal(asset, e) {
+		e.preventDefault();
+		this.showWithdrawModal();
+	}
+
 	_showDepositWithdraw(action, asset, fiatModal, e) {
 		e.preventDefault();
 		this.setState(
@@ -472,7 +479,6 @@ class AccountPortfolioList extends React.Component {
 					},
 				},
 				{
-					className: 'column-hide-small',
 					title: (
 						<span style={{whiteSpace: 'nowrap'}}>
 							<TranslateWithLinks
@@ -507,7 +513,6 @@ class AccountPortfolioList extends React.Component {
 					},
 				},
 				{
-					className: 'column-hide-small',
 					title: (
 						<span style={{whiteSpace: 'nowrap'}}>
 							<Translate content="exchange.price" /> (
@@ -583,6 +588,18 @@ class AccountPortfolioList extends React.Component {
 					align: 'center',
 					render: (item) => <span style={{whiteSpace: 'nowrap'}}>{item}</span>,
 				},
+				{
+					title: (
+						<Translate
+							content="exchange.withdraw"
+							style={{whiteSpace: 'nowrap'}}
+						/>
+					),
+					dataIndex: 'withdraw',
+					isShow: this.props.portfolioCheckbox.includes('Withdraw'),
+					align: 'center',
+					render: (item) => <span style={{whiteSpace: 'nowrap'}}>{item}</span>,
+				},
 			].filter((data) => {
 				if (data.isShow) return data;
 			}),
@@ -639,7 +656,7 @@ class AccountPortfolioList extends React.Component {
 			let asset = ChainStore.getObject(asset_type);
 			if (!asset) return;
 
-			let directMarketLink, settleLink, transferLink;
+			let directMarketLink, settleLink, transferLink, depositLink, withdrawLink;
 			let symbol = '';
 			const assetName = asset.get('symbol');
 			const notCore = asset.get('id') !== '1.3.0';
@@ -660,13 +677,13 @@ class AccountPortfolioList extends React.Component {
 				emptyCell
 			) : notCore ? (
 				<Link to={`/market/${asset.get('symbol')}_${preferredMarket}`}>
-					<StyledButton buttonType="white">
+					<StyledButton buttonType="white" style={{width: 80}}>
 						<Translate content="account.trade" style={{whiteSpace: 'nowrap'}} />
 					</StyledButton>
 				</Link>
 			) : notCorePrefUnit ? (
 				<Link to={`/market/${asset.get('symbol')}_${preferredUnit}`}>
-					<StyledButton buttonType="white">
+					<StyledButton buttonType="white" style={{width: 80}}>
 						<Translate content="account.trade" style={{whiteSpace: 'nowrap'}} />
 					</StyledButton>
 				</Link>
@@ -677,8 +694,44 @@ class AccountPortfolioList extends React.Component {
 				<StyledButton
 					buttonType="transparent"
 					onClick={this.triggerSend.bind(this, asset.get('id'))}
+					style={{
+						width: 80,
+					}}
 				>
 					<Translate content="transfer.send" style={{whiteSpace: 'nowrap'}} />
+				</StyledButton>
+			);
+			depositLink = (
+				<StyledButton
+					buttonType="green"
+					onClick={this._showDepositModal.bind(this, asset.get('symbol'))}
+					style={{
+						backgroundColor: 'transparent',
+						color: 'green',
+						width: 80,
+					}}
+				>
+					<Translate
+						content="exchange.deposit"
+						style={{whiteSpace: 'nowrap'}}
+					/>
+				</StyledButton>
+			);
+			withdrawLink = (
+				<StyledButton
+					buttonType="blue"
+					onClick={this._showWithdrawModal.bind(this, asset.get('symbol'))}
+					style={{
+						backgroundColor: 'transparent',
+						color: 'blue',
+						width: 80,
+						padding: 0,
+					}}
+				>
+					<Translate
+						content="exchange.withdraw"
+						style={{whiteSpace: 'nowrap'}}
+					/>
 				</StyledButton>
 			);
 
@@ -898,16 +951,13 @@ class AccountPortfolioList extends React.Component {
 					</StyledButton>
 				) : null,
 				deposit:
-					['BTC', 'LTC', 'ETH', 'USDT'].indexOf(asset.get('symbol')) > -1 ? (
-						<StyledButton
-							buttonType="green"
-							onClick={this._showDepositModal.bind(this, asset.get('symbol'))}
-						>
-							<Translate content="exchange.deposit" />
-						</StyledButton>
-					) : (
-						emptyCell
-					),
+					['BTC', 'LTC', 'ETH', 'USDT'].indexOf(asset.get('symbol')) > -1
+						? depositLink
+						: emptyCell,
+				withdraw:
+					['ETH', 'USDT'].indexOf(asset.get('symbol')) > -1
+						? withdrawLink
+						: emptyCell,
 			});
 		});
 
@@ -1114,6 +1164,15 @@ class AccountPortfolioList extends React.Component {
 						account={currentAccount}
 						assetType={this.state.depositAsset}
 					/>
+
+					<WithdrawModal
+						visible={this.state.isWithdrawModalVisible}
+						hideModal={this.hideWithdrawModal}
+						showModal={this.showWithdrawModal}
+						ref="withdraw_modal_new"
+						modalId="withdraw_modal_new"
+						backedCoins={this.props.backedCoins}
+					/>
 				</CustomTable>
 			</div>
 		);
@@ -1129,6 +1188,7 @@ AccountPortfolioList = connect(AccountPortfolioList, {
 			settings: SettingsStore.getState().settings,
 			viewSettings: SettingsStore.getState().viewSettings,
 			allMarketStats: MarketsStore.getState().allMarketStats,
+			backedCoins: GatewayStore.getState().backedCoins,
 		};
 	},
 });

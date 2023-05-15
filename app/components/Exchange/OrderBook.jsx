@@ -109,25 +109,8 @@ class OrderBookRow extends React.Component {
 					>
 						<td
 							style={{
-								width: '33.5%',
 								color: '#009D55',
-								paddingLeft: '10px',
-							}}
-							className="table-body-class"
-						>
-							<Tooltip
-								title={`${translator.translate('exchange.volume')}: ` + amount}
-								placement="left"
-							>
-								<div className="overflow-hidden">
-									{utils.format_number_digits(amount, 6)}
-								</div>
-							</Tooltip>
-						</td>
-						<td
-							style={{
-								color: '#009D55',
-								textAlign: 'right',
+								textAlign: 'left',
 								paddingRight: '10px',
 							}}
 						>
@@ -145,7 +128,22 @@ class OrderBookRow extends React.Component {
 						</td>
 						<td
 							style={{
-								color: '#009D55',
+								paddingLeft: '10px',
+								textAlign: 'center',
+							}}
+							className="table-body-class"
+						>
+							<Tooltip
+								title={`${translator.translate('exchange.volume')}: ` + amount}
+								placement="left"
+							>
+								<div className="overflow-hidden">
+									{utils.format_number_digits(amount, 6)}
+								</div>
+							</Tooltip>
+						</td>
+						<td
+							style={{
 								textAlign: 'right',
 								paddingRight: '10px',
 							}}
@@ -171,24 +169,10 @@ class OrderBookRow extends React.Component {
 						}
 					>
 						<td
-							style={{color: '#FF2929', textAlign: 'left', paddingLeft: '10px'}}
-							className="table-body-class"
-						>
-							<Tooltip
-								title={`${translator.translate('exchange.volume')}: ` + amount}
-								placement="left"
-							>
-								<div className="overflow-hidden">
-									{utils.format_number_digits(amount, 6)}
-								</div>
-							</Tooltip>
-						</td>
-						<td
 							style={{
-								width: '33.5%',
 								color: '#FF2929',
 								paddingRight: '10px',
-								textAlign: 'right',
+								textAlign: 'left',
 							}}
 						>
 							<Tooltip
@@ -204,8 +188,20 @@ class OrderBookRow extends React.Component {
 							</Tooltip>
 						</td>
 						<td
+							style={{textAlign: 'center', paddingLeft: '10px'}}
+							className="table-body-class"
+						>
+							<Tooltip
+								title={`${translator.translate('exchange.volume')}: ` + amount}
+								placement="left"
+							>
+								<div className="overflow-hidden">
+									{utils.format_number_digits(amount, 6)}
+								</div>
+							</Tooltip>
+						</td>
+						<td
 							style={{
-								color: '#FF2929',
 								textAlign: 'right',
 								paddingRight: '10px',
 							}}
@@ -232,8 +228,8 @@ class OrderBook extends React.Component {
 		super();
 		this.state = {
 			flip: props.flipOrderBook,
-			showAllBids: false,
-			showAllAsks: false,
+			showAllBids: true,
+			showAllAsks: true,
 			rowCount: 100,
 			autoScroll: false,
 			quoteTotalBids: false,
@@ -472,12 +468,11 @@ class OrderBook extends React.Component {
 				<tr key="top-header" className="top-header">
 					<th
 						style={{
-							width: '33.5%',
 							textAlign: 'left',
 						}}
 					>
 						<span className="header-sub-title header-font-size">
-							{translator.translate('exchange.volume').toUpperCase()}
+							{translator.translate('exchange.price').toUpperCase()}
 						</span>
 					</th>
 					<th
@@ -486,7 +481,7 @@ class OrderBook extends React.Component {
 						}}
 					>
 						<span className="header-sub-title header-font-size">
-							{translator.translate('exchange.price').toUpperCase()}
+							{translator.translate('exchange.amount').toUpperCase()}
 						</span>
 					</th>
 					<th
@@ -518,8 +513,9 @@ class OrderBook extends React.Component {
 				>
 					<div
 						css={(theme) => ({
-							color: '#70a800',
-							height: '227px',
+							overflow: 'hidden',
+							color: '#FF2929',
+							height: '245px',
 						})}
 					>
 						<div style={{height: '100%'}}>
@@ -527,25 +523,26 @@ class OrderBook extends React.Component {
 								{tableHeader}
 							</table>
 							<div
+								id="top-order-table"
 								className="grid-block"
-								ref="hor_bids"
-								id="bottom-order-table"
+								ref="hor_asks"
 								style={{
 									lineHeight: '20px',
-									height: 'calc(100% - 33px)',
+									height: 'calc(100% - 30px)',
 								}}
 							>
 								<table
-									style={{paddingBottom: 5, height: 'fit-content'}}
 									className="table order-table no-stripes table-hover fixed-table text-right no-overflow"
+									style={{height: 'fit-content'}}
 								>
 									<TransitionWrapper
-										ref="bidTransition"
+										ref="askTransition"
 										className="orderbook clickable"
 										component="tbody"
 										transitionName="newrow"
+										id="top-order-rows"
 									>
-										{bidRows}
+										{askRows.reverse()}
 									</TransitionWrapper>
 								</table>
 							</div>
@@ -566,34 +563,32 @@ class OrderBook extends React.Component {
 					</div>
 					<div
 						css={(theme) => ({
+							color: '#70a800',
+							height: '210px',
 							overflow: 'hidden',
-							color: '#FF2929',
-							height: '227px',
 						})}
 					>
 						<div style={{height: '100%'}}>
 							<div
-								id="top-order-table"
 								className="grid-block"
-								ref="hor_asks"
+								ref="hor_bids"
+								id="bottom-order-table"
 								style={{
-									maxHeight: this.props.chartHeight / 2 - 2,
 									lineHeight: '20px',
-									minHeight: '93%',
+									height: '100%',
 								}}
 							>
 								<table
-									className="table order-table no-stripes table-hover fixed-table text-right no-overflow"
 									style={{height: 'fit-content'}}
+									className="table order-table no-stripes table-hover fixed-table text-right no-overflow"
 								>
 									<TransitionWrapper
-										ref="askTransition"
+										ref="bidTransition"
 										className="orderbook clickable"
 										component="tbody"
 										transitionName="newrow"
-										id="top-order-rows"
 									>
-										{askRows.reverse()}
+										{bidRows}
 									</TransitionWrapper>
 								</table>
 							</div>
