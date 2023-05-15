@@ -645,10 +645,7 @@ class Header extends React.Component {
 									<img src={hamburger} alt="menu" />
 								</div>
 								<Col lg={5} className="logo-wrapper">
-									<a
-										href="/home"
-										onClick={this._onNavigate.bind(this, '/home/')}
-									>
+									<a href={`${process.env.DEFAULT_WALLET_URL}/home`}>
 										<img style={{height: 35}} src={logo} />
 									</a>
 								</Col>
