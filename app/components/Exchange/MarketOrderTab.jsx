@@ -209,11 +209,45 @@ const MarketOrderForm = (props) => {
 				: Number(amount) * Math.pow(10, buyAsset.get('precision'));
 		};
 
+		// *** Fix tiny amount issue (precision issue) *** //
+		const estSellAmount = floorFloat(sellAmount(), 0);
+		const estBuyAmount = floorFloat(buyAmount(), 0);
+		let _sellAmount = estSellAmount;
+		let estPrice;
+		let delta = 0;	// Prevent endless loop
+
+		if (isBid) {
+			estPrice = estSellAmount / estBuyAmount;
+			estPrice = estPrice * Math.pow(10, buyAsset.get('precision') - sellAsset.get('precision'));
+
+			if (estPrice < price) {
+				while (estPrice < price && delta < 100) {
+					delta += 1;
+					_sellAmount += 1;
+					estPrice = _sellAmount / estBuyAmount;
+					estPrice = estPrice * Math.pow(10, buyAsset.get('precision') - sellAsset.get('precision'));
+				}
+			}
+		} else {
+			estPrice = estBuyAmount / estSellAmount;
+			estPrice = estPrice * Math.pow(10, sellAsset.get('precision') - buyAsset.get('precision'));
+
+			if (estPrice > price) {
+				while (estPrice > price && delta < 100) {
+					delta += 1;
+					_sellAmount -= 1;
+					estPrice = estBuyAmount / _sellAmount;
+					estPrice = estPrice * Math.pow(10, sellAsset.get('precision') - buyAsset.get('precision'));
+				}
+			}
+		}
+		// ********************************************** //
+
 		orders.push({
 			for_sale: new Asset({
 				asset_id: sellAsset.get('id'),
 				precision: sellAsset.get('precision'),
-				amount: sellAmount(),
+				amount: _sellAmount,
 			}),
 			to_receive: new Asset({
 				asset_id: buyAsset.get('id'),
