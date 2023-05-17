@@ -176,6 +176,9 @@ class AppInit extends React.Component {
 			this._enablePersistingLog();
 		}
 
+		// Reset BackingAssetCalc Interval
+		ss.set('backing_asset_calc_interval', null);
+
 		const openRoutes = [
 			'/login',
 			'/registration',
