@@ -2142,7 +2142,7 @@ class Exchange extends React.Component {
 		let buyForm = (
 			<Tabs
 				animated={false}
-				activeKey={this.props.viewSettings.get('order-form-bid') || 'limit'}
+				activeKey={this.props.viewSettings.get('order-form-bid') || 'market'}
 				style={{
 					flexGrow: 1,
 					minWidth: '290px',
@@ -2292,7 +2292,7 @@ class Exchange extends React.Component {
 
 		let sellForm = (
 			<Tabs
-				activeKey={this.props.viewSettings.get('order-form-ask') || 'limit'}
+				activeKey={this.props.viewSettings.get('order-form-ask') || 'market'}
 				onChange={this.handleOrderTypeTabChange.bind(this, 'ask')}
 				animated={false}
 				defaultActiveKey={'limit'}

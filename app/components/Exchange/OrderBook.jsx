@@ -542,7 +542,8 @@ class OrderBook extends React.Component {
 										transitionName="newrow"
 										id="top-order-rows"
 									>
-										{askRows.reverse()}
+										{/* {askRows.reverse()} */}
+										{askRows}
 									</TransitionWrapper>
 								</table>
 							</div>
