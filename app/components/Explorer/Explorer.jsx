@@ -7,7 +7,7 @@ import AssetsContainer from './AssetsContainer';
 import AccountsContainer from './AccountsContainer';
 import counterpart from 'counterpart';
 import MarketsContainer from '../Exchange/MarketsContainer';
-import {Tabs} from 'antd';
+import { Tabs } from 'antd';
 
 class Explorer extends React.Component {
 	constructor(props) {
@@ -70,7 +70,7 @@ class Explorer extends React.Component {
 			<Tabs
 				activeKey={this.props.location.pathname}
 				animated={false}
-				style={{height: '100%', width: '100%'}}
+				style={{ height: '100%', width: '100%' }}
 				className="explorer"
 				onChange={onChange}
 			>

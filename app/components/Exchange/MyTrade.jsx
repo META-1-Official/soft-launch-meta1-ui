@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import Ps from 'perfect-scrollbar';
 import MarketsActions from 'actions/MarketsActions';
 import SettingsActions from 'actions/SettingsActions';
-import {ChainStore, ChainTypes as grapheneChainTypes} from 'meta1-vision-js';
-const {operations} = grapheneChainTypes;
-import {LimitOrder, CallOrder, FillOrder} from 'common/MarketClasses';
+import { ChainStore, ChainTypes as grapheneChainTypes } from 'meta1-vision-js';
+const { operations } = grapheneChainTypes;
+import { LimitOrder, CallOrder, FillOrder } from 'common/MarketClasses';
 import ReactTooltip from 'react-tooltip';
-import {MarketTradeView} from './View/MarketTradeView';
+import { MarketTradeView } from './View/MarketTradeView';
 
 class MyTrade extends React.Component {
 	constructor(props) {
@@ -41,8 +41,8 @@ class MyTrade extends React.Component {
 	}
 
 	componentDidUpdate(prevState) {
-		let {hideScrollbars} = this.props;
-		let {showAll} = this.state;
+		let { hideScrollbars } = this.props;
+		let { showAll } = this.state;
 
 		if (prevState.showAll != showAll) {
 			if (showAll && !hideScrollbars) {
@@ -67,7 +67,7 @@ class MyTrade extends React.Component {
 			nextProps.baseSymbol !== this.props.baseSymbol ||
 			nextProps.quoteSymbol !== this.props.quoteSymbol
 		) {
-			this.setState({showAll: false});
+			this.setState({ showAll: false });
 			this.updateContainer(0);
 
 			if (!this.props.hideScrollbars) {
@@ -149,14 +149,14 @@ class MyTrade extends React.Component {
 	}
 
 	_getOrders() {
-		const {currentAccount, base, quote, feedPrice} = this.props;
+		const { currentAccount, base, quote, feedPrice } = this.props;
 		const orders = currentAccount.get('orders'),
 			call_orders = currentAccount.get('call_orders');
 		const baseID = base.get('id'),
 			quoteID = quote.get('id');
 		const assets = {
-			[base.get('id')]: {precision: base.get('precision')},
-			[quote.get('id')]: {precision: quote.get('precision')},
+			[base.get('id')]: { precision: base.get('precision') },
+			[quote.get('id')]: { precision: quote.get('precision') },
 		};
 		let limitOrders = orders
 			.toArray()
@@ -206,8 +206,8 @@ class MyTrade extends React.Component {
 	}
 
 	render() {
-		let {base, quote, myHistory} = this.props;
-		let {activeTab} = this.state;
+		let { base, quote, myHistory } = this.props;
+		let { activeTab } = this.state;
 
 		if (!base || !quote) return null;
 
@@ -218,8 +218,8 @@ class MyTrade extends React.Component {
 		// User Orders
 		if (activeTab === 'my_trade' && myHistory && myHistory.size) {
 			const assets = {
-				[base.get('id')]: {precision: base.get('precision')},
-				[quote.get('id')]: {precision: quote.get('precision')},
+				[base.get('id')]: { precision: base.get('precision') },
+				[quote.get('id')]: { precision: quote.get('precision') },
 			};
 
 			rows = myHistory
