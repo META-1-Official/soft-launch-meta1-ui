@@ -5,6 +5,10 @@ const xlmIcon = require('assets/explorer/XLM_new.png');
 const btcIcon = require('assets/explorer/BTC_new.png');
 const ethIcon = require('assets/explorer/ETH_new.png');
 const usdtIcon = require('assets/explorer/USDT_new.png');
+const xrpIcon = require('assets/explorer/xrp.png');
+const solIcon = require('assets/explorer/sol.png');
+const trxIcon = require('assets/explorer/trx.png');
+const dogeIcon = require('assets/explorer/doge.png');
 const meta1Icon = require('assets/explorer/marketCap.png');
 
 const bnbLightIcon = require('assets/explorer/bnb_light.png');
@@ -14,6 +18,10 @@ const xlmLightIcon = require('assets/explorer/xlm_light.png');
 const btcLightIcon = require('assets/explorer/btc_light.png');
 const ethLightIcon = require('assets/explorer/eth_light.png');
 const usdtLightIcon = require('assets/explorer/usdt_light.png');
+const xrpLightIcon = require('assets/explorer/xrp_light.png');
+const solLightIcon = require('assets/explorer/sol_light.png');
+const trxLightIcon = require('assets/explorer/trx_light.png');
+const dogeLightIcon = require('assets/explorer/doge_light.png');
 const meta1LightIcon = require('assets/explorer/meta1_light.png');
 
 const getAssetIcon = function (symbol, theme = 'dark') {
@@ -43,6 +51,18 @@ const getAssetIcon = function (symbol, theme = 'dark') {
 			break;
 		case 'USDT':
 			icon = theme == 'dark' ? usdtIcon : usdtLightIcon;
+			break;
+		case 'XRP':
+			icon = theme == 'dark' ? xrpIcon : xrpLightIcon;
+			break;
+		case 'SOL':
+			icon = theme == 'dark' ? solIcon : solLightIcon;
+			break;
+		case 'TRX':
+			icon = theme == 'dark' ? trxIcon : trxLightIcon;
+			break;
+		case 'DOGE':
+			icon = theme == 'dark' ? dogeIcon : dogeLightIcon;
 			break;
 	}
 
@@ -76,6 +96,18 @@ const getAssetFullName = function (symbol) {
 			break;
 		case 'USDT':
 			assetFullName = 'Tether';
+			break;
+		case 'XRP':
+			assetFullName = 'Ripple';
+			break;
+		case 'SOL':
+			assetFullName = 'Solana';
+			break;
+		case 'TRX':
+			assetFullName = 'Tron';
+			break;
+		case 'DOGE':
+			assetFullName = 'Dogecoin';
 			break;
 	}
 
