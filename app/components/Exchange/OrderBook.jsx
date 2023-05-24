@@ -1,6 +1,6 @@
 import cnames from 'classnames';
 import translator from 'counterpart';
-import {StickyTable} from 'react-sticky-table';
+import { StickyTable } from 'react-sticky-table';
 import React from 'react';
 import Translate from 'react-translate-component';
 import PropTypes from 'prop-types';
@@ -10,8 +10,8 @@ import PriceText from '../Utility/PriceText';
 import TransitionWrapper from '../Utility/TransitionWrapper';
 import AssetName from '../Utility/AssetName';
 import Icon from '../Icon/Icon';
-import {Select, Tooltip} from 'antd';
-import {animateScroll} from 'react-scroll';
+import { Select, Tooltip } from 'antd';
+import { animateScroll } from 'react-scroll';
 import SectionHeader from 'components/Utility/SectionHeader';
 
 class OrderRows extends React.Component {
@@ -22,7 +22,7 @@ class OrderRows extends React.Component {
 	};
 
 	render() {
-		let {orderRows, noOrders, isBid, id} = this.props;
+		let { orderRows, noOrders, isBid, id } = this.props;
 		return (
 			<TransitionWrapper
 				id={id}
@@ -34,16 +34,16 @@ class OrderRows extends React.Component {
 				{orderRows.length > 0
 					? orderRows
 					: noOrders || (
-							<div className="sticky-table-row">
-								<td className="cell no-orders" colSpan="3">
-									{isBid ? (
-										<Translate content="exchange.no_bids" />
-									) : (
-										<Translate content="exchange.no_asks" />
-									)}
-								</td>
-							</div>
-					  )}
+						<div className="sticky-table-row">
+							<td className="cell no-orders" colSpan="3">
+								{isBid ? (
+									<Translate content="exchange.no_bids" />
+								) : (
+									<Translate content="exchange.no_asks" />
+								)}
+							</td>
+						</div>
+					)}
 			</TransitionWrapper>
 		);
 	}
@@ -81,7 +81,7 @@ class OrderBookRow extends React.Component {
 	}
 
 	render() {
-		let {order, quote, base} = this.props;
+		let { order, quote, base } = this.props;
 
 		const isBid = order.isBid();
 
@@ -89,8 +89,8 @@ class OrderBookRow extends React.Component {
 			<PriceText price={order.getPrice()} quote={quote} base={base} />
 		);
 		let amount = isBid
-			? order.amountToReceive().getAmount({real: true})
-			: order.amountForSale().getAmount({real: true});
+			? order.amountToReceive().getAmount({ real: true })
+			: order.amountForSale().getAmount({ real: true });
 
 		const totalAmt = toFixed(
 			utils.format_number_digits(amount) * Number(price.props.price)
@@ -121,7 +121,7 @@ class OrderBookRow extends React.Component {
 								}
 								placement="top"
 							>
-								<div className="overflow-hidden" style={{textAlign: 'center'}}>
+								<div className="overflow-hidden" style={{ textAlign: 'center' }}>
 									{price}
 								</div>
 							</Tooltip>
@@ -182,13 +182,13 @@ class OrderBookRow extends React.Component {
 								}
 								placement="top"
 							>
-								<div className="overflow-hidden" style={{textAlign: 'center'}}>
+								<div className="overflow-hidden" style={{ textAlign: 'center' }}>
 									{price}
 								</div>
 							</Tooltip>
 						</td>
 						<td
-							style={{textAlign: 'center', paddingLeft: '10px'}}
+							style={{ textAlign: 'center', paddingLeft: '10px' }}
 							className="table-body-class"
 						>
 							<Tooltip
@@ -331,9 +331,9 @@ class OrderBook extends React.Component {
 	}
 
 	scrollToBottom() {
-		animateScroll.scrollToBottom({
-			containerId: 'top-order-table',
-		});
+		// animateScroll.scrollToBottom({
+		// 	containerId: 'top-order-table',
+		// });
 	}
 
 	psUpdate() {
@@ -368,12 +368,12 @@ class OrderBook extends React.Component {
 	}
 
 	toggleAutoScroll = () => {
-		this.setState({autoScroll: !this.state.autoScroll});
+		this.setState({ autoScroll: !this.state.autoScroll });
 	};
 
 	toggleTotalAsset(isBid) {
 		const quoteTotal = isBid ? 'quoteTotalBids' : 'quoteTotalAsks';
-		this.setState({[quoteTotal]: !this.state[quoteTotal]});
+		this.setState({ [quoteTotal]: !this.state[quoteTotal] });
 	}
 
 	render() {
@@ -395,7 +395,7 @@ class OrderBook extends React.Component {
 		// Market stats
 		const dayChange = marketStats.get('change');
 
-		let {showAllAsks, showAllBids, rowCount, displaySpreadAsPercentage} =
+		let { showAllAsks, showAllBids, rowCount, displaySpreadAsPercentage } =
 			this.state;
 
 		const noOrders = !lowestAsk.sell_price && !highestBid.sell_price;
@@ -518,7 +518,7 @@ class OrderBook extends React.Component {
 							height: '245px',
 						})}
 					>
-						<div style={{height: '100%'}}>
+						<div style={{ height: '100%' }}>
 							<table className="table order-table table-hover fixed-table text-right">
 								{tableHeader}
 							</table>
@@ -533,7 +533,7 @@ class OrderBook extends React.Component {
 							>
 								<table
 									className="table order-table no-stripes table-hover fixed-table text-right no-overflow"
-									style={{height: 'fit-content'}}
+									style={{ height: 'fit-content' }}
 								>
 									<TransitionWrapper
 										ref="askTransition"
@@ -558,7 +558,7 @@ class OrderBook extends React.Component {
 						>
 							{Number(latest).toFixed(6)}
 						</span>
-						<span style={{marginLeft: '5px', fontSize: '12px'}}>
+						<span style={{ marginLeft: '5px', fontSize: '12px' }}>
 							= {Number(latest).toFixed(6)} {base.get('symbol')}
 						</span>
 					</div>
@@ -569,7 +569,7 @@ class OrderBook extends React.Component {
 							overflow: 'hidden',
 						})}
 					>
-						<div style={{height: '100%'}}>
+						<div style={{ height: '100%' }}>
 							<div
 								className="grid-block"
 								ref="hor_bids"
@@ -580,7 +580,7 @@ class OrderBook extends React.Component {
 								}}
 							>
 								<table
-									style={{height: 'fit-content'}}
+									style={{ height: 'fit-content' }}
 									className="table order-table no-stripes table-hover fixed-table text-right no-overflow"
 								>
 									<TransitionWrapper
@@ -613,4 +613,4 @@ OrderBook.propTypes = {
 	orders: PropTypes.object.isRequired,
 };
 
-export {OrderBook};
+export { OrderBook };
