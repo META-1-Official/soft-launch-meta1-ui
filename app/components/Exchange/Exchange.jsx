@@ -2501,7 +2501,7 @@ class Exchange extends React.Component {
 				groupedBids={groupedBids}
 				groupedAsks={groupedAsks}
 				isPanelActive={activePanels.length >= 1}
-				hideScrollbars={hideScrollbars}
+				hideScrollbars={true}
 				hideFunctionButtons={hideFunctionButtons}
 			/>
 		);

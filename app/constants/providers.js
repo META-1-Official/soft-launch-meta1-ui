@@ -33,19 +33,19 @@ export const providers = [
 		name: 'github',
 		image: github,
 	},
-	{
-		id: 6,
-		name: 'kakao',
-		image: kakao,
-	},
-	{
-		id: 7,
-		name: 'linkedin',
-		image: linkedin,
-	},
-	{
-		id: 8,
-		name: 'twitter',
-		image: twitter,
-	},
+	// {
+	// 	id: 6,
+	// 	name: 'kakao',
+	// 	image: kakao,
+	// },
+	// {
+	// 	id: 7,
+	// 	name: 'linkedin',
+	// 	image: linkedin,
+	// },
+	// {
+	// 	id: 8,
+	// 	name: 'twitter',
+	// 	image: twitter,
+	// },
 ];

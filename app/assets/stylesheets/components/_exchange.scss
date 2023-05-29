@@ -2352,6 +2352,38 @@ form.hide-container {
 	}
 }
 
+#top-order-table {
+	&::-webkit-scrollbar {
+		width: 6px;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background-color: gray;
+		border-radius: 10px;
+	}
+
+	&::-webkit-scrollbar-track {
+		background: transparent;
+		border-radius: 10px;
+	}
+}
+
+#bottom-order-table {
+	&::-webkit-scrollbar {
+		width: 6px;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background-color: gray;
+		border-radius: 10px;
+	}
+
+	&::-webkit-scrollbar-track {
+		background: transparent;
+		border-radius: 10px;
+	}
+}
+
 // Buy_Sell wallet icon section css
 .amount_footer {
 	display: flex;
