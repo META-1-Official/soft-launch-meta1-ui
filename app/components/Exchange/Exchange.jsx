@@ -43,6 +43,7 @@ import AccountNotifications from '../Notifier/NotifierContainer';
 import PriceAlert from './PriceAlert';
 import AssetsPairTabs from './AssetsPairTabs';
 import {ceilFloat, floorFloat} from '../../services/Math';
+import ls from '../../lib/common/localStorage';
 
 // Antd
 import {Tabs, Collapse, notification} from 'antd';
@@ -50,6 +51,9 @@ import {Tabs, Collapse, notification} from 'antd';
 // Meta1 SDKs
 import {Apis} from 'meta1-vision-ws';
 import {ChainStore, FetchChain} from 'meta1-vision-js';
+
+const STORAGE_KEY = '__AuthData__';
+const ss = new ls(STORAGE_KEY);
 
 class Exchange extends React.Component {
 	static propTypes = {
@@ -153,13 +157,13 @@ class Exchange extends React.Component {
 			passive: true,
 		});
 
-		if (
-			this.props.quoteAsset.get('symbol') === 'META1' ||
-			this.props.baseAsset.get('symbol') === 'META1'
-		) {
-			this.calcBackingAssetValue();
-		} else {
-			this.setState({backingAssetValue: 0, backingAssetPolarity: true});
+		const backingAssetCalcInterval = ss.get('backing_asset_calc_interval', null);
+		if (!backingAssetCalcInterval) {
+			const that = this;
+			const backingAssetCalcInterval = setInterval(function () {
+				that.calcBackingAssetValue();
+			}, 10000);
+			ss.set('backing_asset_calc_interval', backingAssetCalcInterval);
 		}
 	}
 
@@ -304,6 +308,7 @@ class Exchange extends React.Component {
 				nextProps.quoteAsset.get('symbol') === 'META1' ||
 				nextProps.baseAsset.get('symbol') === 'META1'
 			) {
+				console.log("@1111 - 3")
 				this.calcBackingAssetValue();
 			} else {
 				this.setState({backingAssetValue: 0, backingAssetPolarity: true});
@@ -380,15 +385,17 @@ class Exchange extends React.Component {
 	 */
 	calcBackingAssetValue() {
 		const LOG_ID = '[calcBackingAssetValue]';
-		this.setState({backingAssetValue: 0});
+		this.setState({backingAssetValue: 0, backingAssetPolarity: true});
+		if (this.props.quoteAsset.get('symbol') !== 'META1' && this.props.baseAsset.get('symbol') !== 'META1') return;
+
+		const quoteAssetSymbol = this.props.quoteAsset.get('symbol');
+		const quoteAssetPrecision = this.props.quoteAsset.get('precision');
+		const baseAssetSymbol = this.props.baseAsset.get('symbol');
+		const baseAssetPrecision = this.props.baseAsset.get('precision');
 
 		return Apis.db.get_asset_limitation_value('META1').then((price) => {
 			const meta1_usdt = ceilFloat(price / 1000000000, 2);
 			console.log(LOG_ID, 'META1 Backing Asset($): ', meta1_usdt);
-			const quoteAssetSymbol = this.props.quoteAsset.get('symbol');
-			const quoteAssetPrecision = this.props.quoteAsset.get('precision');
-			const baseAssetSymbol = this.props.baseAsset.get('symbol');
-			const baseAssetPrecision = this.props.baseAsset.get('precision');
 			const isQuoting = quoteAssetSymbol === 'META1';
 			let asset_usdt;
 
@@ -397,6 +404,11 @@ class Exchange extends React.Component {
 					isQuoting ? baseAssetSymbol : quoteAssetSymbol
 				)
 				.then((res) => {
+					// Check asset pair
+					if (quoteAssetSymbol !== this.props.quoteAsset.get('symbol') || baseAssetSymbol !== this.props.baseAsset.get('symbol')) {
+						return;
+					}
+
 					asset_usdt = res.numerator / res.denominator;
 					let ratio = isQuoting
 						? meta1_usdt / asset_usdt
@@ -504,11 +516,11 @@ class Exchange extends React.Component {
 					sellMarketPrice = price._real_price;
 					estSellAmount += price.for_sale / Math.pow(10, baseAssetPrecision);
 					// Debug - can be deleted later
-					console.log(
-						'@11 - Bid',
-						price._real_price,
-						price.for_sale / Math.pow(10, baseAssetPrecision)
-					);
+					// console.log(
+					// 	'@11 - Bid',
+					// 	price._real_price,
+					// 	price.for_sale / Math.pow(10, baseAssetPrecision)
+					// );
 
 					if (amount2Trade && amount2Trade < estSellAmount) break;
 				}
@@ -558,11 +570,11 @@ class Exchange extends React.Component {
 						buyMarketPrice = price._real_price;
 						estSellAmount += price.for_sale / Math.pow(10, baseAssetPrecision);
 						// Debug - can be deleted later
-						console.log(
-							'@12 - Ask',
-							price._real_price,
-							price.for_sale / Math.pow(10, quoteAssetPrecision)
-						);
+						// console.log(
+						// 	'@12 - Ask',
+						// 	price._real_price,
+						// 	price.for_sale / Math.pow(10, quoteAssetPrecision)
+						// );
 
 						// if (amount2Trade && amount2Trade < estSellAmount) break;
 					});
