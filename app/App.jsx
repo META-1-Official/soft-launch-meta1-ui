@@ -34,6 +34,7 @@ import Page404 from './components/Page404/Page404';
 import AppLayout from 'components/Layout/Layout';
 import BodyClassName from 'components/BodyClassName';
 import AssetExplorerDetails from './components/Exchange/AssetExplorerDetails';
+import {toast} from 'react-toastify';
 
 const Invoice = Loadable({
 	loader: () =>
@@ -302,6 +303,7 @@ class App extends React.Component {
 			NotificationStore.listen(this._onNotificationChange.bind(this));
 			ChainStore.subscribe(this._chainStoreSub);
 			AccountStore.tryToSetCurrentAccount();
+			this._onSetupWebSocket();
 		} catch (e) {
 			console.error('e:', e);
 		}
@@ -395,6 +397,22 @@ class App extends React.Component {
 
 	_getWindowHeight() {
 		this.setState({height: window && window.innerHeight});
+	}
+
+	_onSetupWebSocket() {
+		this.ws = new WebSocket('ws://127.0.0.1:5003');
+
+		this.ws.onmessage = (message) => {
+			if (message && message.data) {
+				const content = JSON.parse(message.data).content;
+
+				let accountName =
+					AccountStore.getState().currentAccount ||
+					AccountStore.getState().passwordAccount;
+
+				if (accountName) toast(content);
+			}
+		};
 	}
 
 	render() {
