@@ -26,6 +26,15 @@ const FlipImage = require('assets/flip.png');
 const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
 
+const errorCase = {
+	'Already Enrolled': 'You already enrolled and verified successfully.',
+	'Biometic Server Error': 'Something went wrong from Biometric server.',
+	'ESignature Server Error': 'Something went wrong from ESignature server.',
+	'Email Already Used': 'This email already has been used for another user.',
+	'Please try again.': 'Please try again.',
+	'Internal Error': 'Internal Error',
+};
+
 class AccountRegistration extends React.Component {
 	constructor(props) {
 		super(props);
@@ -117,72 +126,21 @@ class AccountRegistration extends React.Component {
 
 		if (!email || !privKey) return;
 
-		const response_verify = await faceKIService.verify(file);
-		if (response_verify.status === 'Verify OK') {
-			const nameArry = response_verify.name.split(',');
+		const response = await faceKIService.enroll(file, email, privKey);
 
-			if (nameArry.includes(email)) {
-				toast(counterpart.translate('registration.faceki_user_exist'));
-				this.setState({verifying: false, faceKISuccess: true});
-				this.nextStep();
-			} else {
-				const response_user = await kycService.getUserKycProfile(email);
-				if (response_user) {
-					toast(counterpart.translate('registration.faceki_email_used'));
-					this.setState({verifying: false});
-				} else {
-					const newName = response_verify.name + ',' + email;
-					const response_remove = await faceKIService.remove_user(
-						response_verify.name
-					);
-
-					if (!response_remove) {
-						toast(counterpart.translate('registration.went_wrong'));
-						this.setState({verifying: false});
-					} else {
-						const response_enroll = await faceKIService.enroll(file, newName);
-						if (response_enroll.status === 'Enroll OK') {
-							const add_response = await kycService.postUserKycProfile(
-								email,
-								`usr_${email}_${privKey}`
-							);
-							if (add_response.result) {
-								toast(counterpart.translate('registration.enroll_success'));
-								this.setState({verifying: false, faceKISuccess: true});
-								this.nextStep();
-							} else {
-								toast(counterpart.translate('registration.went_wrong'));
-								this.setState({verifying: false});
-							}
-						}
-					}
-				}
-			}
-		} else if (response_verify.status === 'Verify Failed') {
-			const response_user = await kycService.getUserKycProfile(email);
-			if (response_user) {
-				toast(counterpart.translate('registration.faceki_email_used'));
-				this.setState({verifying: false});
-			} else {
-				const response_enroll = await faceKIService.enroll(file, email);
-				if (response_enroll.status === 'Enroll OK') {
-					const add_response = await kycService.postUserKycProfile(
-						email,
-						`usr_${email}_${privKey}`
-					);
-					if (add_response.result) {
-						toast(counterpart.translate('registration.enroll_success'));
-						this.setState({verifying: false, faceKISuccess: true});
-						this.nextStep();
-					} else {
-						await faceKIService.remove_user(email);
-						toast(counterpart.translate('registration.went_wrong'));
-						this.setState({verifying: false});
-					}
-				}
-			}
+		if (!response) {
+			toast(errorCase['Biometic Server Error']);
+			this.setState({verifying: false});
+			return;
 		} else {
-			toast(counterpart.translate('registration.please_retry'));
+			toast(errorCase[response.message]);
+			if (
+				response.message === 'Successfully Enrolled' ||
+				response.message === 'Already Enrolled'
+			) {
+				this.setState({faceKISuccess: true});
+				this.nextStep();
+			}
 			this.setState({verifying: false});
 		}
 	}

@@ -6,16 +6,16 @@ import AssetName from '../Utility/AssetName';
 import counterpart from 'counterpart';
 import getLocale from 'browser-locale';
 import TransitionWrapper from '../Utility/TransitionWrapper';
-import {Tooltip} from 'antd';
+import { Tooltip } from 'antd';
 
 class TableHeader extends React.Component {
 	render() {
-		let {baseSymbol, quoteSymbol} = this.props;
+		let { baseSymbol, quoteSymbol } = this.props;
 
 		return (
 			<thead>
 				<tr>
-					<th style={{textAlign: 'right'}}>
+					<th style={{ textAlign: 'right' }}>
 						<Translate content="exchange.price" />
 						<br />
 						{baseSymbol ? (
@@ -25,7 +25,7 @@ class TableHeader extends React.Component {
 							</span>
 						) : null}
 					</th>
-					<th style={{textAlign: 'right'}}>
+					<th style={{ textAlign: 'right' }}>
 						<Translate content="transfer.amount" />
 						<br />
 						{quoteSymbol ? (
@@ -34,10 +34,10 @@ class TableHeader extends React.Component {
 							</span>
 						) : null}
 					</th>
-					<th style={{textAlign: 'right'}}>
+					<th style={{ textAlign: 'right' }}>
 						<Translate content="transaction.settlement_date" />
 						<br />
-						<span style={{visibility: 'hidden'}} className="header-sub-title">
+						<span style={{ visibility: 'hidden' }} className="header-sub-title">
 							d
 						</span>
 					</th>
@@ -54,7 +54,7 @@ TableHeader.defaultProps = {
 
 class SettleOrderRow extends React.Component {
 	render() {
-		let {base, quote, order, showSymbols} = this.props;
+		let { base, quote, order, showSymbols } = this.props;
 
 		let price =
 			base.get('id') == '1.3.0'
@@ -64,7 +64,7 @@ class SettleOrderRow extends React.Component {
 
 		return (
 			<tr>
-				<td className="text-center" style={{width: '6%'}}>
+				<td className="text-center" style={{ width: '6%' }}>
 					{' '}
 				</td>
 				<td>
@@ -74,7 +74,7 @@ class SettleOrderRow extends React.Component {
 					{utils.format_number(
 						order[
 							!order.isBid() ? 'amountForSale' : 'amountToReceive'
-						]().getAmount({real: true}),
+						]().getAmount({ real: true }),
 						quote.get('precision')
 					)}
 				</td>
@@ -82,13 +82,13 @@ class SettleOrderRow extends React.Component {
 					{utils.format_number(
 						order[
 							!order.isBid() ? 'amountToReceive' : 'amountForSale'
-						]().getAmount({real: true}),
+						]().getAmount({ real: true }),
 						base.get('precision')
 					)}
 				</td>
 				<td>
 					<Tooltip title={new Date(order.settlement_date).toString()}>
-						<div style={{textAlign: 'right', whiteSpace: 'nowrap'}}>
+						<div style={{ textAlign: 'right', whiteSpace: 'nowrap' }}>
 							{counterpart.localize(new Date(order.settlement_date), {
 								type: 'date',
 								format:
@@ -118,7 +118,7 @@ class OpenSettleOrders extends React.Component {
 	}
 
 	render() {
-		let {orders, base, quote} = this.props;
+		let { orders, base, quote } = this.props;
 
 		let activeOrders = null;
 

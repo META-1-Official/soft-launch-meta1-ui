@@ -191,7 +191,7 @@ class Assets extends React.Component {
 				},
 				{
 					key: 'currentSupply',
-					title: counterpart.translate('explorer.assets.issuer'),
+					title: counterpart.translate('markets.supply'),
 					dataIndex: 'currentSupply',
 					sorter: (a, b) => {
 						const currentSupplyA =
