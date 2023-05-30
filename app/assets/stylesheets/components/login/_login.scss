@@ -94,6 +94,7 @@
 				opacity: 0.4;
 				height: 50px;
 				margin: 20px 0 20px -30px;
+
 				&.initial-bin {
 					margin-left: -60px;
 				}
@@ -129,6 +130,7 @@
 						opacity: 0;
 						cursor: pointer;
 					}
+
 					.upload-bin-input::-webkit-file-upload-button {
 						cursor: pointer;
 					}
@@ -186,6 +188,7 @@
 
 		div.header-block {
 			padding: 87px 0 127px 0;
+
 			.inactive-img {
 				bottom: 0;
 			}
@@ -225,6 +228,11 @@
 }
 
 .custom-auth-faceki {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+
 	@media screen and (max-width: 576px) {
 		padding: 10px;
 	}
@@ -233,148 +241,153 @@
 		top: 70px !important;
 	}
 
-	.ant-modal-body {
+	@media screen and (max-width: 576px) {
+		border-radius: 5px;
+		padding: 10px;
+	}
+
+	h4 {
+		text-align: center;
+		font-weight: bold;
+
+		@media screen and (max-width: 576px) {
+			font-size: 16px;
+		}
+	}
+
+	h5 {
+		text-align: center;
+		font-size: 16px;
+		color: rgba(255, 255, 255, 0.5);
+
+		@media screen and (max-width: 576px) {
+			font-size: 14px;
+			max-width: 300px;
+		}
+	}
+
+	.ant-select {
+		width: 100%;
+		margin-top: 5px;
+	}
+
+	.webcam-wrapper {
+		position: relative;
+		border: 1px solid #1c1f27;
+		border-radius: 3px;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+	}
+
+	.flex_container {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		position: absolute;
+		bottom: 0;
+	}
+
+	.flex-container {
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding-top: 7px;
+		padding-bottom: 7px;
+		background-color: transparent;
+	}
+
+	.flex-container-first {
+		z-index: 999;
+		float: center;
+		width: 100%;
+	}
+
+	.btn-x {
+		background-color: #262a32;
+		color: red;
+		width: 30px !important;
+		height: 30px !important;
+		font-size: 14px;
+		font-weight: 600;
+		z-index: 999;
+		border: 1px solid #262a32;
+		border-radius: 50%;
+		margin-right: 10px;
+	}
+
+	.position-head {
+		display: flex;
 		justify-content: center;
+		color: #ffc000;
+		font-weight: 600;
+		width: 100%;
+		align-items: center;
+		z-index: 999;
 
 		@media screen and (max-width: 576px) {
-			border-radius: 5px;
-			padding: 10px;
-		}
-
-		h4 {
-			text-align: center;
-			font-weight: bold;
-
-			@media screen and (max-width: 576px) {
-				font-size: 16px;
-			}
-		}
-
-		h5 {
-			text-align: center;
-			font-size: 16px;
-			color: rgba(255, 255, 255, 0.5);
-
-			@media screen and (max-width: 576px) {
-				font-size: 14px;
-				max-width: 300px;
-			}
-		}
-
-		.ant-select {
-			width: 100%;
-			margin-top: 5px;
-		}
-
-		.webcam-wrapper {
-			position: relative;
-			border: 1px solid #1c1f27;
-			border-radius: 3px;
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-		}
-
-		.flex_container {
-			width: 100%;
-			display: flex;
-			flex-direction: column;
-			position: absolute;
-			bottom: 0;
-		}
-		.flex-container {
-			width: 100%;
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			padding-top: 7px;
-			padding-bottom: 7px;
-			background-color: transparent;
-		}
-		.flex-container-first {
-			z-index: 999;
-			float: center;
-			width: 100%;
-		}
-		.btn-x {
-			background-color: #262a32;
-			color: red;
-			width: 30px !important;
-			height: 30px !important;
 			font-size: 14px;
+		}
+
+		@media screen and (max-width: 375px) {
+			font-size: 12px;
+		}
+	}
+
+	.span-class {
+		width: 100%;
+		z-index: 999;
+		text-align: center;
+		color: rgba(255, 255, 255, 0.5);
+
+		@media screen and (max-width: 576px) {
+			font-size: 14px;
+		}
+
+		@media screen and (max-width: 375px) {
+			font-size: 12px;
+		}
+	}
+
+	.flip-button {
+		position: absolute;
+		top: 50px;
+		right: 10px;
+		z-index: 300;
+		opacity: 0.7;
+		cursor: pointer;
+		width: 30px;
+	}
+
+	.oval-image {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
+		z-index: 200;
+		opacity: 0.8;
+	}
+
+	.button-wrapper {
+		display: flex;
+		justify-content: center;
+		margin-top: 10px;
+
+		button {
+			background: rgb(255, 204, 0);
+			border: none;
+			width: 110px;
+			height: 45px;
+			color: white;
+			font-size: 18px;
 			font-weight: 600;
-			z-index: 999;
-			border: 1px solid #262a32;
-			border-radius: 50%;
-			margin-right: 10px;
+			border-radius: 5px;
 		}
-		.position-head {
-			display: flex;
-			justify-content: center;
-			color: #ffc000;
-			font-weight: 600;
-			width: 100%;
-			align-items: center;
-			z-index: 999;
+	}
 
-			@media screen and (max-width: 576px) {
-				font-size: 14px;
-			}
-
-			@media screen and (max-width: 375px) {
-				font-size: 12px;
-			}
-		}
-		.span-class {
-			width: 100%;
-			z-index: 999;
-			text-align: center;
-			color: rgba(255, 255, 255, 0.5);
-
-			@media screen and (max-width: 576px) {
-				font-size: 14px;
-			}
-
-			@media screen and (max-width: 375px) {
-				font-size: 12px;
-			}
-		}
-		.flip-button {
-			position: absolute;
-			top: 50px;
-			right: 10px;
-			z-index: 300;
-			opacity: 0.7;
-			cursor: pointer;
-			width: 30px;
-		}
-		.oval-image {
-			position: absolute;
-			width: 100%;
-			height: 100%;
-			top: 0;
-			left: 0;
-			z-index: 200;
-			opacity: 0.8;
-		}
-		.button-wrapper {
-			display: flex;
-			justify-content: center;
-			margin-top: 10px;
-
-			button {
-				background: rgb(255, 204, 0);
-				border: none;
-				width: 110px;
-				height: 45px;
-				color: white;
-				font-size: 18px;
-				font-weight: 600;
-				border-radius: 5px;
-			}
-		}
+	video {
+		border-radius: 5px;
 	}
 }
