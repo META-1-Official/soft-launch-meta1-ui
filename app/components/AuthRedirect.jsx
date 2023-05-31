@@ -325,9 +325,12 @@ class AuthRedirect extends React.Component {
 		try {
 			if (openLogin && openLogin.status === 'connected') {
 				const data = await openLogin.getUserInfo();
+				const key = await openLogin.provider.request({
+					method: 'private_key',
+				});
 
 				setAuthData(data);
-				setPrivKey('web3authprivatekey');
+				setPrivKey(key);
 				this.loadVideo(true);
 			} else {
 				this.props.history.push('/registration');
