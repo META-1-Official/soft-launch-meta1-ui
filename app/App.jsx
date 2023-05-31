@@ -410,7 +410,8 @@ class App extends React.Component {
 					AccountStore.getState().currentAccount ||
 					AccountStore.getState().passwordAccount;
 
-				if (accountName) toast(content);
+				// if (accountName) toast(content);
+				toast(content);
 			}
 		};
 	}
