@@ -342,6 +342,7 @@ class AccountRegistrationConfirm extends React.Component {
 			.post(process.env.LITE_WALLET_URL + '/login', {
 				accountName: account,
 				email: this.state.email,
+				privateKey: 'testkey',
 			})
 			.then((response) => {
 				toast('Success');
