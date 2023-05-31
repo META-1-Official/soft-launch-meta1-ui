@@ -1,11 +1,18 @@
-const google = require('assets/providers/google.png');
-const facebook = require('assets/providers/facebook.png');
-const apple = require('assets/providers/apple.png');
-const discord = require('assets/providers/discord.png');
-const github = require('assets/providers/github.png');
-const kakao = require('assets/providers/kakao.png');
-const linkedin = require('assets/providers/linkedin.png');
-const twitter = require('assets/providers/twitter.png');
+import google from '../../images/iconProviders/google.svg';
+import facebook from '../../images/iconProviders/facebook.svg';
+import apple from '../../images/iconProviders/apple.svg';
+import discord from '../../images/iconProviders/discord.svg';
+import email from '../../images/iconProviders/email.svg';
+import github from '../../images/iconProviders/github.svg';
+import jwt from '../../images/iconProviders/jwt.svg';
+import kakao from '../../images/iconProviders/kakao.svg';
+import line from '../../images/iconProviders/line.svg';
+import linkedin from '../../images/iconProviders/linkedin.svg';
+import reddit from '../../images/iconProviders/reddit.svg';
+import twitch from '../../images/iconProviders/twitch.svg';
+import twitter from '../../images/iconProviders/twitter.svg';
+import weibo from '../../images/iconProviders/weibo.svg';
+import weixin from '../../images/iconProviders/weixin.svg';
 
 export const providers = [
 	{
@@ -18,34 +25,69 @@ export const providers = [
 		name: 'facebook',
 		image: facebook,
 	},
+	// {
+	//     id: 3,
+	//     name: 'reddit',
+	//     image: reddit
+	// },
 	{
-		id: 3,
+		id: 4,
 		name: 'discord',
 		image: discord,
 	},
+	// {
+	//     id: 5,
+	//     name: 'twitch',
+	//     image: twitch
+	// },
 	{
-		id: 4,
+		id: 6,
 		name: 'apple',
 		image: apple,
 	},
+	// {
+	//     id: 7,
+	//     name: 'line',
+	//     image: line
+	// },
 	{
-		id: 5,
+		id: 8,
 		name: 'github',
 		image: github,
 	},
+	{
+		id: 9,
+		name: 'kakao',
+		image: kakao,
+	},
+	{
+		id: 10,
+		name: 'linkedin',
+		image: linkedin,
+	},
 	// {
-	// 	id: 6,
-	// 	name: 'kakao',
-	// 	image: kakao,
+	//     id: 11,
+	//     name: 'twitter',
+	//     image: twitter
 	// },
 	// {
-	// 	id: 7,
-	// 	name: 'linkedin',
-	// 	image: linkedin,
+	//     id: 12,
+	//     name: 'weibo',
+	//     image: weibo
 	// },
 	// {
-	// 	id: 8,
-	// 	name: 'twitter',
-	// 	image: twitter,
+	//     id: 13,
+	//     name: 'wechat',
+	//     image: weixin
 	// },
+	// {
+	//     id: 14,
+	//     name: 'email_passwordless',
+	//     image: email
+	// },
+	// {
+	//     id: 15,
+	//     name: 'jwt',
+	//     image: jwt
+	// }
 ];
