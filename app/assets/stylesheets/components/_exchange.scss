@@ -408,21 +408,22 @@ p.order-table-title {
 				flex: none;
 				height: 100%;
 				padding: 4px 0;
+				width: 120px;
 
 				label {
 					font-size: 14px;
 					text-transform: uppercase;
 					margin-bottom: 0;
 					text-align: center;
-					width: 100px;
 					padding-left: 10px;
+					white-space: none;
 
 					@media screen and (max-width: 768px) {
 						justify-content: center;
 					}
 
-					@media screen and (max-width: 1600px) {
-						white-space: pre-wrap;
+					@media screen and (max-width: 1250px) {
+						font-size: 12px;
 					}
 				}
 
@@ -1072,14 +1073,12 @@ div.bucket-option {
 	font-size: 14px;
 	text-transform: uppercase;
 	padding: 1px;
-	z-index: 0; // Make sure unwrapped content isn't hidden under companion input
+	z-index: 0;
 	width: 100px;
 	margin-left: 8px;
 
-	@media screen and (max-width: 768px) {
-		display: flex;
-		justify-content: center;
-		align-items: center;
+	@media screen and (max-width: 1250px) {
+		font-size: 12px;
 	}
 }
 

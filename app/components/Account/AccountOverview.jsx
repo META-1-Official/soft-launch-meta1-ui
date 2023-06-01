@@ -34,16 +34,7 @@ class AccountOverview extends React.Component {
 		super();
 		this.state = {
 			shownAssets: props.viewSettings.get('shownAssets', 'active'),
-			alwaysShowAssets: [
-				'META1',
-				'USDT',
-				'BTC',
-				'BNB',
-				'LTC',
-				'XLM',
-				'EOS',
-				'ETH',
-			],
+			alwaysShowAssets: process.env.CRYPTOS_ARRAY.split(','),
 			hideFishingProposals: true,
 			currentDisplay: 'portfolio',
 			hideZeroBalance: true,

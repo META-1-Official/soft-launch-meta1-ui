@@ -951,11 +951,15 @@ class AccountPortfolioList extends React.Component {
 					</StyledButton>
 				) : null,
 				deposit:
-					['BTC', 'LTC', 'ETH', 'USDT'].indexOf(asset.get('symbol')) > -1
+					process.env.DEPOSIT_AVAILABLE_ASSETS.split(',').indexOf(
+						asset.get('symbol')
+					) > -1
 						? depositLink
 						: emptyCell,
 				withdraw:
-					['ETH', 'USDT'].indexOf(asset.get('symbol')) > -1
+					process.env.WITHDRAW_AVAILABLE_ASSETS.split(',').indexOf(
+						asset.get('symbol')
+					) > -1
 						? withdrawLink
 						: emptyCell,
 			});
@@ -1024,27 +1028,30 @@ class AccountPortfolioList extends React.Component {
 							borrow: null,
 							settle: null,
 							burn: null,
-							deposit:
-								this.props.isMyAccount &&
-								['BTC', 'LTC', 'ETH', 'USDT', 'XLM', 'BNB', 'EOS'].indexOf(
-									asset.get('symbol')
-								) > -1 ? (
-									<StyledButton
-										buttonType="green"
-										onClick={this._showDepositModal.bind(
-											this,
-											asset.get('symbol')
-										)}
-									>
-										<Translate content="exchange.deposit" />
-									</StyledButton>
-								) : (
-									emptyCell
-								),
+							deposit: (
+								<StyledButton
+									buttonType="green"
+									onClick={this._showDepositModal.bind(
+										this,
+										asset.get('symbol')
+									)}
+									style={{
+										backgroundColor: 'transparent',
+										color: 'green',
+										width: 80,
+									}}
+								>
+									<Translate
+										content="exchange.deposit"
+										style={{whiteSpace: 'nowrap'}}
+									/>
+								</StyledButton>
+							),
 						});
 					}
 				});
 		}
+
 		return balances;
 	}
 
