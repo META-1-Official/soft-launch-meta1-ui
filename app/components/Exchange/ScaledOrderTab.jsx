@@ -611,51 +611,16 @@ class ScaledOrderForm extends Component {
 
 	render() {
 		const {type, quoteAsset, baseAsset} = this.props;
-
 		const isBid = type === 'bid';
 
-		// const quote = quoteAsset;
-		// const base = baseAsset;
-
-		// const marketFeeSymbol = (
-		// 	<AssetNameWrapper name={this.props.quoteAsset.get('symbol')} />
-		// );
-
-		const quantitySymbol = (
-			<AssetNameWrapper name={this.props.quoteAsset.get('symbol')} />
-		);
-
-		const totalSymbol = (
-			<AssetNameWrapper name={this.props.baseAsset.get('symbol')} />
-		);
-
-		const priceSymbol = (
-			<span>
-				<AssetName dataPlace="right" name={baseAsset.get('symbol')} />
-				&nbsp;/&nbsp;
-				<AssetName dataPlace="right" name={quoteAsset.get('symbol')} />
-			</span>
-		);
+		const quantitySymbol = <span>{quoteAsset.get('symbol')}</span>;
+		const totalSymbol = <span>{baseAsset.get('symbol')}</span>;
+		const priceSymbol = <span> {baseAsset.get('symbol')}</span>;
 
 		const formItemProps = {
 			labelCol: {span: 6},
 			wrapperCol: {span: 16, offset: 2},
 		};
-
-		// const actionRadio = getFieldDecorator('action', {
-		// 	initialValue: isBid
-		// 		? SCALED_ORDER_ACTION_TYPES.BUY
-		// 		: SCALED_ORDER_ACTION_TYPES.SELL,
-		// })(
-		// 	<Radio.Group>
-		// 		<Radio value={SCALED_ORDER_ACTION_TYPES.BUY}>
-		// 			{counterpart.translate('scaled_orders.action.buy')}
-		// 		</Radio>
-		// 		<Radio value={SCALED_ORDER_ACTION_TYPES.SELL}>
-		// 			{counterpart.translate('scaled_orders.action.sell')}
-		// 		</Radio>
-		// 	</Radio.Group>
-		// );
 
 		const priceLowerInput = () => (
 			<ExchangeInput
@@ -668,7 +633,6 @@ class ScaledOrderForm extends Component {
 		);
 
 		const formValues = this._getFormValues();
-
 		const priceLower = Number((formValues && formValues.priceLower) || 0);
 
 		const priceUpperInput = () => (
@@ -680,63 +644,6 @@ class ScaledOrderForm extends Component {
 				onChange={this._getTotal.bind(this)}
 			/>
 		);
-
-		// To do: Check functionality
-		// const feeCurrencySelect = () => (
-		// 	<Select
-		// 		showSearch
-		// 		dropdownMatchSelectWidth={false}
-		// 		style={{minWidth: '80px', maxWidth: '120px'}}
-		// 		initialValue={
-		// 			ChainStore.getAsset('1.3.0') &&
-		// 			ChainStore.getAsset('1.3.0').get &&
-		// 			ChainStore.getAsset('1.3.0').get('symbol')
-		// 		}
-		// 		getPopupContainer={(triggerNode) => triggerNode.parentNode}
-		// 	>
-		// 		{this.state.feeAssets &&
-		// 			this.state.feeAssets.map &&
-		// 			this.state.feeAssets.map((feeAsset) => {
-		// 				return (
-		// 					<Select.Option
-		// 						key={feeAsset.asset.get('symbol')}
-		// 						value={`${feeAsset.asset.get('symbol')}`}
-		// 					>
-		// 						<AssetNameWrapper
-		// 							name={feeAsset.asset.get('symbol')}
-		// 							noTip={true}
-		// 						/>
-		// 					</Select.Option>
-		// 				);
-		// 			})}
-		// 	</Select>
-		// );
-
-		// const feeInput = () => {
-		// 	if (this.formRef) {
-		// 		return (
-		// 			<ExchangeInput
-		// 				disabled
-		// 				placeholder="0.0"
-		// 				style={{width: '100%'}}
-		// 				autoComplete="off"
-		// 				addonAfter={() => feeCurrencySelect()}
-		// 				value={this._getFee()}
-		// 			/>
-		// 		);
-		// 	}
-		// 	return <></>;
-		// };
-
-		// const marketFeeInput = (
-		// 	<ExchangeInput
-		// 		disabled
-		// 		style={{width: '100%'}}
-		// 		autoComplete="off"
-		// 		addonAfter={marketFeeSymbol}
-		// 		value={this._getMarketFee()}
-		// 	/>
-		// );
 
 		const totalInput = () => {
 			if (this.formRef) {
@@ -803,26 +710,6 @@ class ScaledOrderForm extends Component {
 				onChange={this._getTotal.bind(this)}
 			/>
 		);
-
-		// const lastPriceLabel = counterpart.translate(
-		// 	isBid ? 'exchange.lowest_ask' : 'exchange.highest_bid'
-		// );
-
-		// let expirationTip;
-
-		// if (this.props.expirationType !== 'SPECIFIC') {
-		// 	expirationTip = this.props.expirations[this.props.expirationType].get();
-		// }
-
-		// const expirationsOptionsList = Object.keys(this.props.expirations).map(
-		// 	(key) => (
-		// 		<option value={key} key={key}>
-		// 			{key === 'SPECIFIC' && expirationCustomTime !== 'Specific'
-		// 				? moment(expirationCustomTime).format('Do MMM YYYY hh:mm A')
-		// 				: this.props.expirations[key].title}
-		// 		</option>
-		// 	)
-		// );
 
 		let buyButton = {
 			backgroundColor: '#FFC000',
@@ -942,112 +829,6 @@ class ScaledOrderForm extends Component {
 					>
 						{totalInput()}
 					</Form.Item>
-
-					{/* <Form.Item
-						{...formItemProps}
-						label={counterpart.translate('scaled_orders.fee')}
-						name="feeCurrency"
-						initialValue={
-							ChainStore.getAsset('1.3.0') &&
-							ChainStore.getAsset('1.3.0').get &&
-							ChainStore.getAsset('1.3.0').get('symbol')
-						}
-					>
-						{feeInput()}
-					</Form.Item>
-
-					{this._isMarketFeeVisible() && (
-						<Form.Item
-							{...formItemProps}
-							label={`${counterpart.translate(
-								'scaled_orders.market_fee'
-							)} ${this._getMarketFeePercentage()}%`}
-						>
-							{marketFeeInput}
-						</Form.Item>
-					)} */}
-
-					{/* <Form.Item
-						style={{marginBottom: '6px'}}
-						label={counterpart.translate('transaction.expiration')}
-						{...formItemProps}
-					>
-						<div className="expiration-datetime-picker scaled-orders">
-							<DatePicker
-								ref={this.getDatePickerRef}
-								className="expiration-datetime-picker--hidden"
-								showTime
-								showToday={false}
-								disabledDate={(current) =>
-									current < moment().add(59, 'minutes')
-								}
-								value={
-									expirationCustomTime !== 'Specific'
-										? expirationCustomTime
-										: moment().add(1, 'hour')
-								}
-								onChange={this.props.onExpirationCustomChange}
-							/>
-							<select
-								className="cursor-pointer"
-								onChange={this.onExpirationSelectChange}
-								onClick={this.onExpirationSelectClick}
-								onBlur={this.onExpirationSelectBlur}
-								data-tip={
-									expirationTip &&
-									moment(expirationTip).format('Do MMM YYYY hh:mm A')
-								}
-								value={this.props.expirationType}
-							>
-								{expirationsOptionsList}
-							</select>
-						</div>
-					</Form.Item> */}
-
-					{/* <Form.Item
-						style={{marginTop: '7px'}}
-						label={lastPriceLabel}
-						{...formItemProps}
-					>
-						<span
-							style={{
-								borderBottom: '#A09F9F 1px dotted',
-								cursor: 'pointer',
-							}}
-							onClick={this.handleCurrentPriceClick}
-						>
-							<PriceText
-								price={this.props.currentPrice}
-								quote={quote}
-								base={base}
-							/>{' '}
-							<AssetNameWrapper name={base.get('symbol')} noTip />
-							/
-							<AssetNameWrapper name={quote.get('symbol')} noTip />
-						</span>
-					</Form.Item>
-
-					<Form.Item
-						style={{marginTop: '7px'}}
-						label={counterpart.translate('exchange.balance')}
-						{...formItemProps}
-					>
-						<span
-							style={{
-								borderBottom: '#A09F9F 1px dotted',
-								cursor: 'pointer',
-							}}
-							onClick={this.handleClickBalance}
-						>
-							{!isBid
-								? this.props.quoteAssetBalance
-								: this.props.baseAssetBalance}{' '}
-							<AssetNameWrapper
-								name={!isBid ? quote.get('symbol') : base.get('symbol')}
-								noTip
-							/>
-						</span>
-					</Form.Item> */}
 
 					<button
 						style={
