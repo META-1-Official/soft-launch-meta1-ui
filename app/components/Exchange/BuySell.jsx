@@ -565,9 +565,7 @@ class BuySell extends React.Component {
 								autoComplete="off"
 								placeholder="0.0"
 								addonAfter={
-									<span className="limit-order-text">
-										{base.get('symbol')} / {quote.get('symbol')}
-									</span>
+									<span className="limit-order-text">{base.get('symbol')}</span>
 								}
 							/>
 						</div>
