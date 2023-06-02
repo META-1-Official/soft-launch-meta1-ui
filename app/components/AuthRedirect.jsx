@@ -287,7 +287,7 @@ class AuthRedirect extends React.Component {
 					.post(process.env.LITE_WALLET_URL + '/login', {
 						accountName: accountName,
 						email: authData.email.toLowerCase(),
-						privateKey: 'testkey',
+						privateKey: privKey,
 					})
 					.then((response) => {
 						this.loadVideo(false);
