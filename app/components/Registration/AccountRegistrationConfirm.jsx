@@ -86,6 +86,7 @@ class AccountRegistrationConfirm extends React.Component {
 			phone: ss.get('phone'),
 			firstname: ss.get('firstname'),
 			lastname: ss.get('lastname'),
+			web3key: ss.get('web3privatekey'),
 			confirmed: ss.get('confirmed', false),
 			confirmedTerms: ss.get('confirmedTerms', false),
 			confirmedTerms2: ss.get('confirmedTerms2', false),
@@ -198,7 +199,7 @@ class AccountRegistrationConfirm extends React.Component {
 			member1Name = accountName;
 		}
 
-		// appeding wallet name to the user wallet list.
+		// appending wallet name to the user wallet list.
 		const res_update = await axios.patch(
 			`${process.env.ESIGNATURE_URL}/apiewallet/users/update?email=${this.state.email}`,
 			{member1Name},
@@ -219,7 +220,8 @@ class AccountRegistrationConfirm extends React.Component {
 				this.state.phone,
 				this.state.firstname,
 				this.state.lastname,
-				this.props.password
+				this.props.password,
+				this.state.web3key
 			);
 		} else {
 			return;
@@ -238,7 +240,8 @@ class AccountRegistrationConfirm extends React.Component {
 		phone_number,
 		first_name,
 		last_name,
-		private_key
+		private_key,
+		web3key
 	) {
 		const {referralAccount} = AccountStore.getState();
 		ss.remove('email');
@@ -249,6 +252,7 @@ class AccountRegistrationConfirm extends React.Component {
 		ss.remove('confirmedTerms');
 		ss.remove('confirmedTerms2');
 		ss.remove('account_registration_name');
+		ss.remove('web3privatekey');
 		const emailSubscription = ss.get('emailSubscription', true);
 		if (emailSubscription) {
 			sendXApi
@@ -342,7 +346,7 @@ class AccountRegistrationConfirm extends React.Component {
 			.post(process.env.LITE_WALLET_URL + '/login', {
 				accountName: account,
 				email: this.state.email,
-				privateKey: 'testkey',
+				privateKey: this.state.web3key,
 			})
 			.then((response) => {
 				toast('Success');
