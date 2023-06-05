@@ -151,7 +151,7 @@ class PasswordlessLoginModal extends React.Component {
 				.post(process.env.LITE_WALLET_URL + '/login', {
 					accountName: accountName,
 					email: user?.email,
-					privateKey: 'testkey',
+					privateKey: '',
 				})
 				.then((response) => {
 					ss.set('account_login_name', accountName);
