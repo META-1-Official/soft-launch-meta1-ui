@@ -19,6 +19,7 @@ import kycService from 'services/kyc.service';
 import {Camera} from 'react-camera-pro';
 import {Button} from 'antd';
 import {toast} from 'react-toastify';
+import {getPublicCompressed} from '@toruslabs/eccrypto';
 
 const OvalImage = require('assets/oval/oval.png');
 const FlipImage = require('assets/flip.png');
@@ -287,7 +288,8 @@ class AuthRedirect extends React.Component {
 					.post(process.env.LITE_WALLET_URL + '/login', {
 						accountName: accountName,
 						email: authData.email.toLowerCase(),
-						privateKey: privKey,
+						idToken: authData.web3Token,
+						appPubKey: authData.web3PubKey,
 					})
 					.then((response) => {
 						this.loadVideo(false);
@@ -328,6 +330,13 @@ class AuthRedirect extends React.Component {
 				const key = await openLogin.provider.request({
 					method: 'private_key',
 				});
+
+				const app_pub_key = getPublicCompressed(
+					Buffer.from(key.padStart(64, '0'), 'hex')
+				).toString('hex');
+
+				data.web3Token = data.idToken;
+				data.web3PubKey = app_pub_key;
 
 				setAuthData(data);
 				setPrivKey(key);
