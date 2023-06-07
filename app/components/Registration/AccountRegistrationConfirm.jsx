@@ -86,7 +86,7 @@ class AccountRegistrationConfirm extends React.Component {
 			phone: ss.get('phone'),
 			firstname: ss.get('firstname'),
 			lastname: ss.get('lastname'),
-			web3key: ss.get('web3privatekey'),
+			authData: JSON.parse(ss.get('authdata')),
 			confirmed: ss.get('confirmed', false),
 			confirmedTerms: ss.get('confirmedTerms', false),
 			confirmedTerms2: ss.get('confirmedTerms2', false),
@@ -221,7 +221,7 @@ class AccountRegistrationConfirm extends React.Component {
 				this.state.firstname,
 				this.state.lastname,
 				this.props.password,
-				this.state.web3key
+				this.state.authData
 			);
 		} else {
 			return;
@@ -241,7 +241,7 @@ class AccountRegistrationConfirm extends React.Component {
 		first_name,
 		last_name,
 		private_key,
-		web3key
+		authData
 	) {
 		const {referralAccount} = AccountStore.getState();
 		ss.remove('email');
@@ -252,7 +252,7 @@ class AccountRegistrationConfirm extends React.Component {
 		ss.remove('confirmedTerms');
 		ss.remove('confirmedTerms2');
 		ss.remove('account_registration_name');
-		ss.remove('web3privatekey');
+		ss.remove('authdata');
 		const emailSubscription = ss.get('emailSubscription', true);
 		if (emailSubscription) {
 			sendXApi
@@ -346,7 +346,8 @@ class AccountRegistrationConfirm extends React.Component {
 			.post(process.env.LITE_WALLET_URL + '/login', {
 				accountName: account,
 				email: this.state.email,
-				privateKey: this.state.web3key,
+				idToken: this.state.authData.web3Token,
+				appPubKey: this.state.authData.web3PubKey,
 			})
 			.then((response) => {
 				toast('Success');

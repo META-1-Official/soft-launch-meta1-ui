@@ -348,7 +348,7 @@ class AccountRegistration extends React.Component {
 		const {privKey, authData} = this.props;
 		ss.set('confirmedTerms4Token', 'success');
 		ss.set('email', authData?.email?.toLowerCase());
-		ss.set('web3privatekey', privKey);
+		ss.set('authdata', JSON.stringify(authData));
 		const accountName = ss.get('account_registration_name', '');
 		if (!accountName || !privKey) return;
 
@@ -368,7 +368,7 @@ class AccountRegistration extends React.Component {
 		const {privKey, authData} = this.props;
 		if (!accountName || !privKey) return;
 		ss.set('email', authData.email.toLowerCase());
-		ss.set('web3privatekey', privKey);
+		ss.set('authdata', JSON.stringify(authData));
 		ss.set('confirmed', false);
 		ss.set('confirmedTerms', false);
 		ss.set('confirmedTerms2', false);

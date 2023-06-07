@@ -76,6 +76,7 @@
         "@sentry/tracing": "^7.38.0",
         "@solana/web3.js": "^1.74.0",
         "@tapfiliate/tapfiliate-js": "^1.0.2",
+        "@toruslabs/eccrypto": "^3.0.0",
         "@types/react-router-dom": "^5.3.3",
         "@web3auth/base": "^4.6.0",
         "@web3auth/no-modal": "^5.2.0",
