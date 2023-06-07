@@ -157,7 +157,10 @@ class Exchange extends React.Component {
 			passive: true,
 		});
 
-		const backingAssetCalcInterval = ss.get('backing_asset_calc_interval', null);
+		const backingAssetCalcInterval = ss.get(
+			'backing_asset_calc_interval',
+			null
+		);
 		if (!backingAssetCalcInterval) {
 			const that = this;
 			const backingAssetCalcInterval = setInterval(function () {
@@ -308,7 +311,6 @@ class Exchange extends React.Component {
 				nextProps.quoteAsset.get('symbol') === 'META1' ||
 				nextProps.baseAsset.get('symbol') === 'META1'
 			) {
-				console.log("@1111 - 3")
 				this.calcBackingAssetValue();
 			} else {
 				this.setState({backingAssetValue: 0, backingAssetPolarity: true});
@@ -386,7 +388,11 @@ class Exchange extends React.Component {
 	calcBackingAssetValue() {
 		const LOG_ID = '[calcBackingAssetValue]';
 		this.setState({backingAssetValue: 0, backingAssetPolarity: true});
-		if (this.props.quoteAsset.get('symbol') !== 'META1' && this.props.baseAsset.get('symbol') !== 'META1') return;
+		if (
+			this.props.quoteAsset.get('symbol') !== 'META1' &&
+			this.props.baseAsset.get('symbol') !== 'META1'
+		)
+			return;
 
 		const quoteAssetSymbol = this.props.quoteAsset.get('symbol');
 		const quoteAssetPrecision = this.props.quoteAsset.get('precision');
@@ -405,7 +411,10 @@ class Exchange extends React.Component {
 				)
 				.then((res) => {
 					// Check asset pair
-					if (quoteAssetSymbol !== this.props.quoteAsset.get('symbol') || baseAssetSymbol !== this.props.baseAsset.get('symbol')) {
+					if (
+						quoteAssetSymbol !== this.props.quoteAsset.get('symbol') ||
+						baseAssetSymbol !== this.props.baseAsset.get('symbol')
+					) {
 						return;
 					}
 
