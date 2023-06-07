@@ -218,40 +218,44 @@ const MarketOrderForm = (props) => {
 
 		if (isBid) {
 			estPrice = estSellAmount / estBuyAmount;
-			estPrice =
-				estPrice *
-				Math.pow(10, buyAsset.get('precision') - sellAsset.get('precision'));
+			estPrice *= Math.pow(
+				10,
+				buyAsset.get('precision') - sellAsset.get('precision')
+			);
 
-			if (floorFloat(estPrice, 5) <= price) {
-				while (floorFloat(estPrice, 5) <= price && delta < 5000) {
+			if (floorFloat(estPrice, buyAsset.get('precision')) < price) {
+				while (
+					floorFloat(estPrice, buyAsset.get('precision')) <= price &&
+					delta < 5000
+				) {
 					delta += 1;
 					_sellAmount += 1;
 					estPrice = _sellAmount / estBuyAmount;
-					estPrice =
-						estPrice *
-						Math.pow(
-							10,
-							buyAsset.get('precision') - sellAsset.get('precision')
-						);
+					estPrice *= Math.pow(
+						10,
+						buyAsset.get('precision') - sellAsset.get('precision')
+					);
 				}
 			}
 		} else {
 			estPrice = estBuyAmount / estSellAmount;
-			estPrice =
-				estPrice *
-				Math.pow(10, sellAsset.get('precision') - buyAsset.get('precision'));
+			estPrice *= Math.pow(
+				10,
+				sellAsset.get('precision') - buyAsset.get('precision')
+			);
 
-			if (floorFloat(estPrice, 5) >= price) {
-				while (floorFloat(estPrice, 5) >= price && delta < 5000) {
+			if (floorFloat(estPrice, sellAsset.get('precision')) > price) {
+				while (
+					floorFloat(estPrice, sellAsset.get('precision')) >= price &&
+					delta < 5000
+				) {
 					delta += 1;
 					_sellAmount -= 1;
 					estPrice = estBuyAmount / _sellAmount;
-					estPrice =
-						estPrice *
-						Math.pow(
-							10,
-							sellAsset.get('precision') - buyAsset.get('precision')
-						);
+					estPrice *= Math.pow(
+						10,
+						sellAsset.get('precision') - buyAsset.get('precision')
+					);
 				}
 			}
 		}
