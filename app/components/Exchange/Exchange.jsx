@@ -1728,9 +1728,7 @@ class Exchange extends React.Component {
 		if (state.price.isValid() && state.for_sale.hasAmount()) {
 			state.to_receive = state.for_sale.times(state.price);
 			if (isPercent100) {
-				state.toReceiveText = Number(
-					Number(value) * this.state.ask.priceText
-				).toFixed(6);
+				state.toReceiveText = Number(Number(value) * this.state.ask.priceText);
 			} else {
 				state.toReceiveText = state.to_receive
 					.getAmount({real: true})
@@ -1747,9 +1745,7 @@ class Exchange extends React.Component {
 		if (state.price.isValid() && state.to_receive.hasAmount()) {
 			state.for_sale = state.to_receive.times(state.price, true);
 			if (isPercent100) {
-				state.forSaleText = Number(
-					Number(value) * this.state.bid.priceText
-				).toFixed(6);
+				state.forSaleText = Number(Number(value) * this.state.bid.priceText);
 			} else {
 				state.forSaleText = state.for_sale.getAmount({real: true}).toString();
 			}
