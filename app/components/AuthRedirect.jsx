@@ -1,10 +1,10 @@
 import React from 'react';
-import { connect } from 'alt-react';
-import { ChainStore } from 'meta1-vision-js';
-import { PrivateKey, FetchChain, key } from 'meta1-vision-js/es';
+import {connect} from 'alt-react';
+import {ChainStore} from 'meta1-vision-js';
+import {PrivateKey, FetchChain, key} from 'meta1-vision-js/es';
 import qs from 'qs';
 import axios from 'axios';
-import { Modal, Select } from 'antd';
+import {Modal, Select} from 'antd';
 import counterpart from 'counterpart';
 import AuthStore from '../stores/AuthStore';
 import AccountStore from '../stores/AccountStore';
@@ -16,9 +16,10 @@ import WalletUnlockActions from '../actions/WalletUnlockActions';
 import ls from '../lib/common/localStorage';
 import faceKIService from '../services/face-ki.service';
 import kycService from 'services/kyc.service';
-import { Camera } from 'react-camera-pro';
-import { Button } from 'antd';
-import { toast } from 'react-toastify';
+import {Camera} from 'react-camera-pro';
+import {Button} from 'antd';
+import {toast} from 'react-toastify';
+import {getPublicCompressed} from '@toruslabs/eccrypto';
 
 const OvalImage = require('assets/oval/oval.png');
 const FlipImage = require('assets/flip.png');
@@ -88,7 +89,7 @@ class AuthRedirect extends React.Component {
 	}
 
 	componentDidMount() {
-		const { openLogin, privKey, setOpenLoginInstance } = this.props;
+		const {openLogin, privKey, setOpenLoginInstance} = this.props;
 		const loginAccountName = ss.get('account_login_name', '');
 
 		if (this.props.location && this.props.location.search) {
@@ -115,7 +116,7 @@ class AuthRedirect extends React.Component {
 	}
 
 	updateDimensions = () => {
-		this.setState({ width: window.innerWidth, height: window.innerHeight });
+		this.setState({width: window.innerWidth, height: window.innerHeight});
 	};
 
 	componentWillUnmount() {
@@ -128,7 +129,7 @@ class AuthRedirect extends React.Component {
 
 	async loadVideo(flag) {
 		const videoTag = document.querySelector('video');
-		const features = { audio: false, video: true };
+		const features = {audio: false, video: true};
 
 		console.log('loadvideo');
 
@@ -160,7 +161,7 @@ class AuthRedirect extends React.Component {
 	}
 
 	componentDidUpdate(prevProps, prevState) {
-		const { openLogin, privKey, authData } = this.props;
+		const {openLogin, privKey, authData} = this.props;
 		if (openLogin && !prevProps.openLogin) {
 			this.generateAuthData();
 		}
@@ -185,7 +186,7 @@ class AuthRedirect extends React.Component {
 		while (n--) {
 			u8arr[n] = bstr.charCodeAt(n);
 		}
-		return new File([u8arr], filename, { type: mime });
+		return new File([u8arr], filename, {type: mime});
 	}
 
 	isMobile() {
@@ -193,13 +194,13 @@ class AuthRedirect extends React.Component {
 	}
 
 	async checkAndVerify() {
-		const { privKey, authData } = this.props;
-		const { photoIndex, device } = this.state;
+		const {privKey, authData} = this.props;
+		const {photoIndex, device} = this.state;
 		const accountName = ss.get('account_login_name', '');
 
 		if (!accountName || !privKey) return;
 
-		this.setState({ verifying: true });
+		this.setState({verifying: true});
 
 		const response_user = await kycService.getUserKycProfile(
 			authData.email.toLowerCase()
@@ -207,14 +208,14 @@ class AuthRedirect extends React.Component {
 
 		if (!response_user?.member1Name) {
 			toast(errorCase['Not Matched']);
-			this.setState({ verifying: false });
+			this.setState({verifying: false});
 			return;
 		} else {
 			const walletArry = response_user.member1Name.split(',');
 
 			if (!walletArry.includes(accountName)) {
 				toast(errorCase['Not Matched']);
-				this.setState({ verifying: false });
+				this.setState({verifying: false});
 				return;
 			}
 		}
@@ -223,26 +224,26 @@ class AuthRedirect extends React.Component {
 
 		if (!imageSrc) {
 			toast(errorCase['Camera Not Found']);
-			this.setState({ verifying: false });
+			this.setState({verifying: false});
 			return;
 		}
 
 		var file = await this.dataURLtoFile(imageSrc, 'a.jpg');
 
 		const response = await faceKIService.liveLinessCheck(file);
-		this.setState({ photoIndex: photoIndex + 1 });
+		this.setState({photoIndex: photoIndex + 1});
 
 		if (!response) {
 			toast(errorCase['Biometic Server Error']);
-			this.setState({ verifying: false, photoIndex: 0 });
+			this.setState({verifying: false, photoIndex: 0});
 			return;
 		}
 
 		if (response.data.liveness !== 'Genuine' && photoIndex === 5) {
 			toast(errorCase['Face not Detected']);
-			this.setState({ verifying: false, photoIndex: 0 });
+			this.setState({verifying: false, photoIndex: 0});
 		} else if (response.data.liveness === 'Genuine') {
-			this.setState({ photoIndex: 0 });
+			this.setState({photoIndex: 0});
 			await this.faceVerify(file);
 		} else {
 			await this.checkAndVerify();
@@ -250,31 +251,31 @@ class AuthRedirect extends React.Component {
 	}
 
 	async faceVerify(file) {
-		const { privKey, authData } = this.props;
+		const {privKey, authData} = this.props;
 
 		const response_verify = await faceKIService.verify(file);
 		if (response_verify.status === 'Verify OK') {
 			const nameArry = response_verify.name.split(',');
 
 			if (nameArry.includes(authData.email.toLowerCase())) {
-				this.setState({ faceKISuccess: true });
-				this.setState({ verifying: false });
+				this.setState({faceKISuccess: true});
+				this.setState({verifying: false});
 				this.continueLogin();
 			} else {
 				toast(errorCase['Invalid Email']);
-				this.setState({ verifying: false });
+				this.setState({verifying: false});
 			}
 		} else if (response_verify.status === 'Verify Failed') {
 			toast(errorCase['Verify Failed']);
-			this.setState({ verifying: false });
+			this.setState({verifying: false});
 		} else {
 			toast('Please try again.');
-			this.setState({ verifying: false });
+			this.setState({verifying: false});
 		}
 	}
 
 	continueLogin() {
-		const { privKey, authData } = this.props;
+		const {privKey, authData} = this.props;
 		const accountName = ss.get('account_login_name', '');
 		if (!accountName || !privKey) return;
 
@@ -287,6 +288,8 @@ class AuthRedirect extends React.Component {
 					.post(process.env.LITE_WALLET_URL + '/login', {
 						accountName: accountName,
 						email: authData.email.toLowerCase(),
+						idToken: authData.web3Token,
+						appPubKey: authData.web3PubKey,
 					})
 					.then((response) => {
 						this.loadVideo(false);
@@ -314,19 +317,29 @@ class AuthRedirect extends React.Component {
 	}
 
 	proceedESignRedirect() {
-		this.setState({ redirectFromESign: true }, () => {
+		this.setState({redirectFromESign: true}, () => {
 			this.props.setOpenLoginInstance();
 		});
 	}
 
 	async generateAuthData() {
-		const { openLogin, setPrivKey, setAuthData } = this.props;
+		const {openLogin, setPrivKey, setAuthData} = this.props;
 		try {
 			if (openLogin && openLogin.status === 'connected') {
 				const data = await openLogin.getUserInfo();
+				const key = await openLogin.provider.request({
+					method: 'private_key',
+				});
+
+				const app_pub_key = getPublicCompressed(
+					Buffer.from(key.padStart(64, '0'), 'hex')
+				).toString('hex');
+
+				data.web3Token = data.idToken;
+				data.web3PubKey = app_pub_key;
 
 				setAuthData(data);
-				setPrivKey('web3authprivatekey');
+				setPrivKey(key);
 				this.loadVideo(true);
 			} else {
 				this.props.history.push('/registration');
@@ -337,7 +350,7 @@ class AuthRedirect extends React.Component {
 	}
 
 	async authProceed() {
-		const { redirectFromESign } = this.state;
+		const {redirectFromESign} = this.state;
 		const regUserName = ss.get('account_registration_name', '');
 		const logInUserName = ss.get('account_login_name', '');
 		if (regUserName) {
@@ -350,7 +363,7 @@ class AuthRedirect extends React.Component {
 			if (browserstack_test_accounts.includes(logInUserName)) {
 				this.continueLogin();
 			} else {
-				this.setState({ login: true });
+				this.setState({login: true});
 			}
 		} else {
 			this.props.history.push('/registration');
@@ -376,7 +389,7 @@ class AuthRedirect extends React.Component {
 	}
 
 	createAccount(name, password, email, phone_number, first_name, last_name) {
-		const { referralAccount } = AccountStore.getState();
+		const {referralAccount} = AccountStore.getState();
 		const registrarAccount = ss.get(
 			'account_registration_registrarAccount',
 			''
@@ -416,7 +429,7 @@ class AuthRedirect extends React.Component {
 	timer = (ms) => new Promise((res) => setTimeout(res, ms));
 
 	async validateLogin(password, account) {
-		const { resolve } = this.props;
+		const {resolve} = this.props;
 
 		let chainAccount = ChainStore.getAccount(account);
 		while (chainAccount === undefined) {
@@ -424,7 +437,7 @@ class AuthRedirect extends React.Component {
 			await this.timer(1000);
 		}
 
-		const { success, cloudMode } = WalletDb.validatePassword(
+		const {success, cloudMode} = WalletDb.validatePassword(
 			password || '',
 			true,
 			account,
@@ -433,9 +446,9 @@ class AuthRedirect extends React.Component {
 		);
 
 		if (!success && WalletDb.isLocked()) {
-			this.setState({ passwordError: true });
+			this.setState({passwordError: true});
 		} else {
-			this.setState({ password: '' });
+			this.setState({password: ''});
 			if (cloudMode) AccountActions.setPasswordAccount(account);
 			WalletUnlockActions.change();
 			if (resolve) resolve();
@@ -447,12 +460,12 @@ class AuthRedirect extends React.Component {
 	}
 
 	handleModalClose = () => {
-		this.setState({ login: false });
+		this.setState({login: false});
 		this.props.history.push('/market/META1_USDT');
 	};
 
 	render() {
-		const { width, devices, activeDeviceId } = this.state;
+		const {width, devices, activeDeviceId} = this.state;
 		const theme = this.props.theme;
 		const aspectRatio = 1.07;
 		const webCamWidth = width > 576 ? 550 : width - 26;
@@ -462,7 +475,7 @@ class AuthRedirect extends React.Component {
 				{this.state.login && (
 					<div className="horizontal align-center text-center">
 						<div className="create-account-block">
-							<div className="custom-auth-faceki" >
+							<div className="custom-auth-faceki">
 								<h4>
 									{counterpart.translate('registration.authenticate_your_face')}
 								</h4>
@@ -474,7 +487,10 @@ class AuthRedirect extends React.Component {
 								{this.state.webcamEnabled && (
 									<div
 										className="webcam-wrapper"
-										style={{ width: webCamWidth, height: webCamWidth / aspectRatio }}
+										style={{
+											width: webCamWidth,
+											height: webCamWidth / aspectRatio,
+										}}
 									>
 										<div className="flex-container">
 											<div className="flex-container-first">
@@ -494,7 +510,8 @@ class AuthRedirect extends React.Component {
 												src={FlipImage}
 												onClick={() => {
 													if (this.webcamRef.current) {
-														const result = this.webcamRef.current.switchCamera();
+														const result =
+															this.webcamRef.current.switchCamera();
 													}
 												}}
 											/>
@@ -503,7 +520,7 @@ class AuthRedirect extends React.Component {
 											ref={this.webcamRef}
 											aspectRatio="cover"
 											numberOfCamerasCallback={(i) =>
-												this.setState({ numberOfCameras: i })
+												this.setState({numberOfCameras: i})
 											}
 											videoSourceDeviceId={this.state.activeDeviceId}
 											errorMessages={{
@@ -516,16 +533,20 @@ class AuthRedirect extends React.Component {
 												canvas: 'Canvas is not supported.',
 											}}
 										/>
-										<img src={OvalImage} alt="oval-image" className="oval-image" />
+										<img
+											src={OvalImage}
+											alt="oval-image"
+											className="oval-image"
+										/>
 										<div className="flex_container">
 											<span className="span-class">
 												{!this.state.faceKISuccess
 													? counterpart.translate(
-														'registration.require_verification'
-													)
+															'registration.require_verification'
+													  )
 													: counterpart.translate(
-														'registration.verification_success'
-													)}
+															'registration.verification_success'
+													  )}
 											</span>
 											<div className="span-class">
 												{counterpart.translate(
@@ -541,16 +562,18 @@ class AuthRedirect extends React.Component {
 									</div>
 								)}
 								{devices.length !== 0 && activeDeviceId !== '' && (
-									<div style={{ width: webCamWidth }}>
+									<div style={{width: webCamWidth}}>
 										<Select
 											value={activeDeviceId}
 											onChange={(value) => {
 												let errMsgEle =
 													document.getElementById('video').previousSibling;
 												errMsgEle && errMsgEle.remove();
-												this.setState({ activeDeviceId: value });
+												this.setState({activeDeviceId: value});
 											}}
-											getPopupContainer={(triggerNode) => triggerNode.parentNode}
+											getPopupContainer={(triggerNode) =>
+												triggerNode.parentNode
+											}
 										>
 											{devices.map((d) => {
 												return (
@@ -569,8 +592,8 @@ class AuthRedirect extends React.Component {
 											this.state.verifying
 												? true
 												: this.state.faceKISuccess
-													? true
-													: false
+												? true
+												: false
 										}
 									>
 										{this.state.verifying

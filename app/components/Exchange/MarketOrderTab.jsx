@@ -214,30 +214,48 @@ const MarketOrderForm = (props) => {
 		const estBuyAmount = floorFloat(buyAmount(), 0);
 		let _sellAmount = estSellAmount;
 		let estPrice;
-		let delta = 0;	// Prevent endless loop
+		let delta = 0; // Prevent endless loop
 
 		if (isBid) {
 			estPrice = estSellAmount / estBuyAmount;
-			estPrice = estPrice * Math.pow(10, buyAsset.get('precision') - sellAsset.get('precision'));
+			estPrice *= Math.pow(
+				10,
+				buyAsset.get('precision') - sellAsset.get('precision')
+			);
 
-			if (estPrice < price) {
-				while (estPrice < price && delta < 100) {
+			if (floorFloat(estPrice, buyAsset.get('precision')) < price) {
+				while (
+					floorFloat(estPrice, buyAsset.get('precision')) <= price &&
+					delta < 5000
+				) {
 					delta += 1;
 					_sellAmount += 1;
 					estPrice = _sellAmount / estBuyAmount;
-					estPrice = estPrice * Math.pow(10, buyAsset.get('precision') - sellAsset.get('precision'));
+					estPrice *= Math.pow(
+						10,
+						buyAsset.get('precision') - sellAsset.get('precision')
+					);
 				}
 			}
 		} else {
 			estPrice = estBuyAmount / estSellAmount;
-			estPrice = estPrice * Math.pow(10, sellAsset.get('precision') - buyAsset.get('precision'));
+			estPrice *= Math.pow(
+				10,
+				sellAsset.get('precision') - buyAsset.get('precision')
+			);
 
-			if (estPrice > price) {
-				while (estPrice > price && delta < 100) {
+			if (floorFloat(estPrice, sellAsset.get('precision')) > price) {
+				while (
+					floorFloat(estPrice, sellAsset.get('precision')) >= price &&
+					delta < 5000
+				) {
 					delta += 1;
 					_sellAmount -= 1;
 					estPrice = estBuyAmount / _sellAmount;
-					estPrice = estPrice * Math.pow(10, sellAsset.get('precision') - buyAsset.get('precision'));
+					estPrice *= Math.pow(
+						10,
+						sellAsset.get('precision') - buyAsset.get('precision')
+					);
 				}
 			}
 		}
@@ -411,9 +429,7 @@ const MarketOrderForm = (props) => {
 						placeholder="0.0"
 						style={{width: '100%'}}
 						autoComplete="off"
-						addonAfter={
-							<AssetNameWrapper name={props.quoteAsset.get('symbol')} />
-						}
+						addonAfter={<span>{props.quoteAsset.get('symbol')}</span>}
 						value={10}
 						onChange={(e) => setAmount(Number(e.target.value))}
 					/>

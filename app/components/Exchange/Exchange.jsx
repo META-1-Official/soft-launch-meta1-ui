@@ -157,7 +157,10 @@ class Exchange extends React.Component {
 			passive: true,
 		});
 
-		const backingAssetCalcInterval = ss.get('backing_asset_calc_interval', null);
+		const backingAssetCalcInterval = ss.get(
+			'backing_asset_calc_interval',
+			null
+		);
 		if (!backingAssetCalcInterval) {
 			const that = this;
 			const backingAssetCalcInterval = setInterval(function () {
@@ -308,7 +311,6 @@ class Exchange extends React.Component {
 				nextProps.quoteAsset.get('symbol') === 'META1' ||
 				nextProps.baseAsset.get('symbol') === 'META1'
 			) {
-				console.log("@1111 - 3")
 				this.calcBackingAssetValue();
 			} else {
 				this.setState({backingAssetValue: 0, backingAssetPolarity: true});
@@ -386,7 +388,11 @@ class Exchange extends React.Component {
 	calcBackingAssetValue() {
 		const LOG_ID = '[calcBackingAssetValue]';
 		this.setState({backingAssetValue: 0, backingAssetPolarity: true});
-		if (this.props.quoteAsset.get('symbol') !== 'META1' && this.props.baseAsset.get('symbol') !== 'META1') return;
+		if (
+			this.props.quoteAsset.get('symbol') !== 'META1' &&
+			this.props.baseAsset.get('symbol') !== 'META1'
+		)
+			return;
 
 		const quoteAssetSymbol = this.props.quoteAsset.get('symbol');
 		const quoteAssetPrecision = this.props.quoteAsset.get('precision');
@@ -405,7 +411,10 @@ class Exchange extends React.Component {
 				)
 				.then((res) => {
 					// Check asset pair
-					if (quoteAssetSymbol !== this.props.quoteAsset.get('symbol') || baseAssetSymbol !== this.props.baseAsset.get('symbol')) {
+					if (
+						quoteAssetSymbol !== this.props.quoteAsset.get('symbol') ||
+						baseAssetSymbol !== this.props.baseAsset.get('symbol')
+					) {
 						return;
 					}
 
@@ -1719,9 +1728,7 @@ class Exchange extends React.Component {
 		if (state.price.isValid() && state.for_sale.hasAmount()) {
 			state.to_receive = state.for_sale.times(state.price);
 			if (isPercent100) {
-				state.toReceiveText = Number(
-					Number(value) * this.state.ask.priceText
-				).toFixed(6);
+				state.toReceiveText = Number(Number(value) * this.state.ask.priceText);
 			} else {
 				state.toReceiveText = state.to_receive
 					.getAmount({real: true})
@@ -1738,9 +1745,7 @@ class Exchange extends React.Component {
 		if (state.price.isValid() && state.to_receive.hasAmount()) {
 			state.for_sale = state.to_receive.times(state.price, true);
 			if (isPercent100) {
-				state.forSaleText = Number(
-					Number(value) * this.state.bid.priceText
-				).toFixed(6);
+				state.forSaleText = Number(Number(value) * this.state.bid.priceText);
 			} else {
 				state.forSaleText = state.for_sale.getAmount({real: true}).toString();
 			}
