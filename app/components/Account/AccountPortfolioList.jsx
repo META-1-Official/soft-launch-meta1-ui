@@ -346,7 +346,7 @@ class AccountPortfolioList extends React.Component {
 
 	_showDepositModal(asset, e) {
 		e.preventDefault();
-		this.setState({depositAsset: asset.toLowerCase()}, () => {
+		this.setState({depositAsset: asset}, () => {
 			this.showDepositModal();
 		});
 	}
@@ -1028,25 +1028,28 @@ class AccountPortfolioList extends React.Component {
 							borrow: null,
 							settle: null,
 							burn: null,
-							deposit: (
-								<StyledButton
-									buttonType="green"
-									onClick={this._showDepositModal.bind(
-										this,
-										asset.get('symbol')
-									)}
-									style={{
-										backgroundColor: 'transparent',
-										color: 'green',
-										width: 80,
-									}}
-								>
-									<Translate
-										content="exchange.deposit"
-										style={{whiteSpace: 'nowrap'}}
-									/>
-								</StyledButton>
-							),
+							deposit:
+								asset.get('symbol').toLowerCase() !== 'meta1' ? (
+									<StyledButton
+										buttonType="green"
+										onClick={this._showDepositModal.bind(
+											this,
+											asset.get('symbol')
+										)}
+										style={{
+											backgroundColor: 'transparent',
+											color: 'green',
+											width: 80,
+										}}
+									>
+										<Translate
+											content="exchange.deposit"
+											style={{whiteSpace: 'nowrap'}}
+										/>
+									</StyledButton>
+								) : (
+									emptyCell
+								),
 						});
 					}
 				});

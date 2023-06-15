@@ -8,7 +8,7 @@ import {toast} from 'react-toastify';
 
 const DepositModal = (props) => {
 	const [depositAddress, setDepositAddress] = useState('');
-	const [assetType, setAssetType] = useState(props.assetType || 'BTC');
+	const [assetType, setAssetType] = useState(props.assetType ?? 'BTC');
 	const [open, setOpen] = useState(false);
 
 	const assets = process.env.DEPOSIT_AVAILABLE_ASSETS.split(',');
@@ -27,8 +27,6 @@ const DepositModal = (props) => {
 	};
 
 	useEffect(() => {
-		getDepositAddress(assetType);
-
 		return () => {
 			document.removeEventListener('copy', _copy);
 		};
@@ -38,6 +36,11 @@ const DepositModal = (props) => {
 		getDepositAddress(assetType);
 	}, [assetType]);
 
+	useEffect(() => {
+		if (props.assetType && props.assetType !== '')
+			setAssetType(props.assetType);
+	}, [props.assetType]);
+
 	const getDepositAddress = (assetType) => {
 		const api_gateway_url = `${process.env.GATEWAY_URL}/api-gateways/${
 			assetType === 'USDT' ? 'ETH' : assetType
@@ -46,30 +49,32 @@ const DepositModal = (props) => {
 			assetType === 'USDT' ? 'ETH' : assetType
 		}`;
 
-		fetch(api_gateway_url)
-			.then(() => {
-				fetch(wallet_init_url, {
-					method: 'POST',
-					headers: {
-						Accept: 'application/json, text/plain, */*',
-						'Content-Type': 'application/json',
-						'X-Requested-With': 'XMLHttpRequest',
-					},
-					body: JSON.stringify({
-						metaId: AccountStore.getState().currentAccount,
-					}),
+		if (assetType) {
+			fetch(api_gateway_url)
+				.then(() => {
+					fetch(wallet_init_url, {
+						method: 'POST',
+						headers: {
+							Accept: 'application/json, text/plain, */*',
+							'Content-Type': 'application/json',
+							'X-Requested-With': 'XMLHttpRequest',
+						},
+						body: JSON.stringify({
+							metaId: AccountStore.getState().currentAccount,
+						}),
+					})
+						.then((res) => res.json())
+						.then((response) => {
+							setDepositAddress(response.address);
+						});
 				})
-					.then((res) => res.json())
-					.then((response) => {
-						setDepositAddress(response.address);
-					});
-			})
-			.catch((error) => {
-				console.error(error);
-				setDepositAddress(
-					counterpart.translate('modal.deposit.gateway_is_down')
-				);
-			});
+				.catch((error) => {
+					console.error(error);
+					setDepositAddress(
+						counterpart.translate('modal.deposit.gateway_is_down')
+					);
+				});
+		}
 	};
 
 	const onClose = () => {
@@ -118,7 +123,7 @@ const DepositModal = (props) => {
 							<div className="minimum-deposit">
 								{counterpart.translate('modal.deposit.minimum_deposit', {
 									minDeposit: minDepositValues[assetType],
-									assetType: assetType.toUpperCase(),
+									assetType: assetType?.toUpperCase(),
 								})}
 							</div>
 							<div className="address">
