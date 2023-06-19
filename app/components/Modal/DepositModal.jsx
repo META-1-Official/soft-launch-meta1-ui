@@ -20,10 +20,10 @@ const DepositModal = (props) => {
 		XLM: 0.01,
 		BNB: 0.01,
 		EOS: 0.001,
-		XRP: 0.1,
+		XRP: 1,
 		DOGE: 1,
 		SOL: 1,
-		TRX: 0.1,
+		TRX: 1,
 	};
 
 	useEffect(() => {
