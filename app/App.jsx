@@ -303,7 +303,6 @@ class App extends React.Component {
 			NotificationStore.listen(this._onNotificationChange.bind(this));
 			ChainStore.subscribe(this._chainStoreSub);
 			AccountStore.tryToSetCurrentAccount();
-			this._onSetupWebSocket();
 		} catch (e) {
 			console.error('e:', e);
 		}
@@ -399,18 +398,13 @@ class App extends React.Component {
 		this.setState({height: window && window.innerHeight});
 	}
 
-	_onSetupWebSocket() {
-		this.ws = new WebSocket('ws://127.0.0.1:5003');
+	_onSetupWebSocket(accountName) {
+		if (this.ws) return;
 
+		this.ws = new WebSocket(`ws://127.0.0.1:5003?account=${accountName}`);
 		this.ws.onmessage = (message) => {
 			if (message && message.data) {
 				const content = JSON.parse(message.data).content;
-
-				let accountName =
-					AccountStore.getState().currentAccount ||
-					AccountStore.getState().passwordAccount;
-
-				// if (accountName) toast(content);
 				toast(content);
 			}
 		};
@@ -436,10 +430,14 @@ class App extends React.Component {
 			let accountName =
 				AccountStore.getState().currentAccount ||
 				AccountStore.getState().passwordAccount;
+
+			if (accountName) this._onSetupWebSocket(accountName);
+
 			accountName =
 				accountName && accountName !== 'null'
 					? accountName
 					: 'committee-account';
+
 			content = (
 				<div className="grid-frame vertical">
 					<NewsHeadline />
