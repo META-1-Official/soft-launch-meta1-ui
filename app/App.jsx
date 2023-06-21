@@ -27,6 +27,8 @@ import AccountRegistration from './components/Registration/AccountRegistration';
 import {CreateWalletFromBrainkey} from './components/Wallet/WalletCreate';
 import PriceAlertNotifications from './components/PriceAlertNotifications';
 import {updateGatewayBackers} from 'common/gatewayUtils';
+import WalletUnlockActions from 'actions/WalletUnlockActions';
+import WalletManagerStore from 'stores/WalletManagerStore';
 
 import {Route, Switch, Redirect} from 'react-router-dom';
 // Nested route components
@@ -34,6 +36,14 @@ import Page404 from './components/Page404/Page404';
 import AppLayout from 'components/Layout/Layout';
 import BodyClassName from 'components/BodyClassName';
 import AssetExplorerDetails from './components/Exchange/AssetExplorerDetails';
+import {toast} from 'react-toastify';
+
+import axios from 'axios';
+import ls from './lib/common/localStorage';
+
+const STORAGE_KEY = '__AuthData__';
+const ss = new ls(STORAGE_KEY);
+const ss_graphene = new ls('__graphene__');
 
 const Invoice = Loadable({
 	loader: () =>
@@ -347,6 +357,32 @@ class App extends React.Component {
 
 	onRouteChanged() {
 		document.title = titleUtils.GetTitleByPath(this.props.location.pathname);
+
+		const accountName = ss.get('account_login_name', null);
+		const accountToken = ss.get('account_login_token', null);
+
+		axios
+			.post(process.env.LITE_WALLET_URL + '/check_token', {token: accountToken})
+			.then((res) => {
+				if (res.data.accountName !== accountName) {
+					toast('user token is invalid');
+					WalletUnlockActions.lock_v2().finally(() => {
+						const isIncludes = history?.location?.pathname.includes('explorer');
+						if (!isIncludes) {
+							history.replace('/market/META1_USDT');
+						}
+					});
+				}
+			})
+			.catch((error) => {
+				console.log('error', error);
+				WalletUnlockActions.lock_v2().finally(() => {
+					const isIncludes = history?.location?.pathname.includes('explorer');
+					if (!isIncludes) {
+						history.replace('/market/META1_USDT');
+					}
+				});
+			});
 	}
 
 	_onIgnoreIncognitoWarning() {

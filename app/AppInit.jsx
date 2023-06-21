@@ -28,6 +28,7 @@ import {Router} from 'react-router-dom';
 import history from 'lib/common/history';
 import BodyClassName from 'components/BodyClassName';
 import * as Sentry from '@sentry/react';
+import {toast} from 'react-toastify';
 
 const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
@@ -220,14 +221,22 @@ class AppInit extends React.Component {
 
 		const self = this;
 		if (!contains || (accountName && accountToken)) {
-			const config = {
-				headers: {
-					Authorization: `Bearer ${accountToken}`,
-				},
-			};
 			axios
-				.post(process.env.LITE_WALLET_URL + '/verifyToken', {}, config)
-				.then(() => {})
+				.post(process.env.LITE_WALLET_URL + '/check_token', {
+					token: accountToken,
+				})
+				.then((res) => {
+					if (res.data.accountName !== accountName) {
+						toast('user token is invalid');
+						WalletUnlockActions.lock_v2().finally(() => {
+							const isIncludes =
+								history?.location?.pathname.includes('explorer');
+							if (!isIncludes) {
+								history.replace('/market/META1_USDT');
+							}
+						});
+					}
+				})
 				.catch((error) => {
 					console.log('error', error);
 					WalletUnlockActions.lock_v2().finally(() => {
