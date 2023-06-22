@@ -12,13 +12,14 @@ const DepositModal = (props) => {
 	const [open, setOpen] = useState(false);
 
 	const assets = process.env.DEPOSIT_AVAILABLE_ASSETS.split(',');
+
 	const minDepositValues = {
 		BTC: 0.001,
 		LTC: 0.01,
 		ETH: 0.001,
 		USDT: 1,
-		XLM: 0.01,
-		BNB: 0.01,
+		XLM: 0.001,
+		BNB: 0.001,
 		EOS: 0.001,
 		XRP: 1,
 		DOGE: 1,
