@@ -34,6 +34,7 @@ import Page404 from './components/Page404/Page404';
 import AppLayout from 'components/Layout/Layout';
 import BodyClassName from 'components/BodyClassName';
 import AssetExplorerDetails from './components/Exchange/AssetExplorerDetails';
+import {Worker} from '@react-pdf-viewer/core';
 
 const Invoice = Loadable({
 	loader: () =>
@@ -518,7 +519,7 @@ class App extends React.Component {
 		}
 
 		return (
-			<>
+			<Worker workerUrl="https://unpkg.com/pdfjs-dist@3.7.107/build/pdf.worker.min.js">
 				<AppLayout location={location} height={this.state.height} {...others}>
 					<div
 						style={{backgroundColor: !theme ? '#2a2a2a' : null}}
@@ -558,7 +559,7 @@ class App extends React.Component {
 						</BodyClassName>
 					</div>
 				</AppLayout>
-			</>
+			</Worker>
 		);
 	}
 }
