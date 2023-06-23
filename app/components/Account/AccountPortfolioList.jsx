@@ -33,6 +33,11 @@ import {FaQuestionCircle} from 'react-icons/fa';
 import {getAssetIcon, getAssetFullName} from 'constants/assets';
 import DepositModal from '../Modal/DepositModal';
 import WithdrawModal from '../Modal/WithdrawModal';
+import ls from 'common/localStorage';
+
+const STORAGE_KEY = '__AuthData__';
+const ss = new ls(STORAGE_KEY);
+const ss_graphene = new ls('__graphene__');
 
 const SORT_TYPE_MULTIPLE = 'multiple';
 
@@ -649,6 +654,12 @@ class AccountPortfolioList extends React.Component {
 		let balances = [];
 		const emptyCell = '-';
 
+		const index = window.location.pathname.split('/').indexOf('account');
+		const accountName = ss.get('account_login_name', null);
+		const accountFromPath = window.location.pathname.split('/')[index + 1];
+
+		const isMyAccount = accountName === accountFromPath ? true : false;
+
 		balanceList.forEach((balance) => {
 			let balanceObject = ChainStore.getObject(balance);
 			if (!balanceObject) return;
@@ -697,6 +708,7 @@ class AccountPortfolioList extends React.Component {
 					style={{
 						width: 80,
 					}}
+					disabled={!isMyAccount}
 				>
 					<Translate content="transfer.send" style={{whiteSpace: 'nowrap'}} />
 				</StyledButton>
@@ -710,6 +722,7 @@ class AccountPortfolioList extends React.Component {
 						color: 'green',
 						width: 80,
 					}}
+					disabled={!isMyAccount}
 				>
 					<Translate
 						content="exchange.deposit"
@@ -727,6 +740,7 @@ class AccountPortfolioList extends React.Component {
 						width: 80,
 						padding: 0,
 					}}
+					disabled={!isMyAccount}
 				>
 					<Translate
 						content="exchange.withdraw"
@@ -1036,6 +1050,7 @@ class AccountPortfolioList extends React.Component {
 											this,
 											asset.get('symbol')
 										)}
+										disabled={!isMyAccount}
 										style={{
 											backgroundColor: 'transparent',
 											color: 'green',
