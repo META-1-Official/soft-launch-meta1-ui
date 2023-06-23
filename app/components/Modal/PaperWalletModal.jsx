@@ -74,7 +74,7 @@ export default function PaperWalletModal(props) {
 	return (
 		<Modal
 			title={counterpart.translate('registration.download_paper_wallet')}
-			onCancel={props.onCancel}
+			onCancel={handleDownload}
 			closable={true}
 			closeable={true}
 			overlay={true}
