@@ -14,6 +14,7 @@ import {Button, Input, Checkbox, Form, Modal, Typography} from 'antd';
 import sendXApi from '../../api/sendxApi';
 import CopyButton from '../Utility/CopyButton';
 import ls from '../../lib/common/localStorage';
+import PaperWalletModal from '../Modal/PaperWalletModal';
 
 import {checkCustomer} from 'components/Utility/Tapfiliate';
 import {toast} from 'react-toastify';
@@ -86,7 +87,7 @@ class AccountRegistrationConfirm extends React.Component {
 			phone: ss.get('phone'),
 			firstname: ss.get('firstname'),
 			lastname: ss.get('lastname'),
-			authData: JSON.parse(ss.get('authdata')),
+			authData: JSON.parse(ss.get('authdata', '{}')),
 			confirmed: ss.get('confirmed', false),
 			confirmedTerms: ss.get('confirmedTerms', false),
 			confirmedTerms2: ss.get('confirmedTerms2', false),
@@ -291,7 +292,21 @@ class AccountRegistrationConfirm extends React.Component {
 
 				if (this.state.registrarAccount) {
 					FetchChain('getAccount', name).then(() => {
-						this.setState({downloadPaperWalletModal: true, name, password});
+						let keys = getPrivateKeys(name, password);
+						_createPaperWalletAsPDFNew(
+							keys['owner'],
+							keys['active'],
+							keys['memo'],
+							name,
+							(data) => {
+								this.setState({
+									paperWalletData: data,
+									downloadPaperWalletModal: true,
+									name,
+									password,
+								});
+							}
+						);
 					});
 					TransactionConfirmStore.listen(this.onFinishConfirm);
 				} else {
@@ -307,14 +322,6 @@ class AccountRegistrationConfirm extends React.Component {
 	timer = (ms) => new Promise((res) => setTimeout(res, ms));
 	async validateLogin(account, password) {
 		const {resolve} = this.props;
-
-		let keys = getPrivateKeys(account, password);
-		_createPaperWalletAsPDFNew(
-			keys['owner'],
-			keys['active'],
-			keys['memo'],
-			account
-		);
 
 		let chainAccount = ChainStore.getAccount(account);
 		while (chainAccount === undefined) {
@@ -607,65 +614,16 @@ class AccountRegistrationConfirm extends React.Component {
 						</Button>
 					</Form.Item>
 				</Form>
-				{/* download paper wallet modal */}
-				<Modal
-					visible={this.state.downloadPaperWalletModal}
-					className="unlock_wallet_modal2 hide-close-btn"
-					id={'downloadPaperWallet'}
-					closeable={true}
-					ref="modal"
-					overlay={true}
-					overlayClose={false}
-					leftHeader
-					zIndex={1001}
-					footer={null}
-					onCancel={() => {
-						let {name, password} = this.state;
-						this.setState({
-							downloadPaperWalletModal: false,
-							name: '',
-							password: '',
-						});
-						this.validateLogin(name, password);
-					}}
-				>
-					<Title className="header-title1">
-						{counterpart.translate('registration.download_paper_wallet')}
-					</Title>
-					<div className="header-title2">
-						{counterpart.translate(
-							'registration.download_to_save_paper_wallet'
-						)}
-					</div>
-					<div className="footer-wrapper display_flex">
-						<Button
-							htmlType="submit"
-							type="primary"
-							onClick={() => {
-								let {name, password} = this.state;
-								this.setState({
-									downloadPaperWalletModal: false,
-									name: '',
-									password: '',
-								});
-								this.validateLogin(name, password);
-							}}
-							className="login-btn"
-						>
-							Download
-						</Button>
-					</div>
-				</Modal>
 				{/* copy password modal */}
 				<Modal
+					title={counterpart.translate('registration.important_message')}
 					visible={this.state.copyPasswordModal}
-					className="unlock_wallet_modal2"
+					className="copy_password_modal"
 					id={'downloadPaperWallet'}
 					closeable={true}
 					ref="modal"
 					overlay={true}
 					overlayClose={false}
-					leftHeader
 					zIndex={1001}
 					footer={null}
 					onCancel={() => {
@@ -674,9 +632,6 @@ class AccountRegistrationConfirm extends React.Component {
 						});
 					}}
 				>
-					<Title className="header-title1">
-						{counterpart.translate('registration.important_message')}
-					</Title>
 					<div className="header-title2">
 						{counterpart.translate('registration.important_message_info')}&nbsp;
 						<a
@@ -702,6 +657,21 @@ class AccountRegistrationConfirm extends React.Component {
 						</Button>
 					</div>
 				</Modal>
+
+				<PaperWalletModal
+					paperWalletData={this.state.paperWalletData}
+					accountName={this.state.name}
+					visible={this.state.downloadPaperWalletModal}
+					onCancel={() => {
+						let {name, password} = this.state;
+						this.setState({
+							downloadPaperWalletModal: false,
+							name: '',
+							password: '',
+						});
+						this.validateLogin(name, password);
+					}}
+				/>
 			</div>
 		);
 	}
