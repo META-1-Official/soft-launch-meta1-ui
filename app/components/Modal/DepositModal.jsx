@@ -25,6 +25,9 @@ const DepositModal = (props) => {
 		DOGE: 1,
 		SOL: 1,
 		TRX: 1,
+		XMR: 1,
+		ADA: 1,
+		BUSD: 1,
 	};
 
 	useEffect(() => {
