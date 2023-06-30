@@ -74,7 +74,7 @@ class FundTab extends React.Component {
 
 	_showDepositModal(asset, e) {
 		e.preventDefault();
-		this.setState({depositAsset: asset.toLowerCase()}, () => {
+		this.setState({depositAsset: asset}, () => {
 			this.showDepositModal();
 		});
 	}
@@ -121,10 +121,12 @@ class FundTab extends React.Component {
 		account_balances.forEach((balance, asset_type) => {
 			const asset = ChainStore.getAsset(asset_type);
 
-			let isDepositable = ['BTC', 'LTC', 'ETH', 'USDT'].includes(
-				asset.get('symbol')
-			);
-			let isWithdrawable = ['ETH', 'USDT'].includes(asset.get('symbol'));
+			let isDepositable = process.env.DEPOSIT_AVAILABLE_ASSETS.split(
+				','
+			).includes(asset.get('symbol'));
+			let isWithdrawable = process.env.WITHDRAW_AVAILABLE_ASSETS.split(
+				','
+			).includes(asset.get('symbol'));
 
 			balances.push({
 				key: asset.get('symbol'),

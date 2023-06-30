@@ -10,6 +10,9 @@ const solIcon = require('assets/explorer/sol.png');
 const trxIcon = require('assets/explorer/trx.png');
 const dogeIcon = require('assets/explorer/doge.png');
 const meta1Icon = require('assets/explorer/marketCap.png');
+const xmrIcon = require('assets/explorer/xmr.png');
+const adaIcon = require('assets/explorer/ada.png');
+const busdIcon = require('assets/explorer/busd.png');
 
 const bnbLightIcon = require('assets/explorer/bnb_light.png');
 const eosLightIcon = require('assets/explorer/eos_light.png');
@@ -23,6 +26,9 @@ const solLightIcon = require('assets/explorer/sol_light.png');
 const trxLightIcon = require('assets/explorer/trx_light.png');
 const dogeLightIcon = require('assets/explorer/doge_light.png');
 const meta1LightIcon = require('assets/explorer/meta1_light.png');
+const xmrLightIcon = require('assets/explorer/xmr_light.png');
+const adaLightIcon = require('assets/explorer/ada_light.png');
+const busdLightIcon = require('assets/explorer/busd_light.png');
 
 const getAssetIcon = function (symbol, theme = 'dark') {
 	let icon;
@@ -63,6 +69,15 @@ const getAssetIcon = function (symbol, theme = 'dark') {
 			break;
 		case 'DOGE':
 			icon = theme == 'dark' ? dogeIcon : dogeLightIcon;
+			break;
+		case 'XMR':
+			icon = theme == 'dark' ? xmrIcon : xmrLightIcon;
+			break;
+		case 'ADA':
+			icon = theme == 'dark' ? adaIcon : adaLightIcon;
+			break;
+		case 'BUSD':
+			icon = theme == 'dark' ? busdIcon : busdLightIcon;
 			break;
 	}
 
@@ -107,6 +122,15 @@ const getAssetFullName = function (symbol) {
 			assetFullName = 'Tron';
 			break;
 		case 'DOGE':
+			assetFullName = 'Dogecoin';
+			break;
+		case 'XMR':
+			assetFullName = 'Solana';
+			break;
+		case 'ADA':
+			assetFullName = 'Tron';
+			break;
+		case 'BUSD':
 			assetFullName = 'Dogecoin';
 			break;
 	}
