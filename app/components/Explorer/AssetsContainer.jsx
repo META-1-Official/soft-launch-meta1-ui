@@ -11,7 +11,15 @@ class AssetsContainer extends React.Component {
 				stores={[AssetStore, SettingsStore]}
 				inject={{
 					assets: () => {
-						return AssetStore.getState().assets;
+						let assets = AssetStore.getState().assets;
+
+						// temporal code
+						let asset_env_list = process.env.CRYPTOS_ARRAY.split(',');
+						assets = assets.filter((asset) => {
+							return asset_env_list.includes(asset.symbol);
+						});
+
+						return assets;
 					},
 					filterMPA: () => {
 						return SettingsStore.getState().viewSettings.get('filterMPA');
