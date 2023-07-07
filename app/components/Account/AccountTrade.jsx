@@ -320,21 +320,7 @@ class AccountTrade extends React.Component {
 									src={getAssetIcon(quoteAssetSymbol)}
 									alt="Asset logo"
 									width="28px"
-									css={(theme) => ({
-										display: theme.mode === 'dark' ? 'unset' : 'none',
-										width: '28px',
-										height: '28px',
-									})}
-								/>
-								<img
-									className="asset-img"
-									src={getAssetIcon(quoteAssetSymbol, 'light')}
-									alt="Asset logo"
-									width="28px"
-									css={(theme) => ({
-										display: theme.mode === 'light' ? 'unset' : 'none',
-										width: '40px',
-									})}
+									css={(theme) => ({width: '28px', height: '28px'})}
 								/>
 								<div className="asset-name">
 									<span className="quote">

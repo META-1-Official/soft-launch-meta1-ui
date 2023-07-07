@@ -71,19 +71,6 @@ class MarketTradeView extends React.Component {
 												alt="Asset logo"
 												width="20px"
 												height="21px"
-												css={(theme) => ({
-													display: theme.mode === 'dark' ? 'unset' : 'none',
-												})}
-											/>
-											<img
-												className="asset-img"
-												src={getAssetIcon(row.symbol, 'light')}
-												alt="Asset logo"
-												css={(theme) => ({
-													display: theme.mode === 'light' ? 'unset' : 'none',
-													width: '30px',
-													height: '30px',
-												})}
 											/>
 											<div
 												className="td-content-common-text"

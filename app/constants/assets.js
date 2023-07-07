@@ -9,75 +9,59 @@ const xrpIcon = require('assets/explorer/xrp.png');
 const solIcon = require('assets/explorer/sol.png');
 const trxIcon = require('assets/explorer/trx.png');
 const dogeIcon = require('assets/explorer/doge.png');
-const meta1Icon = require('assets/explorer/marketCap.png');
+const meta1Icon = require('assets/explorer/meta.png');
 const xmrIcon = require('assets/explorer/xmr.png');
 const adaIcon = require('assets/explorer/ada.png');
 const busdIcon = require('assets/explorer/busd.png');
 
-const bnbLightIcon = require('assets/explorer/bnb_light.png');
-const eosLightIcon = require('assets/explorer/eos_light.png');
-const ltcLightIcon = require('assets/explorer/ltc_light.png');
-const xlmLightIcon = require('assets/explorer/xlm_light.png');
-const btcLightIcon = require('assets/explorer/btc_light.png');
-const ethLightIcon = require('assets/explorer/eth_light.png');
-const usdtLightIcon = require('assets/explorer/usdt_light.png');
-const xrpLightIcon = require('assets/explorer/xrp_light.png');
-const solLightIcon = require('assets/explorer/sol_light.png');
-const trxLightIcon = require('assets/explorer/trx_light.png');
-const dogeLightIcon = require('assets/explorer/doge_light.png');
-const meta1LightIcon = require('assets/explorer/meta1_light.png');
-const xmrLightIcon = require('assets/explorer/xmr_light.png');
-const adaLightIcon = require('assets/explorer/ada_light.png');
-const busdLightIcon = require('assets/explorer/busd_light.png');
-
-const getAssetIcon = function (symbol, theme = 'dark') {
+const getAssetIcon = function (symbol) {
 	let icon;
 
 	switch (symbol) {
 		case 'BNB':
-			icon = theme == 'dark' ? bnbIcon : bnbLightIcon;
+			icon = bnbIcon;
 			break;
 		case 'BTC':
-			icon = theme == 'dark' ? btcIcon : btcLightIcon;
+			icon = btcIcon;
 			break;
 		case 'ETH':
-			icon = theme == 'dark' ? ethIcon : ethLightIcon;
+			icon = ethIcon;
 			break;
 		case 'EOS':
-			icon = theme == 'dark' ? eosIcon : eosLightIcon;
+			icon = eosIcon;
 			break;
 		case 'XLM':
-			icon = theme == 'dark' ? xlmIcon : xlmLightIcon;
+			icon = xlmIcon;
 			break;
 		case 'LTC':
-			icon = theme == 'dark' ? ltcIcon : ltcLightIcon;
+			icon = ltcIcon;
 			break;
 		case 'META1':
-			icon = theme == 'dark' ? meta1Icon : meta1LightIcon;
+			icon = meta1Icon;
 			break;
 		case 'USDT':
-			icon = theme == 'dark' ? usdtIcon : usdtLightIcon;
+			icon = usdtIcon;
 			break;
 		case 'XRP':
-			icon = theme == 'dark' ? xrpIcon : xrpLightIcon;
+			icon = xrpIcon;
 			break;
 		case 'SOL':
-			icon = theme == 'dark' ? solIcon : solLightIcon;
+			icon = solIcon;
 			break;
 		case 'TRX':
-			icon = theme == 'dark' ? trxIcon : trxLightIcon;
+			icon = trxIcon;
 			break;
 		case 'DOGE':
-			icon = theme == 'dark' ? dogeIcon : dogeLightIcon;
+			icon = dogeIcon;
 			break;
 		case 'XMR':
-			icon = theme == 'dark' ? xmrIcon : xmrLightIcon;
+			icon = xmrIcon;
 			break;
 		case 'ADA':
-			icon = theme == 'dark' ? adaIcon : adaLightIcon;
+			icon = adaIcon;
 			break;
 		case 'BUSD':
-			icon = theme == 'dark' ? busdIcon : busdLightIcon;
+			icon = busdIcon;
 			break;
 	}
 

@@ -290,18 +290,7 @@ class AssetsPairTabs extends React.Component {
 									className="asset-img"
 									src={getAssetIcon(quoteAssetSymbol)}
 									alt="Asset logo"
-									css={(theme) => ({
-										display: theme.mode === 'dark' ? 'unset' : 'none',
-										width: '24px',
-									})}
-								/>
-								<img
-									className="asset-img"
-									src={getAssetIcon(quoteAssetSymbol, 'light')}
-									alt="Asset logo"
-									css={(theme) => ({
-										display: theme.mode === 'light' ? 'unset' : 'none',
-									})}
+									css={(theme) => ({width: '24px'})}
 								/>
 							</div>
 							<div style={{display: 'flex', flexDirection: 'column'}}>
