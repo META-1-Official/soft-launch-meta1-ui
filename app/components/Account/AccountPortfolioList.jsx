@@ -1008,6 +1008,21 @@ class AccountPortfolioList extends React.Component {
 										src={getAssetIcon(asset.get('symbol'))}
 										alt="Asset logo"
 										width="28px"
+										css={(theme) => ({
+											display: theme.mode === 'dark' ? 'unset' : 'none',
+											width: '28px',
+											height: '28px',
+										})}
+									/>
+									<img
+										className="asset-img"
+										src={getAssetIcon(asset.get('symbol'), 'light')}
+										alt="Asset logo"
+										width="28px"
+										css={(theme) => ({
+											display: theme.mode === 'light' ? 'unset' : 'none',
+											width: '40px',
+										})}
 									/>
 									<div>
 										<LinkToAssetById

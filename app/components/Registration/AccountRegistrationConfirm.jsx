@@ -291,28 +291,26 @@ class AccountRegistrationConfirm extends React.Component {
 				});
 
 				if (this.state.registrarAccount) {
-					FetchChain('getAccount', name).then(() => {
-						let keys = getPrivateKeys(name, password);
-						_createPaperWalletAsPDFNew(
-							keys['owner'],
-							keys['active'],
-							keys['memo'],
-							name,
-							(data) => {
-								this.setState({
-									paperWalletData: data,
-									downloadPaperWalletModal: true,
-									name,
-									password,
-								});
-							}
-						);
-					});
 					TransactionConfirmStore.listen(this.onFinishConfirm);
-				} else {
-					FetchChain('getAccount', name).then(() => {});
-					this.setState({downloadPaperWalletModal: true, name, password});
 				}
+
+				FetchChain('getAccount', name).then(() => {
+					let keys = getPrivateKeys(name, password);
+					_createPaperWalletAsPDFNew(
+						keys['owner'],
+						keys['active'],
+						keys['memo'],
+						name,
+						(data) => {
+							this.setState({
+								paperWalletData: data,
+								downloadPaperWalletModal: true,
+								name,
+								password,
+							});
+						}
+					);
+				});
 			})
 			.catch((error) => {
 				console.log('ERROR AccountActions.createAccount', error);

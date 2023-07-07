@@ -555,7 +555,7 @@ class App extends React.Component {
 		}
 
 		return (
-			<Worker workerUrl="https://unpkg.com/pdfjs-dist@3.7.107/build/pdf.worker.min.js">
+			<Worker workerUrl="https://unpkg.com/pdfjs-dist@3.8.162/build/pdf.worker.min.js">
 				<AppLayout location={location} height={this.state.height} {...others}>
 					<div
 						style={{backgroundColor: !theme ? '#2a2a2a' : null}}
