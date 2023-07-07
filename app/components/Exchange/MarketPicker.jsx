@@ -106,6 +106,10 @@ class MarketPickerWrapper extends Component {
 		let toFind = e.target.value.trim().toUpperCase();
 		let isValidName = !ChainValidation.is_valid_symbol_error(toFind, true);
 
+		// temporal code
+		let asset_env_list = process.env.CRYPTOS_ARRAY.split(',');
+		isValidName = isValidName && asset_env_list.includes(toFind);
+
 		if (!isValidName) {
 			/* Don't lookup invalid asset names */
 			this.setState({

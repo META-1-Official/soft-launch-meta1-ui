@@ -1,10 +1,10 @@
-const bnbIcon = require('assets/explorer/BNB_new.png');
-const eosIcon = require('assets/explorer/EOS_new.png');
-const ltcIcon = require('assets/explorer/LTC_new.png');
-const xlmIcon = require('assets/explorer/XLM_new.png');
-const btcIcon = require('assets/explorer/BTC_new.png');
-const ethIcon = require('assets/explorer/ETH_new.png');
-const usdtIcon = require('assets/explorer/USDT_new.png');
+const bnbIcon = require('assets/explorer/bnb.png');
+const eosIcon = require('assets/explorer/eos.png');
+const ltcIcon = require('assets/explorer/ltc.png');
+const xlmIcon = require('assets/explorer/xlm.png');
+const btcIcon = require('assets/explorer/btc.png');
+const ethIcon = require('assets/explorer/eth.png');
+const usdtIcon = require('assets/explorer/usdt.png');
 const xrpIcon = require('assets/explorer/xrp.png');
 const solIcon = require('assets/explorer/sol.png');
 const trxIcon = require('assets/explorer/trx.png');
@@ -125,13 +125,13 @@ const getAssetFullName = function (symbol) {
 			assetFullName = 'Dogecoin';
 			break;
 		case 'XMR':
-			assetFullName = 'Solana';
+			assetFullName = 'Monero';
 			break;
 		case 'ADA':
-			assetFullName = 'Tron';
+			assetFullName = 'Cardano';
 			break;
 		case 'BUSD':
-			assetFullName = 'Dogecoin';
+			assetFullName = 'Binance USD';
 			break;
 	}
 
