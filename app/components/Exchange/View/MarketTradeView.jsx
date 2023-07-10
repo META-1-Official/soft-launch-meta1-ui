@@ -90,7 +90,7 @@ class MarketTradeView extends React.Component {
 								dataIndex="amount"
 								title={
 									<div className="market-order-table-text-header">
-										{counterpart.translate('exchange.amount_usdt')}
+										{counterpart.translate('exchange.amount')} ({(data?.[0]?.['asset']['symbol'])})
 									</div>
 								}
 								sorter={(a, b) => {
@@ -197,7 +197,7 @@ class MarketTradeView extends React.Component {
 								dataIndex="value"
 								title={
 									<div className="market-order-table-text-header">
-										{counterpart.translate('exchange.value')}
+										{counterpart.translate('exchange.price')}
 									</div>
 								}
 								render={(row) => {
