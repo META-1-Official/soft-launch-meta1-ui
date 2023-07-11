@@ -212,7 +212,7 @@ class MarketTradeView extends React.Component {
 													lineHeight: '24px',
 												}}
 											>
-												{Number(row.value).toLocaleString('en')} {row.symbol}
+												{row.value < 1 ? row.value : Number(row.value).toLocaleString('en')} {row.symbol}
 											</div>
 										</div>
 									);
