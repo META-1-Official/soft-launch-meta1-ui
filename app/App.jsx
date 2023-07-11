@@ -46,6 +46,11 @@ const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
 const ss_graphene = new ls('__graphene__');
 
+// for the cache purpose
+import AppStore from './assets/app-store.png';
+import GooglePlay from './assets/google-play.png';
+import OfflineIcon from './assets/offline.png';
+
 const Invoice = Loadable({
 	loader: () =>
 		import(/* webpackChunkName: "exchange" */ './components/Transfer/Invoice'),
@@ -591,6 +596,10 @@ class App extends React.Component {
 									hideModal={this.hideBrowserSupportModal}
 									showModal={this.showBrowserSupportModal}
 								/>
+
+								<img src={AppStore} style={{display: 'none'}} />
+								<img src={GooglePlay} style={{display: 'none'}} />
+								<img src={OfflineIcon} style={{display: 'none'}} />
 							</div>
 						</BodyClassName>
 					</div>
