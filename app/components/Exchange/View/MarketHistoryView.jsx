@@ -5,11 +5,11 @@ import cnames from 'classnames';
 import TransitionWrapper from '../../Utility/TransitionWrapper';
 import SectionHeader from 'components/Utility/SectionHeader';
 import utils from 'common/utils';
-import { Table, Tooltip } from 'antd';
+import {Table, Tooltip} from 'antd';
 
 class MarketHistoryView extends React.Component {
 	render() {
-		let { className, innerClass, innerStyle, activeTab, data } = this.props;
+		let {className, innerClass, innerStyle, activeTab, data} = this.props;
 
 		const emptyRow = (
 			<tr>
@@ -35,19 +35,19 @@ class MarketHistoryView extends React.Component {
 					<table className="table table-no-padding order-table text-left fixed-table market-right-padding">
 						<thead>
 							<tr>
-								<th style={{ textAlign: 'left' }} className="time-header-class">
+								<th style={{textAlign: 'left'}} className="time-header-class">
 									<Translate
 										className="header-sub-title"
 										content="explorer.block.time"
 									/>
 								</th>
-								<th style={{ textAlign: 'center' }}>
+								<th style={{textAlign: 'center'}}>
 									<Translate
 										className="header-sub-title"
 										content="exchange.price"
 									/>
 								</th>
-								<th style={{ textAlign: 'right' }} className="table-volume-class">
+								<th style={{textAlign: 'right'}} className="table-volume-class">
 									<Translate
 										className="header-sub-title"
 										content="exchange.volume"
@@ -62,9 +62,9 @@ class MarketHistoryView extends React.Component {
 					ref="history"
 					id="market-orders-view-container"
 					style={{
-						// minHeight: 450,
 						overflow: 'hidden',
 						lineHeight: '18px',
+						display: 'block',
 					}}
 				>
 					<table className="table order-table no-stripes table-hover fixed-table text-right no-overflow market-history-custom">
@@ -88,7 +88,7 @@ class MarketHistoryView extends React.Component {
 						dataSource={data}
 						pagination={false}
 						showSorterTooltip={false}
-						scroll={{ y: 450, x: 500 }}
+						scroll={{y: 450, x: 500}}
 					>
 						<Table.Column
 							dataIndex="type"
@@ -149,20 +149,13 @@ class MarketHistoryView extends React.Component {
 							render={(row) => {
 								return (
 									<div className="td-content">
-										<Tooltip
-											title={row.receiveAmount}
-											placement="top"
-										>
+										<Tooltip title={row.receiveAmount} placement="top">
 											<div className="td-content-common-text">
 												{Number(row.receiveAmount).toFixed(6)}
 											</div>
 										</Tooltip>
 										<div className="td-content-divider"></div>
-										<Tooltip
-											title={row.payAmount}
-											placement="bottom"
-										>
-
+										<Tooltip title={row.payAmount} placement="bottom">
 											<div className="td-content-second-text">
 												{Number(row.payAmount).toFixed(6)}
 											</div>
@@ -197,10 +190,7 @@ class MarketHistoryView extends React.Component {
 							}
 							render={(row) => {
 								return (
-									<Tooltip
-										title={row.total}
-										placement="top"
-									>
+									<Tooltip title={row.total} placement="top">
 										<div className="td-content-common-text">
 											{Number(row.total).toFixed(6)} {row.quoteSymbol}
 										</div>
@@ -216,7 +206,7 @@ class MarketHistoryView extends React.Component {
 		return (
 			<div
 				className={cnames(className)}
-				style={{ height: '100%', display: 'flex', flexDirection: 'column' }}
+				style={{height: '100%', display: 'flex', flexDirection: 'column'}}
 			>
 				{activeTab === 'history' ? allHistory : myOrders}
 			</div>
@@ -224,4 +214,4 @@ class MarketHistoryView extends React.Component {
 	}
 }
 
-export { MarketHistoryView };
+export {MarketHistoryView};
