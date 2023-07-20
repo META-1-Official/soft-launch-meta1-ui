@@ -367,28 +367,33 @@ class App extends React.Component {
 		const accountName = ss.get('account_login_name', null);
 		const accountToken = ss.get('account_login_token', null);
 
-		axios
-			.post(process.env.LITE_WALLET_URL + '/check_token', {token: accountToken})
-			.then((res) => {
-				if (res.data.accountName !== accountName) {
-					toast('user token is invalid');
+		accountToken &&
+			axios
+				.post(process.env.LITE_WALLET_URL + '/check_token', {
+					token: accountToken,
+				})
+				.then((res) => {
+					if (res.data.accountName !== accountName) {
+						toast('user token is invalid');
+						WalletUnlockActions.lock_v2().finally(() => {
+							const isIncludes =
+								this.props.history?.location?.pathname.includes('explorer');
+							if (!isIncludes) {
+								this.props.history.replace('/market/META1_USDT');
+							}
+						});
+					}
+				})
+				.catch((error) => {
+					console.log('error', error);
 					WalletUnlockActions.lock_v2().finally(() => {
-						const isIncludes = history?.location?.pathname.includes('explorer');
+						const isIncludes =
+							this.props.history?.location?.pathname.includes('explorer');
 						if (!isIncludes) {
-							history.replace('/market/META1_USDT');
+							this.props.history.replace('/market/META1_USDT');
 						}
 					});
-				}
-			})
-			.catch((error) => {
-				console.log('error', error);
-				WalletUnlockActions.lock_v2().finally(() => {
-					const isIncludes = history?.location?.pathname.includes('explorer');
-					if (!isIncludes) {
-						history.replace('/market/META1_USDT');
-					}
 				});
-			});
 	}
 
 	_onIgnoreIncognitoWarning() {
