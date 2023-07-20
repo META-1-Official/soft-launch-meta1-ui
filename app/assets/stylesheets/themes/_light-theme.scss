@@ -130,7 +130,7 @@ $header-menu-item--hover--background-color: lighten($primary-color, 40%);
 $bg-color-lightblue: #f5f6fa;
 $backing-asset-input-background: #21252f;
 $portfolio-change-up-background: #009d55;
-$portfolio-change-up-background: #ff2929;
+$portfolio-change-down-background: #ff2929;
 $fund-wallet-dropdown-color: #ffc900;
 $modal-input-color: #919293;
 $phone-number-input-color: #bfbfbf;
@@ -361,7 +361,7 @@ $explorer-tab-checkbox-color: #dddddd;
 							}
 
 							&.change-down {
-								background-color: $portfolio-change-up-background !important;
+								background-color: $portfolio-change-down-background !important;
 							}
 						}
 					}
