@@ -577,8 +577,8 @@ class SendModal extends React.Component {
 				</div>
 				{this.state.asset_id && balanceAssetId && (
 					<span className="show-balance">
-						{counterpart.translate('exchange.balance')} :{' '}
-						<BalanceComponent balance={balanceAssetId} />
+						{counterpart.translate('exchange.balance')} :&nbsp;
+						<BalanceComponent balance={balanceAssetId} fixed6Digits={false} />
 					</span>
 				)}
 				<div className="account-selector-wrapper">
