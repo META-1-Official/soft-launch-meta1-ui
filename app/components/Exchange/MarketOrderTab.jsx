@@ -156,8 +156,9 @@ const MarketOrderForm = (props) => {
 			Number(props.price) <= 0 ||
 			!hasBalance ||
 			props.locked_v2
-		)
+		) {
 			return false;
+		}
 
 		if (!amount || isNaN(Number(amount)) || Number(amount) <= 0) return false;
 
@@ -314,6 +315,14 @@ const MarketOrderForm = (props) => {
 			amount = Number(props.baseAssetBalance) / Number(props.latestPrice);
 		} else if (!isBid && props.quoteAssetBalance) {
 			amount = Number(props.quoteAssetBalance);
+		}
+
+		// Solution for 100%
+		if (isBid) {
+			const marketPrice = getMarketPriceWithAmount(amount);
+			amount = Number(props.baseAssetBalance) / marketPrice;
+			amount *= Number(props.latestPrice) / marketPrice;
+			amount = floorFloat(amount, 5);
 		}
 
 		setAmount((amount * percent) / 100);
