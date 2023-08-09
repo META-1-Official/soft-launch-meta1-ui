@@ -119,12 +119,27 @@ const MarketOrderForm = (props) => {
 
 	const getMarketPriceWithAmount = (amount) => {
 		let _marketPrice = props.price;
+		const quoteAssetSymbol = props.quoteAsset.get('symbol');
+		const baseAssetSymbol = props.baseAsset.get('symbol');
+		const isTradingMETA1 = quoteAssetSymbol === 'META1' || baseAssetSymbol === 'META1';
 
 		if (amount) {
 			let total = 0;
+			let _prices = props.prices;
+
+			if (isTradingMETA1) {
+				if (props.backingAssetPolarity)
+					_prices = props.prices.filter(
+						(price) => price.price > props.backingAssetValue
+					);
+				else
+					_prices = props.prices.filter(
+						(price) => price.price < props.backingAssetValue
+					);
+			}
 
 			// When amount is smaller than liquidity
-			for (var i = 0; i < props.prices.length; i++) {
+			for (var i = 0; i < _prices.length; i++) {
 				let _price = isBid
 					? props.prices[props.prices.length - i - 1]
 					: props.prices[i];
@@ -138,6 +153,10 @@ const MarketOrderForm = (props) => {
 		}
 
 		if (_marketPrice) {
+			if (isTradingMETA1) {
+				return props.backingAssetPolarity ? ceilFloat(_marketPrice, 5) : floorFloat(_marketPrice, 5);
+			}
+
 			return isBid ? ceilFloat(_marketPrice, 5) : floorFloat(_marketPrice, 5);
 		} else {
 			return 0;
