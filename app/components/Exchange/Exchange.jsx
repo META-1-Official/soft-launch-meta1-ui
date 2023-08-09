@@ -313,7 +313,7 @@ class Exchange extends React.Component {
 			) {
 				this.calcBackingAssetValue();
 			} else {
-				this.setState({backingAssetValue: 0, backingAssetPolarity: true});
+				this.setState({backingAssetValue: 0});
 			}
 		}
 
@@ -387,7 +387,7 @@ class Exchange extends React.Component {
 	 */
 	calcBackingAssetValue() {
 		const LOG_ID = '[calcBackingAssetValue]';
-		this.setState({backingAssetValue: 0, backingAssetPolarity: true});
+
 		if (
 			this.props.quoteAsset.get('symbol') !== 'META1' &&
 			this.props.baseAsset.get('symbol') !== 'META1'
@@ -524,26 +524,10 @@ class Exchange extends React.Component {
 				for (let price of _prices) {
 					sellMarketPrice = price._real_price;
 					estSellAmount += price.for_sale / Math.pow(10, baseAssetPrecision);
-					// Debug - can be deleted later
-					// console.log(
-					// 	'@11 - Bid',
-					// 	price._real_price,
-					// 	price.for_sale / Math.pow(10, baseAssetPrecision)
-					// );
-
 					if (amount2Trade && amount2Trade < estSellAmount) break;
 				}
 
 				if (sellMarketPrice > 0) {
-					// const percentDiff = sellMarketPrice + sellMarketPrice / Math.pow(10, 4);
-
-					// if (isTradingMETA1 && backingAssetValue && !isQuoting && percentDiff >= backingAssetValue) {
-					// 	const diff = Math.abs(sellMarketPrice + backingAssetValue) / 2;
-					// 	sellMarketPrice = sellMarketPrice - diff;
-					// } else {
-					// 	sellMarketPrice = percentDiff;
-					// }
-
 					console.log(
 						'sellMarketPrice:',
 						baseAssetSymbol,
@@ -578,26 +562,9 @@ class Exchange extends React.Component {
 					.forEach(function (price) {
 						buyMarketPrice = price._real_price;
 						estSellAmount += price.for_sale / Math.pow(10, baseAssetPrecision);
-						// Debug - can be deleted later
-						// console.log(
-						// 	'@12 - Ask',
-						// 	price._real_price,
-						// 	price.for_sale / Math.pow(10, quoteAssetPrecision)
-						// );
-
-						// if (amount2Trade && amount2Trade < estSellAmount) break;
 					});
 
 				if (buyMarketPrice > 0) {
-					// const percentDiff = sellMarketPrice + sellMarketPrice / Math.pow(10, 4);
-
-					// if (isTradingMETA1 && backingAssetValue && !isQuoting && percentDiff >= backingAssetValue) {
-					// 	const diff = Math.abs(sellMarketPrice + backingAssetValue) / 2;
-					// 	sellMarketPrice = sellMarketPrice - diff;
-					// } else {
-					// 	sellMarketPrice = percentDiff;
-					// }
-
 					console.log(
 						'buyMarketPrice:',
 						baseAssetSymbol,
@@ -2185,6 +2152,8 @@ class Exchange extends React.Component {
 						liquidity={buyMarketLiquidity}
 						locked_v2={this.props.locked_v2}
 						total={totals.ask}
+						backingAssetValue={backingAssetValue}
+						backingAssetPolarity={backingAssetPolarity}
 					/>
 				</Tabs.TabPane>
 				<Tabs.TabPane
@@ -2332,6 +2301,8 @@ class Exchange extends React.Component {
 						liquidity={sellMarketLiquidity}
 						locked_v2={this.props.locked_v2}
 						total={totals.bid}
+						backingAssetValue={backingAssetValue}
+						backingAssetPolarity={backingAssetPolarity}
 					/>
 				</Tabs.TabPane>
 				<Tabs.TabPane
