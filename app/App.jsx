@@ -444,6 +444,27 @@ class App extends React.Component {
 		this.setState({height: window && window.innerHeight});
 	}
 
+	_onSetupWebSocket(accountName) {
+		if (this.ws) return;
+		try {
+			this.ws = new WebSocket(
+				`${process.env.NOTIFICATION_WS_URL}?account=${accountName}`
+			);
+			this.ws.onmessage = (message) => {
+				console.log('notification arrived', message);
+				if (message && message.data) {
+					const content = JSON.parse(message.data).content;
+					toast(content);
+				}
+			};
+			this.ws.onopen = () => {
+				console.log('setup notification websocket');
+			};
+		} catch (e) {
+			console.log('notification connection error', e);
+		}
+	}
+
 	render() {
 		let {incognito, incognitoWarningDismissed} = this.state;
 		let {walletMode, theme, location, ...others} = this.props;
@@ -464,10 +485,14 @@ class App extends React.Component {
 			let accountName =
 				AccountStore.getState().currentAccount ||
 				AccountStore.getState().passwordAccount;
+
+			if (accountName) this._onSetupWebSocket(accountName);
+
 			accountName =
 				accountName && accountName !== 'null'
 					? accountName
 					: 'committee-account';
+
 			content = (
 				<div className="grid-frame vertical">
 					<NewsHeadline />
