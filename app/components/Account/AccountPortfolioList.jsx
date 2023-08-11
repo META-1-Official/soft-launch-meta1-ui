@@ -33,6 +33,11 @@ import {FaQuestionCircle} from 'react-icons/fa';
 import {getAssetIcon, getAssetFullName} from 'constants/assets';
 import DepositModal from '../Modal/DepositModal';
 import WithdrawModal from '../Modal/WithdrawModal';
+import ls from 'common/localStorage';
+
+const STORAGE_KEY = '__AuthData__';
+const ss = new ls(STORAGE_KEY);
+const ss_graphene = new ls('__graphene__');
 
 const SORT_TYPE_MULTIPLE = 'multiple';
 
@@ -346,7 +351,7 @@ class AccountPortfolioList extends React.Component {
 
 	_showDepositModal(asset, e) {
 		e.preventDefault();
-		this.setState({depositAsset: asset.toLowerCase()}, () => {
+		this.setState({depositAsset: asset}, () => {
 			this.showDepositModal();
 		});
 	}
@@ -649,6 +654,12 @@ class AccountPortfolioList extends React.Component {
 		let balances = [];
 		const emptyCell = '-';
 
+		const index = window.location.pathname.split('/').indexOf('account');
+		const accountName = ss.get('account_login_name', null);
+		const accountFromPath = window.location.pathname.split('/')[index + 1];
+
+		const isMyAccount = accountName === accountFromPath ? true : false;
+
 		balanceList.forEach((balance) => {
 			let balanceObject = ChainStore.getObject(balance);
 			if (!balanceObject) return;
@@ -697,6 +708,7 @@ class AccountPortfolioList extends React.Component {
 					style={{
 						width: 80,
 					}}
+					disabled={!isMyAccount}
 				>
 					<Translate content="transfer.send" style={{whiteSpace: 'nowrap'}} />
 				</StyledButton>
@@ -710,6 +722,7 @@ class AccountPortfolioList extends React.Component {
 						color: 'green',
 						width: 80,
 					}}
+					disabled={!isMyAccount}
 				>
 					<Translate
 						content="exchange.deposit"
@@ -727,6 +740,7 @@ class AccountPortfolioList extends React.Component {
 						width: 80,
 						padding: 0,
 					}}
+					disabled={!isMyAccount}
 				>
 					<Translate
 						content="exchange.withdraw"
@@ -826,21 +840,7 @@ class AccountPortfolioList extends React.Component {
 							src={getAssetIcon(asset.get('symbol'))}
 							alt="Asset logo"
 							width="28px"
-							css={(theme) => ({
-								display: theme.mode === 'dark' ? 'unset' : 'none',
-								width: '28px',
-								height: '28px',
-							})}
-						/>
-						<img
-							className="asset-img"
-							src={getAssetIcon(asset.get('symbol'), 'light')}
-							alt="Asset logo"
-							width="28px"
-							css={(theme) => ({
-								display: theme.mode === 'light' ? 'unset' : 'none',
-								width: '40px',
-							})}
+							css={(theme) => ({width: '28px', height: '28px'})}
 						/>
 						<div
 							style={{
@@ -951,11 +951,15 @@ class AccountPortfolioList extends React.Component {
 					</StyledButton>
 				) : null,
 				deposit:
-					['BTC', 'LTC', 'ETH', 'USDT'].indexOf(asset.get('symbol')) > -1
+					process.env.DEPOSIT_AVAILABLE_ASSETS.split(',').indexOf(
+						asset.get('symbol')
+					) > -1
 						? depositLink
 						: emptyCell,
 				withdraw:
-					['ETH', 'USDT'].indexOf(asset.get('symbol')) > -1
+					process.env.WITHDRAW_AVAILABLE_ASSETS.split(',').indexOf(
+						asset.get('symbol')
+					) > -1
 						? withdrawLink
 						: emptyCell,
 			});
@@ -990,6 +994,7 @@ class AccountPortfolioList extends React.Component {
 										src={getAssetIcon(asset.get('symbol'))}
 										alt="Asset logo"
 										width="28px"
+										css={(theme) => ({width: '28px', height: '28px'})}
 									/>
 									<div>
 										<LinkToAssetById
@@ -1025,18 +1030,24 @@ class AccountPortfolioList extends React.Component {
 							settle: null,
 							burn: null,
 							deposit:
-								this.props.isMyAccount &&
-								['BTC', 'LTC', 'ETH', 'USDT', 'XLM', 'BNB', 'EOS'].indexOf(
-									asset.get('symbol')
-								) > -1 ? (
+								asset.get('symbol').toLowerCase() !== 'meta1' ? (
 									<StyledButton
 										buttonType="green"
 										onClick={this._showDepositModal.bind(
 											this,
 											asset.get('symbol')
 										)}
+										disabled={!isMyAccount}
+										style={{
+											backgroundColor: 'transparent',
+											color: 'green',
+											width: 80,
+										}}
 									>
-										<Translate content="exchange.deposit" />
+										<Translate
+											content="exchange.deposit"
+											style={{whiteSpace: 'nowrap'}}
+										/>
 									</StyledButton>
 								) : (
 									emptyCell
@@ -1045,6 +1056,7 @@ class AccountPortfolioList extends React.Component {
 					}
 				});
 		}
+
 		return balances;
 	}
 

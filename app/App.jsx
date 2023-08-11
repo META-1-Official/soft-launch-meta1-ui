@@ -27,6 +27,8 @@ import AccountRegistration from './components/Registration/AccountRegistration';
 import {CreateWalletFromBrainkey} from './components/Wallet/WalletCreate';
 import PriceAlertNotifications from './components/PriceAlertNotifications';
 import {updateGatewayBackers} from 'common/gatewayUtils';
+import WalletUnlockActions from 'actions/WalletUnlockActions';
+import WalletManagerStore from 'stores/WalletManagerStore';
 
 import {Route, Switch, Redirect} from 'react-router-dom';
 // Nested route components
@@ -34,7 +36,20 @@ import Page404 from './components/Page404/Page404';
 import AppLayout from 'components/Layout/Layout';
 import BodyClassName from 'components/BodyClassName';
 import AssetExplorerDetails from './components/Exchange/AssetExplorerDetails';
+import {Worker} from '@react-pdf-viewer/core';
 import {toast} from 'react-toastify';
+
+import axios from 'axios';
+import ls from './lib/common/localStorage';
+
+const STORAGE_KEY = '__AuthData__';
+const ss = new ls(STORAGE_KEY);
+const ss_graphene = new ls('__graphene__');
+
+// for the cache purpose
+import AppStore from './assets/app-store.png';
+import GooglePlay from './assets/google-play.png';
+import OfflineIcon from './assets/offline.png';
 
 const Invoice = Loadable({
 	loader: () =>
@@ -348,6 +363,37 @@ class App extends React.Component {
 
 	onRouteChanged() {
 		document.title = titleUtils.GetTitleByPath(this.props.location.pathname);
+
+		const accountName = ss.get('account_login_name', null);
+		const accountToken = ss.get('account_login_token', null);
+
+		accountToken &&
+			axios
+				.post(process.env.LITE_WALLET_URL + '/check_token', {
+					token: accountToken,
+				})
+				.then((res) => {
+					if (res.data.accountName !== accountName) {
+						toast('user token is invalid');
+						WalletUnlockActions.lock_v2().finally(() => {
+							const isIncludes =
+								this.props.history?.location?.pathname.includes('explorer');
+							if (!isIncludes) {
+								this.props.history.replace('/market/META1_USDT');
+							}
+						});
+					}
+				})
+				.catch((error) => {
+					console.log('error', error);
+					WalletUnlockActions.lock_v2().finally(() => {
+						const isIncludes =
+							this.props.history?.location?.pathname.includes('explorer');
+						if (!isIncludes) {
+							this.props.history.replace('/market/META1_USDT');
+						}
+					});
+				});
 	}
 
 	_onIgnoreIncognitoWarning() {
@@ -544,7 +590,7 @@ class App extends React.Component {
 		}
 
 		return (
-			<>
+			<Worker workerUrl="https://unpkg.com/pdfjs-dist@3.8.162/build/pdf.worker.min.js">
 				<AppLayout location={location} height={this.state.height} {...others}>
 					<div
 						style={{backgroundColor: !theme ? '#2a2a2a' : null}}
@@ -580,11 +626,15 @@ class App extends React.Component {
 									hideModal={this.hideBrowserSupportModal}
 									showModal={this.showBrowserSupportModal}
 								/>
+
+								<img src={AppStore} style={{display: 'none'}} />
+								<img src={GooglePlay} style={{display: 'none'}} />
+								<img src={OfflineIcon} style={{display: 'none'}} />
 							</div>
 						</BodyClassName>
 					</div>
 				</AppLayout>
-			</>
+			</Worker>
 		);
 	}
 }

@@ -74,7 +74,8 @@ export const _createPaperWalletAsPDFNew = function (
 	ownerkeys,
 	activeKeys,
 	memoKey,
-	accountName
+	accountName,
+	callback
 ) {
 	const width = 1050,
 		height = 1150, //mm
@@ -161,13 +162,16 @@ export const _createPaperWalletAsPDFNew = function (
 	});
 
 	Promise.all(content).then(() => {
-		pdf.save(
-			'meta' +
-				'-paper-wallet-' +
-				(locked ? 'public-' : 'private-') +
-				accountName +
-				'.pdf'
-		);
+		const blob = pdf.output('datauristring');
+		if (callback) callback(blob);
+		else
+			pdf.save(
+				'meta' +
+					'-paper-wallet-' +
+					(locked ? 'public-' : 'private-') +
+					accountName +
+					'.pdf'
+			);
 	});
 };
 export const _createPaperWalletAsPDF = function (

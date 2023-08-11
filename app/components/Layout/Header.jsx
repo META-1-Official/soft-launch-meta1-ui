@@ -526,6 +526,7 @@ class Header extends React.Component {
 					title={<Translate content="account.advanced" />}
 					disabled={!currentAccount}
 					popupOffset={[0, 0]}
+					className={this.props.locked_v2 ? 'disable-li-text' : ''}
 				>
 					<Menu.Item
 						key="comment-menu"

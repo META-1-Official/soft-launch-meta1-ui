@@ -14,6 +14,7 @@ import {Button, Input, Checkbox, Form, Modal, Typography} from 'antd';
 import sendXApi from '../../api/sendxApi';
 import CopyButton from '../Utility/CopyButton';
 import ls from '../../lib/common/localStorage';
+import PaperWalletModal from '../Modal/PaperWalletModal';
 
 import {checkCustomer} from 'components/Utility/Tapfiliate';
 import {toast} from 'react-toastify';
@@ -86,6 +87,7 @@ class AccountRegistrationConfirm extends React.Component {
 			phone: ss.get('phone'),
 			firstname: ss.get('firstname'),
 			lastname: ss.get('lastname'),
+			authData: JSON.parse(ss.get('authdata', '{}')),
 			confirmed: ss.get('confirmed', false),
 			confirmedTerms: ss.get('confirmedTerms', false),
 			confirmedTerms2: ss.get('confirmedTerms2', false),
@@ -198,7 +200,7 @@ class AccountRegistrationConfirm extends React.Component {
 			member1Name = accountName;
 		}
 
-		// appeding wallet name to the user wallet list.
+		// appending wallet name to the user wallet list.
 		const res_update = await axios.patch(
 			`${process.env.ESIGNATURE_URL}/apiewallet/users/update?email=${this.state.email}`,
 			{member1Name},
@@ -219,7 +221,8 @@ class AccountRegistrationConfirm extends React.Component {
 				this.state.phone,
 				this.state.firstname,
 				this.state.lastname,
-				this.props.password
+				this.props.password,
+				this.state.authData
 			);
 		} else {
 			return;
@@ -238,7 +241,8 @@ class AccountRegistrationConfirm extends React.Component {
 		phone_number,
 		first_name,
 		last_name,
-		private_key
+		private_key,
+		authData
 	) {
 		const {referralAccount} = AccountStore.getState();
 		ss.remove('email');
@@ -249,6 +253,7 @@ class AccountRegistrationConfirm extends React.Component {
 		ss.remove('confirmedTerms');
 		ss.remove('confirmedTerms2');
 		ss.remove('account_registration_name');
+		ss.remove('authdata');
 		const emailSubscription = ss.get('emailSubscription', true);
 		if (emailSubscription) {
 			sendXApi
@@ -286,14 +291,26 @@ class AccountRegistrationConfirm extends React.Component {
 				});
 
 				if (this.state.registrarAccount) {
-					FetchChain('getAccount', name).then(() => {
-						this.setState({downloadPaperWalletModal: true, name, password});
-					});
 					TransactionConfirmStore.listen(this.onFinishConfirm);
-				} else {
-					FetchChain('getAccount', name).then(() => {});
-					this.setState({downloadPaperWalletModal: true, name, password});
 				}
+
+				FetchChain('getAccount', name).then(() => {
+					let keys = getPrivateKeys(name, password);
+					_createPaperWalletAsPDFNew(
+						keys['owner'],
+						keys['active'],
+						keys['memo'],
+						name,
+						(data) => {
+							this.setState({
+								paperWalletData: data,
+								downloadPaperWalletModal: true,
+								name,
+								password,
+							});
+						}
+					);
+				});
 			})
 			.catch((error) => {
 				console.log('ERROR AccountActions.createAccount', error);
@@ -303,14 +320,6 @@ class AccountRegistrationConfirm extends React.Component {
 	timer = (ms) => new Promise((res) => setTimeout(res, ms));
 	async validateLogin(account, password) {
 		const {resolve} = this.props;
-
-		let keys = getPrivateKeys(account, password);
-		_createPaperWalletAsPDFNew(
-			keys['owner'],
-			keys['active'],
-			keys['memo'],
-			account
-		);
 
 		let chainAccount = ChainStore.getAccount(account);
 		while (chainAccount === undefined) {
@@ -342,6 +351,8 @@ class AccountRegistrationConfirm extends React.Component {
 			.post(process.env.LITE_WALLET_URL + '/login', {
 				accountName: account,
 				email: this.state.email,
+				idToken: this.state.authData.web3Token,
+				appPubKey: this.state.authData.web3PubKey,
 			})
 			.then((response) => {
 				toast('Success');
@@ -601,65 +612,16 @@ class AccountRegistrationConfirm extends React.Component {
 						</Button>
 					</Form.Item>
 				</Form>
-				{/* download paper wallet modal */}
-				<Modal
-					visible={this.state.downloadPaperWalletModal}
-					className="unlock_wallet_modal2 hide-close-btn"
-					id={'downloadPaperWallet'}
-					closeable={true}
-					ref="modal"
-					overlay={true}
-					overlayClose={false}
-					leftHeader
-					zIndex={1001}
-					footer={null}
-					onCancel={() => {
-						let {name, password} = this.state;
-						this.setState({
-							downloadPaperWalletModal: false,
-							name: '',
-							password: '',
-						});
-						this.validateLogin(name, password);
-					}}
-				>
-					<Title className="header-title1">
-						{counterpart.translate('registration.download_paper_wallet')}
-					</Title>
-					<div className="header-title2">
-						{counterpart.translate(
-							'registration.download_to_save_paper_wallet'
-						)}
-					</div>
-					<div className="footer-wrapper display_flex">
-						<Button
-							htmlType="submit"
-							type="primary"
-							onClick={() => {
-								let {name, password} = this.state;
-								this.setState({
-									downloadPaperWalletModal: false,
-									name: '',
-									password: '',
-								});
-								this.validateLogin(name, password);
-							}}
-							className="login-btn"
-						>
-							Download
-						</Button>
-					</div>
-				</Modal>
 				{/* copy password modal */}
 				<Modal
+					title={counterpart.translate('registration.important_message')}
 					visible={this.state.copyPasswordModal}
-					className="unlock_wallet_modal2"
+					className="copy_password_modal"
 					id={'downloadPaperWallet'}
 					closeable={true}
 					ref="modal"
 					overlay={true}
 					overlayClose={false}
-					leftHeader
 					zIndex={1001}
 					footer={null}
 					onCancel={() => {
@@ -668,9 +630,6 @@ class AccountRegistrationConfirm extends React.Component {
 						});
 					}}
 				>
-					<Title className="header-title1">
-						{counterpart.translate('registration.important_message')}
-					</Title>
 					<div className="header-title2">
 						{counterpart.translate('registration.important_message_info')}&nbsp;
 						<a
@@ -696,6 +655,21 @@ class AccountRegistrationConfirm extends React.Component {
 						</Button>
 					</div>
 				</Modal>
+
+				<PaperWalletModal
+					paperWalletData={this.state.paperWalletData}
+					accountName={this.state.name}
+					visible={this.state.downloadPaperWalletModal}
+					onCancel={() => {
+						let {name, password} = this.state;
+						this.setState({
+							downloadPaperWalletModal: false,
+							name: '',
+							password: '',
+						});
+						this.validateLogin(name, password);
+					}}
+				/>
 			</div>
 		);
 	}

@@ -13,6 +13,113 @@
 	text-align: right;
 }
 
+.copy_password_modal {
+	padding-left: 0;
+	padding-right: 0;
+	border-radius: 1px;
+	height: 50% !important;
+	width: 25% !important;
+
+	.ant-modal-title {
+		text-transform: uppercase;
+		text-align: center;
+	}
+
+	.ant-modal-header {
+		text-align: center;
+	}
+
+	.header-title2 {
+		font-size: 16px;
+		color: #cecece;
+		text-align: center;
+		margin-top: 10px;
+		margin-bottom: 20px;
+	}
+
+	.footer-wrapper {
+		.login-btn {
+			height: 60px;
+			width: 100%;
+			background: #ffc000;
+			font-size: 18px;
+			font-weight: 600;
+			border-radius: 6px;
+			border: none;
+
+			span {
+				color: white !important;
+				text-transform: capitalize;
+			}
+		}
+
+		.redirect {
+			font-size: 15px;
+			color: white;
+			margin-top: 30px;
+
+			a {
+				color: #ffc000;
+				text-decoration: underline;
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 1200px) {
+	.copy_password_modal {
+		width: auto !important;
+	}
+}
+
+.preview_paper_wallet_modal {
+	height: 50% !important;
+	width: 80% !important;
+
+	.ant-modal-title {
+		text-transform: uppercase;
+		text-align: center;
+	}
+
+	.rpv-core__textbox {
+		margin: 0 !important;
+		font-size: inherit;
+		background-color: #fff !important;
+		border-radius: 0.25rem !important;
+		border: inherit !important;
+		height: inherit !important;
+		color: inherit !important;
+	}
+
+	.footer-wrapper {
+		.login-btn {
+			height: 60px;
+			width: 100%;
+			background: #ffc000;
+			font-size: 18px;
+			font-weight: 600;
+			border-radius: 6px;
+			border: none;
+
+			span {
+				color: white !important;
+				text-transform: capitalize;
+			}
+		}
+
+		.redirect {
+			font-size: 15px;
+			color: white;
+			margin-top: 30px;
+
+			a {
+				color: #ffc000;
+				text-decoration: underline;
+			}
+		}
+	}
+}
+
 .passwordless_unlock_modal,
 .unlock_wallet_modal2 {
 	padding-left: 0;

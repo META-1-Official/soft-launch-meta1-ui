@@ -34,16 +34,7 @@ class AccountOverview extends React.Component {
 		super();
 		this.state = {
 			shownAssets: props.viewSettings.get('shownAssets', 'active'),
-			alwaysShowAssets: [
-				'META1',
-				'USDT',
-				'BTC',
-				'BNB',
-				'LTC',
-				'XLM',
-				'EOS',
-				'ETH',
-			],
+			alwaysShowAssets: process.env.CRYPTOS_ARRAY.split(','),
 			hideFishingProposals: true,
 			currentDisplay: 'portfolio',
 			hideZeroBalance: true,
@@ -494,7 +485,7 @@ class AccountOverview extends React.Component {
 								<a
 									target="_blank"
 									rel="noopener noreferrer"
-									href={`${process.env.META1_SUPPORT_URL}how-to-deposit-into-your-meta-lite-wallet`}
+									href={`${process.env.META1_SUPPORT_URL}hc/en-us/articles/11896445410459-How-to-Deposit-into-Your-META-LITE-Wallet`}
 								>
 									{counterpart.translate('account.fund_wallet_with_crypto')}
 								</a>

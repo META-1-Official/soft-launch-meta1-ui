@@ -1,13 +1,13 @@
 import React from 'react';
-import { connect } from 'alt-react';
-import { ChainStore } from 'meta1-vision-js';
-import { Map, List } from 'immutable';
+import {connect} from 'alt-react';
+import {ChainStore} from 'meta1-vision-js';
+import {Map, List} from 'immutable';
 import counterpart from 'counterpart';
 import SettingsActions from 'actions/SettingsActions';
 import SettingsStore from 'stores/SettingsStore';
 import AssetStore from 'stores/AssetStore';
 import AssetActions from 'actions/AssetActions';
-import { Table, Button } from 'antd';
+import {Table, Button} from 'antd';
 import {
 	CaretUpFilled,
 	CaretDownFilled,
@@ -22,11 +22,12 @@ import MarketsStore from 'stores/MarketsStore';
 import utils from 'common/utils';
 import ls from '../../lib/common/localStorage';
 import history from 'lib/common/history';
-import { withTheme } from '@emotion/react';
-import { getAssetIcon } from 'constants/assets';
+import {withTheme} from '@emotion/react';
+import {getAssetIcon} from 'constants/assets';
+import {Apis} from 'meta1-vision-ws';
 
-import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu";
-import "react-horizontal-scrolling-menu/dist/styles.css";
+import {ScrollMenu, VisibilityContext} from 'react-horizontal-scrolling-menu';
+import 'react-horizontal-scrolling-menu/dist/styles.css';
 
 const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
@@ -61,7 +62,7 @@ class AssetsPairTabs extends React.Component {
 		}
 	}
 
-	UNSAFE_componentWillMount() {
+	async UNSAFE_componentWillMount() {
 		this._checkAssets(this.props.assets, true);
 	}
 
@@ -80,19 +81,23 @@ class AssetsPairTabs extends React.Component {
 
 		if (assets.size === 0 || force) {
 			AssetActions.getAssetList.defer('A', 100);
-			this.setState({ assetsFetched: 100 });
+			this.setState({assetsFetched: 100});
 		} else if (assets.size >= this.state.assetsFetched) {
 			AssetActions.getAssetList.defer(lastAsset.symbol, 100);
-			this.setState({ assetsFetched: this.state.assetsFetched + 99 });
+			this.setState({assetsFetched: this.state.assetsFetched + 99});
 		}
 	}
 
 	_getMarketInfo(assetPairs, resolution) {
-		const { isFetchingMarketInfo } = this.state;
+		const {isFetchingMarketInfo} = this.state;
 		const marketBars = this.state.marketBars;
 
+		let filteredMarketStats = MarketsStore.getState().allMarketStats.filter(
+			(marketStat) => marketStat.price
+		);
+
 		if (!isFetchingMarketInfo && this.props.assets.size > 0) {
-			this.setState({ isFetchingMarketInfo: true });
+			this.setState({isFetchingMarketInfo: true});
 
 			let newBucketSize = 15;
 			if (resolution === '5m') newBucketSize = 15;
@@ -108,71 +113,87 @@ class AssetsPairTabs extends React.Component {
 				const quoteAsset = assetPair.quoteAsset;
 				const baseAsset = assetPair.baseAsset;
 
-				MarketsActions.unSubscribeMarket(
-					quoteAsset.get('id'),
-					baseAsset.get('id')
-				)
-					.then(() => {
-						MarketsActions.subscribeMarket(
-							baseAsset,
-							quoteAsset,
-							newBucketSize
-						).then(() => {
-							let bars = MarketsStore.getState().priceData;
+				let filter = filteredMarketStats.filter((stats) => {
+					const base = stats.price.base;
+					const quote = stats.price.quote;
 
-							const marketBarIndex = marketBars.findIndex(
-								(marketBar) =>
-									marketBar['quoteAssetId'] === quoteAsset.get('id') &&
-									marketBar['baseAssetId'] === baseAsset.get('id')
-							);
-							const newMarketBar = {
-								quoteAssetId: quoteAsset.get('id'),
-								baseAssetId: baseAsset.get('id'),
-								bars: bars.slice(-36),
-							};
+					if (
+						base.asset_id === baseAsset.get('id') &&
+						quote.asset_id === quoteAsset.get('id')
+					) {
+						return true;
+					}
+				});
 
-							if (marketBarIndex > -1) {
-								marketBars[marketBarIndex] = newMarketBar;
-							} else {
-								marketBars.push(newMarketBar);
-							}
+				if (filter.size > 0) {
+					MarketsActions.unSubscribeMarket(
+						quoteAsset.get('id'),
+						baseAsset.get('id')
+					)
+						.then(() => {
+							MarketsActions.subscribeMarket(
+								baseAsset,
+								quoteAsset,
+								newBucketSize
+							).then(() => {
+								let bars = MarketsStore.getState().priceData;
 
-							if (
-								index === assetPairs.length - 1 ||
-								index === assetPairs.length - 2
-							) {
-								const that = this;
-								setTimeout(() => {
-									that.setState({ isFetchingMarketInfo: false, marketBars });
-								}, 500);
-							} else {
-								this.setState({ marketBars });
-							}
+								const marketBarIndex = marketBars.findIndex(
+									(marketBar) =>
+										marketBar['quoteAssetId'] === quoteAsset.get('id') &&
+										marketBar['baseAssetId'] === baseAsset.get('id')
+								);
+								const newMarketBar = {
+									quoteAssetId: quoteAsset.get('id'),
+									baseAssetId: baseAsset.get('id'),
+									bars: bars.slice(-36),
+								};
+
+								if (marketBarIndex > -1) {
+									marketBars[marketBarIndex] = newMarketBar;
+								} else {
+									marketBars.push(newMarketBar);
+								}
+
+								if (
+									index === assetPairs.length - 1 ||
+									index === assetPairs.length - 2
+								) {
+									const that = this;
+									setTimeout(() => {
+										that.setState({isFetchingMarketInfo: false, marketBars});
+									}, 500);
+								} else {
+									this.setState({marketBars});
+								}
+							});
+						})
+						.catch((e) => {
+							this.setState({isFetchingMarketInfo: false, marketBars});
 						});
-					})
-					.catch((e) => {
-						this.setState({ isFetchingMarketInfo: false, marketBars });
-					});
+				} else {
+					this.setState({isFetchingMarketInfo: false, marketBars});
+				}
 			});
 		}
 	}
 
 	_onSearchChange(e) {
-		this.setState({ searchTerm: e.target.value.toLowerCase() });
+		this.setState({searchTerm: e.target.value.toLowerCase()});
 	}
 
 	_onDropDownChange(option, type) {
 		if (type === 'resolution') {
-			this.setState({ selectedResolution: option });
+			this.setState({selectedResolution: option});
 			this.onClickAsset(this.state.baseAssetSymbol, option);
 		} else if (type === 'asset-filter') {
-			this.setState({ selectedAsset: option });
+			this.setState({selectedAsset: option});
 		}
 	}
 
 	onClickAsset(newBaseAssetSymbol) {
-		const { assets, starredMarkets } = this.props;
-		const { selectedResolution, isFetchingMarketInfo, baseAssetSymbol } =
+		const {assets, starredMarkets} = this.props;
+		const {selectedResolution, isFetchingMarketInfo, baseAssetSymbol} =
 			this.state;
 		const assetPairs = [];
 
@@ -188,7 +209,7 @@ class AssetsPairTabs extends React.Component {
 
 				const quoteAsset = ChainStore.getAsset(quoteAssetId);
 				const baseAsset = ChainStore.getAsset(baseAssetId);
-				assetPairs.push({ quoteAsset, baseAsset });
+				assetPairs.push({quoteAsset, baseAsset});
 			});
 		} else if (baseAssetSymbol === newBaseAssetSymbol) {
 			assets.map((quoteAsset) => {
@@ -208,7 +229,7 @@ class AssetsPairTabs extends React.Component {
 
 			assets.map((asset) => {
 				const quoteAsset = ChainStore.getAsset(asset.id);
-				assetPairs.push({ quoteAsset, baseAsset });
+				assetPairs.push({quoteAsset, baseAsset});
 			});
 		}
 
@@ -217,9 +238,9 @@ class AssetsPairTabs extends React.Component {
 		}
 
 		if (baseAssetSymbol === newBaseAssetSymbol) {
-			this.setState({ baseAssetSymbol: '' });
+			this.setState({baseAssetSymbol: ''});
 		} else {
-			this.setState({ baseAssetSymbol: newBaseAssetSymbol });
+			this.setState({baseAssetSymbol: newBaseAssetSymbol});
 		}
 	}
 
@@ -270,8 +291,8 @@ class AssetsPairTabs extends React.Component {
 					return a.quoteAssetSymbol > b.quoteAssetSymbol
 						? 1
 						: a.quoteAssetSymbol < b.quoteAssetSymbol
-							? -1
-							: 0;
+						? -1
+						: 0;
 				},
 				render: (rowData, rateChange) => {
 					const quoteAssetSymbol = rowData.quoteAssetSymbol;
@@ -285,28 +306,17 @@ class AssetsPairTabs extends React.Component {
 								alignItems: 'center',
 							}}
 						>
-							<div style={{ marginRight: '5px', width: '30px' }}>
+							<div style={{marginRight: '5px', width: '30px'}}>
 								<img
 									className="asset-img"
 									src={getAssetIcon(quoteAssetSymbol)}
 									alt="Asset logo"
-									css={(theme) => ({
-										display: theme.mode === 'dark' ? 'unset' : 'none',
-										width: '24px',
-									})}
-								/>
-								<img
-									className="asset-img"
-									src={getAssetIcon(quoteAssetSymbol, 'light')}
-									alt="Asset logo"
-									css={(theme) => ({
-										display: theme.mode === 'light' ? 'unset' : 'none',
-									})}
+									css={(theme) => ({width: '24px'})}
 								/>
 							</div>
-							<div style={{ display: 'flex', flexDirection: 'column' }}>
+							<div style={{display: 'flex', flexDirection: 'column'}}>
 								<div
-									style={{ cursor: 'pointer', minWidth: '80px' }}
+									style={{cursor: 'pointer', minWidth: '80px'}}
 									onClick={() => {
 										SettingsActions.changeViewSetting({
 											currentSection: 'chart',
@@ -339,14 +349,14 @@ class AssetsPairTabs extends React.Component {
 												marginTop: '5px',
 											}}
 										>
-											<span style={{ display: 'none' }}>
+											<span style={{display: 'none'}}>
 												{
 													(classNameDiv =
 														rateChange.rateChange === '0.00'
 															? ''
 															: rateChange.rateChange > 0
-																? 'change-up'
-																: 'change-down')
+															? 'change-up'
+															: 'change-down')
 												}
 											</span>
 
@@ -354,11 +364,11 @@ class AssetsPairTabs extends React.Component {
 												<>
 													<CaretUpFilled
 														className={classNameDiv}
-														style={{ fontSize: '13px' }}
+														style={{fontSize: '13px'}}
 													/>
 													<span
 														className={classNameDiv}
-														style={{ fontSize: '13px' }}
+														style={{fontSize: '13px'}}
 													>{`+${rateChange.rateChange} %`}</span>
 												</>
 											)}
@@ -366,11 +376,11 @@ class AssetsPairTabs extends React.Component {
 												<>
 													<CaretDownFilled
 														className={classNameDiv}
-														style={{ fontSize: '13px' }}
+														style={{fontSize: '13px'}}
 													/>
 													<span
 														className={classNameDiv}
-														style={{ fontSize: '13px' }}
+														style={{fontSize: '13px'}}
 													>{`${rateChange.rateChange} %`}</span>
 												</>
 											)}
@@ -378,11 +388,11 @@ class AssetsPairTabs extends React.Component {
 												<>
 													<CaretRightFilled
 														className={classNameDiv}
-														style={{ fontSize: '13px' }}
+														style={{fontSize: '13px'}}
 													/>
 													<span
 														className={classNameDiv}
-														style={{ fontSize: '13px' }}
+														style={{fontSize: '13px'}}
 													>{`${rateChange.rateChange} %`}</span>
 												</>
 											)}
@@ -424,8 +434,8 @@ class AssetsPairTabs extends React.Component {
 					return Number(aPrice) > Number(bPrice)
 						? 1
 						: Number(aPrice) < Number(bPrice)
-							? -1
-							: 0;
+						? -1
+						: 0;
 				},
 				render: (price) => {
 					return (
@@ -451,7 +461,7 @@ class AssetsPairTabs extends React.Component {
 	_buildDataSource(assets) {
 		if (assets.size === 0) return [];
 
-		const { baseAssetSymbol, selectedAsset, searchTerm } = this.state;
+		const {baseAssetSymbol, selectedAsset, searchTerm} = this.state;
 		const _dataSource = [];
 
 		let filteredMarketStats = MarketsStore.getState().allMarketStats.filter(
@@ -511,23 +521,23 @@ class AssetsPairTabs extends React.Component {
 				stats && stats.price
 					? stats.price.toReal()
 					: stats &&
-						stats.close &&
-						stats.close.quote.amount &&
-						stats.close.base.amount
-						? utils.get_asset_price(
+					  stats.close &&
+					  stats.close.quote.amount &&
+					  stats.close.base.amount
+					? utils.get_asset_price(
 							stats.close.quote.amount,
 							quote,
 							stats.close.base.amount,
 							base,
 							true
-						)
-						: utils.get_asset_price(
+					  )
+					: utils.get_asset_price(
 							price.quote.amount,
 							quote,
 							price.base.amount,
 							base,
 							true
-						);
+					  );
 
 			let highPrecisionAssets = [
 				'BTC',
@@ -551,6 +561,14 @@ class AssetsPairTabs extends React.Component {
 				2
 			);
 
+			if (
+				!baseAssetSymbol ||
+				!quoteAssetSymbol ||
+				baseAssetSymbol === 'undefiend' ||
+				quoteAssetSymbol === 'undefiend'
+			)
+				return;
+
 			_dataSource.push({
 				quoteAssetSymbol,
 				baseAssetSymbol,
@@ -563,8 +581,8 @@ class AssetsPairTabs extends React.Component {
 	}
 
 	render() {
-		const { assets } = this.props;
-		const { baseAssetSymbol, isFetchingMarketInfo } = this.state;
+		const {assets} = this.props;
+		const {baseAssetSymbol, isFetchingMarketInfo} = this.state;
 		const canChangeBaseAsset = isFetchingMarketInfo ? 'disabled' : '';
 
 		const toggleBoxes = [];
@@ -588,12 +606,8 @@ class AssetsPairTabs extends React.Component {
 		const dataSource = this._buildDataSource(assets);
 
 		const LeftArrow = () => {
-			const {
-				isFirstItemVisible,
-				scrollPrev,
-				visibleElements,
-				initComplete
-			} = React.useContext(VisibilityContext);
+			const {isFirstItemVisible, scrollPrev, visibleElements, initComplete} =
+				React.useContext(VisibilityContext);
 
 			const [disabled, setDisabled] = React.useState(
 				!initComplete || (initComplete && isFirstItemVisible)
@@ -609,17 +623,17 @@ class AssetsPairTabs extends React.Component {
 					disabled={disabled}
 					onClick={() => scrollPrev()}
 					style={{
-						color: disabled ? 'grey' : '#ffc000'
-					}}>
+						color: disabled ? 'grey' : '#ffc000',
+					}}
+				>
 					<CaretLeftFilled />
 				</Button>
 			);
-		}
+		};
 
 		const RightArrow = () => {
-			const { isLastItemVisible, scrollNext, visibleElements } = React.useContext(
-				VisibilityContext
-			);
+			const {isLastItemVisible, scrollNext, visibleElements} =
+				React.useContext(VisibilityContext);
 
 			const [disabled, setDisabled] = React.useState(
 				!visibleElements.length && isLastItemVisible
@@ -635,20 +649,18 @@ class AssetsPairTabs extends React.Component {
 					disabled={disabled}
 					onClick={() => scrollNext()}
 					style={{
-						color: disabled ? 'grey' : '#ffc000'
-					}}>
+						color: disabled ? 'grey' : '#ffc000',
+					}}
+				>
 					<CaretRightFilled />
 				</Button>
 			);
-		}
+		};
 
 		return (
 			<>
 				<div className="asset-select">
-					<ScrollMenu
-						LeftArrow={LeftArrow}
-						RightArrow={RightArrow}
-					>
+					<ScrollMenu LeftArrow={LeftArrow} RightArrow={RightArrow}>
 						<div
 							className={
 								baseAssetSymbol === 'star'
@@ -667,7 +679,7 @@ class AssetsPairTabs extends React.Component {
 						<SearchInput
 							placeholder={counterpart.translate('markets.search')}
 							value={this.state.searchTerm}
-							style={{ width: '30%' }}
+							style={{width: '30%'}}
 							onChange={this._onSearchChange.bind(this)}
 						/>
 					</div>
@@ -675,7 +687,7 @@ class AssetsPairTabs extends React.Component {
 				<div className="asset-select">
 					<div className="table">
 						<Table
-							style={{ width: '100%', marginTop: '16px' }}
+							style={{width: '100%', marginTop: '16px'}}
 							rowKey="name"
 							columns={columns}
 							dataSource={dataSource}
@@ -713,6 +725,12 @@ export default connect(AssetsPairTabs, {
 			});
 		} else {
 			assets = AssetStore.getState().assets;
+
+			// temporal code
+			let asset_env_list = process.env.CRYPTOS_ARRAY.split(',');
+			assets = assets.filter((asset) => {
+				return asset_env_list.includes(asset.symbol);
+			});
 		}
 
 		return {

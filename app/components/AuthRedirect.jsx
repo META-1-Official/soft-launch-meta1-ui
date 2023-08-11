@@ -19,6 +19,7 @@ import kycService from 'services/kyc.service';
 import {Camera} from 'react-camera-pro';
 import {Button} from 'antd';
 import {toast} from 'react-toastify';
+import {getPublicCompressed} from '@toruslabs/eccrypto';
 
 const OvalImage = require('assets/oval/oval.png');
 const FlipImage = require('assets/flip.png');
@@ -41,6 +42,8 @@ const browserstack_test_accounts = [
 	'jin124',
 	'antman-kok357',
 	'user-x01',
+	'user-x01-1',
+	'user-x02',
 ];
 
 const errorCase = {
@@ -287,6 +290,8 @@ class AuthRedirect extends React.Component {
 					.post(process.env.LITE_WALLET_URL + '/login', {
 						accountName: accountName,
 						email: authData.email.toLowerCase(),
+						idToken: authData.web3Token,
+						appPubKey: authData.web3PubKey,
 					})
 					.then((response) => {
 						this.loadVideo(false);
@@ -324,9 +329,19 @@ class AuthRedirect extends React.Component {
 		try {
 			if (openLogin && openLogin.status === 'connected') {
 				const data = await openLogin.getUserInfo();
+				const key = await openLogin.provider.request({
+					method: 'private_key',
+				});
+
+				const app_pub_key = getPublicCompressed(
+					Buffer.from(key.padStart(64, '0'), 'hex')
+				).toString('hex');
+
+				data.web3Token = data.idToken;
+				data.web3PubKey = app_pub_key;
 
 				setAuthData(data);
-				setPrivKey('web3authprivatekey');
+				setPrivKey(key);
 				this.loadVideo(true);
 			} else {
 				this.props.history.push('/registration');
@@ -455,141 +470,144 @@ class AuthRedirect extends React.Component {
 		const {width, devices, activeDeviceId} = this.state;
 		const theme = this.props.theme;
 		const aspectRatio = 1.07;
-		const webCamWidth = width > 576 ? 500 : width - 70;
+		const webCamWidth = width > 576 ? 550 : width - 26;
 
 		return (
-			<React.Fragment>
+			<div className="no-margin grid-block registration">
 				{this.state.login && (
-					<Modal
-						open={true}
-						ref="modal"
-						overlay={false}
-						modalHeader="header.unlock_short"
-						leftHeader
-						zIndex={1001}
-						footer={null}
-						className="custom-auth-faceki"
-						closable={false}
-						maskClosable={false}
-					>
-						<h4>
-							{counterpart.translate('registration.authenticate_your_face')}
-						</h4>
-						<h5>
-							{counterpart.translate(
-								'registration.require_biometric_authentication'
-							)}
-						</h5>
-						{this.state.webcamEnabled && (
-							<div
-								className="webcam-wrapper"
-								style={{width: webCamWidth, height: webCamWidth / aspectRatio}}
-							>
-								<div className="flex-container">
-									<div className="flex-container-first">
-										<div className="position-head">
-											{counterpart.translate(
-												'registration.requiure_face_in_oval'
-											)}
+					<div className="horizontal align-center text-center">
+						<div className="create-account-block">
+							<div className="custom-auth-faceki">
+								<h4>
+									{counterpart.translate('registration.authenticate_your_face')}
+								</h4>
+								<h5>
+									{counterpart.translate(
+										'registration.require_biometric_authentication'
+									)}
+								</h5>
+								{this.state.webcamEnabled && (
+									<div
+										className="webcam-wrapper"
+										style={{
+											width: webCamWidth,
+											height: webCamWidth / aspectRatio,
+										}}
+									>
+										<div className="flex-container">
+											<div className="flex-container-first">
+												<div className="position-head">
+													{counterpart.translate(
+														'registration.requiure_face_in_oval'
+													)}
+												</div>
+											</div>
+											<button className="btn-x" onClick={this.handleModalClose}>
+												X
+											</button>
+										</div>
+										{this.state.numberOfCameras > 1 && (
+											<img
+												className="flip-button"
+												src={FlipImage}
+												onClick={() => {
+													if (this.webcamRef.current) {
+														const result =
+															this.webcamRef.current.switchCamera();
+													}
+												}}
+											/>
+										)}
+										<Camera
+											ref={this.webcamRef}
+											aspectRatio="cover"
+											numberOfCamerasCallback={(i) =>
+												this.setState({numberOfCameras: i})
+											}
+											videoSourceDeviceId={this.state.activeDeviceId}
+											errorMessages={{
+												noCameraAccessible:
+													'No camera device accessible. Please connect your camera or try a different browser.',
+												permissionDenied:
+													'Permission denied. Please refresh and give camera permission.',
+												switchCamera:
+													'It is not possible to switch camera to different one because there is only one video device accessible.',
+												canvas: 'Canvas is not supported.',
+											}}
+										/>
+										<img
+											src={OvalImage}
+											alt="oval-image"
+											className="oval-image"
+										/>
+										<div className="flex_container">
+											<span className="span-class">
+												{!this.state.faceKISuccess
+													? counterpart.translate(
+															'registration.require_verification'
+													  )
+													: counterpart.translate(
+															'registration.verification_success'
+													  )}
+											</span>
+											<div className="span-class">
+												{counterpart.translate(
+													'registration.require_min_camera_resolution'
+												)}
+											</div>
+											<div className="span-class">
+												{counterpart.translate(
+													'registration.verification_duration'
+												)}
+											</div>
 										</div>
 									</div>
-									<button className="btn-x" onClick={this.handleModalClose}>
-										X
-									</button>
-								</div>
-								{this.state.numberOfCameras > 1 && (
-									<img
-										className="flip-button"
-										src={FlipImage}
-										onClick={() => {
-											if (this.webcamRef.current) {
-												const result = this.webcamRef.current.switchCamera();
-											}
-										}}
-									/>
 								)}
-								<Camera
-									ref={this.webcamRef}
-									aspectRatio="cover"
-									numberOfCamerasCallback={(i) =>
-										this.setState({numberOfCameras: i})
-									}
-									videoSourceDeviceId={this.state.activeDeviceId}
-									errorMessages={{
-										noCameraAccessible:
-											'No camera device accessible. Please connect your camera or try a different browser.',
-										permissionDenied:
-											'Permission denied. Please refresh and give camera permission.',
-										switchCamera:
-											'It is not possible to switch camera to different one because there is only one video device accessible.',
-										canvas: 'Canvas is not supported.',
-									}}
-								/>
-								<img src={OvalImage} alt="oval-image" className="oval-image" />
-								<div className="flex_container">
-									<span className="span-class">
-										{!this.state.faceKISuccess
-											? counterpart.translate(
-													'registration.require_verification'
-											  )
-											: counterpart.translate(
-													'registration.verification_success'
-											  )}
-									</span>
-									<div className="span-class">
-										{counterpart.translate(
-											'registration.require_min_camera_resolution'
-										)}
+								{devices.length !== 0 && activeDeviceId !== '' && (
+									<div style={{width: webCamWidth}}>
+										<Select
+											value={activeDeviceId}
+											onChange={(value) => {
+												let errMsgEle =
+													document.getElementById('video').previousSibling;
+												errMsgEle && errMsgEle.remove();
+												this.setState({activeDeviceId: value});
+											}}
+											getPopupContainer={(triggerNode) =>
+												triggerNode.parentNode
+											}
+										>
+											{devices.map((d) => {
+												return (
+													<Select.Option key={d.deviceId} value={d.deviceId}>
+														{d.label}
+													</Select.Option>
+												);
+											})}
+										</Select>
 									</div>
-									<div className="span-class">
-										{counterpart.translate(
-											'registration.verification_duration'
-										)}
-									</div>
+								)}
+								<div className="button-wrapper">
+									<Button
+										onClick={() => this.checkAndVerify()}
+										disabled={
+											this.state.verifying
+												? true
+												: this.state.faceKISuccess
+												? true
+												: false
+										}
+									>
+										{this.state.verifying
+											? counterpart.translate('registration.faceki_verifying')
+											: counterpart.translate('registration.faceki_verify')}
+									</Button>
 								</div>
 							</div>
-						)}
-						{devices.length !== 0 && activeDeviceId !== '' && (
-							<div style={{width: webCamWidth}}>
-								<Select
-									value={activeDeviceId}
-									onChange={(value) => {
-										let errMsgEle =
-											document.getElementById('video').previousSibling;
-										errMsgEle && errMsgEle.remove();
-										this.setState({activeDeviceId: value});
-									}}
-									getPopupContainer={(triggerNode) => triggerNode.parentNode}
-								>
-									{devices.map((d) => {
-										return (
-											<Select.Option key={d.deviceId} value={d.deviceId}>
-												{d.label}
-											</Select.Option>
-										);
-									})}
-								</Select>
-							</div>
-						)}
-						<div className="button-wrapper">
-							<Button
-								onClick={() => this.checkAndVerify()}
-								disabled={
-									this.state.verifying
-										? true
-										: this.state.faceKISuccess
-										? true
-										: false
-								}
-							>
-								{this.state.verifying
-									? counterpart.translate('registration.faceki_verifying')
-									: counterpart.translate('registration.faceki_verify')}
-							</Button>
 						</div>
-					</Modal>
+					</div>
 				)}
-			</React.Fragment>
+			</div>
 		);
 	}
 }
