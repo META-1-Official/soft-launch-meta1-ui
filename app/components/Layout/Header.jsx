@@ -524,7 +524,7 @@ class Header extends React.Component {
 					key="submenu"
 					popupClassName="advanced-submenu"
 					title={<Translate content="account.advanced" />}
-					disabled={!currentAccount}
+					disabled={!currentAccount || this.props.locked_v2}
 					popupOffset={[0, 0]}
 					className={this.props.locked_v2 ? 'disable-li-text' : ''}
 				>
