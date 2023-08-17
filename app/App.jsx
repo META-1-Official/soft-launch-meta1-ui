@@ -447,18 +447,46 @@ class App extends React.Component {
 	_onSetupWebSocket(accountName) {
 		if (this.ws) return;
 		try {
-			this.ws = new WebSocket(
+			const webSocketFactory = {
+				connectionTries: 5,
+				connect: function (url) {
+					let ws = new WebSocket(url);
+					ws.onerror = (error) => {
+						console.log('websocket error', error);
+					};
+					ws.onopen = () => {
+						console.log('setup notification websocket');
+						webSocketFactory.connectionTries = 5;
+					};
+					return ws;
+				},
+			};
+
+			this.ws = new webSocketFactory.connect(
 				`${process.env.NOTIFICATION_WS_URL}?account=${accountName}`
 			);
+			this.ws.onclose = (event) => {
+				if (event.code > 1001) {
+					webSocketFactory.connectionTries =
+						webSocketFactory.connectionTries - 1;
+
+					if (webSocketFactory.connectionTries > 0) {
+						this.ws = null;
+						setTimeout(() => this._onSetupWebSocket(accountName), 5000);
+					} else {
+						throw new Error(
+							'Maximum number of connection trials has been reached'
+						);
+					}
+				}
+			};
+
 			this.ws.onmessage = (message) => {
 				console.log('notification arrived', message);
 				if (message && message.data) {
 					const content = JSON.parse(message.data).content;
 					toast(content);
 				}
-			};
-			this.ws.onopen = () => {
-				console.log('setup notification websocket');
 			};
 		} catch (e) {
 			console.log('notification connection error', e);
