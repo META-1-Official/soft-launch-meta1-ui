@@ -1,8 +1,8 @@
 import BaseStore from './BaseStore';
 import alt from 'alt-instance';
-import {Web3AuthNoModal} from '@web3auth/no-modal';
-import {CHAIN_NAMESPACES} from '@web3auth/base';
-import {OpenloginAdapter} from '@web3auth/openlogin-adapter';
+import { Web3AuthNoModal } from '@web3auth/no-modal';
+import { CHAIN_NAMESPACES } from '@web3auth/base';
+import { OpenloginAdapter } from '@web3auth/openlogin-adapter';
 import SettingsStore from 'stores/SettingsStore';
 
 class AuthStore extends BaseStore {
@@ -35,23 +35,23 @@ class AuthStore extends BaseStore {
 	}
 
 	setLoading(isLoading) {
-		this.setState({isLoading});
+		this.setState({ isLoading });
 	}
 
 	setPrivKey(privKey) {
-		this.setState({privKey});
+		this.setState({ privKey });
 	}
 
 	setAuthData(authData) {
-		this.setState({authData});
+		this.setState({ authData });
 	}
 
 	setError(error) {
-		this.setState({error});
+		this.setState({ error });
 	}
 
 	setAccountName(accountName) {
-		this.setState({accountName});
+		this.setState({ accountName });
 	}
 
 	async setOpenLoginInstance() {
@@ -78,15 +78,18 @@ class AuthStore extends BaseStore {
 				web3AuthNetwork: process.env.TORUS_NETWORK,
 				chainConfig: {
 					chainNamespace: CHAIN_NAMESPACES.EIP155,
-					rpcTarget: 'https://rpc.ankr.com/eth',
-					chainId: '0x1',
+					chainId: "0x1",
+					rpcTarget: "https://rpc.ankr.com/eth",
+					blockExplorer: "https://goerli.etherscan.io",
+					ticker: "ETH",
+					tickerName: "Ethereum",
 				},
 			});
 
 			openLogin.configureAdapter(openloginAdapter);
 			await openLogin.init();
 
-			this.setState({openLogin, isLoading: false, error: ''});
+			this.setState({ openLogin, isLoading: false, error: '' });
 		} catch (error) {
 			this.setState({
 				openLogin: null,
