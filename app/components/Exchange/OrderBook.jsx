@@ -110,8 +110,6 @@ class OrderBookRow extends React.Component {
 						<td
 							style={{
 								color: '#009D55',
-								textAlign: 'left',
-								paddingRight: '10px',
 							}}
 						>
 							<Tooltip
@@ -128,8 +126,9 @@ class OrderBookRow extends React.Component {
 						</td>
 						<td
 							style={{
-								paddingLeft: '10px',
 								textAlign: 'center',
+								addingLeft: '10px',
+								paddingRight: '10px',
 							}}
 							className="table-body-class"
 						>
@@ -142,12 +141,7 @@ class OrderBookRow extends React.Component {
 								</div>
 							</Tooltip>
 						</td>
-						<td
-							style={{
-								textAlign: 'right',
-								paddingRight: '10px',
-							}}
-						>
+						<td>
 							<Tooltip
 								title={
 									`${translator.translate('exchange.total')}: ` +
@@ -171,8 +165,6 @@ class OrderBookRow extends React.Component {
 						<td
 							style={{
 								color: '#FF2929',
-								paddingRight: '10px',
-								textAlign: 'left',
 							}}
 						>
 							<Tooltip
@@ -188,7 +180,11 @@ class OrderBookRow extends React.Component {
 							</Tooltip>
 						</td>
 						<td
-							style={{textAlign: 'center', paddingLeft: '10px'}}
+							style={{
+								textAlign: 'center',
+								paddingLeft: '10px',
+								paddingRight: '10px',
+							}}
 							className="table-body-class"
 						>
 							<Tooltip
@@ -200,12 +196,7 @@ class OrderBookRow extends React.Component {
 								</div>
 							</Tooltip>
 						</td>
-						<td
-							style={{
-								textAlign: 'right',
-								paddingRight: '10px',
-							}}
-						>
+						<td>
 							<Tooltip
 								title={
 									`${translator.translate('exchange.total')}: ` +
