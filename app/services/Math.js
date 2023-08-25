@@ -23,6 +23,10 @@ export const ceilFloat = (floatVal, precision) => {
 
 export const floorFloat = (floatVal, precision) => {
 	precision = Math.pow(10, precision);
+	console.log(
+		'@@@@@@',
+		(Math.floor(floatVal * precision) / precision).toFixed(6)
+	);
 	return Math.floor(floatVal * precision) / precision;
 };
 

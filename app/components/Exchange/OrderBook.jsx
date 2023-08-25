@@ -6,6 +6,7 @@ import Translate from 'react-translate-component';
 import PropTypes from 'prop-types';
 import Ps from 'perfect-scrollbar';
 import utils from 'common/utils';
+import {floorFloat} from 'services/Math';
 import PriceText from '../Utility/PriceText';
 import TransitionWrapper from '../Utility/TransitionWrapper';
 import AssetName from '../Utility/AssetName';
@@ -137,7 +138,7 @@ class OrderBookRow extends React.Component {
 								placement="left"
 							>
 								<div className="overflow-hidden">
-									{utils.format_number_digits(amount, 6)}
+									{floorFloat(amount, 6).toFixed(6)}
 								</div>
 							</Tooltip>
 						</td>
@@ -192,7 +193,7 @@ class OrderBookRow extends React.Component {
 								placement="left"
 							>
 								<div className="overflow-hidden">
-									{utils.format_number_digits(amount, 6)}
+									{floorFloat(amount, 6).toFixed(6)}
 								</div>
 							</Tooltip>
 						</td>
