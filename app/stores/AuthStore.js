@@ -1,9 +1,10 @@
 import BaseStore from './BaseStore';
 import alt from 'alt-instance';
-import { Web3AuthNoModal } from '@web3auth/no-modal';
-import { CHAIN_NAMESPACES } from '@web3auth/base';
-import { OpenloginAdapter } from '@web3auth/openlogin-adapter';
+import {Web3AuthNoModal} from '@web3auth/no-modal';
+import {CHAIN_NAMESPACES} from '@web3auth/base';
+import {OpenloginAdapter} from '@web3auth/openlogin-adapter';
 import SettingsStore from 'stores/SettingsStore';
+import {EthereumPrivateKeyProvider} from '@web3auth/ethereum-provider';
 
 class AuthStore extends BaseStore {
 	constructor() {
@@ -35,28 +36,41 @@ class AuthStore extends BaseStore {
 	}
 
 	setLoading(isLoading) {
-		this.setState({ isLoading });
+		this.setState({isLoading});
 	}
 
 	setPrivKey(privKey) {
-		this.setState({ privKey });
+		this.setState({privKey});
 	}
 
 	setAuthData(authData) {
-		this.setState({ authData });
+		this.setState({authData});
 	}
 
 	setError(error) {
-		this.setState({ error });
+		this.setState({error});
 	}
 
 	setAccountName(accountName) {
-		this.setState({ accountName });
+		this.setState({accountName});
 	}
 
 	async setOpenLoginInstance() {
 		const theme = SettingsStore.getState().settings.get('themes');
+		const chainConfig = {
+			chainNamespace: CHAIN_NAMESPACES.EIP155,
+			chainId: '0x1',
+			rpcTarget: 'https://rpc.ankr.com/eth',
+			blockExplorer: 'https://goerli.etherscan.io',
+			ticker: 'ETH',
+			tickerName: 'Ethereum',
+		};
+
 		try {
+			const privateKeyProvider = new EthereumPrivateKeyProvider({
+				config: {chainConfig},
+			});
+
 			const openloginAdapter = new OpenloginAdapter({
 				adapterSettings: {
 					uxMode: 'redirect',
@@ -71,25 +85,19 @@ class AuthStore extends BaseStore {
 							'https://pbs.twimg.com/profile_images/980143928769839105/hK3RnAff_400x400.jpg',
 					},
 				},
+				privateKeyProvider,
 			});
 
 			const openLogin = new Web3AuthNoModal({
 				clientId: process.env.TORUS_PROJECT_ID,
 				web3AuthNetwork: process.env.TORUS_NETWORK,
-				chainConfig: {
-					chainNamespace: CHAIN_NAMESPACES.EIP155,
-					chainId: "0x1",
-					rpcTarget: "https://rpc.ankr.com/eth",
-					blockExplorer: "https://goerli.etherscan.io",
-					ticker: "ETH",
-					tickerName: "Ethereum",
-				},
+				chainConfig,
 			});
 
 			openLogin.configureAdapter(openloginAdapter);
 			await openLogin.init();
 
-			this.setState({ openLogin, isLoading: false, error: '' });
+			this.setState({openLogin, isLoading: false, error: ''});
 		} catch (error) {
 			this.setState({
 				openLogin: null,

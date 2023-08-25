@@ -330,7 +330,7 @@ class AuthRedirect extends React.Component {
 			if (openLogin && openLogin.status === 'connected') {
 				const data = await openLogin.getUserInfo();
 				const key = await openLogin.provider.request({
-					method: 'private_key',
+					method: 'eth_private_key',
 				});
 
 				const app_pub_key = getPublicCompressed(
