@@ -2207,16 +2207,16 @@ form.hide-container {
 		content: '';
 		display: inline-block;
 
-		height: 24px;
-		width: 24px;
+		height: 15px;
+		width: 15px;
 
-		border: 1px solid;
+		border: 1px solid gray;
 	}
 
 	.checkbox label::after {
 		display: inline-block;
-		height: 24px;
-		width: 24px;
+		height: 15px;
+		width: 15px;
 		background: #ffc000;
 	}
 
@@ -2226,8 +2226,8 @@ form.hide-container {
 	.checkbox label::before,
 	.checkbox label::after {
 		position: absolute;
-		left: -30px;
-		top: 0px;
+		left: -20px;
+		top: 3px;
 	}
 
 	.checkbox input[type='checkbox'] + label::after {
