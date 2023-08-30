@@ -138,7 +138,7 @@ class MarketsOrderView extends React.Component {
 									);
 								}}
 							/>
-							<Table.Column
+							{/*<Table.Column
 								dataIndex="total"
 								title={
 									<div className="market-order-table-text-header">
@@ -159,7 +159,7 @@ class MarketsOrderView extends React.Component {
 										</div>
 									);
 								}}
-							/>
+							/>*/}
 
 							<Table.Column
 								dataIndex="orderId"
