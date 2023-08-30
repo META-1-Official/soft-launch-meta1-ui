@@ -388,63 +388,64 @@ class MarketHistory extends React.Component {
 				})
 				.toArray();
 
-			let limitOrderCreates = myHistory
-				.filter((a) => {
-					let opType = a.getIn(['op', 0]);
-					return opType === operations.limit_order_create;
-				})
-				.filter((a) => {
-					let quoteID = quote.get('id');
-					let baseID = base.get('id');
-					let pays = a.getIn(['op', 1, 'amount_to_sell', 'asset_id']);
-					let receives = a.getIn(['op', 1, 'min_to_receive', 'asset_id']);
-					let hasQuote = quoteID === pays || quoteID === receives;
-					let hasBase = baseID === pays || baseID === receives;
-					return hasQuote && hasBase;
-				})
-				.sort((a, b) => {
-					return b.get('block_num') - a.get('block_num');
-				})
-				.map((a) => {
-					let for_sale = a.getIn(['op', 1, 'amount_to_sell']).toObject();
-					let to_receive = a.getIn(['op', 1, 'min_to_receive']).toObject();
+			/*-- Get it from _getOrders() later --*/
+			// let limitOrderCreates = myHistory
+			// 	.filter((a) => {
+			// 		let opType = a.getIn(['op', 0]);
+			// 		return opType === operations.limit_order_create;
+			// 	})
+			// 	.filter((a) => {
+			// 		let quoteID = quote.get('id');
+			// 		let baseID = base.get('id');
+			// 		let pays = a.getIn(['op', 1, 'amount_to_sell', 'asset_id']);
+			// 		let receives = a.getIn(['op', 1, 'min_to_receive', 'asset_id']);
+			// 		let hasQuote = quoteID === pays || quoteID === receives;
+			// 		let hasBase = baseID === pays || baseID === receives;
+			// 		return hasQuote && hasBase;
+			// 	})
+			// 	.sort((a, b) => {
+			// 		return b.get('block_num') - a.get('block_num');
+			// 	})
+			// 	.map((a) => {
+			// 		let for_sale = a.getIn(['op', 1, 'amount_to_sell']).toObject();
+			// 		let to_receive = a.getIn(['op', 1, 'min_to_receive']).toObject();
 
-					const isBid = to_receive.asset_id === quote.get('id');
+			// 		const isBid = to_receive.asset_id === quote.get('id');
 
-					const receiveAmount =
-						(isBid ? for_sale.amount : to_receive.amount) /
-						Math.pow(10, base.toObject().precision);
+			// 		const receiveAmount =
+			// 			(isBid ? for_sale.amount : to_receive.amount) /
+			// 			Math.pow(10, base.toObject().precision);
 
-					const payAmount =
-						(!isBid ? for_sale.amount : to_receive.amount) /
-						Math.pow(10, quote.toObject().precision);
+			// 		const payAmount =
+			// 			(!isBid ? for_sale.amount : to_receive.amount) /
+			// 			Math.pow(10, quote.toObject().precision);
 
-					const price = (receiveAmount / payAmount).toFixed(8);
-					const total = (parseFloat(receiveAmount) * price).toFixed(8);
+			// 		const price = (receiveAmount / payAmount).toFixed(8);
+			// 		const total = (parseFloat(receiveAmount) * price).toFixed(8);
 
-					return {
-						orderId: a.toObject().id,
-						type: {
-							isBid: isBid,
-						},
-						pair: {
-							baseSymbol: base?._root?.entries[1][1],
-							quoteSymbol: quote?._root?.entries[1][1],
-						},
-						amount: {
-							payAmount,
-							receiveAmount,
-						},
-						price,
-						total: {
-							total: total,
-							baseSymbol: base?._root?.entries[1][1],
-							quoteSymbol: quote?._root?.entries[1][1],
-						},
-					};
-				})
-				.toArray();
-			rows = rows.concat(limitOrderCreates);
+			// 		return {
+			// 			orderId: a.toObject().id,
+			// 			type: {
+			// 				isBid: isBid,
+			// 			},
+			// 			pair: {
+			// 				baseSymbol: base?._root?.entries[1][1],
+			// 				quoteSymbol: quote?._root?.entries[1][1],
+			// 			},
+			// 			amount: {
+			// 				payAmount,
+			// 				receiveAmount,
+			// 			},
+			// 			price,
+			// 			total: {
+			// 				total: total,
+			// 				baseSymbol: base?._root?.entries[1][1],
+			// 				quoteSymbol: quote?._root?.entries[1][1],
+			// 			},
+			// 		};
+			// 	})
+			// 	.toArray();
+			// rows = rows.concat(limitOrderCreates);
 		} else if (activeTab === 'history' && history && history.size) {
 			// Market History
 			rows = this.props.history
