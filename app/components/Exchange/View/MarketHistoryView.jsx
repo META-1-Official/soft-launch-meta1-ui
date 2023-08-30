@@ -181,7 +181,7 @@ class MarketHistoryView extends React.Component {
 								);
 							}}
 						/>
-						<Table.Column
+						{/*<Table.Column
 							dataIndex="total"
 							title={
 								<div className="market-order-table-text-header">
@@ -197,7 +197,7 @@ class MarketHistoryView extends React.Component {
 									</Tooltip>
 								);
 							}}
-						/>
+						/>*/}
 					</Table>
 				</div>
 			</>
