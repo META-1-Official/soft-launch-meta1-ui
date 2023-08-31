@@ -502,7 +502,7 @@ class AccountRegistrationConfirm extends React.Component {
 							&nbsp;
 							<a
 								target="__blank"
-								href="https://support.meta1coin.vision/password-storage-tips"
+								href="https://support.meta1coin.vision/hc/en-us/articles/11552911024027-Passkey-Storage-Tips"
 							>
 								{counterpart.translate('registration.click_here')}
 							</a>
@@ -634,7 +634,7 @@ class AccountRegistrationConfirm extends React.Component {
 						{counterpart.translate('registration.important_message_info')}&nbsp;
 						<a
 							target="__blank"
-							href="https://support.meta1coin.vision/password-storage-tips"
+							href="https://support.meta1coin.vision/hc/en-us/articles/11552911024027-Passkey-Storage-Tips"
 						>
 							{counterpart.translate('registration.click_here')}
 						</a>
