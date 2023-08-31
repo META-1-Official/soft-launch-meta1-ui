@@ -120,7 +120,10 @@ const MarketOrderForm = (props) => {
 	const getMarketPriceWithAmount = (amount) => {
 		let _marketPrice = props.price;
 		const quoteAssetSymbol = props.quoteAsset.get('symbol');
+		const quoteAssetPrecision = props.quoteAsset.get('precision');
 		const baseAssetSymbol = props.baseAsset.get('symbol');
+		const baseAssetPrecision = props.baseAsset.get('precision');
+		const minAssetPrecision = Math.min(quoteAssetPrecision, baseAssetPrecision);
 		const isTradingMETA1 = quoteAssetSymbol === 'META1' || baseAssetSymbol === 'META1';
 
 		if (amount) {
@@ -154,10 +157,14 @@ const MarketOrderForm = (props) => {
 
 		if (_marketPrice) {
 			if (isTradingMETA1) {
-				return props.backingAssetPolarity ? ceilFloat(_marketPrice, 5) : floorFloat(_marketPrice, 5);
+				return props.backingAssetPolarity
+					? ceilFloat(_marketPrice, minAssetPrecision)
+					: floorFloat(_marketPrice, minAssetPrecision);
 			}
 
-			return isBid ? ceilFloat(_marketPrice, 5) : floorFloat(_marketPrice, 5);
+			return isBid
+				? ceilFloat(_marketPrice, minAssetPrecision)
+				: floorFloat(_marketPrice, minAssetPrecision);
 		} else {
 			return 0;
 		}
@@ -211,12 +218,6 @@ const MarketOrderForm = (props) => {
 
 		const sellAmount = () => {
 			let scaledAmount = amount * price;
-
-			console.log(
-				'PRE',
-				scaledAmount,
-				Math.pow(10, sellAsset.get('precision'))
-			);
 			return isBid
 				? Number(scaledAmount) * Math.pow(10, sellAsset.get('precision'))
 				: Number(amount) * Math.pow(10, sellAsset.get('precision'));

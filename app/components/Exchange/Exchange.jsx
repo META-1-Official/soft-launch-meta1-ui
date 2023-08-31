@@ -482,15 +482,15 @@ class Exchange extends React.Component {
 			}
 
 			// Debug - can be deleted later
-			console.log(
-				'@10 - ',
-				baseAssetSymbol,
-				baseAssetPrecision,
-				quoteAssetSymbol,
-				quoteAssetPrecision,
-				backingAssetValue,
-				backingAssetPolarity
-			);
+			// console.log(
+			// 	'@10 - ',
+			// 	baseAssetSymbol,
+			// 	baseAssetPrecision,
+			// 	quoteAssetSymbol,
+			// 	quoteAssetPrecision,
+			// 	backingAssetValue,
+			// 	backingAssetPolarity
+			// );
 
 			// Filter pricings below the backingAssetValue
 			if (isTradingMETA1) {
