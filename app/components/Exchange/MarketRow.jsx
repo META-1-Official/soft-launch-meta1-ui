@@ -222,6 +222,7 @@ class MarketRow extends React.Component {
 										style={{fontWeight: 'bold'}}
 										amount={parseInt(dynamic_data.get('current_supply'), 10)}
 										asset={quote.get('id')}
+										cutZero={true}
 									/>
 								) : null}
 							</td>
@@ -241,6 +242,7 @@ class MarketRow extends React.Component {
 											10
 										)}
 										asset={base.get('id')}
+										cutZero={true}
 									/>
 								) : null}
 							</td>

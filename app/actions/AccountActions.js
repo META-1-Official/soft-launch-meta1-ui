@@ -20,7 +20,7 @@ class AccountActions {
 	 *  Account search results are not managed by the ChainStore cache so are
 	 *  tracked as part of the AccountStore.
 	 */
-	accountSearch(start_symbol, limit = 50) {
+	accountSearch(start_symbol = '', limit = 50) {
 		let uid = `${start_symbol}_${limit}}`;
 		return (dispatch) => {
 			if (!accountSearch[uid]) {

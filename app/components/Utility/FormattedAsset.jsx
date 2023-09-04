@@ -87,6 +87,7 @@ class FormattedAsset extends React.Component {
 			asPercentage,
 			pulsate,
 			fixed6Digits,
+			cutZero,
 		} = this.props;
 
 		if (amount === undefined || amount == null) return null; // still loading
@@ -145,10 +146,10 @@ class FormattedAsset extends React.Component {
 					<FormattedNumber
 						value={value}
 						minimumFractionDigits={
-							fixed6Digits === false ? Math.max(decimals, 0) : 6
+							fixed6Digits === false ? Math.max(decimals, 0) : cutZero ? 0 : 6
 						}
 						maximumFractionDigits={
-							fixed6Digits === false ? Math.max(decimals, 0) : 6
+							fixed6Digits === false ? Math.max(decimals, 0) : cutZero ? 0 : 6
 						}
 					/>
 				);
