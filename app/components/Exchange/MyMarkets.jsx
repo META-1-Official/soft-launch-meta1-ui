@@ -792,9 +792,9 @@ class MyMarkets extends React.Component {
 			minWidth: this.state.minWidth,
 			minHeight: '6rem',
 		};
-		if (listHeight) {
-			listStyle.height = listHeight;
-		}
+		// if (listHeight) {
+		// 	listStyle.height = listHeight;
+		// }
 
 		const translator = require('counterpart');
 

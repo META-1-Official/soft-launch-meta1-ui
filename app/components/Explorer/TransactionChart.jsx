@@ -13,7 +13,6 @@ class TransactionChart extends React.Component {
 			let series = chart.series[0];
 			let finalValue = series.xData[series.xData.length - 1];
 
-			// console.log("chart:", chart, "series:", series.data, "finalValue:", finalValue);
 			if (series.xData.length) {
 				trxData.forEach((point) => {
 					if (point[0] > finalValue) {
@@ -53,7 +52,6 @@ class TransactionChart extends React.Component {
 			.toArray();
 
 		let colors = trxData.map((entry) => {
-			// console.log("entry:", entry);
 			if (entry[1] <= 5) {
 				return '#009D55';
 			} else if (entry[1] <= 10) {

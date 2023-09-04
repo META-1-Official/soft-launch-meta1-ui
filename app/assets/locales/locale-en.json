@@ -617,7 +617,7 @@
 		},
 		"atr": "Average True Range",
 		"balance": "Balance",
-		"base_supply": "Base supply",
+		"base_supply": "Current supply",
 		"bids": "Buy orders",
 		"borrow": "Borrow",
 		"borrow_short": "Borrow",
