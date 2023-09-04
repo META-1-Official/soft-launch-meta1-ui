@@ -375,7 +375,7 @@ class App extends React.Component {
 				.then((res) => {
 					if (res.data.accountName !== accountName) {
 						toast('user token is invalid');
-						WalletUnlockActions.lock_v2().finally(() => {
+						WalletUnlockActions.lock_v2().then(() => {
 							const isIncludes =
 								this.props.history?.location?.pathname.includes('explorer');
 							if (!isIncludes) {

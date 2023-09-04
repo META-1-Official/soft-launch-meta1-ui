@@ -259,7 +259,7 @@ class Header extends React.Component {
 		} else {
 			WalletUnlockActions.lock_v2()
 				.then(() => {
-					this._onNavigate('/market/META1_USDT', this, true);
+					window.location.href = '/market/META1_USDT';
 				})
 				.catch(() => {});
 		}

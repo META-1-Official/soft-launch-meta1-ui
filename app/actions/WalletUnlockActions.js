@@ -1,5 +1,6 @@
 import alt from 'alt-instance';
 import ls from 'lib/common/localStorage';
+import AccountActions from './AccountActions';
 
 const ls_auth = new ls('__AuthData__');
 const ls_graphene = new ls('__graphene__');
