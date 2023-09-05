@@ -623,6 +623,9 @@ div.registration {
 		border: 1px solid #262a32;
 		border-radius: 50%;
 		margin-right: 10px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 
 	.flip-button {
