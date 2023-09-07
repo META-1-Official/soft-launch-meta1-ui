@@ -212,6 +212,7 @@ class Assets extends React.Component {
 								amount={record.currentSupply}
 								asset={record.assetId}
 								hide_asset={true}
+								cutZero={true}
 							/>
 						);
 					},
