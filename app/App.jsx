@@ -45,6 +45,7 @@ import ls from './lib/common/localStorage';
 const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
 const ss_graphene = new ls('__graphene__');
+const ss_notification = new ls('__notification__');
 
 // for the cache purpose
 import AppStore from './assets/app-store.png';
@@ -486,6 +487,22 @@ class App extends React.Component {
 				if (message && message.data) {
 					const content = JSON.parse(message.data).content;
 					toast(content);
+
+					let unreadNotifications = [];
+
+					if (ss_notification.get('notifications', ''))
+						unreadNotifications = JSON.parse(
+							ss_notification.get('notifications', '')
+						);
+					const notificationId = JSON.parse(message.data).id;
+
+					if (unreadNotifications.indexOf(notificationId) < 0)
+						unreadNotifications.push(notificationId);
+
+					ss_notification.set(
+						'notifications',
+						JSON.stringify(unreadNotifications)
+					);
 				}
 			};
 		} catch (e) {
