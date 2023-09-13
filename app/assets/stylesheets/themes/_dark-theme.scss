@@ -297,11 +297,14 @@ $explorer-tab-checkbox-color: rgba(194, 213, 225, 0.08);
 	}
 
 	//transaction-history table
-
 	.transaction-table {
 		.transaction-history-table {
 			.ant-table-wrapper {
 				.ant-table {
+					table tbody td {
+						color: white;
+					}
+
 					@media screen and (max-width: 800px) {
 						table thead th {
 							background-color: $account-header;
