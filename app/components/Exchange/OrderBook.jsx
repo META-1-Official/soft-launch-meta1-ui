@@ -72,12 +72,19 @@ const toFixed = (x) => {
 
 class OrderBookRow extends React.Component {
 	shouldComponentUpdate(np) {
+		const npForSale = np.order.totalToReceive({noCache: true});
+		const npToReceive = npForSale.times(np.order.sellPrice());
+		const currentForSale = this.props.order.totalToReceive({noCache: true});
+		const currentToReceive = currentForSale.times(this.props.order.sellPrice());
+
 		return (
 			np.order.ne(this.props.order) ||
 			np.position !== this.props.position ||
 			np.index !== this.props.index ||
 			np.currentAccount !== this.props.currentAccount ||
-			np.quoteTotal !== this.props.quoteTotal
+			np.quoteTotal !== this.props.quoteTotal ||
+			npForSale !== currentForSale ||
+			npToReceive !== currentToReceive
 		);
 	}
 
@@ -435,7 +442,7 @@ class OrderBook extends React.Component {
 						index={index}
 						key={order.getPrice() + (order.isCall() ? '_call' : '')}
 						order={order}
-						onClick={this.props.onClick.bind(this, order)}
+						onClick={() => this.props.onClick(order)}
 						base={base}
 						quote={quote}
 						type={order.type}
