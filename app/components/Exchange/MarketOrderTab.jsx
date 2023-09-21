@@ -123,7 +123,7 @@ const MarketOrderForm = (props) => {
 		const quoteAssetPrecision = props.quoteAsset.get('precision');
 		const baseAssetSymbol = props.baseAsset.get('symbol');
 		const baseAssetPrecision = props.baseAsset.get('precision');
-		const minAssetPrecision = Math.min(quoteAssetPrecision, baseAssetPrecision);
+		// const minAssetPrecision = Math.min(quoteAssetPrecision, baseAssetPrecision);
 		const isTradingMETA1 = quoteAssetSymbol === 'META1' || baseAssetSymbol === 'META1';
 
 		if (amount) {
@@ -158,13 +158,13 @@ const MarketOrderForm = (props) => {
 		if (_marketPrice) {
 			if (isTradingMETA1) {
 				return props.backingAssetPolarity
-					? ceilFloat(_marketPrice, minAssetPrecision)
-					: floorFloat(_marketPrice, minAssetPrecision);
+					? ceilFloat(_marketPrice, baseAssetPrecision)
+					: floorFloat(_marketPrice, baseAssetPrecision);
 			}
 
 			return isBid
-				? ceilFloat(_marketPrice, minAssetPrecision)
-				: floorFloat(_marketPrice, minAssetPrecision);
+				? ceilFloat(_marketPrice, baseAssetPrecision)
+				: floorFloat(_marketPrice, baseAssetPrecision);
 		} else {
 			return 0;
 		}
@@ -230,12 +230,19 @@ const MarketOrderForm = (props) => {
 				: Number(amount) * Math.pow(10, buyAsset.get('precision'));
 		};
 
+		// console.log("@111 - 0 price: ", price, 'amount:', amount)
+		// console.log("@111 - 1 sellAsset symbol", sellAsset.get('symbol'), "buyAsset symbol:", sellAsset.get('precision'))
+		// console.log("@111 - 2 buyAsset symbol", buyAsset.get('symbol'), "buyAsset symbol", buyAsset.get('precision'))
+
 		// *** Fix tiny amount issue (precision issue) *** //
 		const estSellAmount = floorFloat(sellAmount(), 0);
 		const estBuyAmount = floorFloat(buyAmount(), 0);
 		let _sellAmount = estSellAmount;
 		let estPrice;
 		let delta = 0; // Prevent endless loop
+		
+		// console.log("@111 - 3 estSellAmount", estSellAmount, "estBuyAmount", estBuyAmount)
+
 
 		if (isBid) {
 			estPrice = estSellAmount / estBuyAmount;
@@ -243,19 +250,21 @@ const MarketOrderForm = (props) => {
 				10,
 				buyAsset.get('precision') - sellAsset.get('precision')
 			);
+			// console.log("@111 - 4 estPrice", floorFloat(estPrice, sellAsset.get('precision')), "price", price)
 
-			if (floorFloat(estPrice, buyAsset.get('precision')) < price) {
+			if (floorFloat(estPrice, sellAsset.get('precision')) <= price) {
 				while (
-					floorFloat(estPrice, buyAsset.get('precision')) <= price &&
+					floorFloat(estPrice, sellAsset.get('precision')) <= price &&
 					delta < 5000
 				) {
-					delta += 1;
-					_sellAmount += 1;
+					delta += 2;
+					_sellAmount += 2;
 					estPrice = _sellAmount / estBuyAmount;
 					estPrice *= Math.pow(
 						10,
 						buyAsset.get('precision') - sellAsset.get('precision')
 					);
+					// console.log("@111 40 - delta", delta, floorFloat(estPrice, sellAsset.get('precision')), "estPrice", estPrice, "price", price)
 				}
 			}
 		} else {
@@ -265,22 +274,25 @@ const MarketOrderForm = (props) => {
 				sellAsset.get('precision') - buyAsset.get('precision')
 			);
 
-			if (floorFloat(estPrice, sellAsset.get('precision')) > price) {
+			if (floorFloat(estPrice, sellAsset.get('precision')) >= price) {
 				while (
 					floorFloat(estPrice, sellAsset.get('precision')) >= price &&
 					delta < 5000
 				) {
-					delta += 1;
-					_sellAmount -= 1;
+					delta += 2;
+					_sellAmount -= 2;
 					estPrice = estBuyAmount / _sellAmount;
 					estPrice *= Math.pow(
 						10,
 						sellAsset.get('precision') - buyAsset.get('precision')
 					);
+					// console.log("@111 41 - delta", delta, "estPrice", estPrice, "price", price)
 				}
 			}
 		}
 		// ********************************************** //
+
+		// console.log("@111 - 5 delta", delta, "sellAmount", _sellAmount, "buyAmount", buyAmount(), "estPrice:", estPrice)
 
 		orders.push({
 			for_sale: new Asset({
