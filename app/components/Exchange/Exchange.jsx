@@ -1142,7 +1142,7 @@ class Exchange extends React.Component {
 				),
 			});
 		}
-		//
+
 		if (
 			!(current.for_sale.getAmount() > 0 && current.to_receive.getAmount() > 0)
 		) {
@@ -1177,16 +1177,20 @@ class Exchange extends React.Component {
 		return MarketsActions.createLimitOrder2(limitOrders)
 			.then((result) => {
 				if (result.error) {
-					if (result.error.message !== 'wallet locked')
+					if (result.error.message !== 'wallet locked') {
 						notification.error({
 							message: counterpart.translate(
 								'notifications.exchange_unknown_error_place_scaled_order'
 							),
 						});
+					} else {
+						return Promise.reject({error: result.error.message});
+					}
 				}
 			})
 			.catch((e) => {
 				console.log('order failed:', e);
+				return Promise.reject({error: error});
 			});
 	}
 
@@ -1232,19 +1236,22 @@ class Exchange extends React.Component {
 		return MarketsActions.createLimitOrder2(order)
 			.then((result) => {
 				if (result.error) {
-					if (result.error.message !== 'wallet locked')
+					if (result.error.message !== 'wallet locked') {
 						console.log(result.error);
-					notification.error({
-						message: counterpart.translate(
-							'notifications.exchange_unknown_error_place_order',
-							{
-								amount: current.to_receive.getAmount({
-									real: true,
-								}),
-								symbol: current.to_receive.asset_id,
-							}
-						),
-					});
+						notification.error({
+							message: counterpart.translate(
+								'notifications.exchange_unknown_error_place_order',
+								{
+									amount: current.to_receive.getAmount({
+										real: true,
+									}),
+									symbol: current.to_receive.asset_id,
+								}
+							),
+						});
+					} else {
+						return Promise.reject({error: result.error.message});
+					}
 				} else {
 					this._clearForms(type === 'sell' ? 'ask' : 'bid');
 				}
