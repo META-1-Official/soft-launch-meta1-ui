@@ -43,6 +43,7 @@ class TransactionConfirmStore {
 	onClose() {
 		//console.log("-- TransactionConfirmStore.onClose -->", state);
 		this.setState({closed: true});
+		this.state.reject({closed: true});
 	}
 
 	onBroadcast(payload) {

@@ -1177,14 +1177,17 @@ class Exchange extends React.Component {
 		return MarketsActions.createLimitOrder2(limitOrders)
 			.then((result) => {
 				if (result.error) {
-					if (result.error.message !== 'wallet locked') {
+					if (
+						result.error.message === 'transaction confirm modal is closed' ||
+						result.error.message === 'wallet locked'
+					) {
+						return Promise.reject({error: result.error.message});
+					} else {
 						notification.error({
 							message: counterpart.translate(
 								'notifications.exchange_unknown_error_place_scaled_order'
 							),
 						});
-					} else {
-						return Promise.reject({error: result.error.message});
 					}
 				}
 			})
@@ -1236,7 +1239,12 @@ class Exchange extends React.Component {
 		return MarketsActions.createLimitOrder2(order)
 			.then((result) => {
 				if (result.error) {
-					if (result.error.message !== 'wallet locked') {
+					if (
+						result.error.message === 'transaction confirm modal is closed' ||
+						result.error.message === 'wallet locked'
+					) {
+						return Promise.reject({error: result.error.message});
+					} else {
 						console.log(result.error);
 						notification.error({
 							message: counterpart.translate(
@@ -1249,8 +1257,6 @@ class Exchange extends React.Component {
 								}
 							),
 						});
-					} else {
-						return Promise.reject({error: result.error.message});
 					}
 				} else {
 					this._clearForms(type === 'sell' ? 'ask' : 'bid');

@@ -234,15 +234,22 @@ class WalletDb extends BaseStore {
 						.then(() => {
 							if (broadcast) {
 								if (this.confirm_transactions) {
-									let p = new Promise((resolve, reject) => {
+									const transactionConfirmPromise = new Promise((resolve, reject) => {
 										TransactionConfirmActions.confirm(tr, resolve, reject);
 									});
-									return p.then(async () => {
-										await Axios.post(
-											process.env.LITE_WALLET_URL + '/saveBalance',
-											{accountName: AccountStore.getState().currentAccount}
-										);
-									});
+									return transactionConfirmPromise
+										.then(async () => {
+											await Axios.post(
+												process.env.LITE_WALLET_URL + '/saveBalance',
+												{accountName: AccountStore.getState().currentAccount}
+											);
+										})
+										.catch((e) => {
+											if (e && e.hasOwnProperty('closed') && e['closed']) {
+												console.error("TransactionConfirm Error:", e);
+												throw new Error('transaction confirm modal is closed');
+											}
+										});
 								} else return tr.broadcast();
 							} else return tr.serialize();
 						});
@@ -251,6 +258,8 @@ class WalletDb extends BaseStore {
 			.catch((e) => {
 				if (e.hasOwnProperty('isCanceled') && e['isCanceled']) {
 					throw new Error('wallet locked');
+				} else {
+					throw new Error(e.message);
 				}
 			})
 			.finally(() => {
