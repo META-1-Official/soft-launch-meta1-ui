@@ -248,7 +248,11 @@ class WalletDb extends BaseStore {
 						});
 				});
 			})
-			.catch(() => {})
+			.catch((e) => {
+				if (e.hasOwnProperty('isCanceled') && e['isCanceled']) {
+					throw new Error('wallet locked');
+				}
+			})
 			.finally(() => {
 				WalletUnlockActions.lock();
 			});
