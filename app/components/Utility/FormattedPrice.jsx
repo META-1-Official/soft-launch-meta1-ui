@@ -142,14 +142,14 @@ class FormattedPrice extends React.Component {
 		try {
 			price = new Price({
 				quote: new Asset({
-					asset_id: base.get('id'),
-					precision: base.get('precision'),
-					amount: base_amount,
-				}),
-				base: new Asset({
 					asset_id: quote.get('id'),
 					precision: quote.get('precision'),
 					amount: quote_amount,
+				}),
+				base: new Asset({
+					asset_id: base.get('id'),
+					precision: base.get('precision'),
+					amount: base_amount,
 				}),
 			});
 		} catch (err) {
