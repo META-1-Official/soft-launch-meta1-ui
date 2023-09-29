@@ -89,17 +89,28 @@ class AccountOrders extends React.Component {
 					base.getIn(['bitasset', 'options', 'short_backing_asset'])
 				);
 			}
+
 			if (base && quote) {
 				let assets = {
 					[base.get('id')]: {precision: base.get('precision')},
 					[quote.get('id')]: {precision: quote.get('precision')},
 				};
 
+				let symbol = {
+					[base.get('symbol')]: base.get('id'),
+					[quote.get('symbol')]: quote.get('id'),
+				};
+
 				const {marketName} = marketUtils.getMarketName(base, quote);
 				const direction = this.props.marketDirections.get(marketName);
 
-				let marketQuoteId = direction ? quote.get('id') : base.get('id');
-				let marketBaseId = direction ? base.get('id') : quote.get('id');
+				let marketQuoteId = direction
+					? symbol[marketName.split('_')[0]]
+					: symbol[marketName.split('_')[1]];
+				let marketBaseId = direction
+					? symbol[marketName.split('_')[1]]
+					: symbol[marketName.split('_')[0]];
+
 				if (isSettle) {
 					const feedPriceRaw = asset_utils.extractRawFeedPrice(base);
 					sqr = base.getIn([
