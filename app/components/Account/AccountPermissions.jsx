@@ -308,7 +308,7 @@ class AccountPermissions extends React.Component {
 	}
 
 	onPdfCreate() {
-		WalletUnlockActions.unlock().finally(() => {
+		WalletUnlockActions.unlock().then(() => {
 			createPaperWalletAsPDF(this.props.account);
 			WalletUnlockActions.lock();
 		});
