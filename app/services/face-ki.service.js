@@ -57,15 +57,17 @@ const verify = async (image) => {
 // 	return data;
 // };
 
-async function getFASToken(
+async function getFASToken({
+	account = null,
 	email,
 	task,
 	publicKey = null,
 	signature = null,
-	signatureContent = null
-) {
+	signatureContent = null,
+}) {
 	try {
 		const {data} = await faceKIApi.post(`/getFASToken`, {
+			account,
 			email,
 			task,
 			publicKey,

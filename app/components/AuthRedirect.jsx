@@ -99,9 +99,19 @@ class AuthRedirect extends React.Component {
 	async getFASToken() {
 		try {
 			const email = this.props.authData?.email.toLowerCase();
-			const {token} = await fasServices.getFASToken(email, TASK.VERIFY);
+			const account = ss.get('account_login_name', '');
+			const {token} = await fasServices.getFASToken({
+				account,
+				email,
+				task: TASK.VERIFY,
+			});
 
-			this.setState((prevState) => ({...prevState, token}));
+			if (token) {
+				this.setState((prevState) => ({...prevState, token}));
+			} else {
+				alert('Invalid combination of account name and email');
+				this.props.history.push('/');
+			}
 		} catch (error) {
 			console.error('FASToken Error: ', error);
 		}
