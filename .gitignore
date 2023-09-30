@@ -26,7 +26,7 @@ app/test/MarketClasses.js
 /.vs
 
 # Enviroments
-.env
+.env.back
 .env.production
 .env.development
 .env.local
