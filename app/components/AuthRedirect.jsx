@@ -103,14 +103,14 @@ class AuthRedirect extends React.Component {
 			const {token} = await fasServices.getFASToken({
 				account,
 				email,
-				task: TASK.VERIFY,
+				task: this.state.task,
 			});
 
 			if (token) {
 				this.setState((prevState) => ({...prevState, token}));
 			} else {
 				alert('Invalid combination of account name and email');
-				this.props.history.push('/');
+				// this.props.history.push('/');
 			}
 		} catch (error) {
 			console.error('FASToken Error: ', error);
@@ -194,9 +194,6 @@ class AuthRedirect extends React.Component {
 		if (openLogin && !prevProps.openLogin) {
 			this.generateAuthData();
 		}
-		if (!prevProps.authData && this.props.authData) {
-			this.getFASToken();
-		}
 		if (
 			privKey &&
 			authData &&
@@ -206,6 +203,9 @@ class AuthRedirect extends React.Component {
 		}
 		if (!prevState.passwordError && this.state.passwordError) {
 			this.props.history.push('/registration');
+		}
+		if (this.props.authData && this.state.login && !prevState.login) {
+			this.getFASToken();
 		}
 		if (!prevState.token && this.state.token) {
 			this.webcamRef.current.load();
