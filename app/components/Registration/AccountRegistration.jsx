@@ -7,6 +7,9 @@ import qs from 'qs';
 import {PrivateKey, key} from 'meta1-vision-js/es';
 import utils from 'common/utils';
 import SettingsActions from 'actions/SettingsActions';
+import {TASK} from '../../modules/biometric-auth/constants/constants';
+import FASClient from '../../modules/biometric-auth/FASClient';
+import fasServices from '../../services/face-ki.service';
 import AccountRegistrationForm from './AccountRegistrationForm';
 import AccountRegistrationConfirm from './AccountRegistrationConfirm';
 import AuthStore from '../../stores/AuthStore';
@@ -48,6 +51,7 @@ class AccountRegistration extends React.Component {
 			faceKISuccess: false,
 			passkey: '',
 			devices: [],
+			token: '',
 			webcamEnabled: false,
 			verifying: false,
 			photoIndex: 0,
@@ -56,6 +60,7 @@ class AccountRegistration extends React.Component {
 			height: 0,
 			numberOfCameras: 0,
 			activeDeviceId: '',
+			task: TASK.REGISTER,
 		};
 		this.webcamRef = React.createRef();
 		this.continue = this.continue.bind(this);
@@ -67,81 +72,89 @@ class AccountRegistration extends React.Component {
 		this.nextStep = this.nextStep.bind(this);
 		this.backBtnClick = this.backBtnClick.bind(this);
 		this.handleImportBtn = this.handleImportBtn.bind(this);
+		this.getFASToken = this.getFASToken.bind(this);
+		this.faceEnroll = this.faceEnroll.bind(this);
 	}
 
-	dataURLtoFile(dataurl, filename) {
-		var arr = dataurl.split(','),
-			mime = arr[0].match(/:(.*?);/)[1],
-			bstr = atob(arr[1]),
-			n = bstr.length,
-			u8arr = new Uint8Array(n);
-		while (n--) {
-			u8arr[n] = bstr.charCodeAt(n);
-		}
-		return new File([u8arr], filename, {type: mime});
-	}
+	// dataURLtoFile(dataurl, filename) {
+	// 	var arr = dataurl.split(','),
+	// 		mime = arr[0].match(/:(.*?);/)[1],
+	// 		bstr = atob(arr[1]),
+	// 		n = bstr.length,
+	// 		u8arr = new Uint8Array(n);
+	// 	while (n--) {
+	// 		u8arr[n] = bstr.charCodeAt(n);
+	// 	}
+	// 	return new File([u8arr], filename, {type: mime});
+	// }
 
-	async checkAndEnroll() {
+	// async checkAndEnroll() {
+	// 	const {privKey, authData} = this.props;
+	// 	const {photoIndex} = this.state;
+	// 	const email = authData.email.toLowerCase();
+	//
+	// 	if (!email || !privKey) return;
+	//
+	// 	if (!this.webcamRef.current) return;
+	//
+	// 	this.setState({verifying: true});
+	// 	const imageSrc = this.webcamRef.current.takePhoto();
+	//
+	// 	if (!imageSrc) {
+	// 		toast(counterpart.translate('registration.check_camera'));
+	// 		this.setState({verifying: false});
+	// 		return;
+	// 	}
+	//
+	// 	var file = await this.dataURLtoFile(imageSrc, 'a.jpg');
+	// 	const response = await faceKIService.liveLinessCheck(file);
+	// 	this.setState({photoIndex: photoIndex + 1});
+	//
+	// 	if (!response) {
+	// 		toast(counterpart.translate('registration.biometric_server_error'));
+	// 		this.setState({verifying: false, photoIndex: 0});
+	// 		return;
+	// 	}
+	//
+	// 	if (response.data.liveness !== 'Genuine' && photoIndex === 10) {
+	// 		toast(counterpart.translate('registration.face_not_detected'));
+	// 		this.setState({verifying: false, photoIndex: 0});
+	// 	} else if (response.data.liveness === 'Genuine') {
+	// 		this.setState({photoIndex: 0});
+	// 		await this.faceEnroll(file);
+	// 	} else {
+	// 		await this.checkAndEnroll();
+	// 	}
+	// }
+
+	async faceEnroll(token) {
+		console.log('face enroll start');
 		const {privKey, authData} = this.props;
-		const {photoIndex} = this.state;
 		const email = authData.email.toLowerCase();
 
 		if (!email || !privKey) return;
 
-		if (!this.webcamRef.current) return;
-
-		this.setState({verifying: true});
-		const imageSrc = this.webcamRef.current.takePhoto();
-
-		if (!imageSrc) {
-			toast(counterpart.translate('registration.check_camera'));
+		if (this.state.task === TASK.VERIFY) {
+			alert(errorCase['Already Enrolled']);
+			this.setState({faceKISuccess: true, token: this.state.token});
+			this.nextStep();
 			this.setState({verifying: false});
-			return;
-		}
-
-		var file = await this.dataURLtoFile(imageSrc, 'a.jpg');
-		const response = await faceKIService.liveLinessCheck(file);
-		this.setState({photoIndex: photoIndex + 1});
-
-		if (!response) {
-			toast(counterpart.translate('registration.biometric_server_error'));
-			this.setState({verifying: false, photoIndex: 0});
-			return;
-		}
-
-		if (response.data.liveness !== 'Genuine' && photoIndex === 10) {
-			toast(counterpart.translate('registration.face_not_detected'));
-			this.setState({verifying: false, photoIndex: 0});
-		} else if (response.data.liveness === 'Genuine') {
-			this.setState({photoIndex: 0});
-			await this.faceEnroll(file);
 		} else {
-			await this.checkAndEnroll();
-		}
-	}
+			console.log('register: fasEnroll');
+			const response = await fasServices.fasEnroll(email, privKey, token);
 
-	async faceEnroll(file) {
-		const {privKey, authData} = this.props;
-		const email = authData.email.toLowerCase();
-
-		if (!email || !privKey) return;
-
-		const response = await faceKIService.enroll(file, email, privKey);
-
-		if (!response) {
-			toast(errorCase['Biometic Server Error']);
-			this.setState({verifying: false});
-			return;
-		} else {
-			toast(errorCase[response.message]);
-			if (
-				response.message === 'Successfully Enrolled' ||
-				response.message === 'Already Enrolled'
-			) {
-				this.setState({faceKISuccess: true});
-				this.nextStep();
+			if (!response) {
+				toast(errorCase['Biometic Server Error']);
+				this.setState({verifying: false});
+				return;
+			} else {
+				toast(errorCase[response.message]);
+				if (response.message === 'Successfully Enrolled') {
+					this.setState({faceKISuccess: true, token: this.state.token});
+					this.nextStep();
+				}
+				this.setState({verifying: false});
 			}
-			this.setState({verifying: false});
 		}
 	}
 
@@ -239,6 +252,36 @@ class AccountRegistration extends React.Component {
 		}
 	}
 
+	async getFASToken() {
+		console.log('start getFasToken data');
+		try {
+			const email = this.props.authData?.email.toLowerCase();
+			const accountName = ss.get('account_registration_name', '');
+
+			const {doesUserExistsInFAS} = await faceKIService.fasMigrationStatus(
+				email
+			);
+			const newTask = doesUserExistsInFAS ? TASK.VERIFY : TASK.REGISTER;
+			// this.setState({ task: newTask })
+
+			const {message, token} = await fasServices.getFASToken({
+				account: doesUserExistsInFAS ? accountName : null,
+				email,
+				task: newTask,
+			});
+
+			if (token) {
+				alert('CNJQ');
+				this.setState((prevState) => ({...prevState, token}));
+			} else {
+				alert(message);
+				// this.props.history.push('/');
+			}
+		} catch (error) {
+			console.error('FASToken Error: ', error);
+		}
+	}
+
 	componentDidMount() {
 		const {openLogin, privKey, authData, setOpenLoginInstance} = this.props;
 		this.loadVideo(false);
@@ -266,6 +309,10 @@ class AccountRegistration extends React.Component {
 		} else {
 			this.setState({firstStep: true});
 			setOpenLoginInstance();
+		}
+
+		if (this.props.authData) {
+			this.getFASToken();
 		}
 
 		window.addEventListener('resize', this.updateDimensions);
@@ -306,6 +353,15 @@ class AccountRegistration extends React.Component {
 
 	shouldComponentUpdate(nextProps, nextState) {
 		return !utils.are_equal_shallow(nextState, this.state);
+	}
+
+	componentDidUpdate(prevProps, prevState) {
+		// if (this.props.authData) {
+		// 	this.getFASToken();
+		// }
+		if (!prevState.token && this.state.token) {
+			this.webcamRef.current.load();
+		}
 	}
 
 	async continue({accountName}) {
@@ -537,83 +593,94 @@ class AccountRegistration extends React.Component {
 									}}
 								/>
 							)}
-							<Camera
-								ref={this.webcamRef}
-								aspectRatio="cover"
-								numberOfCamerasCallback={(i) =>
-									this.setState({numberOfCameras: i})
-								}
-								videoSourceDeviceId={this.state.activeDeviceId}
-								errorMessages={{
-									noCameraAccessible:
-										'No camera device accessible. Please connect your camera or try a different browser.',
-									permissionDenied:
-										'Permission denied. Please refresh and give camera permission.',
-									switchCamera:
-										'It is not possible to switch camera to different one because there is only one video device accessible.',
-									canvas: 'Canvas is not supported.',
-								}}
-							/>
-							<img src={OvalImage} alt="oval-image" className="oval-image" />
-							<div className="flex_container flex-padding">
-								<span className="span-class">
-									{!this.state.faceKISuccess
-										? counterpart.translate(
-												'registration.verify_to_begin_enrollment'
-										  )
-										: counterpart.translate(
-												'registration.verification_success'
-										  )}
-								</span>
-								<div className="span-class">
-									{counterpart.translate(
-										'registration.require_min_camera_resolution'
-									)}
-								</div>
-								<div className="span-class">
-									{counterpart.translate('registration.verification_duration')}
-								</div>
-							</div>
+							{!this.state.token ? (
+								'loading ...'
+							) : (
+								<FASClient
+									ref={this.webcamRef}
+									token={this.state.token}
+									username={this.props.authData?.email.toLowerCase()}
+									task={this.state.task}
+									onComplete={this.faceEnroll}
+								/>
+							)}
+							{/*<Camera*/}
+							{/*	ref={this.webcamRef}*/}
+							{/*	aspectRatio="cover"*/}
+							{/*	numberOfCamerasCallback={(i) =>*/}
+							{/*		this.setState({numberOfCameras: i})*/}
+							{/*	}*/}
+							{/*	videoSourceDeviceId={this.state.activeDeviceId}*/}
+							{/*	errorMessages={{*/}
+							{/*		noCameraAccessible:*/}
+							{/*			'No camera device accessible. Please connect your camera or try a different browser.',*/}
+							{/*		permissionDenied:*/}
+							{/*			'Permission denied. Please refresh and give camera permission.',*/}
+							{/*		switchCamera:*/}
+							{/*			'It is not possible to switch camera to different one because there is only one video device accessible.',*/}
+							{/*		canvas: 'Canvas is not supported.',*/}
+							{/*	}}*/}
+							{/*/>*/}
+							{/*<img src={OvalImage} alt="oval-image" className="oval-image" />*/}
+							{/*<div className="flex_container flex-padding">*/}
+							{/*	<span className="span-class">*/}
+							{/*		{!this.state.faceKISuccess*/}
+							{/*			? counterpart.translate(*/}
+							{/*					'registration.verify_to_begin_enrollment'*/}
+							{/*			  )*/}
+							{/*			: counterpart.translate(*/}
+							{/*					'registration.verification_success'*/}
+							{/*			  )}*/}
+							{/*	</span>*/}
+							{/*	<div className="span-class">*/}
+							{/*		{counterpart.translate(*/}
+							{/*			'registration.require_min_camera_resolution'*/}
+							{/*		)}*/}
+							{/*	</div>*/}
+							{/*	<div className="span-class">*/}
+							{/*		{counterpart.translate('registration.verification_duration')}*/}
+							{/*	</div>*/}
+							{/*</div>*/}
 						</div>
 					)}
-					{devices.length !== 0 && activeDeviceId !== '' && (
-						<div style={{width: webCamWidth}}>
-							<Select
-								value={activeDeviceId}
-								onChange={(value) => {
-									let errMsgEle =
-										document.getElementById('video').previousSibling;
-									errMsgEle && errMsgEle.remove();
-									this.setState({activeDeviceId: value});
-								}}
-								getPopupContainer={(triggerNode) => triggerNode.parentNode}
-							>
-								{devices.map((d) => {
-									return (
-										<Select.Option key={d.deviceId} value={d.deviceId}>
-											{d.label}
-										</Select.Option>
-									);
-								})}
-							</Select>
-						</div>
-					)}
-					<div className="button-wrapper">
-						<Button
-							onClick={() => this.checkAndEnroll()}
-							disabled={
-								this.state.verifying
-									? true
-									: this.state.faceKISuccess
-									? true
-									: false
-							}
-						>
-							{this.state.verifying
-								? counterpart.translate('registration.faceki_verifying')
-								: counterpart.translate('registration.faceki_verify')}
-						</Button>
-					</div>
+					{/*{devices.length !== 0 && activeDeviceId !== '' && (*/}
+					{/*	<div style={{width: webCamWidth}}>*/}
+					{/*		<Select*/}
+					{/*			value={activeDeviceId}*/}
+					{/*			onChange={(value) => {*/}
+					{/*				let errMsgEle =*/}
+					{/*					document.getElementById('video').previousSibling;*/}
+					{/*				errMsgEle && errMsgEle.remove();*/}
+					{/*				this.setState({activeDeviceId: value});*/}
+					{/*			}}*/}
+					{/*			getPopupContainer={(triggerNode) => triggerNode.parentNode}*/}
+					{/*		>*/}
+					{/*			{devices.map((d) => {*/}
+					{/*				return (*/}
+					{/*					<Select.Option key={d.deviceId} value={d.deviceId}>*/}
+					{/*						{d.label}*/}
+					{/*					</Select.Option>*/}
+					{/*				);*/}
+					{/*			})}*/}
+					{/*		</Select>*/}
+					{/*	</div>*/}
+					{/*)}*/}
+					{/*<div className="button-wrapper">*/}
+					{/*	<Button*/}
+					{/*		onClick={() => this.checkAndEnroll()}*/}
+					{/*		disabled={*/}
+					{/*			this.state.verifying*/}
+					{/*				? true*/}
+					{/*				: this.state.faceKISuccess*/}
+					{/*				? true*/}
+					{/*				: false*/}
+					{/*		}*/}
+					{/*	>*/}
+					{/*		{this.state.verifying*/}
+					{/*			? counterpart.translate('registration.faceki_verifying')*/}
+					{/*			: counterpart.translate('registration.faceki_verify')}*/}
+					{/*	</Button>*/}
+					{/*</div>*/}
 				</div>
 			);
 		} else if (finalStep) {
