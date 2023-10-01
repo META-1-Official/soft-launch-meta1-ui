@@ -131,6 +131,7 @@ class AccountRegistration extends React.Component {
 		console.log('face enroll start');
 		const {privKey, authData} = this.props;
 		const email = authData.email.toLowerCase();
+		this.setState({verifying: true});
 
 		if (!email || !privKey) return;
 
@@ -138,14 +139,14 @@ class AccountRegistration extends React.Component {
 			alert(errorCase['Already Enrolled']);
 			this.setState({faceKISuccess: true, token: this.state.token});
 			this.nextStep();
-			this.setState({verifying: false});
+			this.setState({verifying: false, photoIndex: 0});
 		} else {
 			console.log('register: fasEnroll');
 			const response = await fasServices.fasEnroll(email, privKey, token);
 
 			if (!response) {
 				toast(errorCase['Biometic Server Error']);
-				this.setState({verifying: false});
+				this.setState({verifying: false, photoIndex: 0});
 				return;
 			} else {
 				toast(errorCase[response.message]);
@@ -153,7 +154,7 @@ class AccountRegistration extends React.Component {
 					this.setState({faceKISuccess: true, token: this.state.token});
 					this.nextStep();
 				}
-				this.setState({verifying: false});
+				this.setState({verifying: false, photoIndex: 0});
 			}
 		}
 	}
@@ -271,7 +272,6 @@ class AccountRegistration extends React.Component {
 			});
 
 			if (token) {
-				alert('CNJQ');
 				this.setState((prevState) => ({...prevState, token}));
 			} else {
 				alert(message);
@@ -360,7 +360,7 @@ class AccountRegistration extends React.Component {
 		// 	this.getFASToken();
 		// }
 		if (!prevState.token && this.state.token) {
-			this.webcamRef.current.load();
+			this.webcamRef.current?.load();
 		}
 	}
 
