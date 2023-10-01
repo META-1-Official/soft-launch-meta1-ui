@@ -231,7 +231,6 @@ class AccountRegistrationForm extends React.Component {
 	}
 
 	isValid() {
-		return true;
 		// const firstAccount = AccountStore.getMyAccounts().length === 0;
 		const firstAccount = true;
 
@@ -643,10 +642,10 @@ class AccountRegistrationForm extends React.Component {
 							) : null}
 						</div>
 					)}
-					{/*<ReCAPTCHA*/}
-					{/*	sitekey={`${process.env.RECAPTCHA_SITE_KEY}`}*/}
-					{/*	onChange={this.caChange.bind(this)}*/}
-					{/*/>*/}
+					<ReCAPTCHA
+						sitekey={`${process.env.RECAPTCHA_SITE_KEY}`}
+						onChange={this.caChange.bind(this)}
+					/>
 					<br></br>
 					{this.state.loading ? (
 						<LoadingIndicator type="three-bounce" />
@@ -654,7 +653,7 @@ class AccountRegistrationForm extends React.Component {
 						<Button
 							htmlType="submit"
 							type="primary"
-							// disabled={!valid || (registrarAccount && !isLTM)}
+							disabled={!valid || (registrarAccount && !isLTM)}
 							className="continue-btn"
 						>
 							<Translate content="registration.continue" />
