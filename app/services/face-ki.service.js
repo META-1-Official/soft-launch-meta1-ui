@@ -58,7 +58,7 @@ const verify = async (image) => {
 // };
 
 async function getFASToken({
-	account = null,
+	account,
 	email,
 	task,
 	publicKey = null,
