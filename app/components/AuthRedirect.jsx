@@ -568,13 +568,7 @@ class AuthRedirect extends React.Component {
 									)}
 								</h5>
 								{this.state.webcamEnabled && (
-									<div
-										className="webcam-wrapper"
-										style={{
-											width: webCamWidth,
-											height: webCamWidth / aspectRatio,
-										}}
-									>
+									<div className="webcam-wrapper">
 										<div className="flex-container">
 											<div className="flex-container-first">
 												<div className="position-head">

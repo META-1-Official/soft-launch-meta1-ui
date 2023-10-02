@@ -2,24 +2,24 @@ import React from 'react';
 import Translate from 'react-translate-component';
 import counterpart from 'counterpart';
 import ReactTooltip from 'react-tooltip';
-import {connect} from 'alt-react';
+import { connect } from 'alt-react';
 import qs from 'qs';
-import {PrivateKey, key} from 'meta1-vision-js/es';
+import { PrivateKey, key } from 'meta1-vision-js/es';
 import utils from 'common/utils';
 import SettingsActions from 'actions/SettingsActions';
-import {TASK} from '../../modules/biometric-auth/constants/constants';
+import { TASK } from '../../modules/biometric-auth/constants/constants';
 import FASClient from '../../modules/biometric-auth/FASClient';
 import fasServices from '../../services/face-ki.service';
 import AccountRegistrationForm from './AccountRegistrationForm';
 import AccountRegistrationConfirm from './AccountRegistrationConfirm';
 import AuthStore from '../../stores/AuthStore';
 import ls from '../../lib/common/localStorage';
-import {Input, Button, Select} from 'antd';
-import {Camera} from 'react-camera-pro';
+import { Input, Button, Select } from 'antd';
+import { Camera } from 'react-camera-pro';
 import faceKIService from 'services/face-ki.service';
 import kycService from 'services/kyc.service';
 import migrationService from 'services/migration.service';
-import {toast} from 'react-toastify';
+import { toast } from 'react-toastify';
 import LoginProvidersModal from 'components/Web3Auth/LoginProvidersModal';
 import ChainStore from 'meta1-vision-js/es/chain/src/ChainStore';
 
@@ -129,40 +129,40 @@ class AccountRegistration extends React.Component {
 
 	async faceEnroll(token) {
 		console.log('face enroll start');
-		const {privKey, authData} = this.props;
+		const { privKey, authData } = this.props;
 		const email = authData.email.toLowerCase();
-		this.setState({verifying: true});
+		this.setState({ verifying: true });
 
 		if (!email || !privKey) return;
 
 		if (this.state.task === TASK.VERIFY) {
 			toast(errorCase['Already Enrolled']);
-			this.setState({faceKISuccess: true});
+			this.setState({ faceKISuccess: true });
 			this.nextStep();
-			this.setState({verifying: false, photoIndex: 0});
+			this.setState({ verifying: false, photoIndex: 0 });
 		} else {
 			console.log('register: fasEnroll');
 			const response = await fasServices.fasEnroll(email, privKey, token);
 
 			if (!response) {
 				toast(errorCase['Biometic Server Error']);
-				this.setState({verifying: false, photoIndex: 0});
+				this.setState({ verifying: false, photoIndex: 0 });
 				return;
 			} else {
 				toast(errorCase[response.message]);
 				if (response.message === 'Successfully Enrolled') {
 					console.log('fastoken: ', token);
 					ss.set('account_registration_fastoken', token);
-					this.setState({faceKISuccess: true});
+					this.setState({ faceKISuccess: true });
 					this.nextStep();
 				}
-				this.setState({verifying: false, photoIndex: 0});
+				this.setState({ verifying: false, photoIndex: 0 });
 			}
 		}
 	}
 
 	nextStep() {
-		const {privKey} = this.props;
+		const { privKey } = this.props;
 		const accountName = ss.get('account_registration_name', '');
 		if (!accountName || !privKey) return;
 
@@ -202,7 +202,7 @@ class AccountRegistration extends React.Component {
 	}
 
 	updateDimensions = () => {
-		this.setState({width: window.innerWidth, height: window.innerHeight});
+		this.setState({ width: window.innerWidth, height: window.innerHeight });
 	};
 
 	componentWillUnmount() {
@@ -262,20 +262,20 @@ class AccountRegistration extends React.Component {
 			const email = this.props.authData?.email.toLowerCase();
 			const accountName = ss.get('account_registration_name', '');
 
-			const {doesUserExistsInFAS} = await faceKIService.fasMigrationStatus(
+			const { doesUserExistsInFAS } = await faceKIService.fasMigrationStatus(
 				email
 			);
 			const newTask = doesUserExistsInFAS ? TASK.VERIFY : TASK.REGISTER;
-			this.setState({task: newTask});
+			this.setState({ task: newTask });
 
-			const {message, token} = await fasServices.getFASToken({
+			const { message, token } = await fasServices.getFASToken({
 				account: doesUserExistsInFAS ? accountName : null,
 				email,
 				task: newTask,
 			});
 
 			if (token) {
-				this.setState((prevState) => ({...prevState, token}));
+				this.setState((prevState) => ({ ...prevState, token }));
 			} else {
 				toast(message);
 				// this.props.history.push('/');
@@ -286,7 +286,7 @@ class AccountRegistration extends React.Component {
 	}
 
 	componentDidMount() {
-		const {openLogin, privKey, authData, setOpenLoginInstance} = this.props;
+		const { openLogin, privKey, authData, setOpenLoginInstance } = this.props;
 		this.loadVideo(false);
 		ReactTooltip.rebuild();
 		if (this.props.location && this.props.location.search) {
@@ -310,11 +310,11 @@ class AccountRegistration extends React.Component {
 			} else if (eSignStatus === 'success') {
 				this.proceedESign();
 			} else if (ref !== null) {
-				this.setState({firstStep: true});
+				this.setState({ firstStep: true });
 				setOpenLoginInstance();
 			}
 		} else {
-			this.setState({firstStep: true});
+			this.setState({ firstStep: true });
 			setOpenLoginInstance();
 		}
 
@@ -349,7 +349,7 @@ class AccountRegistration extends React.Component {
 				console.log('[loadVideo] - ', err);
 			}
 
-			this.setState({webcamEnabled: false, devices: []});
+			this.setState({ webcamEnabled: false, devices: [] });
 			return Promise.resolve();
 		}
 	}
@@ -359,15 +359,12 @@ class AccountRegistration extends React.Component {
 	}
 
 	componentDidUpdate(prevProps, prevState) {
-		// if (this.props.authData) {
-		// 	this.getFASToken();
-		// }
 		if (!prevState.token && this.state.token) {
 			this.webcamRef.current?.load();
 		}
 	}
 
-	async continue({accountName}) {
+	async continue({ accountName }) {
 		const response = await migrationService.checkOldUser(accountName);
 
 		if (response?.found === true) {
@@ -387,24 +384,24 @@ class AccountRegistration extends React.Component {
 	}
 
 	toggleConfirmed() {
-		const {active} = this.state;
+		const { active } = this.state;
 		this.setState({
 			active: !active,
 		});
 	}
 
 	async renderTorusLogin() {
-		const {accountName} = this.state;
+		const { accountName } = this.state;
 
 		localStorage.setItem('openlogin_store', '{}');
 		ss.set('account_registration_name', accountName);
 		ss.remove('account_login_name');
 
-		this.setState({authModalOpen: true});
+		this.setState({ authModalOpen: true });
 	}
 
 	async proceedESign() {
-		const {privKey, authData} = this.props;
+		const { privKey, authData } = this.props;
 		ss.set('confirmedTerms4Token', 'success');
 		ss.set('email', authData?.email?.toLowerCase());
 		ss.set('authdata', JSON.stringify(authData));
@@ -424,7 +421,7 @@ class AccountRegistration extends React.Component {
 
 	proceedTorus() {
 		const accountName = ss.get('account_registration_name', '');
-		const {privKey, authData} = this.props;
+		const { privKey, authData } = this.props;
 		if (!accountName || !privKey) return;
 		ss.set('email', authData.email.toLowerCase());
 		ss.set('authdata', JSON.stringify(authData));
@@ -449,7 +446,7 @@ class AccountRegistration extends React.Component {
 	}
 
 	renderScreen() {
-		const {firstStep, faceKIStep, finalStep, migrationStep} = this.state;
+		const { firstStep, faceKIStep, finalStep, migrationStep } = this.state;
 		if (migrationStep) {
 			return (
 				<div
@@ -488,7 +485,7 @@ class AccountRegistration extends React.Component {
 					>
 						{counterpart.translate('registration.import_legacy_wallet_info2')}
 					</div>
-					<div style={{width: '100%'}}>
+					<div style={{ width: '100%' }}>
 						<label>
 							{counterpart.translate('registration.meta_legacy_wallet_name')}
 						</label>
@@ -497,10 +494,10 @@ class AccountRegistration extends React.Component {
 							value={this.state.accountName}
 							type="text"
 							contentEditable={false}
-							style={{border: '1px solid grey'}}
+							style={{ border: '1px solid grey' }}
 						/>
 					</div>
-					<div style={{width: '100%', marginTop: '15px'}}>
+					<div style={{ width: '100%', marginTop: '15px' }}>
 						<label>
 							{counterpart.translate('registration.your_private_passkey')}
 						</label>
@@ -512,9 +509,9 @@ class AccountRegistration extends React.Component {
 								'registration.enter_passkey_or_private_key'
 							)}
 							onChange={(event) => {
-								this.setState({passkey: event.target.value});
+								this.setState({ passkey: event.target.value });
 							}}
-							style={{border: '1px solid grey'}}
+							style={{ border: '1px solid grey' }}
 						/>
 					</div>
 					<Button
@@ -539,7 +536,7 @@ class AccountRegistration extends React.Component {
 				</div>
 			);
 		} else if (faceKIStep) {
-			const {width, devices, activeDeviceId} = this.state;
+			const { width, devices, activeDeviceId } = this.state;
 			const theme = this.props.theme;
 			const aspectRatio = 1.07;
 			const webCamWidth = width > 576 ? 500 : width - 70;
@@ -550,10 +547,7 @@ class AccountRegistration extends React.Component {
 					<h5>{counterpart.translate('registration.biometric_2fa_info')}</h5>
 					<br />
 					{this.state.webcamEnabled && (
-						<div
-							className="webcam-wrapper"
-							style={{width: webCamWidth, height: webCamWidth / aspectRatio}}
-						>
+						<div className="webcam-wrapper">
 							<div className="flex-container-new">
 								<div className="flex-container-first">
 									<div className="position-head color-black">
@@ -712,7 +706,7 @@ class AccountRegistration extends React.Component {
 					<div className="horizontal align-center text-center">
 						<div className="create-account-block">
 							{this.state.migrationStep && (
-								<div style={{cursor: 'pointer'}} onClick={this.backBtnClick}>
+								<div style={{ cursor: 'pointer' }} onClick={this.backBtnClick}>
 									{`<< ${counterpart.translate('wallet.back')}`}
 								</div>
 							)}
@@ -730,7 +724,7 @@ class AccountRegistration extends React.Component {
 				{this.state.authModalOpen && (
 					<LoginProvidersModal
 						open={this.state.authModalOpen}
-						setOpen={(val) => this.setState({authModalOpen: val})}
+						setOpen={(val) => this.setState({ authModalOpen: val })}
 						web3auth={this.props.openLogin}
 						authMode="registration"
 					/>

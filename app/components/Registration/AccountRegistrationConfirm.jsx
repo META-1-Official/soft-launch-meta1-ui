@@ -363,9 +363,9 @@ class AccountRegistrationConfirm extends React.Component {
 				ss.set('account_login_name', accountName);
 				ss.set('account_login_token', response.data['token']);
 				AccountActions.setPasswordlessAccount(accountName);
-				WalletUnlockActions.unlock_v2().finally(() => {
+				WalletUnlockActions.unlock_v2().then(() => {
 					this.props.history.push(`/account/${accountName}/`);
-				});
+				});	
 				setTimeout(() => {
 					WalletUnlockActions.lock_v2();
 				}, 24 * 60 * 60 * 1000); // Auto timeout in 24 hrs
