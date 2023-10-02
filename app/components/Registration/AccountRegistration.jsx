@@ -136,8 +136,8 @@ class AccountRegistration extends React.Component {
 		if (!email || !privKey) return;
 
 		if (this.state.task === TASK.VERIFY) {
-			alert(errorCase['Already Enrolled']);
-			this.setState({faceKISuccess: true, token: this.state.token});
+			toast(errorCase['Already Enrolled']);
+			this.setState({faceKISuccess: true});
 			this.nextStep();
 			this.setState({verifying: false, photoIndex: 0});
 		} else {
@@ -151,7 +151,9 @@ class AccountRegistration extends React.Component {
 			} else {
 				toast(errorCase[response.message]);
 				if (response.message === 'Successfully Enrolled') {
-					this.setState({faceKISuccess: true, token: this.state.token});
+					console.log('fastoken: ', token);
+					ss.set('account_registration_fastoken', token);
+					this.setState({faceKISuccess: true});
 					this.nextStep();
 				}
 				this.setState({verifying: false, photoIndex: 0});
@@ -165,6 +167,7 @@ class AccountRegistration extends React.Component {
 		if (!accountName || !privKey) return;
 
 		this.loadVideo(false).then(() => {
+			console.log('!!! Test load video');
 			this.setState({
 				accountName,
 				password: this.genKey(`${accountName}${privKey}`),
@@ -263,7 +266,7 @@ class AccountRegistration extends React.Component {
 				email
 			);
 			const newTask = doesUserExistsInFAS ? TASK.VERIFY : TASK.REGISTER;
-			// this.setState({ task: newTask })
+			this.setState({task: newTask});
 
 			const {message, token} = await fasServices.getFASToken({
 				account: doesUserExistsInFAS ? accountName : null,
@@ -274,7 +277,7 @@ class AccountRegistration extends React.Component {
 			if (token) {
 				this.setState((prevState) => ({...prevState, token}));
 			} else {
-				alert(message);
+				toast(message);
 				// this.props.history.push('/');
 			}
 		} catch (error) {
@@ -298,6 +301,10 @@ class AccountRegistration extends React.Component {
 				ignoreQueryPrefix: true,
 			}).ref;
 
+			if (this.props.authData && !eSignStatus) {
+				this.getFASToken();
+			}
+
 			if (param === 'proceedRegistration' && openLogin && privKey && authData) {
 				this.proceedTorus();
 			} else if (eSignStatus === 'success') {
@@ -309,10 +316,6 @@ class AccountRegistration extends React.Component {
 		} else {
 			this.setState({firstStep: true});
 			setOpenLoginInstance();
-		}
-
-		if (this.props.authData) {
-			this.getFASToken();
 		}
 
 		window.addEventListener('resize', this.updateDimensions);

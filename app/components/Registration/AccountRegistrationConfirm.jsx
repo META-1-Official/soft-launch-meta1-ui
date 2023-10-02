@@ -353,6 +353,7 @@ class AccountRegistrationConfirm extends React.Component {
 				email: this.state.email,
 				idToken: this.state.authData.web3Token,
 				appPubKey: this.state.authData.web3PubKey,
+				fasToken: ss.get('account_registration_fastoken'),
 			})
 			.then((response) => {
 				toast('Success');
