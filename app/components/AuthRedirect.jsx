@@ -97,9 +97,9 @@ class AuthRedirect extends React.Component {
 		this.webcamRef = React.createRef();
 	}
 
-	async handlePassKeyFormSubmit(login, passkey, email) {
+	async handlePassKeyFormSubmit(account, passkey, email) {
 		const {publicKey, signature, signatureContent} = await buildSignature4Fas(
-			login,
+			account,
 			passkey,
 			email
 		);
@@ -109,6 +109,7 @@ class AuthRedirect extends React.Component {
 		}
 
 		const {token} = await fasServices.getFASToken({
+			account,
 			email,
 			task: TASK.REGISTER,
 			publicKey,
@@ -135,7 +136,7 @@ class AuthRedirect extends React.Component {
 			if (!doesUserExistsInFAS && wasUserEnrolledInOldBiometric) {
 				const passkey = prompt('Please provide your passkey', '');
 				this.handlePassKeyFormSubmit(account, passkey, email).then((token) => {
-					this.setState({token});
+					this.setState({token, task: TASK.REGISTER});
 				});
 				return;
 			}
