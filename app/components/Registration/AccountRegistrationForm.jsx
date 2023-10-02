@@ -43,7 +43,7 @@ class AccountRegistrationForm extends React.Component {
 			phone: '',
 			firstname: '',
 			lastname: '',
-			captcha: false,
+			captcha: true,
 			country: 227,
 			selectedCountryObj: {
 				id: 227,
