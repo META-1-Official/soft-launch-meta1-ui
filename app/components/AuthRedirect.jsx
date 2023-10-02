@@ -6,6 +6,7 @@ import qs from 'qs';
 import axios from 'axios';
 import {Modal, Select} from 'antd';
 import counterpart from 'counterpart';
+import buildSignature4Fas from '../lib/chain/buildSignature4Fas';
 import {TASK} from '../modules/biometric-auth/constants/constants';
 import FASClient from '../modules/biometric-auth/FASClient';
 import AuthStore from '../stores/AuthStore';
@@ -96,10 +97,49 @@ class AuthRedirect extends React.Component {
 		this.webcamRef = React.createRef();
 	}
 
+	async handlePassKeyFormSubmit(login, passkey, email) {
+		const {publicKey, signature, signatureContent} = await buildSignature4Fas(
+			login,
+			passkey,
+			email
+		);
+		if (!publicKey || !signature) {
+			toast('Passkey is not valid!');
+			return;
+		}
+
+		const {token} = await fasServices.getFASToken({
+			email,
+			task: TASK.REGISTER,
+			publicKey,
+			signature,
+			signatureContent,
+		});
+
+		if (!token) {
+			toast('Passkey is not valid!');
+			return;
+		}
+
+		return token;
+	}
+
 	async getFASToken() {
 		try {
 			const email = this.props.authData?.email.toLowerCase();
 			const account = ss.get('account_login_name', '');
+
+			const {doesUserExistsInFAS, wasUserEnrolledInOldBiometric} =
+				await faceKIService.fasMigrationStatus(email);
+
+			if (!doesUserExistsInFAS && wasUserEnrolledInOldBiometric) {
+				const passkey = prompt('Please provide your passkey', '');
+				this.handlePassKeyFormSubmit(account, passkey, email).then((token) => {
+					this.setState({token});
+				});
+				return;
+			}
+
 			const {token} = await fasServices.getFASToken({
 				account,
 				email,
@@ -109,7 +149,7 @@ class AuthRedirect extends React.Component {
 			if (token) {
 				this.setState((prevState) => ({...prevState, token}));
 			} else {
-				alert('Invalid combination of account name and email');
+				toast('Invalid combination of account name and email');
 				// this.props.history.push('/');
 			}
 		} catch (error) {
