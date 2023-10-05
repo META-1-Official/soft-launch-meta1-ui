@@ -16,11 +16,11 @@ import ProgressScores from './hud/ProgressScores';
 import Loader from './LoaderComponent';
 import parseTurnServer from './helpers/parseTurnServer';
 import calculateCompletionPercentage from './helpers/calculateTasksProgress';
-import HudNotification from './hud/HudNotification';
 import HudUserGuidanceAlert from './hud/HudUserGuidanceAlert';
 import HudFaceMagnetProgress from './hud/HudFaceMagnetProgress';
 import HudBitrateMonitor from './hud/HudBitrateMonitor';
 import ProcessingCanvasComponent from './ProcessingCanvasComponent';
+import {toast} from 'react-toastify';
 
 const WSSignalingServer = process.env.REACT_APP_SIGNALIG_SERVER;
 
@@ -64,6 +64,7 @@ const FASClient = forwardRef((props, ref) => {
 	const [connected, setConnected] = useState(false);
 	const [logs, setLogs] = useState([]);
 	const [shouldCloseCamera, setShouldCloseCamera] = useState(false);
+	const [notification, setNotification] = useState();
 
 	const [loading, setLoading] = useState(false);
 	const [currentStream, setCurrentStream] = useState('empty');
@@ -71,7 +72,7 @@ const FASClient = forwardRef((props, ref) => {
 	const ws = useRef(null);
 	const pc = useRef(null);
 	const dc = useRef(null);
-	const notificationRef = useRef();
+	// const notificationRef = useRef();
 	const hudUserGuidanceAlertRef = useRef();
 	const hudFacemagnetRef = useRef();
 	const hudBirateMonitorRef = useRef();
@@ -156,10 +157,20 @@ const FASClient = forwardRef((props, ref) => {
 			typeof msg.type !== 'undefined' &&
 			['success', 'error', 'info', 'warning'].indexOf(String(msg.type)) !== -1
 		) {
-			notificationRef.current.showNotification(
-				msg.message,
-				msg.type.toLowerCase()
-			);
+			let content = msg.message;
+			let type = msg.type;
+
+			if (
+				notification &&
+				notification.content === content &&
+				notification.type === type
+			) {
+				return;
+			} else {
+				toast(content, {type});
+			}
+			setNotification({content, type});
+
 			if (
 				msg.type === 'success' &&
 				['Verification successful!!', 'Registration successful!!!'].includes(
@@ -167,7 +178,7 @@ const FASClient = forwardRef((props, ref) => {
 				)
 			) {
 				console.log('Message: ', msg);
-				message.success(msg.message, 10000);
+				// message.success(msg.message, 10000);
 				hudUserGuidanceAlertRef.current.clear();
 				onComplete(msg.token);
 			} else if (
@@ -175,7 +186,7 @@ const FASClient = forwardRef((props, ref) => {
 				(msg.type === 'warning' && msg.message === 'Liveliness check failed!!!')
 			) {
 				hudUserGuidanceAlertRef.current.clear();
-				message.error(msg.message, 10000);
+				// message.error(msg.message, 10000);
 				onFailure();
 			}
 		} else if (typeof msg.type !== 'undefined' && msg.type === 'data') {
@@ -605,7 +616,6 @@ const FASClient = forwardRef((props, ref) => {
 							}}
 						>
 							<Button
-								// type="success"
 								icon={
 									connected ? <PauseCircleOutlined /> : <PlayCircleOutlined />
 								}
@@ -623,25 +633,6 @@ const FASClient = forwardRef((props, ref) => {
 								{connected ? 'Stop' : 'Start'}
 							</Button>
 						</div>
-
-						{/* {!!progress && (
-              <div
-                style={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)',
-                  zIndex: 1000,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <Loader />
-              </div>
-            )} */}
-
 						<div
 							className="camera-container"
 							style={{
@@ -713,29 +704,6 @@ const FASClient = forwardRef((props, ref) => {
 								<HudFaceMagnetProgress ref={hudFacemagnetRef} />
 							</div>
 							<div
-								id="notification-container"
-								style={{
-									position: 'absolute',
-									top: 0,
-									left: 0,
-									paddingTop: '7%',
-									width: '100%',
-									height: '100%',
-								}}
-							></div>
-							<div
-								id="hud-notification-container"
-								style={{
-									position: 'absolute',
-									top: 0,
-									left: 0,
-									width: '100%',
-									height: '100%',
-								}}
-							>
-								<HudNotification ref={notificationRef} duration={1000} />
-							</div>
-							<div
 								id="hud-user-guidance-text-container"
 								style={{
 									position: 'absolute',
@@ -764,12 +732,6 @@ const FASClient = forwardRef((props, ref) => {
 								/>
 							</div>
 						</div>
-						{/* <div
-              className="aspect-3-2"
-              style={{ position: 'absolute', top: 40, left: 0, width: '100%' }}
-            >
-              <ProgressScores logs={logs}></ProgressScores>
-            </div> */}
 					</div>
 				</div>
 			</div>
