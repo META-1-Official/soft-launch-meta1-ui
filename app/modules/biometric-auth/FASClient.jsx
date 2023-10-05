@@ -153,22 +153,17 @@ const FASClient = forwardRef((props, ref) => {
 
 	const handleFASData = (msg) => {
 		console.log('MSG: ', msg);
+		let content = msg.message;
+		let type = msg.type;
+
 		if (
 			typeof msg.type !== 'undefined' &&
-			['success', 'error', 'info', 'warning'].indexOf(String(msg.type)) !== -1
+			['success', 'error', 'info', 'warning'].indexOf(String(msg.type)) !==
+				-1 &&
+			notification &&
+			notification.content === content &&
+			notification.type === type
 		) {
-			let content = msg.message;
-			let type = msg.type;
-
-			if (
-				notification &&
-				notification.content === content &&
-				notification.type === type
-			) {
-				return;
-			} else {
-				toast(content, {type});
-			}
 			setNotification({content, type});
 
 			if (
@@ -180,6 +175,7 @@ const FASClient = forwardRef((props, ref) => {
 				console.log('Message: ', msg);
 				// message.success(msg.message, 10000);
 				hudUserGuidanceAlertRef.current.clear();
+				toast(content, {type});
 				onComplete(msg.token);
 			} else if (
 				(msg.type === 'error' && msg.message === 'Registration failure') ||
@@ -187,6 +183,7 @@ const FASClient = forwardRef((props, ref) => {
 			) {
 				hudUserGuidanceAlertRef.current.clear();
 				// message.error(msg.message, 10000);
+				toast(content, {type});
 				onFailure();
 			}
 		} else if (typeof msg.type !== 'undefined' && msg.type === 'data') {
