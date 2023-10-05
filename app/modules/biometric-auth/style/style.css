@@ -1,4 +1,0 @@
-#notification-container > .ant-message.ant-message-top {
-	position: static !important;
-	transform: translateY(10px) !important;
-}
