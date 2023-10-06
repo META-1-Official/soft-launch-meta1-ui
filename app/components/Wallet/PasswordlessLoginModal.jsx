@@ -169,7 +169,7 @@ class PasswordlessLoginModal extends React.Component {
 						});
 					}, 24 * 60 * 60 * 1000); // Auto timeout in 24 hrs
 				});
-		} else this.setState({authModalOpen: true});
+		} else this.setState({authModalOpen: true, accountName});
 	};
 
 	handleAccountNameChange = (accountName) => {
@@ -263,6 +263,7 @@ class PasswordlessLoginModal extends React.Component {
 						setOpen={(val) => this.setState({authModalOpen: val})}
 						web3auth={this.props.openLogin}
 						authMode="login"
+						login={accountName}
 					/>
 				)}
 			</>

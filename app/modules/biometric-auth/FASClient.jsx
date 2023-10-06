@@ -16,11 +16,11 @@ import ProgressScores from './hud/ProgressScores';
 import Loader from './LoaderComponent';
 import parseTurnServer from './helpers/parseTurnServer';
 import calculateCompletionPercentage from './helpers/calculateTasksProgress';
+import HudNotification from './hud/HudNotification';
 import HudUserGuidanceAlert from './hud/HudUserGuidanceAlert';
 import HudFaceMagnetProgress from './hud/HudFaceMagnetProgress';
 import HudBitrateMonitor from './hud/HudBitrateMonitor';
 import ProcessingCanvasComponent from './ProcessingCanvasComponent';
-import {toast} from 'react-toastify';
 
 const WSSignalingServer = process.env.REACT_APP_SIGNALIG_SERVER;
 
@@ -30,7 +30,6 @@ console.log('ICE Turn Server', IceServer);
 
 const FASClient = forwardRef((props, ref) => {
 	message.config({
-		// top: 100,
 		duration: 2,
 		maxCount: 1,
 		rtl: true,
@@ -48,6 +47,7 @@ const FASClient = forwardRef((props, ref) => {
 		task,
 		activeDeviceId,
 		onComplete,
+		onCancel,
 		onFailure = () => {},
 	} = props;
 
@@ -64,7 +64,6 @@ const FASClient = forwardRef((props, ref) => {
 	const [connected, setConnected] = useState(false);
 	const [logs, setLogs] = useState([]);
 	const [shouldCloseCamera, setShouldCloseCamera] = useState(false);
-	const [notification, setNotification] = useState();
 
 	const [loading, setLoading] = useState(false);
 	const [currentStream, setCurrentStream] = useState('empty');
@@ -72,7 +71,7 @@ const FASClient = forwardRef((props, ref) => {
 	const ws = useRef(null);
 	const pc = useRef(null);
 	const dc = useRef(null);
-	// const notificationRef = useRef();
+	const notificationRef = useRef();
 	const hudUserGuidanceAlertRef = useRef();
 	const hudFacemagnetRef = useRef();
 	const hudBirateMonitorRef = useRef();
@@ -153,19 +152,14 @@ const FASClient = forwardRef((props, ref) => {
 
 	const handleFASData = (msg) => {
 		console.log('MSG: ', msg);
-		let content = msg.message;
-		let type = msg.type;
-
 		if (
 			typeof msg.type !== 'undefined' &&
-			['success', 'error', 'info', 'warning'].indexOf(String(msg.type)) !==
-				-1 &&
-			notification &&
-			notification.content === content &&
-			notification.type === type
+			['success', 'error', 'info', 'warning'].indexOf(String(msg.type)) !== -1
 		) {
-			setNotification({content, type});
-
+			notificationRef.current.showNotification(
+				msg.message,
+				msg.type.toLowerCase()
+			);
 			if (
 				msg.type === 'success' &&
 				['Verification successful!!', 'Registration successful!!!'].includes(
@@ -175,15 +169,15 @@ const FASClient = forwardRef((props, ref) => {
 				console.log('Message: ', msg);
 				// message.success(msg.message, 10000);
 				hudUserGuidanceAlertRef.current.clear();
-				toast(content, {type});
 				onComplete(msg.token);
 			} else if (
-				(msg.type === 'error' && msg.message === 'Registration failure') ||
+				(msg.type === 'error' &&
+					(msg.message === 'Timed out, try again' ||
+						msg.message === 'Liveness failed, move your face')) ||
 				(msg.type === 'warning' && msg.message === 'Liveliness check failed!!!')
 			) {
 				hudUserGuidanceAlertRef.current.clear();
 				// message.error(msg.message, 10000);
-				toast(content, {type});
 				onFailure();
 			}
 		} else if (typeof msg.type !== 'undefined' && msg.type === 'data') {
@@ -200,6 +194,8 @@ const FASClient = forwardRef((props, ref) => {
 
 			hudFacemagnetRef.current.setData(msg.message);
 			setLogs((prevLogs) => [...prevLogs, {msg, timestamp: new Date()}]);
+		} else if (typeof msg.type !== 'undefined' && msg.type === 'task-state') {
+			hudFacemagnetRef.current.setTaskState(msg.state);
 		}
 
 		if (
@@ -613,6 +609,7 @@ const FASClient = forwardRef((props, ref) => {
 							}}
 						>
 							<Button
+								// type="success"
 								icon={
 									connected ? <PauseCircleOutlined /> : <PlayCircleOutlined />
 								}
@@ -653,9 +650,7 @@ const FASClient = forwardRef((props, ref) => {
 									objectFit: 'cover',
 								}}
 								videoConstraints={{
-									width: 1920,
-									height: 1080,
-									facingMode: 'user',
+									deviceId: selectedDevice,
 								}}
 								onUserMedia={() => {
 									const videoConstraints = webcamRef.current.videoConstraints;
@@ -701,6 +696,29 @@ const FASClient = forwardRef((props, ref) => {
 								<HudFaceMagnetProgress ref={hudFacemagnetRef} />
 							</div>
 							<div
+								id="notification-container"
+								style={{
+									position: 'absolute',
+									top: 0,
+									left: 0,
+									paddingTop: '7%',
+									width: '100%',
+									height: '100%',
+								}}
+							></div>
+							<div
+								id="hud-notification-container"
+								style={{
+									position: 'absolute',
+									top: 0,
+									left: 0,
+									width: '100%',
+									height: '100%',
+								}}
+							>
+								<HudNotification ref={notificationRef} duration={1000} />
+							</div>
+							<div
 								id="hud-user-guidance-text-container"
 								style={{
 									position: 'absolute',
@@ -729,6 +747,12 @@ const FASClient = forwardRef((props, ref) => {
 								/>
 							</div>
 						</div>
+						{/* <div
+              className="aspect-3-2"
+              style={{ position: 'absolute', top: 40, left: 0, width: '100%' }}
+            >
+              <ProgressScores logs={logs}></ProgressScores>
+            </div> */}
 					</div>
 				</div>
 			</div>

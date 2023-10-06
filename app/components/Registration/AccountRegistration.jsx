@@ -440,7 +440,7 @@ class AccountRegistration extends React.Component {
 		ss.set('account_registration_name', accountName);
 		ss.remove('account_login_name');
 
-		this.setState({authModalOpen: true});
+		this.setState({authModalOpen: true, accountName});
 	}
 
 	async proceedESign() {
@@ -770,6 +770,7 @@ class AccountRegistration extends React.Component {
 						setOpen={(val) => this.setState({authModalOpen: val})}
 						web3auth={this.props.openLogin}
 						authMode="registration"
+						login={this.state.accountName}
 					/>
 				)}
 			</>
