@@ -137,7 +137,7 @@ class AccountRegistration extends React.Component {
 		if (!email || !privKey) return;
 
 		if (this.state.task === TASK.VERIFY) {
-			toast(errorCase['Already Enrolled']);
+			// toast(errorCase['Already Enrolled']);
 			this.setState({faceKISuccess: true});
 			this.nextStep();
 			this.setState({verifying: false, photoIndex: 0});
