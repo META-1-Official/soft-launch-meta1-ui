@@ -200,6 +200,27 @@ const FASClient = forwardRef((props, ref) => {
 
 		if (
 			typeof msg.type !== 'undefined' &&
+			msg.type === 'msg' &&
+			msg.message.fas === 'stop'
+		) {
+			forceCleanUp();
+			hudUserGuidanceAlertRef.current.clear();
+			setConnected(false);
+		}
+
+		if (
+			typeof msg.type !== 'undefined' &&
+			msg.type === 'error' &&
+			msg.message === 'Liveness failed, move your face'
+		) {
+			notificationRef.current.showNotification(
+				'Liveliness failed, move your face',
+				msg.type.toLowerCase()
+			);
+		}
+
+		if (
+			typeof msg.type !== 'undefined' &&
 			msg.type === 'info' &&
 			msg.message === 'Session completed!!!'
 		) {
