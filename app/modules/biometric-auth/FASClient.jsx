@@ -64,6 +64,9 @@ const FASClient = forwardRef((props, ref) => {
 	const [connected, setConnected] = useState(false);
 	const [logs, setLogs] = useState([]);
 	const [shouldCloseCamera, setShouldCloseCamera] = useState(false);
+	const [dataChannelOpened, setDataChannelOpened] = useState(false);
+	const [webCamOpened, setWebCamOpened] = useState(false);
+	const [wsOpened, setWsOpened] = useState(false);
 
 	const [loading, setLoading] = useState(false);
 	const [currentStream, setCurrentStream] = useState('empty');
@@ -89,9 +92,21 @@ const FASClient = forwardRef((props, ref) => {
 		return description;
 	};
 
+	useEffect(() => {
+		if (emptyStreamRef.current && wsOpened) {
+			beginSession();
+		}
+	}, [webCamOpened, wsOpened]);
+
 	const bindWSEvents = () => {
-		ws.current.onclose = (event) => console.log('WS Closed', event);
-		ws.current.onerror = (event) => console.log('WS error', event);
+		ws.current.onclose = (event) => {
+			console.log('WS Closed', event);
+			setWsOpened(false);
+		};
+		ws.current.onerror = (event) => {
+			console.log('WS error', event);
+			setWsOpened(false);
+		};
 
 		ws.current.onopen = (event) => {
 			console.log('WS Opened', event);
@@ -101,11 +116,7 @@ const FASClient = forwardRef((props, ref) => {
 				iceCandidatePoolSize: 10,
 			});
 
-			if (webcamRef.current && typeof webcamRef.current.video !== 'undefined') {
-				beginSession();
-			}
-
-			// Get user media and add track to the connection
+			setWsOpened(true);
 		};
 
 		ws.current.onmessage = async (event) => {
@@ -200,6 +211,16 @@ const FASClient = forwardRef((props, ref) => {
 
 		if (
 			typeof msg.type !== 'undefined' &&
+			msg.type === 'msg' &&
+			msg.message.fas === 'stop'
+		) {
+			forceCleanUp();
+			hudUserGuidanceAlertRef.current.clear();
+			setConnected(false);
+		}
+
+		if (
+			typeof msg.type !== 'undefined' &&
 			msg.type === 'info' &&
 			msg.message === 'Session completed!!!'
 		) {
@@ -215,9 +236,17 @@ const FASClient = forwardRef((props, ref) => {
 			maxPacketLifetime: 500,
 		});
 
-		dc.current.onclose = () => console.log('data channel closed');
+		dc.current.onclose = () => {
+			setDataChannelOpened(false);
+			__unload();
+			__load();
+			console.log('data channel closed');
+		};
 
-		dc.current.onopen = () => console.log('data channel opened');
+		dc.current.onopen = () => {
+			setDataChannelOpened(true);
+			console.log('data channel opened');
+		};
 
 		dc.current.onmessage = function (event) {
 			// console.log(evt.data);
@@ -407,9 +436,9 @@ const FASClient = forwardRef((props, ref) => {
 			setLoading(false);
 		}
 
-		if (jwtTokenRef.current !== null) {
-			jwtTokenRef.current = null;
-		}
+		// if (jwtTokenRef.current !== null) {
+		// 	jwtTokenRef.current = null;
+		// }
 	};
 
 	const sendMessageToServer = (message) => {
@@ -548,7 +577,9 @@ const FASClient = forwardRef((props, ref) => {
 	};
 
 	const beginSession = () => {
-		processingCanvasComponentref.current.setOriginalStream(
+		console.log('Beginning session', emptyStreamRef.current);
+
+		processingCanvasComponentref.current.updateOriginalStream(
 			emptyStreamRef.current
 		);
 
@@ -623,10 +654,30 @@ const FASClient = forwardRef((props, ref) => {
 									height: 40,
 									fontWeight: 600,
 								}}
+								disabled={!dataChannelOpened}
 							>
 								{connected ? 'Stop' : 'Start'}
 							</Button>
 						</div>
+
+						{/* {!!progress && (
+              <div
+                style={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  zIndex: 1000,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <Loader />
+              </div>
+            )} */}
+
 						<div
 							className="camera-container"
 							style={{
@@ -638,6 +689,9 @@ const FASClient = forwardRef((props, ref) => {
 								margin: '0 auto',
 							}}
 						>
+							<button className="btn_x" onClick={() => onCancel()}>
+								X
+							</button>
 							<Webcam
 								audio={false}
 								ref={webcamRef}
@@ -653,27 +707,41 @@ const FASClient = forwardRef((props, ref) => {
 									deviceId: selectedDevice,
 								}}
 								onUserMedia={() => {
-									const videoConstraints = webcamRef.current.videoConstraints;
-									const videoTrack =
-										webcamRef.current.video.srcObject.getVideoTracks()[0];
-									const currentSettings = videoTrack.getSettings();
+									console.log('On user media');
+									const interval = setInterval(() => {
+										console.log(webcamRef.current);
+										if (typeof webcamRef.current.stream !== 'undefined') {
+											console.log('Got user permission');
+											clearInterval(interval);
 
-									console.log('Video Constraints:', videoConstraints);
-									console.log('Current Video Settings:', currentSettings);
+											const videoConstraints =
+												webcamRef.current.videoConstraints;
+											const videoTrack =
+												webcamRef.current.video.srcObject.getVideoTracks()[0];
+											const currentSettings = videoTrack.getSettings();
 
-									emptyStreamRef.current = webcamRef.current.video.srcObject;
+											console.log('Video Constraints:', videoConstraints);
+											console.log('Current Video Settings:', currentSettings);
 
-									setTimeout(() => {
-										hudFacemagnetRef.current.setCanvasWidth(getCanvasWidth());
-										hudFacemagnetRef.current.setCanvasHeight(getCanvasHeight());
-									}, 1000);
+											emptyStreamRef.current =
+												webcamRef.current.video.srcObject;
 
-									if (
-										typeof ws.current.readyState !== 'undefined' &&
-										ws.current.readyState === 1
-									) {
-										beginSession();
-									}
+											setTimeout(() => {
+												hudFacemagnetRef.current.setCanvasWidth(
+													getCanvasWidth()
+												);
+												hudFacemagnetRef.current.setCanvasHeight(
+													getCanvasHeight()
+												);
+											}, 1000);
+											setWebCamOpened(true);
+										} else {
+											console.log('Waiting for user permission');
+										}
+									}, 100);
+								}}
+								onUserMediaError={() => {
+									setWebCamOpened(false);
 								}}
 							/>
 
