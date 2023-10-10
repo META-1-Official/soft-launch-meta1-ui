@@ -484,7 +484,11 @@ class Header extends React.Component {
 						/>
 					</Text>
 				</Menu.Item>
-				<Menu.Item key="createAccount" className="level-2">
+				<Menu.Item
+					key="createAccount"
+					style={!this.props.locked_v2 ? {cursor: 'not-allowed'} : {}}
+					className={!this.props.locked_v2 ? 'disable-li-text' : ''}
+				>
 					<Text>
 						<Translate content="header.create_account" />
 					</Text>
