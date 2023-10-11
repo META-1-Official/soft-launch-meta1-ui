@@ -3,6 +3,8 @@ import {providers} from 'constants/providers';
 import {Modal} from 'antd';
 import {WALLET_ADAPTERS} from '@web3auth/base';
 import counterpart from 'counterpart';
+import {toast} from 'react-toastify';
+import kycService from '../../services/kyc.service';
 
 const arrow = require('assets/arrow.jpg');
 
@@ -60,10 +62,27 @@ const LoginProvidersModal = (props) => {
 	const [emailError, setEmailError] = useState(null);
 
 	const doAuth = async (provider) => {
-		const {web3auth} = props;
+		const {web3auth, login, authMode} = props;
 
 		if (!web3auth) {
 			return;
+		}
+
+		if (authMode === 'login') {
+			let user = await kycService.getUserKycProfileByAccount(login);
+
+			if (!user) {
+				toast('Something went wrong from the server.');
+				return;
+			} else {
+				if (
+					user.email.toLowerCase() !== email.toLowerCase() &&
+					provider === 'email_passwordless'
+				) {
+					toast('Email and wallet name are not matched.');
+					return;
+				}
+			}
 		}
 
 		try {
