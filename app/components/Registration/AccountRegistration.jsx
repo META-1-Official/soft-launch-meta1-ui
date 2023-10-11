@@ -220,9 +220,9 @@ class AccountRegistration extends React.Component {
 		this.updateDimensions();
 		this._checkReferrer();
 
-		if (!WalletDb.isLocked_v2()) {
-			WalletUnlockActions.lock_v2();
-		}
+		// if (!WalletDb.isLocked_v2() && window.location.search.) {
+		// 	WalletUnlockActions.lock_v2();
+		// }
 	}
 
 	timer = (ms) => new Promise((res) => setTimeout(res, ms));
