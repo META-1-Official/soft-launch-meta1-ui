@@ -7,6 +7,8 @@ import qs from 'qs';
 import {PrivateKey, key} from 'meta1-vision-js/es';
 import utils from 'common/utils';
 import SettingsActions from 'actions/SettingsActions';
+import WalletDb from 'stores/WalletDb';
+import WalletUnlockActions from 'actions/WalletUnlockActions';
 import {TASK} from '../../modules/biometric-auth/constants/constants';
 import FASClient from '../../modules/biometric-auth/FASClient';
 import fasServices from '../../services/face-ki.service';
@@ -217,6 +219,10 @@ class AccountRegistration extends React.Component {
 		});
 		this.updateDimensions();
 		this._checkReferrer();
+
+		if (!WalletDb.isLocked_v2()) {
+			WalletUnlockActions.lock_v2();
+		}
 	}
 
 	timer = (ms) => new Promise((res) => setTimeout(res, ms));
