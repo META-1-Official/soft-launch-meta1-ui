@@ -755,9 +755,9 @@ const FASClient = forwardRef((props, ref) => {
 								margin: '0 auto',
 							}}
 						>
-							<button className="btn_x" onClick={() => onCancel()}>
+							{/* <button className="btn_x" onClick={() => onCancel()}>
 								X
-							</button>
+							</button> */}
 							{isSupported && (
 								<Webcam
 									audio={false}
