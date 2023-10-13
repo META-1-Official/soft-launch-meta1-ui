@@ -4,7 +4,7 @@ import {ChainStore} from 'meta1-vision-js';
 import {PrivateKey, FetchChain, key} from 'meta1-vision-js/es';
 import qs from 'qs';
 import axios from 'axios';
-import {Modal, Select} from 'antd';
+import {Input, Button, Modal, Select} from 'antd';
 import counterpart from 'counterpart';
 import buildSignature4Fas from '../lib/chain/buildSignature4Fas';
 import {TASK} from '../modules/biometric-auth/constants/constants';
@@ -20,7 +20,6 @@ import ls from '../lib/common/localStorage';
 import faceKIService from '../services/face-ki.service';
 import kycService from 'services/kyc.service';
 import {Camera} from 'react-camera-pro';
-import {Button} from 'antd';
 import {toast} from 'react-toastify';
 import {getPublicCompressed} from '@toruslabs/eccrypto';
 import fasServices from '../services/face-ki.service';
@@ -43,7 +42,6 @@ const browserstack_test_accounts = [
 	'rock-64',
 	'rock-3',
 	'bond-02',
-	'jin124',
 	'antman-kok357',
 	'user-x01',
 	'user-x01-1',
@@ -83,6 +81,8 @@ class AuthRedirect extends React.Component {
 			numberOfCameras: 0,
 			activeDeviceId: '',
 			task: TASK.VERIFY,
+			step: '',
+			passkey: '',
 		};
 
 		this.generateAuthData = this.generateAuthData.bind(this);
@@ -94,18 +94,18 @@ class AuthRedirect extends React.Component {
 		this.continueLogin = this.continueLogin.bind(this);
 		this.getFASToken = this.getFASToken.bind(this);
 		this.faceVerify = this.faceVerify.bind(this);
+		this.onSubmitPasskeyForm = this.onSubmitPasskeyForm.bind(this);
 		this.webcamRef = React.createRef();
 	}
 
 	async handlePassKeyFormSubmit(account, passkey, email) {
-		const {publicKey, signature, signatureContent} = await buildSignature4Fas(
-			account,
-			passkey,
-			email
-		);
-		if (!publicKey || !signature) {
-			toast('Passkey is not valid!');
-			return;
+		let result;
+
+		try {
+		  result = await buildSignature4Fas(account, passkey, email);
+		} catch {
+		  toast('Passkey is not valid!');
+		  return;
 		}
 
 		const {token} = await fasServices.getFASToken({
@@ -118,7 +118,9 @@ class AuthRedirect extends React.Component {
 		});
 
 		if (!token) {
-			toast('Passkey is not valid!');
+			console.log('Could not get FAS token!');
+			toast('Something went wrong!');
+			this.setState({step: 'userform'});
 			return;
 		}
 
@@ -127,20 +129,22 @@ class AuthRedirect extends React.Component {
 
 	async getFASToken() {
 		try {
+			// const account = 'jin-1001';				// TEST USAGE - pass web3Auth
+			// const email = 'jin-1001@yopmail.com';	// TEST USAGE - pass web3Auth
+			// this.setState({step: 'passkey'});		// TEST USAGE - pass web3Auth
+			// return;									// TEST USAGE - pass web3Auth
+
 			const email = this.props.authData?.email.toLowerCase();
 			const account = ss.get('account_login_name', '');
-
 			const {doesUserExistsInFAS, wasUserEnrolledInOldBiometric} =
 				await faceKIService.fasMigrationStatus(email);
 
 			if (!doesUserExistsInFAS && wasUserEnrolledInOldBiometric) {
-				const passkey = prompt('Please provide your passkey', '');
-				this.handlePassKeyFormSubmit(account, passkey, email).then((token) => {
-					this.setState({token, task: TASK.REGISTER});
-				});
+				this.setState({step: 'passkey'});
 				return;
 			}
 
+			this.setState({step: 'faceki'});
 			const {token} = await fasServices.getFASToken({
 				account,
 				email,
@@ -159,6 +163,9 @@ class AuthRedirect extends React.Component {
 	}
 
 	componentDidMount() {
+		console.log('@111')
+		// this.getFASToken();			// TEST USAGE - pass web3Auth
+		// return;						// TEST USAGE - pass web3Auth
 		const {openLogin, privKey, setOpenLoginInstance} = this.props;
 		const loginAccountName = ss.get('account_login_name', '');
 
@@ -231,6 +238,8 @@ class AuthRedirect extends React.Component {
 	}
 
 	componentDidUpdate(prevProps, prevState) {
+		// this.getFASToken();			// TEST USAGE - pass web3Auth
+		// return;						// TEST USAGE - pass web3Auth
 		const {openLogin, privKey, authData} = this.props;
 		if (openLogin && !prevProps.openLogin) {
 			this.generateAuthData();
@@ -275,87 +284,6 @@ class AuthRedirect extends React.Component {
 			this.continueLogin(token);
 		}
 	}
-
-	// async checkAndVerify() {
-	// 	const {privKey, authData} = this.props;
-	// 	const {photoIndex, device} = this.state;
-	// 	const accountName = ss.get('account_login_name', '');
-	//
-	// 	if (!accountName || !privKey) return;
-	//
-	// 	this.setState({verifying: true});
-	//
-	// 	const response_user = await kycService.getUserKycProfile(
-	// 		authData.email.toLowerCase()
-	// 	);
-	//
-	// 	if (!response_user?.member1Name) {
-	// 		toast(errorCase['Not Matched']);
-	// 		this.setState({verifying: false});
-	// 		return;
-	// 	} else {
-	// 		const walletArry = response_user.member1Name.split(',');
-	//
-	// 		if (!walletArry.includes(accountName)) {
-	// 			toast(errorCase['Not Matched']);
-	// 			this.setState({verifying: false});
-	// 			return;
-	// 		}
-	// 	}
-	//
-	// 	const imageSrc = this.webcamRef.current.takePhoto();
-	//
-	// 	if (!imageSrc) {
-	// 		toast(errorCase['Camera Not Found']);
-	// 		this.setState({verifying: false});
-	// 		return;
-	// 	}
-	//
-	// 	var file = await this.dataURLtoFile(imageSrc, 'a.jpg');
-	//
-	// 	const response = await faceKIService.liveLinessCheck(file);
-	// 	this.setState({photoIndex: photoIndex + 1});
-	//
-	// 	if (!response) {
-	// 		toast(errorCase['Biometic Server Error']);
-	// 		this.setState({verifying: false, photoIndex: 0});
-	// 		return;
-	// 	}
-	//
-	// 	if (response.data.liveness !== 'Genuine' && photoIndex === 5) {
-	// 		toast(errorCase['Face not Detected']);
-	// 		this.setState({verifying: false, photoIndex: 0});
-	// 	} else if (response.data.liveness === 'Genuine') {
-	// 		this.setState({photoIndex: 0});
-	// 		await this.faceVerify(file);
-	// 	} else {
-	// 		await this.checkAndVerify();
-	// 	}
-	// }
-
-	// async faceVerify(file) {
-	// 	const {privKey, authData} = this.props;
-	//
-	// 	const response_verify = await faceKIService.verify(file);
-	// 	if (response_verify.status === 'Verify OK') {
-	// 		const nameArry = response_verify.name.split(',');
-	//
-	// 		if (nameArry.includes(authData.email.toLowerCase())) {
-	// 			this.setState({faceKISuccess: true});
-	// 			this.setState({verifying: false});
-	// 			this.continueLogin();
-	// 		} else {
-	// 			toast(errorCase['Invalid Email']);
-	// 			this.setState({verifying: false});
-	// 		}
-	// 	} else if (response_verify.status === 'Verify Failed') {
-	// 		toast(errorCase['Verify Failed']);
-	// 		this.setState({verifying: false});
-	// 	} else {
-	// 		toast('Please try again.');
-	// 		this.setState({verifying: false});
-	// 	}
-	// }
 
 	continueLogin(token) {
 		const {privKey, authData} = this.props;
@@ -437,6 +365,7 @@ class AuthRedirect extends React.Component {
 		const {redirectFromESign} = this.state;
 		const regUserName = ss.get('account_registration_name', '');
 		const logInUserName = ss.get('account_login_name', '');
+
 		if (regUserName) {
 			if (redirectFromESign) {
 				this.props.history.push('/registration?eSignStatus=success');
@@ -548,127 +477,151 @@ class AuthRedirect extends React.Component {
 		this.props.history.push('/market/META1_USDT');
 	};
 
+	onSubmitPasskeyForm = () => {
+		const {passkey} = this.state;
+		const accountName = ss.get('account_login_name', '');
+		const email = this.props.authData?.email.toLowerCase();
+
+		this.handlePassKeyFormSubmit(accountName, passkey, email)
+			.then((token) => {
+				this.setState({token, task: TASK.REGISTER});
+			});
+	}
+
 	render() {
-		const {width, devices, activeDeviceId} = this.state;
+		const {width, devices, activeDeviceId, step, login, passkey} = this.state;
 		const theme = this.props.theme;
 		const aspectRatio = 1.07;
 		const webCamWidth = width > 576 ? 550 : width - 26;
+		// const accountName = 'jin-1001';				// TEST USAGE - pass web3Auth
+		// const email = 'jin-1001@yopmail.com';		// TEST USAGE - pass web3Auth
+		const accountName = ss.get('account_login_name', '');
+		const email = this.props.authData?.email.toLowerCase();
 
 		return (
 			<div className="no-margin grid-block registration">
-				{this.state.login && (
+				{login && (
+				// {!login && (
 					<div className="horizontal align-center text-center">
 						<div className="create-account-block">
-							<div className="custom-auth-faceki">
-								<h4>
-									{counterpart.translate('registration.authenticate_your_face')}
-								</h4>
-								<h5>
-									{counterpart.translate(
-										'registration.require_biometric_authentication'
-									)}
-								</h5>
-								{this.state.webcamEnabled && (
-									<div className="webcam-wrapper">
-										<div className="flex-container">
-											<div className="flex-container-first">
-												<div className="position-head">
-													{counterpart.translate(
-														'registration.requiure_face_in_oval'
-													)}
+							{step === 'faceki' &&
+								<div className="custom-auth-faceki">
+									<h4>
+										{counterpart.translate('registration.authenticate_your_face')}
+									</h4>
+									<h5>
+										{counterpart.translate(
+											'registration.require_biometric_authentication'
+										)}
+									</h5>
+									{this.state.webcamEnabled && (
+										<div className="webcam-wrapper">
+											<div className="flex-container">
+												<div className="flex-container-first">
+													<div className="position-head">
+														{counterpart.translate(
+															'registration.requiure_face_in_oval'
+														)}
+													</div>
 												</div>
+												<button className="btn-x" onClick={this.handleModalClose}>
+													X
+												</button>
 											</div>
-											<button className="btn-x" onClick={this.handleModalClose}>
-												X
-											</button>
+											{this.state.numberOfCameras > 1 && (
+												<img
+													className="flip-button"
+													src={FlipImage}
+													onClick={() => {
+														if (this.webcamRef.current) {
+															const result =
+																this.webcamRef.current.switchCamera();
+														}
+													}}
+												/>
+											)}
+											{!this.state.token ? (
+												'loading ...'
+											) : (
+												<FASClient
+													ref={this.webcamRef}
+													token={this.state.token}
+													username={this.props.authData?.email.toLowerCase()}
+													task={this.state.task}
+													onComplete={this.faceVerify}
+												/>
+											)}
 										</div>
-										{this.state.numberOfCameras > 1 && (
-											<img
-												className="flip-button"
-												src={FlipImage}
-												onClick={() => {
-													if (this.webcamRef.current) {
-														const result =
-															this.webcamRef.current.switchCamera();
-													}
-												}}
-											/>
-										)}
-										{!this.state.token ? (
-											'loading ...'
-										) : (
-											<FASClient
-												ref={this.webcamRef}
-												token={this.state.token}
-												username={this.props.authData?.email.toLowerCase()}
-												task={this.state.task}
-												onComplete={this.faceVerify}
-											/>
-										)}
-										{/*<div className="flex_container">*/}
-										{/*	<span className="span-class">*/}
-										{/*		{!this.state.faceKISuccess*/}
-										{/*			? counterpart.translate(*/}
-										{/*					'registration.require_verification'*/}
-										{/*			  )*/}
-										{/*			: counterpart.translate(*/}
-										{/*					'registration.verification_success'*/}
-										{/*			  )}*/}
-										{/*	</span>*/}
-										{/*	<div className="span-class">*/}
-										{/*		{counterpart.translate(*/}
-										{/*			'registration.require_min_camera_resolution'*/}
-										{/*		)}*/}
-										{/*	</div>*/}
-										{/*	<div className="span-class">*/}
-										{/*		{counterpart.translate(*/}
-										{/*			'registration.verification_duration'*/}
-										{/*		)}*/}
-										{/*	</div>*/}
-										{/*</div>*/}
+									)}
+								</div>
+							}
+							{step === 'passkey' &&
+								<div className="custom-auth-passkey">
+									<h4>
+										{counterpart.translate('registration.passkeyform_title')}
+									</h4>
+									<span>
+										{counterpart.translate('registration.passkeyform_description')}
+									</span>
+									<div style={{width: '100%', marginTop: '20px'}}>
+										<label>
+											{counterpart.translate('registration.passkeyform_new_wallet_name')}
+										</label>
+										<input
+											control={Input}
+											value={accountName}
+											type="text"
+											contentEditable={false}
+											style={{border: '1px solid grey'}}
+										/>
 									</div>
-								)}
-								{/*{devices.length !== 0 && activeDeviceId !== '' && (*/}
-								{/*	<div style={{width: webCamWidth}}>*/}
-								{/*		<Select*/}
-								{/*			value={activeDeviceId}*/}
-								{/*			onChange={(value) => {*/}
-								{/*				let errMsgEle =*/}
-								{/*					document.getElementById('video').previousSibling;*/}
-								{/*				errMsgEle && errMsgEle.remove();*/}
-								{/*				this.setState({activeDeviceId: value});*/}
-								{/*			}}*/}
-								{/*			getPopupContainer={(triggerNode) =>*/}
-								{/*				triggerNode.parentNode*/}
-								{/*			}*/}
-								{/*		>*/}
-								{/*			{devices.map((d) => {*/}
-								{/*				return (*/}
-								{/*					<Select.Option key={d.deviceId} value={d.deviceId}>*/}
-								{/*						{d.label}*/}
-								{/*					</Select.Option>*/}
-								{/*				);*/}
-								{/*			})}*/}
-								{/*		</Select>*/}
-								{/*	</div>*/}
-								{/*)}*/}
-								{/*<div className="button-wrapper">*/}
-								{/*	<Button*/}
-								{/*		onClick={() => this.checkAndVerify()}*/}
-								{/*		disabled={*/}
-								{/*			this.state.verifying*/}
-								{/*				? true*/}
-								{/*				: this.state.faceKISuccess*/}
-								{/*				? true*/}
-								{/*				: false*/}
-								{/*		}*/}
-								{/*	>*/}
-								{/*		{this.state.verifying*/}
-								{/*			? counterpart.translate('registration.faceki_verifying')*/}
-								{/*			: counterpart.translate('registration.faceki_verify')}*/}
-								{/*	</Button>*/}
-								{/*</div>*/}
-							</div>
+									<div style={{width: '100%'}}>
+										<label>
+											{counterpart.translate('registration.passkeyform_email_address')}
+										</label>
+										<input
+											control={Input}
+											value={email}
+											type="text"
+											contentEditable={false}
+											style={{border: '1px solid grey'}}
+										/>
+									</div>
+									<div style={{width: '100%'}}>
+										<label>
+											{counterpart.translate('registration.passkeyform_your_passkey')}
+										</label>
+										<input
+											control={Input}
+											value={passkey}
+											type="password"
+											contentEditable={true}
+											style={{border: '1px solid grey'}}
+											onChange={(event) => {
+												this.setState({passkey: event.target.value});
+											}}
+										/>
+									</div>
+									<div>
+										<Button
+											type="danger"
+											style={{width: '100px'}}
+											onClick={this.handleModalClose}
+										>
+											Back
+										</Button>
+										<Button
+											type="primary"
+											style={{width: '100px', float: "right"}}
+											disabled={!passkey}
+											title={'Passkey is required'}
+											onClick={this.onSubmitPasskeyForm}
+										>
+											Submit
+										</Button>
+									</div>
+								</div>
+							}
 						</div>
 					</div>
 				)}

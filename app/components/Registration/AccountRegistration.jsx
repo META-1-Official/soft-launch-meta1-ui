@@ -46,10 +46,12 @@ class AccountRegistration extends React.Component {
 		super(props);
 		this.state = {
 			accountName: '',
+			email: '',
 			password: '',
 			firstStep: false,
 			finalStep: false,
 			faceKIStep: false,
+			passkeyStep: false,
 			migrationStep: false,
 			faceKISuccess: false,
 			passkey: '',
@@ -64,7 +66,10 @@ class AccountRegistration extends React.Component {
 			numberOfCameras: 0,
 			activeDeviceId: '',
 			task: TASK.REGISTER,
+			existingAccountName: '',
+			passkey: '',
 		};
+
 		this.webcamRef = React.createRef();
 		this.continue = this.continue.bind(this);
 		this.toggleConfirmed = this.toggleConfirmed.bind(this);
@@ -77,6 +82,8 @@ class AccountRegistration extends React.Component {
 		this.handleImportBtn = this.handleImportBtn.bind(this);
 		this.getFASToken = this.getFASToken.bind(this);
 		this.faceEnroll = this.faceEnroll.bind(this);
+		this.handleModalClose = this.handleModalClose.bind(this);
+		this.onSubmitPasskeyForm = this.onSubmitPasskeyForm.bind(this);
 	}
 
 	// dataURLtoFile(dataurl, filename) {
@@ -175,6 +182,7 @@ class AccountRegistration extends React.Component {
 				accountName,
 				password: this.genKey(`${accountName}${privKey}`),
 				finalStep: true,
+				passkeyStep: false,
 				faceKIStep: false,
 				migrationStep: false,
 				firstStep: false,
@@ -187,6 +195,7 @@ class AccountRegistration extends React.Component {
 			finalStep: false,
 			faceKIStep: false,
 			migrationStep: false,
+			passkeyStep: false,
 			firstStep: true,
 		});
 	}
@@ -263,16 +272,31 @@ class AccountRegistration extends React.Component {
 		}
 	}
 
-	async handlePassKeyFormSubmit(account, passkey, email) {
-		const {publicKey, signature, signatureContent} = await buildSignature4Fas(
-			account,
-			passkey,
-			email
-		);
+	onSubmitPasskeyForm = () => {
+		const {existingAccountName, passkey} = this.state;
+		const email = this.props.authData?.email.toLowerCase();
 
-		if (!publicKey || !signature) {
-			toast('Passkey is not valid!');
-			return;
+		this.handlePassKeyFormSubmit(existingAccountName, passkey, email)
+			.then((token) => {
+				this.setState({
+					task: TASK.REGISTER,
+					faceKIStep: true,
+					passkeyStep: false
+				});
+
+				this.loadVideo(true)
+					.then(() => this.setState({token}));
+			});
+	}
+
+	async handlePassKeyFormSubmit(account, passkey, email) {
+		let result;
+
+		try {
+		  result = await buildSignature4Fas(account, passkey, email);
+		} catch {
+		  toast('Wallet name and Passkey not match!');
+		  return;
 		}
 
 		const {token} = await fasServices.getFASToken({
@@ -285,7 +309,17 @@ class AccountRegistration extends React.Component {
 		});
 
 		if (!token) {
-			toast('Passkey is not valid!');
+			console.log('Could not get FAS token!');
+			toast('Something went wrong!');
+			this.setState({
+				firstStep: true,
+				passkeyStep: false,
+				finalStep: false,
+				faceKIStep: false,
+				migrationStep: false,
+				passkey: '',
+				existingAccountName: '',
+			});
 			return;
 		}
 
@@ -294,40 +328,52 @@ class AccountRegistration extends React.Component {
 
 	async getFASToken() {
 		try {
+			this.setState({
+				faceKIStep: true,
+				passkeyStep: false,
+				webcamEnabled: false,
+			});
+
+			const accountName = ss.get('account_registration_name', '');
 			const email = this.props.authData?.email.toLowerCase();
-			const account = ss.get('account_registration_name', '');
+			ss.set('email', email);
 
 			const {doesUserExistsInFAS, wasUserEnrolledInOldBiometric} =
 				await faceKIService.fasMigrationStatus(email);
 
 			const newTask = doesUserExistsInFAS ? TASK.VERIFY : TASK.REGISTER;
-			this.setState({task: newTask});
+			this.setState({task: newTask, email});
 
 			if (!doesUserExistsInFAS && wasUserEnrolledInOldBiometric) {
-				const account4Passkey = prompt(
-					'Please provide your existing wallet name',
-					''
-				);
-				const passkey = prompt('Please provide your passkey', '');
-				this.handlePassKeyFormSubmit(account4Passkey, passkey, email).then(
-					(token) => {
-						this.setState({token, task: TASK.REGISTER});
-					}
-				);
+				this.setState({
+					passkeyStep: true,
+					finalStep: false,
+					faceKIStep: false,
+					migrationStep: false,
+					firstStep: false,
+					passkey: '',
+					existingAccountName: '',
+				});
 				return;
 			}
 
 			const {message, token} = await fasServices.getFASToken({
-				account,
+				accountName,
 				email,
 				task: newTask,
 			});
 
 			if (token) {
-				this.setState((prevState) => ({...prevState, token}));
+				this.setState({
+					faceKIStep: true,
+					passkeyStep: false
+				});
+
+				this.loadVideo(true)
+					.then(() => this.setState({token}));
 			} else {
-				toast(message);
-				// this.props.history.push('/');
+				toast('Unable to get FAS Token.');
+				this.props.history.push('/');
 			}
 		} catch (error) {
 			console.error('FASToken Error: ', error);
@@ -352,6 +398,7 @@ class AccountRegistration extends React.Component {
 
 			if (this.props.authData && !eSignStatus) {
 				this.getFASToken();
+				return;
 			}
 
 			if (param === 'proceedRegistration' && openLogin && privKey && authData) {
@@ -415,7 +462,6 @@ class AccountRegistration extends React.Component {
 
 	async continue({accountName}) {
 		const response = await migrationService.checkOldUser(accountName);
-
 		if (response?.found === true) {
 			this.setState({
 				accountName,
@@ -464,6 +510,7 @@ class AccountRegistration extends React.Component {
 				finalStep: true,
 				firstStep: false,
 				faceKIStep: false,
+				passkeyStep: false,
 			});
 		});
 	}
@@ -472,30 +519,57 @@ class AccountRegistration extends React.Component {
 		const accountName = ss.get('account_registration_name', '');
 		const {privKey, authData} = this.props;
 		if (!accountName || !privKey) return;
-		ss.set('email', authData.email.toLowerCase());
+		const email = authData.email.toLowerCase();
+		ss.set('email', email);
 		ss.set('authdata', JSON.stringify(authData));
 		ss.set('confirmed', false);
 		ss.set('confirmedTerms', false);
 		ss.set('confirmedTerms2', false);
 		ss.set('confirmedTerms3', false);
 		ss.set('confirmedTerms4', false);
-		this.loadVideo(true).then(() => {
-			this.setState({
-				accountName,
-				password: this.genKey(`${accountName}${privKey}`),
-				faceKIStep: true,
-				firstStep: false,
-				finalStep: false,
+
+		this.loadVideo(true)
+			.then(() => {
+				this.setState({
+					accountName,
+					email,
+					password: this.genKey(`${accountName}${privKey}`),
+					faceKIStep: true,
+					firstStep: false,
+					finalStep: false,
+					passkeyStep: false,
+				});
 			});
-		});
 	}
 
 	genKey(seed) {
 		return `P${PrivateKey.fromSeed(key.normalize_brainKey(seed)).toWif()}`;
 	}
 
+	handleModalClose() {
+		this.setState({
+			accountName: '',
+			email: '',
+			password: '',
+			firstStep: true,
+			torusAlreadyAssociatedEmail: false,
+			finalStep: false,
+			faceKIStep: false,
+			migrationStep: false,
+			faceKISuccess: false,
+			passkey: '',
+			device: {},
+			webcamEnabled: false,
+			verifying: false,
+		});
+		this.props.history.push('/registration');
+	}
+
 	renderScreen() {
-		const {firstStep, faceKIStep, finalStep, migrationStep} = this.state;
+		const {firstStep, faceKIStep, finalStep, migrationStep, passkeyStep, existingAccountName, passkey, token, webcamEnabled} = this.state;
+		const accountName = ss.get('account_registration_name', '');
+		const email = ss.get('email', '');
+
 		if (migrationStep) {
 			return (
 				<div
@@ -576,7 +650,7 @@ class AccountRegistration extends React.Component {
 							marginTop: '20px',
 						}}
 						disabled={
-							this.state.accountName === '' || this.state.passkey === ''
+							this.state.existingAccountName === '' || this.state.passkey === ''
 						}
 						onClick={this.handleImportBtn}
 					>
@@ -595,7 +669,12 @@ class AccountRegistration extends React.Component {
 					<h4>{counterpart.translate('registration.biometric_2fa_title')}</h4>
 					<h5>{counterpart.translate('registration.biometric_2fa_info')}</h5>
 					<br />
-					{this.state.webcamEnabled && (
+					{!webcamEnabled && (
+						<div className="webcam-wrapper">
+							Setting up cameras...
+						</div>
+					)}
+					{webcamEnabled && (
 						<div className="webcam-wrapper">
 							<div className="flex-container-new">
 								<div className="flex-container-first">
@@ -607,23 +686,7 @@ class AccountRegistration extends React.Component {
 								</div>
 								<button
 									className="btn-x"
-									onClick={() => {
-										this.setState({
-											accountName: '',
-											password: '',
-											firstStep: true,
-											torusAlreadyAssociatedEmail: false,
-											finalStep: false,
-											faceKIStep: false,
-											migrationStep: false,
-											faceKISuccess: false,
-											passkey: '',
-											device: {},
-											webcamEnabled: false,
-											verifying: false,
-										});
-										this.props.history.push('/registration');
-									}}
+									onClick={this.handleModalClose}
 								>
 									X
 								</button>
@@ -639,17 +702,13 @@ class AccountRegistration extends React.Component {
 									}}
 								/>
 							)}
-							{!this.state.token ? (
-								'loading ...'
-							) : (
-								<FASClient
-									ref={this.webcamRef}
-									token={this.state.token}
-									username={this.props.authData?.email.toLowerCase()}
-									task={this.state.task}
-									onComplete={this.faceEnroll}
-								/>
-							)}
+							<FASClient
+								ref={this.webcamRef}
+								token={this.state.token}
+								username={email}
+								task={this.state.task}
+								onComplete={this.faceEnroll}
+							/>
 							{/*<Camera*/}
 							{/*	ref={this.webcamRef}*/}
 							{/*	aspectRatio="cover"*/}
@@ -738,6 +797,87 @@ class AccountRegistration extends React.Component {
 					history={this.props.history}
 				/>
 			);
+		} else if (passkeyStep) {
+			return (<div className="custom-auth-passkey">
+				<h4>
+					{counterpart.translate('registration.passkeyform_title')}
+				</h4>
+				<span>
+					{counterpart.translate('registration.passkeyform_description')}
+				</span>
+				<div style={{width: '100%', marginTop: '20px'}}>
+					<label>
+						{counterpart.translate('registration.passkeyform_new_wallet_name')}
+					</label>
+					<input
+						control={Input}
+						value={accountName}
+						type="text"
+						contentEditable={false}
+						style={{border: '1px solid grey'}}
+					/>
+				</div>
+				<div style={{width: '100%', marginTop: '20px'}}>
+					<label>
+						{counterpart.translate('registration.passkeyform_email_address')}
+					</label>
+					<input
+						control={Input}
+						value={email}
+						type="text"
+						contentEditable={false}
+						style={{border: '1px solid grey'}}
+					/>
+				</div>
+				<div style={{width: '100%', marginTop: '20px'}}>
+					<label>
+						{counterpart.translate('registration.passkeyform_existing_wallet_name')}
+					</label>
+					<input
+						control={Input}
+						value={existingAccountName}
+						type="text"
+						contentEditable={true}
+						style={{border: '1px solid grey'}}
+						onChange={(event) => {
+							this.setState({existingAccountName: event.target.value});
+						}}
+					/>
+				</div>
+				<div style={{width: '100%', marginTop: '20px'}}>
+					<label>
+						{counterpart.translate('registration.passkeyform_your_passkey')}
+					</label>
+					<input
+						control={Input}
+						value={passkey}
+						type="password"
+						contentEditable={true}
+						style={{border: '1px solid grey'}}
+						onChange={(event) => {
+							this.setState({passkey: event.target.value});
+						}}
+					/>
+				</div>
+				<div style={{width: '100%', marginTop: '20px'}}>
+					<Button
+						type="danger"
+						style={{width: '100px'}}
+						onClick={this.handleModalClose}
+					>
+						Back
+					</Button>
+					<Button
+						type="primary"
+						style={{width: '100px', float: "right"}}
+						disabled={!passkey}
+						title={'Passkey is required'}
+						onClick={this.onSubmitPasskeyForm}
+					>
+						Submit
+					</Button>
+				</div>
+			</div>);
 		} else {
 			return (
 				<AccountRegistrationForm
@@ -758,13 +898,6 @@ class AccountRegistration extends React.Component {
 								<div style={{cursor: 'pointer'}} onClick={this.backBtnClick}>
 									{`<< ${counterpart.translate('wallet.back')}`}
 								</div>
-							)}
-							{this.state.faceKIStep === false && (
-								<Translate
-									component="h3"
-									className="registration-account-title"
-									content="registration.createByPassword"
-								/>
 							)}
 							{this.renderScreen()}
 						</div>
