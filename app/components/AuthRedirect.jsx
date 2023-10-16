@@ -164,7 +164,6 @@ class AuthRedirect extends React.Component {
 	}
 
 	componentDidMount() {
-		console.log('@111');
 		// this.getFASToken();			// TEST USAGE - pass web3Auth
 		// return;						// TEST USAGE - pass web3Auth
 		const {openLogin, privKey, setOpenLoginInstance} = this.props;
@@ -483,13 +482,16 @@ class AuthRedirect extends React.Component {
 		const accountName = ss.get('account_login_name', '');
 		const email = this.props.authData?.email.toLowerCase();
 
-		this.handlePassKeyFormSubmit(accountName, passkey, email).then((token) => {
-			this.setState({token, task: TASK.REGISTER});
-		});
+		this.handlePassKeyFormSubmit(accountName, passkey, email)
+			.then((token) => {
+				if (!token) return;
+
+				this.setState({token, task: TASK.REGISTER, step: 'faceki'});
+			});
 	};
 
 	render() {
-		const {width, devices, activeDeviceId, step, login, passkey} = this.state;
+		const {width, devices, activeDeviceId, step, login, passkey, token} = this.state;
 		const theme = this.props.theme;
 		const aspectRatio = 1.07;
 		const webCamWidth = width > 576 ? 550 : width - 26;
@@ -504,137 +506,116 @@ class AuthRedirect extends React.Component {
 					// {!login && (
 					<div className="horizontal align-center text-center">
 						<div className="create-account-block">
-							{step === 'faceki' && (
-								<div className="custom-auth-faceki">
-									<h4>
-										{counterpart.translate(
-											'registration.authenticate_your_face'
-										)}
-									</h4>
-									<h5>
-										{counterpart.translate(
-											'registration.require_biometric_authentication'
-										)}
-									</h5>
-									{this.state.webcamEnabled && (
-										<div className="webcam-wrapper">
-											<div className="flex-container">
-												<div className="flex-container-first">
-													<div className="position-head">
-														{counterpart.translate(
-															'registration.requiure_face_in_oval'
-														)}
-													</div>
-												</div>
-												<button
-													className="btn-x"
-													onClick={this.handleModalClose}
-												>
-													X
-												</button>
-											</div>
-											{this.state.numberOfCameras > 1 && (
-												<img
-													className="flip-button"
-													src={FlipImage}
-													onClick={() => {
-														if (this.webcamRef.current) {
-															const result =
-																this.webcamRef.current.switchCamera();
-														}
-													}}
-												/>
-											)}
-											{!this.state.token ? (
-												'loading ...'
-											) : (
-												<FASClient
-													ref={this.webcamRef}
-													token={this.state.token}
-													username={this.props.authData?.email.toLowerCase()}
-													task={this.state.task}
-													onComplete={this.faceVerify}
-												/>
-											)}
-										</div>
+							<div className={step === 'faceki' ? "custom-auth-faceki" : "none"}>
+								<h4>
+									{counterpart.translate('registration.authenticate_your_face')}
+								</h4>
+								<h5>
+									{counterpart.translate(
+										'registration.require_biometric_authentication'
 									)}
-								</div>
-							)}
-							{step === 'passkey' && (
-								<div className="custom-auth-passkey">
-									<h4>
-										{counterpart.translate('registration.passkeyform_title')}
-									</h4>
-									<span>
-										{counterpart.translate(
-											'registration.passkeyform_description'
+								</h5>
+								{this.state.webcamEnabled && (
+									<div className="webcam-wrapper">
+										<div className="flex-container">
+											<div className="flex-container-first">
+												<div className="position-head">
+													{counterpart.translate(
+														'registration.requiure_face_in_oval'
+													)}
+												</div>
+											</div>
+											<button className="btn-x" onClick={this.handleModalClose}>
+												X
+											</button>
+										</div>
+										{this.state.numberOfCameras > 1 && (
+											<img
+												className="flip-button"
+												src={FlipImage}
+												onClick={() => {
+													if (this.webcamRef.current) {
+														const result =
+															this.webcamRef.current.switchCamera();
+													}
+												}}
+											/>
 										)}
-									</span>
-									<div style={{width: '100%', marginTop: '20px'}}>
-										<label>
-											{counterpart.translate(
-												'registration.passkeyform_new_wallet_name'
-											)}
-										</label>
-										<input
-											control={Input}
-											value={accountName}
-											type="text"
-											contentEditable={false}
-											style={{border: '1px solid grey'}}
+										<FASClient
+											ref={this.webcamRef}
+											token={token}
+											username={this.props.authData?.email.toLowerCase()}
+											task={this.state.task}
+											onComplete={this.faceVerify}
 										/>
 									</div>
-									<div style={{width: '100%'}}>
-										<label>
-											{counterpart.translate(
-												'registration.passkeyform_email_address'
-											)}
-										</label>
-										<input
-											control={Input}
-											value={email}
-											type="text"
-											contentEditable={false}
-											style={{border: '1px solid grey'}}
-										/>
-									</div>
-									<div style={{width: '100%'}}>
-										<label>
-											{counterpart.translate(
-												'registration.passkeyform_your_passkey'
-											)}
-										</label>
-										<input
-											control={Input}
-											value={passkey}
-											type="password"
-											contentEditable={true}
-											style={{border: '1px solid grey'}}
-											onChange={(event) => {
-												this.setState({passkey: event.target.value});
-											}}
-										/>
-									</div>
-									<div>
-										<Button
-											type="danger"
-											style={{width: '100px'}}
-											onClick={this.handleModalClose}
-										>
-											Back
-										</Button>
-										<Button
-											type="primary"
-											style={{width: '100px', float: 'right'}}
-											disabled={!passkey}
-											title={'Passkey is required'}
-											onClick={this.onSubmitPasskeyForm}
-										>
-											Submit
-										</Button>
-									</div>
+								)}
+							</div>
+							<div className={step === 'passkey' ? "custom-auth-passkey" : "none"}>
+								<h4>
+									{counterpart.translate('registration.passkeyform_title')}
+								</h4>
+								<span>
+									{counterpart.translate('registration.passkeyform_description')}
+								</span>
+								<div style={{width: '100%', marginTop: '20px'}}>
+									<label>
+										{counterpart.translate('registration.passkeyform_new_wallet_name')}
+									</label>
+									<input
+										control={Input}
+										value={accountName}
+										type="text"
+										contentEditable={false}
+										style={{border: '1px solid grey'}}
+									/>
 								</div>
-							)}
+								<div style={{width: '100%'}}>
+									<label>
+										{counterpart.translate('registration.passkeyform_email_address')}
+									</label>
+									<input
+										control={Input}
+										value={email}
+										type="text"
+										contentEditable={false}
+										style={{border: '1px solid grey'}}
+									/>
+								</div>
+								<div style={{width: '100%'}}>
+									<label>
+										{counterpart.translate('registration.passkeyform_your_passkey')}
+									</label>
+									<input
+										control={Input}
+										value={passkey}
+										type="password"
+										contentEditable={true}
+										style={{border: '1px solid grey'}}
+										onChange={(event) => {
+											this.setState({passkey: event.target.value});
+										}}
+									/>
+								</div>
+								<div>
+									<Button
+										type="danger"
+										style={{width: '100px'}}
+										onClick={this.handleModalClose}
+									>
+										Back
+									</Button>
+									<Button
+										type="primary"
+										style={{width: '100px', float: "right"}}
+										disabled={!passkey}
+										title={'Passkey is required'}
+										onClick={this.onSubmitPasskeyForm}
+									>
+										Submit
+									</Button>
+								</div>
+							</div>
 						</div>
 					</div>
 				)}
