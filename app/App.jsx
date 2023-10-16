@@ -365,10 +365,15 @@ class App extends React.Component {
 	onRouteChanged() {
 		document.title = titleUtils.GetTitleByPath(this.props.location.pathname);
 
+		const registering = window.location.pathname
+			.toLowerCase()
+			.includes('registration');
+
 		const accountName = ss.get('account_login_name', null);
 		const accountToken = ss.get('account_login_token', null);
 
-		accountToken &&
+		!registering &&
+			accountToken &&
 			axios
 				.post(process.env.LITE_WALLET_URL + '/check_token', {
 					token: accountToken,

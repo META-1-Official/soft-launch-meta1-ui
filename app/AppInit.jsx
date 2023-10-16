@@ -227,6 +227,10 @@ class AppInit extends React.Component {
 			}
 		}
 
+		if (pathname.includes('registration')) {
+			contains = true;
+		}
+
 		if (!contains) {
 			contains = openRoutes.some((element) => {
 				return pathname.includes(element.toLowerCase());
