@@ -1,4 +1,4 @@
-import { hot } from 'react-hot-loader';
+import {hot} from 'react-hot-loader';
 import React from 'react';
 import App from './App';
 import IntlActions from 'actions/IntlActions';
@@ -10,8 +10,8 @@ import SettingsStore from 'stores/SettingsStore';
 import IntlStore from 'stores/IntlStore';
 import intlData from 'constants/intlData';
 import alt from 'alt-instance';
-import { connect, supplyFluxContext } from 'alt-react';
-import { IntlProvider } from 'react-intl';
+import {connect, supplyFluxContext} from 'alt-react';
+import {IntlProvider} from 'react-intl';
 import willTransitionTo from './routerTransition';
 import LoadingIndicator from './components/LoadingIndicator';
 import DisconnectedInternet from './components/DisconnectedInternet';
@@ -25,11 +25,11 @@ import ls from './lib/common/localStorage';
  * Electron does not support browserHistory, so we need to use hashHistory.
  * The same is true for servers without configuration options, such as Github Pages
  */
-import { Router } from 'react-router-dom';
+import {Router} from 'react-router-dom';
 import history from 'lib/common/history';
 import BodyClassName from 'components/BodyClassName';
 import * as Sentry from '@sentry/react';
-import { toast } from 'react-toastify';
+import {toast} from 'react-toastify';
 
 // for the cache purpose
 import AppStore from './assets/app-store.png';
@@ -80,7 +80,7 @@ class AppInit extends React.Component {
 	}
 
 	handleStatusChange() {
-		this.setState({ isOnline: navigator.onLine });
+		this.setState({isOnline: navigator.onLine});
 	}
 
 	componentDidUpdate(nextProps, nextState) {
@@ -102,7 +102,7 @@ class AppInit extends React.Component {
 		if (text.indexOf(logState[logState.length - 1])) {
 			logState.push(text);
 			if (this.mounted) {
-				this.setState({ extendeLogText: logState });
+				this.setState({extendeLogText: logState});
 			} else {
 				LogsActions.setLog(logState);
 			}
@@ -115,7 +115,7 @@ class AppInit extends React.Component {
 		if (!this.state.extendeLogText.length) {
 			LogsActions.getLogs().then((data) => {
 				if (data) {
-					this.setState({ extendeLogText: data });
+					this.setState({extendeLogText: data});
 				}
 			});
 		}
@@ -227,6 +227,10 @@ class AppInit extends React.Component {
 			}
 		}
 
+		if (pathname.includes('registration')) {
+			contains = true;
+		}
+
 		if (!contains) {
 			contains = openRoutes.some((element) => {
 				return pathname.includes(element.toLowerCase());
@@ -248,8 +252,7 @@ class AppInit extends React.Component {
 						ss_graphene.remove('passwordlessAccount_1e265722');
 						ss.remove('account_login_name');
 						ss.remove('account_login_token');
-						const isIncludes =
-							history?.location?.pathname.includes('explorer');
+						const isIncludes = history?.location?.pathname.includes('explorer');
 						if (!isIncludes) {
 							history.replace('/market/META1_USDT');
 						}
@@ -318,12 +321,12 @@ class AppInit extends React.Component {
 	}
 
 	_statusCallback(status) {
-		this.setState({ status });
+		this.setState({status});
 	}
 
 	render() {
-		const { theme, apiServer } = this.props;
-		const { apiConnected, apiError, syncError, status, isOnline } = this.state;
+		const {theme, apiServer} = this.props;
+		const {apiConnected, apiError, syncError, status, isOnline} = this.state;
 		if (!isOnline) {
 			return (
 				<DisconnectedInternet
