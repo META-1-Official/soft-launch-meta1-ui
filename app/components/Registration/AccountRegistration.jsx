@@ -899,6 +899,13 @@ class AccountRegistration extends React.Component {
 									{`<< ${counterpart.translate('wallet.back')}`}
 								</div>
 							)}
+							{this.state.faceKIStep === false && (
+								<Translate
+									component="h3"
+									className="registration-account-title"
+									content="registration.createByPassword"
+								/>
+							)}
 							{this.renderScreen()}
 						</div>
 					</div>

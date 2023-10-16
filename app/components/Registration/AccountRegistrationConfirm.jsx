@@ -52,6 +52,7 @@ class AccountRegistrationConfirm extends React.Component {
 			password: '',
 			downloadPaperWalletModal: false,
 			copyPasswordModal: false,
+			paperWalletDownloading: false
 		};
 		this.onFinishConfirm = this.onFinishConfirm.bind(this);
 		this.toggleConfirmed = this.toggleConfirmed.bind(this);
@@ -598,13 +599,15 @@ class AccountRegistrationConfirm extends React.Component {
 								!this.state.confirmedTerms ||
 								!this.state.confirmedTerms2 ||
 								!this.state.confirmedTerms3 ||
-								!this.state.confirmedTerms4
+								!this.state.confirmedTerms4 ||
+								paperWalletDownloading
 							}
 							className="create-acc-btn"
 							onClick={() => {
 								if (this.state.confirmedTerms4) {
 									this.setState({
 										copyPasswordModal: true,
+										paperWalletDownloading: true
 									});
 								}
 							}}
@@ -647,6 +650,7 @@ class AccountRegistrationConfirm extends React.Component {
 							onClick={() => {
 								this.setState({
 									copyPasswordModal: false,
+									paperWalletDownloading: false
 								});
 								this.onCreateAccount();
 							}}
