@@ -85,8 +85,6 @@ const FASClient = forwardRef((props, ref) => {
 	// const preloadCanvasRef = useRef(null);
 	const emptyStreamRef = useRef(null);
 
-	let jwtTokenRef = useRef(token);
-
 	const checkAndAddDir = (description) => {
 		// if (!description.sdp.includes('a=sendrecv')) {
 		//     description.sdp = description.sdp.replace(/(m=application[\s\S]*?)(a=)/, '$1a=sendrecv\r\n$2');
@@ -143,7 +141,7 @@ const FASClient = forwardRef((props, ref) => {
 					ws.current.send(
 						JSON.stringify({
 							description: checkAndAddDir(pc.current.localDescription),
-							token: jwtTokenRef.current,
+							token: token,
 							task: task,
 						})
 					);
@@ -312,7 +310,7 @@ const FASClient = forwardRef((props, ref) => {
 					ws.current.send(
 						JSON.stringify({
 							description: checkAndAddDir(pc.current.localDescription),
-							token: jwtTokenRef.current,
+							token: token,
 							task: task,
 						})
 					);
@@ -388,7 +386,7 @@ const FASClient = forwardRef((props, ref) => {
 			if (pc.current.connectionState === 'connected') {
 				sendMessageToServer({
 					type: 'msg',
-					message: {fas: 'start', token: jwtTokenRef.current, task: task},
+					message: {fas: 'start', token: token, task: task},
 				});
 			} else {
 				pc.current.onconnectionstatechange = (event) => {
@@ -397,7 +395,7 @@ const FASClient = forwardRef((props, ref) => {
 					if (pc.current.connectionState === 'connected') {
 						sendMessageToServer({
 							type: 'msg',
-							message: {fas: 'start', token: jwtTokenRef.current, task: task},
+							message: {fas: 'start', token: token, task: task},
 						});
 					}
 				};
@@ -437,10 +435,6 @@ const FASClient = forwardRef((props, ref) => {
 
 			setLoading(false);
 		}
-
-		// if (jwtTokenRef.current !== null) {
-		// 	jwtTokenRef.current = null;
-		// }
 	};
 
 	const sendMessageToServer = (message) => {
@@ -558,8 +552,6 @@ const FASClient = forwardRef((props, ref) => {
 			);
 			return toggleConnected();
 		} else {
-			jwtTokenRef.current = token;
-			console.log('Token set', token);
 			start();
 		}
 	};
