@@ -227,10 +227,6 @@ class AppInit extends React.Component {
 			}
 		}
 
-		if (pathname.includes('registration')) {
-			contains = true;
-		}
-
 		if (!contains) {
 			contains = openRoutes.some((element) => {
 				return pathname.includes(element.toLowerCase());
@@ -238,7 +234,7 @@ class AppInit extends React.Component {
 		}
 
 		const self = this;
-		if ((!contains || accountName) && accountToken) {
+		if ((!contains && accountToken) || (accountName && accountToken)) {
 			axios
 				.post(process.env.LITE_WALLET_URL + '/check_token', {
 					token: accountToken,
@@ -259,7 +255,6 @@ class AppInit extends React.Component {
 					}
 				})
 				.catch((error) => {
-					console.log('@@@@@error', error);
 					toast('User token is invalid or expired. Please login again.');
 					WalletUnlockActions.lock_v2().finally(() => {
 						const isIncludes = history?.location?.pathname.includes('explorer');
