@@ -102,10 +102,10 @@ class AuthRedirect extends React.Component {
 		let result;
 
 		try {
-		  result = await buildSignature4Fas(account, passkey, email);
+			result = await buildSignature4Fas(account, passkey, email);
 		} catch {
-		  toast('Passkey is not valid!');
-		  return;
+			toast('Passkey is not valid!');
+			return;
 		}
 
 		const {publicKey, signature, signatureContent} = result;
@@ -488,7 +488,7 @@ class AuthRedirect extends React.Component {
 
 				this.setState({token, task: TASK.REGISTER, step: 'faceki'});
 			});
-	}
+	};
 
 	render() {
 		const {width, devices, activeDeviceId, step, login, passkey, token} = this.state;
@@ -503,7 +503,7 @@ class AuthRedirect extends React.Component {
 		return (
 			<div className="no-margin grid-block registration">
 				{login && (
-				// {!login && (
+					// {!login && (
 					<div className="horizontal align-center text-center">
 						<div className="create-account-block">
 							<div className={step === 'faceki' ? "custom-auth-faceki" : "none"}>
