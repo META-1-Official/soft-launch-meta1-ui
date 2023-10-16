@@ -67,7 +67,6 @@ class AccountRegistration extends React.Component {
 			activeDeviceId: '',
 			task: TASK.REGISTER,
 			existingAccountName: '',
-			passkey: '',
 		};
 
 		this.webcamRef = React.createRef();
@@ -278,6 +277,8 @@ class AccountRegistration extends React.Component {
 
 		this.handlePassKeyFormSubmit(existingAccountName, passkey, email)
 			.then((token) => {
+				if (!token) return;
+
 				this.setState({
 					task: TASK.REGISTER,
 					faceKIStep: true,
@@ -551,18 +552,19 @@ class AccountRegistration extends React.Component {
 			accountName: '',
 			email: '',
 			password: '',
+			passkey: '',
 			firstStep: true,
 			torusAlreadyAssociatedEmail: false,
 			finalStep: false,
 			faceKIStep: false,
 			migrationStep: false,
 			faceKISuccess: false,
-			passkey: '',
 			device: {},
 			webcamEnabled: false,
 			verifying: false,
 		});
-		this.props.history.push('/registration');
+		// this.props.history.push("/registration");
+		window.location.reload();
 	}
 
 	renderScreen() {
