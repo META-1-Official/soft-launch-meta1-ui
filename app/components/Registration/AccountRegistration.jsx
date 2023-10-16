@@ -275,19 +275,21 @@ class AccountRegistration extends React.Component {
 		const {existingAccountName, passkey} = this.state;
 		const email = this.props.authData?.email.toLowerCase();
 
-		this.handlePassKeyFormSubmit(existingAccountName, passkey, email).then(
-			(token) => {
-				if (!token) return;
+		if (!existingAccountName, passkey, email)
 
-				this.setState({
-					task: TASK.REGISTER,
-					faceKIStep: true,
-					passkeyStep: false,
-				});
+		this.handlePassKeyFormSubmit(existingAccountName, passkey, email)
+			.then((token) => {
+					if (!token) return;
 
-				this.loadVideo(true).then(() => this.setState({token}));
-			}
-		);
+					this.setState({
+						task: TASK.REGISTER,
+						faceKIStep: true,
+						passkeyStep: false,
+					});
+
+					this.loadVideo(true).then(() => this.setState({token}));
+				}
+			);
 	};
 
 	async handlePassKeyFormSubmit(account, passkey, email) {
@@ -360,7 +362,7 @@ class AccountRegistration extends React.Component {
 			}
 
 			const {message, token} = await fasServices.getFASToken({
-				accountName,
+				account: accountName,
 				email,
 				task: newTask,
 			});
