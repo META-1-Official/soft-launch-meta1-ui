@@ -492,7 +492,7 @@ class AccountRegistration extends React.Component {
 
 		localStorage.setItem('openlogin_store', '{}');
 		ss.set('account_registration_name', accountName);
-		ss.remove('account_login_name');
+		// ss.remove('account_login_name');
 
 		this.setState({authModalOpen: true, accountName});
 	}

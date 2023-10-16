@@ -213,13 +213,6 @@ class AppInit extends React.Component {
 		const passwordlessAccount = ss_graphene.get('passwordlessAccount', null);
 		let contains = false;
 
-		const registering = window.location.pathname
-			.toLowerCase()
-			.includes('registration');
-		if (registering) {
-			WalletUnlockActions.lock_v2();
-		}
-
 		if (
 			(accountName && accountName !== passwordlessAccount) ||
 			accountName !== currentAccount
