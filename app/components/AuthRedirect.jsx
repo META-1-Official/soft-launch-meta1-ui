@@ -108,6 +108,7 @@ class AuthRedirect extends React.Component {
 		  return;
 		}
 
+		const {publicKey, signature, signatureContent} = result;
 		const {token} = await fasServices.getFASToken({
 			account,
 			email,
