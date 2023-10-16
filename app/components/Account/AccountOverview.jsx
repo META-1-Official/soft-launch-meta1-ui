@@ -386,7 +386,7 @@ class AccountOverview extends React.Component {
 			{
 				label: `${counterpart.translate(
 					'transaction.from'
-				)} / ${counterpart.translate('transaction.from')}`,
+				)} / ${counterpart.translate('transaction.to')}`,
 				value: 'From / To',
 			},
 			{label: counterpart.translate('exchange.price'), value: 'Price'},
