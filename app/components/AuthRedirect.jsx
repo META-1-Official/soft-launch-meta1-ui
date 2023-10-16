@@ -102,12 +102,13 @@ class AuthRedirect extends React.Component {
 		let result;
 
 		try {
-		  result = await buildSignature4Fas(account, passkey, email);
+			result = await buildSignature4Fas(account, passkey, email);
 		} catch {
-		  toast('Passkey is not valid!');
-		  return;
+			toast('Passkey is not valid!');
+			return;
 		}
 
+		const {publicKey, signature, signatureContent} = result;
 		const {token} = await fasServices.getFASToken({
 			account,
 			email,
@@ -163,7 +164,7 @@ class AuthRedirect extends React.Component {
 	}
 
 	componentDidMount() {
-		console.log('@111')
+		console.log('@111');
 		// this.getFASToken();			// TEST USAGE - pass web3Auth
 		// return;						// TEST USAGE - pass web3Auth
 		const {openLogin, privKey, setOpenLoginInstance} = this.props;
@@ -482,11 +483,10 @@ class AuthRedirect extends React.Component {
 		const accountName = ss.get('account_login_name', '');
 		const email = this.props.authData?.email.toLowerCase();
 
-		this.handlePassKeyFormSubmit(accountName, passkey, email)
-			.then((token) => {
-				this.setState({token, task: TASK.REGISTER});
-			});
-	}
+		this.handlePassKeyFormSubmit(accountName, passkey, email).then((token) => {
+			this.setState({token, task: TASK.REGISTER});
+		});
+	};
 
 	render() {
 		const {width, devices, activeDeviceId, step, login, passkey} = this.state;
@@ -501,13 +501,15 @@ class AuthRedirect extends React.Component {
 		return (
 			<div className="no-margin grid-block registration">
 				{login && (
-				// {!login && (
+					// {!login && (
 					<div className="horizontal align-center text-center">
 						<div className="create-account-block">
-							{step === 'faceki' &&
+							{step === 'faceki' && (
 								<div className="custom-auth-faceki">
 									<h4>
-										{counterpart.translate('registration.authenticate_your_face')}
+										{counterpart.translate(
+											'registration.authenticate_your_face'
+										)}
 									</h4>
 									<h5>
 										{counterpart.translate(
@@ -524,7 +526,10 @@ class AuthRedirect extends React.Component {
 														)}
 													</div>
 												</div>
-												<button className="btn-x" onClick={this.handleModalClose}>
+												<button
+													className="btn-x"
+													onClick={this.handleModalClose}
+												>
 													X
 												</button>
 											</div>
@@ -554,18 +559,22 @@ class AuthRedirect extends React.Component {
 										</div>
 									)}
 								</div>
-							}
-							{step === 'passkey' &&
+							)}
+							{step === 'passkey' && (
 								<div className="custom-auth-passkey">
 									<h4>
 										{counterpart.translate('registration.passkeyform_title')}
 									</h4>
 									<span>
-										{counterpart.translate('registration.passkeyform_description')}
+										{counterpart.translate(
+											'registration.passkeyform_description'
+										)}
 									</span>
 									<div style={{width: '100%', marginTop: '20px'}}>
 										<label>
-											{counterpart.translate('registration.passkeyform_new_wallet_name')}
+											{counterpart.translate(
+												'registration.passkeyform_new_wallet_name'
+											)}
 										</label>
 										<input
 											control={Input}
@@ -577,7 +586,9 @@ class AuthRedirect extends React.Component {
 									</div>
 									<div style={{width: '100%'}}>
 										<label>
-											{counterpart.translate('registration.passkeyform_email_address')}
+											{counterpart.translate(
+												'registration.passkeyform_email_address'
+											)}
 										</label>
 										<input
 											control={Input}
@@ -589,7 +600,9 @@ class AuthRedirect extends React.Component {
 									</div>
 									<div style={{width: '100%'}}>
 										<label>
-											{counterpart.translate('registration.passkeyform_your_passkey')}
+											{counterpart.translate(
+												'registration.passkeyform_your_passkey'
+											)}
 										</label>
 										<input
 											control={Input}
@@ -612,7 +625,7 @@ class AuthRedirect extends React.Component {
 										</Button>
 										<Button
 											type="primary"
-											style={{width: '100px', float: "right"}}
+											style={{width: '100px', float: 'right'}}
 											disabled={!passkey}
 											title={'Passkey is required'}
 											onClick={this.onSubmitPasskeyForm}
@@ -621,7 +634,7 @@ class AuthRedirect extends React.Component {
 										</Button>
 									</div>
 								</div>
-							}
+							)}
 						</div>
 					</div>
 				)}
