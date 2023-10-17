@@ -302,7 +302,7 @@ class AccountRegistration extends React.Component {
 		}
 
 		const {publicKey, signature, signatureContent} = result;
-		const {token} = await fasServices.getFASToken({
+		const {token, error, message} = await fasServices.getFASToken({
 			account,
 			email,
 			task: TASK.REGISTER,
@@ -312,8 +312,8 @@ class AccountRegistration extends React.Component {
 		});
 
 		if (!token) {
-			console.log('Could not get FAS token!');
-			toast('Something went wrong!');
+			console.log('Could not get FAS token!', token, message);
+			toast(message);
 			this.setState({
 				firstStep: true,
 				passkeyStep: false,

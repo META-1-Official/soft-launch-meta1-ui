@@ -109,7 +109,7 @@ class AuthRedirect extends React.Component {
 		}
 
 		const {publicKey, signature, signatureContent} = result;
-		const {token} = await fasServices.getFASToken({
+		const {token, message} = await fasServices.getFASToken({
 			account,
 			email,
 			task: TASK.REGISTER,
@@ -119,8 +119,8 @@ class AuthRedirect extends React.Component {
 		});
 
 		if (!token) {
-			console.log('Could not get FAS token!');
-			toast('Something went wrong!');
+			console.log('Could not get FAS token!', token, message);
+			toast(message);
 			this.setState({step: 'userform'});
 			return;
 		}
