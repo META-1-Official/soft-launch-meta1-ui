@@ -65,19 +65,18 @@ async function getFASToken({
 	signature = null,
 	signatureContent = null,
 }) {
-	try {
-		const {data} = await faceKIApi.post(`/getFASToken`, {
-			account,
-			email,
-			task,
-			publicKey,
-			signature,
-			signatureContent,
+	const payload = {account, email, task, publicKey, signature, signatureContent};
+	return faceKIApi.post(`/getFASToken`, payload)
+		.then((res) => {
+			return res.data;
+		})
+		.catch((e) => {
+			if (e.response && e.response.data && e.response.data.message) {
+				return { message: e.response.data.message, error: true };
+			} else {
+				return { message: "Something is wrong", error: true };
+			}
 		});
-		return data;
-	} catch (error) {
-		return {message: 'Something went wrong', error};
-	}
 }
 
 async function fasEnroll(email, privKey, fasToken) {
