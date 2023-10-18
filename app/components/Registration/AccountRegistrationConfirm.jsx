@@ -311,6 +311,12 @@ class AccountRegistrationConfirm extends React.Component {
 						}
 					);
 				});
+
+				const e_tk = ss.getItem('e-signing-token');
+				await axios.delete(
+					process.env.ESIGNATURE_URL + `/apiewallet/poling/remove?token=${e_tk}`
+				);
+				ss.remove('e-signing-token');
 			})
 			.catch((error) => {
 				console.log('ERROR AccountActions.createAccount', error);
@@ -443,13 +449,29 @@ class AccountRegistrationConfirm extends React.Component {
 			} catch (err) {
 				console.log('Error in e-sign token generation');
 			}
-			window.location.href = `${
-				process.env.ESIGNATURE_URL
-			}/e-sign?email=${encodeURIComponent(
-				email
-			)}&firstName=${firstname}&lastName=${lastname}&phoneNumber=${phone}&walletName=${accountName}&token=${token}&redirectUrl=${
-				window.location.origin
-			}/auth-proceed`;
+			try {
+				const response = await axios.post(
+					process.env.ESIGNATURE_URL + '/apiewallet/poling',
+					{
+						firstName: firstname,
+						lastName: lastname,
+						phoneNumber: phone,
+						walletName: accountName,
+						token: token,
+						email: email,
+						redirectUrl: window.location.origin,
+					}
+				);
+			} catch (err) {
+				console.log(err);
+			}
+
+			ss.set('e-signing-token', token);
+			// window.location.href = `${process.env.ESIGNATURE_URL
+			// 	}/e-sign?email=${encodeURIComponent(
+			// 		email
+			// 	)}&firstName=${firstname}&lastName=${lastname}&phoneNumber=${phone}&walletName=${accountName}&token=${token}&redirectUrl=${window.location.origin
+			// 	}/auth-proceed`;
 		} else {
 			toast(
 				counterpart.translate(
