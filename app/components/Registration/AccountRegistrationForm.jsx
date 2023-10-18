@@ -146,6 +146,7 @@ class AccountRegistrationForm extends React.Component {
 			}
 		}
 	}
+
 	phoneNumberSpacingHandler() {
 		let pattern = '';
 		if (Array.isArray(this.state.selectedCountryObj?.patterns)) {
@@ -218,10 +219,20 @@ class AccountRegistrationForm extends React.Component {
 	}
 
 	onSubmit() {
+		// Set
 		ss.set('phone', this.state.phone);
 		ss.set('firstname', this.state.firstname);
 		ss.set('lastname', this.state.lastname);
 		ss.set('email', this.state.email);
+		ss.set('account_registration_name', this.state.accountName);
+
+		// Reset
+		ss.remove('authdata');
+		ss.remove('confirmed');
+		ss.remove('confirmedTerms');
+		ss.remove('confirmedTerms2');
+		ss.remove('confirmedTerms3');
+		ss.remove('confirmedTerms4');
 
 		if (this.isValid()) {
 			this.props.continue({

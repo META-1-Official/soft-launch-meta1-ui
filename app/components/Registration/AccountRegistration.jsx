@@ -399,6 +399,7 @@ class AccountRegistration extends React.Component {
 			}).ref;
 
 			if (this.props.authData && !eSignStatus) {
+				ss.set('authdata', JSON.stringify(authData));
 				this.getFASToken();
 				return;
 			}
