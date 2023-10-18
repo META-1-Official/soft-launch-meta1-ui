@@ -72,6 +72,9 @@ class AuthStore extends BaseStore {
 			});
 
 			const openloginAdapter = new OpenloginAdapter({
+				loginSettings: {
+					mfaLevel: 'none',
+				},
 				adapterSettings: {
 					uxMode: 'redirect',
 					redirectUrl: window.location.origin + '/auth-proceed',

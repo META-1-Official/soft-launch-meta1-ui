@@ -285,6 +285,15 @@ class AccountRegistrationConfirm extends React.Component {
 					TransactionConfirmStore.listen(this.onFinishConfirm);
 				}
 
+				const e_tk = ss.get('e-signing-token', null);
+				if (e_tk) {
+					await axios.delete(
+						process.env.ESIGNATURE_URL +
+							`/apiewallet/poling/remove?token=${e_tk}`
+					);
+					ss.remove('e-signing-token');
+				}
+
 				FetchChain('getAccount', name).then(() => {
 					let keys = getPrivateKeys(name, password);
 					_createPaperWalletAsPDFNew(
@@ -302,12 +311,6 @@ class AccountRegistrationConfirm extends React.Component {
 						}
 					);
 				});
-
-				const e_tk = ss.getItem('e-signing-token');
-				await axios.delete(
-					process.env.ESIGNATURE_URL + `/apiewallet/poling/remove?token=${e_tk}`
-				);
-				ss.remove('e-signing-token');
 			})
 			.catch((error) => {
 				console.log('ERROR AccountActions.createAccount', error);
@@ -470,16 +473,19 @@ class AccountRegistrationConfirm extends React.Component {
 						redirectUrl: window.location.origin,
 					}
 				);
+				if (response) {
+					ss.set('e-signing-token', token);
+					window.location.href = `${
+						process.env.ESIGNATURE_URL
+					}/e-sign?email=${encodeURIComponent(
+						email
+					)}&firstName=${firstname}&lastName=${lastname}&phoneNumber=${phone}&walletName=${accountName}&token=${token}&redirectUrl=${
+						window.location.origin
+					}/auth-proceed`;
+				}
 			} catch (err) {
 				console.log(err);
 			}
-
-			ss.set('e-signing-token', token);
-			// window.location.href = `${process.env.ESIGNATURE_URL
-			// 	}/e-sign?email=${encodeURIComponent(
-			// 		email
-			// 	)}&firstName=${firstname}&lastName=${lastname}&phoneNumber=${phone}&walletName=${accountName}&token=${token}&redirectUrl=${window.location.origin
-			// 	}/auth-proceed`;
 		} else {
 			toast(
 				counterpart.translate(
