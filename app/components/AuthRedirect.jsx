@@ -73,7 +73,7 @@ class AuthRedirect extends React.Component {
 			faceKISuccess: false,
 			devices: [],
 			token: '',
-			webcamEnabled: true,
+			webcamEnabled: false,
 			verifying: false,
 			photoIndex: 0,
 			width: 0,
@@ -96,36 +96,6 @@ class AuthRedirect extends React.Component {
 		this.faceVerify = this.faceVerify.bind(this);
 		this.onSubmitPasskeyForm = this.onSubmitPasskeyForm.bind(this);
 		this.webcamRef = React.createRef();
-	}
-
-	async handlePassKeyFormSubmit(account, passkey, email) {
-		let result;
-
-		try {
-			result = await buildSignature4Fas(account, passkey, email);
-		} catch {
-			toast('Passkey is not valid!');
-			return;
-		}
-
-		const {publicKey, signature, signatureContent} = result;
-		const {token, message} = await fasServices.getFASToken({
-			account,
-			email,
-			task: TASK.REGISTER,
-			publicKey,
-			signature,
-			signatureContent,
-		});
-
-		if (!token) {
-			console.log('Could not get FAS token!', token, message);
-			toast(message);
-			this.setState({step: 'userform'});
-			return;
-		}
-
-		return token;
 	}
 
 	async getFASToken() {
@@ -153,7 +123,7 @@ class AuthRedirect extends React.Component {
 			});
 
 			if (token) {
-				this.setState((prevState) => ({...prevState, token}));
+				this.setState({token, webcamEnabled: true});
 			} else {
 				toast('Invalid combination of account name and email');
 				// this.props.history.push('/');
@@ -186,7 +156,7 @@ class AuthRedirect extends React.Component {
 			this.generateAuthData();
 		}
 		if (loginAccountName && privKey) {
-			this.loadVideo(true);
+			// this.loadVideo(true);
 		}
 
 		window.addEventListener('resize', this.updateDimensions);
@@ -352,7 +322,7 @@ class AuthRedirect extends React.Component {
 
 				setAuthData(data);
 				setPrivKey(key);
-				this.loadVideo(true);
+				// this.loadVideo(true);
 			} else {
 				this.props.history.push('/registration');
 			}
@@ -477,6 +447,36 @@ class AuthRedirect extends React.Component {
 		this.props.history.push('/market/META1_USDT');
 	};
 
+	async handlePassKeyFormSubmit(account, passkey, email) {
+		let result;
+
+		try {
+			result = await buildSignature4Fas(account, passkey, email);
+		} catch {
+			toast('Passkey is not valid!');
+			return;
+		}
+
+		const {publicKey, signature, signatureContent} = result;
+		const {token, message} = await fasServices.getFASToken({
+			account,
+			email,
+			task: TASK.REGISTER,
+			publicKey,
+			signature,
+			signatureContent,
+		});
+
+		if (!token) {
+			console.log('Could not get FAS token!', token, message);
+			toast(message);
+			this.setState({step: 'userform'});
+			return;
+		}
+
+		return token;
+	}
+
 	onSubmitPasskeyForm = () => {
 		const {passkey} = this.state;
 		const accountName = ss.get('account_login_name', '');
@@ -486,7 +486,12 @@ class AuthRedirect extends React.Component {
 			.then((token) => {
 				if (!token) return;
 
-				this.setState({token, task: TASK.REGISTER, step: 'faceki'});
+				this.setState({
+					token,
+					task: TASK.REGISTER,
+					step: 'faceki',
+					webcamEnabled: true
+				});
 			});
 	};
 
