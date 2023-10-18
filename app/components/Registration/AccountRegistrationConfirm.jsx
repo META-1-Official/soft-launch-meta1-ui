@@ -86,8 +86,7 @@ class AccountRegistrationConfirm extends React.Component {
 			email: ss.get('email'),
 			phone: ss.get('phone'),
 			firstname: ss.get('firstname'),
-			lastname: ss.get('lastname'),
-			authData: JSON.parse(ss.get('authdata', '{}')),
+			lastname: ss.get('lastname'),			
 			confirmed: ss.get('confirmed', false),
 			confirmedTerms: ss.get('confirmedTerms', false),
 			confirmedTerms2: ss.get('confirmedTerms2', false),
@@ -214,6 +213,7 @@ class AccountRegistrationConfirm extends React.Component {
 		if (res_update.error === true) {
 			return;
 		} else if (res_update) {
+			const authData = JSON.parse(ss.get('authdata', '{}'));
 			this.createAccount(
 				this.props.accountName,
 				this.props.password,
@@ -222,7 +222,7 @@ class AccountRegistrationConfirm extends React.Component {
 				this.state.firstname,
 				this.state.lastname,
 				this.props.password,
-				this.state.authData
+				authData,
 			);
 		} else {
 			return;
@@ -245,15 +245,6 @@ class AccountRegistrationConfirm extends React.Component {
 		authData
 	) {
 		const {referralAccount} = AccountStore.getState();
-		ss.remove('email');
-		ss.remove('phone');
-		ss.remove('firstname');
-		ss.remove('lastname');
-		ss.remove('confirmed');
-		ss.remove('confirmedTerms');
-		ss.remove('confirmedTerms2');
-		ss.remove('account_registration_name');
-		ss.remove('authdata');
 		const emailSubscription = ss.get('emailSubscription', true);
 		if (emailSubscription) {
 			sendXApi
@@ -347,12 +338,14 @@ class AccountRegistrationConfirm extends React.Component {
 			WalletUnlockActions.cancel();
 		}
 
+		let isLoginSuccess = false;
+		const authData = JSON.parse(ss.get('authdata', '{}'));
 		axios
 			.post(process.env.LITE_WALLET_URL + '/login', {
 				accountName: account,
 				email: this.state.email,
-				idToken: this.state.authData.web3Token,
-				appPubKey: this.state.authData.web3PubKey,
+				idToken: authData.web3Token,
+				appPubKey: authData.web3PubKey,
 				fasToken: ss.get('account_registration_fastoken'),
 			})
 			.then((response) => {
@@ -363,9 +356,10 @@ class AccountRegistrationConfirm extends React.Component {
 				ss.set('account_login_name', accountName);
 				ss.set('account_login_token', response.data['token']);
 				AccountActions.setPasswordlessAccount(accountName);
-				WalletUnlockActions.unlock_v2().then(() => {
-					this.props.history.push(`/account/${accountName}/`);
-				});
+				WalletUnlockActions.unlock_v2()
+					.then(() => {
+						this.props.history.push(`/account/${accountName}/`);
+					});
 				setTimeout(() => {
 					WalletUnlockActions.lock_v2();
 				}, 24 * 60 * 60 * 1000); // Auto timeout in 24 hrs
@@ -373,6 +367,21 @@ class AccountRegistrationConfirm extends React.Component {
 			.catch((error) => {
 				console.log('Login Error:', error);
 				this.props.history.push(`/market/META1_USDT/`);
+			})
+			.finally(() => {
+				this.setState({
+					confirmed: false,
+					confirmedTerms: false,
+					confirmedTerms2: false,
+					confirmedTerms3: false,
+					confirmedTerms4: false,
+					emailSubscription: true,
+					isErrored: false,
+					name: '',
+					password: '',
+					downloadPaperWalletModal: false,
+					copyPasswordModal: false,
+				});
 			});
 	}
 
