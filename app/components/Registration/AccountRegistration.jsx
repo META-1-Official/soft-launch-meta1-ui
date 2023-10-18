@@ -663,7 +663,7 @@ class AccountRegistration extends React.Component {
 							marginTop: '20px',
 						}}
 						disabled={
-							this.state.existingAccountName === '' || this.state.passkey === ''
+							this.state.accountName === '' || this.state.passkey === ''
 						}
 						onClick={this.handleImportBtn}
 					>
