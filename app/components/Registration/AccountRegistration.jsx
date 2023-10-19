@@ -851,7 +851,7 @@ class AccountRegistration extends React.Component {
 							contentEditable={true}
 							style={{border: '1px solid grey'}}
 							onChange={(event) => {
-								this.setState({existingAccountName: event.target.value});
+								this.setState({existingAccountName: event.target.value.toLowerCase()});
 							}}
 						/>
 					</div>
