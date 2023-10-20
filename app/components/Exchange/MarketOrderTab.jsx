@@ -259,7 +259,7 @@ const MarketOrderForm = (props) => {
 				console.log("@111 - 4 estPrice", floorFloat(estPrice, sellAsset.get('precision')), "price", price);
 			}
 
-			if (floorFloat(estPrice, sellAsset.get('precision')) <= price) {
+			if (floorFloat(estPrice, sellAsset.get('precision')) < price) {
 				while (
 					floorFloat(estPrice, sellAsset.get('precision')) <= price &&
 					delta < 5000
@@ -288,7 +288,7 @@ const MarketOrderForm = (props) => {
 				console.log("@111 - 5 estPrice", floorFloat(estPrice, sellAsset.get('precision')), "price", price);
 			}
 
-			if (floorFloat(estPrice, sellAsset.get('precision')) >= price) {
+			if (floorFloat(estPrice, sellAsset.get('precision')) > price) {
 				while (
 					floorFloat(estPrice, sellAsset.get('precision')) >= price &&
 					delta < 5000
