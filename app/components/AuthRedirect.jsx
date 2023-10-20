@@ -46,6 +46,7 @@ const browserstack_test_accounts = [
 	'user-x01',
 	'user-x01-1',
 	'user-x02',
+	'jin124',
 ];
 
 const errorCase = {

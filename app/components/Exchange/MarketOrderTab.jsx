@@ -205,6 +205,7 @@ const MarketOrderForm = (props) => {
 	};
 
 	const prepareOrders = (amount) => {
+		const DEBUG_MODE = false;
 		const orders = [];
 
 		const price = getMarketPriceWithAmount(amount);
@@ -230,9 +231,11 @@ const MarketOrderForm = (props) => {
 				: Number(amount) * Math.pow(10, buyAsset.get('precision'));
 		};
 
-		// console.log("@111 - 0 price: ", price, 'amount:', amount)
-		// console.log("@111 - 1 sellAsset symbol", sellAsset.get('symbol'), "buyAsset symbol:", sellAsset.get('precision'))
-		// console.log("@111 - 2 buyAsset symbol", buyAsset.get('symbol'), "buyAsset symbol", buyAsset.get('precision'))
+		if (DEBUG_MODE) {
+			console.log("@111 - 0 price: ", price, 'amount:', amount)
+			console.log("@111 - 1 sellAsset symbol", sellAsset.get('symbol'), "buyAsset symbol:", sellAsset.get('precision'))
+			console.log("@111 - 2 buyAsset symbol", buyAsset.get('symbol'), "buyAsset symbol", buyAsset.get('precision'))
+		}
 
 		// *** Fix tiny amount issue (precision issue) *** //
 		const estSellAmount = floorFloat(sellAmount(), 0);
@@ -241,8 +244,9 @@ const MarketOrderForm = (props) => {
 		let estPrice;
 		let delta = 0; // Prevent endless loop
 		
-		// console.log("@111 - 3 estSellAmount", estSellAmount, "estBuyAmount", estBuyAmount)
-
+		if (DEBUG_MODE) {
+			console.log("@111 - 3 estSellAmount", estSellAmount, "estBuyAmount", estBuyAmount);
+		}
 
 		if (isBid) {
 			estPrice = estSellAmount / estBuyAmount;
@@ -250,7 +254,10 @@ const MarketOrderForm = (props) => {
 				10,
 				buyAsset.get('precision') - sellAsset.get('precision')
 			);
-			// console.log("@111 - 4 estPrice", floorFloat(estPrice, sellAsset.get('precision')), "price", price)
+
+			if (DEBUG_MODE) {
+				console.log("@111 - 4 estPrice", floorFloat(estPrice, sellAsset.get('precision')), "price", price);
+			}
 
 			if (floorFloat(estPrice, sellAsset.get('precision')) <= price) {
 				while (
@@ -264,7 +271,10 @@ const MarketOrderForm = (props) => {
 						10,
 						buyAsset.get('precision') - sellAsset.get('precision')
 					);
-					// console.log("@111 40 - delta", delta, floorFloat(estPrice, sellAsset.get('precision')), "estPrice", estPrice, "price", price)
+
+					if (DEBUG_MODE) {
+						console.log("@111 41 - delta", delta, floorFloat(estPrice, sellAsset.get('precision')), "estPrice", estPrice, "price", price);
+					}
 				}
 			}
 		} else {
@@ -274,25 +284,34 @@ const MarketOrderForm = (props) => {
 				sellAsset.get('precision') - buyAsset.get('precision')
 			);
 
+			if (DEBUG_MODE) {
+				console.log("@111 - 5 estPrice", floorFloat(estPrice, sellAsset.get('precision')), "price", price);
+			}
+
 			if (floorFloat(estPrice, sellAsset.get('precision')) >= price) {
 				while (
 					floorFloat(estPrice, sellAsset.get('precision')) >= price &&
 					delta < 5000
 				) {
 					delta += 2;
-					_sellAmount -= 2;
+					_sellAmount += 2;
 					estPrice = estBuyAmount / _sellAmount;
 					estPrice *= Math.pow(
 						10,
 						sellAsset.get('precision') - buyAsset.get('precision')
 					);
-					// console.log("@111 41 - delta", delta, "estPrice", estPrice, "price", price)
+
+					if (DEBUG_MODE) {
+						console.log("@111 51 - delta", delta, "estPrice", estPrice, "price", price);
+					}
 				}
 			}
 		}
 		// ********************************************** //
 
-		// console.log("@111 - 5 delta", delta, "sellAmount", _sellAmount, "buyAmount", buyAmount(), "estPrice:", estPrice)
+		if (DEBUG_MODE) {
+			console.log("@111 - 6 delta", delta, "sellAmount", _sellAmount, "buyAmount", buyAmount(), "estPrice:", estPrice);
+		}
 
 		orders.push({
 			for_sale: new Asset({
@@ -310,9 +329,7 @@ const MarketOrderForm = (props) => {
 
 		props
 			.createMarketOrder(orders, ChainStore.getAsset('META1').get('id'))
-			.then(() => {
-				setAmount(0.0);
-			})
+			.then(() => setAmount(0.0))
 			.catch(() => {});
 	};
 
