@@ -2008,7 +2008,7 @@
 		"biometric_server_error": "Something went wrong from Biometric server.",
 		"passkeyform_title": "Input Your Passkey",
 		"passkeyform_description": "To complete the one time biometrics upgrade, please enter your passkey to migrate your 2 Factor Biometric Authentication.",
-		"passkeyform_new_wallet_name": "New Wallet Name",
+		"passkeyform_new_wallet_name": "Meta Wallet Name",
 		"passkeyform_email_address": "Email Address",
 		"passkeyform_existing_wallet_name": "Existing Wallet Name (connected with this email)",
 		"passkeyform_your_passkey": "Your Passkey",
