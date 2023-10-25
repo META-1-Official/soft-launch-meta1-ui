@@ -21,6 +21,7 @@ import ExploreCard from 'components/ExploreCard/ExploreCard';
 import {FaChartBar} from 'react-icons/fa';
 import chainIds from 'chain/chainIds';
 import counterpart from 'counterpart';
+import explorerService from '../../services/explorer.service';
 
 let accountStorage = new ls('__graphene__');
 const {Text} = Typography;
@@ -54,6 +55,7 @@ class Assets extends React.Component {
 			activeFilter: 'market',
 			filterSearch: props.filterSearch || '',
 			rowsOnPage: '25',
+			dexVolume: null,
 		};
 
 		this._toggleFilter = this._toggleFilter.bind(this);
@@ -70,6 +72,11 @@ class Assets extends React.Component {
 
 	UNSAFE_componentWillMount() {
 		this._checkAssets(this.props.assets, true);
+	}
+
+	async componentDidMount() {
+		let dexVolume = await explorerService.getDexVolume();
+		this.setState({dexVolume});
 	}
 
 	handleFilterChange(e) {
@@ -144,7 +151,7 @@ class Assets extends React.Component {
 
 	render() {
 		let {assets} = this.props;
-		let {activeFilter} = this.state;
+		let {activeFilter, dexVolume} = this.state;
 
 		let coreAsset = ChainStore.getAsset('1.3.0');
 
@@ -212,6 +219,7 @@ class Assets extends React.Component {
 								amount={record.currentSupply}
 								asset={record.assetId}
 								hide_asset={true}
+								cutZero={true}
 							/>
 						);
 					},
@@ -438,7 +446,7 @@ class Assets extends React.Component {
 											fontWeight: 700,
 										})}
 									>
-										3,090
+										{dexVolume?.volume_bts.toLocaleString()}
 									</Text>
 								</div>
 							</ExploreCard>
@@ -458,7 +466,7 @@ class Assets extends React.Component {
 											fontWeight: 700,
 										})}
 									>
-										432,385
+										{dexVolume?.volume_usd.toLocaleString()}
 									</Text>
 								</div>
 							</ExploreCard>
@@ -477,7 +485,7 @@ class Assets extends React.Component {
 											fontWeight: 700,
 										})}
 									>
-										235363
+										{dexVolume?.volume_cny.toLocaleString()}
 									</Text>
 								</div>
 							</ExploreCard>
@@ -496,7 +504,7 @@ class Assets extends React.Component {
 											fontWeight: 700,
 										})}
 									>
-										941
+										{dexVolume?.market_cap_bts?.toLocaleString().slice(0, -16)}
 									</Text>
 								</div>
 							</ExploreCard>
@@ -516,7 +524,7 @@ class Assets extends React.Component {
 											fontWeight: 700,
 										})}
 									>
-										132,183
+										{dexVolume?.market_cap_usd?.toLocaleString().slice(0, -16)}
 									</Text>
 								</div>
 							</ExploreCard>
@@ -535,7 +543,7 @@ class Assets extends React.Component {
 											fontWeight: 700,
 										})}
 									>
-										2
+										{dexVolume?.market_cap_cny?.toLocaleString().slice(0, -16)}
 									</Text>
 								</div>
 							</ExploreCard>

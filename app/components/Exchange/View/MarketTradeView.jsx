@@ -71,19 +71,6 @@ class MarketTradeView extends React.Component {
 												alt="Asset logo"
 												width="20px"
 												height="21px"
-												css={(theme) => ({
-													display: theme.mode === 'dark' ? 'unset' : 'none',
-												})}
-											/>
-											<img
-												className="asset-img"
-												src={getAssetIcon(row.symbol, 'light')}
-												alt="Asset logo"
-												css={(theme) => ({
-													display: theme.mode === 'light' ? 'unset' : 'none',
-													width: '30px',
-													height: '30px',
-												})}
 											/>
 											<div
 												className="td-content-common-text"
@@ -103,7 +90,7 @@ class MarketTradeView extends React.Component {
 								dataIndex="amount"
 								title={
 									<div className="market-order-table-text-header">
-										{counterpart.translate('exchange.amount_usdt')}
+										{counterpart.translate('exchange.amount')} ({(data?.[0]?.['asset']['symbol'])})
 									</div>
 								}
 								sorter={(a, b) => {
@@ -210,7 +197,7 @@ class MarketTradeView extends React.Component {
 								dataIndex="value"
 								title={
 									<div className="market-order-table-text-header">
-										{counterpart.translate('exchange.value')}
+										{counterpart.translate('exchange.price')}
 									</div>
 								}
 								render={(row) => {
@@ -225,7 +212,7 @@ class MarketTradeView extends React.Component {
 													lineHeight: '24px',
 												}}
 											>
-												{Number(row.value).toLocaleString('en')} {row.symbol}
+												{row.value < 1 ? row.value : Number(row.value).toLocaleString('en')} {row.symbol}
 											</div>
 										</div>
 									);

@@ -55,7 +55,7 @@ const MetaLoader = (props) => {
 						? sizes['large']
 						: sizes['small']
 				}
-				src="https://thumbs.gfycat.com/InfiniteImaginaryIndigowingedparrot.webp"
+				src="https://s11.gifyu.com/images/S4Tm6.gif"
 				alt="Meta1 Loader"
 			/>
 		</div>

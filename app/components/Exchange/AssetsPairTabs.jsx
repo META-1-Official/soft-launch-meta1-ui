@@ -24,6 +24,7 @@ import ls from '../../lib/common/localStorage';
 import history from 'lib/common/history';
 import {withTheme} from '@emotion/react';
 import {getAssetIcon} from 'constants/assets';
+import {Apis} from 'meta1-vision-ws';
 
 import {ScrollMenu, VisibilityContext} from 'react-horizontal-scrolling-menu';
 import 'react-horizontal-scrolling-menu/dist/styles.css';
@@ -61,7 +62,7 @@ class AssetsPairTabs extends React.Component {
 		}
 	}
 
-	UNSAFE_componentWillMount() {
+	async UNSAFE_componentWillMount() {
 		this._checkAssets(this.props.assets, true);
 	}
 
@@ -91,6 +92,10 @@ class AssetsPairTabs extends React.Component {
 		const {isFetchingMarketInfo} = this.state;
 		const marketBars = this.state.marketBars;
 
+		let filteredMarketStats = MarketsStore.getState().allMarketStats.filter(
+			(marketStat) => marketStat.price
+		);
+
 		if (!isFetchingMarketInfo && this.props.assets.size > 0) {
 			this.setState({isFetchingMarketInfo: true});
 
@@ -108,51 +113,67 @@ class AssetsPairTabs extends React.Component {
 				const quoteAsset = assetPair.quoteAsset;
 				const baseAsset = assetPair.baseAsset;
 
-				MarketsActions.unSubscribeMarket(
-					quoteAsset.get('id'),
-					baseAsset.get('id')
-				)
-					.then(() => {
-						MarketsActions.subscribeMarket(
-							baseAsset,
-							quoteAsset,
-							newBucketSize
-						).then(() => {
-							let bars = MarketsStore.getState().priceData;
+				let filter = filteredMarketStats.filter((stats) => {
+					const base = stats.price.base;
+					const quote = stats.price.quote;
 
-							const marketBarIndex = marketBars.findIndex(
-								(marketBar) =>
-									marketBar['quoteAssetId'] === quoteAsset.get('id') &&
-									marketBar['baseAssetId'] === baseAsset.get('id')
-							);
-							const newMarketBar = {
-								quoteAssetId: quoteAsset.get('id'),
-								baseAssetId: baseAsset.get('id'),
-								bars: bars.slice(-36),
-							};
+					if (
+						base.asset_id === baseAsset.get('id') &&
+						quote.asset_id === quoteAsset.get('id')
+					) {
+						return true;
+					}
+				});
 
-							if (marketBarIndex > -1) {
-								marketBars[marketBarIndex] = newMarketBar;
-							} else {
-								marketBars.push(newMarketBar);
-							}
+				if (filter.size > 0) {
+					MarketsActions.unSubscribeMarket(
+						quoteAsset.get('id'),
+						baseAsset.get('id')
+					)
+						.then(() => {
+							MarketsActions.subscribeMarket(
+								baseAsset,
+								quoteAsset,
+								newBucketSize
+							).then(() => {
+								let bars = MarketsStore.getState().priceData;
 
-							if (
-								index === assetPairs.length - 1 ||
-								index === assetPairs.length - 2
-							) {
-								const that = this;
-								setTimeout(() => {
-									that.setState({isFetchingMarketInfo: false, marketBars});
-								}, 500);
-							} else {
-								this.setState({marketBars});
-							}
+								const marketBarIndex = marketBars.findIndex(
+									(marketBar) =>
+										marketBar['quoteAssetId'] === quoteAsset.get('id') &&
+										marketBar['baseAssetId'] === baseAsset.get('id')
+								);
+								const newMarketBar = {
+									quoteAssetId: quoteAsset.get('id'),
+									baseAssetId: baseAsset.get('id'),
+									bars: bars.slice(-36),
+								};
+
+								if (marketBarIndex > -1) {
+									marketBars[marketBarIndex] = newMarketBar;
+								} else {
+									marketBars.push(newMarketBar);
+								}
+
+								if (
+									index === assetPairs.length - 1 ||
+									index === assetPairs.length - 2
+								) {
+									const that = this;
+									setTimeout(() => {
+										that.setState({isFetchingMarketInfo: false, marketBars});
+									}, 500);
+								} else {
+									this.setState({marketBars});
+								}
+							});
+						})
+						.catch((e) => {
+							this.setState({isFetchingMarketInfo: false, marketBars});
 						});
-					})
-					.catch((e) => {
-						this.setState({isFetchingMarketInfo: false, marketBars});
-					});
+				} else {
+					this.setState({isFetchingMarketInfo: false, marketBars});
+				}
 			});
 		}
 	}
@@ -290,18 +311,7 @@ class AssetsPairTabs extends React.Component {
 									className="asset-img"
 									src={getAssetIcon(quoteAssetSymbol)}
 									alt="Asset logo"
-									css={(theme) => ({
-										display: theme.mode === 'dark' ? 'unset' : 'none',
-										width: '24px',
-									})}
-								/>
-								<img
-									className="asset-img"
-									src={getAssetIcon(quoteAssetSymbol, 'light')}
-									alt="Asset logo"
-									css={(theme) => ({
-										display: theme.mode === 'light' ? 'unset' : 'none',
-									})}
+									css={(theme) => ({width: '24px'})}
 								/>
 							</div>
 							<div style={{display: 'flex', flexDirection: 'column'}}>

@@ -244,7 +244,6 @@ class MyTrade extends React.Component {
 					const price = order.getPrice();
 					const isBid = order.isBid;
 					const receiveAmount = order.amountToReceive();
-
 					let marketId = this.props.history?.location?.pathname.split('/')[2];
 
 					return {
@@ -263,7 +262,7 @@ class MyTrade extends React.Component {
 						},
 						value: {
 							value: price,
-							symbol: quote?._root?.entries[1][1],
+							symbol: base?._root?.entries[1][1],
 						},
 					};
 				})

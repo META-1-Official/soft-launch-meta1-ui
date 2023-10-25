@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {Table, Select} from 'antd';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
@@ -14,62 +14,44 @@ import {ChainStore} from 'meta1-vision-js';
 import {FaUserPlus, FaUserAlt, FaUserMinus} from 'react-icons/fa';
 import counterpart from 'counterpart';
 
-class Accounts extends React.Component {
-	constructor(props) {
-		super();
-		this.state = {
-			searchTerm: props.searchTerm,
-			isLoading: false,
-			rowsOnPage: '25',
-		};
+const Accounts = (props) => {
+	const [searchTerm, setSearchTerm] = useState(props.searchTerm || '');
+	const [isLoading, setIsLoading] = useState(false);
+	const [rowsOnPage, setRowsOnPage] = useState(25);
+	const [dataSource, setDataSource] = useState([]);
+	const [columns, setColumns] = useState([]);
+	const balanceObjects = [];
 
-		this._searchAccounts = debounce(this._searchAccounts, 200);
-		this.handleRowsChange = this.handleRowsChange.bind(this);
+	useEffect(async () => {
+		await initColums();
+		AccountActions.accountSearch('');
+	}, []);
 
-		this.balanceObjects = [];
-	}
+	useEffect(async () => {
+		await initDataSource();
+	}, [props.searchAccounts]);
 
-	shouldComponentUpdate(nextProps, nextState) {
-		return (
-			!Immutable.is(nextProps.searchAccounts, this.props.searchAccounts) ||
-			nextState.searchTerm !== this.state.searchTerm ||
-			nextState.isLoading !== this.state.isLoading
-		);
-	}
-
-	_onSearchChange(e) {
-		this.setState({
-			searchTerm: e.target.value.toLowerCase(),
-			isLoading: true,
-		});
-		this._searchAccounts(e.target.value);
-	}
-
-	_searchAccounts(searchTerm) {
+	const _onSearchChange = (e) => {
+		setSearchTerm(e.target.value.toLowerCase());
+		setIsLoading(true);
 		AccountActions.accountSearch(searchTerm);
-		this.setState({isLoading: false});
-	}
+	};
 
-	_onAddContact(account, e) {
+	const _onAddContact = (account, e) => {
 		e.preventDefault();
 		AccountActions.addAccountContact(account);
-		this.forceUpdate();
-	}
+	};
 
-	_onRemoveContact(account, e) {
+	const _onRemoveContact = (account, e) => {
 		e.preventDefault();
 		AccountActions.removeAccountContact(account);
-		this.forceUpdate();
-	}
+	};
 
-	handleRowsChange(rows) {
-		this.setState({
-			rowsOnPage: rows,
-		});
-		this.forceUpdate();
-	}
+	const handleRowsChange = (rows) => {
+		setRowsOnPage(rows);
+	};
 
-	_ensureBalanceObject(object_id) {
+	const _ensureBalanceObject = (object_id) => {
 		if (object_id && typeof object_id === 'string') {
 			if (!this.balanceObjects[object_id]) {
 				this.balanceObjects[object_id] = parseFloat(
@@ -80,16 +62,10 @@ class Accounts extends React.Component {
 		if (!this.balanceObjects[object_id]) {
 			this.balanceObjects[object_id] = 0;
 		}
-	}
+	};
 
-	render() {
-		let {searchAccounts} = this.props;
-		let {searchTerm} = this.state;
-
-		let dataSource = [];
-		let columns = [];
-
-		columns = [
+	const initColums = async () => {
+		const columns = [
 			{
 				title: <Translate component="span" content="explorer.assets.id" />,
 				dataIndex: 'accountId',
@@ -112,11 +88,11 @@ class Accounts extends React.Component {
 				key: 'accountContacts',
 				render: (contacts, record) => {
 					return contacts.has(record.accountName) ? (
-						<div onClick={this._onRemoveContact.bind(this, record.accountName)}>
+						<div onClick={() => _onRemoveContact(record.accountName)}>
 							<FaUserMinus />
 						</div>
 					) : (
-						<div onClick={this._onAddContact.bind(this, record.accountName)}>
+						<div onClick={() => _onAddContact(record.accountName)}>
 							<FaUserPlus />
 						</div>
 					);
@@ -195,10 +171,17 @@ class Accounts extends React.Component {
 			},
 		];
 
-		if (searchAccounts.size > 0 && searchTerm && searchTerm.length > 0) {
+		setColumns(columns);
+	};
+
+	const initDataSource = async () => {
+		let {searchAccounts} = props;
+		let dataSource = [];
+
+		if (searchAccounts.size > 0) {
 			searchAccounts
 				.filter((a) => {
-					return a.indexOf(searchTerm) !== -1;
+					return a.includes(searchTerm);
 				})
 				.sort((a, b) => {
 					if (a > b) {
@@ -211,84 +194,62 @@ class Accounts extends React.Component {
 				})
 				.map((name, id) => {
 					let currentAccount = ChainStore.getAccount(id.toLowerCase());
-					if (!currentAccount) {
-						setTimeout(() => {
-							currentAccount = ChainStore.getAccount(id.toLowerCase());
-
-							let balance = currentAccount
-								? currentAccount.getIn(['balances', '1.3.0']) || null
-								: null;
-
-							dataSource.push({
-								accountId: id,
-								accountContacts: AccountStore.getState().accountContacts,
-								accountName: name,
-								accountBalance: balance,
-							});
-							this.forceUpdate();
-						}, 1000);
-					} else {
-						let balance = currentAccount
-							? currentAccount.getIn(['balances', '1.3.0']) || null
-							: null;
-						dataSource.push({
-							accountId: id,
-							accountContacts: AccountStore.getState().accountContacts,
-							accountName: name,
-							accountBalance: balance,
-						});
-					}
+					let balance = currentAccount
+						? currentAccount.getIn(['balances', '1.3.0']) || null
+						: null;
+					dataSource.push({
+						accountId: id,
+						accountContacts: AccountStore.getState().accountContacts,
+						accountName: name,
+						accountBalance: balance,
+					});
 				});
 		}
-		return (
-			<div className="accounts-tab">
-				<div style={{padding: '30px'}}>
-					<div className="search-input">
-						<SearchInput
-							placeholder={counterpart.translate('markets.search')}
-							value={this.state.searchTerm}
-							onChange={this._onSearchChange.bind(this)}
-						/>
 
-						<div
-							style={{
-								display: 'inline-block',
-								marginLeft: '24px',
-							}}
-						>
-							{this.state.searchTerm && this.state.searchTerm.length == 0 ? (
-								<Translate content="account.start_typing_to_search" />
-							) : null}
-						</div>
-					</div>
+		setDataSource(dataSource);
+		setIsLoading(false);
+	};
 
-					<Table
-						style={{width: '100%', marginTop: '16px'}}
-						rowKey="accountId"
-						columns={columns}
-						dataSource={dataSource}
-						pagination={{
-							position: 'bottom',
-							pageSize: Number(this.state.rowsOnPage),
-						}}
+	return (
+		<div className="accounts-tab">
+			<div style={{padding: '30px'}}>
+				<div className="search-input">
+					<SearchInput
+						placeholder={counterpart.translate('markets.search')}
+						value={searchTerm}
+						onChange={_onSearchChange}
 					/>
-					{this.state.isLoading ? (
-						<div style={{textAlign: 'center', padding: 10}}>
-							<LoadingIndicator type="three-bounce" />
-						</div>
-					) : null}
+
+					<div
+						style={{
+							display: 'inline-block',
+							marginLeft: '24px',
+						}}
+					>
+						{searchTerm && searchTerm.length == 0 ? (
+							<Translate content="account.start_typing_to_search" />
+						) : null}
+					</div>
 				</div>
+
+				<Table
+					style={{width: '100%', marginTop: '16px'}}
+					rowKey="accountId"
+					columns={columns}
+					dataSource={dataSource}
+					pagination={{
+						position: 'bottom',
+						pageSize: Number(rowsOnPage),
+					}}
+				/>
+				{isLoading ? (
+					<div style={{textAlign: 'center', padding: 10}}>
+						<LoadingIndicator type="three-bounce" />
+					</div>
+				) : null}
 			</div>
-		);
-	}
-}
-
-Accounts.defaultProps = {
-	searchAccounts: {},
-};
-
-Accounts.propTypes = {
-	searchAccounts: PropTypes.object.isRequired,
+		</div>
+	);
 };
 
 export default Accounts;

@@ -582,7 +582,7 @@ class MarketsActions {
 				return true;
 			})
 			.catch((error) => {
-				console.log('order error:', error);
+				console.error('Process Transaction Error:', error);
 				return {error};
 			});
 	}

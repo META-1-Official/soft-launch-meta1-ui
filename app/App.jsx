@@ -45,6 +45,12 @@ import ls from './lib/common/localStorage';
 const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
 const ss_graphene = new ls('__graphene__');
+const ss_notification = new ls('__notification__');
+
+// for the cache purpose
+import AppStore from './assets/app-store.png';
+import GooglePlay from './assets/google-play.png';
+import OfflineIcon from './assets/offline.png';
 
 const Invoice = Loadable({
 	loader: () =>
@@ -362,28 +368,39 @@ class App extends React.Component {
 		const accountName = ss.get('account_login_name', null);
 		const accountToken = ss.get('account_login_token', null);
 
-		axios
-			.post(process.env.LITE_WALLET_URL + '/check_token', {token: accountToken})
-			.then((res) => {
-				if (res.data.accountName !== accountName) {
-					toast('user token is invalid');
-					WalletUnlockActions.lock_v2().finally(() => {
-						const isIncludes = history?.location?.pathname.includes('explorer');
+		accountName &&
+			accountToken &&
+			axios
+				.post(process.env.LITE_WALLET_URL + '/check_token', {
+					token: accountToken,
+				})
+				.then((res) => {
+					if (res.data.accountName !== accountName) {
+						toast('User token is invalid or expired. Please login again.');
+						ss_graphene.remove('currentAccount');
+						ss_graphene.remove('passwordlessAccount');
+						ss_graphene.remove('currentAccount_1e265722');
+						ss_graphene.remove('passwordlessAccount_1e265722');
+						ss.remove('account_login_name');
+						ss.remove('account_login_token');
+
+						const isIncludes =
+							this.props.history?.location?.pathname.includes('explorer');
 						if (!isIncludes) {
-							history.replace('/market/META1_USDT');
+							this.props.history.replace('/market/META1_USDT');
+						}
+					}
+				})
+				.catch((error) => {
+					toast('User token is invalid or expired. Please login again.');
+					WalletUnlockActions.lock_v2().finally(() => {
+						const isIncludes =
+							this.props.history?.location?.pathname.includes('explorer');
+						if (!isIncludes) {
+							this.props.history.replace('/market/META1_USDT');
 						}
 					});
-				}
-			})
-			.catch((error) => {
-				console.log('error', error);
-				WalletUnlockActions.lock_v2().finally(() => {
-					const isIncludes = history?.location?.pathname.includes('explorer');
-					if (!isIncludes) {
-						history.replace('/market/META1_USDT');
-					}
 				});
-			});
 	}
 
 	_onIgnoreIncognitoWarning() {
@@ -434,6 +451,71 @@ class App extends React.Component {
 		this.setState({height: window && window.innerHeight});
 	}
 
+	_onSetupWebSocket(accountName) {
+		if (this.ws) return;
+		try {
+			const webSocketFactory = {
+				connectionTries: 5,
+				connect: function (url) {
+					let ws = new WebSocket(url);
+					ws.onerror = (error) => {
+						console.log('websocket error', error);
+					};
+					ws.onopen = () => {
+						console.log('setup notification websocket');
+						webSocketFactory.connectionTries = 5;
+					};
+					return ws;
+				},
+			};
+
+			this.ws = new webSocketFactory.connect(
+				`${process.env.NOTIFICATION_WS_URL}?account=${accountName}`
+			);
+			this.ws.onclose = (event) => {
+				if (event.code > 1001) {
+					webSocketFactory.connectionTries =
+						webSocketFactory.connectionTries - 1;
+
+					if (webSocketFactory.connectionTries > 0) {
+						this.ws = null;
+						setTimeout(() => this._onSetupWebSocket(accountName), 5000);
+					} else {
+						throw new Error(
+							'Maximum number of connection trials has been reached'
+						);
+					}
+				}
+			};
+
+			this.ws.onmessage = (message) => {
+				console.log('notification arrived', message);
+				if (message && message.data) {
+					const content = JSON.parse(message.data).content;
+					toast(content);
+
+					let unreadNotifications = [];
+
+					if (ss_notification.get('notifications', ''))
+						unreadNotifications = JSON.parse(
+							ss_notification.get('notifications', '')
+						);
+					const notificationId = JSON.parse(message.data).id;
+
+					if (unreadNotifications.indexOf(notificationId) < 0)
+						unreadNotifications.push(notificationId);
+
+					ss_notification.set(
+						'notifications',
+						JSON.stringify(unreadNotifications)
+					);
+				}
+			};
+		} catch (e) {
+			console.log('notification connection error', e);
+		}
+	}
+
 	render() {
 		let {incognito, incognitoWarningDismissed} = this.state;
 		let {walletMode, theme, location, ...others} = this.props;
@@ -454,10 +536,14 @@ class App extends React.Component {
 			let accountName =
 				AccountStore.getState().currentAccount ||
 				AccountStore.getState().passwordAccount;
+
+			if (accountName) this._onSetupWebSocket(accountName);
+
 			accountName =
 				accountName && accountName !== 'null'
 					? accountName
 					: 'committee-account';
+
 			content = (
 				<div className="grid-frame vertical">
 					<NewsHeadline />
@@ -591,6 +677,10 @@ class App extends React.Component {
 									hideModal={this.hideBrowserSupportModal}
 									showModal={this.showBrowserSupportModal}
 								/>
+
+								<img src={AppStore} style={{display: 'none'}} />
+								<img src={GooglePlay} style={{display: 'none'}} />
+								<img src={OfflineIcon} style={{display: 'none'}} />
 							</div>
 						</BodyClassName>
 					</div>

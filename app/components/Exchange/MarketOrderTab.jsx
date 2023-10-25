@@ -119,12 +119,30 @@ const MarketOrderForm = (props) => {
 
 	const getMarketPriceWithAmount = (amount) => {
 		let _marketPrice = props.price;
+		const quoteAssetSymbol = props.quoteAsset.get('symbol');
+		const quoteAssetPrecision = props.quoteAsset.get('precision');
+		const baseAssetSymbol = props.baseAsset.get('symbol');
+		const baseAssetPrecision = props.baseAsset.get('precision');
+		// const minAssetPrecision = Math.min(quoteAssetPrecision, baseAssetPrecision);
+		const isTradingMETA1 = quoteAssetSymbol === 'META1' || baseAssetSymbol === 'META1';
 
 		if (amount) {
 			let total = 0;
+			let _prices = props.prices;
+
+			if (isTradingMETA1) {
+				if (props.backingAssetPolarity)
+					_prices = props.prices.filter(
+						(price) => price.price > props.backingAssetValue
+					);
+				else
+					_prices = props.prices.filter(
+						(price) => price.price < props.backingAssetValue
+					);
+			}
 
 			// When amount is smaller than liquidity
-			for (var i = 0; i < props.prices.length; i++) {
+			for (var i = 0; i < _prices.length; i++) {
 				let _price = isBid
 					? props.prices[props.prices.length - i - 1]
 					: props.prices[i];
@@ -138,7 +156,15 @@ const MarketOrderForm = (props) => {
 		}
 
 		if (_marketPrice) {
-			return isBid ? ceilFloat(_marketPrice, 5) : floorFloat(_marketPrice, 5);
+			if (isTradingMETA1) {
+				return props.backingAssetPolarity
+					? ceilFloat(_marketPrice, baseAssetPrecision)
+					: floorFloat(_marketPrice, baseAssetPrecision);
+			}
+
+			return isBid
+				? ceilFloat(_marketPrice, baseAssetPrecision)
+				: floorFloat(_marketPrice, baseAssetPrecision);
 		} else {
 			return 0;
 		}
@@ -156,8 +182,9 @@ const MarketOrderForm = (props) => {
 			Number(props.price) <= 0 ||
 			!hasBalance ||
 			props.locked_v2
-		)
+		) {
 			return false;
+		}
 
 		if (!amount || isNaN(Number(amount)) || Number(amount) <= 0) return false;
 
@@ -178,6 +205,7 @@ const MarketOrderForm = (props) => {
 	};
 
 	const prepareOrders = (amount) => {
+		const DEBUG_MODE = false;
 		const orders = [];
 
 		const price = getMarketPriceWithAmount(amount);
@@ -191,12 +219,6 @@ const MarketOrderForm = (props) => {
 
 		const sellAmount = () => {
 			let scaledAmount = amount * price;
-
-			console.log(
-				'PRE',
-				scaledAmount,
-				Math.pow(10, sellAsset.get('precision'))
-			);
 			return isBid
 				? Number(scaledAmount) * Math.pow(10, sellAsset.get('precision'))
 				: Number(amount) * Math.pow(10, sellAsset.get('precision'));
@@ -209,12 +231,22 @@ const MarketOrderForm = (props) => {
 				: Number(amount) * Math.pow(10, buyAsset.get('precision'));
 		};
 
+		if (DEBUG_MODE) {
+			console.log("@111 - 0 price: ", price, 'amount:', amount)
+			console.log("@111 - 1 sellAsset symbol", sellAsset.get('symbol'), "buyAsset symbol:", sellAsset.get('precision'))
+			console.log("@111 - 2 buyAsset symbol", buyAsset.get('symbol'), "buyAsset symbol", buyAsset.get('precision'))
+		}
+
 		// *** Fix tiny amount issue (precision issue) *** //
 		const estSellAmount = floorFloat(sellAmount(), 0);
 		const estBuyAmount = floorFloat(buyAmount(), 0);
 		let _sellAmount = estSellAmount;
 		let estPrice;
 		let delta = 0; // Prevent endless loop
+		
+		if (DEBUG_MODE) {
+			console.log("@111 - 3 estSellAmount", estSellAmount, "estBuyAmount", estBuyAmount);
+		}
 
 		if (isBid) {
 			estPrice = estSellAmount / estBuyAmount;
@@ -223,18 +255,26 @@ const MarketOrderForm = (props) => {
 				buyAsset.get('precision') - sellAsset.get('precision')
 			);
 
-			if (floorFloat(estPrice, buyAsset.get('precision')) < price) {
+			if (DEBUG_MODE) {
+				console.log("@111 - 4 estPrice", floorFloat(estPrice, sellAsset.get('precision')), "price", price);
+			}
+
+			if (floorFloat(estPrice, sellAsset.get('precision')) < price) {
 				while (
-					floorFloat(estPrice, buyAsset.get('precision')) <= price &&
+					floorFloat(estPrice, sellAsset.get('precision')) <= price &&
 					delta < 5000
 				) {
-					delta += 1;
-					_sellAmount += 1;
+					delta += 2;
+					_sellAmount += 2;
 					estPrice = _sellAmount / estBuyAmount;
 					estPrice *= Math.pow(
 						10,
 						buyAsset.get('precision') - sellAsset.get('precision')
 					);
+
+					if (DEBUG_MODE) {
+						console.log("@111 41 - delta", delta, floorFloat(estPrice, sellAsset.get('precision')), "estPrice", estPrice, "price", price);
+					}
 				}
 			}
 		} else {
@@ -244,22 +284,34 @@ const MarketOrderForm = (props) => {
 				sellAsset.get('precision') - buyAsset.get('precision')
 			);
 
+			if (DEBUG_MODE) {
+				console.log("@111 - 5 estPrice", floorFloat(estPrice, sellAsset.get('precision')), "price", price);
+			}
+
 			if (floorFloat(estPrice, sellAsset.get('precision')) > price) {
 				while (
 					floorFloat(estPrice, sellAsset.get('precision')) >= price &&
 					delta < 5000
 				) {
-					delta += 1;
-					_sellAmount -= 1;
+					delta += 2;
+					_sellAmount += 2;
 					estPrice = estBuyAmount / _sellAmount;
 					estPrice *= Math.pow(
 						10,
 						sellAsset.get('precision') - buyAsset.get('precision')
 					);
+
+					if (DEBUG_MODE) {
+						console.log("@111 51 - delta", delta, "estPrice", estPrice, "price", price);
+					}
 				}
 			}
 		}
 		// ********************************************** //
+
+		if (DEBUG_MODE) {
+			console.log("@111 - 6 delta", delta, "sellAmount", _sellAmount, "buyAmount", buyAmount(), "estPrice:", estPrice);
+		}
 
 		orders.push({
 			for_sale: new Asset({
@@ -277,9 +329,7 @@ const MarketOrderForm = (props) => {
 
 		props
 			.createMarketOrder(orders, ChainStore.getAsset('META1').get('id'))
-			.then(() => {
-				setAmount(0.0);
-			})
+			.then(() => setAmount(0.0))
 			.catch(() => {});
 	};
 
@@ -314,6 +364,14 @@ const MarketOrderForm = (props) => {
 			amount = Number(props.baseAssetBalance) / Number(props.latestPrice);
 		} else if (!isBid && props.quoteAssetBalance) {
 			amount = Number(props.quoteAssetBalance);
+		}
+
+		// Solution for 100%
+		if (isBid) {
+			const marketPrice = getMarketPriceWithAmount(amount);
+			amount = Number(props.baseAssetBalance) / marketPrice;
+			amount *= Number(props.latestPrice) / marketPrice;
+			amount = floorFloat(amount, 5);
 		}
 
 		setAmount((amount * percent) / 100);

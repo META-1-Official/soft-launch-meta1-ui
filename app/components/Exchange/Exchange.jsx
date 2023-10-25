@@ -313,7 +313,7 @@ class Exchange extends React.Component {
 			) {
 				this.calcBackingAssetValue();
 			} else {
-				this.setState({backingAssetValue: 0, backingAssetPolarity: true});
+				this.setState({backingAssetValue: 0});
 			}
 		}
 
@@ -387,7 +387,7 @@ class Exchange extends React.Component {
 	 */
 	calcBackingAssetValue() {
 		const LOG_ID = '[calcBackingAssetValue]';
-		this.setState({backingAssetValue: 0, backingAssetPolarity: true});
+
 		if (
 			this.props.quoteAsset.get('symbol') !== 'META1' &&
 			this.props.baseAsset.get('symbol') !== 'META1'
@@ -482,15 +482,15 @@ class Exchange extends React.Component {
 			}
 
 			// Debug - can be deleted later
-			console.log(
-				'@10 - ',
-				baseAssetSymbol,
-				baseAssetPrecision,
-				quoteAssetSymbol,
-				quoteAssetPrecision,
-				backingAssetValue,
-				backingAssetPolarity
-			);
+			// console.log(
+			// 	'@10 - ',
+			// 	baseAssetSymbol,
+			// 	baseAssetPrecision,
+			// 	quoteAssetSymbol,
+			// 	quoteAssetPrecision,
+			// 	backingAssetValue,
+			// 	backingAssetPolarity
+			// );
 
 			// Filter pricings below the backingAssetValue
 			if (isTradingMETA1) {
@@ -524,26 +524,10 @@ class Exchange extends React.Component {
 				for (let price of _prices) {
 					sellMarketPrice = price._real_price;
 					estSellAmount += price.for_sale / Math.pow(10, baseAssetPrecision);
-					// Debug - can be deleted later
-					// console.log(
-					// 	'@11 - Bid',
-					// 	price._real_price,
-					// 	price.for_sale / Math.pow(10, baseAssetPrecision)
-					// );
-
 					if (amount2Trade && amount2Trade < estSellAmount) break;
 				}
 
 				if (sellMarketPrice > 0) {
-					// const percentDiff = sellMarketPrice + sellMarketPrice / Math.pow(10, 4);
-
-					// if (isTradingMETA1 && backingAssetValue && !isQuoting && percentDiff >= backingAssetValue) {
-					// 	const diff = Math.abs(sellMarketPrice + backingAssetValue) / 2;
-					// 	sellMarketPrice = sellMarketPrice - diff;
-					// } else {
-					// 	sellMarketPrice = percentDiff;
-					// }
-
 					console.log(
 						'sellMarketPrice:',
 						baseAssetSymbol,
@@ -578,26 +562,9 @@ class Exchange extends React.Component {
 					.forEach(function (price) {
 						buyMarketPrice = price._real_price;
 						estSellAmount += price.for_sale / Math.pow(10, baseAssetPrecision);
-						// Debug - can be deleted later
-						// console.log(
-						// 	'@12 - Ask',
-						// 	price._real_price,
-						// 	price.for_sale / Math.pow(10, quoteAssetPrecision)
-						// );
-
-						// if (amount2Trade && amount2Trade < estSellAmount) break;
 					});
 
 				if (buyMarketPrice > 0) {
-					// const percentDiff = sellMarketPrice + sellMarketPrice / Math.pow(10, 4);
-
-					// if (isTradingMETA1 && backingAssetValue && !isQuoting && percentDiff >= backingAssetValue) {
-					// 	const diff = Math.abs(sellMarketPrice + backingAssetValue) / 2;
-					// 	sellMarketPrice = sellMarketPrice - diff;
-					// } else {
-					// 	sellMarketPrice = percentDiff;
-					// }
-
 					console.log(
 						'buyMarketPrice:',
 						baseAssetSymbol,
@@ -1175,7 +1142,7 @@ class Exchange extends React.Component {
 				),
 			});
 		}
-		//
+
 		if (
 			!(current.for_sale.getAmount() > 0 && current.to_receive.getAmount() > 0)
 		) {
@@ -1210,16 +1177,23 @@ class Exchange extends React.Component {
 		return MarketsActions.createLimitOrder2(limitOrders)
 			.then((result) => {
 				if (result.error) {
-					if (result.error.message !== 'wallet locked')
+					if (
+						result.error.message === 'transaction confirm modal is closed' ||
+						result.error.message === 'wallet locked'
+					) {
+						return Promise.reject({error: result.error.message});
+					} else {
 						notification.error({
 							message: counterpart.translate(
 								'notifications.exchange_unknown_error_place_scaled_order'
 							),
 						});
+					}
 				}
 			})
 			.catch((e) => {
 				console.log('order failed:', e);
+				return Promise.reject({error: error});
 			});
 	}
 
@@ -1265,19 +1239,25 @@ class Exchange extends React.Component {
 		return MarketsActions.createLimitOrder2(order)
 			.then((result) => {
 				if (result.error) {
-					if (result.error.message !== 'wallet locked')
+					if (
+						result.error.message === 'transaction confirm modal is closed' ||
+						result.error.message === 'wallet locked'
+					) {
+						return Promise.reject({error: result.error.message});
+					} else {
 						console.log(result.error);
-					notification.error({
-						message: counterpart.translate(
-							'notifications.exchange_unknown_error_place_order',
-							{
-								amount: current.to_receive.getAmount({
-									real: true,
-								}),
-								symbol: current.to_receive.asset_id,
-							}
-						),
-					});
+						notification.error({
+							message: counterpart.translate(
+								'notifications.exchange_unknown_error_place_order',
+								{
+									amount: current.to_receive.getAmount({
+										real: true,
+									}),
+									symbol: current.to_receive.asset_id,
+								}
+							),
+						});
+					}
 				} else {
 					this._clearForms(type === 'sell' ? 'ask' : 'bid');
 				}
@@ -2185,6 +2165,8 @@ class Exchange extends React.Component {
 						liquidity={buyMarketLiquidity}
 						locked_v2={this.props.locked_v2}
 						total={totals.ask}
+						backingAssetValue={backingAssetValue}
+						backingAssetPolarity={backingAssetPolarity}
 					/>
 				</Tabs.TabPane>
 				<Tabs.TabPane
@@ -2332,6 +2314,8 @@ class Exchange extends React.Component {
 						liquidity={sellMarketLiquidity}
 						locked_v2={this.props.locked_v2}
 						total={totals.bid}
+						backingAssetValue={backingAssetValue}
+						backingAssetPolarity={backingAssetPolarity}
 					/>
 				</Tabs.TabPane>
 				<Tabs.TabPane

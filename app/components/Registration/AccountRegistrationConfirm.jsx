@@ -87,7 +87,6 @@ class AccountRegistrationConfirm extends React.Component {
 			phone: ss.get('phone'),
 			firstname: ss.get('firstname'),
 			lastname: ss.get('lastname'),
-			authData: JSON.parse(ss.get('authdata', '{}')),
 			confirmed: ss.get('confirmed', false),
 			confirmedTerms: ss.get('confirmedTerms', false),
 			confirmedTerms2: ss.get('confirmedTerms2', false),
@@ -214,6 +213,7 @@ class AccountRegistrationConfirm extends React.Component {
 		if (res_update.error === true) {
 			return;
 		} else if (res_update) {
+			const authData = JSON.parse(ss.get('authdata', '{}'));
 			this.createAccount(
 				this.props.accountName,
 				this.props.password,
@@ -222,7 +222,7 @@ class AccountRegistrationConfirm extends React.Component {
 				this.state.firstname,
 				this.state.lastname,
 				this.props.password,
-				this.state.authData
+				authData
 			);
 		} else {
 			return;
@@ -245,15 +245,6 @@ class AccountRegistrationConfirm extends React.Component {
 		authData
 	) {
 		const {referralAccount} = AccountStore.getState();
-		ss.remove('email');
-		ss.remove('phone');
-		ss.remove('firstname');
-		ss.remove('lastname');
-		ss.remove('confirmed');
-		ss.remove('confirmedTerms');
-		ss.remove('confirmedTerms2');
-		ss.remove('account_registration_name');
-		ss.remove('authdata');
 		const emailSubscription = ss.get('emailSubscription', true);
 		if (emailSubscription) {
 			sendXApi
@@ -292,6 +283,15 @@ class AccountRegistrationConfirm extends React.Component {
 
 				if (this.state.registrarAccount) {
 					TransactionConfirmStore.listen(this.onFinishConfirm);
+				}
+
+				const e_tk = ss.get('e-signing-token', null);
+				if (e_tk) {
+					await axios.delete(
+						process.env.ESIGNATURE_URL +
+							`/apiewallet/poling/remove?token=${e_tk}`
+					);
+					ss.remove('e-signing-token');
 				}
 
 				FetchChain('getAccount', name).then(() => {
@@ -347,12 +347,15 @@ class AccountRegistrationConfirm extends React.Component {
 			WalletUnlockActions.cancel();
 		}
 
+		let isLoginSuccess = false;
+		const authData = JSON.parse(ss.get('authdata', '{}'));
 		axios
 			.post(process.env.LITE_WALLET_URL + '/login', {
 				accountName: account,
 				email: this.state.email,
-				idToken: this.state.authData.web3Token,
-				appPubKey: this.state.authData.web3PubKey,
+				idToken: authData.web3Token,
+				appPubKey: authData.web3PubKey,
+				fasToken: ss.get('account_registration_fastoken'),
 			})
 			.then((response) => {
 				toast('Success');
@@ -362,7 +365,7 @@ class AccountRegistrationConfirm extends React.Component {
 				ss.set('account_login_name', accountName);
 				ss.set('account_login_token', response.data['token']);
 				AccountActions.setPasswordlessAccount(accountName);
-				WalletUnlockActions.unlock_v2().finally(() => {
+				WalletUnlockActions.unlock_v2().then(() => {
 					this.props.history.push(`/account/${accountName}/`);
 				});
 				setTimeout(() => {
@@ -372,6 +375,21 @@ class AccountRegistrationConfirm extends React.Component {
 			.catch((error) => {
 				console.log('Login Error:', error);
 				this.props.history.push(`/market/META1_USDT/`);
+			})
+			.finally(() => {
+				this.setState({
+					confirmed: false,
+					confirmedTerms: false,
+					confirmedTerms2: false,
+					confirmedTerms3: false,
+					confirmedTerms4: false,
+					emailSubscription: true,
+					isErrored: false,
+					name: '',
+					password: '',
+					downloadPaperWalletModal: false,
+					copyPasswordModal: false,
+				});
 			});
 	}
 
@@ -442,13 +460,32 @@ class AccountRegistrationConfirm extends React.Component {
 			} catch (err) {
 				console.log('Error in e-sign token generation');
 			}
-			window.location.href = `${
-				process.env.ESIGNATURE_URL
-			}/e-sign?email=${encodeURIComponent(
-				email
-			)}&firstName=${firstname}&lastName=${lastname}&phoneNumber=${phone}&walletName=${accountName}&token=${token}&redirectUrl=${
-				window.location.origin
-			}/auth-proceed`;
+			try {
+				const response = await axios.post(
+					process.env.ESIGNATURE_URL + '/apiewallet/poling',
+					{
+						firstName: firstname,
+						lastName: lastname,
+						phoneNumber: phone,
+						walletName: accountName,
+						token: token,
+						email: email,
+						redirectUrl: window.location.origin + '/auth-proceed',
+					}
+				);
+				if (response) {
+					ss.set('e-signing-token', token);
+					window.location.href = `${
+						process.env.ESIGNATURE_URL
+					}/e-sign?email=${encodeURIComponent(
+						email
+					)}&firstName=${firstname}&lastName=${lastname}&phoneNumber=${phone}&walletName=${accountName}&token=${token}&redirectUrl=${
+						window.location.origin
+					}/auth-proceed`;
+				}
+			} catch (err) {
+				console.log(err);
+			}
 		} else {
 			toast(
 				counterpart.translate(
@@ -502,7 +539,7 @@ class AccountRegistrationConfirm extends React.Component {
 							&nbsp;
 							<a
 								target="__blank"
-								href="https://support.meta1coin.vision/password-storage-tips"
+								href="https://support.meta1coin.vision/hc/en-us/articles/11552911024027-Passkey-Storage-Tips"
 							>
 								{counterpart.translate('registration.click_here')}
 							</a>
@@ -597,7 +634,8 @@ class AccountRegistrationConfirm extends React.Component {
 								!this.state.confirmedTerms ||
 								!this.state.confirmedTerms2 ||
 								!this.state.confirmedTerms3 ||
-								!this.state.confirmedTerms4
+								!this.state.confirmedTerms4 ||
+								this.state.copyPasswordModal
 							}
 							className="create-acc-btn"
 							onClick={() => {
@@ -634,7 +672,7 @@ class AccountRegistrationConfirm extends React.Component {
 						{counterpart.translate('registration.important_message_info')}&nbsp;
 						<a
 							target="__blank"
-							href="https://support.meta1coin.vision/password-storage-tips"
+							href="https://support.meta1coin.vision/hc/en-us/articles/11552911024027-Passkey-Storage-Tips"
 						>
 							{counterpart.translate('registration.click_here')}
 						</a>

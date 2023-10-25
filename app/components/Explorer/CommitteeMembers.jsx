@@ -1,5 +1,5 @@
 import counterpart from 'counterpart';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import Immutable from 'immutable';
 import ChainTypes from '../Utility/ChainTypes';
 import BindToChainState from '../Utility/BindToChainState';
@@ -11,79 +11,63 @@ import SettingsStore from 'stores/SettingsStore';
 import {Table} from 'antd';
 import sanitize from 'sanitize';
 import SearchInput from '../Utility/SearchInput';
+import {Apis} from 'meta1-vision-ws';
 
-class CommitteeMemberList extends React.Component {
-	static propTypes = {
-		committee_members: ChainTypes.ChainObjectsList.isRequired,
+const CommitteeMembers = (props) => {
+	const [filter, setFilter] = useState(props.filter || '');
+	const [dataSource, setDataSource] = useState([]);
+	const [filteredDataSource, setFilteredDataSource] = useState([]);
+	const [columns, setColumns] = useState([]);
+
+	useEffect(async () => {
+		var obj = await Apis.db.get_objects(['2.0.0']);
+		obj['0'] && (await getData(obj['0']));
+	}, []);
+
+	const _onFilter = (e) => {
+		setFilter(e.target.value.toLowerCase() || '');
+		SettingsActions.changeViewSetting({
+			filterCommitteeMember: e.target.value.toLowerCase(),
+		});
 	};
 
-	constructor() {
-		super();
-	}
+	useEffect(() => {
+		setFilteredDataSource(
+			dataSource.filter((ele) => ele.name.includes(filter))
+		);
+		if (filter === '') {
+			setFilteredDataSource(dataSource);
+		}
+	}, [filter, dataSource]);
 
-	render() {
-		let {committee_members, membersList} = this.props;
+	const getData = async (globalObject) => {
+		let committee_members = globalObject.active_committee_members;
+		let dataSourcePromise = [];
 
-		let dataSource = null;
-
-		let ranks = {};
-
-		committee_members
-			.filter((a) => {
+		if (committee_members.length > 0 && committee_members[1]) {
+			dataSourcePromise = committee_members.map(async (a, index) => {
 				if (!a) {
 					return false;
 				}
-				return membersList.indexOf(a.get('id')) !== -1;
-			})
-			.forEach((c, index) => {
-				if (c) {
-					ranks[c.get('id')] = index + 1;
+				let committee_member = (await Apis.db.get_objects([a]))['0'];
+				if (!committee_member) {
+					return false;
 				}
+				let account = (
+					await Apis.db.get_objects([committee_member.committee_member_account])
+				)['0'];
+
+				return {
+					key: a,
+					rank: index + 1,
+					name: account.name,
+					votes: committee_member.total_votes,
+					url: sanitize(`${committee_member.url}/${account.name}-committee`, {
+						whiteList: [], // empty, means filter out all tags
+						stripIgnoreTag: true, // filter out all HTML not in the whilelist
+					}),
+				};
 			});
-
-		if (committee_members.length > 0 && committee_members[1]) {
-			dataSource = committee_members
-				.filter((a) => {
-					if (!a) {
-						return false;
-					}
-					let account = ChainStore.getObject(a.get('committee_member_account'));
-					if (!account) {
-						return false;
-					}
-
-					let account_data = ChainStore.getCommitteeMemberById(
-						account.get('id')
-					);
-
-					if (!account_data) return false;
-
-					return account.get('name').indexOf(this.props.filter || '') !== -1;
-				})
-				.map((a) => {
-					let account = ChainStore.getObject(a.get('committee_member_account'));
-
-					let account_data = ChainStore.getCommitteeMemberById(
-						account.get('id')
-					);
-
-					return {
-						key: a.get('id'),
-						rank: ranks[a.get('id')],
-						name: account.get('name'),
-						votes: account_data.get('total_votes'),
-						url: sanitize(
-							account_data.get('url') +
-								'/' +
-								account.get('name') +
-								'-committee',
-							{
-								whiteList: [], // empty, means filter out all tags
-								stripIgnoreTag: true, // filter out all HTML not in the whilelist
-							}
-						),
-					};
-				});
 		}
 
 		const columns = [
@@ -126,86 +110,36 @@ class CommitteeMemberList extends React.Component {
 			},
 		];
 
-		return (
-			<Table columns={columns} dataSource={dataSource} pagination={false} />
-		);
-	}
-}
-CommitteeMemberList = BindToChainState(CommitteeMemberList, {
-	show_loader: true,
-});
-
-class CommitteeMembers extends React.Component {
-	static propTypes = {
-		globalObject: ChainTypes.ChainObject.isRequired,
+		Promise.all(dataSourcePromise).then((data) => setDataSource(data));
+		setColumns(columns);
 	};
 
-	static defaultProps = {
-		globalObject: '2.0.0',
-	};
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			filterCommitteeMember: props.filterCommitteeMember || '',
-		};
-	}
-
-	shouldComponentUpdate(nextProps, nextState) {
-		return (
-			!Immutable.is(nextProps.globalObject, this.props.globalObject) ||
-			nextState.filterCommitteeMember !== this.state.filterCommitteeMember ||
-			nextState.cardView !== this.state.cardView
-		);
-	}
-
-	_onFilter(e) {
-		this.setState({filterCommitteeMember: e.target.value.toLowerCase()});
-
-		SettingsActions.changeViewSetting({
-			filterCommitteeMember: e.target.value.toLowerCase(),
-		});
-	}
-
-	render() {
-		let {globalObject} = this.props;
-		globalObject = globalObject.toJS();
-
-		let activeCommitteeMembers = [];
-		for (let key in globalObject.active_committee_members) {
-			if (globalObject.active_committee_members.hasOwnProperty(key)) {
-				activeCommitteeMembers.push(globalObject.active_committee_members[key]);
-			}
-		}
-
-		return (
-			<div className="committee-tab">
-				<div style={{padding: '30px'}}>
-					<SearchInput
-						placeholder={counterpart.translate(
-							'explorer.witnesses.filter_by_name'
-						)}
-						value={this.state.filterCommitteeMember}
-						onChange={this._onFilter.bind(this)}
-						style={{
-							width: '200px',
-							marginBottom: '12px',
-							marginTop: '4px',
-						}}
+	return (
+		<div className="committee-tab">
+			<div style={{padding: '30px'}}>
+				<SearchInput
+					placeholder={counterpart.translate(
+						'explorer.witnesses.filter_by_name'
+					)}
+					value={filter}
+					onChange={_onFilter}
+					style={{
+						width: '200px',
+						marginBottom: '12px',
+						marginTop: '4px',
+					}}
+				/>
+				{columns && dataSource && (
+					<Table
+						columns={columns}
+						dataSource={filteredDataSource}
+						pagination={false}
 					/>
-					<CommitteeMemberList
-						filter={this.state.filterCommitteeMember}
-						committee_members={Immutable.List(
-							globalObject.active_committee_members
-						)}
-						membersList={globalObject.active_committee_members}
-					/>
-				</div>
+				)}
 			</div>
-		);
-	}
-}
-CommitteeMembers = BindToChainState(CommitteeMembers);
+		</div>
+	);
+};
 
 class CommitteeMembersStoreWrapper extends React.Component {
 	render() {
@@ -219,8 +153,7 @@ CommitteeMembersStoreWrapper = connect(CommitteeMembersStoreWrapper, {
 	},
 	getProps() {
 		return {
-			cardView: SettingsStore.getState().viewSettings.get('cardViewCommittee'),
-			filterCommitteeMember: SettingsStore.getState().viewSettings.get(
+			filter: SettingsStore.getState().viewSettings.get(
 				'filterCommitteeMember'
 			),
 		};

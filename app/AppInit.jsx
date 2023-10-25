@@ -14,6 +14,7 @@ import {connect, supplyFluxContext} from 'alt-react';
 import {IntlProvider} from 'react-intl';
 import willTransitionTo from './routerTransition';
 import LoadingIndicator from './components/LoadingIndicator';
+import DisconnectedInternet from './components/DisconnectedInternet';
 import InitError from './components/InitError';
 import SyncError from './components/SyncError';
 import counterpart from 'counterpart';
@@ -29,6 +30,11 @@ import history from 'lib/common/history';
 import BodyClassName from 'components/BodyClassName';
 import * as Sentry from '@sentry/react';
 import {toast} from 'react-toastify';
+
+// for the cache purpose
+import AppStore from './assets/app-store.png';
+import GooglePlay from './assets/google-play.png';
+import OfflineIcon from './assets/offline.png';
 
 const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
@@ -64,9 +70,17 @@ class AppInit extends React.Component {
 			syncError: null,
 			status: '',
 			extendeLogText: [], // used to cache logs when not mounted
+			isOnline: navigator.onLine,
 		};
 		this.mounted = true;
 		this.persistentLogEnabled = false;
+
+		// Bind this to storageChanged()
+		this.handleStatusChange = this.handleStatusChange.bind(this);
+	}
+
+	handleStatusChange() {
+		this.setState({isOnline: navigator.onLine});
 	}
 
 	componentDidUpdate(nextProps, nextState) {
@@ -220,25 +234,28 @@ class AppInit extends React.Component {
 		}
 
 		const self = this;
-		if (!contains || (accountName && accountToken)) {
+		if ((!contains && accountToken) || (accountName && accountToken)) {
 			axios
 				.post(process.env.LITE_WALLET_URL + '/check_token', {
 					token: accountToken,
 				})
 				.then((res) => {
 					if (res.data.accountName !== accountName) {
-						toast('user token is invalid');
-						WalletUnlockActions.lock_v2().finally(() => {
-							const isIncludes =
-								history?.location?.pathname.includes('explorer');
-							if (!isIncludes) {
-								history.replace('/market/META1_USDT');
-							}
-						});
+						toast('User token is invalid or expired. Please login again.');
+						ss_graphene.remove('currentAccount');
+						ss_graphene.remove('passwordlessAccount');
+						ss_graphene.remove('currentAccount_1e265722');
+						ss_graphene.remove('passwordlessAccount_1e265722');
+						ss.remove('account_login_name');
+						ss.remove('account_login_token');
+						const isIncludes = history?.location?.pathname.includes('explorer');
+						if (!isIncludes) {
+							history.replace('/market/META1_USDT');
+						}
 					}
 				})
 				.catch((error) => {
-					console.log('error', error);
+					toast('User token is invalid or expired. Please login again.');
 					WalletUnlockActions.lock_v2().finally(() => {
 						const isIncludes = history?.location?.pathname.includes('explorer');
 						if (!isIncludes) {
@@ -291,11 +308,13 @@ class AppInit extends React.Component {
 					main.className + (main.className.length ? ' ' : '') + windowsClass;
 			}
 		}
-	}
 
-	// componentWillUnmount() {
-	// 	this.mounted = false;
-	// }
+		// Listen to the online status
+		window.addEventListener('online', this.handleStatusChange);
+
+		// Listen to the offline status
+		window.addEventListener('offline', this.handleStatusChange);
+	}
 
 	_statusCallback(status) {
 		this.setState({status});
@@ -303,7 +322,16 @@ class AppInit extends React.Component {
 
 	render() {
 		const {theme, apiServer} = this.props;
-		const {apiConnected, apiError, syncError, status} = this.state;
+		const {apiConnected, apiError, syncError, status, isOnline} = this.state;
+		if (!isOnline) {
+			return (
+				<DisconnectedInternet
+					appStoreIcon={AppStore}
+					googlePlayIcon={GooglePlay}
+					offlineIcon={OfflineIcon}
+				/>
+			);
+		}
 		if (!apiConnected) {
 			let server = apiServer;
 			if (!!!server) {

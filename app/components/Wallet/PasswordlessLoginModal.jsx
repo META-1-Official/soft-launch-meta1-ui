@@ -35,11 +35,11 @@ const browserstack_test_accounts = [
 	'rock-64',
 	'rock-3',
 	'bond-02',
-	'jin124',
 	'antman-kok357',
 	'user-x01',
 	'user-x01-1',
 	'user-x02',
+	'jin124',
 ];
 
 class PasswordlessLoginModal extends React.Component {
@@ -169,7 +169,9 @@ class PasswordlessLoginModal extends React.Component {
 						});
 					}, 24 * 60 * 60 * 1000); // Auto timeout in 24 hrs
 				});
-		} else this.setState({authModalOpen: true});
+		} else {
+			this.setState({authModalOpen: true, accountName});
+		}
 	};
 
 	handleAccountNameChange = (accountName) => {
@@ -263,6 +265,7 @@ class PasswordlessLoginModal extends React.Component {
 						setOpen={(val) => this.setState({authModalOpen: val})}
 						web3auth={this.props.openLogin}
 						authMode="login"
+						login={accountName}
 					/>
 				)}
 			</>

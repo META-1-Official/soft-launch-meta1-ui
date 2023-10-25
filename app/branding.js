@@ -135,7 +135,7 @@ export function getMyMarketsBases() {
 		return ['TEST'];
 	}
 
-	return ['META1', 'BTC', 'ETH', 'USDT', 'LTC', 'EOS', 'XLM', 'BNB'];
+	return process.env.CRYPTOS_ARRAY.split(',');
 }
 
 /**
@@ -148,7 +148,7 @@ export function getMyMarketsQuotes() {
 		return ['TEST'];
 	}
 	let tokens = {
-		nativeTokens: ['BTC', 'META1', 'USDT', 'EOS', 'XLM', 'BNB'],
+		nativeTokens: process.env.DEPOSIT_AVAILABLE_ASSETS.split(','),
 	};
 
 	let allTokens = [];

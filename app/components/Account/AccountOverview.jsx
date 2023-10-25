@@ -386,7 +386,7 @@ class AccountOverview extends React.Component {
 			{
 				label: `${counterpart.translate(
 					'transaction.from'
-				)} / ${counterpart.translate('transaction.from')}`,
+				)} / ${counterpart.translate('transaction.to')}`,
 				value: 'From / To',
 			},
 			{label: counterpart.translate('exchange.price'), value: 'Price'},
@@ -485,7 +485,7 @@ class AccountOverview extends React.Component {
 								<a
 									target="_blank"
 									rel="noopener noreferrer"
-									href={`${process.env.META1_SUPPORT_URL}how-to-deposit-into-your-meta-lite-wallet`}
+									href={`${process.env.META1_SUPPORT_URL}hc/en-us/articles/11896445410459-How-to-Deposit-into-Your-META-LITE-Wallet`}
 								>
 									{counterpart.translate('account.fund_wallet_with_crypto')}
 								</a>

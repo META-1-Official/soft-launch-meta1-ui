@@ -259,7 +259,7 @@ class Header extends React.Component {
 		} else {
 			WalletUnlockActions.lock_v2()
 				.then(() => {
-					this._onNavigate('/market/META1_USDT', this, true);
+					window.location.href = '/market/META1_USDT';
 				})
 				.catch(() => {});
 		}
@@ -524,8 +524,9 @@ class Header extends React.Component {
 					key="submenu"
 					popupClassName="advanced-submenu"
 					title={<Translate content="account.advanced" />}
-					disabled={!currentAccount}
+					disabled={!currentAccount || this.props.locked_v2}
 					popupOffset={[0, 0]}
+					className={this.props.locked_v2 ? 'disable-li-text' : ''}
 				>
 					<Menu.Item
 						key="comment-menu"

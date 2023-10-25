@@ -6,6 +6,7 @@ import Translate from 'react-translate-component';
 import PropTypes from 'prop-types';
 import Ps from 'perfect-scrollbar';
 import utils from 'common/utils';
+import {floorFloat} from 'services/Math';
 import PriceText from '../Utility/PriceText';
 import TransitionWrapper from '../Utility/TransitionWrapper';
 import AssetName from '../Utility/AssetName';
@@ -71,12 +72,19 @@ const toFixed = (x) => {
 
 class OrderBookRow extends React.Component {
 	shouldComponentUpdate(np) {
+		const npForSale = np.order.totalToReceive({noCache: true});
+		const npToReceive = npForSale.times(np.order.sellPrice());
+		const currentForSale = this.props.order.totalToReceive({noCache: true});
+		const currentToReceive = currentForSale.times(this.props.order.sellPrice());
+
 		return (
 			np.order.ne(this.props.order) ||
 			np.position !== this.props.position ||
 			np.index !== this.props.index ||
 			np.currentAccount !== this.props.currentAccount ||
-			np.quoteTotal !== this.props.quoteTotal
+			np.quoteTotal !== this.props.quoteTotal ||
+			npForSale !== currentForSale ||
+			npToReceive !== currentToReceive
 		);
 	}
 
@@ -110,8 +118,6 @@ class OrderBookRow extends React.Component {
 						<td
 							style={{
 								color: '#009D55',
-								textAlign: 'left',
-								paddingRight: '10px',
 							}}
 						>
 							<Tooltip
@@ -128,8 +134,9 @@ class OrderBookRow extends React.Component {
 						</td>
 						<td
 							style={{
-								paddingLeft: '10px',
 								textAlign: 'center',
+								addingLeft: '10px',
+								paddingRight: '10px',
 							}}
 							className="table-body-class"
 						>
@@ -138,16 +145,11 @@ class OrderBookRow extends React.Component {
 								placement="left"
 							>
 								<div className="overflow-hidden">
-									{utils.format_number_digits(amount, 6)}
+									{floorFloat(amount, 6).toFixed(6)}
 								</div>
 							</Tooltip>
 						</td>
-						<td
-							style={{
-								textAlign: 'right',
-								paddingRight: '10px',
-							}}
-						>
+						<td>
 							<Tooltip
 								title={
 									`${translator.translate('exchange.total')}: ` +
@@ -171,8 +173,6 @@ class OrderBookRow extends React.Component {
 						<td
 							style={{
 								color: '#FF2929',
-								paddingRight: '10px',
-								textAlign: 'left',
 							}}
 						>
 							<Tooltip
@@ -188,7 +188,11 @@ class OrderBookRow extends React.Component {
 							</Tooltip>
 						</td>
 						<td
-							style={{textAlign: 'center', paddingLeft: '10px'}}
+							style={{
+								textAlign: 'center',
+								paddingLeft: '10px',
+								paddingRight: '10px',
+							}}
 							className="table-body-class"
 						>
 							<Tooltip
@@ -196,16 +200,11 @@ class OrderBookRow extends React.Component {
 								placement="left"
 							>
 								<div className="overflow-hidden">
-									{utils.format_number_digits(amount, 6)}
+									{floorFloat(amount, 6).toFixed(6)}
 								</div>
 							</Tooltip>
 						</td>
-						<td
-							style={{
-								textAlign: 'right',
-								paddingRight: '10px',
-							}}
-						>
+						<td>
 							<Tooltip
 								title={
 									`${translator.translate('exchange.total')}: ` +
@@ -443,7 +442,7 @@ class OrderBook extends React.Component {
 						index={index}
 						key={order.getPrice() + (order.isCall() ? '_call' : '')}
 						order={order}
-						onClick={this.props.onClick.bind(this, order)}
+						onClick={() => this.props.onClick(order)}
 						base={base}
 						quote={quote}
 						type={order.type}

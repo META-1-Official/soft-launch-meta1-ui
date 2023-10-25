@@ -67,7 +67,7 @@ const ExploreCard = ({
 					css={() => ({
 						marginLeft: screens['sm'] === true ? '1rem' : 0,
 						marginTop: screens['sm'] === true ? 0 : '1rem',
-						width: '100%',
+						width: '80%',
 						paddingRight: screens['sm'] === true ? '2rem' : 0,
 					})}
 				>

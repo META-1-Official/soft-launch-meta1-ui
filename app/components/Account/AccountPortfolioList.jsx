@@ -15,6 +15,7 @@ import {connect} from 'alt-react';
 import SettingsStore from 'stores/SettingsStore';
 import MarketsStore from 'stores/MarketsStore';
 import GatewayStore from 'stores/GatewayStore';
+import WalletUnlockStore from 'stores/WalletUnlockStore';
 import Icon from '../Icon/Icon';
 import utils from 'common/utils';
 import SendModal from '../Modal/SendModal';
@@ -708,7 +709,7 @@ class AccountPortfolioList extends React.Component {
 					style={{
 						width: 80,
 					}}
-					disabled={!isMyAccount}
+					disabled={!isMyAccount || this.props.locked_v2}
 				>
 					<Translate content="transfer.send" style={{whiteSpace: 'nowrap'}} />
 				</StyledButton>
@@ -722,7 +723,7 @@ class AccountPortfolioList extends React.Component {
 						color: 'green',
 						width: 80,
 					}}
-					disabled={!isMyAccount}
+					disabled={!isMyAccount || this.props.locked_v2}
 				>
 					<Translate
 						content="exchange.deposit"
@@ -740,7 +741,7 @@ class AccountPortfolioList extends React.Component {
 						width: 80,
 						padding: 0,
 					}}
-					disabled={!isMyAccount}
+					disabled={!isMyAccount || this.props.locked_v2}
 				>
 					<Translate
 						content="exchange.withdraw"
@@ -840,21 +841,7 @@ class AccountPortfolioList extends React.Component {
 							src={getAssetIcon(asset.get('symbol'))}
 							alt="Asset logo"
 							width="28px"
-							css={(theme) => ({
-								display: theme.mode === 'dark' ? 'unset' : 'none',
-								width: '28px',
-								height: '28px',
-							})}
-						/>
-						<img
-							className="asset-img"
-							src={getAssetIcon(asset.get('symbol'), 'light')}
-							alt="Asset logo"
-							width="28px"
-							css={(theme) => ({
-								display: theme.mode === 'light' ? 'unset' : 'none',
-								width: '40px',
-							})}
+							css={(theme) => ({width: '28px', height: '28px'})}
 						/>
 						<div
 							style={{
@@ -917,7 +904,8 @@ class AccountPortfolioList extends React.Component {
 						symbol={asset.get('symbol')}
 					/>
 				) : null,
-				trade: directMarketLink,
+				trade:
+					!isMyAccount || this.props.locked_v2 ? emptyCell : directMarketLink,
 				payments: transferLink,
 				borrow:
 					isBitAsset && borrowLink ? (
@@ -1008,21 +996,7 @@ class AccountPortfolioList extends React.Component {
 										src={getAssetIcon(asset.get('symbol'))}
 										alt="Asset logo"
 										width="28px"
-										css={(theme) => ({
-											display: theme.mode === 'dark' ? 'unset' : 'none',
-											width: '28px',
-											height: '28px',
-										})}
-									/>
-									<img
-										className="asset-img"
-										src={getAssetIcon(asset.get('symbol'), 'light')}
-										alt="Asset logo"
-										width="28px"
-										css={(theme) => ({
-											display: theme.mode === 'light' ? 'unset' : 'none',
-											width: '40px',
-										})}
+										css={(theme) => ({width: '28px', height: '28px'})}
 									/>
 									<div>
 										<LinkToAssetById
@@ -1065,7 +1039,7 @@ class AccountPortfolioList extends React.Component {
 											this,
 											asset.get('symbol')
 										)}
-										disabled={!isMyAccount}
+										disabled={!isMyAccount || this.props.locked_v2}
 										style={{
 											backgroundColor: 'transparent',
 											color: 'green',
@@ -1229,6 +1203,8 @@ AccountPortfolioList = connect(AccountPortfolioList, {
 			viewSettings: SettingsStore.getState().viewSettings,
 			allMarketStats: MarketsStore.getState().allMarketStats,
 			backedCoins: GatewayStore.getState().backedCoins,
+			locked: WalletUnlockStore.getState().locked,
+			locked_v2: WalletUnlockStore.getState().locked_v2,
 		};
 	},
 });

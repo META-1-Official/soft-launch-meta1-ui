@@ -43,6 +43,7 @@ class BalanceComponent extends React.Component {
 					hide_asset={this.props.hide_asset}
 					setPercentValueHandler={this.props.setPercentValueHandler}
 					symbol={this.props.symbol}
+					fixed6Digits={this.props.fixed6Digits}
 				/>
 			);
 		} else if (!this.props.asPercentage) {
@@ -54,6 +55,7 @@ class BalanceComponent extends React.Component {
 					assetInfo={this.props.assetInfo}
 					replace={this.props.replace}
 					hide_asset={this.props.hide_asset}
+					fixed6Digits={this.props.fixed6Digits}
 				/>
 			);
 		}
