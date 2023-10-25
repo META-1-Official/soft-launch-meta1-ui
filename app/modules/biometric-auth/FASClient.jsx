@@ -593,10 +593,12 @@ const FASClient = forwardRef((props, ref) => {
 			console.log('@@@@unmount camera');
 			window.removeEventListener('resize', updateWindowWidth);
 			emptyStreamRef &&
+				emptyStreamRef.current &&
 				emptyStreamRef.current.getTracks().forEach(function (track) {
 					track.stop();
 				});
 			webcamRef &&
+				webcamRef.current &&
 				webcamRef.current.video.srcObject.getTracks().forEach(function (track) {
 					track.stop();
 				});
