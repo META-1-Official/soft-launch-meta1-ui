@@ -470,7 +470,7 @@ class AccountRegistrationConfirm extends React.Component {
 						walletName: accountName,
 						token: token,
 						email: email,
-						redirectUrl: window.location.origin,
+						redirectUrl: window.location.origin + '/auth-proceed',
 					}
 				);
 				if (response) {
