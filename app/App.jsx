@@ -1,8 +1,8 @@
 import React from 'react';
-import {ChainStore} from 'meta1-vision-js';
+import { ChainStore } from 'meta1-vision-js';
 import AccountStore from 'stores/AccountStore';
 import NotificationStore from 'stores/NotificationStore';
-import {withRouter} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import SyncError from './components/SyncError';
 import LoadingIndicator from './components/LoadingIndicator';
 import BrowserNotifications from './components/BrowserNotifications/BrowserNotificationsContainer';
@@ -14,30 +14,31 @@ import PasswordlessLoginModal from './components/Wallet/PasswordlessLoginModal';
 import BrowserSupportModal from './components/Modal/BrowserSupportModal';
 import Deprecate from './Deprecate';
 import Incognito from './components/Layout/Incognito';
-import {isIncognito} from 'feature_detect';
+import { isIncognito } from 'feature_detect';
 import titleUtils from 'common/titleUtils';
-import {notification} from 'antd';
-import {DEFAULT_NOTIFICATION_DURATION} from 'services/Notification';
+import { notification } from 'antd';
+import { DEFAULT_NOTIFICATION_DURATION } from 'services/Notification';
 import Loadable from 'react-loadable';
 import NewsHeadline from 'components/Layout/NewsHeadline';
 import Onramperwallet from 'components/Wallet/Onramperwallet';
 import Login from './components/Login/Login';
 import WalletRegistration from './components/Registration/WalletRegistration';
 import AccountRegistration from './components/Registration/AccountRegistration';
-import {CreateWalletFromBrainkey} from './components/Wallet/WalletCreate';
+import { CreateWalletFromBrainkey } from './components/Wallet/WalletCreate';
 import PriceAlertNotifications from './components/PriceAlertNotifications';
-import {updateGatewayBackers} from 'common/gatewayUtils';
+import { updateGatewayBackers } from 'common/gatewayUtils';
 import WalletUnlockActions from 'actions/WalletUnlockActions';
 import WalletManagerStore from 'stores/WalletManagerStore';
 
-import {Route, Switch, Redirect} from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 // Nested route components
 import Page404 from './components/Page404/Page404';
 import AppLayout from 'components/Layout/Layout';
 import BodyClassName from 'components/BodyClassName';
 import AssetExplorerDetails from './components/Exchange/AssetExplorerDetails';
-import {Worker} from '@react-pdf-viewer/core';
-import {toast} from 'react-toastify';
+import { Worker } from '@react-pdf-viewer/core';
+import { toast } from 'react-toastify';
+import Utils from 'lib/common/utils';
 
 import axios from 'axios';
 import ls from './lib/common/localStorage';
@@ -45,7 +46,6 @@ import ls from './lib/common/localStorage';
 const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
 const ss_graphene = new ls('__graphene__');
-const ss_notification = new ls('__notification__');
 
 // for the cache purpose
 import AppStore from './assets/app-store.png';
@@ -220,7 +220,7 @@ class App extends React.Component {
 
 		let syncFail =
 			ChainStore.subError &&
-			ChainStore.subError.message ===
+				ChainStore.subError.message ===
 				'ChainStore sync error, please check your system clock'
 				? true
 				: false;
@@ -305,7 +305,7 @@ class App extends React.Component {
 	_syncStatus(setState = false) {
 		let synced = this.getBlockTimeDelta() < 5;
 		if (setState && synced !== this.state.synced) {
-			this.setState({synced});
+			this.setState({ synced });
 		}
 		return synced;
 	}
@@ -326,6 +326,7 @@ class App extends React.Component {
 
 	componentDidMount() {
 		this._setListeners();
+		this._initNotificationConfig();
 		this.syncCheckInterval = setInterval(
 			this._syncStatus.bind(this, true),
 			5000
@@ -350,7 +351,7 @@ class App extends React.Component {
 
 		isIncognito(
 			function (incognito) {
-				this.setState({incognito});
+				this.setState({ incognito });
 			}.bind(this)
 		);
 		updateGatewayBackers();
@@ -404,7 +405,26 @@ class App extends React.Component {
 	}
 
 	_onIgnoreIncognitoWarning() {
-		this.setState({incognitoWarningDismissed: true});
+		this.setState({ incognitoWarningDismissed: true });
+	}
+
+	_initNotificationConfig() {
+		var conf = JSON.parse(localStorage.getItem("noti_conf"));
+		if (!conf) {
+			conf = {
+				specNotification: [
+					// { events: true },
+					// { announcements: true },
+					// { deposits: true },
+					{ send: true },
+					{ receive: true },
+					// { tradeExcuted: true },
+					// { tradeCanceled: true },
+				],
+				coinMovements: []
+			}
+		}
+		localStorage.setItem('noti_conf', JSON.stringify(conf));
 	}
 
 	_rebuildTooltips() {
@@ -422,12 +442,12 @@ class App extends React.Component {
 	_chainStoreSub() {
 		let synced = this._syncStatus();
 		if (synced !== this.state.synced) {
-			this.setState({synced});
+			this.setState({ synced });
 		}
 		if (ChainStore.subscribed !== this.state.synced || ChainStore.subError) {
 			let syncFail =
 				ChainStore.subError &&
-				ChainStore.subError.message ===
+					ChainStore.subError.message ===
 					'ChainStore sync error, please check your system clock'
 					? true
 					: false;
@@ -448,7 +468,7 @@ class App extends React.Component {
 	}
 
 	_getWindowHeight() {
-		this.setState({height: window && window.innerHeight});
+		this.setState({ height: window && window.innerHeight });
 	}
 
 	_onSetupWebSocket(accountName) {
@@ -490,25 +510,10 @@ class App extends React.Component {
 
 			this.ws.onmessage = (message) => {
 				console.log('notification arrived', message);
-				if (message && message.data) {
+				var filter = Utils.filterNotifications([JSON.parse(message.data)], accountName);
+				if (message && message.data && filter.length > 0) {
 					const content = JSON.parse(message.data).content;
-					toast(content);
-
-					let unreadNotifications = [];
-
-					if (ss_notification.get('notifications', ''))
-						unreadNotifications = JSON.parse(
-							ss_notification.get('notifications', '')
-						);
-					const notificationId = JSON.parse(message.data).id;
-
-					if (unreadNotifications.indexOf(notificationId) < 0)
-						unreadNotifications.push(notificationId);
-
-					ss_notification.set(
-						'notifications',
-						JSON.stringify(unreadNotifications)
-					);
+					toast(<p dangerouslySetInnerHTML={{ __html: content }} />);
 				}
 			};
 		} catch (e) {
@@ -517,8 +522,8 @@ class App extends React.Component {
 	}
 
 	render() {
-		let {incognito, incognitoWarningDismissed} = this.state;
-		let {walletMode, theme, location, ...others} = this.props;
+		let { incognito, incognitoWarningDismissed } = this.state;
+		let { walletMode, theme, location, ...others } = this.props;
 		let content = null;
 		if (this.state.syncFail) {
 			content = <SyncError />;
@@ -644,7 +649,7 @@ class App extends React.Component {
 			<Worker workerUrl="https://unpkg.com/pdfjs-dist@3.8.162/build/pdf.worker.min.js">
 				<AppLayout location={location} height={this.state.height} {...others}>
 					<div
-						style={{backgroundColor: !theme ? '#2a2a2a' : null}}
+						style={{ backgroundColor: !theme ? '#2a2a2a' : null }}
 						className={theme}
 					>
 						<BodyClassName className={theme}>
@@ -678,9 +683,9 @@ class App extends React.Component {
 									showModal={this.showBrowserSupportModal}
 								/>
 
-								<img src={AppStore} style={{display: 'none'}} />
-								<img src={GooglePlay} style={{display: 'none'}} />
-								<img src={OfflineIcon} style={{display: 'none'}} />
+								<img src={AppStore} style={{ display: 'none' }} />
+								<img src={GooglePlay} style={{ display: 'none' }} />
+								<img src={OfflineIcon} style={{ display: 'none' }} />
 							</div>
 						</BodyClassName>
 					</div>

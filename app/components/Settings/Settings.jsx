@@ -39,32 +39,6 @@ class Settings extends React.Component {
 			'showAssetPercent',
 			// 'viewOnlyMode',
 		];
-
-		// let generalGroup = [
-		// 	{
-		// 		title: '',
-		// 		options: ['locale', 'unit'],
-		// 	},
-		// 	{
-		// 		title: 'Default Fee Paying Asset',
-		// 		options: ['fee_asset'],
-		// 	},
-		// 	{
-		// 		title: 'Browser Notifications',
-		// 		options: [
-		// 			'browser_notifications',
-		// 			'showSettles',
-		// 			'walletLockTimeout',
-		// 			'themes',
-		// 			'showAssetPercent',
-		// 			'viewOnlyMode',
-		// 		],
-		// 	},
-		// ];
-
-		// disable that the user can change login method if only one is allowed
-
-		//if (getAllowedLogins().length > 1) general.push("passwordLogin");
 		general.push('reset');
 
 		this.state = {
