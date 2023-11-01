@@ -16,6 +16,7 @@ import AccessSettings from './AccessSettings';
 import {set} from 'lodash-es';
 import {getFaucet} from '../../branding';
 import FaucetSettings from './FaucetSettings';
+// import NotificationSettings from './NotificationSettings';
 
 const {Title} = Typography;
 class Settings extends React.Component {
@@ -33,11 +34,9 @@ class Settings extends React.Component {
 			'locale',
 			'unit',
 			'fee_asset',
-			'browser_notifications',
 			'showSettles',
 			'themes',
 			'showAssetPercent',
-			// 'viewOnlyMode',
 		];
 		general.push('reset');
 
@@ -61,8 +60,6 @@ class Settings extends React.Component {
 		this.hideAddNodeModal = this.hideAddNodeModal.bind(this);
 		this.showRemoveNodeModal = this.showRemoveNodeModal.bind(this);
 		this.hideRemoveNodeModal = this.hideRemoveNodeModal.bind(this);
-
-		this._handleNotificationChange = this._handleNotificationChange.bind(this);
 	}
 
 	componentDidUpdate(prevProps) {
@@ -147,32 +144,14 @@ class Settings extends React.Component {
 		if (!props.settings.get('passwordLogin')) menuEntries.push('backup');
 		if (!props.settings.get('passwordLogin')) menuEntries.push('restore');
 		menuEntries.push('access');
-
-		// if (getFaucet().show) menuEntries.push('faucet_address');
-
 		menuEntries.push('reset');
+		menuEntries.push('notifications');
 
 		return menuEntries;
 	}
 
 	triggerModal(e, ...args) {
 		this.refs.ws_modal.show(e, ...args);
-	}
-
-	_handleNotificationChange(path, value) {
-		// use different change handler because checkbox doesn't work
-		// normal with e.preventDefault()
-
-		let updatedValue = set(
-			this.props.settings.get('browser_notifications'),
-			path,
-			value
-		);
-
-		SettingsActions.changeSetting({
-			setting: 'browser_notifications',
-			value: updatedValue,
-		});
 	}
 
 	_handleSettingsEntryChange(setting, input) {
@@ -328,6 +307,11 @@ class Settings extends React.Component {
 				entries = <WalletSettings {...this.props} />;
 				break;
 
+			case 'notifications':
+				// entries = <NotificationSettings {...this.props} />;
+				entries = <div {...this.props} />;
+				break;
+
 			case 'password':
 				entries = <PasswordSettings />;
 				break;
@@ -431,7 +415,6 @@ class Settings extends React.Component {
 										defaults[setting === 'fee_asset' ? 'unit' : setting]
 									}
 									onChange={this._handleSettingsEntryChange.bind(this)}
-									onNotificationChange={this._handleNotificationChange}
 									locales={this.props.localesObject}
 									{...this.state}
 								/>

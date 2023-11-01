@@ -111,12 +111,6 @@ class SettingsStore {
 			walletLockTimeout: 90 * 10,
 			themes: getDefaultTheme(),
 			passwordLogin: getDefaultLogin() == 'password',
-			browser_notifications: {
-				allow: true,
-				additional: {
-					transferToMe: true,
-				},
-			},
 			rememberMe: true,
 			viewOnlyMode: true,
 			showProposedTx: false,
@@ -141,12 +135,6 @@ class SettingsStore {
 			showAssetPercent: [{translate: 'yes'}, {translate: 'no'}],
 			themes: ['darkTheme', 'lightTheme'],
 			passwordLogin: [{translate: 'cloud_login'}, {translate: 'local_wallet'}],
-			browser_notifications: {
-				allow: [true, false],
-				additional: {
-					transferToMe: [true, false],
-				},
-			},
 			rememberMe: [true, false],
 			viewOnlyMode: [{translate: 'show'}, {translate: 'hide'}],
 		};

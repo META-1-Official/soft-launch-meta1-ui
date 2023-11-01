@@ -95,12 +95,6 @@ export default class SettingsEntry extends React.Component {
 
 				break;
 
-			case 'browser_notifications':
-				value = selected;
-				// component = <NotificationSettings />
-				component = <div>Notification Settings</div>
-				break;
-
 			case 'fee_asset':
 				options = null;
 				value = true;
