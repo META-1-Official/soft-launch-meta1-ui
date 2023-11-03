@@ -1,26 +1,25 @@
-import React, { useEffect, useState, useReducer } from "react";
-import Switch from "@mui/material/Switch";
-import Select from "@mui/material/Select";
-import MenuItem from '@mui/material/MenuItem';
-import { toast } from 'react-toastify';
+import React, {useEffect, useState, useReducer} from 'react';
+import {Switch, Select} from 'antd';
+import {toast} from 'react-toastify';
+import {getAssetIcon} from 'constants/assets';
 
 // notification items
-import AnnouncementIcon from '../../images/announcements.png';
-import EventIcon from '../../images/events.png';
-import DepositIcon from '../../images/deposit.png';
-import WithdrawlIcon from '../../images/withdrawal.png';
-import SendIcon from '../../images/send.png';
-import ReceiveIcon from '../../images/receive.png';
-import OrderCreatedIcon from '../../images/order-created.png';
-import OrderCancelledIcon from '../../images/order-cancelled.png';
+import AnnouncementIcon from 'assets/notifications/announcements.png';
+import EventIcon from 'assets/notifications/events.png';
+import DepositIcon from 'assets/notifications/deposit.png';
+import WithdrawlIcon from 'assets/notifications/withdrawal.png';
+import SendIcon from 'assets/notifications/send.png';
+import ReceiveIcon from 'assets/notifications/receive.png';
+import OrderCreatedIcon from 'assets/notifications/order-created.png';
+import OrderCancelledIcon from 'assets/notifications/order-cancelled.png';
 
-const NotificationSettings = (props) => {	
+const NotificationSettings = (props) => {
 	const [notiMode, setNotiMode] = useState(null);
 	const [selectedCoinMovement, setSelectedCoinMovement] = useState('META1');
 	const [selectedTendency, setSelectedTendency] = useState('up');
 	const [selectedComparator, setSelectedComparator] = useState('price');
-	const [comparatorValue, setComparatorValue] = useState();	
-	const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
+	const [comparatorValue, setComparatorValue] = useState();
+	const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
 	const iconList = {
 		events: EventIcon,
 		announcements: AnnouncementIcon,
@@ -29,56 +28,60 @@ const NotificationSettings = (props) => {
 		tradeExcuted: OrderCreatedIcon,
 		tradeCanceled: OrderCancelledIcon,
 		send: SendIcon,
-		receive: ReceiveIcon
-	}
+		receive: ReceiveIcon,
+	};
 
 	useEffect(() => {
-		var conf = JSON.parse(localStorage.getItem("noti_conf"));
+		var conf = JSON.parse(localStorage.getItem('noti_conf'));
 		conf && setNotiMode(conf);
-	}, [localStorage.getItem("noti_conf")]);	
+	}, [localStorage.getItem('noti_conf')]);
 
 	const NotificationItem = (props) => {
-		const { icon, type, toggle, onToggle } = props;
+		const {icon, type, toggle, onToggle} = props;
 
 		return (
-			<div className={styles.notificationItem} >
-				<div className={styles.leftItem}>
-					<div><img src={icon} alt={type} /></div>
+			<div className="notificationItem">
+				<div className="leftItem">
+					<div>
+						<img src={icon} alt={type} />
+					</div>
 					<span>{type}</span>
 				</div>
-				<div className={styles.rightItem}>
+				<div className="rightItem">
 					<Switch
-						className={styles.switch}
+						className="switch"
 						value={type}
 						onClick={onToggle}
-						inputProps={{ "aria-label": "controlled" }}
-						color={"warning"}
+						inputProps={{'aria-label': 'controlled'}}
+						color={'warning'}
 						checked={toggle}
 					/>
 				</div>
 			</div>
-		)
-	}
+		);
+	};
 
 	const CoinNotificationItem = (props) => {
-		const { asset, gteOrLte, value, comparator, onToggle, toggle } = props;
+		const {asset, gteOrLte, value, comparator, onToggle, toggle} = props;
 
 		return (
-			<div className={styles.coinNotificationItem} >
-				<div className={styles.leftItem}>
-					<img src={getImage(asset.toUpperCase())} alt="edit profile" />
-					<div className={styles.coinSec}>
+			<div className="coinNotificationItem">
+				<div className="leftItem">
+					<img src={getAssetIcon(asset.toUpperCase())} alt="edit profile" />
+					<div className="coinSec">
 						<span>{asset}</span>
-						<span>{`Price move ${gteOrLte} by ${comparator === 'price' ? '$' : ''}${value}${comparator === 'percentage' ? '%' : ''}`}</span>
+						<span>{`Price move ${gteOrLte} by ${
+							comparator === 'price' ? '$' : ''
+						}${value}${comparator === 'percentage' ? '%' : ''}`}</span>
 					</div>
 				</div>
-				<div className={styles.rightItem}>
+				<div className="rightItem">
 					<Switch
-						className={styles.switch}
+						className="switch"
 						checked={toggle}
 						onClick={onToggle}
-						inputProps={{ "aria-label": "controlled" }}
-						color={"warning"}
+						inputProps={{'aria-label': 'controlled'}}
+						color={'warning'}
 						value={asset}
 					/>
 					<button onClick={() => handleClose(asset)}>
@@ -86,8 +89,8 @@ const NotificationSettings = (props) => {
 					</button>
 				</div>
 			</div>
-		)
-	}
+		);
+	};
 
 	const handleCoinSelect = (event) => {
 		setSelectedCoinMovement(event.target.value);
@@ -103,7 +106,7 @@ const NotificationSettings = (props) => {
 
 	const handleComparatorValueChange = (event) => {
 		setComparatorValue(event.target.value);
-	}
+	};
 
 	const handleToggle = (event) => {
 		let type = event.target.value;
@@ -116,14 +119,15 @@ const NotificationSettings = (props) => {
 				obj_value = ele[key];
 			}
 
-			if (obj_key === type) new_conf.specNotification[index][obj_key] = event.target.checked;
+			if (obj_key === type)
+				new_conf.specNotification[index][obj_key] = event.target.checked;
 		});
 
 		localStorage.setItem('noti_conf', JSON.stringify(new_conf));
-		dispatch(getNotificationsRequest({ login: accountNameState }));
+		// dispatch(getNotificationsRequest({ login: accountNameState }));
 		setNotiMode(new_conf);
 		forceUpdate();
-	}
+	};
 
 	const handleCoinMovementToggle = (event) => {
 		let asset = event.target.value.toLowerCase();
@@ -136,14 +140,15 @@ const NotificationSettings = (props) => {
 				obj_value = ele[key];
 			}
 
-			if (obj_key === asset) new_conf.coinMovements[index][obj_key].toggle = event.target.checked;
+			if (obj_key === asset)
+				new_conf.coinMovements[index][obj_key].toggle = event.target.checked;
 		});
 
 		localStorage.setItem('noti_conf', JSON.stringify(new_conf));
-		dispatch(getNotificationsRequest({ login: accountNameState }));
+		// dispatch(getNotificationsRequest({ login: accountNameState }));
 		setNotiMode(new_conf);
 		forceUpdate();
-	}
+	};
 
 	const handleCoinSave = () => {
 		if (!selectedCoinMovement) {
@@ -177,10 +182,13 @@ const NotificationSettings = (props) => {
 			if (obj_key === symbol) {
 				new_conf.coinMovements[index][obj_key].toggle = true;
 				new_conf.coinMovements[index][obj_key].tendency = selectedTendency;
-				new_conf.coinMovements[index][obj_key].comparator = [selectedComparator, comparatorValue];
+				new_conf.coinMovements[index][obj_key].comparator = [
+					selectedComparator,
+					comparatorValue,
+				];
 				flag = true;
 			}
-		})
+		});
 
 		if (!flag) {
 			var pushVal = {};
@@ -192,11 +200,11 @@ const NotificationSettings = (props) => {
 		}
 
 		localStorage.setItem('noti_conf', JSON.stringify(new_conf));
-		dispatch(getNotificationsRequest({ login: accountNameState }));
+		// dispatch(getNotificationsRequest({ login: accountNameState }));
 		setNotiMode(new_conf);
 		toast('Successfully saved your settings');
 		forceUpdate();
-	}
+	};
 
 	const handleClose = (val) => {
 		var symbol = val.toLowerCase();
@@ -212,119 +220,140 @@ const NotificationSettings = (props) => {
 			if (obj_key === symbol) {
 				new_conf.coinMovements.splice(index, 1);
 			}
-		})
+		});
 
 		localStorage.setItem('noti_conf', JSON.stringify(new_conf));
-		dispatch(getNotificationsRequest({ login: accountNameState }));
+		// dispatch(getNotificationsRequest({ login: accountNameState }));
 		setNotiMode(new_conf);
 		toast('Successfully deleted.');
 		forceUpdate();
-	}
+	};
 
 	return (
-		<div className={styles.tabWrapper}>
-			<div className={styles.changeNotifcationBlock}>
-				<div className={styles.changeCurrencyHeader}>
-					<h3>Notification Preference</h3>
-				</div>
-				<hr />
-				<div className={styles.notificationPrefContent}>
-					<h5>Select the kind of notifications you get about your activities.</h5>
+		<div className="notificationTabWrapper">
+			<div className="changeNotifcationBlock">
+				<div className="notificationPrefContent">
+					<h5>
+						Select the kind of notifications you get about your activities.
+					</h5>
 					<hr />
-					{
-						notiMode.specNotification && notiMode.specNotification.map((ele) => {
+					{notiMode &&
+						notiMode.specNotification &&
+						notiMode.specNotification.map((ele) => {
 							var obj_key, obj_value;
 							for (var key in ele) {
 								obj_key = key;
 								obj_value = ele[key];
 							}
-							return <NotificationItem
-								key={key}
-								type={obj_key}
-								icon={iconList[obj_key]}
-								toggle={obj_value}
-								onToggle={handleToggle}
-							/>
-						})
-					}
-					<div className={styles.coinMovements}>Coin Movements</div>
-					{
-						notiMode.coinMovements && notiMode.coinMovements.map((ele) => {
+							return (
+								<NotificationItem
+									key={key}
+									type={obj_key}
+									icon={iconList[obj_key]}
+									toggle={obj_value}
+									onToggle={handleToggle}
+								/>
+							);
+						})}
+					<div className="coinMovements">Coin Movements</div>
+					{notiMode &&
+						notiMode.coinMovements &&
+						notiMode.coinMovements.map((ele) => {
 							var obj_key, obj_value;
 							for (var key in ele) {
 								obj_key = key;
 								obj_value = ele[key];
 							}
-							return <CoinNotificationItem
-								key={key}
-								asset={obj_key.toUpperCase()}
-								gteOrLte={obj_value.tendency}
-								toggle={obj_value.toggle}
-								value={obj_value.comparator[1]}
-								comparator={obj_value.comparator[0]}
-								onToggle={handleCoinMovementToggle}
-							/>
-						})
-					}
+							return (
+								<CoinNotificationItem
+									key={key}
+									asset={obj_key.toUpperCase()}
+									gteOrLte={obj_value.tendency}
+									toggle={obj_value.toggle}
+									value={obj_value.comparator[1]}
+									comparator={obj_value.comparator[0]}
+									onToggle={handleCoinMovementToggle}
+								/>
+							);
+						})}
 				</div>
-				<div className={styles.form_custom}>
+				<div className="form_custom">
 					<div className="row">
 						<div className="col-lg-12">
 							<div className="coin-122">
-								<p className={styles.coin_p}>Coin Movements</p>
+								<p className="coin_p">Coin Movements</p>
 							</div>
 						</div>
 						<div className="col-lg-12">
-							<div className={styles.common_margin}>
-								<label className={styles.label_same}>Coins:</label>
+							<div className="common_margin">
+								<label className="label_same">Coins:</label>
 								<Select
 									value={selectedCoinMovement}
 									onChange={handleCoinSelect}
 								>
-									{process.env.REACT_APP_CRYPTOS_ARRAY.split(',').map(ele => {
+									{process.env.CRYPTOS_ARRAY.split(',').map((ele) => {
 										if (ele !== 'USDT') {
-											return <MenuItem value={ele} className="wallet-option">
-												<div className="wallet-option-picture">
-													<img alt="eth" src={getImage(ele)} />
-												</div>
-												<div>
-													<div className="wallet-option-content__currency">
-														<span className="wallet-option-content__name">
-															{ele}{" "}
-														</span>
+											return (
+												<div value={ele} className="wallet-option">
+													<div className="wallet-option-picture">
+														<img alt="eth" src={getAssetIcon(ele)} />
+													</div>
+													<div>
+														<div className="wallet-option-content__currency">
+															<span className="wallet-option-content__name">
+																{ele}{' '}
+															</span>
+														</div>
 													</div>
 												</div>
-											</MenuItem>
+											);
 										}
 									})}
 								</Select>
 							</div>
 						</div>
 						<div className="col-lg-12">
-							<div className={styles.common_margin}>
-								<label className={styles.label_same}>Movement:</label>
-								<select value={selectedTendency} onChange={handleTendencyChange} className={styles.select_same}>
-									<option value='up'>Greater Than</option>
-									<option value='down'>Less Than</option>
+							<div className="common_margin">
+								<label className="label_same">Movement:</label>
+								<select
+									value={selectedTendency}
+									onChange={handleTendencyChange}
+									className="select_same"
+								>
+									<option value="up">Greater Than</option>
+									<option value="down">Less Than</option>
 								</select>
 							</div>
 						</div>
 					</div>
 					<div className="row">
 						<div className="col-lg-6">
-							<div className={styles.common_margin}>
-								<select value={selectedComparator} onChange={handleComparatorChange} className={styles.select_same} >
-									<option value='price'>By Price</option>
-									<option value='percentage'>By Percentage</option>
+							<div className="common_margin">
+								<select
+									value={selectedComparator}
+									onChange={handleComparatorChange}
+									className="select_same"
+								>
+									<option value="price">By Price</option>
+									<option value="percentage">By Percentage</option>
 								</select>
 							</div>
 						</div>
 						<div className="col-lg-6">
-							<div className={styles.common_margin}>
-								<input type="number" placeholder={selectedComparator === "price" ? '$10.00' : '5.00%'} value={comparatorValue} onChange={handleComparatorValueChange} />
+							<div className="common_margin">
+								<input
+									type="number"
+									placeholder={
+										selectedComparator === 'price' ? '$10.00' : '5.00%'
+									}
+									value={comparatorValue}
+									onChange={handleComparatorValueChange}
+								/>
 							</div>
 						</div>
-						<Button className={styles.btn_save_movment} onClick={handleCoinSave}>Save</Button>
+						<button className="btn_save_movment" onClick={handleCoinSave}>
+							Save
+						</button>
 					</div>
 				</div>
 			</div>

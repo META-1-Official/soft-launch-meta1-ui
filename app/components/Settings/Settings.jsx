@@ -16,7 +16,7 @@ import AccessSettings from './AccessSettings';
 import {set} from 'lodash-es';
 import {getFaucet} from '../../branding';
 import FaucetSettings from './FaucetSettings';
-// import NotificationSettings from './NotificationSettings';
+import NotificationSettings from './NotificationSettings';
 
 const {Title} = Typography;
 class Settings extends React.Component {
@@ -308,8 +308,7 @@ class Settings extends React.Component {
 				break;
 
 			case 'notifications':
-				// entries = <NotificationSettings {...this.props} />;
-				entries = <div {...this.props} />;
+				entries = <NotificationSettings {...this.props} />;
 				break;
 
 			case 'password':
@@ -422,7 +421,6 @@ class Settings extends React.Component {
 						})}
 					</div>
 				);
-
 				break;
 		}
 

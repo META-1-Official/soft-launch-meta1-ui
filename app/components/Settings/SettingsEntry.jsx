@@ -6,7 +6,6 @@ import Notify from 'notifyjs';
 import FeeAssetSettings from './FeeAssetSettings';
 import {Checkbox, Select, Input, Form} from 'antd';
 import StyledSelect from 'components/Select/Select';
-// import NotificationSettings from './NotificationSettings';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
