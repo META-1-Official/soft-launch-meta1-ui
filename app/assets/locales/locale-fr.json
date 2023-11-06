@@ -2106,7 +2106,7 @@
 		"remove": "Remove",
 		"remove_api": "Remove Node",
 		"remove_ws": "Remove Node",
-		"reset": "Reset settings",
+		"reset": "Reset",
 		"reset_text": "Restore settings to their original defaults.",
 		"reset_text_description": "This will reset all your %(generalName)s, %(accessName)s and %(faucetName)s Settings",
 		"restore": "Restore/Import",

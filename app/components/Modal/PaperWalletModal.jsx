@@ -67,6 +67,7 @@ export default function PaperWalletModal(props) {
 			isLocked() ? 'public-' : 'private-'
 		}${accountName}.pdf`;
 		alink.click();
+		props.onSubmit();
 		localStorage.removeItem('paperWalletData');
 		if (props.onCancel) props.onCancel();
 	};

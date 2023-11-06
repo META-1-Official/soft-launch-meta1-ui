@@ -113,67 +113,67 @@ class AssetsPairTabs extends React.Component {
 				const quoteAsset = assetPair.quoteAsset;
 				const baseAsset = assetPair.baseAsset;
 
-				let filter = filteredMarketStats.filter((stats) => {
-					const base = stats.price.base;
-					const quote = stats.price.quote;
+				// let filter = filteredMarketStats.filter((stats) => {
+				// 	const base = stats.price.base;
+				// 	const quote = stats.price.quote;
 
-					if (
-						base.asset_id === baseAsset.get('id') &&
-						quote.asset_id === quoteAsset.get('id')
-					) {
-						return true;
-					}
-				});
+				// 	if (
+				// 		base.asset_id === baseAsset.get('id') &&
+				// 		quote.asset_id === quoteAsset.get('id')
+				// 	) {
+				// 		return true;
+				// 	}
+				// });
 
-				if (filter.size > 0) {
-					MarketsActions.unSubscribeMarket(
-						quoteAsset.get('id'),
-						baseAsset.get('id')
-					)
-						.then(() => {
-							MarketsActions.subscribeMarket(
-								baseAsset,
-								quoteAsset,
-								newBucketSize
-							).then(() => {
-								let bars = MarketsStore.getState().priceData;
+				// if (filter.size > 0) {
+				MarketsActions.unSubscribeMarket(
+					quoteAsset.get('id'),
+					baseAsset.get('id')
+				)
+					.then(() => {
+						MarketsActions.subscribeMarket(
+							baseAsset,
+							quoteAsset,
+							newBucketSize
+						).then(() => {
+							let bars = MarketsStore.getState().priceData;
 
-								const marketBarIndex = marketBars.findIndex(
-									(marketBar) =>
-										marketBar['quoteAssetId'] === quoteAsset.get('id') &&
-										marketBar['baseAssetId'] === baseAsset.get('id')
-								);
-								const newMarketBar = {
-									quoteAssetId: quoteAsset.get('id'),
-									baseAssetId: baseAsset.get('id'),
-									bars: bars.slice(-36),
-								};
+							const marketBarIndex = marketBars.findIndex(
+								(marketBar) =>
+									marketBar['quoteAssetId'] === quoteAsset.get('id') &&
+									marketBar['baseAssetId'] === baseAsset.get('id')
+							);
+							const newMarketBar = {
+								quoteAssetId: quoteAsset.get('id'),
+								baseAssetId: baseAsset.get('id'),
+								bars: bars.slice(-36),
+							};
 
-								if (marketBarIndex > -1) {
-									marketBars[marketBarIndex] = newMarketBar;
-								} else {
-									marketBars.push(newMarketBar);
-								}
+							if (marketBarIndex > -1) {
+								marketBars[marketBarIndex] = newMarketBar;
+							} else {
+								marketBars.push(newMarketBar);
+							}
 
-								if (
-									index === assetPairs.length - 1 ||
-									index === assetPairs.length - 2
-								) {
-									const that = this;
-									setTimeout(() => {
-										that.setState({isFetchingMarketInfo: false, marketBars});
-									}, 500);
-								} else {
-									this.setState({marketBars});
-								}
-							});
-						})
-						.catch((e) => {
-							this.setState({isFetchingMarketInfo: false, marketBars});
+							if (
+								index === assetPairs.length - 1 ||
+								index === assetPairs.length - 2
+							) {
+								const that = this;
+								setTimeout(() => {
+									that.setState({isFetchingMarketInfo: false, marketBars});
+								}, 500);
+							} else {
+								this.setState({marketBars});
+							}
 						});
-				} else {
-					this.setState({isFetchingMarketInfo: false, marketBars});
-				}
+					})
+					.catch((e) => {
+						this.setState({isFetchingMarketInfo: false, marketBars});
+					});
+				// } else {
+				// 	this.setState({isFetchingMarketInfo: false, marketBars});
+				// }
 			});
 		}
 	}

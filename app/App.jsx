@@ -5,7 +5,6 @@ import NotificationStore from 'stores/NotificationStore';
 import {withRouter} from 'react-router-dom';
 import SyncError from './components/SyncError';
 import LoadingIndicator from './components/LoadingIndicator';
-import BrowserNotifications from './components/BrowserNotifications/BrowserNotificationsContainer';
 import ReactTooltip from 'react-tooltip';
 import NotificationSystem from 'react-notification-system';
 import TransactionConfirm from './components/Blockchain/TransactionConfirm';
@@ -38,6 +37,7 @@ import BodyClassName from 'components/BodyClassName';
 import AssetExplorerDetails from './components/Exchange/AssetExplorerDetails';
 import {Worker} from '@react-pdf-viewer/core';
 import {toast} from 'react-toastify';
+import Utils from 'lib/common/utils';
 
 import axios from 'axios';
 import ls from './lib/common/localStorage';
@@ -45,7 +45,6 @@ import ls from './lib/common/localStorage';
 const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
 const ss_graphene = new ls('__graphene__');
-const ss_notification = new ls('__notification__');
 
 // for the cache purpose
 import AppStore from './assets/app-store.png';
@@ -326,6 +325,7 @@ class App extends React.Component {
 
 	componentDidMount() {
 		this._setListeners();
+		this._initNotificationConfig();
 		this.syncCheckInterval = setInterval(
 			this._syncStatus.bind(this, true),
 			5000
@@ -405,6 +405,26 @@ class App extends React.Component {
 
 	_onIgnoreIncognitoWarning() {
 		this.setState({incognitoWarningDismissed: true});
+	}
+
+	_initNotificationConfig() {
+		console.log('@@@@@@notif');
+		var conf = JSON.parse(localStorage.getItem('noti_conf'));
+		if (!conf) {
+			conf = {
+				specNotification: [
+					// { events: true },
+					// { announcements: true },
+					// { deposits: true },
+					{send: true},
+					{receive: true},
+					// { tradeExcuted: true },
+					// { tradeCanceled: true },
+				],
+				coinMovements: [],
+			};
+		}
+		localStorage.setItem('noti_conf', JSON.stringify(conf));
 	}
 
 	_rebuildTooltips() {
@@ -490,25 +510,13 @@ class App extends React.Component {
 
 			this.ws.onmessage = (message) => {
 				console.log('notification arrived', message);
-				if (message && message.data) {
+				var filter = Utils.filterNotifications(
+					[JSON.parse(message.data)],
+					accountName
+				);
+				if (message && message.data && filter.length > 0) {
 					const content = JSON.parse(message.data).content;
-					toast(content);
-
-					let unreadNotifications = [];
-
-					if (ss_notification.get('notifications', ''))
-						unreadNotifications = JSON.parse(
-							ss_notification.get('notifications', '')
-						);
-					const notificationId = JSON.parse(message.data).id;
-
-					if (unreadNotifications.indexOf(notificationId) < 0)
-						unreadNotifications.push(notificationId);
-
-					ss_notification.set(
-						'notifications',
-						JSON.stringify(unreadNotifications)
-					);
+					toast(<p dangerouslySetInnerHTML={{__html: content}} />);
 				}
 			};
 		} catch (e) {
@@ -668,7 +676,6 @@ class App extends React.Component {
 									})}
 								/>
 								<TransactionConfirm />
-								<BrowserNotifications />
 								<PriceAlertNotifications />
 								<WalletUnlockModal />
 								<PasswordlessLoginModal />

@@ -94,51 +94,6 @@ export default class SettingsEntry extends React.Component {
 
 				break;
 
-			case 'browser_notifications':
-				value = selected;
-
-				component = (
-					<div className="settings-notifications">
-						<div className="settings-notifications-item">
-							{counterpart.translate('settings.browser_notifications_allow')}
-							<Checkbox
-								id="browser_notifications.allow"
-								checked={!!value.allow}
-								onChange={this.handleNotificationChange('allow')}
-							/>
-						</div>
-						<div className="settings-notifications-item">
-							{counterpart.translate(
-								'settings.browser_notifications_additional_transfer_to_me'
-							)}
-							<Checkbox
-								id="browser_notifications.additional.transferToMe"
-								disabled={!value.allow}
-								checked={!!value.additional.transferToMe}
-								onChange={this.handleNotificationChange(
-									'additional.transferToMe'
-								)}
-							/>
-						</div>
-						{!!value.allow && Notify.needsPermission && (
-							<a
-								href="https://goo.gl/zZ7NHY"
-								target="_blank"
-								rel="noopener noreferrer"
-								className="external-link"
-							>
-								<Translate
-									component="div"
-									className="settings-notifications-no-browser-support"
-									content="settings.browser_notifications_disabled_by_browser_notify"
-								/>
-							</a>
-						)}
-					</div>
-				);
-
-				break;
-
 			case 'fee_asset':
 				options = null;
 				value = true;
