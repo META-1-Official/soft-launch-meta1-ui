@@ -4,6 +4,7 @@ import BindToChainState from '../Utility/BindToChainState';
 import PageHeader from 'components/PageHeader/PageHeader';
 import {ClockCircleOutlined} from '@ant-design/icons';
 import {List} from 'antd';
+import ltService from '../../services/litewallet.service';
 import ls from '../../lib/common/localStorage';
 const ss = new ls('__notification__');
 
@@ -13,7 +14,7 @@ const renderListItem = (item, index) => (
 		className="notification-listitem"
 	>
 		<div className="title">{item?.title}</div>
-		<div className="description">{item?.content}</div>
+		{/* <div className="description" dangerouslySetInnerHTML={item?.content} /> */}
 		<div className="footer">
 			<ClockCircleOutlined />
 			{item?.createdAt}
@@ -25,8 +26,8 @@ const AccountNotification = () => {
 	const [notifications, setNotifications] = useState(null);
 
 	useEffect(async () => {
-		var noti_str = ss.get('notifications', '');
-		if (noti_str) setNotifications(JSON.parse(noti_str));
+		var noti = await ltService.getNotifications(null);
+		setNotifications(noti);
 	}, []);
 
 	return (
@@ -46,7 +47,7 @@ const AccountNotification = () => {
 							size="large"
 							pagination={{
 								position: 'bottom',
-								pageSize: 5,
+								pageSize: 12,
 							}}
 							dataSource={notifications}
 							renderItem={(item, index) => renderListItem(item, index)}

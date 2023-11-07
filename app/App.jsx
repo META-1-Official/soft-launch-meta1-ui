@@ -408,7 +408,6 @@ class App extends React.Component {
 	}
 
 	_initNotificationConfig() {
-		console.log('@@@@@@notif');
 		var conf = JSON.parse(localStorage.getItem('noti_conf'));
 		if (!conf) {
 			conf = {
