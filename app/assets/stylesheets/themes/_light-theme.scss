@@ -1132,6 +1132,18 @@ $explorer-tab-checkbox-color: #dddddd;
 					.ant-list-item {
 						border-bottom: 1px solid $border-color;
 
+						&:nth-child(even) {
+							background: #f7f8fa;
+						}
+
+						.info {
+							color: #607383;
+						}
+
+						.time {
+							color: #607383;
+						}
+
 						.description {
 							color: $primary-text-color;
 						}
