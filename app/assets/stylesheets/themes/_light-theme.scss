@@ -224,6 +224,10 @@ $explorer-tab-checkbox-color: #dddddd;
 		$table-hover-color
 	);
 
+	hr {
+		background-color: #e7eaef !important;
+	}
+
 	// buttons
 	.button {
 		&.outline {
@@ -1256,6 +1260,89 @@ $explorer-tab-checkbox-color: #dddddd;
 				}
 			}
 		}
+
+		// notification
+		.notificationTabWrapper {
+			.changeNotifcationBlock {
+				.notificationPrefContent {
+					.notificationItem {
+						border-bottom: 1px solid #e7eaef;
+
+						.leftItem {
+							span {
+								color: black;
+							}
+						}
+					}
+
+					.coinMovements {
+						border-bottom: 1px solid #e7eaef;
+						background-color: #f8fafb;
+						color: black;
+					}
+
+					.coinNotificationItem {
+						border-bottom: 1px solid #e7eaef;
+
+						.leftItem {
+							.coinSec {
+								span {
+									color: black;
+								}
+							}
+						}
+
+						.rightItem {
+							.close-btn {
+								background: #f2f4f8;
+							}
+						}
+					}
+				}
+
+				.form_custom {
+					border: 1px solid #e7eaef;
+					background: #f7f9fb;
+
+					p.coin_p {
+						color: black;
+					}
+
+					.common_margin {
+						label.label_same {
+							color: black;
+						}
+
+						.select_same {
+							background-color: white !important;
+							border: 1px solid #e7eaef !important;
+							color: black;
+						}
+
+						.ant-select {
+							.ant-select-selector {
+								background-color: white;
+								border: 1px solid #e7eaef !important;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	.coin-movement {
+		background-color: white;
+
+		.ant-select-item:hover {
+			background-color: #f7f9fb !important;
+			border-top: 1px solid #dde7e3;
+			border-bottom: 1px solid #dde7e3;
+		}
+	}
+
+	.wallet-option-content__name {
+		color: black;
 	}
 
 	// Permission page

@@ -133,9 +133,15 @@ class Header extends React.Component {
 	}
 
 	async getNotifications() {
-		var noti = await ltService.getNotifications(null);
+		let accountName =
+			AccountStore.getState().currentAccount ||
+			AccountStore.getState().passwordAccount;
+
+		var noti = await ltService.getNotifications(accountName);
 		if (noti) {
-			this.setState({notifications: noti});
+			this.setState({
+				notifications: Utils.filterNotifications(noti, accountName),
+			});
 		}
 	}
 

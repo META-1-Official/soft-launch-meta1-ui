@@ -624,11 +624,6 @@ var Utils = {
 			return !flag;
 		});
 
-		notifications = notifications.map((ele) => {
-			ele.time = moment(ele.createdAt).fromNow();
-			return ele;
-		});
-
 		return notifications;
 	},
 };

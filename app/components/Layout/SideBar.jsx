@@ -81,7 +81,7 @@ const SideBar = ({collapsed, currentLink, toggle}) => {
 			menuName: <Translate content="account.notifications" />,
 			icon: <BellOutlined />,
 			mobileIcon: <BellOutlined style={{fontSize: '22px'}} />,
-			enableNavLinks,
+			enableNavLinks: true,
 		},
 		{
 			menuId: 'learn',

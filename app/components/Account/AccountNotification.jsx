@@ -9,6 +9,7 @@ import ltService from '../../services/litewallet.service';
 import NotificationDetailModal from 'components/Modal/NotificationDetailModal';
 import ls from '../../lib/common/localStorage';
 import Utils from 'lib/common/utils';
+import AccountStore from 'stores/AccountStore';
 const ss = new ls('__notification__');
 
 import NotificationTimeIcon from 'assets/notifications/notification-time.png';
@@ -31,8 +32,12 @@ const AccountNotification = () => {
 	}, []);
 
 	const initData = async () => {
-		var noti = await ltService.getNotifications(null);
-		setNotifications(noti);
+		let accountName =
+			AccountStore.getState().currentAccount ||
+			AccountStore.getState().passwordAccount;
+
+		var noti = await ltService.getNotifications(accountName);
+		setNotifications(Utils.filterNotifications(noti, accountName));
 	};
 
 	const handleClick = (item) => {
