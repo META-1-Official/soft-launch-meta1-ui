@@ -393,13 +393,7 @@
 
 	// notification
 	.notificationTabWrapper {
-		background: var(--blockBgColor);
 		width: 100%;
-		border-top-right-radius: 5px;
-		border-bottom-right-radius: 5px;
-		border-right: 1px solid var(--borderColor);
-		border-top: 1px solid var(--borderColor);
-		border-bottom: 1px solid var(--borderColor);
 
 		.changeNotifcationBlock {
 			padding: 1rem 0;
@@ -425,7 +419,7 @@
 						div {
 							width: 30px;
 							height: 30px;
-							background: var(--circleBackgroundColor);
+							background: #fff;
 							border-radius: 50%;
 							display: flex;
 							align-items: center;
@@ -441,7 +435,7 @@
 						span {
 							font-size: 16px;
 							font-weight: 600;
-							color: var(--textBrown);
+							color: white;
 							text-transform: capitalize;
 						}
 					}
@@ -449,6 +443,7 @@
 					.rightItem {
 						.switch {
 							margin: 0 0 0 2rem !important;
+							height: 24px;
 
 							@media (max-width: 600px) {
 								margin: 0 !important;
@@ -459,11 +454,11 @@
 
 				.coinMovements {
 					border-bottom: 1px solid rgba(80, 83, 97, 0.3);
-					padding: 20px 30px;
-					background-color: var(--blockBgColor5);
+					padding: 10px 30px;
+					background-color: #222222;
 					font-size: 20px;
 					font-weight: 500;
-					color: var(--textBrown);
+					color: white;
 
 					.coinNotificationItem {
 						display: flex;
@@ -490,7 +485,7 @@
 								span {
 									font-size: 16px;
 									font-weight: 600;
-									color: var(--textBrown);
+									color: white;
 
 									&:last-child {
 										color: gray;
@@ -524,8 +519,8 @@
 			.form_custom {
 				margin: 30px;
 				padding: 20px;
-				background: var(--blockBgColor5);
 				border-radius: 5px;
+				border: 1px solid rgba(80, 83, 97, 0.3);
 
 				input {
 					width: 100%;
@@ -543,7 +538,7 @@
 					font-size: 20px;
 					font-weight: 500;
 					margin: 0 0 15px 0;
-					color: var(--textBrown);
+					color: #fff;
 				}
 
 				.common_margin {
@@ -554,7 +549,7 @@
 						font-weight: 500;
 						margin: 0 0 5px 0;
 						display: block;
-						color: var(--textBrown);
+						color: #a7b4be;
 					}
 
 					.select_same {
@@ -562,49 +557,80 @@
 						max-width: 100%;
 						height: 50px;
 						padding: 0 15px;
-						background: var(--backgroundColor) !important;
-						border: 1px solid var(--inputBorderColor) !important;
-						color: var(--textBrown);
+						background: #0a0b0d !important;
+						border: 1px solid rgba(80, 83, 97, 0.3) !important;
+						color: #a7b4be;
 						font-size: 18px !important;
 						font-weight: 500 !important;
+						border-radius: 5px;
+					}
+
+					.ant-select {
+						width: 100%;
+
+						.ant-select-selector {
+							border-radius: 5px;
+							height: 50px;
+							background-color: #0a0b0d;
+						}
+
+						.ant-select-arrow {
+							svg {
+								fill: #a7b4be;
+								font-size: 15px;
+							}
+						}
 					}
 				}
 
-				.ant-select {
+				.ant-select-selection-item {
 					display: flex;
-					padding-top: 10px;
-					padding-bottom: 10px;
-					margin-top: 0px;
-					margin-bottom: 0px;
-					cursor: pointer;
-					outline: none;
-					padding-left: 10px;
-
-					.wallet-option-picture img {
-						width: 40px;
-						margin-right: 15px;
-					}
-
-					.wallet-option-content__currency {
-						display: flex;
-						align-items: center;
-					}
-
-					.wallet-option-content__name {
-						font-size: 18px;
-						margin-right: 5px;
-					}
+					align-items: center;
+					outline: none !important;
 				}
 
 				.btn_save_movment {
 					width: 150px;
 					background-color: #fdc000 !important;
 					margin-top: 10px !important;
-					margin-left: 15px !important;
 					height: 50px !important;
-					color: var(--textBrown) !important;
+					color: black !important;
+					border-radius: 8px;
+					font-weight: bold;
+					font-size: 18px;
 				}
 			}
 		}
 	}
+}
+
+.coin-movement {
+	background-color: #222222;
+
+	.ant-select-item-option {
+		display: flex;
+		align-items: center;
+	}
+
+	.ant-select-item:hover {
+		background-color: #070707 !important;
+		border-top: 1px solid #222222;
+		border-bottom: 1px solid #222222;
+	}
+}
+
+.wallet-option-picture img {
+	width: 40px;
+	margin-right: 15px;
+}
+
+.wallet-option-content__currency {
+	display: flex;
+	align-items: center;
+}
+
+.wallet-option-content__name {
+	font-size: 18px;
+	margin-right: 5px;
+	color: #a7b4be;
 }

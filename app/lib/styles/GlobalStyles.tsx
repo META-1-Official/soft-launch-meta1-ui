@@ -75,9 +75,8 @@ const GlobalStyles = (theme: any) => css`
 		background-color: ${theme.colors.primaryColor};
 	}
 	.ant-switch-handle {
-		top: -2px;
-		width: 19px;
-		height: 19px;
+		width: 20px;
+		height: 20px;
 	}
 	.ant-tabs {
 		color: ${theme.colors.themeOpositeColor};;

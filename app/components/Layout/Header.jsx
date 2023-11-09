@@ -15,6 +15,7 @@ import DepositModal from '../Modal/DepositModal';
 import Icon from '../Icon/Icon';
 import StyledButton from 'components/Button/Button';
 import {getLogo} from 'branding';
+import moment from 'moment';
 
 // Antd
 import {CaretDownOutlined, QuestionCircleOutlined} from '@ant-design/icons';
@@ -43,6 +44,11 @@ import WalletManagerStore from 'stores/WalletManagerStore';
 
 // API Services
 import migrationService from 'services/migration.service';
+import ltService from 'services/litewallet.service';
+import Utils from 'lib/common/utils';
+
+// Icons
+import bellIcon from 'assets/notifications/notification.png';
 
 // Meta1 SDKs
 import {Apis} from 'meta1-vision-ws';
@@ -61,6 +67,9 @@ const sun = require('assets/sun.png');
 const moon = require('assets/moon.png');
 const hamburger = require('assets/hambuger.png');
 
+import NotificationDetailModal from 'components/Modal/NotificationDetailModal';
+import history from 'lib/common/history';
+
 class Header extends React.Component {
 	constructor(props) {
 		super();
@@ -73,6 +82,9 @@ class Header extends React.Component {
 			migratable: false,
 			oldUser: false,
 			drawerOpen: false,
+			notifications: null,
+			modalOpened: false,
+			detail: null,
 		};
 
 		this._accountNotificationActiveKeys = [];
@@ -91,6 +103,10 @@ class Header extends React.Component {
 		this.hideWithdrawModal = this.hideWithdrawModal.bind(this);
 
 		this.onBodyClick = this.onBodyClick.bind(this);
+
+		this.handleClick = this.handleClick.bind(this);
+		this.handleModalToggle = this.handleModalToggle.bind(this);
+		this.showAllNotifications = this.showAllNotifications.bind(this);
 	}
 
 	async checkTransferableAccount(acc_name) {
@@ -113,6 +129,13 @@ class Header extends React.Component {
 			this.setState({oldUser: true});
 		} else {
 			this.setState({oldUser: false});
+		}
+	}
+
+	async getNotifications() {
+		var noti = await ltService.getNotifications(null);
+		if (noti) {
+			this.setState({notifications: noti});
 		}
 	}
 
@@ -162,6 +185,8 @@ class Header extends React.Component {
 			this.checkTransferableAccount(accountName);
 			this.checkOldUser(accountName);
 		}
+
+		this.getNotifications();
 	}
 
 	componentWillUnmount() {
@@ -364,6 +389,20 @@ class Header extends React.Component {
 		} while ((el = el.parentNode));
 
 		if (!insideAccountDropdown) this._closeAccountsListDropdown();
+	}
+
+	handleClick(detail) {
+		this.setState({detail, modalOpened: true});
+		setModalOpened(true);
+	}
+
+	handleModalToggle(value) {
+		this.setState({modalOpened: value});
+	}
+
+	showAllNotifications() {
+		const accountName = ss.get('account_login_name', null);
+		history.push(`/account/${accountName}/notification`);
 	}
 
 	handleHeaderLink = (e) => {
@@ -571,6 +610,63 @@ class Header extends React.Component {
 			</Menu>
 		);
 
+		const NotificationItem = (props) => {
+			return (
+				<div className="notificationCard" onClick={props.onClick}>
+					<div className="logo">
+						<img src={props.icon} alt="meta1" />
+					</div>
+					<div className="info">
+						<h4>{props.title}</h4>
+						{props.category !== 'Events' &&
+							props.category !== 'Announcements' && (
+								<p
+									dangerouslySetInnerHTML={{__html: props.description}}
+									className="contentHtml"
+								/>
+							)}
+						<div className="time">
+							<span>{props.category}</span>
+							<span>{moment(props.time).fromNow()}</span>
+						</div>
+					</div>
+				</div>
+			);
+		};
+
+		const notificationDropDown = (
+			<Menu
+				className="header-notification-menu"
+				style={{display: this.state.modalOpened === true ? 'none' : 'unset'}}
+			>
+				{this.state.notifications &&
+					this.state.notifications.map((ele, index) => {
+						return (
+							index < 4 && (
+								<NotificationItem
+									icon={Utils.getNotificationIcon(ele.category)}
+									title={ele.title}
+									category={ele.category}
+									description={ele.content}
+									time={ele.createdAt}
+									onClick={() => this.handleClick(ele)}
+								/>
+							)
+						);
+					})}
+				<div className="viewAll" onClick={() => this.showAllNotifications()}>
+					View All Notifications
+				</div>
+				{this.state.detail && (
+					<NotificationDetailModal
+						detail={this.state.detail}
+						isOpen={this.state.modalOpened}
+						setModalOpened={(value) => this.handleModalToggle(value)}
+					/>
+				)}
+			</Menu>
+		);
+
 		const renderMenu = (mode) => (
 			<Menu
 				mode={mode}
@@ -768,6 +864,25 @@ class Header extends React.Component {
 									)}
 								</div>
 								{horizontalDivider}
+								<Dropdown overlay={notificationDropDown} trigger="click">
+									<span
+										style={{
+											display: 'flex',
+											alignItems: 'center',
+											cursor: 'pointer',
+										}}
+									>
+										<div className="blockNotification">
+											<img src={bellIcon} className="notiIcon" />
+											{this.state.notifications &&
+												this.state.notifications.length > 0 && (
+													<div className="badgeCount">
+														{this.state.notifications.length}
+													</div>
+												)}
+										</div>
+									</span>
+								</Dropdown>
 								<Dropdown overlay={avatarMenu} trigger="click">
 									<span
 										style={{

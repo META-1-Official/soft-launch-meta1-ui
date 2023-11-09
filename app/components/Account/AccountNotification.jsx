@@ -8,22 +8,14 @@ import {List} from 'antd';
 import ltService from '../../services/litewallet.service';
 import NotificationDetailModal from 'components/Modal/NotificationDetailModal';
 import ls from '../../lib/common/localStorage';
+import Utils from 'lib/common/utils';
 const ss = new ls('__notification__');
 
-import AnnouncementIcon from 'assets/notifications/announcements.png';
-import EventIcon from 'assets/notifications/events.png';
-import DepositIcon from 'assets/notifications/deposit.png';
-import WithdrawlIcon from 'assets/notifications/withdrawal.png';
-import OrderCreatedIcon from 'assets/notifications/order-created.png';
-import OrderCancelledIcon from 'assets/notifications/order-cancelled.png';
-import PriceChangeIcon from 'assets/notifications/price-change.png';
-import SendIcon from 'assets/notifications/send.png';
-import ReceiveIcon from 'assets/notifications/receive.png';
 import NotificationTimeIcon from 'assets/notifications/notification-time.png';
 
 const AccountNotification = () => {
 	const [notifications, setNotifications] = useState(null);
-	const [detail, setDetail] = useState(0);
+	const [detail, setDetail] = useState(null);
 	const [modalOpened, setModalOpened] = useState(false);
 	const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
 
@@ -31,12 +23,12 @@ const AccountNotification = () => {
 		await initData();
 	}, []);
 
-	// useEffect(() => {
-	// 	const timer = setTimeout(async () => {
-	// 		await initData();
-	// 	}, 10000);
-	// 	return () => clearTimeout(timer);
-	// }, []);
+	useEffect(() => {
+		const timer = setTimeout(async () => {
+			await initData();
+		}, 10000);
+		return () => clearTimeout(timer);
+	}, []);
 
 	const initData = async () => {
 		var noti = await ltService.getNotifications(null);
@@ -53,31 +45,6 @@ const AccountNotification = () => {
 		setModalOpened(value);
 	};
 
-	const getItem = (category) => {
-		switch (category) {
-			case 'Announcements':
-				return AnnouncementIcon;
-			case 'Events':
-				return EventIcon;
-			case 'Created Order':
-				return OrderCreatedIcon;
-			case 'Cancelled Order':
-				return OrderCancelledIcon;
-			case 'Deposit':
-				return DepositIcon;
-			case 'Withdraw':
-				return WithdrawlIcon;
-			case 'Send':
-				return SendIcon;
-			case 'Receive':
-				return ReceiveIcon;
-			case 'Price Change':
-				return PriceChangeIcon;
-			default:
-				return AnnouncementIcon;
-		}
-	};
-
 	const renderListItem = (item, index) => {
 		var d = new Date(item.createdAt);
 
@@ -90,7 +57,7 @@ const AccountNotification = () => {
 				<div className="logo-wrapper">
 					<img
 						style={{width: '30px', height: '30px'}}
-						src={getItem(item.category)}
+						src={Utils.getNotificationIcon(item.category)}
 						alt="meta1"
 					/>
 				</div>

@@ -290,6 +290,7 @@ const NotificationSettings = (props) => {
 								<Select
 									value={selectedCoinMovement}
 									onChange={handleCoinSelect}
+									dropdownClassName="coin-movement"
 								>
 									{process.env.CRYPTOS_ARRAY.split(',').map((ele) => {
 										if (ele !== 'USDT') {
@@ -351,10 +352,10 @@ const NotificationSettings = (props) => {
 								/>
 							</div>
 						</div>
-						<button className="btn_save_movment" onClick={handleCoinSave}>
-							Save
-						</button>
 					</div>
+					<button className="btn_save_movment" onClick={handleCoinSave}>
+						Save
+					</button>
 				</div>
 			</div>
 		</div>

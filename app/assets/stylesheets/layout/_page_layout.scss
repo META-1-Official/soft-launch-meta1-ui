@@ -538,6 +538,131 @@ div.bordered-header {
 			background-color: #ffc000 !important;
 		}
 	}
+
+	ul.header-notification-menu {
+		position: absolute;
+		z-index: 10;
+		background: #0a0b0d;
+		border: 1px solid #1c1f27;
+		top: 8px;
+		right: 0px;
+		filter: drop-shadow(0px 30px 30px rgba(0, 0, 0, 0.2));
+		border-top: 3px solid #e24c4d;
+		border-bottom-left-radius: 8px;
+		border-bottom-right-radius: 8px;
+		width: 440px;
+		padding-bottom: 20px;
+		overflow-y: auto;
+
+		@media (max-width: 600px) {
+			top: 110px;
+			width: calc(100% - 50px);
+			left: 25px;
+		}
+
+		.notificationCard {
+			display: flex;
+			padding: 20px;
+			align-items: center;
+			justify-content: space-between;
+			cursor: pointer;
+
+			&:nth-child(even) {
+				background: #1c1f27;
+			}
+
+			.info {
+				width: 100%;
+				margin-left: 15px;
+				color: #607383;
+
+				h4 {
+					cursor: pointer;
+					margin: 5px 0px;
+
+					&:hover {
+						text-decoration: underline;
+					}
+				}
+
+				p {
+					color: #607383;
+					font-family: sans-serif;
+					font-size: 14px;
+					font-style: normal;
+					font-weight: 400;
+					line-height: normal;
+					text-transform: capitalize;
+				}
+			}
+
+			.contentHtml {
+				max-width: 350px;
+
+				img {
+					max-width: 100% !important;
+				}
+			}
+
+			.time {
+				display: flex;
+				color: #607383;
+				font-family: sans-serif;
+				font-size: 13px;
+				font-style: normal;
+				font-weight: 500;
+				line-height: normal;
+				text-transform: capitalize;
+				justify-content: space-between;
+				align-items: center;
+
+				div {
+					&:first-child {
+						width: 100%;
+
+						p {
+							background: transparent;
+
+							table {
+								background: transparent !important;
+
+								td {
+									background: transparent !important;
+								}
+							}
+						}
+					}
+
+					&:last-child {
+						min-width: 150px;
+						margin-left: 30px;
+					}
+				}
+			}
+
+			.logo {
+				width: 40px;
+				height: 40px;
+				align-items: center;
+				justify-content: center;
+				padding: 5px;
+			}
+		}
+
+		.viewAll {
+			color: #ffc000;
+			font-family: sans-serif;
+			font-size: 15px;
+			font-style: normal;
+			font-weight: 600;
+			line-height: normal;
+			text-decoration-line: underline;
+			text-transform: capitalize;
+			margin-top: 10px;
+			text-align: center;
+			cursor: pointer;
+		}
+	}
 }
 
 .advanced-submenu {

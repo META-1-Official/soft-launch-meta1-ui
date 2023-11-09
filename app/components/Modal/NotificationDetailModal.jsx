@@ -30,24 +30,26 @@ const NotificationDetailModal = (props) => {
 			onCancel={handleClick}
 			footer={null}
 		>
-			<div className="notificationModalContent">
-				<div className="modalHeader">
-					<div className="left">
-						<div className="iconWrapper">
-							<img src={NotiIcon} />
-						</div>
-						<div className="titleWrapper">
-							<span className="title">
-								{detail?.category ?? 'Notification'}
-							</span>
-							<div className="time">{moment(detail.createdAt).fromNow()}</div>
+			{detail && (
+				<div className="notificationModalContent">
+					<div className="modalHeader">
+						<div className="left">
+							<div className="iconWrapper">
+								<img src={NotiIcon} />
+							</div>
+							<div className="titleWrapper">
+								<span className="title">
+									{detail?.category ?? 'Notification'}
+								</span>
+								<div className="time">{moment(detail.createdAt).fromNow()}</div>
+							</div>
 						</div>
 					</div>
+					<div className="modalBody">
+						<p dangerouslySetInnerHTML={{__html: detail?.content}} />
+					</div>
 				</div>
-				<div className="modalBody">
-					<p dangerouslySetInnerHTML={{__html: detail?.content}} />
-				</div>
-			</div>
+			)}
 		</Modal>
 	);
 };
