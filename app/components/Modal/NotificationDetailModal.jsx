@@ -12,14 +12,18 @@ const NotificationDetailModal = (props) => {
 		props.setModalOpened(false);
 	};
 
-	// useEffect(() => {
-	// 	if (props.detail) {
-	// 		let readNotifications = JSON.parse(localStorage.getItem('readNotifications')) ?? [];
-	// 		if (!readNotifications.includes(props.detail.id))
-	// 			readNotifications.push(props.detail.id);
-	// 		localStorage.setItem('readNotifications', JSON.stringify(readNotifications));
-	// 	}
-	// }, [props.detail?.id]);
+	useEffect(() => {
+		if (props.detail) {
+			let readNotifications =
+				JSON.parse(localStorage.getItem('readNotifications')) ?? [];
+			if (!readNotifications.includes(props.detail.id))
+				readNotifications.push(props.detail.id);
+			localStorage.setItem(
+				'readNotifications',
+				JSON.stringify(readNotifications)
+			);
+		}
+	}, [props.detail?.id]);
 
 	return (
 		<Modal
