@@ -522,6 +522,7 @@ class App extends React.Component {
 				if (message && message.data && filter.length > 0) {
 					const content = JSON.parse(message.data).content;
 					toast(<p dangerouslySetInnerHTML={{__html: content}} />);
+					AuthStore.setNotifications(accountName);
 				}
 			};
 		} catch (e) {

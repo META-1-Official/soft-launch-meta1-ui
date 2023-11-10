@@ -24,11 +24,6 @@ const NotificationDetailModal = (props) => {
 				'readNotifications',
 				JSON.stringify(readNotifications)
 			);
-
-			let accountName =
-				AccountStore.getState().currentAccount ||
-				AccountStore.getState().passwordAccount;
-			await AuthStore.setNotifications(accountName);
 		}
 	}, [props.detail?.id]);
 
