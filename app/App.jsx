@@ -28,6 +28,7 @@ import PriceAlertNotifications from './components/PriceAlertNotifications';
 import {updateGatewayBackers} from 'common/gatewayUtils';
 import WalletUnlockActions from 'actions/WalletUnlockActions';
 import WalletManagerStore from 'stores/WalletManagerStore';
+import AuthStore from 'stores/AuthStore';
 
 import {Route, Switch, Redirect} from 'react-router-dom';
 // Nested route components
@@ -409,6 +410,10 @@ class App extends React.Component {
 
 	_initNotificationConfig() {
 		var conf = JSON.parse(localStorage.getItem('noti_conf'));
+		let accountName =
+			AccountStore.getState().currentAccount ||
+			AccountStore.getState().passwordAccount;
+
 		if (!conf) {
 			conf = {
 				specNotification: [
@@ -424,6 +429,7 @@ class App extends React.Component {
 			};
 		}
 		localStorage.setItem('noti_conf', JSON.stringify(conf));
+		AuthStore.setNotifications(accountName);
 	}
 
 	_rebuildTooltips() {

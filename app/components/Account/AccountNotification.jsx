@@ -10,6 +10,7 @@ import NotificationDetailModal from 'components/Modal/NotificationDetailModal';
 import ls from '../../lib/common/localStorage';
 import Utils from 'lib/common/utils';
 import AccountStore from 'stores/AccountStore';
+import AuthStore from 'stores/AuthStore';
 const ss = new ls('__notification__');
 
 import NotificationTimeIcon from 'assets/notifications/notification-time.png';
@@ -22,12 +23,12 @@ const AccountNotification = () => {
 
 	useEffect(async () => {
 		await initData();
-	}, []);
+	}, [AuthStore.getState().notifications]);
 
 	useEffect(() => {
 		const timer = setTimeout(async () => {
 			await initData();
-		}, 10000);
+		}, 1000);
 		return () => clearTimeout(timer);
 	}, []);
 
@@ -36,8 +37,16 @@ const AccountNotification = () => {
 			AccountStore.getState().currentAccount ||
 			AccountStore.getState().passwordAccount;
 
-		var noti = await ltService.getNotifications(accountName);
-		setNotifications(Utils.filterNotifications(noti, accountName));
+		AuthStore.getState().notifications &&
+			setNotifications(
+				Utils.filterNotifications(
+					AuthStore.getState().notifications,
+					accountName
+				)
+			);
+		setTimeout(async () => {
+			await initData();
+		}, 1000);
 	};
 
 	const handleClick = (item) => {

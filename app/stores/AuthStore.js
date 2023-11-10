@@ -5,6 +5,7 @@ import {CHAIN_NAMESPACES} from '@web3auth/base';
 import {OpenloginAdapter} from '@web3auth/openlogin-adapter';
 import SettingsStore from 'stores/SettingsStore';
 import {EthereumPrivateKeyProvider} from '@web3auth/ethereum-provider';
+import ltService from '../services/litewallet.service';
 
 class AuthStore extends BaseStore {
 	constructor() {
@@ -15,7 +16,8 @@ class AuthStore extends BaseStore {
 			'setPrivKey',
 			'setOpenLoginInstance',
 			'setAuthData',
-			'setAccountName'
+			'setAccountName',
+			'setNotifications'
 		);
 
 		this.state = {
@@ -25,6 +27,7 @@ class AuthStore extends BaseStore {
 			authData: null,
 			error: '',
 			accountName: '',
+			notifications: null, // for new notification system
 		};
 
 		this.setLoading = this.setLoading.bind(this);
@@ -33,6 +36,7 @@ class AuthStore extends BaseStore {
 		this.setOpenLoginInstance = this.setOpenLoginInstance.bind(this);
 		this.setError = this.setError.bind(this);
 		this.setAccountName = this.setAccountName.bind(this);
+		this.setNotifications = this.setNotifications.bind(this);
 	}
 
 	setLoading(isLoading) {
@@ -53,6 +57,11 @@ class AuthStore extends BaseStore {
 
 	setAccountName(accountName) {
 		this.setState({accountName});
+	}
+
+	async setNotifications(accountName) {
+		var notifications = await ltService.getNotifications(accountName);
+		this.setState({notifications});
 	}
 
 	async setOpenLoginInstance() {

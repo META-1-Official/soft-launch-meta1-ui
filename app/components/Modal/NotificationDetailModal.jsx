@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react';
 import {Modal, Button, Tabs, Tooltip} from 'antd';
 import {toast} from 'react-toastify';
 import moment from 'moment';
+import AccountStore from 'stores/AccountStore';
+import AuthStore from 'stores/AuthStore';
 
 import NotiIcon from 'assets/notifications/notification.png';
 
@@ -12,7 +14,7 @@ const NotificationDetailModal = (props) => {
 		props.setModalOpened(false);
 	};
 
-	useEffect(() => {
+	useEffect(async () => {
 		if (props.detail) {
 			let readNotifications =
 				JSON.parse(localStorage.getItem('readNotifications')) ?? [];
@@ -22,6 +24,11 @@ const NotificationDetailModal = (props) => {
 				'readNotifications',
 				JSON.stringify(readNotifications)
 			);
+
+			let accountName =
+				AccountStore.getState().currentAccount ||
+				AccountStore.getState().passwordAccount;
+			await AuthStore.setNotifications(accountName);
 		}
 	}, [props.detail?.id]);
 

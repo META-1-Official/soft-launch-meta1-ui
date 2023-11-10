@@ -69,6 +69,7 @@ const hamburger = require('assets/hambuger.png');
 
 import NotificationDetailModal from 'components/Modal/NotificationDetailModal';
 import history from 'lib/common/history';
+import AuthStore from 'stores/AuthStore';
 
 class Header extends React.Component {
 	constructor(props) {
@@ -132,17 +133,21 @@ class Header extends React.Component {
 		}
 	}
 
-	async getNotifications() {
+	getNotifications() {
 		let accountName =
 			AccountStore.getState().currentAccount ||
 			AccountStore.getState().passwordAccount;
 
-		var noti = await ltService.getNotifications(accountName);
-		if (noti) {
+		let noti = AuthStore.getState().notifications;
+
+		noti &&
 			this.setState({
 				notifications: Utils.filterNotifications(noti, accountName),
 			});
-		}
+
+		setTimeout(() => {
+			this.getNotifications();
+		}, 1000);
 	}
 
 	showWithdrawModal() {
@@ -181,6 +186,10 @@ class Header extends React.Component {
 			ReactTooltip.rebuild();
 		}, 1250);
 
+		setTimeout(() => {
+			this.getNotifications();
+		}, 1000);
+
 		document.body.addEventListener('click', this.onBodyClick, {
 			capture: false,
 			passive: true,
@@ -191,8 +200,6 @@ class Header extends React.Component {
 			this.checkTransferableAccount(accountName);
 			this.checkOldUser(accountName);
 		}
-
-		this.getNotifications();
 	}
 
 	componentWillUnmount() {
