@@ -11,7 +11,7 @@ import ls from '../../lib/common/localStorage';
 import Utils from 'lib/common/utils';
 import AccountStore from 'stores/AccountStore';
 import AuthStore from 'stores/AuthStore';
-const ss = new ls('__notification__');
+const ss = new ls('__AuthData__');
 
 import NotificationTimeIcon from 'assets/notifications/notification-time.png';
 
@@ -33,9 +33,7 @@ const AccountNotification = () => {
 	}, []);
 
 	const initData = async () => {
-		let accountName =
-			AccountStore.getState().currentAccount ||
-			AccountStore.getState().passwordAccount;
+		let accountName = ss.get('account_login_name', null);
 
 		AuthStore.getState().notifications &&
 			setNotifications(

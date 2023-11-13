@@ -134,10 +134,7 @@ class Header extends React.Component {
 	}
 
 	getNotifications() {
-		let accountName =
-			AccountStore.getState().currentAccount ||
-			AccountStore.getState().passwordAccount;
-
+		let accountName = ss.get('account_login_name', null);
 		let noti = AuthStore.getState().notifications;
 
 		noti &&

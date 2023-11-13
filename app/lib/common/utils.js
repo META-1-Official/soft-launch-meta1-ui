@@ -529,14 +529,14 @@ var Utils = {
 
 		let notifications = [...n];
 
-		let coinMove = notiConfig.coinMovements.reduce(
+		let coinMove = notiConfig?.coinMovements?.reduce(
 			(prev, curr) => ({
 				...prev,
 				[Object.keys(curr)[0]]: curr[Object.keys(curr)[0]],
 			}),
 			{}
 		);
-		let specificNote = notiConfig.specNotification.reduce(
+		let specificNote = notiConfig?.specNotification?.reduce(
 			(prev, curr) => ({
 				...prev,
 				[Object.keys(curr)[0]]: curr[Object.keys(curr)[0]],

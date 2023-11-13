@@ -68,7 +68,6 @@ const NotificationSettings = (props) => {
 		});
 
 		localStorage.setItem('noti_conf', JSON.stringify(new_conf));
-		// dispatch(getNotificationsRequest({ login: accountNameState }));
 		setNotiMode(new_conf);
 		forceUpdate();
 	};
@@ -90,7 +89,6 @@ const NotificationSettings = (props) => {
 		});
 
 		localStorage.setItem('noti_conf', JSON.stringify(new_conf));
-		// dispatch(getNotificationsRequest({ login: accountNameState }));
 		setNotiMode(new_conf);
 		forceUpdate();
 	};
@@ -145,7 +143,6 @@ const NotificationSettings = (props) => {
 		}
 
 		localStorage.setItem('noti_conf', JSON.stringify(new_conf));
-		// dispatch(getNotificationsRequest({ login: accountNameState }));
 		setNotiMode(new_conf);
 		toast('Successfully saved your settings');
 		forceUpdate();
@@ -168,7 +165,6 @@ const NotificationSettings = (props) => {
 		});
 
 		localStorage.setItem('noti_conf', JSON.stringify(new_conf));
-		// dispatch(getNotificationsRequest({ login: accountNameState }));
 		setNotiMode(new_conf);
 		toast('Successfully deleted.');
 		forceUpdate();
