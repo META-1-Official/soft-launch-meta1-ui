@@ -85,6 +85,7 @@ class Header extends React.Component {
 			drawerOpen: false,
 			notifications: null,
 			modalOpened: false,
+			notiDropDownOpened: false,
 			detail: null,
 		};
 
@@ -402,7 +403,7 @@ class Header extends React.Component {
 	}
 
 	handleClick(detail) {
-		this.setState({detail, modalOpened: true});
+		this.setState({detail, modalOpened: true, notiDropDownOpened: false});
 		setModalOpened(true);
 	}
 
@@ -411,8 +412,8 @@ class Header extends React.Component {
 	}
 
 	showAllNotifications() {
-		const accountName = ss.get('account_login_name', null);
-		history.push(`/account/${accountName}/notification`);
+		this.setState({notiDropDownOpened: false});
+		history.push(`/notification`);
 	}
 
 	handleHeaderLink = (e) => {
@@ -647,7 +648,7 @@ class Header extends React.Component {
 		const notificationDropDown = (
 			<Menu
 				className="header-notification-menu"
-				style={{display: this.state.modalOpened === true ? 'none' : 'unset'}}
+				style={{display: this.state.notiDropDownOpened ? 'unset' : 'none'}}
 			>
 				{this.state.notifications &&
 					this.state.notifications.map((ele, index) => {
@@ -882,7 +883,12 @@ class Header extends React.Component {
 											cursor: 'pointer',
 										}}
 									>
-										<div className="blockNotification">
+										<div
+											className="blockNotification"
+											onClick={() => {
+												this.setState({notiDropDownOpened: true});
+											}}
+										>
 											<img src={bellIcon} className="notiIcon" />
 											{this.state.notifications &&
 												this.state.notifications.length > 0 && (
