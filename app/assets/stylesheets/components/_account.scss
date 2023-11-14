@@ -3185,8 +3185,6 @@ div.account-notification {
 
 						div {
 							&:first-child {
-								width: 100%;
-
 								p {
 									background: transparent;
 
@@ -3201,7 +3199,6 @@ div.account-notification {
 							}
 
 							&:last-child {
-								min-width: 120px;
 								margin-left: 30px;
 							}
 						}

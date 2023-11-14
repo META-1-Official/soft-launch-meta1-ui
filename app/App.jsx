@@ -29,6 +29,7 @@ import {updateGatewayBackers} from 'common/gatewayUtils';
 import WalletUnlockActions from 'actions/WalletUnlockActions';
 import WalletManagerStore from 'stores/WalletManagerStore';
 import AuthStore from 'stores/AuthStore';
+import AccountNotification from 'components/Account/AccountNotification';
 
 import {Route, Switch, Redirect} from 'react-router-dom';
 // Nested route components
@@ -595,6 +596,12 @@ class App extends React.Component {
 
 						<Route path="/barter" component={Barter} />
 						<Route path="/direct-debit" component={DirectDebit} />
+
+						<Route
+							path={`/notification`}
+							exact
+							render={() => <AccountNotification {...this.props} />}
+						/>
 
 						{/* <Route
 								path="/spotlight"

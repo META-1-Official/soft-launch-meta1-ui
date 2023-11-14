@@ -17,6 +17,7 @@ import OrderCancelledIcon from 'assets/notifications/order-cancelled.png';
 import PriceChangeIcon from 'assets/notifications/price-change.png';
 import SendIcon from 'assets/notifications/send.png';
 import ReceiveIcon from 'assets/notifications/receive.png';
+import {Apis} from 'meta1-vision-ws';
 
 var Utils = {
 	is_object_id: (obj_id) => {

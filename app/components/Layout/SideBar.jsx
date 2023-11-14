@@ -120,7 +120,7 @@ const SideBar = ({collapsed, currentLink, toggle}) => {
 		} else if (e.key === 'transaction-history') {
 			link = `account/${accountName}/?currentDisplay=transactionHistory`;
 		} else if (e.key === 'notification') {
-			link = `account/${accountName}/notification`;
+			link = `notification`;
 		} else if (e.key === 'paper-wallet') {
 			link = `account/${accountName}/permissions/?currentDisplay=createPaperWallet`;
 		}

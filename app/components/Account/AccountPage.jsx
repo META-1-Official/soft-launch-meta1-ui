@@ -24,7 +24,6 @@ import AccountSignedMessages from './AccountSignedMessages';
 import AccountWhitelist from './AccountWhitelist';
 import AccountVoting from './AccountVoting';
 import AccountOverview from './AccountOverview';
-import AccountNotification from './AccountNotification';
 
 const STORAGE_KEY = '__AuthData__';
 const ss = new ls(STORAGE_KEY);
@@ -93,8 +92,8 @@ class AccountPage extends React.Component {
 		let account_name = this.props.account.get('name');
 		let isMyAccount = AccountStore.isMyAccount(account);
 
-		if (!accountToken && account_name && account_name != accountName)
-			ss.set('account_login_name', account_name);
+		// if (!accountToken && account_name && account_name != accountName)
+		// 	ss.set('account_login_name', account_name);
 
 		let passOnProps = {
 			account_name,
@@ -149,11 +148,6 @@ class AccountPage extends React.Component {
 						path={`/account/${account_name}/trade`}
 						exact
 						render={() => <AccountTrade {...passOnProps} />}
-					/>
-					<Route
-						path={`/account/${account_name}/notification`}
-						exact
-						render={() => <AccountNotification {...passOnProps} />}
 					/>
 					<Route
 						path={`/account/${account_name}/member-stats`}
