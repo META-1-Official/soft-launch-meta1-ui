@@ -442,6 +442,14 @@ $explorer-tab-checkbox-color: #dddddd;
 		border-top: 3px solid #e24c4d;
 
 		.notificationCard {
+			.info {
+				p {
+					color: #666666;
+				}
+			}
+			.time {
+				color: #666666;
+			}
 			&:nth-child(even) {
 				background: #f7f8fa;
 			}
@@ -1156,15 +1164,19 @@ $explorer-tab-checkbox-color: #dddddd;
 						}
 
 						.info {
-							color: #607383;
+							color: #666666;
 						}
 
 						.time {
-							color: #607383;
+							color: #666666;
+
+							p {
+								color: #666666;
+							}
 						}
 
 						.description {
-							color: $primary-text-color;
+							color: #666666;
 						}
 
 						.footer {
@@ -1749,6 +1761,14 @@ $explorer-tab-checkbox-color: #dddddd;
 
 			.providersCount {
 				border: 1px solid $border-color;
+			}
+		}
+
+		&.notification-detail-modal {
+			.modalBody {
+				p {
+					color: #666666;
+				}
 			}
 		}
 	}

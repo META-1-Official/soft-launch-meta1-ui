@@ -4,7 +4,7 @@ import BindToChainState from '../Utility/BindToChainState';
 import PageHeader from 'components/PageHeader/PageHeader';
 import moment from 'moment';
 import {ClockCircleOutlined} from '@ant-design/icons';
-import {List} from 'antd';
+import {List, Tooltip} from 'antd';
 import ltService from '../../services/litewallet.service';
 import NotificationDetailModal from 'components/Modal/NotificationDetailModal';
 import ls from '../../lib/common/localStorage';
@@ -79,16 +79,16 @@ const AccountNotification = () => {
 							<h4>{item.title ?? item.category}</h4>
 							<p dangerouslySetInnerHTML={{__html: item.content}} />
 						</div>
-						<div>
-							<span>{moment(item.createdAt).fromNow()}</span>
-							<img
-								style={{width: '20px', height: '20px', marginLeft: '10px'}}
-								src={NotificationTimeIcon}
-								alt="meta1"
-								data-tooltip-id="time-tooltip"
-								data-tooltip-content={d.toLocaleString()}
-							/>
-						</div>
+						<Tooltip title={d.toLocaleString()} placement="top">
+							<div>
+								<span>{moment(item.createdAt).fromNow()}</span>
+								<img
+									style={{width: '20px', height: '20px', marginLeft: '10px'}}
+									src={NotificationTimeIcon}
+									alt="time"
+								/>
+							</div>
+						</Tooltip>
 					</div>
 				</div>
 			</List.Item>

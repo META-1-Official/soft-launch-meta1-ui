@@ -3149,7 +3149,7 @@ div.account-notification {
 					.info {
 						width: 100%;
 						margin-left: 15px;
-						color: #a7b4be;
+						color: rgba(255, 255, 255, 0.7);
 
 						h4 {
 							cursor: pointer;
@@ -3161,7 +3161,7 @@ div.account-notification {
 						}
 
 						p {
-							color: #607383;
+							color: rgba(255, 255, 255, 0.7);
 							font-family: sans-serif;
 							font-size: 14px;
 							font-style: normal;
@@ -3173,7 +3173,7 @@ div.account-notification {
 
 					.time {
 						display: flex;
-						color: #a7b4be;
+						color: rgba(255, 255, 255, 0.7);
 						font-family: sans-serif;
 						font-size: 13px;
 						font-style: normal;

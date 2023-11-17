@@ -574,7 +574,7 @@ div.bordered-header {
 			.info {
 				width: 100%;
 				margin-left: 15px;
-				color: #607383;
+				color: rgba(255, 255, 255, 0.7);
 
 				h4 {
 					cursor: pointer;
@@ -586,7 +586,7 @@ div.bordered-header {
 				}
 
 				p {
-					color: #607383;
+					color: rgba(255, 255, 255, 0.7);
 					font-family: sans-serif;
 					font-size: 14px;
 					font-style: normal;
@@ -606,7 +606,7 @@ div.bordered-header {
 
 			.time {
 				display: flex;
-				color: #607383;
+				color: rgba(255, 255, 255, 0.7);
 				font-family: sans-serif;
 				font-size: 13px;
 				font-style: normal;
@@ -642,10 +642,11 @@ div.bordered-header {
 
 			.logo {
 				width: 40px;
-				height: 40px;
 				align-items: center;
 				justify-content: center;
 				padding: 5px;
+				border-radius: 50%;
+				background: white;
 			}
 		}
 
