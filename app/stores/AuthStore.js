@@ -69,8 +69,9 @@ class AuthStore extends BaseStore {
 		const chainConfig = {
 			chainNamespace: CHAIN_NAMESPACES.EIP155,
 			chainId: '0x1',
-			rpcTarget: 'https://rpc.ankr.com/eth',
-			blockExplorer: 'https://goerli.etherscan.io',
+			rpcTarget: process.env.RPC_TARGET,
+			blockExplorer: process.env.BLOCK_EXPLORER,
+			displayName: process.env.DISPLAY_NAME,
 			ticker: 'ETH',
 			tickerName: 'Ethereum',
 		};
