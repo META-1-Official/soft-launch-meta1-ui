@@ -249,3 +249,45 @@ ul.dropdown.header-menu {
 		text-decoration: underline;
 	}
 }
+
+.blockNotification {
+	display: flex;
+	align-items: center;
+	position: relative;
+	margin-right: 30px;
+	cursor: pointer;
+
+	.notiIcon {
+		width: 23px;
+		height: 32px;
+	}
+
+	.badgeCount {
+		position: absolute;
+		width: 23px;
+		height: 23px;
+		background: #fc0;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: white;
+		font-family: Poppins;
+		font-size: 12px;
+		font-style: normal;
+		font-weight: 500;
+		line-height: normal;
+		text-transform: uppercase;
+		top: 1px;
+		right: -19px;
+		text-shadow: 1px 1px 2px black;
+	}
+}
+
+.contentHtml {
+	max-width: 350px;
+
+	img {
+		max-width: 100% !important;
+	}
+}

@@ -8,6 +8,17 @@ var {object_type} = ChainTypes;
 
 import {getAssetNamespaces, getAssetHideNamespaces} from '../../branding';
 
+import AnnouncementIcon from 'assets/notifications/announcements.png';
+import EventIcon from 'assets/notifications/events.png';
+import DepositIcon from 'assets/notifications/deposit.png';
+import WithdrawlIcon from 'assets/notifications/withdrawal.png';
+import OrderCreatedIcon from 'assets/notifications/order-created.png';
+import OrderCancelledIcon from 'assets/notifications/order-cancelled.png';
+import PriceChangeIcon from 'assets/notifications/price-change.png';
+import SendIcon from 'assets/notifications/send.png';
+import ReceiveIcon from 'assets/notifications/receive.png';
+import {Apis} from 'meta1-vision-ws';
+
 var Utils = {
 	is_object_id: (obj_id) => {
 		if ('string' != typeof obj_id) return false;
@@ -487,19 +498,57 @@ var Utils = {
 		};
 	},
 
+	getNotificationIcon(category) {
+		switch (category) {
+			case 'Announcements':
+				return AnnouncementIcon;
+			case 'Events':
+				return EventIcon;
+			case 'Created Order':
+				return OrderCreatedIcon;
+			case 'Cancelled Order':
+				return OrderCancelledIcon;
+			case 'Deposit':
+				return DepositIcon;
+			case 'Withdraw':
+				return WithdrawlIcon;
+			case 'Send':
+				return SendIcon;
+			case 'Receive':
+				return ReceiveIcon;
+			case 'Price Change':
+				return PriceChangeIcon;
+			default:
+				return AnnouncementIcon;
+		}
+	},
+
 	filterNotifications(n, accountName) {
-		let readNotifications = JSON.parse(localStorage.getItem('readNotifications')) ?? [];
-		let notiConfig = JSON.parse(localStorage.getItem("noti_conf"));
-	
+		let readNotifications =
+			JSON.parse(localStorage.getItem('readNotifications')) ?? [];
+		let notiConfig = JSON.parse(localStorage.getItem('noti_conf'));
+
 		let notifications = [...n];
-	
-		let coinMove = notiConfig.coinMovements.reduce((prev, curr) => ({ ...prev, [Object.keys(curr)[0]]: curr[Object.keys(curr)[0]] }), {});
-		let specificNote = notiConfig.specNotification.reduce((prev, curr) => ({ ...prev, [Object.keys(curr)[0]]: curr[Object.keys(curr)[0]] }), {});
-	
+
+		let coinMove = notiConfig?.coinMovements?.reduce(
+			(prev, curr) => ({
+				...prev,
+				[Object.keys(curr)[0]]: curr[Object.keys(curr)[0]],
+			}),
+			{}
+		);
+		let specificNote = notiConfig?.specNotification?.reduce(
+			(prev, curr) => ({
+				...prev,
+				[Object.keys(curr)[0]]: curr[Object.keys(curr)[0]],
+			}),
+			{}
+		);
+
 		notifications = notifications.filter((ele) => {
 			var flag = false;
 			if (readNotifications.includes(ele.id)) return false;
-	
+
 			var category = '';
 			if (ele.category === 'Created Order') {
 				category = 'tradeExcuted';
@@ -514,27 +563,39 @@ var Utils = {
 			} else if (ele.category === 'Receive') {
 				category = 'receive';
 			}
-	
+
 			if (ele.category === 'Price Change') {
 				var str_array = ele.content.split(' ');
 				var symbol = str_array[0].toLowerCase();
 				var tendency = str_array[2].toLowerCase();
-				var change = Math.abs(str_array[3].substring(0, str_array[3].length - 1));
+				var change = Math.abs(
+					str_array[3].substring(0, str_array[3].length - 1)
+				);
 				const obj_value = coinMove[symbol];
-	
+
 				if (!obj_value) return false;
-				if (obj_value.toggle === false) { // filter enabled                        
+				if (obj_value.toggle === false) {
+					// filter enabled
 					flag = true;
 				} else {
-					if (obj_value.tendency !== tendency && obj_value.comparator[1] !== 0) { // in case same tedency up-up down-down
+					if (
+						obj_value.tendency !== tendency &&
+						obj_value.comparator[1] !== 0
+					) {
+						// in case same tedency up-up down-down
 						flag = true;
 					} else {
-						if (obj_value.comparator[0] === 'percentage') {  // comparator percentage
+						if (obj_value.comparator[0] === 'percentage') {
+							// comparator percentage
 							if (change < obj_value.comparator[1]) flag = true;
-						} else { // comparator price
-							Apis.db.get_ticker('USDT', symbol.toUpperCase()).then(ticker => {
-								if (ticker.latest * change / 100 < obj_value.comparator[1]) flag = true;
-							});
+						} else {
+							// comparator price
+							Apis.db
+								.get_ticker('USDT', symbol.toUpperCase())
+								.then((ticker) => {
+									if ((ticker.latest * change) / 100 < obj_value.comparator[1])
+										flag = true;
+								});
 						}
 					}
 				}
@@ -545,32 +606,27 @@ var Utils = {
 					flag = true;
 				}
 			}
-	
+
 			if (ele.category === 'Send' || ele.category === 'Receive') {
 				var str_array = ele.content.split(' ');
 				if (accountName && str_array[str_array.length - 1] === accountName) {
 					flag = true;
 				}
-	
+
 				if (!str_array.includes(accountName)) {
 					flag = true;
 				}
 			}
-	
-			if (category === 'announcements' || category === 'events' )
+
+			if (category === 'announcements' || category === 'events')
 				// if (accountName === null) flag = true;
 				flag = true;
-	
+
 			return !flag;
 		});
-	
-		notifications = notifications.map((ele) => {
-			ele.time = moment(ele.createdAt).fromNow();
-			return ele;
-		})
-	
+
 		return notifications;
-	}
+	},
 };
 
 export default Utils;

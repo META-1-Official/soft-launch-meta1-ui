@@ -224,6 +224,10 @@ $explorer-tab-checkbox-color: #dddddd;
 		$table-hover-color
 	);
 
+	hr {
+		background-color: #e7eaef !important;
+	}
+
 	// buttons
 	.button {
 		&.outline {
@@ -428,6 +432,27 @@ $explorer-tab-checkbox-color: #dddddd;
 
 		.ant-dropdown-menu-item.ant-dropdown-menu-item-active {
 			background: $primary-color;
+		}
+	}
+
+	// Notification Dropdown
+	ul.header-notification-menu {
+		background: #fff;
+		border: 1px solid #eaeaea;
+		border-top: 3px solid #e24c4d;
+
+		.notificationCard {
+			.info {
+				p {
+					color: #666666;
+				}
+			}
+			.time {
+				color: #666666;
+			}
+			&:nth-child(even) {
+				background: #f7f8fa;
+			}
 		}
 	}
 
@@ -1030,6 +1055,7 @@ $explorer-tab-checkbox-color: #dddddd;
 				.ant-tabs-tabpane {
 					.table-wrapper {
 						border: 1px solid $border-color;
+
 						.table {
 							thead {
 								tr {
@@ -1038,6 +1064,7 @@ $explorer-tab-checkbox-color: #dddddd;
 									}
 								}
 							}
+
 							button {
 								color: white;
 							}
@@ -1132,8 +1159,24 @@ $explorer-tab-checkbox-color: #dddddd;
 					.ant-list-item {
 						border-bottom: 1px solid $border-color;
 
+						&:nth-child(even) {
+							background: #f7f8fa;
+						}
+
+						.info {
+							color: #666666;
+						}
+
+						.time {
+							color: #666666;
+
+							p {
+								color: #666666;
+							}
+						}
+
 						.description {
-							color: $primary-text-color;
+							color: #666666;
 						}
 
 						.footer {
@@ -1229,6 +1272,89 @@ $explorer-tab-checkbox-color: #dddddd;
 				}
 			}
 		}
+
+		// notification
+		.notificationTabWrapper {
+			.changeNotifcationBlock {
+				.notificationPrefContent {
+					.notificationItem {
+						border-bottom: 1px solid #e7eaef;
+
+						.leftItem {
+							span {
+								color: black;
+							}
+						}
+					}
+
+					.coinMovements {
+						border-bottom: 1px solid #e7eaef;
+						background-color: #f8fafb;
+						color: black;
+					}
+
+					.coinNotificationItem {
+						border-bottom: 1px solid #e7eaef;
+
+						.leftItem {
+							.coinSec {
+								span {
+									color: black;
+								}
+							}
+						}
+
+						.rightItem {
+							.close-btn {
+								background: #f2f4f8;
+							}
+						}
+					}
+				}
+
+				.form_custom {
+					border: 1px solid #e7eaef;
+					background: #f7f9fb;
+
+					p.coin_p {
+						color: black;
+					}
+
+					.common_margin {
+						label.label_same {
+							color: black;
+						}
+
+						.select_same {
+							background-color: white !important;
+							border: 1px solid #e7eaef !important;
+							color: black;
+						}
+
+						.ant-select {
+							.ant-select-selector {
+								background-color: white;
+								border: 1px solid #e7eaef !important;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	.coin-movement {
+		background-color: white;
+
+		.ant-select-item:hover {
+			background-color: #f7f9fb !important;
+			border-top: 1px solid #dde7e3;
+			border-bottom: 1px solid #dde7e3;
+		}
+	}
+
+	.wallet-option-content__name {
+		color: black;
 	}
 
 	// Permission page
@@ -1635,6 +1761,14 @@ $explorer-tab-checkbox-color: #dddddd;
 
 			.providersCount {
 				border: 1px solid $border-color;
+			}
+		}
+
+		&.notification-detail-modal {
+			.modalBody {
+				p {
+					color: #666666;
+				}
 			}
 		}
 	}
@@ -2195,6 +2329,7 @@ $explorer-tab-checkbox-color: #dddddd;
 	.ant-empty-image {
 		background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAABkAQMAAAA8FrWcAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAZQTFRFAAAAAAAApWe5zwAAAAJ0Uk5TAICbK04YAAABQ0lEQVR4nI3UsZGDMBCFYd04cKgSXIpbugos3Vzg0CW4FFOKSyAkYNBp33srrbMjWPgC5keIIaVUWj9q4mHXbYl4R6y4/OY9G8CZd5w484ETZ268XUCoVAKhK2Z+IXTBzE+EMucDiTNmviNxwsw/SHwdRAjlWmaoAwnMXJkobwKJsgJMlI1AouzACYly4KkbErcmWOJmoQFb0YDlBmxFZwdz6QJwRQJXJOjVCVyXwFcncF0CX53AkMCQwJDAkAMhB0IOhBwIORByIORAyIHQgIUGLDRgoQELDVhowEIDFhqw0EQPTfTQRA9N9NBED0300EQP5eTQHgncI4F7JHCPBO6RoI+B0MdA6GMgFBIYEhgSGBIYEhgSGBIYEhhylBqAkAOhgTVii9gjjoj2gRrwWgKeEY+I+6KfmB2/EfbU/8TVkdIfy4QYGqMXWEkAAAAASUVORK5CYII=');
 	}
+
 	.ant-menu-submenu-popup {
 		background-color: $light-panel-bg-color;
 	}

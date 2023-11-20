@@ -28,6 +28,8 @@ import PriceAlertNotifications from './components/PriceAlertNotifications';
 import {updateGatewayBackers} from 'common/gatewayUtils';
 import WalletUnlockActions from 'actions/WalletUnlockActions';
 import WalletManagerStore from 'stores/WalletManagerStore';
+import AuthStore from 'stores/AuthStore';
+import AccountNotification from 'components/Account/AccountNotification';
 
 import {Route, Switch, Redirect} from 'react-router-dom';
 // Nested route components
@@ -408,8 +410,9 @@ class App extends React.Component {
 	}
 
 	_initNotificationConfig() {
-		console.log('@@@@@@notif');
 		var conf = JSON.parse(localStorage.getItem('noti_conf'));
+		let accountName = ss.get('account_login_name', null);
+
 		if (!conf) {
 			conf = {
 				specNotification: [
@@ -425,6 +428,7 @@ class App extends React.Component {
 			};
 		}
 		localStorage.setItem('noti_conf', JSON.stringify(conf));
+		AuthStore.setNotifications(accountName);
 	}
 
 	_rebuildTooltips() {
@@ -471,7 +475,9 @@ class App extends React.Component {
 		this.setState({height: window && window.innerHeight});
 	}
 
-	_onSetupWebSocket(accountName) {
+	_onSetupWebSocket() {
+		let accountName = ss.get('account_login_name', null);
+		AuthStore.setNotifications(accountName);
 		if (this.ws) return;
 		try {
 			const webSocketFactory = {
@@ -499,7 +505,7 @@ class App extends React.Component {
 
 					if (webSocketFactory.connectionTries > 0) {
 						this.ws = null;
-						setTimeout(() => this._onSetupWebSocket(accountName), 5000);
+						setTimeout(() => this._onSetupWebSocket(), 5000);
 					} else {
 						throw new Error(
 							'Maximum number of connection trials has been reached'
@@ -517,6 +523,7 @@ class App extends React.Component {
 				if (message && message.data && filter.length > 0) {
 					const content = JSON.parse(message.data).content;
 					toast(<p dangerouslySetInnerHTML={{__html: content}} />);
+					AuthStore.setNotifications(accountName);
 				}
 			};
 		} catch (e) {
@@ -545,7 +552,7 @@ class App extends React.Component {
 				AccountStore.getState().currentAccount ||
 				AccountStore.getState().passwordAccount;
 
-			if (accountName) this._onSetupWebSocket(accountName);
+			if (accountName) this._onSetupWebSocket();
 
 			accountName =
 				accountName && accountName !== 'null'
@@ -589,6 +596,12 @@ class App extends React.Component {
 
 						<Route path="/barter" component={Barter} />
 						<Route path="/direct-debit" component={DirectDebit} />
+
+						<Route
+							path={`/notification`}
+							exact
+							render={() => <AccountNotification {...this.props} />}
+						/>
 
 						{/* <Route
 								path="/spotlight"

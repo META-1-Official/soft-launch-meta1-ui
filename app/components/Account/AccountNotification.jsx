@@ -1,33 +1,99 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useReducer} from 'react';
 import counterpart from 'counterpart';
 import BindToChainState from '../Utility/BindToChainState';
 import PageHeader from 'components/PageHeader/PageHeader';
+import moment from 'moment';
 import {ClockCircleOutlined} from '@ant-design/icons';
-import {List} from 'antd';
+import {List, Tooltip} from 'antd';
+import ltService from '../../services/litewallet.service';
+import NotificationDetailModal from 'components/Modal/NotificationDetailModal';
 import ls from '../../lib/common/localStorage';
-const ss = new ls('__notification__');
+import Utils from 'lib/common/utils';
+import AccountStore from 'stores/AccountStore';
+import AuthStore from 'stores/AuthStore';
+const ss = new ls('__AuthData__');
 
-const renderListItem = (item, index) => (
-	<List.Item
-		key={`${item?.title}${item?.time}${index}`}
-		className="notification-listitem"
-	>
-		<div className="title">{item?.title}</div>
-		<div className="description">{item?.content}</div>
-		<div className="footer">
-			<ClockCircleOutlined />
-			{item?.createdAt}
-		</div>
-	</List.Item>
-);
+import NotificationTimeIcon from 'assets/notifications/notification-time.png';
 
 const AccountNotification = () => {
 	const [notifications, setNotifications] = useState(null);
+	const [detail, setDetail] = useState(null);
+	const [modalOpened, setModalOpened] = useState(false);
+	const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
 
 	useEffect(async () => {
-		var noti_str = ss.get('notifications', '');
-		if (noti_str) setNotifications(JSON.parse(noti_str));
+		await initData();
+	}, [AuthStore.getState().notifications]);
+
+	useEffect(() => {
+		const timer = setTimeout(async () => {
+			await initData();
+		}, 1000);
+		return () => clearTimeout(timer);
 	}, []);
+
+	const initData = async () => {
+		let accountName = ss.get('account_login_name', null);
+
+		AuthStore.getState().notifications &&
+			setNotifications(
+				Utils.filterNotifications(
+					AuthStore.getState().notifications,
+					accountName
+				)
+			);
+		setTimeout(async () => {
+			await initData();
+		}, 1000);
+	};
+
+	const handleClick = (item) => {
+		setDetail(item);
+		setModalOpened(true);
+	};
+
+	const handleModalToggle = (value) => {
+		forceUpdate();
+		setModalOpened(value);
+	};
+
+	const renderListItem = (item, index) => {
+		var d = new Date(item.createdAt);
+
+		return (
+			<List.Item
+				key={`${item?.title}${item?.time}${index}`}
+				className="notification-listitem"
+				onClick={() => handleClick(item)}
+			>
+				<div className="logo-wrapper">
+					<img
+						style={{width: '30px', height: '30px'}}
+						src={Utils.getNotificationIcon(item.category)}
+						alt="meta1"
+					/>
+				</div>
+				<div className="info">
+					<div className="time">
+						<div>
+							<h4>{item.title ?? item.category}</h4>
+							<p dangerouslySetInnerHTML={{__html: item.content}} />
+						</div>
+						<Tooltip title={d.toLocaleString()} placement="top">
+							<div>
+								<span>{moment(item.createdAt).fromNow()}</span>
+								<img
+									style={{width: '20px', height: '20px', marginLeft: '10px'}}
+									src={NotificationTimeIcon}
+									alt="time"
+								/>
+							</div>
+						</Tooltip>
+					</div>
+				</div>
+			</List.Item>
+		);
+	};
 
 	return (
 		<div className="account-notification">
@@ -46,7 +112,7 @@ const AccountNotification = () => {
 							size="large"
 							pagination={{
 								position: 'bottom',
-								pageSize: 5,
+								pageSize: 10,
 							}}
 							dataSource={notifications}
 							renderItem={(item, index) => renderListItem(item, index)}
@@ -54,6 +120,11 @@ const AccountNotification = () => {
 					)}
 				</div>
 			</div>
+			<NotificationDetailModal
+				detail={detail}
+				isOpen={modalOpened}
+				setModalOpened={(value) => handleModalToggle(value)}
+			/>
 		</div>
 	);
 };

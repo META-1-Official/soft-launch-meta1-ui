@@ -36,6 +36,8 @@ class WalletUnlockActions {
 		const referred_user = ls_auth.get('referred_user_id', 'null');
 		const account_login_name = ls_auth.get('account_login_name', '');
 		const account_login_token = ls_auth.get('account_login_token', '');
+		var noti_conf = JSON.parse(localStorage.getItem('noti_conf'));
+		var reatNoti = JSON.parse(localStorage.getItem('readNotifications'));
 
 		return (dispatch) => {
 			return new Promise((resolve) => {
@@ -51,6 +53,10 @@ class WalletUnlockActions {
 					ls_auth.set('account_login_name', account_login_name);
 				if (account_login_token)
 					ls_auth.set('account_login_token', account_login_token);
+				if (noti_conf)
+					localStorage.setItem('noti_conf', JSON.stringify(noti_conf));
+				if (reatNoti)
+					localStorage.setItem('readNotifications', JSON.stringify(reatNoti));
 				if (was_unlocked) WrappedWalletUnlockActions.change();
 			});
 		};
