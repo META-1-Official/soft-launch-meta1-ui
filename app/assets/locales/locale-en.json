@@ -554,7 +554,7 @@
 		"claim_wallet_completed": "Your claim wallet request is already completed",
 		"claim_wallet_failed": "Your Claim Wallet is failed. Please try again",
 		"claim_wallet_under_progress": "Your claim wallet request is under progress",
-		"enter_passkey_or_owner_key": "Enter Passkey Or Owner key",
+		"enter_passkey_or_owner_key": "Enter Passkey Or Owner PrivateKey",
 		"invalid_signature": "Invalid Signature",
 		"migrating": "Migrating...",
 		"migrate": "Migrate"
@@ -2026,7 +2026,7 @@
 		"email": "Email",
 		"email_wallet_not_matched": "Email and wallet name are not matched.",
 		"enroll_success": "Successfully enrolled.",
-		"enter_passkey_or_private_key": "Enter passkey or owner private key",
+		"enter_passkey_or_private_key": "Enter Passkey Or Owner Privatekey",
 		"face_not_detected": "Face not detected. Try again by changing position or background.",
 		"faceki_user_exist": "You already enrolled and verified successfully.",
 		"faceki_email_used": "This email already has been used for another user.",

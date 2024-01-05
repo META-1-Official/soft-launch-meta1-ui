@@ -590,7 +590,7 @@ class AuthRedirect extends React.Component {
 								</div>
 								<div style={{width: '100%'}}>
 									<label>
-										{counterpart.translate('registration.passkeyform_your_passkey')}
+										{counterpart.translate('registration.enter_passkey_or_private_key')}
 									</label>
 									<input
 										control={Input}
@@ -615,7 +615,7 @@ class AuthRedirect extends React.Component {
 										type="primary"
 										style={{width: '100px', float: "right"}}
 										disabled={!passkey}
-										title={'Passkey is required'}
+										title={'Passkey or Owner Privatekey is required'}
 										onClick={this.onSubmitPasskeyForm}
 									>
 										Submit

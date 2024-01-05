@@ -857,7 +857,7 @@ class AccountRegistration extends React.Component {
 					</div>
 					<div style={{width: '100%', marginTop: '20px'}}>
 						<label>
-							{counterpart.translate('registration.passkeyform_your_passkey')}
+							{counterpart.translate('registration.enter_passkey_or_private_key')}
 						</label>
 						<input
 							control={Input}
@@ -882,7 +882,7 @@ class AccountRegistration extends React.Component {
 							type="primary"
 							style={{width: '100px', float: 'right'}}
 							disabled={!passkey}
-							title={'Passkey is required'}
+							title={'Passkey or Owner Privatekey is required'}
 							onClick={this.onSubmitPasskeyForm}
 						>
 							Submit
