@@ -471,7 +471,6 @@ class AuthRedirect extends React.Component {
 		if (!token) {
 			console.log('Could not get FAS token!', token, message);
 			toast(message);
-			this.setState({step: 'userform'});
 			return;
 		}
 
