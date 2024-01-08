@@ -454,7 +454,7 @@ class AuthRedirect extends React.Component {
 		try {
 			result = await buildSignature4Fas(account, passkey, email);
 		} catch {
-			toast('Passkey is not valid!');
+			toast('Passkey or Owner Privatekey is not valid!');
 			return;
 		}
 
@@ -483,21 +483,21 @@ class AuthRedirect extends React.Component {
 		const accountName = ss.get('account_login_name', '');
 		const email = this.props.authData?.email.toLowerCase();
 
-		this.handlePassKeyFormSubmit(accountName, passkey, email)
-			.then((token) => {
-				if (!token) return;
+		this.handlePassKeyFormSubmit(accountName, passkey, email).then((token) => {
+			if (!token) return;
 
-				this.setState({
-					token,
-					task: TASK.REGISTER,
-					step: 'faceki',
-					webcamEnabled: true
-				});
+			this.setState({
+				token,
+				task: TASK.REGISTER,
+				step: 'faceki',
+				webcamEnabled: true,
 			});
+		});
 	};
 
 	render() {
-		const {width, devices, activeDeviceId, step, login, passkey, token} = this.state;
+		const {width, devices, activeDeviceId, step, login, passkey, token} =
+			this.state;
 		const theme = this.props.theme;
 		const aspectRatio = 1.07;
 		const webCamWidth = width > 576 ? 550 : width - 26;
@@ -512,7 +512,9 @@ class AuthRedirect extends React.Component {
 					// {!login && (
 					<div className="horizontal align-center text-center">
 						<div className="create-account-block">
-							<div className={step === 'faceki' ? "custom-auth-faceki" : "none"}>
+							<div
+								className={step === 'faceki' ? 'custom-auth-faceki' : 'none'}
+							>
 								<h4>
 									{counterpart.translate('registration.authenticate_your_face')}
 								</h4>
@@ -557,16 +559,22 @@ class AuthRedirect extends React.Component {
 									</div>
 								)}
 							</div>
-							<div className={step === 'passkey' ? "custom-auth-passkey" : "none"}>
+							<div
+								className={step === 'passkey' ? 'custom-auth-passkey' : 'none'}
+							>
 								<h4>
 									{counterpart.translate('registration.passkeyform_title')}
 								</h4>
 								<span>
-									{counterpart.translate('registration.passkeyform_description')}
+									{counterpart.translate(
+										'registration.passkeyform_description'
+									)}
 								</span>
 								<div style={{width: '100%', marginTop: '20px'}}>
 									<label>
-										{counterpart.translate('registration.passkeyform_new_wallet_name')}
+										{counterpart.translate(
+											'registration.passkeyform_new_wallet_name'
+										)}
 									</label>
 									<input
 										control={Input}
@@ -578,7 +586,9 @@ class AuthRedirect extends React.Component {
 								</div>
 								<div style={{width: '100%'}}>
 									<label>
-										{counterpart.translate('registration.passkeyform_email_address')}
+										{counterpart.translate(
+											'registration.passkeyform_email_address'
+										)}
 									</label>
 									<input
 										control={Input}
@@ -590,7 +600,9 @@ class AuthRedirect extends React.Component {
 								</div>
 								<div style={{width: '100%'}}>
 									<label>
-										{counterpart.translate('registration.enter_passkey_or_private_key')}
+										{counterpart.translate(
+											'registration.enter_passkey_or_private_key'
+										)}
 									</label>
 									<input
 										control={Input}
@@ -607,13 +619,14 @@ class AuthRedirect extends React.Component {
 									<Button
 										type="danger"
 										style={{width: '100px'}}
+										className={'none'}
 										onClick={this.handleModalClose}
 									>
 										Back
 									</Button>
 									<Button
 										type="primary"
-										style={{width: '100px', float: "right"}}
+										style={{width: '100px', float: 'right'}}
 										disabled={!passkey}
 										title={'Passkey or Owner Privatekey is required'}
 										onClick={this.onSubmitPasskeyForm}
