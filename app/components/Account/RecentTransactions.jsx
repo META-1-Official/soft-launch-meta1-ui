@@ -31,12 +31,13 @@ const operation = new OperationAnt();
 import DatePicker from 'react-datepicker';
 const Option = Select.Option;
 import 'react-datepicker/dist/react-datepicker.css';
+import {Apis} from 'meta1-vision-ws';
 
 const OptGroup = Select.OptGroup;
 
 import AccountHistoryExporter from '../../services/AccountHistoryExporter';
 
-import {explorerApi} from '../../services/api';
+import {explorerApi, kycApi} from '../../services/api';
 import {settingsAPIs} from 'api/apiConfig';
 import BlockchainActions from '../../actions/BlockchainActions';
 import BlockchainStore from '../../stores/BlockchainStore';
@@ -91,7 +92,7 @@ class RecentTransactions extends React.Component {
 			esNode: settingsAPIs.ES_WRAPPER_LIST[0].url,
 			visibleId: '',
 			history: [],
-			dateFrom: new Date().setFullYear(new Date().getFullYear(), 0, 1),
+			dateFrom: new Date('2020-01-01'),
 			dateTo: new Date(),
 			startIndex: 0,
 			endIndex: 20,
@@ -106,10 +107,16 @@ class RecentTransactions extends React.Component {
 		this.onChangePage = this.onChangePage.bind(this);
 	}
 
-	componentDidMount() {
+	async componentDidMount() {
 		let {accountsList} = this.props;
 
 		this._getHistory(accountsList);
+		const accRes = await kycApi.get(
+			`users/acc?acc=${accountsList[0].get('name')}`
+		);
+		if (accRes) {
+			this.setState({dateFrom: new Date(accRes.data.createdAt)});
+		}
 	}
 
 	esNodeChange(e) {

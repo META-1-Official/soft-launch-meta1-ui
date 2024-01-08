@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {ArrowLeftOutlined} from '@ant-design/icons';
 import history from '../../lib/common/history';
+import AccountStore from 'stores/AccountStore';
 
-const Onramperwallet = () => {
+const Onramperwallet = (props) => {
 	const primaryColor = 'ffc000';
 	const darkMode = true;
 	const defaultAmount = 500;
@@ -14,9 +15,21 @@ const Onramperwallet = () => {
 	const baseURL = process.env.ONRAMPER_URL;
 	const title = 'META1';
 
+	const [accountName, setAccountName] = useState(null);
+
+	useEffect(() => {
+		let accountName =
+			AccountStore.getState().currentAccount ||
+			AccountStore.getState().passwordAccount;
+		setAccountName(accountName);
+	}, []);
+
 	return (
 		<div className="onramper-wrapper">
-			<div className="back-btn" onClick={() => history.goBack()}>
+			<div
+				className="back-btn"
+				onClick={() => history.push(`/account/${accountName}`)}
+			>
 				<ArrowLeftOutlined />
 				<div>Back</div>
 			</div>

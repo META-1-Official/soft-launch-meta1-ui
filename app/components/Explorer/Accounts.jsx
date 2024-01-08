@@ -53,14 +53,14 @@ const Accounts = (props) => {
 
 	const _ensureBalanceObject = (object_id) => {
 		if (object_id && typeof object_id === 'string') {
-			if (!this.balanceObjects[object_id]) {
-				this.balanceObjects[object_id] = parseFloat(
+			if (!balanceObjects[object_id]) {
+				balanceObjects[object_id] = parseFloat(
 					ChainStore.getObject(object_id).get('balance')
 				);
 			}
 		}
-		if (!this.balanceObjects[object_id]) {
-			this.balanceObjects[object_id] = 0;
+		if (!balanceObjects[object_id]) {
+			balanceObjects[object_id] = 0;
 		}
 	};
 
@@ -122,14 +122,14 @@ const Accounts = (props) => {
 				dataIndex: 'accountBalance',
 				key: 'accountBalance',
 				sorter: (a, b) => {
-					this._ensureBalanceObject(a.accountBalance);
-					this._ensureBalanceObject(b.accountBalance);
+					_ensureBalanceObject(a.accountBalance);
+					_ensureBalanceObject(b.accountBalance);
 
-					return this.balanceObjects[a.accountBalance] >
-						this.balanceObjects[b.accountBalance]
+					return balanceObjects[a.accountBalance] >
+						balanceObjects[b.accountBalance]
 						? 1
-						: this.balanceObjects[a.accountBalance] <
-						  this.balanceObjects[b.accountBalance]
+						: balanceObjects[a.accountBalance] <
+						  balanceObjects[b.accountBalance]
 						? -1
 						: 0;
 				},
@@ -146,14 +146,14 @@ const Accounts = (props) => {
 				dataIndex: 'accountBalance',
 				key: 'accountBalancePercentage',
 				sorter: (a, b) => {
-					this._ensureBalanceObject(a.accountBalance);
-					this._ensureBalanceObject(b.accountBalance);
+					_ensureBalanceObject(a.accountBalance);
+					_ensureBalanceObject(b.accountBalance);
 
-					return this.balanceObjects[a.accountBalance] >
-						this.balanceObjects[b.accountBalance]
+					return balanceObjects[a.accountBalance] >
+						balanceObjects[b.accountBalance]
 						? 1
-						: this.balanceObjects[a.accountBalance] <
-						  this.balanceObjects[b.accountBalance]
+						: balanceObjects[a.accountBalance] <
+						  balanceObjects[b.accountBalance]
 						? -1
 						: 0;
 				},
