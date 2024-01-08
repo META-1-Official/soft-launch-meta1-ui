@@ -648,7 +648,14 @@ class Header extends React.Component {
 		const notificationDropDown = (
 			<Menu
 				className="header-notification-menu"
-				style={{display: this.state.notiDropDownOpened ? 'unset' : 'none'}}
+				style={{
+					display:
+						this.state.notiDropDownOpened &&
+						this.state.notifications &&
+						this.state.notifications.length > 0
+							? 'unset'
+							: 'none',
+				}}
 			>
 				{this.state.notifications &&
 					this.state.notifications.map((ele, index) => {
