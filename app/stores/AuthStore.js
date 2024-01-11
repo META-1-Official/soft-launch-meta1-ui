@@ -89,9 +89,9 @@ class AuthStore extends BaseStore {
 					uxMode: 'redirect',
 					redirectUrl: window.location.origin + '/auth-proceed',
 					whiteLabel: {
-						name: 'META1',
+						appName: 'META1',
 						defaultLanguage: 'en',
-						dark: theme === 'darkTheme' ? true : false,
+						mode: theme === 'darkTheme' ? 'dark' : 'light',
 						logoLight:
 							'https://pbs.twimg.com/profile_images/980143928769839105/hK3RnAff_400x400.jpg',
 						logoDark:
