@@ -390,7 +390,7 @@ class AccountRegistrationConfirm extends React.Component {
 					password: '',
 					downloadPaperWalletModal: false,
 					copyPasswordModal: false,
-					isPaperwalletProcess: false
+					isPaperwalletProcess: false,
 				});
 			});
 	}
@@ -443,25 +443,10 @@ class AccountRegistrationConfirm extends React.Component {
 		if (e.target.checked) {
 			const {email, phone, firstname, lastname} = this.state;
 			const {accountName} = this.props;
-			let token;
-			try {
-				const response = await axios({
-					url: process.env.ESIGNATURE_URL + '/apiewallet/sign/token',
-					method: 'get',
-					headers: {
-						Accept: 'application/json',
-					},
-					params: {email},
-				});
+			let token =
+				Math.random().toString(36).substr(2) +
+				Math.random().toString(36).substr(2);
 
-				if (response && response.headers) {
-					if (response.headers.authorization) {
-						token = response.headers.authorization;
-					}
-				}
-			} catch (err) {
-				console.log('Error in e-sign token generation');
-			}
 			try {
 				const response = await axios.post(
 					process.env.ESIGNATURE_URL + '/apiewallet/poling',
@@ -477,13 +462,7 @@ class AccountRegistrationConfirm extends React.Component {
 				);
 				if (response) {
 					ss.set('e-signing-token', token);
-					window.location.href = `${
-						process.env.ESIGNATURE_URL
-					}/e-sign?email=${encodeURIComponent(
-						email
-					)}&firstName=${firstname}&lastName=${lastname}&phoneNumber=${phone}&walletName=${accountName}&token=${token}&redirectUrl=${
-						window.location.origin
-					}/auth-proceed`;
+					window.location.href = `${process.env.ESIGNATURE_URL}/e-sign?token=${token}&redirectUrl=${window.location.origin}/auth-proceed`;
 				}
 			} catch (err) {
 				console.log(err);
@@ -687,7 +666,7 @@ class AccountRegistrationConfirm extends React.Component {
 							onClick={() => {
 								this.setState({
 									copyPasswordModal: false,
-									isPaperwalletProcess: true
+									isPaperwalletProcess: true,
 								});
 								this.onCreateAccount();
 							}}

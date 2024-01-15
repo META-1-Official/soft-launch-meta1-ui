@@ -85,57 +85,6 @@ class AccountRegistration extends React.Component {
 		this.onSubmitPasskeyForm = this.onSubmitPasskeyForm.bind(this);
 	}
 
-	// dataURLtoFile(dataurl, filename) {
-	// 	var arr = dataurl.split(','),
-	// 		mime = arr[0].match(/:(.*?);/)[1],
-	// 		bstr = atob(arr[1]),
-	// 		n = bstr.length,
-	// 		u8arr = new Uint8Array(n);
-	// 	while (n--) {
-	// 		u8arr[n] = bstr.charCodeAt(n);
-	// 	}
-	// 	return new File([u8arr], filename, {type: mime});
-	// }
-
-	// async checkAndEnroll() {
-	// 	const {privKey, authData} = this.props;
-	// 	const {photoIndex} = this.state;
-	// 	const email = authData.email.toLowerCase();
-	//
-	// 	if (!email || !privKey) return;
-	//
-	// 	if (!this.webcamRef.current) return;
-	//
-	// 	this.setState({verifying: true});
-	// 	const imageSrc = this.webcamRef.current.takePhoto();
-	//
-	// 	if (!imageSrc) {
-	// 		toast(counterpart.translate('registration.check_camera'));
-	// 		this.setState({verifying: false});
-	// 		return;
-	// 	}
-	//
-	// 	var file = await this.dataURLtoFile(imageSrc, 'a.jpg');
-	// 	const response = await faceKIService.liveLinessCheck(file);
-	// 	this.setState({photoIndex: photoIndex + 1});
-	//
-	// 	if (!response) {
-	// 		toast(counterpart.translate('registration.biometric_server_error'));
-	// 		this.setState({verifying: false, photoIndex: 0});
-	// 		return;
-	// 	}
-	//
-	// 	if (response.data.liveness !== 'Genuine' && photoIndex === 10) {
-	// 		toast(counterpart.translate('registration.face_not_detected'));
-	// 		this.setState({verifying: false, photoIndex: 0});
-	// 	} else if (response.data.liveness === 'Genuine') {
-	// 		this.setState({photoIndex: 0});
-	// 		await this.faceEnroll(file);
-	// 	} else {
-	// 		await this.checkAndEnroll();
-	// 	}
-	// }
-
 	async faceEnroll(token) {
 		console.log('face enroll start');
 		const {privKey, authData} = this.props;
@@ -227,10 +176,6 @@ class AccountRegistration extends React.Component {
 		});
 		this.updateDimensions();
 		this._checkReferrer();
-
-		// if (!WalletDb.isLocked_v2() && window.location.search.) {
-		// 	WalletUnlockActions.lock_v2();
-		// }
 	}
 
 	timer = (ms) => new Promise((res) => setTimeout(res, ms));
@@ -564,7 +509,6 @@ class AccountRegistration extends React.Component {
 			webcamEnabled: false,
 			verifying: false,
 		});
-		// this.props.history.push("/registration");
 		window.location.reload();
 	}
 
@@ -717,83 +661,8 @@ class AccountRegistration extends React.Component {
 								task={this.state.task}
 								onComplete={this.faceEnroll}
 							/>
-							{/*<Camera*/}
-							{/*	ref={this.webcamRef}*/}
-							{/*	aspectRatio="cover"*/}
-							{/*	numberOfCamerasCallback={(i) =>*/}
-							{/*		this.setState({numberOfCameras: i})*/}
-							{/*	}*/}
-							{/*	videoSourceDeviceId={this.state.activeDeviceId}*/}
-							{/*	errorMessages={{*/}
-							{/*		noCameraAccessible:*/}
-							{/*			'No camera device accessible. Please connect your camera or try a different browser.',*/}
-							{/*		permissionDenied:*/}
-							{/*			'Permission denied. Please refresh and give camera permission.',*/}
-							{/*		switchCamera:*/}
-							{/*			'It is not possible to switch camera to different one because there is only one video device accessible.',*/}
-							{/*		canvas: 'Canvas is not supported.',*/}
-							{/*	}}*/}
-							{/*/>*/}
-							{/*<img src={OvalImage} alt="oval-image" className="oval-image" />*/}
-							{/*<div className="flex_container flex-padding">*/}
-							{/*	<span className="span-class">*/}
-							{/*		{!this.state.faceKISuccess*/}
-							{/*			? counterpart.translate(*/}
-							{/*					'registration.verify_to_begin_enrollment'*/}
-							{/*			  )*/}
-							{/*			: counterpart.translate(*/}
-							{/*					'registration.verification_success'*/}
-							{/*			  )}*/}
-							{/*	</span>*/}
-							{/*	<div className="span-class">*/}
-							{/*		{counterpart.translate(*/}
-							{/*			'registration.require_min_camera_resolution'*/}
-							{/*		)}*/}
-							{/*	</div>*/}
-							{/*	<div className="span-class">*/}
-							{/*		{counterpart.translate('registration.verification_duration')}*/}
-							{/*	</div>*/}
-							{/*</div>*/}
 						</div>
 					)}
-					{/*{devices.length !== 0 && activeDeviceId !== '' && (*/}
-					{/*	<div style={{width: webCamWidth}}>*/}
-					{/*		<Select*/}
-					{/*			value={activeDeviceId}*/}
-					{/*			onChange={(value) => {*/}
-					{/*				let errMsgEle =*/}
-					{/*					document.getElementById('video').previousSibling;*/}
-					{/*				errMsgEle && errMsgEle.remove();*/}
-					{/*				this.setState({activeDeviceId: value});*/}
-					{/*			}}*/}
-					{/*			getPopupContainer={(triggerNode) => triggerNode.parentNode}*/}
-					{/*		>*/}
-					{/*			{devices.map((d) => {*/}
-					{/*				return (*/}
-					{/*					<Select.Option key={d.deviceId} value={d.deviceId}>*/}
-					{/*						{d.label}*/}
-					{/*					</Select.Option>*/}
-					{/*				);*/}
-					{/*			})}*/}
-					{/*		</Select>*/}
-					{/*	</div>*/}
-					{/*)}*/}
-					{/*<div className="button-wrapper">*/}
-					{/*	<Button*/}
-					{/*		onClick={() => this.checkAndEnroll()}*/}
-					{/*		disabled={*/}
-					{/*			this.state.verifying*/}
-					{/*				? true*/}
-					{/*				: this.state.faceKISuccess*/}
-					{/*				? true*/}
-					{/*				: false*/}
-					{/*		}*/}
-					{/*	>*/}
-					{/*		{this.state.verifying*/}
-					{/*			? counterpart.translate('registration.faceki_verifying')*/}
-					{/*			: counterpart.translate('registration.faceki_verify')}*/}
-					{/*	</Button>*/}
-					{/*</div>*/}
 				</div>
 			);
 		} else if (finalStep) {
@@ -851,13 +720,17 @@ class AccountRegistration extends React.Component {
 							contentEditable={true}
 							style={{border: '1px solid grey'}}
 							onChange={(event) => {
-								this.setState({existingAccountName: event.target.value.toLowerCase()});
+								this.setState({
+									existingAccountName: event.target.value.toLowerCase(),
+								});
 							}}
 						/>
 					</div>
 					<div style={{width: '100%', marginTop: '20px'}}>
 						<label>
-							{counterpart.translate('registration.enter_passkey_or_private_key')}
+							{counterpart.translate(
+								'registration.enter_passkey_or_private_key'
+							)}
 						</label>
 						<input
 							control={Input}
