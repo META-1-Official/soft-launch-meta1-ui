@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import { providers } from 'constants/providers';
-import { Modal } from 'antd';
-import { WALLET_ADAPTERS } from '@web3auth/base';
+import React, {useState} from 'react';
+import {providers} from 'constants/providers';
+import {Modal} from 'antd';
+import {WALLET_ADAPTERS} from '@web3auth/base';
 import counterpart from 'counterpart';
-import { toast } from 'react-toastify';
+import {toast} from 'react-toastify';
 import kycService from '../../services/kyc.service';
 
 const arrow = require('assets/arrow.jpg');
 
-const ProvidersBlock = ({ item, moreProviders, onClick }) => {
+const ProvidersBlock = ({item, moreProviders, onClick}) => {
 	return (
 		<div
 			className={
@@ -30,7 +30,7 @@ const ProvidersBlock = ({ item, moreProviders, onClick }) => {
 	);
 };
 
-const ProvidersCount = ({ moreProviders, setMoreProviders }) => {
+const ProvidersCount = ({moreProviders, setMoreProviders}) => {
 	const changeProvidersCount = () => {
 		setMoreProviders(!moreProviders);
 	};
@@ -44,7 +44,7 @@ const ProvidersCount = ({ moreProviders, setMoreProviders }) => {
 							src={arrow}
 							width={15}
 							height={15}
-							style={moreProviders ? { transform: 'rotate(180deg)' } : {}}
+							style={moreProviders ? {transform: 'rotate(180deg)'} : {}}
 						/>
 					</p>
 				</div>
@@ -62,7 +62,7 @@ const LoginProvidersModal = (props) => {
 	const [emailError, setEmailError] = useState(null);
 
 	const doAuth = async (provider) => {
-		const { web3auth, login, authMode } = props;
+		const {web3auth, login, authMode} = props;
 
 		if (!web3auth) {
 			return;
@@ -75,7 +75,7 @@ const LoginProvidersModal = (props) => {
 				toast('Something went wrong from the server.');
 				return;
 			} else {
-				if (provider === "email_passwordless") {
+				if (provider === 'email_passwordless') {
 					if (user.email.toLowerCase() !== email.toLowerCase()) {
 						toast('Email and wallet name are not matched.');
 						return;
@@ -96,9 +96,9 @@ const LoginProvidersModal = (props) => {
 					extraLoginOptions:
 						provider === 'email_passwordless' || provider === 'sms_passwordless'
 							? {
-								login_hint:
-									provider === 'email_passwordless' ? email : phoneNumber,
-							}
+									login_hint:
+										provider === 'email_passwordless' ? email : phoneNumber,
+							  }
 							: {},
 				});
 			});
@@ -163,25 +163,50 @@ const LoginProvidersModal = (props) => {
 						className={moreProviders ? 'providersBlockMP' : 'providersBlock'}
 					>
 						{moreProviders
-							? providers.map((item) => (
-								<ProvidersBlock
-									item={item}
-									moreProviders={moreProviders}
-									key={item.id}
-									onClick={() => handleContinueWithProvider(item)}
-								/>
-							))
+							? providers.map((item) => {
+									if (props.authMode === 'login')
+										return (
+											<ProvidersBlock
+												item={item}
+												moreProviders={moreProviders}
+												key={item.id}
+												onClick={() => handleContinueWithProvider(item)}
+											/>
+										);
+									else {
+										if (item.name !== 'apple')
+											return (
+												<ProvidersBlock
+													item={item}
+													moreProviders={moreProviders}
+													key={item.id}
+													onClick={() => handleContinueWithProvider(item)}
+												/>
+											);
+									}
+							  })
 							: providers.map((item, index) => {
-								if (index < 6) {
-									return (
-										<ProvidersBlock
-											item={item}
-											key={item.id}
-											onClick={() => handleContinueWithProvider(item)}
-										/>
-									);
-								}
-							})}
+									if (index < 6) {
+										if (props.authMode === 'login')
+											return (
+												<ProvidersBlock
+													item={item}
+													key={item.id}
+													onClick={() => handleContinueWithProvider(item)}
+												/>
+											);
+										else {
+											if (item.name !== 'apple')
+												return (
+													<ProvidersBlock
+														item={item}
+														key={item.id}
+														onClick={() => handleContinueWithProvider(item)}
+													/>
+												);
+										}
+									} else return null;
+							  })}
 					</div>
 					<p className="orText">
 						{counterpart
@@ -202,7 +227,7 @@ const LoginProvidersModal = (props) => {
 								type={'submit'}
 								onClick={handleContinueWithEmail}
 								disabled={!email || emailError}
-								style={!email || emailError ? { cursor: 'not-allowed' } : {}}
+								style={!email || emailError ? {cursor: 'not-allowed'} : {}}
 							>
 								{counterpart.translate('registration.continue_with_email')}
 							</button>
