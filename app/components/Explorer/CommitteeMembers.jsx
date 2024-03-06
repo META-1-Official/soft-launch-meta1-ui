@@ -1,8 +1,5 @@
 import counterpart from 'counterpart';
-import React, {useState, useEffect} from 'react';
-import Immutable from 'immutable';
-import ChainTypes from '../Utility/ChainTypes';
-import BindToChainState from '../Utility/BindToChainState';
+import React, {useState, useEffect, useMemo} from 'react';
 import {ChainStore} from 'meta1-vision-js';
 import {connect} from 'alt-react';
 import SettingsActions from 'actions/SettingsActions';
@@ -17,75 +14,81 @@ const CommitteeMembers = (props) => {
 	const [filter, setFilter] = useState(props.filter || '');
 	const [dataSource, setDataSource] = useState([]);
 	const [filteredDataSource, setFilteredDataSource] = useState([]);
-	const [columns, setColumns] = useState([]);
 
-	useEffect(async () => {
-		var obj = await Apis.db.get_objects(['2.0.0']);
-		obj['0'] && (await getData(obj['0']));
+	useEffect(() => {
+		const fetchData = async () => {
+			const globalObject = await Apis.db.get_objects(['2.0.0']);
+			if (globalObject && globalObject['0']) {
+				const committeeMembers = globalObject['0'].active_committee_members;
+				if (
+					committeeMembers &&
+					committeeMembers.length > 0 &&
+					committeeMembers[1]
+				) {
+					const dataSourcePromise = Promise.all(
+						committeeMembers.map(async (a, index) => {
+							if (!a) return false;
+							const committeeMember = (await Apis.db.get_objects([a]))['0'];
+							if (!committeeMember) return false;
+							const account = (
+								await Apis.db.get_objects([
+									committeeMember.committee_member_account,
+								])
+							)['0'];
+							return {
+								key: a,
+								rank: index + 1,
+								name: account.name,
+								votes: committeeMember.total_votes,
+								url: sanitize(
+									`${committeeMember.url}/${account.name}-committee`,
+									{
+										whiteList: [],
+										stripIgnoreTag: true,
+									}
+								),
+							};
+						})
+					);
+					const data = await dataSourcePromise;
+					const rmZeroVotes = data.filter((ele) => ele.votes !== 0);
+					setDataSource(rmZeroVotes);
+					setFilteredDataSource(rmZeroVotes);
+				}
+			}
+		};
+		fetchData();
 	}, []);
 
-	const _onFilter = (e) => {
-		setFilter(e.target.value.toLowerCase() || '');
+	useEffect(() => {
 		SettingsActions.changeViewSetting({
-			filterCommitteeMember: e.target.value.toLowerCase(),
+			filterCommitteeMember: filter.toLowerCase(),
 		});
-	};
+	}, [filter]);
 
 	useEffect(() => {
 		setFilteredDataSource(
-			dataSource.filter((ele) => ele.name.includes(filter))
+			dataSource.filter((ele) => ele.name?.includes(filter))
 		);
-		if (filter === '') {
-			setFilteredDataSource(dataSource);
-		}
 	}, [filter, dataSource]);
 
-	const getData = async (globalObject) => {
-		let committee_members = globalObject.active_committee_members;
-		let dataSourcePromise = [];
+	const _onFilter = (e) => {
+		setFilter(e.target.value.toLowerCase() || '');
+	};
 
-		if (committee_members.length > 0 && committee_members[1]) {
-			dataSourcePromise = committee_members.map(async (a, index) => {
-				if (!a) {
-					return false;
-				}
-				let committee_member = (await Apis.db.get_objects([a]))['0'];
-				if (!committee_member) {
-					return false;
-				}
-				let account = (
-					await Apis.db.get_objects([committee_member.committee_member_account])
-				)['0'];
-
-				return {
-					key: a,
-					rank: index + 1,
-					name: account.name,
-					votes: committee_member.total_votes,
-					url: sanitize(`${committee_member.url}/${account.name}-committee`, {
-						whiteList: [], // empty, means filter out all tags
-						stripIgnoreTag: true, // filter out all HTML not in the whilelist
-					}),
-				};
-			});
-		}
-
-		const columns = [
+	const columns = useMemo(
+		() => [
 			{
 				key: '#',
 				title: '#',
 				dataIndex: 'rank',
-				sorter: (a, b) => {
-					return a.rank > b.rank ? 1 : a.rank < b.rank ? -1 : 0;
-				},
+				sorter: (a, b) => a.rank - b.rank,
 			},
 			{
 				key: 'name',
 				title: counterpart.translate('account.votes.name'),
 				dataIndex: 'name',
-				sorter: (a, b) => {
-					return a.name > b.name ? 1 : a.name < b.name ? -1 : 0;
-				},
+				sorter: (a, b) => a.name.localeCompare(b.name),
 			},
 			{
 				key: 'votes',
@@ -94,9 +97,7 @@ const CommitteeMembers = (props) => {
 				render: (item) => (
 					<FormattedAsset amount={item} asset="1.3.0" decimalOffset={5} />
 				),
-				sorter: (a, b) => {
-					return a.votes > b.votes ? 1 : a.votes < b.votes ? -1 : 0;
-				},
+				sorter: (a, b) => a.votes - b.votes,
 			},
 			{
 				key: 'url',
@@ -108,11 +109,9 @@ const CommitteeMembers = (props) => {
 					</a>
 				),
 			},
-		];
-
-		Promise.all(dataSourcePromise).then((data) => setDataSource(data));
-		setColumns(columns);
-	};
+		],
+		[]
+	);
 
 	return (
 		<div className="committee-tab">
@@ -123,13 +122,9 @@ const CommitteeMembers = (props) => {
 					)}
 					value={filter}
 					onChange={_onFilter}
-					style={{
-						width: '200px',
-						marginBottom: '12px',
-						marginTop: '4px',
-					}}
+					style={{width: '200px', marginBottom: '12px', marginTop: '4px'}}
 				/>
-				{columns && dataSource && (
+				{columns && filteredDataSource && (
 					<Table
 						columns={columns}
 						dataSource={filteredDataSource}
@@ -141,13 +136,11 @@ const CommitteeMembers = (props) => {
 	);
 };
 
-class CommitteeMembersStoreWrapper extends React.Component {
-	render() {
-		return <CommitteeMembers {...this.props} />;
-	}
-}
+const CommitteeMembersStoreWrapper = (props) => {
+	return <CommitteeMembers {...props} />;
+};
 
-CommitteeMembersStoreWrapper = connect(CommitteeMembersStoreWrapper, {
+export default connect(CommitteeMembersStoreWrapper, {
 	listenTo() {
 		return [SettingsStore];
 	},
@@ -159,5 +152,3 @@ CommitteeMembersStoreWrapper = connect(CommitteeMembersStoreWrapper, {
 		};
 	},
 });
-
-export default CommitteeMembersStoreWrapper;
