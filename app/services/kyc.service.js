@@ -5,10 +5,10 @@ const getUserKycProfile = async (email) => {
 	return data;
 };
 
-const postUserKycProfile = async (email, facekiID) => {
+const postUserKycProfile = async (email, verifyCode) => {
 	const {data} = await kycApi.post('/users', {
 		email,
-		facekiID,
+		verifyCode,
 	});
 	return data;
 };

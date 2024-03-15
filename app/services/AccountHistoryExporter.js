@@ -18,171 +18,133 @@ export {FULL, COINBASE};
 
 class AccountHistoryExporter {
 	pad(number, length) {
-		let str = '' + number;
-		while (str.length < length) {
-			str = '0' + str;
-		}
-		return str;
+		return String(number).padStart(length, '0');
 	}
 
 	formatDate(d) {
-		return (
-			('0' + d.getDate()).slice(-2) +
-			'.' +
-			('0' + (d.getMonth() + 1)).slice(-2) +
-			'.' +
-			d.getFullYear() +
-			' ' +
-			('0' + d.getHours()).slice(-2) +
-			':' +
-			('0' + d.getMinutes()).slice(-2) +
-			':' +
-			('0' + d.getSeconds()).slice(-2) +
-			' GMT' +
-			((d.getTimezoneOffset() < 0 ? '+' : '-') + // Note the reversed sign!
-				this.pad(
-					parseInt(Math.floor(Math.abs(d.getTimezoneOffset() / 60))),
-					2
-				) +
-				this.pad(Math.abs(d.getTimezoneOffset() % 60), 2))
-		);
+		const pad = (num) => String(num).padStart(2, '0');
+		const offsetSign = d.getTimezoneOffset() < 0 ? '+' : '-';
+		const offsetHours = Math.abs(Math.floor(d.getTimezoneOffset() / 60))
+			.toString()
+			.padStart(2, '0');
+		const offsetMinutes = Math.abs(d.getTimezoneOffset() % 60)
+			.toString()
+			.padStart(2, '0');
+
+		return `${pad(d.getDate())}.${pad(
+			d.getMonth() + 1
+		)}.${d.getFullYear()} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(
+			d.getSeconds()
+		)} GMT${offsetSign}${offsetHours}:${offsetMinutes}`;
 	}
 
 	async generateCSV(accountsList, esNode, exportType) {
-		let start = 0,
-			limit = 150;
-		let account = accountsList[0].get('id');
-		let accountName = (await FetchChain('getAccount', account)).get('name');
-		let recordData = {};
+		const limit = 150;
+		const account = accountsList[0].get('id');
+		const accountName = (await FetchChain('getAccount', account)).get('name');
+		const recordData = {};
 
+		let start = 0;
 		while (true) {
-			let res = await this._getAccountHistoryES(account, limit, start, esNode);
+			const res = await this._getAccountHistoryES(
+				account,
+				limit,
+				start,
+				esNode
+			);
 			if (!res.length) break;
 
 			await report.resolveBlockTimes(res);
-
-			/* Before parsing results we need to know the asset info (precision) */
 			await report.resolveAssets(res);
 
-			res.map(function (record) {
+			for (const record of res) {
 				const trx_id = record.id;
-				// let timestamp = api.getBlock(record.block_num);
 				const type = ops[record.op.type];
-				const data = record.op.data;
+				let data = record.op.data;
 
 				switch (type) {
 					case 'vesting_balance_withdraw':
-						data.amount = data.amount_;
-						break;
-
 					case 'transfer':
 						data.amount = data.amount_;
 						break;
 				}
-				switch (type) {
-					default:
-						recordData[trx_id] = {
-							timestamp: new Date(record.block_time),
-							type,
-							data,
-						};
+
+				if (!['vesting_balance_withdraw', 'transfer'].includes(type)) {
+					recordData[trx_id] = {
+						timestamp: new Date(record.block_time),
+						type,
+						data,
+					};
 				}
-			});
+			}
+
 			start += res.length;
 		}
-		if (!Object.keys(recordData).length) {
-			return;
-		}
+
+		if (Object.keys(recordData).length === 0) return;
 
 		let parsedData;
 		if (exportType === FULL) {
-			parsedData = [];
-			for (let i in recordData) {
-				parsedData.push([i, recordData[i]]);
-			}
+			parsedData = Object.entries(recordData);
 		} else {
-			recordData = report.groupEntries(recordData);
-			parsedData = report.parseData(recordData, account, accountName);
+			const groupedRecordData = report.groupEntries(recordData);
+			parsedData = report.parseData(groupedRecordData, account, accountName);
 		}
 
-		let blob = this.dataToCSV(parsedData, exportType);
+		const blob = this.dataToCSV(parsedData, exportType);
+		const today = new Date();
+		const filename = `bitshares-account-history-${accountName}-${today.getFullYear()}-${(
+			'0' +
+			(today.getMonth() + 1)
+		).slice(-2)}-${('0' + today.getDate()).slice(-2)}-${(
+			'0' + today.getHours()
+		).slice(-2)}${('0' + today.getMinutes()).slice(-2)}.csv`;
 
-		let today = new Date();
-		saveAs(
-			blob,
-			'bitshares-account-history-' +
-				accountName +
-				'-' +
-				today.getFullYear() +
-				'-' +
-				('0' + (today.getMonth() + 1)).slice(-2) +
-				'-' +
-				('0' + today.getDate()).slice(-2) +
-				'-' +
-				('0' + today.getHours()).slice(-2) +
-				('0' + today.getMinutes()).slice(-2) +
-				'.csv'
-		);
+		saveAs(blob, filename);
 	}
 
-	_getAccountHistoryES(account_id, limit, start, esNode) {
-		console.log(
-			'query',
-			esNode +
-				'/get_account_history?account_id=' +
-				account_id +
-				'&from_=' +
-				start +
-				'&size=' +
-				limit +
-				'&sort_by=block_data.block_time&type=data&agg_field=operation_type'
-		);
-		return new Promise((resolve, reject) => {
-			fetch(
-				esNode +
-					'/get_account_history?account_id=' +
-					account_id +
-					'&from_=' +
-					start +
-					'&size=' +
-					limit +
-					'&sort_by=block_data.block_time&type=data&agg_field=operation_type'
-			)
-				.then((res) => res.json())
-				.then((result) => {
-					let opHistory = result.map((r) => {
-						return {
-							id: r.account_history.operation_id,
-							op: {
-								type: r.operation_type,
-								data: r.operation_history.op_object,
-							},
-							result: JSON.parse(r.operation_history.operation_result),
-							block_num: r.block_data.block_num,
-							block_time: r.block_data.block_time + 'Z',
-						};
-					});
+	async _getAccountHistoryES(account_id, limit, start, esNode) {
+		const url = `${esNode}/get_account_history?account_id=${account_id}&from_=${start}&size=${limit}&sort_by=block_data.block_time&type=data&agg_field=operation_type`;
 
-					resolve(opHistory);
-				})
-				.catch((err) => {
-					reject(err);
-				});
-		});
+		console.log('query', url);
+
+		try {
+			const response = await fetch(url);
+			const result = await response.json();
+
+			const opHistory = result.map((r) => ({
+				id: r.account_history.operation_id,
+				op: {
+					type: r.operation_type,
+					data: r.operation_history.op_object,
+				},
+				result: JSON.parse(r.operation_history.operation_result),
+				block_num: r.block_data.block_num,
+				block_time: `${r.block_data.block_time}Z`,
+			}));
+
+			return opHistory;
+		} catch (err) {
+			throw err;
+		}
 	}
 
 	dataToCSV(data, exportType) {
 		let csvString = '';
-		for (let line of data) {
-			if (exportType === COINBASE) {
-				if (line.length >= 11 && line[10] instanceof Date) {
-					line[10] = this.formatDate(line[10]);
-				}
-				csvString += line.join(',') + '\n';
-			} else {
-				csvString += JSON.stringify(line) + '\n';
-			}
+
+		if (exportType === COINBASE) {
+			csvString = data
+				.map((line) => {
+					if (line.length >= 11 && line[10] instanceof Date) {
+						line[10] = this.formatDate(line[10]);
+					}
+					return line.join(',');
+				})
+				.join('\n');
+		} else {
+			csvString = data.map((line) => JSON.stringify(line)).join('\n');
 		}
+
 		return new Blob([csvString], {type: 'text/csv;charset=utf-8'});
 	}
 }

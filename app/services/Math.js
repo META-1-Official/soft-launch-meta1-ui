@@ -1,12 +1,13 @@
 const preciseOperation =
-	(f) =>
+	(operator) =>
 	(a, b, decimalDigits = 6) =>
-		+f(a, b).toFixed(decimalDigits);
+		+operator(a, b).toFixed(decimalDigits);
 
 const add = (a, b) => a + b;
 const minus = (a, b) => a - b;
 const multiply = (a, b) => a * b;
 const divide = (a, b) => a / b;
+
 export const preciseAdd = (a, b, decimalDigits) =>
 	preciseOperation(add)(a, b, decimalDigits);
 export const preciseMinus = (a, b, decimalDigits) =>
@@ -16,31 +17,25 @@ export const preciseMultiply = (a, b, decimalDigits) =>
 export const preciseDivide = (a, b, decimalDigits) =>
 	preciseOperation(divide)(a, b, decimalDigits);
 
-export const ceilFloat = (floatVal, precision) => {
-	precision = Math.pow(10, precision);
-	return Math.ceil(floatVal * precision) / precision;
-};
+export const ceilFloat = (floatVal, precision) =>
+	Math.ceil(floatVal * 10 ** precision) / 10 ** precision;
 
-export const floorFloat = (floatVal, precision) => {
-	precision = Math.pow(10, precision);
-	return Math.floor(floatVal * precision) / precision;
-};
+export const floorFloat = (floatVal, precision) =>
+	Math.floor(floatVal * 10 ** precision) / 10 ** precision;
 
 export const expFloatToFixed = (x) => {
-	var e;
 	if (Math.abs(x) < 1.0) {
-		e = parseInt(x.toString().split('e-')[1]);
+		const e = parseInt(x.toString().split('e-')[1]);
 		if (e) {
 			x *= Math.pow(10, e - 1);
-			x = '0.' + new Array(e).join('0') + x.toString().substring(2);
+			x = '0.' + '0'.repeat(e - 1) + x.toString().substring(2);
 		}
 	} else {
-		e = parseInt(x.toString().split('+')[1]);
+		const e = parseInt(x.toString().split('+')[1]);
 		if (e > 20) {
-			e -= 20;
-			x /= Math.pow(10, e);
-			x += new Array(e + 1).join('0');
+			x /= Math.pow(10, e - 20);
+			x += '0'.repeat(e - 20);
 		}
 	}
-	return x;
+	return +x;
 };
